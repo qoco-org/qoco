@@ -1,0 +1,1 @@
+cd build && cmake -DQCOS_BUILD_TYPE:STR=Debug .. && make && ./test && cd ..
