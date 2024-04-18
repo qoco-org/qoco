@@ -18,4 +18,10 @@ void print_qcos_csc_matrix(QCOSCscMatrix* M);
  */
 void print_qcos_vector(QCOSVector* V);
 
+/**
+ * @brief Prints qcos header.
+ *
+ */
+void print_header();
+
 #endif /* #ifndef UTILS_H */

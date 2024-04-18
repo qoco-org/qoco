@@ -47,3 +47,17 @@ void print_qcos_vector(QCOSVector* V)
   }
   printf("}\n");
 }
+
+void print_header()
+{
+  // clang-format off
+    printf("\n");
+    printf("+--------------------------------------------------------------------------------------+\n");
+    printf("|            ..:: QCOS - Quadratic Objective Conic Optimization Solver ::..            |\n");
+    printf("|                                 (c) Govind M. Chari                                  |\n");
+    printf("|                   University of Washington Autonomous Controls Lab                   |\n");
+    printf("+-----------+----------------+-------------+-----------------+------------+------------+\n");
+    printf("| Iteration |   Primal cost  |     Gap     | Primal residual |     Mu     |    Step    |\n");
+    printf("+-----------+----------------+-------------+-----------------+------------+------------+\n");
+  // clang-format on
+}

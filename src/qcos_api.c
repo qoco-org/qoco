@@ -54,11 +54,15 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   solver->work->data->l = l;
   solver->work->data->ncones = ncones;
 
+  solver->work->nt2kkt = qcos_calloc(m, sizeof(QCOSInt));
   solver->work->kkt = initialize_kkt(solver->work->data);
+  solver->work->xyz = qcos_vector_calloc(n + m + p);
   solver->work->x = qcos_vector_calloc(n);
   solver->work->s = qcos_vector_calloc(m);
   solver->work->y = qcos_vector_calloc(p);
   solver->work->z = qcos_vector_calloc(m);
+
+  construct_kkt(solver->work);
 
   return solver;
 }
@@ -106,7 +110,11 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->data->h);
   qcos_free(solver->work->data);
 
+  qcos_free(solver->work->nt2kkt);
+
   // Free primal and dual variables.
+  qcos_free(solver->work->xyz->x);
+  qcos_free(solver->work->xyz);
   qcos_free(solver->work->x->x);
   qcos_free(solver->work->x);
   qcos_free(solver->work->s->x);

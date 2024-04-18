@@ -59,6 +59,8 @@ typedef struct {
  */
 typedef struct {
   QCOSProblemData* data;
+  QCOSInt* nt2kkt;
+  QCOSVector* xyz;
   QCOSVector* x;
   QCOSVector* s;
   QCOSVector* y;

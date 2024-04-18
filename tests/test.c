@@ -10,7 +10,7 @@ int main()
   QCOSInt l = 3;
   QCOSInt ncones = 1;
 
-  QCOSFloat Px[] = {1, 1, 1, 1, 1, 1};
+  QCOSFloat Px[] = {1, 2, 3, 4, 5, 6};
   QCOSInt Pnnz = 6;
   QCOSInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
   QCOSInt Pi[] = {0, 1, 2, 3, 4, 5};
@@ -45,6 +45,12 @@ int main()
   QCOSSolver* solver = qcos_setup(P, c, A, b, G, h, l, ncones, q, settings);
 
   print_qcos_csc_matrix(solver->work->kkt);
+
+  for (int i = 0; i < m; ++i) {
+    printf("%d, ", solver->work->nt2kkt[i]);
+  }
+
+  print_header();
 
   if (solver) {
     qcos_cleanup(solver);
