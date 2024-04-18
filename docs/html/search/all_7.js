@@ -8,9 +8,10 @@ var searchData=
   ['qcos_5fvalidate_5fsettings_19',['qcos_validate_settings',['../db/d38/validation_8h.html#af4dfee0713dc613e41afa1349771a265',1,'validation.c']]],
   ['qcos_5fvector_5fcalloc_20',['qcos_vector_calloc',['../dd/d46/linalg_8h.html#a8c09c2282a7d49674d44f43fe7de083c',1,'linalg.c']]],
   ['qcoscscmatrix_21',['QCOSCscMatrix',['../d0/d99/structQCOSCscMatrix.html',1,'']]],
-  ['qcosproblemdata_22',['QCOSProblemData',['../d7/d42/structQCOSProblemData.html',1,'']]],
-  ['qcossettings_23',['QCOSSettings',['../d9/dc4/structQCOSSettings.html',1,'']]],
-  ['qcossolver_24',['QCOSSolver',['../d3/d33/structQCOSSolver.html',1,'']]],
-  ['qcosvector_25',['QCOSVector',['../de/db8/structQCOSVector.html',1,'']]],
-  ['qcosworkspace_26',['QCOSWorkspace',['../d5/d30/structQCOSWorkspace.html',1,'']]]
+  ['qcoskkt_22',['QCOSKKT',['../d0/d72/structQCOSKKT.html',1,'']]],
+  ['qcosproblemdata_23',['QCOSProblemData',['../d7/d42/structQCOSProblemData.html',1,'']]],
+  ['qcossettings_24',['QCOSSettings',['../d9/dc4/structQCOSSettings.html',1,'']]],
+  ['qcossolver_25',['QCOSSolver',['../d3/d33/structQCOSSolver.html',1,'']]],
+  ['qcosvector_26',['QCOSVector',['../de/db8/structQCOSVector.html',1,'']]],
+  ['qcosworkspace_27',['QCOSWorkspace',['../d5/d30/structQCOSWorkspace.html',1,'']]]
 ];

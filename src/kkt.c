@@ -23,12 +23,12 @@ void construct_kkt(QCOSWorkspace* work)
   QCOSInt col = 0;
   // Add P block
   for (QCOSInt k = 0; k < work->data->P->nnz; ++k) {
-    work->kkt->x[nz] = work->data->P->x[k];
-    work->kkt->i[nz] = work->data->P->i[k];
+    work->kkt->K->x[nz] = work->data->P->x[k];
+    work->kkt->K->i[nz] = work->data->P->i[k];
     nz += 1;
   }
   for (QCOSInt k = 0; k < work->data->P->n + 1; ++k) {
-    work->kkt->p[col] = work->data->P->p[k];
+    work->kkt->K->p[col] = work->data->P->p[k];
     col += 1;
   }
 
@@ -42,14 +42,14 @@ void construct_kkt(QCOSWorkspace* work)
       for (QCOSInt k = work->data->A->p[j]; k < work->data->A->p[j + 1]; ++k) {
         // If the nonzero is in row i of A then add
         if (work->data->A->i[k] == i) {
-          work->kkt->x[nz] = work->data->A->x[k];
-          work->kkt->i[nz] = j;
+          work->kkt->K->x[nz] = work->data->A->x[k];
+          work->kkt->K->i[nz] = j;
           nz += 1;
           nzadded += 1;
         }
       }
     }
-    work->kkt->p[col] = work->kkt->p[col - 1] + nzadded;
+    work->kkt->K->p[col] = work->kkt->K->p[col - 1] + nzadded;
     col += 1;
   }
 
@@ -63,8 +63,8 @@ void construct_kkt(QCOSWorkspace* work)
       for (QCOSInt k = work->data->G->p[j]; k < work->data->G->p[j + 1]; ++k) {
         // If the nonzero is in row i of A then add
         if (work->data->G->i[k] == i) {
-          work->kkt->x[nz] = work->data->G->x[k];
-          work->kkt->i[nz] = j;
+          work->kkt->K->x[nz] = work->data->G->x[k];
+          work->kkt->K->i[nz] = j;
           nz += 1;
           nzadded += 1;
         }
@@ -72,12 +72,12 @@ void construct_kkt(QCOSWorkspace* work)
     }
 
     // Add -Id to NT block.
-    work->kkt->x[nz] = -1.0;
-    work->kkt->i[nz] = work->data->n + work->data->p + i;
-    work->kkt->p[col] = work->kkt->p[col - 1] + nzadded + 1;
+    work->kkt->K->x[nz] = -1.0;
+    work->kkt->K->i[nz] = work->data->n + work->data->p + i;
+    work->kkt->K->p[col] = work->kkt->K->p[col - 1] + nzadded + 1;
 
     // Mapping from NT matrix entries to KKT matrix entries.
-    work->nt2kkt[i] = nz;
+    work->kkt->nt2kkt[i] = nz;
 
     nz += 1;
     col += 1;

@@ -44,10 +44,10 @@ int main()
 
   QCOSSolver* solver = qcos_setup(P, c, A, b, G, h, l, ncones, q, settings);
 
-  print_qcos_csc_matrix(solver->work->kkt);
+  print_qcos_csc_matrix(solver->work->kkt->K);
 
   for (int i = 0; i < m; ++i) {
-    printf("%d, ", solver->work->nt2kkt[i]);
+    printf("%d, ", solver->work->kkt->nt2kkt[i]);
   }
 
   print_header();

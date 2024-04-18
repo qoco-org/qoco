@@ -1,0 +1,5 @@
+<map id="QCOSKKT" name="QCOSKKT">
+<area shape="rect" id="node1" title="Contains all data needed for constructing and modifying KKT matrix and performing predictor&#45;corrector..." alt="" coords="93,95,177,121"/>
+<area shape="rect" id="node2" href="$d0/d99/structQCOSCscMatrix.html" title="Compressed sparse column format matrices." alt="" coords="5,5,129,32"/>
+<area shape="rect" id="node3" href="$de/db8/structQCOSVector.html" title="Internal QCOS vector." alt="" coords="153,5,253,32"/>
+</map>

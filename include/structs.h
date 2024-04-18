@@ -68,18 +68,27 @@ typedef struct {
 } QCOSSettings;
 
 /**
+ * @brief Contains all data needed for constructing and modifying KKT matrix and
+ * performing predictor-corrector step.
+ *
+ */
+typedef struct {
+  QCOSCscMatrix* K;
+  QCOSVector* rhs;
+  QCOSInt* nt2kkt;
+} QCOSKKT;
+
+/**
  * @brief QCOS Workspace
  *
  */
 typedef struct {
   QCOSProblemData* data;
-  QCOSInt* nt2kkt;
-  QCOSVector* xyz;
+  QCOSKKT* kkt;
   QCOSVector* x;
   QCOSVector* s;
   QCOSVector* y;
   QCOSVector* z;
-  QCOSCscMatrix* kkt;
 } QCOSWorkspace;
 
 /**

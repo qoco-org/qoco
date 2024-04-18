@@ -54,9 +54,10 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   solver->work->data->l = l;
   solver->work->data->ncones = ncones;
 
-  solver->work->nt2kkt = qcos_calloc(m, sizeof(QCOSInt));
-  solver->work->kkt = initialize_kkt(solver->work->data);
-  solver->work->xyz = qcos_vector_calloc(n + m + p);
+  solver->work->kkt = qcos_malloc(sizeof(QCOSKKT));
+  solver->work->kkt->nt2kkt = qcos_calloc(m, sizeof(QCOSInt));
+  solver->work->kkt->K = initialize_kkt(solver->work->data);
+  solver->work->kkt->rhs = qcos_vector_calloc(n + m + p);
   solver->work->x = qcos_vector_calloc(n);
   solver->work->s = qcos_vector_calloc(m);
   solver->work->y = qcos_vector_calloc(p);
@@ -110,11 +111,9 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->data->h);
   qcos_free(solver->work->data);
 
-  qcos_free(solver->work->nt2kkt);
-
   // Free primal and dual variables.
-  qcos_free(solver->work->xyz->x);
-  qcos_free(solver->work->xyz);
+  qcos_free(solver->work->kkt->rhs->x);
+  qcos_free(solver->work->kkt->rhs);
   qcos_free(solver->work->x->x);
   qcos_free(solver->work->x);
   qcos_free(solver->work->s->x);
@@ -124,10 +123,12 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->z->x);
   qcos_free(solver->work->z);
 
-  // Free KKT matrix.
-  qcos_free(solver->work->kkt->i);
-  qcos_free(solver->work->kkt->p);
-  qcos_free(solver->work->kkt->x);
+  // Free KKT struct.
+  qcos_free(solver->work->kkt->K->i);
+  qcos_free(solver->work->kkt->K->p);
+  qcos_free(solver->work->kkt->K->x);
+  qcos_free(solver->work->kkt->K);
+  qcos_free(solver->work->kkt->nt2kkt);
   qcos_free(solver->work->kkt);
 
   qcos_free(solver->work);

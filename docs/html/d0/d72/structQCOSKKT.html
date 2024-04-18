@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>QCOS: QCOSWorkspace Struct Reference</title>
+<title>QCOS: QCOSKKT Struct Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -63,52 +63,41 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="../../d2/dcf/structQCOSWorkspace-members.html">List of all members</a>  </div>
+<a href="../../dd/ddf/structQCOSKKT-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">QCOSWorkspace Struct Reference</div>  </div>
+<div class="title">QCOSKKT Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>QCOS Workspace.  
- <a href="../../d5/d30/structQCOSWorkspace.html#details">More...</a></p>
+<p>Contains all data needed for constructing and modifying KKT matrix and performing predictor-corrector step.  
+ <a href="../../d0/d72/structQCOSKKT.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../d1/d3d/structs_8h_source.html">structs.h</a>&gt;</code></p>
 <div class="dynheader">
-Collaboration diagram for QCOSWorkspace:</div>
+Collaboration diagram for QCOSKKT:</div>
 <div class="dyncontent">
-<div class="center"><img src="../../de/dd0/structQCOSWorkspace__coll__graph.png" border="0" usemap="#aQCOSWorkspace_coll__map" alt="Collaboration graph"/></div>
-<map name="aQCOSWorkspace_coll__map" id="aQCOSWorkspace_coll__map">
-<area shape="rect" title="QCOS Workspace." alt="" coords="137,245,267,272"/>
-<area shape="rect" href="../../d7/d42/structQCOSProblemData.html" title="SOCP problem data." alt="" coords="130,140,274,167"/>
+<div class="center"><img src="../../d7/d23/structQCOSKKT__coll__graph.png" border="0" usemap="#aQCOSKKT_coll__map" alt="Collaboration graph"/></div>
+<map name="aQCOSKKT_coll__map" id="aQCOSKKT_coll__map">
+<area shape="rect" title="Contains all data needed for constructing and modifying KKT matrix and performing predictor&#45;corrector..." alt="" coords="93,95,177,121"/>
 <area shape="rect" href="../../d0/d99/structQCOSCscMatrix.html" title="Compressed sparse column format matrices." alt="" coords="5,5,129,32"/>
-<area shape="rect" href="../../d0/d72/structQCOSKKT.html" title="Contains all data needed for constructing and modifying KKT matrix and performing predictor&#45;corrector..." alt="" coords="21,140,105,167"/>
-<area shape="rect" href="../../de/db8/structQCOSVector.html" title="Internal QCOS vector." alt="" coords="157,5,257,32"/>
+<area shape="rect" href="../../de/db8/structQCOSVector.html" title="Internal QCOS vector." alt="" coords="153,5,253,32"/>
 </map>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a1e55bcceee03fea866619d5836e00d33"><td class="memItemLeft" align="right" valign="top"><a id="a1e55bcceee03fea866619d5836e00d33"></a>
-<a class="el" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>data</b></td></tr>
-<tr class="separator:a1e55bcceee03fea866619d5836e00d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0803795a4307643633fdf030377cfe4"><td class="memItemLeft" align="right" valign="top"><a id="ae0803795a4307643633fdf030377cfe4"></a>
-<a class="el" href="../../d0/d72/structQCOSKKT.html">QCOSKKT</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>kkt</b></td></tr>
-<tr class="separator:ae0803795a4307643633fdf030377cfe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ad2a0835c8b20e7aa7374e8aa6da984"><td class="memItemLeft" align="right" valign="top"><a id="a3ad2a0835c8b20e7aa7374e8aa6da984"></a>
-<a class="el" href="../../de/db8/structQCOSVector.html">QCOSVector</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>x</b></td></tr>
-<tr class="separator:a3ad2a0835c8b20e7aa7374e8aa6da984"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33eb6e0b738c818b94ab343b525fdd6c"><td class="memItemLeft" align="right" valign="top"><a id="a33eb6e0b738c818b94ab343b525fdd6c"></a>
-<a class="el" href="../../de/db8/structQCOSVector.html">QCOSVector</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>s</b></td></tr>
-<tr class="separator:a33eb6e0b738c818b94ab343b525fdd6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5c65f3fa1f1db5ff7353f7ac51f0f45"><td class="memItemLeft" align="right" valign="top"><a id="aa5c65f3fa1f1db5ff7353f7ac51f0f45"></a>
-<a class="el" href="../../de/db8/structQCOSVector.html">QCOSVector</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
-<tr class="separator:aa5c65f3fa1f1db5ff7353f7ac51f0f45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fc7fb736d71553e12f6d6737ab42334"><td class="memItemLeft" align="right" valign="top"><a id="a9fc7fb736d71553e12f6d6737ab42334"></a>
-<a class="el" href="../../de/db8/structQCOSVector.html">QCOSVector</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>z</b></td></tr>
-<tr class="separator:a9fc7fb736d71553e12f6d6737ab42334"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3615945c18b4bf17b9698382d18517b"><td class="memItemLeft" align="right" valign="top"><a id="ac3615945c18b4bf17b9698382d18517b"></a>
+<a class="el" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>K</b></td></tr>
+<tr class="separator:ac3615945c18b4bf17b9698382d18517b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a621239b01bc26133cb08eadc48dcfe03"><td class="memItemLeft" align="right" valign="top"><a id="a621239b01bc26133cb08eadc48dcfe03"></a>
+<a class="el" href="../../de/db8/structQCOSVector.html">QCOSVector</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>rhs</b></td></tr>
+<tr class="separator:a621239b01bc26133cb08eadc48dcfe03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b9fb5434c1c9cab9af8784a2f4248c8"><td class="memItemLeft" align="right" valign="top"><a id="a7b9fb5434c1c9cab9af8784a2f4248c8"></a>
+QCOSInt *&#160;</td><td class="memItemRight" valign="bottom"><b>nt2kkt</b></td></tr>
+<tr class="separator:a7b9fb5434c1c9cab9af8784a2f4248c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>QCOS Workspace. </p>
+<div class="textblock"><p>Contains all data needed for constructing and modifying KKT matrix and performing predictor-corrector step. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/<a class="el" href="../../d1/d3d/structs_8h_source.html">structs.h</a></li>
 </ul>
