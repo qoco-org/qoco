@@ -11,8 +11,7 @@ QCOS Workspace.
 
 
 
-Collaboration diagram for QCOSWorkspace\+:
-\nopagebreak
+Collaboration diagram for QCOSWorkspace\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,28 +21,61 @@ Collaboration diagram for QCOSWorkspace\+:
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{structQCOSWorkspace_a1e55bcceee03fea866619d5836e00d33}\label{structQCOSWorkspace_a1e55bcceee03fea866619d5836e00d33}} 
-\mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$ {\bfseries data}
+\mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a1e55bcceee03fea866619d5836e00d33}{data}}
 \item 
-\mbox{\Hypertarget{structQCOSWorkspace_ae0803795a4307643633fdf030377cfe4}\label{structQCOSWorkspace_ae0803795a4307643633fdf030377cfe4}} 
-\mbox{\hyperlink{structQCOSKKT}{QCOSKKT}} $\ast$ {\bfseries kkt}
+\mbox{\hyperlink{structQCOSKKT}{QCOSKKT}} $\ast$ \mbox{\hyperlink{structQCOSWorkspace_ae0803795a4307643633fdf030377cfe4}{kkt}}
 \item 
-\mbox{\Hypertarget{structQCOSWorkspace_a3ad2a0835c8b20e7aa7374e8aa6da984}\label{structQCOSWorkspace_a3ad2a0835c8b20e7aa7374e8aa6da984}} 
-\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ {\bfseries x}
+\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a3ad2a0835c8b20e7aa7374e8aa6da984}{x}}
 \item 
-\mbox{\Hypertarget{structQCOSWorkspace_a33eb6e0b738c818b94ab343b525fdd6c}\label{structQCOSWorkspace_a33eb6e0b738c818b94ab343b525fdd6c}} 
-\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ {\bfseries s}
+\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a33eb6e0b738c818b94ab343b525fdd6c}{s}}
 \item 
-\mbox{\Hypertarget{structQCOSWorkspace_aa5c65f3fa1f1db5ff7353f7ac51f0f45}\label{structQCOSWorkspace_aa5c65f3fa1f1db5ff7353f7ac51f0f45}} 
-\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ {\bfseries y}
+\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ \mbox{\hyperlink{structQCOSWorkspace_aa5c65f3fa1f1db5ff7353f7ac51f0f45}{y}}
 \item 
-\mbox{\Hypertarget{structQCOSWorkspace_a9fc7fb736d71553e12f6d6737ab42334}\label{structQCOSWorkspace_a9fc7fb736d71553e12f6d6737ab42334}} 
-\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ {\bfseries z}
+\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a9fc7fb736d71553e12f6d6737ab42334}{z}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 QCOS Workspace. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structQCOSWorkspace_a1e55bcceee03fea866619d5836e00d33}\label{structQCOSWorkspace_a1e55bcceee03fea866619d5836e00d33}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!data@{data}}
+\index{data@{data}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}}$\ast$ QCOSWorkspace\+::data}
+
+Contains SOCP problem data. \mbox{\Hypertarget{structQCOSWorkspace_ae0803795a4307643633fdf030377cfe4}\label{structQCOSWorkspace_ae0803795a4307643633fdf030377cfe4}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!kkt@{kkt}}
+\index{kkt@{kkt}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{kkt}{kkt}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSKKT}{QCOSKKT}}$\ast$ QCOSWorkspace\+::kkt}
+
+Contains all data related to KKT system. \mbox{\Hypertarget{structQCOSWorkspace_a33eb6e0b738c818b94ab343b525fdd6c}\label{structQCOSWorkspace_a33eb6e0b738c818b94ab343b525fdd6c}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!s@{s}}
+\index{s@{s}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{s}{s}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSVector}{QCOSVector}}$\ast$ QCOSWorkspace\+::s}
+
+Iterate of slack variables associated with conic constraint. \mbox{\Hypertarget{structQCOSWorkspace_a3ad2a0835c8b20e7aa7374e8aa6da984}\label{structQCOSWorkspace_a3ad2a0835c8b20e7aa7374e8aa6da984}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!x@{x}}
+\index{x@{x}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSVector}{QCOSVector}}$\ast$ QCOSWorkspace\+::x}
+
+Iterate of primal variables. \mbox{\Hypertarget{structQCOSWorkspace_aa5c65f3fa1f1db5ff7353f7ac51f0f45}\label{structQCOSWorkspace_aa5c65f3fa1f1db5ff7353f7ac51f0f45}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!y@{y}}
+\index{y@{y}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSVector}{QCOSVector}}$\ast$ QCOSWorkspace\+::y}
+
+Iterate of dual variables associated with affine equality constraint. \mbox{\Hypertarget{structQCOSWorkspace_a9fc7fb736d71553e12f6d6737ab42334}\label{structQCOSWorkspace_a9fc7fb736d71553e12f6d6737ab42334}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!z@{z}}
+\index{z@{z}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{z}{z}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSVector}{QCOSVector}}$\ast$ QCOSWorkspace\+::z}
+
+Iterate of dual variables associated with conic constraint. 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

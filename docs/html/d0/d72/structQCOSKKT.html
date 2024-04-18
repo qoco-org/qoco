@@ -86,19 +86,62 @@ Collaboration diagram for QCOSKKT:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ac3615945c18b4bf17b9698382d18517b"><td class="memItemLeft" align="right" valign="top"><a id="ac3615945c18b4bf17b9698382d18517b"></a>
-<a class="el" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>K</b></td></tr>
+<tr class="memitem:ac3615945c18b4bf17b9698382d18517b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d72/structQCOSKKT.html#ac3615945c18b4bf17b9698382d18517b">K</a></td></tr>
 <tr class="separator:ac3615945c18b4bf17b9698382d18517b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a621239b01bc26133cb08eadc48dcfe03"><td class="memItemLeft" align="right" valign="top"><a id="a621239b01bc26133cb08eadc48dcfe03"></a>
-<a class="el" href="../../de/db8/structQCOSVector.html">QCOSVector</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>rhs</b></td></tr>
+<tr class="memitem:a621239b01bc26133cb08eadc48dcfe03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/db8/structQCOSVector.html">QCOSVector</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d72/structQCOSKKT.html#a621239b01bc26133cb08eadc48dcfe03">rhs</a></td></tr>
 <tr class="separator:a621239b01bc26133cb08eadc48dcfe03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b9fb5434c1c9cab9af8784a2f4248c8"><td class="memItemLeft" align="right" valign="top"><a id="a7b9fb5434c1c9cab9af8784a2f4248c8"></a>
-QCOSInt *&#160;</td><td class="memItemRight" valign="bottom"><b>nt2kkt</b></td></tr>
+<tr class="memitem:a7b9fb5434c1c9cab9af8784a2f4248c8"><td class="memItemLeft" align="right" valign="top">QCOSInt *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d72/structQCOSKKT.html#a7b9fb5434c1c9cab9af8784a2f4248c8">nt2kkt</a></td></tr>
 <tr class="separator:a7b9fb5434c1c9cab9af8784a2f4248c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains all data needed for constructing and modifying KKT matrix and performing predictor-corrector step. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ac3615945c18b4bf17b9698382d18517b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3615945c18b4bf17b9698382d18517b">&#9670;&nbsp;</a></span>K</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a>* QCOSKKT::K</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>KKT matrix in CSC form. </p>
+
+</div>
+</div>
+<a id="a7b9fb5434c1c9cab9af8784a2f4248c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b9fb5434c1c9cab9af8784a2f4248c8">&#9670;&nbsp;</a></span>nt2kkt</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCOSInt* QCOSKKT::nt2kkt</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Mapping from elements in the Nesterov-Todd scaling matrix to elements in the KKT matrix. </p>
+
+</div>
+</div>
+<a id="a621239b01bc26133cb08eadc48dcfe03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a621239b01bc26133cb08eadc48dcfe03">&#9670;&nbsp;</a></span>rhs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../de/db8/structQCOSVector.html">QCOSVector</a>* QCOSKKT::rhs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Temporary variable for rhs of KKT system. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/<a class="el" href="../../d1/d3d/structs_8h_source.html">structs.h</a></li>
 </ul>
 </div><!-- contents -->

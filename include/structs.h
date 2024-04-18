@@ -22,12 +22,24 @@
  *
  */
 typedef struct {
-  QCOSInt m;    // number of rows
-  QCOSInt n;    // number of columns
-  QCOSInt nnz;  // number of nonzero elements
-  QCOSInt* p;   // column pointers (length n+1)
-  QCOSInt* i;   // row indices (length nnz)
-  QCOSFloat* x; // data (length nnz)
+  /** Number of rows. */
+  QCOSInt m;
+
+  /** Number of columns. */
+  QCOSInt n;
+
+  /** Number of nonzero elements. */
+  QCOSInt nnz;
+
+  /** Row indices (length: nnz). */
+  QCOSInt* i;
+
+  /** Column pointers (length: n+1). */
+  QCOSInt* p;
+
+  /** Data (length: nnz). */
+  QCOSFloat* x;
+
 } QCOSCscMatrix;
 
 /**
@@ -35,8 +47,12 @@ typedef struct {
  *
  */
 typedef struct {
-  QCOSFloat* x; // Data
-  QCOSInt n;    // Length of vector
+  /** Data. */
+  QCOSFloat* x;
+
+  /** Length of vector. */
+  QCOSInt n;
+
 } QCOSVector;
 
 /**
@@ -44,18 +60,42 @@ typedef struct {
  *
  */
 typedef struct {
-  QCOSCscMatrix* P; // quadratic cost term
-  QCOSVector* c;    // linear cost term
-  QCOSCscMatrix* A; // affine equality constraint matrix
-  QCOSVector* b;    // affine equality constraint offset
-  QCOSCscMatrix* G; // conic constraint matrix
-  QCOSVector* h;    // conic constraint offset
-  QCOSInt l;        // dimension of non-negative orthant of C
-  QCOSInt ncones;   // number of second-order cones in C
-  QCOSInt* q;       // dimension of each second-order cone (length ncones)
-  QCOSInt n;        // Number of decision variables
-  QCOSInt m;        // Number of conic constraints
-  QCOSInt p;        // Number of affine equality constraints
+  /** Quadratic cost term. */
+  QCOSCscMatrix* P; //
+
+  /** Linear cost term. */
+  QCOSVector* c;
+
+  /** Affine equality constraint matrix. */
+  QCOSCscMatrix* A;
+
+  /** Affine equality constraint offset. */
+  QCOSVector* b;
+
+  /** Conic constraint matrix. */
+  QCOSCscMatrix* G;
+
+  /** Conic constraint offset. */
+  QCOSVector* h;
+
+  /** Dimension of non-negative orthant in cone C. */
+  QCOSInt l;
+
+  /** Number of second-order cones in C */
+  QCOSInt ncones;
+
+  /** Dimension of each second-order cone (length of ncones)*/
+  QCOSInt* q;
+
+  /** Number of primal variables. */
+  QCOSInt n;
+
+  /** Number of conic constraints. */
+  QCOSInt m;
+
+  /** Number of affine equality constraints. */
+  QCOSInt p;
+
 } QCOSProblemData;
 
 /**
@@ -73,22 +113,40 @@ typedef struct {
  *
  */
 typedef struct {
+  /** KKT matrix in CSC form. */
   QCOSCscMatrix* K;
+
+  /** Temporary variable for rhs of KKT system. */
   QCOSVector* rhs;
+
+  /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
+   * the KKT matrix. */
   QCOSInt* nt2kkt;
+
 } QCOSKKT;
 
 /**
  * @brief QCOS Workspace
- *
  */
 typedef struct {
+  /** Contains SOCP problem data. */
   QCOSProblemData* data;
+
+  /** Contains all data related to KKT system. */
   QCOSKKT* kkt;
+
+  /** Iterate of primal variables. */
   QCOSVector* x;
+
+  /** Iterate of slack variables associated with conic constraint. */
   QCOSVector* s;
+
+  /** Iterate of dual variables associated with affine equality constraint. */
   QCOSVector* y;
+
+  /** Iterate of dual variables associated with conic constraint. */
   QCOSVector* z;
+
 } QCOSWorkspace;
 
 /**
@@ -97,8 +155,12 @@ typedef struct {
  *
  */
 typedef struct {
+  /** Solver settings. */
   QCOSSettings* settings;
+
+  /** Solver workspace. */
   QCOSWorkspace* work;
+
 } QCOSSolver;
 
 #endif /* #ifndef STRUCTS_H */

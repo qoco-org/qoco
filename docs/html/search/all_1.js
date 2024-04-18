@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['definitions_2eh_5',['definitions.h',['../d6/dc2/definitions_8h.html',1,'']]]
+  ['b_1',['b',['../d7/d42/structQCOSProblemData.html#a4514824f5fdc5c853a9f868e6674ceb7',1,'QCOSProblemData']]]
 ];

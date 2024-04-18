@@ -11,8 +11,7 @@ Contains all data needed for constructing and modifying KKT matrix and performin
 
 
 
-Collaboration diagram for QCOSKKT\+:
-\nopagebreak
+Collaboration diagram for QCOSKKT\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,19 +21,37 @@ Collaboration diagram for QCOSKKT\+:
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{structQCOSKKT_ac3615945c18b4bf17b9698382d18517b}\label{structQCOSKKT_ac3615945c18b4bf17b9698382d18517b}} 
-\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$ {\bfseries K}
+\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$ \mbox{\hyperlink{structQCOSKKT_ac3615945c18b4bf17b9698382d18517b}{K}}
 \item 
-\mbox{\Hypertarget{structQCOSKKT_a621239b01bc26133cb08eadc48dcfe03}\label{structQCOSKKT_a621239b01bc26133cb08eadc48dcfe03}} 
-\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ {\bfseries rhs}
+\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ \mbox{\hyperlink{structQCOSKKT_a621239b01bc26133cb08eadc48dcfe03}{rhs}}
 \item 
-\mbox{\Hypertarget{structQCOSKKT_a7b9fb5434c1c9cab9af8784a2f4248c8}\label{structQCOSKKT_a7b9fb5434c1c9cab9af8784a2f4248c8}} 
-QCOSInt $\ast$ {\bfseries nt2kkt}
+QCOSInt $\ast$ \mbox{\hyperlink{structQCOSKKT_a7b9fb5434c1c9cab9af8784a2f4248c8}{nt2kkt}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 Contains all data needed for constructing and modifying KKT matrix and performing predictor-\/corrector step. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structQCOSKKT_ac3615945c18b4bf17b9698382d18517b}\label{structQCOSKKT_ac3615945c18b4bf17b9698382d18517b}} 
+\index{QCOSKKT@{QCOSKKT}!K@{K}}
+\index{K@{K}!QCOSKKT@{QCOSKKT}}
+\doxysubsubsection{\texorpdfstring{K}{K}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}}$\ast$ QCOSKKT\+::K}
+
+KKT matrix in CSC form. \mbox{\Hypertarget{structQCOSKKT_a7b9fb5434c1c9cab9af8784a2f4248c8}\label{structQCOSKKT_a7b9fb5434c1c9cab9af8784a2f4248c8}} 
+\index{QCOSKKT@{QCOSKKT}!nt2kkt@{nt2kkt}}
+\index{nt2kkt@{nt2kkt}!QCOSKKT@{QCOSKKT}}
+\doxysubsubsection{\texorpdfstring{nt2kkt}{nt2kkt}}
+{\footnotesize\ttfamily QCOSInt$\ast$ QCOSKKT\+::nt2kkt}
+
+Mapping from elements in the Nesterov-\/\+Todd scaling matrix to elements in the KKT matrix. \mbox{\Hypertarget{structQCOSKKT_a621239b01bc26133cb08eadc48dcfe03}\label{structQCOSKKT_a621239b01bc26133cb08eadc48dcfe03}} 
+\index{QCOSKKT@{QCOSKKT}!rhs@{rhs}}
+\index{rhs@{rhs}!QCOSKKT@{QCOSKKT}}
+\doxysubsubsection{\texorpdfstring{rhs}{rhs}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSVector}{QCOSVector}}$\ast$ QCOSKKT\+::rhs}
+
+Temporary variable for rhs of KKT system. 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

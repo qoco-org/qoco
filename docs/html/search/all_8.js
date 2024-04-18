@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['set_5fdefault_5fsettings_28',['set_default_settings',['../d7/d15/qcos__api_8h.html#adab4c74528e696a0b27fec4f345bbcf0',1,'qcos_api.c']]],
-  ['structs_2eh_29',['structs.h',['../d1/d3d/structs_8h.html',1,'']]]
+  ['l_17',['l',['../d7/d42/structQCOSProblemData.html#a02b1afefceecb6c4204a3ac82ae8cb5b',1,'QCOSProblemData']]],
+  ['linalg_2eh_18',['linalg.h',['../dd/d46/linalg_8h.html',1,'']]]
 ];

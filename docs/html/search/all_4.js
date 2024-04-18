@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['linalg_2eh_8',['linalg.h',['../dd/d46/linalg_8h.html',1,'']]]
+  ['g_10',['G',['../d7/d42/structQCOSProblemData.html#a41a751cc1569551d2190d4c5c19d12e9',1,'QCOSProblemData']]]
 ];
