@@ -1,0 +1,5 @@
+<map id="QCOSProblemData" name="QCOSProblemData">
+<area shape="rect" id="node1" title="SOCP problem data." alt="" coords="63,124,207,151"/>
+<area shape="rect" id="node2" href="$d0/d99/structQCOSCscMatrix.html" title="Compressed sparse column format matrices." alt="" coords="5,5,129,32"/>
+<area shape="rect" id="node3" href="$de/db8/structQCOSVector.html" title="Internal QCOS vector." alt="" coords="153,5,253,32"/>
+</map>

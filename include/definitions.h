@@ -1,3 +1,17 @@
+/**
+ * @file definitions.h
+ * @author Govind Chari <govindchari1@gmail.com>
+ *
+ * @section LICENSE
+ *
+ * Copyright (c) 2024, Govind Chari
+ * This source code is licensed under the BSD 2-Clause License
+ *
+ * @section DESCRIPTION
+ *
+ * Defines QCOSInt, QCOSFloat, qcos_malloc, qcos_calloc, and qcos_free
+ */
+
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 

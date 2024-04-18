@@ -1,3 +1,17 @@
+/**
+ * @file cone.h
+ * @author Govind Chari <govindchari1@gmail.com>
+ *
+ * @section LICENSE
+ *
+ * Copyright (c) 2024, Govind Chari
+ * This source code is licensed under the BSD 2-Clause License
+ *
+ * @section DESCRIPTION
+ *
+ * Includes various functions necessary for cone operations.
+ */
+
 #ifndef CONE_H
 #define CONE_H
 

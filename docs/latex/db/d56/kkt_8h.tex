@@ -1,0 +1,75 @@
+\hypertarget{kkt_8h}{}\doxysection{include/kkt.h File Reference}
+\label{kkt_8h}\index{include/kkt.h@{include/kkt.h}}
+{\ttfamily \#include \char`\"{}structs.\+h\char`\"{}}\newline
+Include dependency graph for kkt.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{db/ddf/kkt_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=187pt]{de/d9b/kkt_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$ \mbox{\hyperlink{kkt_8h_a09efbb155edbfb309e34abf1980e5ad6}{initialize\+\_\+kkt}} (\mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
+\begin{DoxyCompactList}\small\item\em Allocate memory for KKT matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_a489712294c041513c348e2983c492b6d}{construct\+\_\+kkt}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Constructs upper triangular part of KKT matrix with -\/I for Nestrov-\/\+Todd scaling matrix (the (3,3) block) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{validation_8h_LICENSE}{}\doxysubsection{LICENSE}\label{validation_8h_LICENSE}
+Copyright (c) 2024, Govind Chari This source code is licensed under the BSD 2-\/Clause License\hypertarget{validation_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{validation_8h_DESCRIPTION}
+Provides various functions for constructing and updating blocks for the KKT matrix. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{kkt_8h_a489712294c041513c348e2983c492b6d}\label{kkt_8h_a489712294c041513c348e2983c492b6d}} 
+\index{kkt.h@{kkt.h}!construct\_kkt@{construct\_kkt}}
+\index{construct\_kkt@{construct\_kkt}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{construct\_kkt()}{construct\_kkt()}}
+{\footnotesize\ttfamily void construct\+\_\+kkt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Constructs upper triangular part of KKT matrix with -\/I for Nestrov-\/\+Todd scaling matrix (the (3,3) block) 
+
+clang-\/format off \begin{DoxyVerb}[ P   A^T   G^T ]
+\end{DoxyVerb}
+ K = $\vert$ A 0 0 $\vert$ \mbox{[} G 0 -\/I \mbox{]}
+
+clang-\/format on
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to \mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_a09efbb155edbfb309e34abf1980e5ad6}\label{kkt_8h_a09efbb155edbfb309e34abf1980e5ad6}} 
+\index{kkt.h@{kkt.h}!initialize\_kkt@{initialize\_kkt}}
+\index{initialize\_kkt@{initialize\_kkt}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{initialize\_kkt()}{initialize\_kkt()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}}$\ast$ initialize\+\_\+kkt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$}]{data }\end{DoxyParamCaption})}
+
+
+
+Allocate memory for KKT matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Pointer to problem data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to initialized KKT matrix. 
+\end{DoxyReturn}

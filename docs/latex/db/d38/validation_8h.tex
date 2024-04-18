@@ -1,0 +1,89 @@
+\hypertarget{validation_8h}{}\doxysection{include/validation.h File Reference}
+\label{validation_8h}\index{include/validation.h@{include/validation.h}}
+{\ttfamily \#include \char`\"{}structs.\+h\char`\"{}}\newline
+Include dependency graph for validation.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{d4/db7/validation_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{df/dc3/validation_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+QCOSInt \mbox{\hyperlink{validation_8h_af4dfee0713dc613e41afa1349771a265}{qcos\+\_\+validate\+\_\+settings}} (\mbox{\hyperlink{structQCOSSettings}{QCOSSettings}} $\ast$settings)
+\begin{DoxyCompactList}\small\item\em Validates solver settings. \end{DoxyCompactList}\item 
+QCOSInt \mbox{\hyperlink{validation_8h_ab202cf62a49219cc7705e00249c20cea}{qcos\+\_\+validate\+\_\+data}} (const \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$P, const QCOSFloat $\ast$c, const \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$A, const QCOSFloat $\ast$b, const \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$G, const QCOSFloat $\ast$h, const QCOSInt l, const QCOSInt ncones, const QCOSInt $\ast$q)
+\begin{DoxyCompactList}\small\item\em Validate problem data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{validation_8h_LICENSE}{}\doxysubsection{LICENSE}\label{validation_8h_LICENSE}
+Copyright (c) 2024, Govind Chari This source code is licensed under the BSD 2-\/Clause License\hypertarget{validation_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{validation_8h_DESCRIPTION}
+Includes functions that validate any user-\/provided data. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{validation_8h_ab202cf62a49219cc7705e00249c20cea}\label{validation_8h_ab202cf62a49219cc7705e00249c20cea}} 
+\index{validation.h@{validation.h}!qcos\_validate\_data@{qcos\_validate\_data}}
+\index{qcos\_validate\_data@{qcos\_validate\_data}!validation.h@{validation.h}}
+\doxysubsubsection{\texorpdfstring{qcos\_validate\_data()}{qcos\_validate\_data()}}
+{\footnotesize\ttfamily QCOSInt qcos\+\_\+validate\+\_\+data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$}]{P,  }\item[{const QCOSFloat $\ast$}]{c,  }\item[{const \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$}]{A,  }\item[{const QCOSFloat $\ast$}]{b,  }\item[{const \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$}]{G,  }\item[{const QCOSFloat $\ast$}]{h,  }\item[{const QCOSInt}]{l,  }\item[{const QCOSInt}]{ncones,  }\item[{const QCOSInt $\ast$}]{q }\end{DoxyParamCaption})}
+
+
+
+Validate problem data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P} & Upper triangular part of quadratic cost Hessian in CSC form \\
+\hline
+{\em c} & Linear cost vector \\
+\hline
+{\em A} & Affine equality constraint matrix in CSC form \\
+\hline
+{\em b} & Affine equality constraint offset vector \\
+\hline
+{\em G} & Conic constraint matrix in CSC form \\
+\hline
+{\em h} & Conic constraint offset vector \\
+\hline
+{\em l} & Dimension of non-\/negative orthant \\
+\hline
+{\em ncones} & Number of second-\/order cones \\
+\hline
+{\em q} & Dimension of each second-\/order cone \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Exitflag to check (0 for success, failure otherwise) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{validation_8h_af4dfee0713dc613e41afa1349771a265}\label{validation_8h_af4dfee0713dc613e41afa1349771a265}} 
+\index{validation.h@{validation.h}!qcos\_validate\_settings@{qcos\_validate\_settings}}
+\index{qcos\_validate\_settings@{qcos\_validate\_settings}!validation.h@{validation.h}}
+\doxysubsubsection{\texorpdfstring{qcos\_validate\_settings()}{qcos\_validate\_settings()}}
+{\footnotesize\ttfamily QCOSInt qcos\+\_\+validate\+\_\+settings (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSSettings}{QCOSSettings}} $\ast$}]{settings }\end{DoxyParamCaption})}
+
+
+
+Validates solver settings. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em settings} & Pointer to settings struct \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Exitflag to check (0 for success, failure otherwise) 
+\end{DoxyReturn}

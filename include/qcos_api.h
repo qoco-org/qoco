@@ -1,3 +1,17 @@
+/**
+ * @file qcos_api.h
+ * @author Govind Chari <govindchari1@gmail.com>
+ *
+ * @section LICENSE
+ *
+ * Copyright (c) 2024, Govind Chari
+ * This source code is licensed under the BSD 2-Clause License
+ *
+ * @section DESCRIPTION
+ *
+ * Exposes the API for QCOS.
+ */
+
 #ifndef QCOS_API_H
 #define QCOS_API_H
 

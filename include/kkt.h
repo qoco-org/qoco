@@ -1,3 +1,18 @@
+/**
+ * @file kkt.h
+ * @author Govind Chari <govindchari1@gmail.com>
+ *
+ * @section LICENSE
+ *
+ * Copyright (c) 2024, Govind Chari
+ * This source code is licensed under the BSD 2-Clause License
+ *
+ * @section DESCRIPTION
+ *
+ * Provides various functions for constructing and updating blocks for the KKT
+ * matrix.
+ */
+
 #ifndef QCOS_KKT_H
 #define QCOS_KKT_H
 

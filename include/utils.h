@@ -1,3 +1,17 @@
+/**
+ * @file utils.h
+ * @author Govind Chari <govindchari1@gmail.com>
+ *
+ * @section LICENSE
+ *
+ * Copyright (c) 2024, Govind Chari
+ * This source code is licensed under the BSD 2-Clause License
+ *
+ * @section DESCRIPTION
+ *
+ * Provides useful utility functions.
+ */
+
 #ifndef UTILS_H
 #define UTILS_H
 
