@@ -1,10 +1,10 @@
 /**
  * @file qcos.h
- * @author Govind Chari <govindchari1@gmail.com>
+ * @author Govind M. Chari <govindchari1@gmail.com>
  *
  * @section LICENSE
  *
- * Copyright (c) 2024, Govind Chari
+ * Copyright (c) 2024, Govind M. Chari
  * This source code is licensed under the BSD 2-Clause License
  *
  * @section DESCRIPTION
@@ -15,6 +15,7 @@
 #ifndef QCOS_H
 #define QCOS_H
 
+#include "cone.h"
 #include "definitions.h"
 #include "qcos_api.h"
 #include "structs.h"

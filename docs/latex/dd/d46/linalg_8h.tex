@@ -6,7 +6,7 @@ Include dependency graph for linalg.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=204pt]{d7/d1d/linalg_8h__incl}
+\includegraphics[width=273pt]{d7/d1d/linalg_8h__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
@@ -28,15 +28,17 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 void \mbox{\hyperlink{linalg_8h_a5310a059682ace127e99691242b6e537}{copy\+\_\+arrayf}} (const QCOSFloat $\ast$x, QCOSFloat $\ast$y, QCOSInt n)
 \begin{DoxyCompactList}\small\item\em Copies array of QCOSFloats from x to array y. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{linalg_8h_a441dbb63eaf3e562be9e033c0933e2d5}{copy\+\_\+arrayi}} (const QCOSInt $\ast$x, QCOSInt $\ast$y, QCOSInt n)
-\begin{DoxyCompactList}\small\item\em Copies array of QCOSInts from x to array y. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Copies array of QCOSInts from x to array y. \end{DoxyCompactList}\item 
+QCOSFloat \mbox{\hyperlink{linalg_8h_a5f379401b4b367c0971b7dd2514b2f64}{dot}} (QCOSFloat $\ast$u, QCOSFloat $\ast$v, QCOSInt n)
+\begin{DoxyCompactList}\small\item\em Computes dot product of u and v. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 \begin{DoxyAuthor}{Author}
-Govind Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
 \end{DoxyAuthor}
-\hypertarget{validation_8h_LICENSE}{}\doxysubsection{LICENSE}\label{validation_8h_LICENSE}
-Copyright (c) 2024, Govind Chari This source code is licensed under the BSD 2-\/Clause License\hypertarget{validation_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{validation_8h_DESCRIPTION}
+\hypertarget{utils_8h_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8h_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
 Provides various linear algebra operations. 
 
 \doxysubsection{Function Documentation}
@@ -52,11 +54,11 @@ Copies array of QCOSFloats from x to array y.
 
 
 \begin{DoxyParams}{Parameters}
-{\em x} & Source array \\
+{\em x} & Source array. \\
 \hline
-{\em y} & Destination array \\
+{\em y} & Destination array. \\
 \hline
-{\em n} & Length of arrays \\
+{\em n} & Length of arrays. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{linalg_8h_a441dbb63eaf3e562be9e033c0933e2d5}\label{linalg_8h_a441dbb63eaf3e562be9e033c0933e2d5}} 
@@ -71,13 +73,35 @@ Copies array of QCOSInts from x to array y.
 
 
 \begin{DoxyParams}{Parameters}
-{\em x} & Source array \\
+{\em x} & Source array. \\
 \hline
-{\em y} & Destination array \\
+{\em y} & Destination array. \\
 \hline
-{\em n} & Length of arrays \\
+{\em n} & Length of arrays. \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{linalg_8h_a5f379401b4b367c0971b7dd2514b2f64}\label{linalg_8h_a5f379401b4b367c0971b7dd2514b2f64}} 
+\index{linalg.h@{linalg.h}!dot@{dot}}
+\index{dot@{dot}!linalg.h@{linalg.h}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily QCOSFloat dot (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{u,  }\item[{QCOSFloat $\ast$}]{v,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes dot product of u and v. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Input vector. \\
+\hline
+{\em v} & Input vector. \\
+\hline
+{\em n} & Length of vectors. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dot product of u and v. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{linalg_8h_a48fe41ad1659f444e12a98fe0b21ccd3}\label{linalg_8h_a48fe41ad1659f444e12a98fe0b21ccd3}} 
 \index{linalg.h@{linalg.h}!new\_qcos\_csc\_matrix@{new\_qcos\_csc\_matrix}}
 \index{new\_qcos\_csc\_matrix@{new\_qcos\_csc\_matrix}!linalg.h@{linalg.h}}
@@ -108,13 +132,13 @@ Constructs a new \mbox{\hyperlink{structQCOSVector}{QCOSVector}} from raw array.
 
 
 \begin{DoxyParams}{Parameters}
-{\em x} & Raw array of data \\
+{\em x} & Raw array of data. \\
 \hline
-{\em n} & Length of raw array \\
+{\em n} & Length of raw array. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Pointer to new vector 
+Pointer to new vector. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{linalg_8h_a8c09c2282a7d49674d44f43fe7de083c}\label{linalg_8h_a8c09c2282a7d49674d44f43fe7de083c}} 
 \index{linalg.h@{linalg.h}!qcos\_vector\_calloc@{qcos\_vector\_calloc}}

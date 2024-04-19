@@ -1,24 +1,24 @@
 /**
  * @file definitions.h
- * @author Govind Chari <govindchari1@gmail.com>
+ * @author Govind M. Chari <govindchari1@gmail.com>
  *
  * @section LICENSE
  *
- * Copyright (c) 2024, Govind Chari
+ * Copyright (c) 2024, Govind M. Chari
  * This source code is licensed under the BSD 2-Clause License
  *
  * @section DESCRIPTION
  *
- * Defines QCOSInt, QCOSFloat, qcos_malloc, qcos_calloc, and qcos_free
+ * Defines QCOSInt, QCOSFloat, qcos_malloc, qcos_calloc, and qcos_free.
  */
 
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-// Needed for int64_t and int32_t datatypes
+// Needed for int64_t and int32_t datatypes.
 #include "stdint.h"
 
-/* Define QCOS ints and floats */
+// Define QCOSInt and QCOSFloat.
 #ifdef QCOS_LONG_INT
 typedef int64_t QCOSInt;
 #else
@@ -31,6 +31,11 @@ typedef float QCOSFloat;
 typedef double QCOSFloat;
 #endif
 
+#define qcos_max(a, b) (a > b) ? a : b
+#include "math.h"
+#define qcos_sqrt(a) sqrt(a)
+
+// Need for malloc, calloc, and free.
 #include <stdlib.h>
 #define qcos_malloc malloc
 #define qcos_calloc calloc

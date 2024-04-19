@@ -83,3 +83,5 @@ void construct_kkt(QCOSWorkspace* work)
     col += 1;
   }
 }
+
+void initialize_ipm(QCOSSolver* solver) {}

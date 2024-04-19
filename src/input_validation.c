@@ -1,4 +1,4 @@
-#include "validation.h"
+#include "input_validation.h"
 
 QCOSInt qcos_validate_settings(QCOSSettings* settings)
 {

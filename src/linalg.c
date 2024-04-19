@@ -57,3 +57,12 @@ void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n)
     y[i] = x[i];
   }
 }
+
+QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n)
+{
+  QCOSFloat x = 0.0;
+  for (QCOSInt i = 0; i < n; ++i) {
+    x += u[i] * v[i];
+  }
+  return x;
+}

@@ -1,12 +1,13 @@
 \hypertarget{definitions_8h}{}\doxysection{include/definitions.h File Reference}
 \label{definitions_8h}\index{include/definitions.h@{include/definitions.h}}
 {\ttfamily \#include \char`\"{}stdint.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
 Include dependency graph for definitions.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=204pt]{dd/d18/definitions_8h__incl}
+\includegraphics[width=273pt]{dd/d18/definitions_8h__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
@@ -18,6 +19,12 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \end{figure}
 \doxysubsection*{Macros}
 \begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{definitions_8h_a07aa8317f91c7ead6a219a1985c2e5c6}\label{definitions_8h_a07aa8317f91c7ead6a219a1985c2e5c6}} 
+\#define {\bfseries qcos\+\_\+max}(a,  b)~(a $>$ b) ? a \+: b
+\item 
+\mbox{\Hypertarget{definitions_8h_a18911854e2158baa8a9b2c6ce1c5e7d5}\label{definitions_8h_a18911854e2158baa8a9b2c6ce1c5e7d5}} 
+\#define {\bfseries qcos\+\_\+sqrt}(a)~sqrt(a)
 \item 
 \mbox{\Hypertarget{definitions_8h_ad5942037555e5a8bf835cb1be3c113d3}\label{definitions_8h_ad5942037555e5a8bf835cb1be3c113d3}} 
 \#define {\bfseries qcos\+\_\+malloc}~malloc
@@ -41,8 +48,8 @@ typedef double {\bfseries QCOSFloat}
 
 \doxysubsection{Detailed Description}
 \begin{DoxyAuthor}{Author}
-Govind Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
 \end{DoxyAuthor}
-\hypertarget{validation_8h_LICENSE}{}\doxysubsection{LICENSE}\label{validation_8h_LICENSE}
-Copyright (c) 2024, Govind Chari This source code is licensed under the BSD 2-\/Clause License\hypertarget{validation_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{validation_8h_DESCRIPTION}
-Defines QCOSInt, QCOSFloat, qcos\+\_\+malloc, qcos\+\_\+calloc, and qcos\+\_\+free 
+\hypertarget{utils_8h_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8h_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
+Defines QCOSInt, QCOSFloat, qcos\+\_\+malloc, qcos\+\_\+calloc, and qcos\+\_\+free. 

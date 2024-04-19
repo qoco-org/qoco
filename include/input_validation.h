@@ -1,10 +1,10 @@
 /**
  * @file validation.h
- * @author Govind Chari <govindchari1@gmail.com>
+ * @author Govind M. Chari <govindchari1@gmail.com>
  *
  * @section LICENSE
  *
- * Copyright (c) 2024, Govind Chari
+ * Copyright (c) 2024, Govind M. Chari
  * This source code is licensed under the BSD 2-Clause License
  *
  * @section DESCRIPTION
@@ -12,8 +12,8 @@
  * Includes functions that validate any user-provided data.
  */
 
-#ifndef VALIDATION_H
-#define VALIDATION_H
+#ifndef INPUT_VALIDATION_H
+#define INPUT_VALIDATION_H
 
 #include "structs.h"
 
@@ -45,4 +45,4 @@ QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
                            const QCOSInt l, const QCOSInt ncones,
                            const QCOSInt* q);
 
-#endif /* #ifndef VALIDATION_H */
+#endif /* #ifndef INPUT_VALIDATION_H */

@@ -77,12 +77,22 @@ Include dependency graph for cone.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../de/de5/cone_8h__incl.png" border="0" usemap="#ainclude_2cone_8h" alt=""/></div>
 <map name="ainclude_2cone_8h" id="ainclude_2cone_8h">
-<area shape="rect" title=" " alt="" coords="29,5,145,32"/>
-<area shape="rect" href="../../dd/d46/linalg_8h.html" title=" " alt="" coords="52,80,123,107"/>
-<area shape="rect" href="../../d6/dc2/definitions_8h.html" title=" " alt="" coords="36,229,139,256"/>
-<area shape="rect" href="../../d1/d3d/structs_8h.html" title=" " alt="" coords="87,155,165,181"/>
+<area shape="rect" title=" " alt="" coords="76,5,192,32"/>
+<area shape="rect" href="../../dd/d46/linalg_8h.html" title=" " alt="" coords="99,80,169,107"/>
+<area shape="rect" href="../../d6/dc2/definitions_8h.html" title=" " alt="" coords="83,229,185,256"/>
+<area shape="rect" href="../../d1/d3d/structs_8h.html" title=" " alt="" coords="133,155,212,181"/>
 <area shape="rect" title=" " alt="" coords="5,304,76,331"/>
-<area shape="rect" title=" " alt="" coords="100,304,171,331"/>
+<area shape="rect" title=" " alt="" coords="100,304,168,331"/>
+<area shape="rect" title=" " alt="" coords="192,304,263,331"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d4/de0/cone_8h__dep__incl.png" border="0" usemap="#ainclude_2cone_8hdep" alt=""/></div>
+<map name="ainclude_2cone_8hdep" id="ainclude_2cone_8hdep">
+<area shape="rect" title=" " alt="" coords="5,5,121,32"/>
+<area shape="rect" href="../../d5/de4/qcos_8h.html" title=" " alt="" coords="6,80,121,107"/>
 </map>
 </div>
 </div>
@@ -91,18 +101,67 @@ Include dependency graph for cone.h:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ae38a99844d34958127f6a0928a3a81b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df0/cone_8h.html#ae38a99844d34958127f6a0928a3a81b3">cone_product</a> (QCOSFloat *u, QCOSFloat *v, QCOSFloat *p, <a class="el" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a> *data)</td></tr>
-<tr class="memdesc:ae38a99844d34958127f6a0928a3a81b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes cone product u * v = p.  <a href="../../db/df0/cone_8h.html#ae38a99844d34958127f6a0928a3a81b3">More...</a><br /></td></tr>
+<tr class="memdesc:ae38a99844d34958127f6a0928a3a81b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes cone product u * v = p with respect to C.  <a href="../../db/df0/cone_8h.html#ae38a99844d34958127f6a0928a3a81b3">More...</a><br /></td></tr>
 <tr class="separator:ae38a99844d34958127f6a0928a3a81b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05644a809b00420985d3a465b628ebef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df0/cone_8h.html#a05644a809b00420985d3a465b628ebef">soc_product</a> (QCOSFloat *u, QCOSFloat *v, QCOSFloat *p, QCOSInt n)</td></tr>
+<tr class="memdesc:a05644a809b00420985d3a465b628ebef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes second-order cone product u * v = p.  <a href="../../db/df0/cone_8h.html#a05644a809b00420985d3a465b628ebef">More...</a><br /></td></tr>
+<tr class="separator:a05644a809b00420985d3a465b628ebef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a6a6364f56721a19cb9866ce13193e7"><td class="memItemLeft" align="right" valign="top">QCOSFloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df0/cone_8h.html#a8a6a6364f56721a19cb9866ce13193e7">soc_residual</a> (QCOSFloat *u, QCOSInt n)</td></tr>
+<tr class="memdesc:a8a6a6364f56721a19cb9866ce13193e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes residual of vector u with respect to the second order cone of dimension n.  <a href="../../db/df0/cone_8h.html#a8a6a6364f56721a19cb9866ce13193e7">More...</a><br /></td></tr>
+<tr class="separator:a8a6a6364f56721a19cb9866ce13193e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f9cfa8e07709d3ca39fdedfdc39b099"><td class="memItemLeft" align="right" valign="top">QCOSFloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df0/cone_8h.html#a3f9cfa8e07709d3ca39fdedfdc39b099">cone_residual</a> (QCOSFloat *u, <a class="el" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a> *data)</td></tr>
+<tr class="memdesc:a3f9cfa8e07709d3ca39fdedfdc39b099"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes residual of vector u with respect to cone C.  <a href="../../db/df0/cone_8h.html#a3f9cfa8e07709d3ca39fdedfdc39b099">More...</a><br /></td></tr>
+<tr class="separator:a3f9cfa8e07709d3ca39fdedfdc39b099"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acef168ff9f0dd13d2b60b85f159e21d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df0/cone_8h.html#acef168ff9f0dd13d2b60b85f159e21d6">bring2cone</a> (QCOSFloat *u, <a class="el" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a> *data)</td></tr>
+<tr class="memdesc:acef168ff9f0dd13d2b60b85f159e21d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs u = u + (1 + a) * e where e is the cannonical vector for each cone LP Cone: e = ones(n), second-order cone: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) * e is in cone C.  <a href="../../db/df0/cone_8h.html#acef168ff9f0dd13d2b60b85f159e21d6">More...</a><br /></td></tr>
+<tr class="separator:acef168ff9f0dd13d2b60b85f159e21d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
+<div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind M. Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
 <h1><a class="anchor" id="LICENSE"></a>
 LICENSE</h1>
-<p>Copyright (c) 2024, Govind Chari This source code is licensed under the BSD 2-Clause License</p>
+<p>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-Clause License</p>
 <h1><a class="anchor" id="DESCRIPTION"></a>
 DESCRIPTION</h1>
 <p>Includes various functions necessary for cone operations. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="acef168ff9f0dd13d2b60b85f159e21d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acef168ff9f0dd13d2b60b85f159e21d6">&#9670;&nbsp;</a></span>bring2cone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bring2cone </td>
+          <td>(</td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>u</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a> *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Performs u = u + (1 + a) * e where e is the cannonical vector for each cone LP Cone: e = ones(n), second-order cone: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) * e is in cone C. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">u</td><td>Vector to bring to cone. </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to problem data. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ae38a99844d34958127f6a0928a3a81b3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae38a99844d34958127f6a0928a3a81b3">&#9670;&nbsp;</a></span>cone_product()</h2>
 
@@ -141,16 +200,143 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p>Computes cone product u * v = p. </p>
+<p>Computes cone product u * v = p with respect to C. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">u</td><td></td></tr>
-    <tr><td class="paramname">v</td><td></td></tr>
-    <tr><td class="paramname">p</td><td></td></tr>
-    <tr><td class="paramname">data</td><td></td></tr>
+    <tr><td class="paramname">u</td><td>Input vector. </td></tr>
+    <tr><td class="paramname">v</td><td>Input vector. </td></tr>
+    <tr><td class="paramname">p</td><td>Cone product of u and v. </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to problem data. </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a3f9cfa8e07709d3ca39fdedfdc39b099"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f9cfa8e07709d3ca39fdedfdc39b099">&#9670;&nbsp;</a></span>cone_residual()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCOSFloat cone_residual </td>
+          <td>(</td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>u</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a> *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes residual of vector u with respect to cone C. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">u</td><td>Vector to be tested. </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to problem data. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Residual: Negative if the vector is in the cone and positive otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a05644a809b00420985d3a465b628ebef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05644a809b00420985d3a465b628ebef">&#9670;&nbsp;</a></span>soc_product()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void soc_product </td>
+          <td>(</td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>u</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSInt&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes second-order cone product u * v = p. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">u</td><td>Input vector. </td></tr>
+    <tr><td class="paramname">v</td><td>Input vector. </td></tr>
+    <tr><td class="paramname">p</td><td>Cone product of u and v. </td></tr>
+    <tr><td class="paramname">n</td><td>Length of vectors. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8a6a6364f56721a19cb9866ce13193e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a6a6364f56721a19cb9866ce13193e7">&#9670;&nbsp;</a></span>soc_residual()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCOSFloat soc_residual </td>
+          <td>(</td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>u</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSInt&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes residual of vector u with respect to the second order cone of dimension n. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">u</td><td>u = (u0, u1) is a vector in second order cone of dimension n. </td></tr>
+    <tr><td class="paramname">n</td><td>Dimension of second order cone. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Residual: norm(u1) - u0. Negative if the vector is in the cone and positive otherwise. </dd></dl>
 
 </div>
 </div>

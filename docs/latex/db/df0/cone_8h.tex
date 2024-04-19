@@ -5,25 +5,57 @@ Include dependency graph for cone.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=204pt]{de/de5/cone_8h__incl}
+\includegraphics[width=273pt]{de/de5/cone_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=167pt]{d4/de0/cone_8h__dep__incl}
 \end{center}
 \end{figure}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \mbox{\hyperlink{cone_8h_ae38a99844d34958127f6a0928a3a81b3}{cone\+\_\+product}} (QCOSFloat $\ast$u, QCOSFloat $\ast$v, QCOSFloat $\ast$p, \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
-\begin{DoxyCompactList}\small\item\em Computes cone product u $\ast$ v = p. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Computes cone product u $\ast$ v = p with respect to C. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8h_a05644a809b00420985d3a465b628ebef}{soc\+\_\+product}} (QCOSFloat $\ast$u, QCOSFloat $\ast$v, QCOSFloat $\ast$p, QCOSInt n)
+\begin{DoxyCompactList}\small\item\em Computes second-\/order cone product u $\ast$ v = p. \end{DoxyCompactList}\item 
+QCOSFloat \mbox{\hyperlink{cone_8h_a8a6a6364f56721a19cb9866ce13193e7}{soc\+\_\+residual}} (QCOSFloat $\ast$u, QCOSInt n)
+\begin{DoxyCompactList}\small\item\em Computes residual of vector u with respect to the second order cone of dimension n. \end{DoxyCompactList}\item 
+QCOSFloat \mbox{\hyperlink{cone_8h_a3f9cfa8e07709d3ca39fdedfdc39b099}{cone\+\_\+residual}} (QCOSFloat $\ast$u, \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
+\begin{DoxyCompactList}\small\item\em Computes residual of vector u with respect to cone C. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8h_acef168ff9f0dd13d2b60b85f159e21d6}{bring2cone}} (QCOSFloat $\ast$u, \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
+\begin{DoxyCompactList}\small\item\em Performs u = u + (1 + a) $\ast$ e where e is the cannonical vector for each cone LP Cone\+: e = ones(n), second-\/order cone\+: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) $\ast$ e is in cone C. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 \begin{DoxyAuthor}{Author}
-Govind Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
 \end{DoxyAuthor}
-\hypertarget{validation_8h_LICENSE}{}\doxysubsection{LICENSE}\label{validation_8h_LICENSE}
-Copyright (c) 2024, Govind Chari This source code is licensed under the BSD 2-\/Clause License\hypertarget{validation_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{validation_8h_DESCRIPTION}
+\hypertarget{utils_8h_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8h_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
 Includes various functions necessary for cone operations. 
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{cone_8h_acef168ff9f0dd13d2b60b85f159e21d6}\label{cone_8h_acef168ff9f0dd13d2b60b85f159e21d6}} 
+\index{cone.h@{cone.h}!bring2cone@{bring2cone}}
+\index{bring2cone@{bring2cone}!cone.h@{cone.h}}
+\doxysubsubsection{\texorpdfstring{bring2cone()}{bring2cone()}}
+{\footnotesize\ttfamily void bring2cone (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{u,  }\item[{\mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$}]{data }\end{DoxyParamCaption})}
+
+
+
+Performs u = u + (1 + a) $\ast$ e where e is the cannonical vector for each cone LP Cone\+: e = ones(n), second-\/order cone\+: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) $\ast$ e is in cone C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Vector to bring to cone. \\
+\hline
+{\em data} & Pointer to problem data. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{cone_8h_ae38a99844d34958127f6a0928a3a81b3}\label{cone_8h_ae38a99844d34958127f6a0928a3a81b3}} 
 \index{cone.h@{cone.h}!cone\_product@{cone\_product}}
 \index{cone\_product@{cone\_product}!cone.h@{cone.h}}
@@ -32,16 +64,77 @@ Includes various functions necessary for cone operations.
 
 
 
-Computes cone product u $\ast$ v = p. 
+Computes cone product u $\ast$ v = p with respect to C. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em u} & \\
+{\em u} & Input vector. \\
 \hline
-{\em v} & \\
+{\em v} & Input vector. \\
 \hline
-{\em p} & \\
+{\em p} & Cone product of u and v. \\
 \hline
-{\em data} & \\
+{\em data} & Pointer to problem data. \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{cone_8h_a3f9cfa8e07709d3ca39fdedfdc39b099}\label{cone_8h_a3f9cfa8e07709d3ca39fdedfdc39b099}} 
+\index{cone.h@{cone.h}!cone\_residual@{cone\_residual}}
+\index{cone\_residual@{cone\_residual}!cone.h@{cone.h}}
+\doxysubsubsection{\texorpdfstring{cone\_residual()}{cone\_residual()}}
+{\footnotesize\ttfamily QCOSFloat cone\+\_\+residual (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{u,  }\item[{\mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$}]{data }\end{DoxyParamCaption})}
+
+
+
+Computes residual of vector u with respect to cone C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Vector to be tested. \\
+\hline
+{\em data} & Pointer to problem data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Residual\+: Negative if the vector is in the cone and positive otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cone_8h_a05644a809b00420985d3a465b628ebef}\label{cone_8h_a05644a809b00420985d3a465b628ebef}} 
+\index{cone.h@{cone.h}!soc\_product@{soc\_product}}
+\index{soc\_product@{soc\_product}!cone.h@{cone.h}}
+\doxysubsubsection{\texorpdfstring{soc\_product()}{soc\_product()}}
+{\footnotesize\ttfamily void soc\+\_\+product (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{u,  }\item[{QCOSFloat $\ast$}]{v,  }\item[{QCOSFloat $\ast$}]{p,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes second-\/order cone product u $\ast$ v = p. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Input vector. \\
+\hline
+{\em v} & Input vector. \\
+\hline
+{\em p} & Cone product of u and v. \\
+\hline
+{\em n} & Length of vectors. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8h_a8a6a6364f56721a19cb9866ce13193e7}\label{cone_8h_a8a6a6364f56721a19cb9866ce13193e7}} 
+\index{cone.h@{cone.h}!soc\_residual@{soc\_residual}}
+\index{soc\_residual@{soc\_residual}!cone.h@{cone.h}}
+\doxysubsubsection{\texorpdfstring{soc\_residual()}{soc\_residual()}}
+{\footnotesize\ttfamily QCOSFloat soc\+\_\+residual (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{u,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes residual of vector u with respect to the second order cone of dimension n. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & u = (u0, u1) is a vector in second order cone of dimension n. \\
+\hline
+{\em n} & Dimension of second order cone. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Residual\+: norm(u1) -\/ u0. Negative if the vector is in the cone and positive otherwise. 
+\end{DoxyReturn}

@@ -54,7 +54,7 @@ void print_header()
     printf("\n");
     printf("+--------------------------------------------------------------------------------------+\n");
     printf("|            ..:: QCOS - Quadratic Objective Conic Optimization Solver ::..            |\n");
-    printf("|                                 (c) Govind M. Chari                                  |\n");
+    printf("|                              (c) Govind M. Chari, 2024                               |\n");
     printf("|                   University of Washington Autonomous Controls Lab                   |\n");
     printf("+-----------+----------------+-------------+-----------------+------------+------------+\n");
     printf("| Iteration |   Primal cost  |     Gap     | Primal residual |     Mu     |    Step    |\n");

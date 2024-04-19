@@ -1,0 +1,1185 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.15)  18 APR 2024 17:38
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/home/govind/Desktop/git/qcos/docs/latex/refman.tex
+(/home/govind/Desktop/git/qcos/docs/latex/refman.tex
+LaTeX2e <2021-11-15> patch level 1
+L3 programming layer <2022-01-21> (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2021/10/04 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/bk10.clo
+File: bk10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count185
+\c@chapter=\count186
+\c@section=\count187
+\c@subsection=\count188
+\c@subsubsection=\count189
+\c@paragraph=\count190
+\c@subparagraph=\count191
+\c@figure=\count192
+\c@table=\count193
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen138
+) (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Rollback for package 'array' requested -> date 2016-10-06.
+         Best approximation is the release introduced on 2016-10-06.
+ (/usr/share/texlive/texmf-dist/tex/latex/tools/array-2016-10-06.sty
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen139
+\extrarowheight=\dimen140
+\NC@list=\toks16
+\extratabsurround=\skip49
+\backup@length=\skip50
+)) (/usr/share/texlive/texmf-dist/tex/latex/base/fixltx2e.sty
+Package: fixltx2e 2016/12/29 v2.1a fixes to LaTeX (obsolete)
+Applying: [2015/01/01] Old fixltx2e package on input line 46.
+
+
+Package fixltx2e Warning: fixltx2e is not required with releases after 2015
+(fixltx2e)                All fixes are now in the LaTeX kernel.
+(fixltx2e)                See the latexrelease package for details.
+
+Already applied: [0000/00/00] Old fixltx2e package on input line 53.
+) (./doxygen.sty
+Package: doxygen 
+ (/usr/share/texlive/texmf-dist/tex/latex/base/alltt.sty
+Package: alltt 2021/01/29 v2.0g defines alltt environment
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count194
+\calc@Bcount=\count195
+\calc@Adimen=\dimen141
+\calc@Bdimen=\dimen142
+\calc@Askip=\skip51
+\calc@Bskip=\skip52
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count196
+\calc@Cskip=\skip53
+) (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count197
+\float@exts=\toks17
+\float@box=\box50
+\@float@everytoks=\toks18
+\@floatcapt=\box51
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2020-07-07 v1.5u LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks19
+\verbatim@line=\toks20
+\verbatim@in@stream=\read2
+) (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2021/10/31 v2.13 LaTeX color extensions (UK)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 227.
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+) (/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+\everycr=\toks21
+\minrowclearance=\skip54
+)
+\rownum=\count198
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1352.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1356.
+Package xcolor Info: Model `RGB' extended on input line 1368.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1370.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1371.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1374.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1375.
+) (./longtable_doxygen.sty
+Package: longtable_doxygen 2014/10/28 v4.11 Multi-page Table package (DPC) - frozen version for doxygen
+\LTleft=\skip55
+\LTright=\skip56
+\LTpre=\skip57
+\LTpost=\skip58
+\LTchunksize=\count199
+\LTcapwidth=\dimen143
+\LT@head=\box52
+\LT@firsthead=\box53
+\LT@foot=\box54
+\LT@lastfoot=\box55
+\LT@cols=\count266
+\LT@rows=\count267
+\c@LT@tables=\count268
+\c@LT@chunks=\count269
+\LT@p@ftn=\toks22
+) (./tabu_doxygen.sty
+Package: tabu_doxygen 2011/02/26 v2.8 - flexible LaTeX tabulars (FC), frozen version for doxygen
+ (/usr/share/texlive/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box56
+\sift@deathcycles=\count270
+\@vwid@loff=\dimen144
+\@vwid@roff=\dimen145
+)
+\c@taburow=\count271
+\tabu@nbcols=\count272
+\tabu@cnt=\count273
+\tabu@Xcol=\count274
+\tabu@alloc=\count275
+\tabu@nested=\count276
+\tabu@target=\dimen146
+\tabu@spreadtarget=\dimen147
+\tabu@naturalX=\dimen148
+\tabucolX=\dimen149
+\tabu@Xsum=\dimen150
+\extrarowdepth=\dimen151
+\abovetabulinesep=\dimen152
+\belowtabulinesep=\dimen153
+\tabustrutrule=\dimen154
+\tabu@thebody=\toks23
+\tabu@footnotes=\toks24
+\tabu@box=\box57
+\tabu@arstrutbox=\box58
+\tabu@hleads=\box59
+\tabu@vleads=\box60
+\tabu@cellskip=\skip59
+) (/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2021/12/21 4.1b verbatim text (tvz,hv)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks25
+)
+\FV@CodeLineNo=\count277
+\FV@InFile=\read3
+\FV@TabBox=\box61
+\c@FancyVerbLine=\count278
+\FV@StepNumber=\count279
+\FV@OutFile=\write3
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
+\TX@col@width=\dimen155
+\TX@old@table=\dimen156
+\TX@old@col=\dimen157
+\TX@target=\dimen158
+\TX@delta=\dimen159
+\TX@cols=\count280
+\TX@ftn=\toks26
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2021/10/28 v1.9b multicolumn formatting (FMi)
+\c@tracingmulticols=\count281
+\mult@box=\box62
+\multicol@leftmargin=\dimen160
+\c@unbalance=\count282
+\c@collectmore=\count283
+\doublecol@number=\count284
+\multicoltolerance=\count285
+\multicolpretolerance=\count286
+\full@width=\dimen161
+\page@free=\dimen162
+\premulticols=\dimen163
+\postmulticols=\dimen164
+\multicolsep=\skip60
+\multicolbaselineskip=\skip61
+\partial@page=\box63
+\last@line=\box64
+\maxbalancingoverflow=\dimen165
+\mult@rightbox=\box65
+\mult@grightbox=\box66
+\mult@firstbox=\box67
+\mult@gfirstbox=\box68
+\@tempa=\box69
+\@tempa=\box70
+\@tempa=\box71
+\@tempa=\box72
+\@tempa=\box73
+\@tempa=\box74
+\@tempa=\box75
+\@tempa=\box76
+\@tempa=\box77
+\@tempa=\box78
+\@tempa=\box79
+\@tempa=\box80
+\@tempa=\box81
+\@tempa=\box82
+\@tempa=\box83
+\@tempa=\box84
+\@tempa=\box85
+\@tempa=\box86
+\@tempa=\box87
+\@tempa=\box88
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\@tempa=\box94
+\@tempa=\box95
+\@tempa=\box96
+\@tempa=\box97
+\@tempa=\box98
+\@tempa=\box99
+\@tempa=\box100
+\@tempa=\box101
+\@tempa=\box102
+\@tempa=\box103
+\@tempa=\box104
+\c@minrows=\count287
+\c@columnbadness=\count288
+\c@finalcolumnbadness=\count289
+\last@try=\dimen166
+\multicolovershoot=\dimen167
+\multicolundershoot=\dimen168
+\mult@nat@firstbox=\box105
+\colbreak@box=\box106
+\mc@col@check@num=\count290
+) (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip62
+\multirow@cntb=\count291
+\multirow@dima=\skip63
+\bigstrutjot=\dimen169
+) (/usr/share/texlive/texmf-dist/tex/latex/hanging/hanging.sty
+Package: hanging 2009/09/02 v1.2b hanging paragraphs and punctuation
+\h@ngcommawd=\skip64
+\h@ngfstopwd=\skip65
+\h@ngquotewd=\skip66
+\h@ngdquotewd=\skip67
+\h@ngquerywd=\skip68
+\h@ngexclwd=\skip69
+\h@ngcolonwd=\skip70
+\h@ngscolonwd=\skip71
+) (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifpdf.sty
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+ (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+)) (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2020/08/19 v1.3 Adjusting TeX boxes (trim, clip, ...)
+ (/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2020/11/20 v2.8 package option processing (HA)
+ (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks27
+\XKV@tempa@toks=\toks28
+)
+\XKV@depth=\count292
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+)) (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)
+) (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+)
+\Gin@req@height=\dimen170
+\Gin@req@width=\dimen171
+) (/usr/share/texlive/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box107
+)
+\tc@llx=\dimen172
+\tc@lly=\dimen173
+\tc@urx=\dimen174
+\tc@ury=\dimen175
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+ (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen176
+\adjbox@Height=\dimen177
+\adjbox@Depth=\dimen178
+\adjbox@Totalheight=\dimen179
+\adjbox@pwidth=\dimen180
+\adjbox@pheight=\dimen181
+\adjbox@pdepth=\dimen182
+\adjbox@ptotalheight=\dimen183
+ (/usr/share/texlive/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count293
+)) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks29
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/usr/share/texlive/texmf-dist/tex/latex/stackengine/stackengine.sty
+Package: stackengine 2021/07/22 v4.11\ Stacking text and objects in convenient ways
+ (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count294
+) (/usr/share/texlive/texmf-dist/tex/generic/listofitems/listofitems.sty (/usr/share/texlive/texmf-dist/tex/generic/listofitems/listofitems.tex
+\loi_cnt_foreach_nest=\count295
+\loi_nestcnt=\count296
+)
+Package: listofitems 2019/08/21 v1.63 Grab items in lists using user-specified sep char (CT)
+)
+\c@@stackindex=\count297
+\@boxshift=\skip72
+\stack@tmplength=\skip73
+\temp@stkl=\skip74
+\@stackedboxwidth=\skip75
+\@addedbox=\box108
+\@anchorbox=\box109
+\@insetbox=\box110
+\se@backgroundbox=\box111
+\stackedbox=\box112
+\@centerbox=\box113
+\c@ROWcellindex@=\count298
+) (/usr/share/texlive/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box114
+\UL@hyphenbox=\box115
+\UL@skip=\skip76
+\UL@hook=\toks30
+\UL@height=\dimen184
+\UL@pe=\count299
+\UL@pixel=\dimen185
+\ULC@box=\box116
+Package: ulem 2019/11/18
+\ULdepth=\dimen186
+)
+\xrefbox=\box117
+\xreflength=\skip77
+\CodeWidthChar=\skip78
+\CodeHeightChar=\skip79
+\DoxyCodeWidth=\skip80
+) (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2021/02/14 v1.3d Input encoding file
+\inpenc@prehook=\toks31
+\inpenc@posthook=\toks32
+) (/usr/share/texlive/texmf-dist/tex/latex/base/makeidx.sty
+Package: makeidx 2021/10/04 v1.0m Standard LaTeX package
+) (/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+) (/usr/share/texlive/texmf-dist/tex/latex/wasysym/wasysym.sty
+Package: wasysym 2020/01/19 v2.4 Wasy-2 symbol support package
+\symwasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `wasy' in version `bold'
+(Font)                  U/wasy/m/n --> U/wasy/b/n on input line 93.
+) (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifxetex.sty
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+) (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty
+Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS) 
+) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/courier.sty
+Package: courier 2020/03/25 PSNFSS-v9.3 (WaS) 
+) (/usr/share/texlive/texmf-dist/tex/latex/sectsty/sectsty.sty
+Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading styles
+
+
+LaTeX Warning: Command \underbar  has changed.
+               Check if current package is valid.
+
+
+LaTeX Warning: Command \underline  has changed.
+               Check if current package is valid.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count300
+\Gm@cntv=\count301
+\c@Gm@tempcnt=\count302
+\Gm@bindingoffset=\dimen187
+\Gm@wd@mp=\dimen188
+\Gm@odd@mp=\dimen189
+\Gm@even@mp=\dimen190
+\Gm@layoutwidth=\dimen191
+\Gm@layoutheight=\dimen192
+\Gm@layouthoffset=\dimen193
+\Gm@layoutvoffset=\dimen194
+\Gm@dimlist=\toks33
+) (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2021/01/28 v4.0.1 Extensive control of page headers and footers
+\f@nch@headwidth=\skip81
+\f@nch@O@elh=\skip82
+\f@nch@O@erh=\skip83
+\f@nch@O@olh=\skip84
+\f@nch@O@orh=\skip85
+\f@nch@O@elf=\skip86
+\f@nch@O@erf=\skip87
+\f@nch@O@olf=\skip88
+\f@nch@O@orf=\skip89
+) (/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip90
+\bibsep=\skip91
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count303
+) (/usr/share/texlive/texmf-dist/tex/latex/tocloft/tocloft.sty
+Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
+Package tocloft Info: The document has chapter divisions on input line 51.
+\cftparskip=\skip92
+\cftbeforetoctitleskip=\skip93
+\cftaftertoctitleskip=\skip94
+\cftbeforepartskip=\skip95
+\cftpartnumwidth=\skip96
+\cftpartindent=\skip97
+\cftbeforechapskip=\skip98
+\cftchapindent=\skip99
+\cftchapnumwidth=\skip100
+\cftbeforesecskip=\skip101
+\cftsecindent=\skip102
+\cftsecnumwidth=\skip103
+\cftbeforesubsecskip=\skip104
+\cftsubsecindent=\skip105
+\cftsubsecnumwidth=\skip106
+\cftbeforesubsubsecskip=\skip107
+\cftsubsubsecindent=\skip108
+\cftsubsubsecnumwidth=\skip109
+\cftbeforeparaskip=\skip110
+\cftparaindent=\skip111
+\cftparanumwidth=\skip112
+\cftbeforesubparaskip=\skip113
+\cftsubparaindent=\skip114
+\cftsubparanumwidth=\skip115
+\cftbeforeloftitleskip=\skip116
+\cftafterloftitleskip=\skip117
+\cftbeforefigskip=\skip118
+\cftfigindent=\skip119
+\cftfignumwidth=\skip120
+\c@lofdepth=\count304
+\c@lotdepth=\count305
+\cftbeforelottitleskip=\skip121
+\cftafterlottitleskip=\skip122
+\cftbeforetabskip=\skip123
+\cfttabindent=\skip124
+\cfttabnumwidth=\skip125
+)
+\@indexfile=\write4
+\openout4 = `refman.idx'.
+
+
+Writing index file refman.idx
+(/usr/share/texlive/texmf-dist/tex/latex/newunicodechar/newunicodechar.sty
+Package: newunicodechar 2018/04/08 v1.2 Defining Unicode characters
+)
+
+Package newunicodechar Warning: Redefining Unicode character on input line 115.
+
+
+Package newunicodechar Warning: Redefining Unicode character on input line 116.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2021-06-07 v7.00m Hypertext links for LaTeX
+ (/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+) (/usr/share/texlive/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
+)
+\@linkdim=\dimen195
+\Hy@linkcounter=\count306
+\Hy@pagecounter=\count307
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
+File: hyperref-langpatches.def 2021-06-07 v7.00m Hyperref: patches for babel languages
+) (/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count308
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4192.
+Package hyperref Info: Link nesting OFF on input line 4197.
+Package hyperref Info: Hyper index ON on input line 4200.
+Package hyperref Info: Plain pages OFF on input line 4207.
+Package hyperref Info: Backreferencing ON on input line 4210.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4445.
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/backref.sty
+Package: backref 2021/02/04 v1.41 Bibliographical back referencing
+ (/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+ (/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
+with kernel methods
+) (/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+))
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 286.
+))
+\c@Hy@tempcnt=\count309
+ (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip16
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4804.
+\XeTeXLinkMargin=\dimen196
+ (/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+)
+\Fld@menulength=\count310
+\Field@Width=\dimen197
+\Fld@charsize=\dimen198
+Package hyperref Info: Hyper figures OFF on input line 6076.
+Package hyperref Info: Link nesting OFF on input line 6081.
+Package hyperref Info: Hyper index ON on input line 6084.
+Package hyperref Info: backreferencing ON on input line 6089.
+Package hyperref Info: Link coloring OFF on input line 6096.
+Package hyperref Info: Link coloring with OCG OFF on input line 6101.
+Package hyperref Info: PDF/A mode OFF on input line 6106.
+LaTeX Info: Redefining \ref on input line 6146.
+LaTeX Info: Redefining \pageref on input line 6150.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count311
+\c@Item=\count312
+\c@Hfootnote=\count313
+
+
+LaTeX Warning: Command \LT@p@ftntext  has changed.
+               Check if current package is valid.
+
+)
+Package hyperref Info: Driver: hpdftex.
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2021-06-07 v7.00m Hyperref driver for pdfTeX
+\Fld@listcount=\count314
+\c@bookmark@seq@number=\count315
+\Hy@SectionHShift=\skip126
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 134.
+Package hyperref Info: Option `unicode' set `true' on input line 134.
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/10/26 v3.5g Customizing captions (AR)
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
+\captionmargin=\dimen199
+\captionmargin@=\dimen256
+\captionwidth=\dimen257
+\caption@tempdima=\dimen258
+\caption@indent=\dimen259
+\caption@parindent=\dimen260
+\caption@hangindent=\dimen261
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count316
+\c@continuedfloat=\count317
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
+)) (/usr/share/texlive/texmf-dist/tex/latex/etoc/etoc.sty
+Package: etoc 2021/09/23 v1.09e Completely customisable TOCs (JFB)
+\Etoc@toctoks=\toks34
+\c@etoc@tocid=\count318
+\c@etoc@tocdepth=\count319
+\etoc@framed@titlebox=\box118
+\etoc@framed@contentsbox=\box119
+)
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 149.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 149.
+ (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count320
+\l__pdf_internal_box=\box120
+) (./refman.aux
+
+LaTeX Warning: Label `utils_8h_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+)
+\openout1 = `refman.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+ (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count321
+\scratchdimen=\dimen262
+\scratchbox=\box121
+\nofMPsegments=\count322
+\nofMParguments=\count323
+\everyMPshowfont=\toks35
+\MPscratchCnt=\count324
+\MPscratchDim=\dimen263
+\MPnumerator=\count325
+\makeMPintoPDFobject=\count326
+\everyMPtoPDFconversion=\toks36
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=702.78308pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-31.2056pt
+* \headheight=12.0pt
+* \headsep=18.06749pt
+* \topskip=10.0pt
+* \footskip=25.29494pt
+* \marginparwidth=125.0pt
+* \marginparsep=7.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package hyperref Info: Link coloring ON on input line 149.
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
+ (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count327
+)
+LaTeX Info: Redefining \ref on input line 149.
+LaTeX Info: Redefining \pageref on input line 149.
+LaTeX Info: Redefining \nameref on input line 149.
+ (./refman.out) (./refman.out)
+\@outlinefile=\write5
+\openout5 = `refman.out'.
+
+Package backref Info: ** backref set up for natbib ** on input line 149.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+\Etoc@tf=\read4
+Package hyperref Info: Option `pageanchor' set `false' on input line 156.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 156.
+Package hyperref Info: Option `unicode' set `true' on input line 156.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 12.9599pt on input line 161.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 10.79993pt on input line 163.
+ [1
+
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
+
+]
+\tf@toc=\write6
+\openout6 = `refman.toc'.
+
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 8.99994pt on input line 169.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 169.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 169.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+wasy on input line 169.
+ (/usr/share/texlive/texmf-dist/tex/latex/wasysym/uwasy.fd
+File: uwasy.fd 2020/01/19 v2.4 Wasy-2 symbol font definitions
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 6.29996pt on input line 169.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 6.29996pt on input line 169.
+ [1] [2] [3] [4
+
+]
+Package hyperref Info: Option `pageanchor' set `true' on input line 171.
+
+Chapter 1.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 18.66588pt on input line 174.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 18.66588pt on input line 174.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 18.66588pt on input line 174.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 22.39185pt on input line 174.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 22.39185pt on input line 174.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 22.39185pt on input line 174.
+(./annotated.tex
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 12.9599pt on input line 1.
+) [1
+
+] [2
+
+]
+Chapter 2.
+(./files.tex
+
+LaTeX Warning: Reference `input__validation_8h' on page 3 undefined on input line 5.
+
+) [3] [4
+
+]
+Chapter 3.
+(./d0/d99/structQCOSCscMatrix.tex
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 10.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 10.79993pt on input line 12.
+LaTeX Font Info:    Trying to load font information for TS1+phv on input line 15.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd
+File: ts1phv.fd 2020/03/25 scalable font definitions for TS1/phv.
+)
+LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 15.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 7.19995pt on input line 37.
+ [5]) (./d0/d72/structQCOSKKT.tex <./d7/d23/structQCOSKKT__coll__graph.pdf
+
+pdfTeX warning: pdflatex (file ./d7/d23/structQCOSKKT__coll__graph.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<d7/d23/structQCOSKKT__coll__graph.pdf, id=680, 266.9975pt x 167.62625pt>
+File: d7/d23/structQCOSKKT__coll__graph.pdf Graphic file (type pdf)
+<use d7/d23/structQCOSKKT__coll__graph.pdf>
+Package pdftex.def Info: d7/d23/structQCOSKKT__coll__graph.pdf  used on input line 18.
+(pdftex.def)             Requested size: 266.0pt x 167.01707pt.
+ [6]) (./d7/d42/structQCOSProblemData.tex <./d8/d91/structQCOSProblemData__coll__graph.pdf>
+<d8/d91/structQCOSProblemData__coll__graph.pdf, id=702, 266.9975pt x 189.70876pt>
+File: d8/d91/structQCOSProblemData__coll__graph.pdf Graphic file (type pdf)
+<use d8/d91/structQCOSProblemData__coll__graph.pdf>
+Package pdftex.def Info: d8/d91/structQCOSProblemData__coll__graph.pdf  used on input line 18.
+(pdftex.def)             Requested size: 266.0pt x 189.01933pt.
+ [7] [8] [9]) (./d9/dc4/structQCOSSettings.tex) (./d3/d33/structQCOSSolver.tex <./dc/dff/structQCOSSolver__coll__graph.pdf
+
+pdfTeX warning: pdflatex (file ./dc/dff/structQCOSSolver__coll__graph.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<dc/dff/structQCOSSolver__coll__graph.pdf, id=769, 380.42125pt x 348.30125pt>
+File: dc/dff/structQCOSSolver__coll__graph.pdf Graphic file (type pdf)
+<use dc/dff/structQCOSSolver__coll__graph.pdf>
+Package pdftex.def Info: dc/dff/structQCOSSolver__coll__graph.pdf  used on input line 18.
+(pdftex.def)             Requested size: 350.0pt x 320.45699pt.
+ [10] [11]) (./de/db8/structQCOSVector.tex) (./d5/d30/structQCOSWorkspace.tex <./de/dd0/structQCOSWorkspace__coll__graph.pdf>
+<de/dd0/structQCOSWorkspace__coll__graph.pdf, id=803, 305.14pt x 281.05pt>
+File: de/dd0/structQCOSWorkspace__coll__graph.pdf Graphic file (type pdf)
+<use de/dd0/structQCOSWorkspace__coll__graph.pdf>
+Package pdftex.def Info: de/dd0/structQCOSWorkspace__coll__graph.pdf  used on input line 18.
+(pdftex.def)             Requested size: 304.0pt x 280.01149pt.
+ [12] [13]) [14]
+Chapter 4.
+(./db/df0/cone_8h.tex <./de/de5/cone_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./de/de5/cone_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<de/de5/cone_8h__incl.pdf, id=856, 274.02374pt x 325.215pt>
+File: de/de5/cone_8h__incl.pdf Graphic file (type pdf)
+<use de/de5/cone_8h__incl.pdf>
+Package pdftex.def Info: de/de5/cone_8h__incl.pdf  used on input line 9.
+(pdftex.def)             Requested size: 273.0pt x 324.02322pt.
+ <./d4/de0/cone_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./d4/de0/cone_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<d4/de0/cone_8h__dep__incl.pdf, id=871, 167.62625pt x 156.585pt>
+File: d4/de0/cone_8h__dep__incl.pdf Graphic file (type pdf)
+<use d4/de0/cone_8h__dep__incl.pdf>
+Package pdftex.def Info: d4/de0/cone_8h__dep__incl.pdf  used on input line 17.
+(pdftex.def)             Requested size: 167.0pt x 155.99922pt.
+ [15
+
+]
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.09995pt on input line 24.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 24.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 24.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <7> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 32.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 6.29996pt on input line 32.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 8.99994pt on input line 36.
+
+Underfull \hbox (badness 10000) detected at line 36
+[][][]
+ []
+
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 48.
+[16] [17]
+Underfull \hbox (badness 10000) detected at line 99
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 140
+[][][]
+ []
+
+) (./d6/dc2/definitions_8h.tex <./dd/d18/definitions_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./dd/d18/definitions_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<dd/d18/definitions_8h__incl.pdf, id=921, 274.02374pt x 156.585pt>
+File: dd/d18/definitions_8h__incl.pdf Graphic file (type pdf)
+<use dd/d18/definitions_8h__incl.pdf>
+Package pdftex.def Info: dd/d18/definitions_8h__incl.pdf  used on input line 11.
+(pdftex.def)             Requested size: 273.0pt x 156.01117pt.
+ [18] <./d7/dea/definitions_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./d7/dea/definitions_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<d7/dea/definitions_8h__dep__incl.pdf, id=943, 663.47874pt x 325.215pt>
+File: d7/dea/definitions_8h__dep__incl.pdf Graphic file (type pdf)
+<use d7/dea/definitions_8h__dep__incl.pdf>
+Package pdftex.def Info: d7/dea/definitions_8h__dep__incl.pdf  used on input line 19.
+(pdftex.def)             Requested size: 350.0pt x 171.55922pt.
+
+Underfull \hbox (badness 10000) detected at line 52
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.55 \hypertarget{utils_8h_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8h...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.56 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [19]) (./db/d56/kkt_8h.tex <./db/ddf/kkt_8h__incl.pdf>
+<db/ddf/kkt_8h__incl.pdf, id=976, 274.02374pt x 269.005pt>
+File: db/ddf/kkt_8h__incl.pdf Graphic file (type pdf)
+<use db/ddf/kkt_8h__incl.pdf>
+Package pdftex.def Info: db/ddf/kkt_8h__incl.pdf  used on input line 9.
+(pdftex.def)             Requested size: 273.0pt x 268.0192pt.
+ <./de/d9b/kkt_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./de/d9b/kkt_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<de/d9b/kkt_8h__dep__incl.pdf, id=991, 187.70125pt x 212.795pt>
+File: de/d9b/kkt_8h__dep__incl.pdf Graphic file (type pdf)
+<use de/d9b/kkt_8h__dep__incl.pdf>
+Package pdftex.def Info: de/d9b/kkt_8h__dep__incl.pdf  used on input line 16.
+(pdftex.def)             Requested size: 187.0pt x 212.01193pt.
+ [20]
+Underfull \hbox (badness 10000) detected at line 29
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.32 \hypertarget{utils_8h_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8h...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.33 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [21]
+Underfull \hbox (badness 10000) detected at line 73
+[][][]
+ []
+
+) (./dd/d46/linalg_8h.tex <./d7/d1d/linalg_8h__incl.pdf>
+<d7/d1d/linalg_8h__incl.pdf, id=1026, 274.02374pt x 269.005pt>
+File: d7/d1d/linalg_8h__incl.pdf Graphic file (type pdf)
+<use d7/d1d/linalg_8h__incl.pdf>
+Package pdftex.def Info: d7/d1d/linalg_8h__incl.pdf  used on input line 10.
+(pdftex.def)             Requested size: 273.0pt x 268.0192pt.
+ [22] <./d4/d90/linalg_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./d4/d90/linalg_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<d4/d90/linalg_8h__dep__incl.pdf, id=1047, 293.095pt x 212.795pt>
+File: d4/d90/linalg_8h__dep__incl.pdf Graphic file (type pdf)
+<use d4/d90/linalg_8h__dep__incl.pdf>
+Package pdftex.def Info: d4/d90/linalg_8h__dep__incl.pdf  used on input line 18.
+(pdftex.def)             Requested size: 292.0pt x 211.99895pt.
+ [23]
+Underfull \hbox (badness 10000) detected at line 39
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.42 \hypertarget{utils_8h_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8h...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.43 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [24]
+Underfull \hbox (badness 10000) detected at line 104
+[][][]
+ []
+
+[25]
+Underfull \hbox (badness 10000) detected at line 122
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 142
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 160
+[][][]
+ []
+
+) (./d5/de4/qcos_8h.tex <./d7/ddb/qcos_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./d7/ddb/qcos_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<d7/ddb/qcos_8h__incl.pdf, id=1103, 515.9275pt x 381.425pt>
+File: d7/ddb/qcos_8h__incl.pdf Graphic file (type pdf)
+<use d7/ddb/qcos_8h__incl.pdf>
+Package pdftex.def Info: d7/ddb/qcos_8h__incl.pdf  used on input line 13.
+(pdftex.def)             Requested size: 350.0pt x 258.76027pt.
+ [26]
+Underfull \hbox (badness 10000) detected at line 19
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.22 \hypertarget{utils_8h_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8h...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.23 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO...) (./d7/d15/qcos__api_8h.tex <./dc/d4c/qcos__api_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./dc/d4c/qcos__api_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<dc/d4c/qcos__api_8h__incl.pdf, id=1125, 367.3725pt x 325.215pt>
+File: dc/d4c/qcos__api_8h__incl.pdf Graphic file (type pdf)
+<use dc/d4c/qcos__api_8h__incl.pdf>
+Package pdftex.def Info: dc/d4c/qcos__api_8h__incl.pdf  used on input line 13.
+(pdftex.def)             Requested size: 350.0pt x 309.85565pt.
+ [27] <./d3/ddb/qcos__api_8h__dep__incl.pdf>
+<d3/ddb/qcos__api_8h__dep__incl.pdf, id=1146, 187.70125pt x 156.585pt>
+File: d3/ddb/qcos__api_8h__dep__incl.pdf Graphic file (type pdf)
+<use d3/ddb/qcos__api_8h__dep__incl.pdf>
+Package pdftex.def Info: d3/ddb/qcos__api_8h__dep__incl.pdf  used on input line 20.
+(pdftex.def)             Requested size: 187.0pt x 156.00879pt.
+ [28]
+Underfull \hbox (badness 10000) detected at line 41
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.44 \hypertarget{utils_8h_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8h...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.45 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [29]
+Underfull \hbox (badness 10000) detected at line 109
+[][][]
+ []
+
+) (./d1/d3d/structs_8h.tex <./d9/d58/structs_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./d9/d58/structs_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<d9/d58/structs_8h__incl.pdf, id=1192, 274.02374pt x 212.795pt>
+File: d9/d58/structs_8h__incl.pdf Graphic file (type pdf)
+<use d9/d58/structs_8h__incl.pdf>
+Package pdftex.def Info: d9/d58/structs_8h__incl.pdf  used on input line 9.
+(pdftex.def)             Requested size: 273.0pt x 212.01518pt.
+ [30] <./d4/db0/structs_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./d4/db0/structs_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<d4/db0/structs_8h__dep__incl.pdf, id=1213, 613.29124pt x 269.005pt>
+File: d4/db0/structs_8h__dep__incl.pdf Graphic file (type pdf)
+<use d4/db0/structs_8h__dep__incl.pdf>
+Package pdftex.def Info: d4/db0/structs_8h__dep__incl.pdf  used on input line 17.
+(pdftex.def)             Requested size: 350.0pt x 153.51915pt.
+ [31]
+Underfull \hbox (badness 10000) detected at line 40
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.43 \hypertarget{utils_8h_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8h...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.44 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO...) (./d5/d60/utils_8h.tex <./db/d29/utils_8h__incl.pdf>
+<db/d29/utils_8h__incl.pdf, id=1238, 276.03125pt x 269.005pt>
+File: db/d29/utils_8h__incl.pdf Graphic file (type pdf)
+<use db/d29/utils_8h__incl.pdf>
+Package pdftex.def Info: db/d29/utils_8h__incl.pdf  used on input line 10.
+(pdftex.def)             Requested size: 275.0pt x 268.0274pt.
+ <./d9/d4c/utils_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./d9/d4c/utils_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<d9/d4c/utils_8h__dep__incl.pdf, id=1253, 166.6225pt x 156.585pt>
+File: d9/d4c/utils_8h__dep__incl.pdf Graphic file (type pdf)
+<use d9/d4c/utils_8h__dep__incl.pdf>
+Package pdftex.def Info: d9/d4c/utils_8h__dep__incl.pdf  used on input line 17.
+(pdftex.def)             Requested size: 166.0pt x 156.01117pt.
+ [32]
+Underfull \hbox (badness 10000) detected at line 33
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.36 \hypertarget{utils_8h_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8h...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.37 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [33]) [34] (./refman.ind [35
+
+
+
+] [36]) (./refman.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package rerunfilecheck Info: File `refman.out' has not changed.
+(rerunfilecheck)             Checksum: 894761031CFAF539FA22A0AA36E1013A;19554.
+ ) 
+Here is how much of TeX's memory you used:
+ 18007 strings out of 480247
+ 295309 string characters out of 5896151
+ 595267 words of memory out of 5000000
+ 35259 multiletter control sequences out of 15000+600000
+ 527961 words of font info for 102 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 99i,16n,117p,748b,633s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on refman.pdf (42 pages, 318859 bytes).
+PDF statistics:
+ 1532 PDF objects out of 1728 (max. 8388607)
+ 1364 compressed objects within 14 object streams
+ 281 named destinations out of 1000 (max. 500000)
+ 1000 words of extra memory for PDF output out of 10000 (max. 10000000)
+

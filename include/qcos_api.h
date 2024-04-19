@@ -1,10 +1,10 @@
 /**
  * @file qcos_api.h
- * @author Govind Chari <govindchari1@gmail.com>
+ * @author Govind M. Chari <govindchari1@gmail.com>
  *
  * @section LICENSE
  *
- * Copyright (c) 2024, Govind Chari
+ * Copyright (c) 2024, Govind M. Chari
  * This source code is licensed under the BSD 2-Clause License
  *
  * @section DESCRIPTION
@@ -16,10 +16,10 @@
 #define QCOS_API_H
 
 #include "definitions.h"
+#include "input_validation.h"
 #include "kkt.h"
 #include "linalg.h"
 #include "structs.h"
-#include "validation.h"
 
 /*
  QCOS solves second-order cone problems of the following form

@@ -46,11 +46,19 @@ int main()
 
   print_qcos_csc_matrix(solver->work->kkt->K);
 
-  for (int i = 0; i < m; ++i) {
-    printf("%d, ", solver->work->kkt->nt2kkt[i]);
-  }
-
-  print_header();
+  // for (int i = 0; i < m; ++i) {
+  //   printf("%d, ", solver->work->kkt->nt2kkt[i]);
+  // }
+  // QCOSFloat u[] = {0, 0, 0, 4, 5, 6};
+  // bring2cone(u, solver->work->data);
+  // QCOSFloat res = cone_residual(u, solver->work->data);
+  // printf("Residual: %f\n", res);
+  // QCOSFloat v[] = {1, 2, 3, 4, 5, 6};
+  // QCOSFloat prod[] = {0, 0, 0, 0, 0, 0};
+  // cone_product(u, v, prod, solver->work->data);
+  // for (int i = 0; i < 6; ++i) {
+  //   printf("%f, ", u[i]);
+  // }
 
   if (solver) {
     qcos_cleanup(solver);

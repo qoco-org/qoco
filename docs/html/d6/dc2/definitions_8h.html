@@ -73,15 +73,17 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;stdint.h&quot;</code><br />
+<code>#include &quot;math.h&quot;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for definitions.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../dd/d18/definitions_8h__incl.png" border="0" usemap="#ainclude_2definitions_8h" alt=""/></div>
 <map name="ainclude_2definitions_8h" id="ainclude_2definitions_8h">
-<area shape="rect" title=" " alt="" coords="11,5,164,32"/>
+<area shape="rect" title=" " alt="" coords="57,5,211,32"/>
 <area shape="rect" title=" " alt="" coords="5,80,76,107"/>
-<area shape="rect" title=" " alt="" coords="100,80,171,107"/>
+<area shape="rect" title=" " alt="" coords="100,80,168,107"/>
+<area shape="rect" title=" " alt="" coords="192,80,263,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -89,15 +91,15 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d7/dea/definitions_8h__dep__incl.png" border="0" usemap="#ainclude_2definitions_8hdep" alt=""/></div>
 <map name="ainclude_2definitions_8hdep" id="ainclude_2definitions_8hdep">
-<area shape="rect" title=" " alt="" coords="355,5,508,32"/>
-<area shape="rect" href="../../dd/d46/linalg_8h.html" title=" " alt="" coords="445,155,567,181"/>
-<area shape="rect" href="../../d7/d15/qcos__api_8h.html" title=" " alt="" coords="97,229,240,256"/>
-<area shape="rect" href="../../d5/de4/qcos_8h.html" title=" " alt="" coords="323,304,438,331"/>
-<area shape="rect" href="../../d1/d3d/structs_8h.html" title=" " alt="" coords="292,80,421,107"/>
-<area shape="rect" href="../../db/df0/cone_8h.html" title=" " alt="" coords="509,229,625,256"/>
-<area shape="rect" href="../../db/d56/kkt_8h.html" title=" " alt="" coords="37,155,143,181"/>
-<area shape="rect" href="../../d5/d60/utils_8h.html" title=" " alt="" coords="372,229,485,256"/>
-<area shape="rect" href="../../db/d38/validation_8h.html" title=" " alt="" coords="168,155,319,181"/>
+<area shape="rect" title=" " alt="" coords="79,5,233,32"/>
+<area shape="rect" href="../../dd/d46/linalg_8h.html" title=" " alt="" coords="22,155,143,181"/>
+<area shape="rect" href="../../d5/de4/qcos_8h.html" title=" " alt="" coords="215,304,329,331"/>
+<area shape="rect" href="../../d7/d15/qcos__api_8h.html" title=" " alt="" coords="201,229,343,256"/>
+<area shape="rect" href="../../d1/d3d/structs_8h.html" title=" " alt="" coords="298,80,427,107"/>
+<area shape="rect" href="../../db/df0/cone_8h.html" title=" " alt="" coords="43,229,159,256"/>
+<area shape="rect" href="../../d8/d7d/input__validation_8h_source.html" title=" " alt="" coords="401,155,591,181"/>
+<area shape="rect" href="../../db/d56/kkt_8h.html" title=" " alt="" coords="219,155,325,181"/>
+<area shape="rect" href="../../d5/d60/utils_8h.html" title=" " alt="" coords="667,229,781,256"/>
 </map>
 </div>
 </div>
@@ -105,6 +107,12 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a07aa8317f91c7ead6a219a1985c2e5c6"><td class="memItemLeft" align="right" valign="top"><a id="a07aa8317f91c7ead6a219a1985c2e5c6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>qcos_max</b>(a,  b)&#160;&#160;&#160;(a &gt; b) ? a : b</td></tr>
+<tr class="separator:a07aa8317f91c7ead6a219a1985c2e5c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18911854e2158baa8a9b2c6ce1c5e7d5"><td class="memItemLeft" align="right" valign="top"><a id="a18911854e2158baa8a9b2c6ce1c5e7d5"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>qcos_sqrt</b>(a)&#160;&#160;&#160;sqrt(a)</td></tr>
+<tr class="separator:a18911854e2158baa8a9b2c6ce1c5e7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5942037555e5a8bf835cb1be3c113d3"><td class="memItemLeft" align="right" valign="top"><a id="ad5942037555e5a8bf835cb1be3c113d3"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>qcos_malloc</b>&#160;&#160;&#160;malloc</td></tr>
 <tr class="separator:ad5942037555e5a8bf835cb1be3c113d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,13 +133,13 @@ typedef double&#160;</td><td class="memItemRight" valign="bottom"><b>QCOSFloat</
 <tr class="separator:a8e1f8aa880c43311fb8966b5999c6828"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
+<div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind M. Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
 <h1><a class="anchor" id="LICENSE"></a>
 LICENSE</h1>
-<p>Copyright (c) 2024, Govind Chari This source code is licensed under the BSD 2-Clause License</p>
+<p>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-Clause License</p>
 <h1><a class="anchor" id="DESCRIPTION"></a>
 DESCRIPTION</h1>
-<p>Defines QCOSInt, QCOSFloat, qcos_malloc, qcos_calloc, and qcos_free </p>
+<p>Defines QCOSInt, QCOSFloat, qcos_malloc, qcos_calloc, and qcos_free. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

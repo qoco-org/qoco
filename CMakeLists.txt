@@ -36,7 +36,7 @@ add_subdirectory(lib/qdldl)
 add_library(qcoslib SHARED)
 target_link_libraries(qcoslib qdldl)
 target_include_directories(qcoslib PUBLIC include)
-target_sources(qcoslib PRIVATE src/qcos_api.c src/validation.c src/linalg.c src/kkt.c src/utils.c)
+target_sources(qcoslib PRIVATE src/qcos_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c)
 
 # Build test executable
 add_executable(test tests/test.c)
