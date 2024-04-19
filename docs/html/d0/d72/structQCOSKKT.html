@@ -78,9 +78,8 @@ Collaboration diagram for QCOSKKT:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d7/d23/structQCOSKKT__coll__graph.png" border="0" usemap="#aQCOSKKT_coll__map" alt="Collaboration graph"/></div>
 <map name="aQCOSKKT_coll__map" id="aQCOSKKT_coll__map">
-<area shape="rect" title="Contains all data needed for constructing and modifying KKT matrix and performing predictor&#45;corrector..." alt="" coords="93,95,177,121"/>
+<area shape="rect" title="Contains all data needed for constructing and modifying KKT matrix and performing predictor&#45;corrector..." alt="" coords="25,95,109,121"/>
 <area shape="rect" href="../../d0/d99/structQCOSCscMatrix.html" title="Compressed sparse column format matrices." alt="" coords="5,5,129,32"/>
-<area shape="rect" href="../../de/db8/structQCOSVector.html" title="Internal QCOS vector." alt="" coords="153,5,253,32"/>
 </map>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -118,8 +117,10 @@ unsigned char *&#160;</td><td class="memItemRight" valign="bottom"><b>bwork</b><
 <tr class="memitem:ab27ed68f11575c1ea732efc35498f24e"><td class="memItemLeft" align="right" valign="top"><a id="ab27ed68f11575c1ea732efc35498f24e"></a>
 QCOSFloat *&#160;</td><td class="memItemRight" valign="bottom"><b>fwork</b></td></tr>
 <tr class="separator:ab27ed68f11575c1ea732efc35498f24e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a621239b01bc26133cb08eadc48dcfe03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/db8/structQCOSVector.html">QCOSVector</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d72/structQCOSKKT.html#a621239b01bc26133cb08eadc48dcfe03">rhs</a></td></tr>
-<tr class="separator:a621239b01bc26133cb08eadc48dcfe03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab54651cbde921ed57b34ea1bec90adcb"><td class="memItemLeft" align="right" valign="top">QCOSFloat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d72/structQCOSKKT.html#ab54651cbde921ed57b34ea1bec90adcb">rhs</a></td></tr>
+<tr class="separator:ab54651cbde921ed57b34ea1bec90adcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18948bf5ca0b796ac1f8eca4b35b0e67"><td class="memItemLeft" align="right" valign="top">QCOSFloat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d72/structQCOSKKT.html#a18948bf5ca0b796ac1f8eca4b35b0e67">xyz</a></td></tr>
+<tr class="separator:a18948bf5ca0b796ac1f8eca4b35b0e67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b9fb5434c1c9cab9af8784a2f4248c8"><td class="memItemLeft" align="right" valign="top">QCOSInt *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d72/structQCOSKKT.html#a7b9fb5434c1c9cab9af8784a2f4248c8">nt2kkt</a></td></tr>
 <tr class="separator:a7b9fb5434c1c9cab9af8784a2f4248c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -156,18 +157,33 @@ QCOSFloat *&#160;</td><td class="memItemRight" valign="bottom"><b>fwork</b></td>
 
 </div>
 </div>
-<a id="a621239b01bc26133cb08eadc48dcfe03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a621239b01bc26133cb08eadc48dcfe03">&#9670;&nbsp;</a></span>rhs</h2>
+<a id="ab54651cbde921ed57b34ea1bec90adcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab54651cbde921ed57b34ea1bec90adcb">&#9670;&nbsp;</a></span>rhs</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../de/db8/structQCOSVector.html">QCOSVector</a>* QCOSKKT::rhs</td>
+          <td class="memname">QCOSFloat* QCOSKKT::rhs</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Temporary variable for rhs of KKT system. </p>
+
+</div>
+</div>
+<a id="a18948bf5ca0b796ac1f8eca4b35b0e67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18948bf5ca0b796ac1f8eca4b35b0e67">&#9670;&nbsp;</a></span>xyz</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCOSFloat* QCOSKKT::xyz</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Temporary variable for solution of KKT system. </p>
 
 </div>
 </div>

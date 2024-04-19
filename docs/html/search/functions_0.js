@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bring2cone_74',['bring2cone',['../db/df0/cone_8h.html#acef168ff9f0dd13d2b60b85f159e21d6',1,'cone.c']]]
+  ['allocate_5fkkt_77',['allocate_kkt',['../db/d56/kkt_8h.html#a94dd318bc689080a4050a7c6bf5d1216',1,'kkt.c']]]
 ];

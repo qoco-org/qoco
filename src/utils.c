@@ -34,15 +34,13 @@ void print_qcos_csc_matrix(QCOSCscMatrix* M)
   printf("}\n");
 }
 
-void print_qcos_vector(QCOSVector* V)
+void print_arrayf(QCOSFloat* x, QCOSInt n)
 {
-  printf("\nPrinting Vector:\n");
-  printf("n: %d\n", V->n);
-  printf("Data: {");
-  for (QCOSInt i = 0; i < V->n; ++i) {
-    printf("%.3f", V->x[i]);
-    if (i != V->n - 1) {
-      printf(",");
+  printf("{");
+  for (QCOSInt i = 0; i < n; ++i) {
+    printf("%f", x[i]);
+    if (i != n - 1) {
+      printf(", ");
     }
   }
   printf("}\n");

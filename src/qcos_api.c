@@ -1,4 +1,5 @@
 #include "qcos_api.h"
+#include <stdio.h>
 
 QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
                        QCOSFloat* b, QCOSCscMatrix* G, QCOSFloat* h, QCOSInt l,
@@ -41,29 +42,37 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   if (!(solver->work->data)) {
     return NULL;
   }
+
+  // Copy problem data.
   solver->work->data->m = m;
   solver->work->data->n = n;
   solver->work->data->p = p;
   solver->work->data->P = new_qcos_csc_matrix(P);
   solver->work->data->A = new_qcos_csc_matrix(A);
   solver->work->data->G = new_qcos_csc_matrix(G);
-  solver->work->data->c = new_qcos_vector_from_array(c, n);
-  solver->work->data->b = new_qcos_vector_from_array(b, p);
-  solver->work->data->h = new_qcos_vector_from_array(h, m);
+  solver->work->data->c = qcos_malloc(n * sizeof(QCOSFloat));
+  solver->work->data->b = qcos_malloc(p * sizeof(QCOSFloat));
+  solver->work->data->h = qcos_malloc(m * sizeof(QCOSFloat));
+  copy_arrayf(c, solver->work->data->c, n);
+  copy_arrayf(b, solver->work->data->b, p);
+  copy_arrayf(h, solver->work->data->h, m);
   solver->work->data->q = q;
   solver->work->data->l = l;
   solver->work->data->ncones = ncones;
 
+  // Allocate KKT struct.
   solver->work->kkt = qcos_malloc(sizeof(QCOSKKT));
   solver->work->kkt->nt2kkt = qcos_calloc(m, sizeof(QCOSInt));
-  solver->work->kkt->K = initialize_kkt(solver->work->data);
-  solver->work->kkt->rhs = qcos_vector_calloc(n + m + p);
-  solver->work->x = qcos_vector_calloc(n);
-  solver->work->s = qcos_vector_calloc(m);
-  solver->work->y = qcos_vector_calloc(p);
-  solver->work->z = qcos_vector_calloc(m);
-
+  solver->work->kkt->K = allocate_kkt(solver->work->data);
+  solver->work->kkt->rhs = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
+  solver->work->kkt->xyz = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   construct_kkt(solver->work);
+
+  // Allocate primal and dual variables.
+  solver->work->x = qcos_malloc(n * sizeof(QCOSFloat));
+  solver->work->s = qcos_malloc(m * sizeof(QCOSFloat));
+  solver->work->y = qcos_malloc(p * sizeof(QCOSFloat));
+  solver->work->z = qcos_malloc(m * sizeof(QCOSFloat));
 
   QCOSInt Kn = solver->work->kkt->K->n;
   solver->work->kkt->etree = qcos_malloc(sizeof(QCOSInt) * Kn);
@@ -71,7 +80,7 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   solver->work->kkt->Lp = qcos_malloc(sizeof(QCOSInt) * (Kn + 1));
   solver->work->kkt->D = qcos_malloc(sizeof(QCOSFloat) * Kn);
   solver->work->kkt->Dinv = qcos_malloc(sizeof(QCOSFloat) * Kn);
-  solver->work->kkt->iwork = qcos_malloc(sizeof(QCOSInt) * Kn);
+  solver->work->kkt->iwork = qcos_malloc(sizeof(QCOSInt) * 3 * Kn);
   solver->work->kkt->bwork = qcos_malloc(sizeof(unsigned char) * Kn);
   solver->work->kkt->fwork = qcos_malloc(sizeof(QCOSFloat) * Kn);
 
@@ -80,6 +89,8 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
       QDLDL_etree(Kn, solver->work->kkt->K->p, solver->work->kkt->K->i,
                   solver->work->kkt->iwork, solver->work->kkt->Lnz,
                   solver->work->kkt->etree);
+
+  printf("sumLnz: %d", sumLnz);
 
   solver->work->kkt->Li = qcos_malloc(sizeof(QCOSInt) * sumLnz);
   solver->work->kkt->Lx = qcos_malloc(sizeof(QCOSFloat) * sumLnz);
@@ -122,24 +133,17 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->data->P->p);
   qcos_free(solver->work->data->P->x);
   qcos_free(solver->work->data->P);
-  qcos_free(solver->work->data->b->x);
   qcos_free(solver->work->data->b);
-  qcos_free(solver->work->data->c->x);
   qcos_free(solver->work->data->c);
-  qcos_free(solver->work->data->h->x);
   qcos_free(solver->work->data->h);
   qcos_free(solver->work->data);
 
   // Free primal and dual variables.
-  qcos_free(solver->work->kkt->rhs->x);
   qcos_free(solver->work->kkt->rhs);
-  qcos_free(solver->work->x->x);
+  qcos_free(solver->work->kkt->xyz);
   qcos_free(solver->work->x);
-  qcos_free(solver->work->s->x);
   qcos_free(solver->work->s);
-  qcos_free(solver->work->y->x);
   qcos_free(solver->work->y);
-  qcos_free(solver->work->z->x);
   qcos_free(solver->work->z);
 
   // Free KKT struct.

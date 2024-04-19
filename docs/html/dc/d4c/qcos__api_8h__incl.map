@@ -1,12 +1,12 @@
 <map id="include/qcos_api.h" name="include/qcos_api.h">
-<area shape="rect" id="node1" title=" " alt="" coords="149,5,292,32"/>
-<area shape="rect" id="node2" href="$d6/dc2/definitions_8h.html" title=" " alt="" coords="119,229,221,256"/>
-<area shape="rect" id="node6" href="$d8/d7d/input__validation_8h_source.html" title=" " alt="" coords="151,80,290,107"/>
-<area shape="rect" id="node7" href="$d1/d3d/structs_8h.html" title=" " alt="" coords="131,155,209,181"/>
-<area shape="rect" id="node8" href="$db/d56/kkt_8h.html" title=" " alt="" coords="315,80,369,107"/>
-<area shape="rect" id="node10" href="$dd/d46/linalg_8h.html" title=" " alt="" coords="5,80,76,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="41,304,112,331"/>
-<area shape="rect" id="node4" title=" " alt="" coords="136,304,204,331"/>
-<area shape="rect" id="node5" title=" " alt="" coords="228,304,299,331"/>
-<area shape="rect" id="node9" title=" " alt="" coords="303,155,370,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="147,5,290,32"/>
+<area shape="rect" id="node2" href="$d6/dc2/definitions_8h.html" title=" " alt="" coords="179,379,282,405"/>
+<area shape="rect" id="node5" href="$d8/d7d/input__validation_8h.html" title=" " alt="" coords="43,229,181,256"/>
+<area shape="rect" id="node6" href="$d1/d3d/structs_8h.html" title=" " alt="" coords="191,304,270,331"/>
+<area shape="rect" id="node7" href="$db/d56/kkt_8h.html" title=" " alt="" coords="313,80,367,107"/>
+<area shape="rect" id="node9" href="$dd/d46/linalg_8h.html" title=" " alt="" coords="307,229,378,256"/>
+<area shape="rect" id="node3" title=" " alt="" coords="150,453,218,480"/>
+<area shape="rect" id="node4" title=" " alt="" coords="242,453,313,480"/>
+<area shape="rect" id="node8" href="$db/df0/cone_8h.html" title=" " alt="" coords="307,155,373,181"/>
+<area shape="rect" id="node10" title=" " alt="" coords="448,155,515,181"/>
 </map>

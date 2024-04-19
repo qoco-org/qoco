@@ -6,27 +6,25 @@ Include dependency graph for linalg.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=273pt]{d7/d1d/linalg_8h__incl}
+\includegraphics[width=202pt]{d7/d1d/linalg_8h__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=292pt]{d4/d90/linalg_8h__dep__incl}
+\includegraphics[width=246pt]{d4/d90/linalg_8h__dep__incl}
 \end{center}
 \end{figure}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ \mbox{\hyperlink{linalg_8h_a8c09c2282a7d49674d44f43fe7de083c}{qcos\+\_\+vector\+\_\+calloc}} (QCOSInt n)
-\begin{DoxyCompactList}\small\item\em Allocates a \mbox{\hyperlink{structQCOSVector}{QCOSVector}} of length n and zeros out the data. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$ \mbox{\hyperlink{linalg_8h_a48fe41ad1659f444e12a98fe0b21ccd3}{new\+\_\+qcos\+\_\+csc\+\_\+matrix}} (\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$A)
 \begin{DoxyCompactList}\small\item\em Allocates a new csc matrix and copies A to it. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ \mbox{\hyperlink{linalg_8h_aea9e888ecc581b124162ad05e4e2bc6f}{new\+\_\+qcos\+\_\+vector\+\_\+from\+\_\+array}} (QCOSFloat $\ast$x, QCOSInt n)
-\begin{DoxyCompactList}\small\item\em Constructs a new \mbox{\hyperlink{structQCOSVector}{QCOSVector}} from raw array. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{linalg_8h_a5310a059682ace127e99691242b6e537}{copy\+\_\+arrayf}} (const QCOSFloat $\ast$x, QCOSFloat $\ast$y, QCOSInt n)
 \begin{DoxyCompactList}\small\item\em Copies array of QCOSFloats from x to array y. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{linalg_8h_ae780f3d6161a166977bf584f2564b09c}{copy\+\_\+and\+\_\+negate\+\_\+arrayf}} (const QCOSFloat $\ast$x, QCOSFloat $\ast$y, QCOSInt n)
+\begin{DoxyCompactList}\small\item\em Copies and negates array of QCOSFloats from x to array y. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{linalg_8h_a441dbb63eaf3e562be9e033c0933e2d5}{copy\+\_\+arrayi}} (const QCOSInt $\ast$x, QCOSInt $\ast$y, QCOSInt n)
 \begin{DoxyCompactList}\small\item\em Copies array of QCOSInts from x to array y. \end{DoxyCompactList}\item 
 QCOSFloat \mbox{\hyperlink{linalg_8h_a5f379401b4b367c0971b7dd2514b2f64}{dot}} (QCOSFloat $\ast$u, QCOSFloat $\ast$v, QCOSInt n)
@@ -42,6 +40,25 @@ Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2
 Provides various linear algebra operations. 
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{linalg_8h_ae780f3d6161a166977bf584f2564b09c}\label{linalg_8h_ae780f3d6161a166977bf584f2564b09c}} 
+\index{linalg.h@{linalg.h}!copy\_and\_negate\_arrayf@{copy\_and\_negate\_arrayf}}
+\index{copy\_and\_negate\_arrayf@{copy\_and\_negate\_arrayf}!linalg.h@{linalg.h}}
+\doxysubsubsection{\texorpdfstring{copy\_and\_negate\_arrayf()}{copy\_and\_negate\_arrayf()}}
+{\footnotesize\ttfamily void copy\+\_\+and\+\_\+negate\+\_\+arrayf (\begin{DoxyParamCaption}\item[{const QCOSFloat $\ast$}]{x,  }\item[{QCOSFloat $\ast$}]{y,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
+
+
+
+Copies and negates array of QCOSFloats from x to array y. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Source array. \\
+\hline
+{\em y} & Destination array. \\
+\hline
+{\em n} & Length of arrays. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{linalg_8h_a5310a059682ace127e99691242b6e537}\label{linalg_8h_a5310a059682ace127e99691242b6e537}} 
 \index{linalg.h@{linalg.h}!copy\_arrayf@{copy\_arrayf}}
 \index{copy\_arrayf@{copy\_arrayf}!linalg.h@{linalg.h}}
@@ -119,42 +136,4 @@ Allocates a new csc matrix and copies A to it.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Pointer to new constructed matrix. 
-\end{DoxyReturn}
-\mbox{\Hypertarget{linalg_8h_aea9e888ecc581b124162ad05e4e2bc6f}\label{linalg_8h_aea9e888ecc581b124162ad05e4e2bc6f}} 
-\index{linalg.h@{linalg.h}!new\_qcos\_vector\_from\_array@{new\_qcos\_vector\_from\_array}}
-\index{new\_qcos\_vector\_from\_array@{new\_qcos\_vector\_from\_array}!linalg.h@{linalg.h}}
-\doxysubsubsection{\texorpdfstring{new\_qcos\_vector\_from\_array()}{new\_qcos\_vector\_from\_array()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSVector}{QCOSVector}}$\ast$ new\+\_\+qcos\+\_\+vector\+\_\+from\+\_\+array (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{x,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
-
-
-
-Constructs a new \mbox{\hyperlink{structQCOSVector}{QCOSVector}} from raw array. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em x} & Raw array of data. \\
-\hline
-{\em n} & Length of raw array. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Pointer to new vector. 
-\end{DoxyReturn}
-\mbox{\Hypertarget{linalg_8h_a8c09c2282a7d49674d44f43fe7de083c}\label{linalg_8h_a8c09c2282a7d49674d44f43fe7de083c}} 
-\index{linalg.h@{linalg.h}!qcos\_vector\_calloc@{qcos\_vector\_calloc}}
-\index{qcos\_vector\_calloc@{qcos\_vector\_calloc}!linalg.h@{linalg.h}}
-\doxysubsubsection{\texorpdfstring{qcos\_vector\_calloc()}{qcos\_vector\_calloc()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSVector}{QCOSVector}}$\ast$ qcos\+\_\+vector\+\_\+calloc (\begin{DoxyParamCaption}\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
-
-
-
-Allocates a \mbox{\hyperlink{structQCOSVector}{QCOSVector}} of length n and zeros out the data. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em n} & Length of vector to allocate. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Pointer to allocated \mbox{\hyperlink{structQCOSVector}{QCOSVector}}. 
 \end{DoxyReturn}

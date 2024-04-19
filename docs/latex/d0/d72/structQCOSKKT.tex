@@ -15,7 +15,7 @@ Collaboration diagram for QCOSKKT\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=266pt]{d7/d23/structQCOSKKT__coll__graph}
+\includegraphics[width=173pt]{d7/d23/structQCOSKKT__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Attributes}
@@ -53,7 +53,9 @@ unsigned char $\ast$ {\bfseries bwork}
 \mbox{\Hypertarget{structQCOSKKT_ab27ed68f11575c1ea732efc35498f24e}\label{structQCOSKKT_ab27ed68f11575c1ea732efc35498f24e}} 
 QCOSFloat $\ast$ {\bfseries fwork}
 \item 
-\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$ \mbox{\hyperlink{structQCOSKKT_a621239b01bc26133cb08eadc48dcfe03}{rhs}}
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSKKT_ab54651cbde921ed57b34ea1bec90adcb}{rhs}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSKKT_a18948bf5ca0b796ac1f8eca4b35b0e67}{xyz}}
 \item 
 QCOSInt $\ast$ \mbox{\hyperlink{structQCOSKKT_a7b9fb5434c1c9cab9af8784a2f4248c8}{nt2kkt}}
 \end{DoxyCompactItemize}
@@ -75,13 +77,19 @@ KKT matrix in CSC form. \mbox{\Hypertarget{structQCOSKKT_a7b9fb5434c1c9cab9af878
 \doxysubsubsection{\texorpdfstring{nt2kkt}{nt2kkt}}
 {\footnotesize\ttfamily QCOSInt$\ast$ QCOSKKT\+::nt2kkt}
 
-Mapping from elements in the Nesterov-\/\+Todd scaling matrix to elements in the KKT matrix. \mbox{\Hypertarget{structQCOSKKT_a621239b01bc26133cb08eadc48dcfe03}\label{structQCOSKKT_a621239b01bc26133cb08eadc48dcfe03}} 
+Mapping from elements in the Nesterov-\/\+Todd scaling matrix to elements in the KKT matrix. \mbox{\Hypertarget{structQCOSKKT_ab54651cbde921ed57b34ea1bec90adcb}\label{structQCOSKKT_ab54651cbde921ed57b34ea1bec90adcb}} 
 \index{QCOSKKT@{QCOSKKT}!rhs@{rhs}}
 \index{rhs@{rhs}!QCOSKKT@{QCOSKKT}}
 \doxysubsubsection{\texorpdfstring{rhs}{rhs}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSVector}{QCOSVector}}$\ast$ QCOSKKT\+::rhs}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSKKT\+::rhs}
 
-Temporary variable for rhs of KKT system. 
+Temporary variable for rhs of KKT system. \mbox{\Hypertarget{structQCOSKKT_a18948bf5ca0b796ac1f8eca4b35b0e67}\label{structQCOSKKT_a18948bf5ca0b796ac1f8eca4b35b0e67}} 
+\index{QCOSKKT@{QCOSKKT}!xyz@{xyz}}
+\index{xyz@{xyz}!QCOSKKT@{QCOSKKT}}
+\doxysubsubsection{\texorpdfstring{xyz}{xyz}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSKKT\+::xyz}
+
+Temporary variable for solution of KKT system. 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

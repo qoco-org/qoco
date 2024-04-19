@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['initialize_5fkkt_81',['initialize_kkt',['../db/d56/kkt_8h.html#a09efbb155edbfb309e34abf1980e5ad6',1,'kkt.c']]]
+  ['dot_85',['dot',['../dd/d46/linalg_8h.html#a5f379401b4b367c0971b7dd2514b2f64',1,'linalg.c']]]
 ];

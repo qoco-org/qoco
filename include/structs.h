@@ -43,19 +43,6 @@ typedef struct {
 } QCOSCscMatrix;
 
 /**
- * @brief Internal QCOS vector.
- *
- */
-typedef struct {
-  /** Data. */
-  QCOSFloat* x;
-
-  /** Length of vector. */
-  QCOSInt n;
-
-} QCOSVector;
-
-/**
  * @brief SOCP problem data.
  *
  */
@@ -64,19 +51,19 @@ typedef struct {
   QCOSCscMatrix* P; //
 
   /** Linear cost term. */
-  QCOSVector* c;
+  QCOSFloat* c;
 
   /** Affine equality constraint matrix. */
   QCOSCscMatrix* A;
 
   /** Affine equality constraint offset. */
-  QCOSVector* b;
+  QCOSFloat* b;
 
   /** Conic constraint matrix. */
   QCOSCscMatrix* G;
 
   /** Conic constraint offset. */
-  QCOSVector* h;
+  QCOSFloat* h;
 
   /** Dimension of non-negative orthant in cone C. */
   QCOSInt l;
@@ -137,7 +124,10 @@ typedef struct {
   QCOSFloat* fwork;
 
   /** Temporary variable for rhs of KKT system. */
-  QCOSVector* rhs;
+  QCOSFloat* rhs;
+
+  /** Temporary variable for solution of KKT system. */
+  QCOSFloat* xyz;
 
   /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
    * the KKT matrix. */
@@ -156,16 +146,16 @@ typedef struct {
   QCOSKKT* kkt;
 
   /** Iterate of primal variables. */
-  QCOSVector* x;
+  QCOSFloat* x;
 
   /** Iterate of slack variables associated with conic constraint. */
-  QCOSVector* s;
+  QCOSFloat* s;
 
   /** Iterate of dual variables associated with affine equality constraint. */
-  QCOSVector* y;
+  QCOSFloat* y;
 
   /** Iterate of dual variables associated with conic constraint. */
-  QCOSVector* z;
+  QCOSFloat* z;
 
 } QCOSWorkspace;
 

@@ -26,11 +26,12 @@
 void print_qcos_csc_matrix(QCOSCscMatrix* M);
 
 /**
- * @brief Prints QCOSVector.
+ * @brief Prints array of QCOSFloats.
  *
- * @param V Pointer to QCOSVector that will be printed.
+ * @param x Pointer to array.
+ * @param n Number of elements in array.
  */
-void print_qcos_vector(QCOSVector* V);
+void print_arrayf(QCOSFloat* x, QCOSInt n);
 
 /**
  * @brief Prints qcos header.

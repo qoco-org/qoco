@@ -1,6 +1,6 @@
 #include "kkt.h"
 
-QCOSCscMatrix* initialize_kkt(QCOSProblemData* data)
+QCOSCscMatrix* allocate_kkt(QCOSProblemData* data)
 {
   QCOSCscMatrix* K = qcos_malloc(sizeof(QCOSCscMatrix));
 
@@ -84,4 +84,59 @@ void construct_kkt(QCOSWorkspace* work)
   }
 }
 
-// void initialize_ipm(QCOSSolver* solver) {}
+void initialize_ipm(QCOSSolver* solver)
+{
+
+  // Construct rhs of KKT system and initialize the solution variable to the
+  // right hand side (needed by qdldl).
+  QCOSInt idx;
+  for (idx = 0; idx < solver->work->data->n; ++idx) {
+    solver->work->kkt->rhs[idx] = -solver->work->data->c[idx];
+    solver->work->kkt->xyz[idx] = -solver->work->data->c[idx];
+  }
+  for (QCOSInt i = 0; i < solver->work->data->p; ++i) {
+    solver->work->kkt->rhs[idx] = solver->work->data->b[i];
+    solver->work->kkt->xyz[idx] = solver->work->data->b[i];
+    idx += 1;
+  }
+  for (QCOSInt i = 0; i < solver->work->data->m; ++i) {
+    solver->work->kkt->rhs[idx] = solver->work->data->h[i];
+    solver->work->kkt->xyz[idx] = solver->work->data->h[i];
+    idx += 1;
+  }
+
+  // Factor KKT matrix.
+  QDLDL_factor(solver->work->kkt->K->n, solver->work->kkt->K->p,
+               solver->work->kkt->K->i, solver->work->kkt->K->x,
+               solver->work->kkt->Lp, solver->work->kkt->Li,
+               solver->work->kkt->Lx, solver->work->kkt->D,
+               solver->work->kkt->Dinv, solver->work->kkt->Lnz,
+               solver->work->kkt->etree, solver->work->kkt->bwork,
+               solver->work->kkt->iwork, solver->work->kkt->fwork);
+
+  // Solve KKT system.
+  QDLDL_solve(solver->work->kkt->K->n, solver->work->kkt->Lp,
+              solver->work->kkt->Li, solver->work->kkt->Lx,
+              solver->work->kkt->Dinv, solver->work->kkt->xyz);
+
+  // Copy x part of solution to x.
+  copy_arrayf(solver->work->kkt->xyz, solver->work->x, solver->work->data->n);
+
+  // Copy y part of solution to y.
+  copy_arrayf(&solver->work->kkt->xyz[solver->work->data->n], solver->work->y,
+              solver->work->data->p);
+
+  // Copy z part of solution to z.
+  copy_arrayf(
+      &solver->work->kkt->xyz[solver->work->data->n + solver->work->data->p],
+      solver->work->z, solver->work->data->m);
+
+  // Copy and negate z part of solution to s.
+  copy_and_negate_arrayf(
+      &solver->work->kkt->xyz[solver->work->data->n + solver->work->data->p],
+      solver->work->s, solver->work->data->m);
+
+  // Bring s and z to cone C.
+  bring2cone(solver->work->s, solver->work->data);
+  bring2cone(solver->work->z, solver->work->data);
+}

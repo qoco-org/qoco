@@ -44,21 +44,16 @@ int main()
 
   QCOSSolver* solver = qcos_setup(P, c, A, b, G, h, l, ncones, q, settings);
 
-  print_qcos_csc_matrix(solver->work->kkt->K);
+  initialize_ipm(solver);
 
-  // for (int i = 0; i < m; ++i) {
-  //   printf("%d, ", solver->work->kkt->nt2kkt[i]);
-  // }
-  // QCOSFloat u[] = {0, 0, 0, 4, 5, 6};
-  // bring2cone(u, solver->work->data);
-  // QCOSFloat res = cone_residual(u, solver->work->data);
-  // printf("Residual: %f\n", res);
-  // QCOSFloat v[] = {1, 2, 3, 4, 5, 6};
-  // QCOSFloat prod[] = {0, 0, 0, 0, 0, 0};
-  // cone_product(u, v, prod, solver->work->data);
-  // for (int i = 0; i < 6; ++i) {
-  //   printf("%f, ", u[i]);
-  // }
+  printf("x: ");
+  print_arrayf(solver->work->x, n);
+  printf("s: ");
+  print_arrayf(solver->work->s, m);
+  printf("y: ");
+  print_arrayf(solver->work->y, p);
+  printf("z: ");
+  print_arrayf(solver->work->z, m);
 
   if (solver) {
     qcos_cleanup(solver);

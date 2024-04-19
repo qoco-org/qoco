@@ -6,14 +6,15 @@ void print_arrayi(const QDLDL_int* data, QDLDL_int n, char* varName);
 void print_arrayf(const QDLDL_float* data, QDLDL_int n, char* varName);
 void print_line(void);
 
-const QDLDL_int An = 10;
-const QDLDL_int Ap[] = {0, 1, 2, 4, 5, 6, 8, 10, 12, 14, 17};
-const QDLDL_int Ai[] = {0, 1, 1, 2, 3, 4, 1, 5, 0, 6, 3, 7, 6, 8, 1, 2, 9};
-const QDLDL_float Ax[] = {
-    1.0,        0.460641,  -0.121189, 0.417928,  0.177828,   0.1,
-    -0.0290058, -1.0,      0.350321,  -0.441092, -0.0845395, -0.316228,
-    0.178663,   -0.299077, 0.182452,  -1.56506,  -0.1};
-const QDLDL_float b[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+const QDLDL_int An = 14;
+const QDLDL_int Ap[] = {0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 20, 22};
+const QDLDL_int Ai[] = {0, 1, 2, 3, 4,  5, 0,  1, 1,  2, 0,
+                        8, 1, 9, 2, 10, 3, 11, 4, 12, 5, 13};
+const QDLDL_float Ax[] = {1.000,  2.000,  3.000,  4.000,  5.000,  6.000,
+                          1.000,  1.000,  1.000,  2.000,  -1.000, -1.000,
+                          -1.000, -1.000, -1.000, -1.000, -1.000, -1.000,
+                          -1.000, -1.000, -1.000, -1.000};
+const QDLDL_float b[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
 
 int main()
 
@@ -71,6 +72,8 @@ int main()
    * elimination tree calculation
    *---------------------------------*/
   sumLnz = QDLDL_etree(An, Ap, Ai, iwork, Lnz, etree);
+
+  printf("sumLnz: %d", sumLnz);
 
   /*--------------------------------
    * LDL factorisation

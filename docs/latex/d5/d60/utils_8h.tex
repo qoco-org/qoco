@@ -6,7 +6,7 @@ Include dependency graph for utils.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=275pt]{db/d29/utils_8h__incl}
+\includegraphics[width=239pt]{db/d29/utils_8h__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
@@ -21,8 +21,8 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \item 
 void \mbox{\hyperlink{utils_8h_af6aef0df372cd3c15b0b69f1d745bd9a}{print\+\_\+qcos\+\_\+csc\+\_\+matrix}} (\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$M)
 \begin{DoxyCompactList}\small\item\em Prints \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}}. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{utils_8h_ac85463737feac98612a58af6e975b89b}{print\+\_\+qcos\+\_\+vector}} (\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$V)
-\begin{DoxyCompactList}\small\item\em Prints \mbox{\hyperlink{structQCOSVector}{QCOSVector}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_adb98c110934765387c256d85f876a56d}{print\+\_\+arrayf}} (QCOSFloat $\ast$x, QCOSInt n)
+\begin{DoxyCompactList}\small\item\em Prints array of QCOSFloats. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{utils_8h_aab0a749241244d13922556533aeb7069}\label{utils_8h_aab0a749241244d13922556533aeb7069}} 
 void \mbox{\hyperlink{utils_8h_aab0a749241244d13922556533aeb7069}{print\+\_\+header}} ()
 \begin{DoxyCompactList}\small\item\em Prints qcos header. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -37,6 +37,23 @@ Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2
 Provides useful utility functions. 
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{utils_8h_adb98c110934765387c256d85f876a56d}\label{utils_8h_adb98c110934765387c256d85f876a56d}} 
+\index{utils.h@{utils.h}!print\_arrayf@{print\_arrayf}}
+\index{print\_arrayf@{print\_arrayf}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{print\_arrayf()}{print\_arrayf()}}
+{\footnotesize\ttfamily void print\+\_\+arrayf (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{x,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
+
+
+
+Prints array of QCOSFloats. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Pointer to array. \\
+\hline
+{\em n} & Number of elements in array. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{utils_8h_af6aef0df372cd3c15b0b69f1d745bd9a}\label{utils_8h_af6aef0df372cd3c15b0b69f1d745bd9a}} 
 \index{utils.h@{utils.h}!print\_qcos\_csc\_matrix@{print\_qcos\_csc\_matrix}}
 \index{print\_qcos\_csc\_matrix@{print\_qcos\_csc\_matrix}!utils.h@{utils.h}}
@@ -50,20 +67,5 @@ Prints \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}}.
 
 \begin{DoxyParams}{Parameters}
 {\em M} & Pointer to \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} that will be printed. \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{utils_8h_ac85463737feac98612a58af6e975b89b}\label{utils_8h_ac85463737feac98612a58af6e975b89b}} 
-\index{utils.h@{utils.h}!print\_qcos\_vector@{print\_qcos\_vector}}
-\index{print\_qcos\_vector@{print\_qcos\_vector}!utils.h@{utils.h}}
-\doxysubsubsection{\texorpdfstring{print\_qcos\_vector()}{print\_qcos\_vector()}}
-{\footnotesize\ttfamily void print\+\_\+qcos\+\_\+vector (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSVector}{QCOSVector}} $\ast$}]{V }\end{DoxyParamCaption})}
-
-
-
-Prints \mbox{\hyperlink{structQCOSVector}{QCOSVector}}. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em V} & Pointer to \mbox{\hyperlink{structQCOSVector}{QCOSVector}} that will be printed. \\
 \hline
 \end{DoxyParams}

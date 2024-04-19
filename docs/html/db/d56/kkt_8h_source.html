@@ -73,19 +73,27 @@ $(function() {
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#ifndef QCOS_KKT_H</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#define QCOS_KKT_H</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;qdldl.h&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/d3d/structs_8h.html">structs.h</a>&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<a class="code" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a>* <a class="code" href="../../db/d56/kkt_8h.html#a09efbb155edbfb309e34abf1980e5ad6">initialize_kkt</a>(<a class="code" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a>* data);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d56/kkt_8h.html#a489712294c041513c348e2983c492b6d">construct_kkt</a>(<a class="code" href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a>* work);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* #ifndef QCOS_KKT_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="akkt_8h_html_a09efbb155edbfb309e34abf1980e5ad6"><div class="ttname"><a href="../../db/d56/kkt_8h.html#a09efbb155edbfb309e34abf1980e5ad6">initialize_kkt</a></div><div class="ttdeci">QCOSCscMatrix * initialize_kkt(QCOSProblemData *data)</div><div class="ttdoc">Allocate memory for KKT matrix.</div><div class="ttdef"><b>Definition:</b> kkt.c:3</div></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../db/df0/cone_8h.html">cone.h</a>&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dd/d46/linalg_8h.html">linalg.h</a>&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;qdldl.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/d3d/structs_8h.html">structs.h</a>&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<a class="code" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a>* <a class="code" href="../../db/d56/kkt_8h.html#a94dd318bc689080a4050a7c6bf5d1216">allocate_kkt</a>(<a class="code" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a>* data);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d56/kkt_8h.html#a489712294c041513c348e2983c492b6d">construct_kkt</a>(<a class="code" href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a>* work);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d56/kkt_8h.html#a944d74cccfbc1ee385c89c3b3232d4e0">initialize_ipm</a>(<a class="code" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a>* solver);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* #ifndef QCOS_KKT_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="acone_8h_html"><div class="ttname"><a href="../../db/df0/cone_8h.html">cone.h</a></div></div>
 <div class="ttc" id="akkt_8h_html_a489712294c041513c348e2983c492b6d"><div class="ttname"><a href="../../db/d56/kkt_8h.html#a489712294c041513c348e2983c492b6d">construct_kkt</a></div><div class="ttdeci">void construct_kkt(QCOSWorkspace *work)</div><div class="ttdoc">Constructs upper triangular part of KKT matrix with -I for Nestrov-Todd scaling matrix (the (3,...</div><div class="ttdef"><b>Definition:</b> kkt.c:20</div></div>
+<div class="ttc" id="akkt_8h_html_a944d74cccfbc1ee385c89c3b3232d4e0"><div class="ttname"><a href="../../db/d56/kkt_8h.html#a944d74cccfbc1ee385c89c3b3232d4e0">initialize_ipm</a></div><div class="ttdeci">void initialize_ipm(QCOSSolver *solver)</div><div class="ttdoc">Gets initial values for primal and dual variables such that (s,z) \in C.</div><div class="ttdef"><b>Definition:</b> kkt.c:87</div></div>
+<div class="ttc" id="akkt_8h_html_a94dd318bc689080a4050a7c6bf5d1216"><div class="ttname"><a href="../../db/d56/kkt_8h.html#a94dd318bc689080a4050a7c6bf5d1216">allocate_kkt</a></div><div class="ttdeci">QCOSCscMatrix * allocate_kkt(QCOSProblemData *data)</div><div class="ttdoc">Allocate memory for KKT matrix.</div><div class="ttdef"><b>Definition:</b> kkt.c:3</div></div>
+<div class="ttc" id="alinalg_8h_html"><div class="ttname"><a href="../../dd/d46/linalg_8h.html">linalg.h</a></div></div>
 <div class="ttc" id="astructQCOSCscMatrix_html"><div class="ttname"><a href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a></div><div class="ttdoc">Compressed sparse column format matrices.</div><div class="ttdef"><b>Definition:</b> structs.h:24</div></div>
-<div class="ttc" id="astructQCOSProblemData_html"><div class="ttname"><a href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a></div><div class="ttdoc">SOCP problem data.</div><div class="ttdef"><b>Definition:</b> structs.h:62</div></div>
-<div class="ttc" id="astructQCOSWorkspace_html"><div class="ttname"><a href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a></div><div class="ttdoc">QCOS Workspace.</div><div class="ttdef"><b>Definition:</b> structs.h:151</div></div>
+<div class="ttc" id="astructQCOSProblemData_html"><div class="ttname"><a href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a></div><div class="ttdoc">SOCP problem data.</div><div class="ttdef"><b>Definition:</b> structs.h:49</div></div>
+<div class="ttc" id="astructQCOSSolver_html"><div class="ttname"><a href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a></div><div class="ttdoc">QCOS Solver struct. Contains all information about the state of the solver.</div><div class="ttdef"><b>Definition:</b> structs.h:167</div></div>
+<div class="ttc" id="astructQCOSWorkspace_html"><div class="ttname"><a href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a></div><div class="ttdoc">QCOS Workspace.</div><div class="ttdef"><b>Definition:</b> structs.h:141</div></div>
 <div class="ttc" id="astructs_8h_html"><div class="ttname"><a href="../../d1/d3d/structs_8h.html">structs.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

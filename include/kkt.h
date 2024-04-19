@@ -16,6 +16,8 @@
 #ifndef QCOS_KKT_H
 #define QCOS_KKT_H
 
+#include "cone.h"
+#include "linalg.h"
 #include "qdldl.h"
 #include "structs.h"
 
@@ -23,9 +25,9 @@
  * @brief Allocate memory for KKT matrix.
  *
  * @param data Pointer to problem data.
- * @return Pointer to initialized KKT matrix.
+ * @return Pointer to allocated KKT matrix.
  */
-QCOSCscMatrix* initialize_kkt(QCOSProblemData* data);
+QCOSCscMatrix* allocate_kkt(QCOSProblemData* data);
 
 /**
  * @brief Constructs upper triangular part of KKT matrix with -I
@@ -42,5 +44,13 @@ QCOSCscMatrix* initialize_kkt(QCOSProblemData* data);
  * @param work Pointer to QCOSWorkspace
  */
 void construct_kkt(QCOSWorkspace* work);
+
+/**
+ * @brief Gets initial values for primal and dual variables such that (s,z) \in
+ * C.
+ *
+ * @param solver Pointer to solver.
+ */
+void initialize_ipm(QCOSSolver* solver);
 
 #endif /* #ifndef QCOS_KKT_H */

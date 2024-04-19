@@ -69,23 +69,25 @@ $(function() {
 <div class="title">input_validation.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<a href="../../d8/d7d/input__validation_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#ifndef INPUT_VALIDATION_H</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define INPUT_VALIDATION_H</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/d3d/structs_8h.html">structs.h</a>&quot;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;QCOSInt qcos_validate_settings(<a class="code" href="../../d9/dc4/structQCOSSettings.html">QCOSSettings</a>* settings);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;QCOSInt <a class="code" href="../../d8/d7d/input__validation_8h.html#af4dfee0713dc613e41afa1349771a265">qcos_validate_settings</a>(<a class="code" href="../../d9/dc4/structQCOSSettings.html">QCOSSettings</a>* settings);</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;QCOSInt qcos_validate_data(<span class="keyword">const</span> <a class="code" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a>* P, <span class="keyword">const</span> QCOSFloat* c,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;QCOSInt <a class="code" href="../../d8/d7d/input__validation_8h.html#ab202cf62a49219cc7705e00249c20cea">qcos_validate_data</a>(<span class="keyword">const</span> <a class="code" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a>* P, <span class="keyword">const</span> QCOSFloat* c,</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                           <span class="keyword">const</span> <a class="code" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a>* A, <span class="keyword">const</span> QCOSFloat* b,</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                           <span class="keyword">const</span> <a class="code" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a>* G, <span class="keyword">const</span> QCOSFloat* h,</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                           <span class="keyword">const</span> QCOSInt l, <span class="keyword">const</span> QCOSInt ncones,</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                           <span class="keyword">const</span> QCOSInt* q);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* #ifndef INPUT_VALIDATION_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="ainput__validation_8h_html_ab202cf62a49219cc7705e00249c20cea"><div class="ttname"><a href="../../d8/d7d/input__validation_8h.html#ab202cf62a49219cc7705e00249c20cea">qcos_validate_data</a></div><div class="ttdeci">QCOSInt qcos_validate_data(const QCOSCscMatrix *P, const QCOSFloat *c, const QCOSCscMatrix *A, const QCOSFloat *b, const QCOSCscMatrix *G, const QCOSFloat *h, const QCOSInt l, const QCOSInt ncones, const QCOSInt *q)</div><div class="ttdoc">Validate problem data.</div><div class="ttdef"><b>Definition:</b> input_validation.c:10</div></div>
+<div class="ttc" id="ainput__validation_8h_html_af4dfee0713dc613e41afa1349771a265"><div class="ttname"><a href="../../d8/d7d/input__validation_8h.html#af4dfee0713dc613e41afa1349771a265">qcos_validate_settings</a></div><div class="ttdeci">QCOSInt qcos_validate_settings(QCOSSettings *settings)</div><div class="ttdoc">Validates solver settings.</div><div class="ttdef"><b>Definition:</b> input_validation.c:3</div></div>
 <div class="ttc" id="astructQCOSCscMatrix_html"><div class="ttname"><a href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a></div><div class="ttdoc">Compressed sparse column format matrices.</div><div class="ttdef"><b>Definition:</b> structs.h:24</div></div>
-<div class="ttc" id="astructQCOSSettings_html"><div class="ttname"><a href="../../d9/dc4/structQCOSSettings.html">QCOSSettings</a></div><div class="ttdoc">QCOS solver settings.</div><div class="ttdef"><b>Definition:</b> structs.h:105</div></div>
+<div class="ttc" id="astructQCOSSettings_html"><div class="ttname"><a href="../../d9/dc4/structQCOSSettings.html">QCOSSettings</a></div><div class="ttdoc">QCOS solver settings.</div><div class="ttdef"><b>Definition:</b> structs.h:92</div></div>
 <div class="ttc" id="astructs_8h_html"><div class="ttname"><a href="../../d1/d3d/structs_8h.html">structs.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
