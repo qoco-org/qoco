@@ -16,6 +16,7 @@
 #ifndef QCOS_KKT_H
 #define QCOS_KKT_H
 
+#include "qdldl.h"
 #include "structs.h"
 
 /**

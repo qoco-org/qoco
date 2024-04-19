@@ -15,14 +15,11 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-// Needed for int64_t and int32_t datatypes.
-#include "stdint.h"
-
 // Define QCOSInt and QCOSFloat.
 #ifdef QCOS_LONG_INT
-typedef int64_t QCOSInt;
+typedef long long QCOSInt;
 #else
-typedef int32_t QCOSInt;
+typedef int QCOSInt;
 #endif
 
 #ifdef QCOS_SINGLE_PRECISION

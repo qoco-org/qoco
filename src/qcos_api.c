@@ -65,6 +65,25 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
 
   construct_kkt(solver->work);
 
+  QCOSInt Kn = solver->work->kkt->K->n;
+  solver->work->kkt->etree = qcos_malloc(sizeof(QCOSInt) * Kn);
+  solver->work->kkt->Lnz = qcos_malloc(sizeof(QCOSInt) * Kn);
+  solver->work->kkt->Lp = qcos_malloc(sizeof(QCOSInt) * (Kn + 1));
+  solver->work->kkt->D = qcos_malloc(sizeof(QCOSFloat) * Kn);
+  solver->work->kkt->Dinv = qcos_malloc(sizeof(QCOSFloat) * Kn);
+  solver->work->kkt->iwork = qcos_malloc(sizeof(QCOSInt) * Kn);
+  solver->work->kkt->bwork = qcos_malloc(sizeof(unsigned char) * Kn);
+  solver->work->kkt->fwork = qcos_malloc(sizeof(QCOSFloat) * Kn);
+
+  // Compute elimination tree.
+  QCOSInt sumLnz =
+      QDLDL_etree(Kn, solver->work->kkt->K->p, solver->work->kkt->K->i,
+                  solver->work->kkt->iwork, solver->work->kkt->Lnz,
+                  solver->work->kkt->etree);
+
+  solver->work->kkt->Li = qcos_malloc(sizeof(QCOSInt) * sumLnz);
+  solver->work->kkt->Lx = qcos_malloc(sizeof(QCOSFloat) * sumLnz);
+
   return solver;
 }
 
@@ -129,6 +148,16 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->kkt->K->x);
   qcos_free(solver->work->kkt->K);
   qcos_free(solver->work->kkt->nt2kkt);
+  qcos_free(solver->work->kkt->etree);
+  qcos_free(solver->work->kkt->Lnz);
+  qcos_free(solver->work->kkt->Lp);
+  qcos_free(solver->work->kkt->D);
+  qcos_free(solver->work->kkt->Dinv);
+  qcos_free(solver->work->kkt->iwork);
+  qcos_free(solver->work->kkt->bwork);
+  qcos_free(solver->work->kkt->fwork);
+  qcos_free(solver->work->kkt->Li);
+  qcos_free(solver->work->kkt->Lx);
   qcos_free(solver->work->kkt);
 
   qcos_free(solver->work);

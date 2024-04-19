@@ -116,6 +116,26 @@ typedef struct {
   /** KKT matrix in CSC form. */
   QCOSCscMatrix* K;
 
+  QCOSInt* etree;
+
+  QCOSInt* Lnz;
+
+  QCOSInt* Lp;
+
+  QCOSInt* Li;
+
+  QCOSFloat* Lx;
+
+  QCOSFloat* D;
+
+  QCOSFloat* Dinv;
+
+  QCOSInt* iwork;
+
+  unsigned char* bwork;
+
+  QCOSFloat* fwork;
+
   /** Temporary variable for rhs of KKT system. */
   QCOSVector* rhs;
 

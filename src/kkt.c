@@ -84,4 +84,4 @@ void construct_kkt(QCOSWorkspace* work)
   }
 }
 
-void initialize_ipm(QCOSSolver* solver) {}
+// void initialize_ipm(QCOSSolver* solver) {}
