@@ -62,4 +62,14 @@ void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n);
  */
 QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n);
 
+/**
+ * @brief Sparse matrix vector multiplication for CSC matrices where M is
+ * symmetric and only the upper triangular part is given. Computes r = M * v
+ *
+ * @param M Upper triangular part of M in CSC form.
+ * @param v Vector.
+ * @param r Result.
+ */
+void qcos_USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
+
 #endif /* #ifndef LINALG_H*/

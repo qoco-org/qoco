@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dot_85',['dot',['../dd/d46/linalg_8h.html#a5f379401b4b367c0971b7dd2514b2f64',1,'linalg.c']]]
+  ['dot_97',['dot',['../dd/d46/linalg_8h.html#a5f379401b4b367c0971b7dd2514b2f64',1,'linalg.c']]]
 ];

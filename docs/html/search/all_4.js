@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['g_15',['G',['../d7/d42/structQCOSProblemData.html#a41a751cc1569551d2190d4c5c19d12e9',1,'QCOSProblemData']]]
+  ['etree_17',['etree',['../d0/d72/structQCOSKKT.html#a3335822154b92bf92ddbb96a8d18f27e',1,'QCOSKKT']]]
 ];

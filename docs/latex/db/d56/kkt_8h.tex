@@ -26,7 +26,11 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 void \mbox{\hyperlink{kkt_8h_a489712294c041513c348e2983c492b6d}{construct\+\_\+kkt}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
 \begin{DoxyCompactList}\small\item\em Constructs upper triangular part of KKT matrix with -\/I for Nestrov-\/\+Todd scaling matrix (the (3,3) block) \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{kkt_8h_a944d74cccfbc1ee385c89c3b3232d4e0}{initialize\+\_\+ipm}} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
-\begin{DoxyCompactList}\small\item\em Gets initial values for primal and dual variables such that (s,z) \textbackslash{}in C. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Gets initial values for primal and dual variables such that (s,z) \textbackslash{}in C. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_ab613ee541bfc09d68949baff31334351}{set\+\_\+nt\+\_\+block\+\_\+zeros}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Set the Nesterov-\/\+Todd block to be zeros. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Computes residual of KKT conditions and stores in work-\/$>$kkt-\/$>$rhs. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -56,6 +60,27 @@ Allocate memory for KKT matrix.
 \begin{DoxyReturn}{Returns}
 Pointer to allocated KKT matrix. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}\label{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}} 
+\index{kkt.h@{kkt.h}!compute\_kkt\_residual@{compute\_kkt\_residual}}
+\index{compute\_kkt\_residual@{compute\_kkt\_residual}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{compute\_kkt\_residual()}{compute\_kkt\_residual()}}
+{\footnotesize\ttfamily void compute\+\_\+kkt\+\_\+residual (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Computes residual of KKT conditions and stores in work-\/$>$kkt-\/$>$rhs. 
+
+clang-\/format off \begin{DoxyVerb}  [ P   A^T   G^T ] [ x ]   [    c   ]
+\end{DoxyVerb}
+ res = $\vert$ A 0 0 $\vert$ $\vert$ y \mbox{]} + $\vert$ -\/b $\vert$ \mbox{[} G 0 0 \mbox{]} \mbox{[} z \mbox{]} \mbox{[} -\/h + s \mbox{]}
+
+clang-\/format on
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{kkt_8h_a489712294c041513c348e2983c492b6d}\label{kkt_8h_a489712294c041513c348e2983c492b6d}} 
 \index{kkt.h@{kkt.h}!construct\_kkt@{construct\_kkt}}
 \index{construct\_kkt@{construct\_kkt}!kkt.h@{kkt.h}}
@@ -90,5 +115,20 @@ Gets initial values for primal and dual variables such that (s,z) \textbackslash
 
 \begin{DoxyParams}{Parameters}
 {\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_ab613ee541bfc09d68949baff31334351}\label{kkt_8h_ab613ee541bfc09d68949baff31334351}} 
+\index{kkt.h@{kkt.h}!set\_nt\_block\_zeros@{set\_nt\_block\_zeros}}
+\index{set\_nt\_block\_zeros@{set\_nt\_block\_zeros}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{set\_nt\_block\_zeros()}{set\_nt\_block\_zeros()}}
+{\footnotesize\ttfamily void set\+\_\+nt\+\_\+block\+\_\+zeros (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Set the Nesterov-\/\+Todd block to be zeros. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
 \hline
 \end{DoxyParams}

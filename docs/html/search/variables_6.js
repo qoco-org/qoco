@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['i_104',['i',['../d0/d99/structQCOSCscMatrix.html#acd252d63e1390e9bd4b191e0dd1da218',1,'QCOSCscMatrix']]]
+  ['h_120',['h',['../d7/d42/structQCOSProblemData.html#a691f6ebfb448f931a22264f49c18d783',1,'QCOSProblemData']]]
 ];

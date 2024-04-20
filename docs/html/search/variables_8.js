@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['l_107',['l',['../d7/d42/structQCOSProblemData.html#a02b1afefceecb6c4204a3ac82ae8cb5b',1,'QCOSProblemData']]]
+  ['k_122',['K',['../d0/d72/structQCOSKKT.html#ac3615945c18b4bf17b9698382d18517b',1,'QCOSKKT']]],
+  ['kkt_123',['kkt',['../d5/d30/structQCOSWorkspace.html#ae0803795a4307643633fdf030377cfe4',1,'QCOSWorkspace']]]
 ];

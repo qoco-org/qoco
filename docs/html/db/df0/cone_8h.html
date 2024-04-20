@@ -116,6 +116,9 @@ Functions</h2></td></tr>
 <tr class="memitem:acef168ff9f0dd13d2b60b85f159e21d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df0/cone_8h.html#acef168ff9f0dd13d2b60b85f159e21d6">bring2cone</a> (QCOSFloat *u, <a class="el" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a> *data)</td></tr>
 <tr class="memdesc:acef168ff9f0dd13d2b60b85f159e21d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs u = u + (1 + a) * e where e is the cannonical vector for each cone LP Cone: e = ones(n), second-order cone: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) * e is in cone C.  <a href="../../db/df0/cone_8h.html#acef168ff9f0dd13d2b60b85f159e21d6">More...</a><br /></td></tr>
 <tr class="separator:acef168ff9f0dd13d2b60b85f159e21d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9d319888db390c7c2b965061ba72cfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df0/cone_8h.html#aa9d319888db390c7c2b965061ba72cfe">compute_mu</a> (<a class="el" href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a> *work)</td></tr>
+<tr class="memdesc:aa9d319888db390c7c2b965061ba72cfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes gap (z'*s / m) and stores in work-&gt;mu.  <a href="../../db/df0/cone_8h.html#aa9d319888db390c7c2b965061ba72cfe">More...</a><br /></td></tr>
+<tr class="separator:aa9d319888db390c7c2b965061ba72cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind M. Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
@@ -157,6 +160,32 @@ DESCRIPTION</h1>
   <table class="params">
     <tr><td class="paramname">u</td><td>Vector to bring to cone. </td></tr>
     <tr><td class="paramname">data</td><td>Pointer to problem data. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa9d319888db390c7c2b965061ba72cfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9d319888db390c7c2b965061ba72cfe">&#9670;&nbsp;</a></span>compute_mu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void compute_mu </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a> *&#160;</td>
+          <td class="paramname"><em>work</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes gap (z'*s / m) and stores in work-&gt;mu. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">work</td><td>Pointer to workspace. </td></tr>
   </table>
   </dd>
 </dl>

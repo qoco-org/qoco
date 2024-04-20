@@ -90,7 +90,10 @@ typedef struct {
  *
  */
 typedef struct {
-  QCOSFloat tol;
+  /** Maximum number of IPM iterations. */
+  QCOSInt max_iters;
+
+  /** 0 for quiet anything else for verbose. */
   unsigned char verbose;
 } QCOSSettings;
 
@@ -103,15 +106,16 @@ typedef struct {
   /** KKT matrix in CSC form. */
   QCOSCscMatrix* K;
 
+  /** Elimination tree for LDL factorization of K. */
   QCOSInt* etree;
 
   QCOSInt* Lnz;
 
+  QCOSFloat* Lx;
+
   QCOSInt* Lp;
 
   QCOSInt* Li;
-
-  QCOSFloat* Lx;
 
   QCOSFloat* D;
 
@@ -123,10 +127,10 @@ typedef struct {
 
   QCOSFloat* fwork;
 
-  /** Temporary variable for rhs of KKT system. */
+  /** RHS of KKT system. */
   QCOSFloat* rhs;
 
-  /** Temporary variable for solution of KKT system. */
+  /** Solution of KKT system. */
   QCOSFloat* xyz;
 
   /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
@@ -156,6 +160,9 @@ typedef struct {
 
   /** Iterate of dual variables associated with conic constraint. */
   QCOSFloat* z;
+
+  /** Gap metric (s'*z / m) */
+  QCOSFloat mu;
 
 } QCOSWorkspace;
 

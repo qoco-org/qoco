@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['y_60',['y',['../d5/d30/structQCOSWorkspace.html#a29782079b22d7325dab189c8855461b8',1,'QCOSWorkspace']]]
+  ['work_67',['work',['../d3/d33/structQCOSSolver.html#afa007835ae87cd3ad8b7cde83ad86abe',1,'QCOSSolver']]]
 ];

@@ -27,7 +27,9 @@ QCOSFloat \mbox{\hyperlink{cone_8h_a8a6a6364f56721a19cb9866ce13193e7}{soc\+\_\+r
 QCOSFloat \mbox{\hyperlink{cone_8h_a3f9cfa8e07709d3ca39fdedfdc39b099}{cone\+\_\+residual}} (QCOSFloat $\ast$u, \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
 \begin{DoxyCompactList}\small\item\em Computes residual of vector u with respect to cone C. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{cone_8h_acef168ff9f0dd13d2b60b85f159e21d6}{bring2cone}} (QCOSFloat $\ast$u, \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
-\begin{DoxyCompactList}\small\item\em Performs u = u + (1 + a) $\ast$ e where e is the cannonical vector for each cone LP Cone\+: e = ones(n), second-\/order cone\+: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) $\ast$ e is in cone C. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Performs u = u + (1 + a) $\ast$ e where e is the cannonical vector for each cone LP Cone\+: e = ones(n), second-\/order cone\+: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) $\ast$ e is in cone C. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8h_aa9d319888db390c7c2b965061ba72cfe}{compute\+\_\+mu}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Computes gap (z\textquotesingle{}$\ast$s / m) and stores in work-\/$>$mu. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -54,6 +56,21 @@ Performs u = u + (1 + a) $\ast$ e where e is the cannonical vector for each cone
 {\em u} & Vector to bring to cone. \\
 \hline
 {\em data} & Pointer to problem data. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8h_aa9d319888db390c7c2b965061ba72cfe}\label{cone_8h_aa9d319888db390c7c2b965061ba72cfe}} 
+\index{cone.h@{cone.h}!compute\_mu@{compute\_mu}}
+\index{compute\_mu@{compute\_mu}!cone.h@{cone.h}}
+\doxysubsubsection{\texorpdfstring{compute\_mu()}{compute\_mu()}}
+{\footnotesize\ttfamily void compute\+\_\+mu (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Computes gap (z\textquotesingle{}$\ast$s / m) and stores in work-\/$>$mu. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{cone_8h_ae38a99844d34958127f6a0928a3a81b3}\label{cone_8h_ae38a99844d34958127f6a0928a3a81b3}} 

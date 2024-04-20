@@ -23,20 +23,19 @@ Collaboration diagram for QCOSKKT\+:\nopagebreak
 \item 
 \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$ \mbox{\hyperlink{structQCOSKKT_ac3615945c18b4bf17b9698382d18517b}{K}}
 \item 
-\mbox{\Hypertarget{structQCOSKKT_a3335822154b92bf92ddbb96a8d18f27e}\label{structQCOSKKT_a3335822154b92bf92ddbb96a8d18f27e}} 
-QCOSInt $\ast$ {\bfseries etree}
+QCOSInt $\ast$ \mbox{\hyperlink{structQCOSKKT_a3335822154b92bf92ddbb96a8d18f27e}{etree}}
 \item 
 \mbox{\Hypertarget{structQCOSKKT_a74664b6b7686631114e0345493522f94}\label{structQCOSKKT_a74664b6b7686631114e0345493522f94}} 
 QCOSInt $\ast$ {\bfseries Lnz}
+\item 
+\mbox{\Hypertarget{structQCOSKKT_a20b1782d2393923475b47b464056adac}\label{structQCOSKKT_a20b1782d2393923475b47b464056adac}} 
+QCOSFloat $\ast$ {\bfseries Lx}
 \item 
 \mbox{\Hypertarget{structQCOSKKT_a94aa7d4a85bba78914ff178278052b20}\label{structQCOSKKT_a94aa7d4a85bba78914ff178278052b20}} 
 QCOSInt $\ast$ {\bfseries Lp}
 \item 
 \mbox{\Hypertarget{structQCOSKKT_a59a0bbf12be2d62385c1d4e4d34266ed}\label{structQCOSKKT_a59a0bbf12be2d62385c1d4e4d34266ed}} 
 QCOSInt $\ast$ {\bfseries Li}
-\item 
-\mbox{\Hypertarget{structQCOSKKT_a20b1782d2393923475b47b464056adac}\label{structQCOSKKT_a20b1782d2393923475b47b464056adac}} 
-QCOSFloat $\ast$ {\bfseries Lx}
 \item 
 \mbox{\Hypertarget{structQCOSKKT_aa3edb93af3033162df4e18e3f458810f}\label{structQCOSKKT_aa3edb93af3033162df4e18e3f458810f}} 
 QCOSFloat $\ast$ {\bfseries D}
@@ -65,7 +64,13 @@ QCOSInt $\ast$ \mbox{\hyperlink{structQCOSKKT_a7b9fb5434c1c9cab9af8784a2f4248c8}
 Contains all data needed for constructing and modifying KKT matrix and performing predictor-\/corrector step. 
 
 \doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{structQCOSKKT_ac3615945c18b4bf17b9698382d18517b}\label{structQCOSKKT_ac3615945c18b4bf17b9698382d18517b}} 
+\mbox{\Hypertarget{structQCOSKKT_a3335822154b92bf92ddbb96a8d18f27e}\label{structQCOSKKT_a3335822154b92bf92ddbb96a8d18f27e}} 
+\index{QCOSKKT@{QCOSKKT}!etree@{etree}}
+\index{etree@{etree}!QCOSKKT@{QCOSKKT}}
+\doxysubsubsection{\texorpdfstring{etree}{etree}}
+{\footnotesize\ttfamily QCOSInt$\ast$ QCOSKKT\+::etree}
+
+Elimination tree for LDL factorization of K. \mbox{\Hypertarget{structQCOSKKT_ac3615945c18b4bf17b9698382d18517b}\label{structQCOSKKT_ac3615945c18b4bf17b9698382d18517b}} 
 \index{QCOSKKT@{QCOSKKT}!K@{K}}
 \index{K@{K}!QCOSKKT@{QCOSKKT}}
 \doxysubsubsection{\texorpdfstring{K}{K}}
@@ -83,13 +88,13 @@ Mapping from elements in the Nesterov-\/\+Todd scaling matrix to elements in the
 \doxysubsubsection{\texorpdfstring{rhs}{rhs}}
 {\footnotesize\ttfamily QCOSFloat$\ast$ QCOSKKT\+::rhs}
 
-Temporary variable for rhs of KKT system. \mbox{\Hypertarget{structQCOSKKT_a18948bf5ca0b796ac1f8eca4b35b0e67}\label{structQCOSKKT_a18948bf5ca0b796ac1f8eca4b35b0e67}} 
+RHS of KKT system. \mbox{\Hypertarget{structQCOSKKT_a18948bf5ca0b796ac1f8eca4b35b0e67}\label{structQCOSKKT_a18948bf5ca0b796ac1f8eca4b35b0e67}} 
 \index{QCOSKKT@{QCOSKKT}!xyz@{xyz}}
 \index{xyz@{xyz}!QCOSKKT@{QCOSKKT}}
 \doxysubsubsection{\texorpdfstring{xyz}{xyz}}
 {\footnotesize\ttfamily QCOSFloat$\ast$ QCOSKKT\+::xyz}
 
-Temporary variable for solution of KKT system. 
+Solution of KKT system. 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

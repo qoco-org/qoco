@@ -87,3 +87,8 @@ void bring2cone(QCOSFloat* u, QCOSProblemData* data)
     }
   }
 }
+
+void compute_mu(QCOSWorkspace* work)
+{
+  work->mu = dot(work->s, work->z, work->data->m) / work->data->m;
+}

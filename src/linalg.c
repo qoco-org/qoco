@@ -54,3 +54,16 @@ QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n)
   }
   return x;
 }
+
+void qcos_USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
+{
+  for (QCOSInt i = 0; i < M->n; i++) {
+    r[i] = 0.0;
+    for (QCOSInt j = M->p[i]; j < M->p[i + 1]; j++) {
+      int row = M->i[j];
+      r[row] += M->x[j] * v[i];
+      if (row != i)
+        r[i] += M->x[j] * v[row];
+    }
+  }
+}

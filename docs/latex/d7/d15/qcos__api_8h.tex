@@ -5,7 +5,9 @@
 {\ttfamily \#include \char`\"{}kkt.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}linalg.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}structs.\+h\char`\"{}}\newline
-Include dependency graph for qcos\+\_\+api.\+h\+:\nopagebreak
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\newline
+Include dependency graph for qcos\+\_\+api.\+h\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -28,12 +30,10 @@ void \mbox{\hyperlink{qcos__api_8h_ac064daae4961adeb346211dd9c1b1da3}{qcos\+\_\+
 \begin{DoxyCompactList}\small\item\em Sets the data for a compressed sparse column matrix. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{qcos__api_8h_adab4c74528e696a0b27fec4f345bbcf0}{set\+\_\+default\+\_\+settings}} (\mbox{\hyperlink{structQCOSSettings}{QCOSSettings}} $\ast$settings)
 \begin{DoxyCompactList}\small\item\em Set the default settings struct. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{qcos__api_8h_a9e4965cfd10930ea799d646a507daff2}\label{qcos__api_8h_a9e4965cfd10930ea799d646a507daff2}} 
-QCOSInt {\bfseries qcos\+\_\+solve} ()
-\item 
-\mbox{\Hypertarget{qcos__api_8h_ae795022156d984be04a15803ef602146}\label{qcos__api_8h_ae795022156d984be04a15803ef602146}} 
-QCOSInt {\bfseries qcos\+\_\+cleanup} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
-\end{DoxyCompactItemize}
+QCOSInt \mbox{\hyperlink{qcos__api_8h_a44008a91ea23303fd72bb98e369d4268}{qcos\+\_\+solve}} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Solves SOCP. \end{DoxyCompactList}\item 
+QCOSInt \mbox{\hyperlink{qcos__api_8h_ae795022156d984be04a15803ef602146}{qcos\+\_\+cleanup}} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Frees all allocated memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -45,6 +45,24 @@ Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2
 Exposes the API for QCOS. 
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{qcos__api_8h_ae795022156d984be04a15803ef602146}\label{qcos__api_8h_ae795022156d984be04a15803ef602146}} 
+\index{qcos\_api.h@{qcos\_api.h}!qcos\_cleanup@{qcos\_cleanup}}
+\index{qcos\_cleanup@{qcos\_cleanup}!qcos\_api.h@{qcos\_api.h}}
+\doxysubsubsection{\texorpdfstring{qcos\_cleanup()}{qcos\_cleanup()}}
+{\footnotesize\ttfamily QCOSInt qcos\+\_\+cleanup (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Frees all allocated memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Exitflag to check (0 for success, failure otherwise) 
+\end{DoxyReturn}
 \mbox{\Hypertarget{qcos__api_8h_ac064daae4961adeb346211dd9c1b1da3}\label{qcos__api_8h_ac064daae4961adeb346211dd9c1b1da3}} 
 \index{qcos\_api.h@{qcos\_api.h}!qcos\_set\_csc@{qcos\_set\_csc}}
 \index{qcos\_set\_csc@{qcos\_set\_csc}!qcos\_api.h@{qcos\_api.h}}
@@ -107,6 +125,24 @@ Allocates all memory needed for QCOS to solve the SOCP.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Pointer to solver 
+\end{DoxyReturn}
+\mbox{\Hypertarget{qcos__api_8h_a44008a91ea23303fd72bb98e369d4268}\label{qcos__api_8h_a44008a91ea23303fd72bb98e369d4268}} 
+\index{qcos\_api.h@{qcos\_api.h}!qcos\_solve@{qcos\_solve}}
+\index{qcos\_solve@{qcos\_solve}!qcos\_api.h@{qcos\_api.h}}
+\doxysubsubsection{\texorpdfstring{qcos\_solve()}{qcos\_solve()}}
+{\footnotesize\ttfamily QCOSInt qcos\+\_\+solve (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Solves SOCP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Exitflag to check (0 for success, failure otherwise) 
 \end{DoxyReturn}
 \mbox{\Hypertarget{qcos__api_8h_adab4c74528e696a0b27fec4f345bbcf0}\label{qcos__api_8h_adab4c74528e696a0b27fec4f345bbcf0}} 
 \index{qcos\_api.h@{qcos\_api.h}!set\_default\_settings@{set\_default\_settings}}

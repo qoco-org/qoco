@@ -117,6 +117,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a5f379401b4b367c0971b7dd2514b2f64"><td class="memItemLeft" align="right" valign="top">QCOSFloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d46/linalg_8h.html#a5f379401b4b367c0971b7dd2514b2f64">dot</a> (QCOSFloat *u, QCOSFloat *v, QCOSInt n)</td></tr>
 <tr class="memdesc:a5f379401b4b367c0971b7dd2514b2f64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes dot product of u and v.  <a href="../../dd/d46/linalg_8h.html#a5f379401b4b367c0971b7dd2514b2f64">More...</a><br /></td></tr>
 <tr class="separator:a5f379401b4b367c0971b7dd2514b2f64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d03b9dad3cc93f16b80ddb95439ed05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d46/linalg_8h.html#a1d03b9dad3cc93f16b80ddb95439ed05">qcos_USpMv</a> (<a class="el" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a> *M, QCOSFloat *v, QCOSFloat *r)</td></tr>
+<tr class="memdesc:a1d03b9dad3cc93f16b80ddb95439ed05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M * v.  <a href="../../dd/d46/linalg_8h.html#a1d03b9dad3cc93f16b80ddb95439ed05">More...</a><br /></td></tr>
+<tr class="separator:a1d03b9dad3cc93f16b80ddb95439ed05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind M. Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
@@ -328,6 +331,50 @@ DESCRIPTION</h1>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to new constructed matrix. </dd></dl>
+
+</div>
+</div>
+<a id="a1d03b9dad3cc93f16b80ddb95439ed05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d03b9dad3cc93f16b80ddb95439ed05">&#9670;&nbsp;</a></span>qcos_USpMv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void qcos_USpMv </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a> *&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>r</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M * v. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">M</td><td>Upper triangular part of M in CSC form. </td></tr>
+    <tr><td class="paramname">v</td><td>Vector. </td></tr>
+    <tr><td class="paramname">r</td><td>Result. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

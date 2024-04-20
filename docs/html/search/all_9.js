@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['m_25',['m',['../d0/d99/structQCOSCscMatrix.html#a95f8e7eeaa14e87186df198b4034ee12',1,'QCOSCscMatrix::m()'],['../d7/d42/structQCOSProblemData.html#adc887f20ca01f826fdded71a981423d6',1,'QCOSProblemData::m()']]]
+  ['l_26',['l',['../d7/d42/structQCOSProblemData.html#a02b1afefceecb6c4204a3ac82ae8cb5b',1,'QCOSProblemData']]],
+  ['linalg_2eh_27',['linalg.h',['../dd/d46/linalg_8h.html',1,'']]]
 ];

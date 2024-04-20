@@ -53,4 +53,26 @@ void construct_kkt(QCOSWorkspace* work);
  */
 void initialize_ipm(QCOSSolver* solver);
 
+/**
+ * @brief Set the Nesterov-Todd block to be zeros.
+ *
+ * @param work Pointer to workspace.
+ */
+void set_nt_block_zeros(QCOSWorkspace* work);
+
+/**
+ * @brief Computes residual of KKT conditions and stores in work->kkt->rhs.
+ *
+ * clang-format off
+ *
+ *       [ P   A^T   G^T ] [ x ]   [    c   ]
+ * res = | A    0     0  | | y ] + |   -b   |
+ *       [ G    0     0  ] [ z ]   [ -h + s ]
+ *
+ * clang-format on
+ *
+ * @param work Pointer to workspace.
+ */
+void compute_kkt_residual(QCOSWorkspace* work);
+
 #endif /* #ifndef QCOS_KKT_H */

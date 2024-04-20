@@ -1,5 +1,4 @@
 #include "qcos_api.h"
-#include <stdio.h>
 
 QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
                        QCOSFloat* b, QCOSCscMatrix* G, QCOSFloat* h, QCOSInt l,
@@ -73,6 +72,7 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   solver->work->s = qcos_malloc(m * sizeof(QCOSFloat));
   solver->work->y = qcos_malloc(p * sizeof(QCOSFloat));
   solver->work->z = qcos_malloc(m * sizeof(QCOSFloat));
+  solver->work->mu = 0.0;
 
   QCOSInt Kn = solver->work->kkt->K->n;
   solver->work->kkt->etree = qcos_malloc(sizeof(QCOSInt) * Kn);
@@ -89,8 +89,6 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
       QDLDL_etree(Kn, solver->work->kkt->K->p, solver->work->kkt->K->i,
                   solver->work->kkt->iwork, solver->work->kkt->Lnz,
                   solver->work->kkt->etree);
-
-  printf("sumLnz: %d", sumLnz);
 
   solver->work->kkt->Li = qcos_malloc(sizeof(QCOSInt) * sumLnz);
   solver->work->kkt->Lx = qcos_malloc(sizeof(QCOSFloat) * sumLnz);
@@ -111,11 +109,45 @@ void qcos_set_csc(QCOSCscMatrix* A, QCOSInt m, QCOSInt n, QCOSInt Annz,
 
 void set_default_settings(QCOSSettings* settings)
 {
-  settings->tol = 1e-6;
+  settings->max_iters = 50;
   settings->verbose = 0;
 }
 
-QCOSInt qcos_solve() { return 1; }
+QCOSInt qcos_solve(QCOSSolver* solver)
+{
+  if (solver->settings->verbose) {
+    print_header();
+  }
+
+  // Get initializations for primal and dual variables.
+  initialize_ipm(solver);
+
+  for (QCOSInt i = 0; i < 1; ++i) {
+
+    // Compute kkt residual.
+    compute_kkt_residual(solver->work);
+
+    // Compute mu.
+    compute_mu(solver->work);
+
+    // // Check stopping criteria.
+    // if (check_stopping(solver)) {
+    //   break;
+    // }
+
+    // // Compute Nesterov-Todd scalings.
+    // compute_nt_scaling(solver->work);
+
+    // // Perform predictor-corrector
+    // predictor_corrector(solver->work);
+
+    // if (solver->settings->verbose) {
+    //   log_iter(solver->work);
+    // }
+  }
+
+  return 0;
+}
 
 QCOSInt qcos_cleanup(QCOSSolver* solver)
 {

@@ -114,6 +114,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a944d74cccfbc1ee385c89c3b3232d4e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d56/kkt_8h.html#a944d74cccfbc1ee385c89c3b3232d4e0">initialize_ipm</a> (<a class="el" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a> *solver)</td></tr>
 <tr class="memdesc:a944d74cccfbc1ee385c89c3b3232d4e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets initial values for primal and dual variables such that (s,z) \in C.  <a href="../../db/d56/kkt_8h.html#a944d74cccfbc1ee385c89c3b3232d4e0">More...</a><br /></td></tr>
 <tr class="separator:a944d74cccfbc1ee385c89c3b3232d4e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab613ee541bfc09d68949baff31334351"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d56/kkt_8h.html#ab613ee541bfc09d68949baff31334351">set_nt_block_zeros</a> (<a class="el" href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a> *work)</td></tr>
+<tr class="memdesc:ab613ee541bfc09d68949baff31334351"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Nesterov-Todd block to be zeros.  <a href="../../db/d56/kkt_8h.html#ab613ee541bfc09d68949baff31334351">More...</a><br /></td></tr>
+<tr class="separator:ab613ee541bfc09d68949baff31334351"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1498e55f92c85bf1710e039f2a3c49f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d56/kkt_8h.html#a1498e55f92c85bf1710e039f2a3c49f0">compute_kkt_residual</a> (<a class="el" href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a> *work)</td></tr>
+<tr class="memdesc:a1498e55f92c85bf1710e039f2a3c49f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes residual of KKT conditions and stores in work-&gt;kkt-&gt;rhs.  <a href="../../db/d56/kkt_8h.html#a1498e55f92c85bf1710e039f2a3c49f0">More...</a><br /></td></tr>
+<tr class="separator:a1498e55f92c85bf1710e039f2a3c49f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind M. Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
@@ -148,6 +154,35 @@ DESCRIPTION</h1>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to allocated KKT matrix. </dd></dl>
+
+</div>
+</div>
+<a id="a1498e55f92c85bf1710e039f2a3c49f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1498e55f92c85bf1710e039f2a3c49f0">&#9670;&nbsp;</a></span>compute_kkt_residual()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void compute_kkt_residual </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a> *&#160;</td>
+          <td class="paramname"><em>work</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes residual of KKT conditions and stores in work-&gt;kkt-&gt;rhs. </p>
+<p>clang-format off </p><pre class="fragment">  [ P   A^T   G^T ] [ x ]   [    c   ]
+</pre><p> res = | A 0 0 | | y ] + | -b | [ G 0 0 ] [ z ] [ -h + s ]</p>
+<p>clang-format on</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">work</td><td>Pointer to workspace. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -200,6 +235,32 @@ DESCRIPTION</h1>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">solver</td><td>Pointer to solver. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab613ee541bfc09d68949baff31334351"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab613ee541bfc09d68949baff31334351">&#9670;&nbsp;</a></span>set_nt_block_zeros()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_nt_block_zeros </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a> *&#160;</td>
+          <td class="paramname"><em>work</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the Nesterov-Todd block to be zeros. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">work</td><td>Pointer to workspace. </td></tr>
   </table>
   </dd>
 </dl>

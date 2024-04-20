@@ -41,21 +41,30 @@ int main()
   QCOSSettings* settings = malloc(sizeof(QCOSSettings));
 
   set_default_settings(settings);
+  settings->verbose = 1;
 
   QCOSSolver* solver = qcos_setup(P, c, A, b, G, h, l, ncones, q, settings);
 
-  initialize_ipm(solver);
+  QCOSInt exit = qcos_solve(solver);
 
-  printf("x: ");
-  print_arrayf(solver->work->x, n);
-  printf("s: ");
-  print_arrayf(solver->work->s, m);
-  printf("y: ");
-  print_arrayf(solver->work->y, p);
-  printf("z: ");
-  print_arrayf(solver->work->z, m);
+  // printf("x: ");
+  // print_arrayf(solver->work->x, n);
+  // printf("s: ");
+  // print_arrayf(solver->work->s, m);
+  // printf("y: ");
+  // print_arrayf(solver->work->y, p);
+  // printf("z: ");
+  // print_arrayf(solver->work->z, m);
 
-  if (solver) {
+  // print_qcos_csc_matrix(solver->work->kkt->K);
+
+  compute_kkt_residual(solver->work);
+
+  print_arrayf(solver->work->kkt->rhs, n + m + p);
+
+  // print_qcos_csc_matrix(solver->work->kkt->K);
+
+  if (solver && !exit) {
     qcos_cleanup(solver);
     printf("Success");
   }

@@ -1,4 +1,5 @@
 #include "kkt.h"
+#include "utils.h"
 
 QCOSCscMatrix* allocate_kkt(QCOSProblemData* data)
 {
@@ -139,4 +140,46 @@ void initialize_ipm(QCOSSolver* solver)
   // Bring s and z to cone C.
   bring2cone(solver->work->s, solver->work->data);
   bring2cone(solver->work->z, solver->work->data);
+}
+
+void set_nt_block_zeros(QCOSWorkspace* work)
+{
+  for (QCOSInt i = 0; i < work->data->m; ++i) {
+    work->kkt->K->x[work->kkt->nt2kkt[i]] = 0.0;
+  }
+}
+
+void compute_kkt_residual(QCOSWorkspace* work)
+{
+  // Zero out the NT scaling block.
+  set_nt_block_zeros(work);
+
+  // Set xyz to [x;y;z]
+  copy_arrayf(work->x, work->kkt->xyz, work->data->n);
+  copy_arrayf(work->y, &work->kkt->xyz[work->data->n], work->data->p);
+  copy_arrayf(work->z, &work->kkt->xyz[work->data->n + work->data->p],
+              work->data->m);
+
+  // rhs = K * [x;y;z]
+  qcos_USpMv(work->kkt->K, work->kkt->xyz, work->kkt->rhs);
+
+  // rhs += [c;-b;-h+s]
+  QCOSInt idx;
+
+  // Add c.
+  for (idx = 0; idx < work->data->n; ++idx) {
+    work->kkt->rhs[idx] += work->data->c[idx];
+  }
+
+  // Add -b;
+  for (QCOSInt i = 0; i < work->data->p; ++i) {
+    work->kkt->rhs[idx] += -work->data->b[i];
+    idx += 1;
+  }
+
+  // Add -h + s.
+  for (QCOSInt i = 0; i < work->data->m; ++i) {
+    work->kkt->rhs[idx] += -work->data->h[i] + work->s[i];
+    idx += 1;
+  }
 }

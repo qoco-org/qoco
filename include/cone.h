@@ -69,4 +69,11 @@ QCOSFloat cone_residual(QCOSFloat* u, QCOSProblemData* data);
  */
 void bring2cone(QCOSFloat* u, QCOSProblemData* data);
 
+/**
+ * @brief Computes gap (z'*s / m) and stores in work->mu.
+ *
+ * @param work Pointer to workspace.
+ */
+void compute_mu(QCOSWorkspace* work);
+
 #endif

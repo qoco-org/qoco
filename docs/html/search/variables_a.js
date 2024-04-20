@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['n_109',['n',['../d0/d99/structQCOSCscMatrix.html#a74bd2b2e4e34de8156be49edf6223efb',1,'QCOSCscMatrix::n()'],['../d7/d42/structQCOSProblemData.html#a81f2eb88481149d1894b3ca7aa3dbde0',1,'QCOSProblemData::n()']]],
-  ['ncones_110',['ncones',['../d7/d42/structQCOSProblemData.html#a95b552a66753801168b0084749c9d852',1,'QCOSProblemData']]],
-  ['nnz_111',['nnz',['../d0/d99/structQCOSCscMatrix.html#a369d13e994795a04cdf153879f5c1307',1,'QCOSCscMatrix']]],
-  ['nt2kkt_112',['nt2kkt',['../d0/d72/structQCOSKKT.html#a7b9fb5434c1c9cab9af8784a2f4248c8',1,'QCOSKKT']]]
+  ['m_125',['m',['../d0/d99/structQCOSCscMatrix.html#a95f8e7eeaa14e87186df198b4034ee12',1,'QCOSCscMatrix::m()'],['../d7/d42/structQCOSProblemData.html#adc887f20ca01f826fdded71a981423d6',1,'QCOSProblemData::m()']]],
+  ['max_5fiters_126',['max_iters',['../d9/dc4/structQCOSSettings.html#a6b4a9b5ddd75726a32ef44a1444bb8d5',1,'QCOSSettings']]],
+  ['mu_127',['mu',['../d5/d30/structQCOSWorkspace.html#a9ff9f65a7afdcc49eb8659ce556fb71d',1,'QCOSWorkspace']]]
 ];

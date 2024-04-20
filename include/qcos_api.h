@@ -20,6 +20,7 @@
 #include "kkt.h"
 #include "linalg.h"
 #include "structs.h"
+#include "utils.h"
 
 /*
  QCOS solves second-order cone problems of the following form
@@ -71,8 +72,20 @@ void qcos_set_csc(QCOSCscMatrix* A, QCOSInt m, QCOSInt n, QCOSInt Annz,
  */
 void set_default_settings(QCOSSettings* settings);
 
-QCOSInt qcos_solve();
+/**
+ * @brief Solves SOCP.
+ *
+ * @param solver Pointer to solver.
+ * @return Exitflag to check (0 for success, failure otherwise)
+ */
+QCOSInt qcos_solve(QCOSSolver* solver);
 
+/**
+ * @brief Frees all allocated memory.
+ *
+ * @param solver Pointer to solver.
+ * @return Exitflag to check (0 for success, failure otherwise)
+ */
 QCOSInt qcos_cleanup(QCOSSolver* solver);
 
 #endif /* #ifndef QCOS_API_H */

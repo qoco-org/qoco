@@ -2,7 +2,7 @@
 
 QCOSInt qcos_validate_settings(QCOSSettings* settings)
 {
-  if (settings->tol < 0)
+  if (settings->max_iters < 0)
     return 1;
   return 0;
 }
