@@ -34,9 +34,25 @@ void print_qcos_csc_matrix(QCOSCscMatrix* M);
 void print_arrayf(QCOSFloat* x, QCOSInt n);
 
 /**
+ * @brief Prints array of QCOSInts.
+ *
+ * @param x Pointer to array.
+ * @param n Number of elements in array.
+ */
+void print_arrayi(QCOSInt* x, QCOSInt n);
+
+/**
  * @brief Prints qcos header.
  *
  */
 void print_header();
+
+/**
+ * @brief Checks stopping criteria.
+ *
+ * @param solver
+ * @return 1 if stopping criteria met and 0 otherwise.
+ */
+unsigned char check_stopping(QCOSSolver* solver);
 
 #endif /* #ifndef UTILS_H */

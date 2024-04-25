@@ -5,7 +5,7 @@ Include dependency graph for cone.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=202pt]{de/de5/cone_8h__incl}
+\includegraphics[width=273pt]{de/de5/cone_8h__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
@@ -24,12 +24,16 @@ void \mbox{\hyperlink{cone_8h_a05644a809b00420985d3a465b628ebef}{soc\+\_\+produc
 \begin{DoxyCompactList}\small\item\em Computes second-\/order cone product u $\ast$ v = p. \end{DoxyCompactList}\item 
 QCOSFloat \mbox{\hyperlink{cone_8h_a8a6a6364f56721a19cb9866ce13193e7}{soc\+\_\+residual}} (QCOSFloat $\ast$u, QCOSInt n)
 \begin{DoxyCompactList}\small\item\em Computes residual of vector u with respect to the second order cone of dimension n. \end{DoxyCompactList}\item 
+QCOSFloat \mbox{\hyperlink{cone_8h_a0f4e51d4919b7e1e9afd8f58cc391e47}{soc\+\_\+residual2}} (QCOSFloat $\ast$u, QCOSInt n)
+\begin{DoxyCompactList}\small\item\em Computes u0$^\wedge$2 -\/ u1\textquotesingle{}$\ast$u1 of vector u with respect to the second order cone of dimension n. \end{DoxyCompactList}\item 
 QCOSFloat \mbox{\hyperlink{cone_8h_a3f9cfa8e07709d3ca39fdedfdc39b099}{cone\+\_\+residual}} (QCOSFloat $\ast$u, \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
 \begin{DoxyCompactList}\small\item\em Computes residual of vector u with respect to cone C. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{cone_8h_acef168ff9f0dd13d2b60b85f159e21d6}{bring2cone}} (QCOSFloat $\ast$u, \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
 \begin{DoxyCompactList}\small\item\em Performs u = u + (1 + a) $\ast$ e where e is the cannonical vector for each cone LP Cone\+: e = ones(n), second-\/order cone\+: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) $\ast$ e is in cone C. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{cone_8h_aa9d319888db390c7c2b965061ba72cfe}{compute\+\_\+mu}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
-\begin{DoxyCompactList}\small\item\em Computes gap (z\textquotesingle{}$\ast$s / m) and stores in work-\/$>$mu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Computes gap (z\textquotesingle{}$\ast$s / m) and stores in work-\/$>$mu. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8h_a12d2e90953304f38fc093cc51b53eafd}{compute\+\_\+nt\+\_\+scaling}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Compute Nesterov-\/\+Todd scalings and scaled variables. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -67,6 +71,21 @@ Performs u = u + (1 + a) $\ast$ e where e is the cannonical vector for each cone
 
 
 Computes gap (z\textquotesingle{}$\ast$s / m) and stores in work-\/$>$mu. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8h_a12d2e90953304f38fc093cc51b53eafd}\label{cone_8h_a12d2e90953304f38fc093cc51b53eafd}} 
+\index{cone.h@{cone.h}!compute\_nt\_scaling@{compute\_nt\_scaling}}
+\index{compute\_nt\_scaling@{compute\_nt\_scaling}!cone.h@{cone.h}}
+\doxysubsubsection{\texorpdfstring{compute\_nt\_scaling()}{compute\_nt\_scaling()}}
+{\footnotesize\ttfamily void compute\+\_\+nt\+\_\+scaling (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Compute Nesterov-\/\+Todd scalings and scaled variables. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -154,4 +173,24 @@ Computes residual of vector u with respect to the second order cone of dimension
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Residual\+: norm(u1) -\/ u0. Negative if the vector is in the cone and positive otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cone_8h_a0f4e51d4919b7e1e9afd8f58cc391e47}\label{cone_8h_a0f4e51d4919b7e1e9afd8f58cc391e47}} 
+\index{cone.h@{cone.h}!soc\_residual2@{soc\_residual2}}
+\index{soc\_residual2@{soc\_residual2}!cone.h@{cone.h}}
+\doxysubsubsection{\texorpdfstring{soc\_residual2()}{soc\_residual2()}}
+{\footnotesize\ttfamily QCOSFloat soc\+\_\+residual2 (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{u,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes u0$^\wedge$2 -\/ u1\textquotesingle{}$\ast$u1 of vector u with respect to the second order cone of dimension n. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & u = (u0, u1) is a vector in second order cone of dimension n. \\
+\hline
+{\em n} & Dimension of second order cone. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Residual\+: u0$^\wedge$2 -\/ u1\textquotesingle{}$\ast$u1. 
 \end{DoxyReturn}

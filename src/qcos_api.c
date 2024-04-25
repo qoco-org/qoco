@@ -61,8 +61,8 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
 
   // Allocate KKT struct.
   solver->work->kkt = qcos_malloc(sizeof(QCOSKKT));
-  solver->work->kkt->nt2kkt = qcos_calloc(m, sizeof(QCOSInt));
-  solver->work->kkt->K = allocate_kkt(solver->work->data);
+  allocate_kkt(solver->work);
+  solver->work->kkt->nt2kkt = qcos_calloc(solver->work->Wnnz, sizeof(QCOSInt));
   solver->work->kkt->rhs = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   solver->work->kkt->xyz = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   construct_kkt(solver->work);
@@ -74,6 +74,14 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   solver->work->z = qcos_malloc(m * sizeof(QCOSFloat));
   solver->work->mu = 0.0;
 
+  // Allocate Nesterov-Todd scalings and scaled variables.
+  solver->work->W = qcos_malloc(solver->work->Wnnz * sizeof(QCOSFloat));
+  solver->work->lambda = qcos_malloc(m * sizeof(QCOSFloat));
+  QCOSInt qmax = max_arrayi(solver->work->data->q, solver->work->data->ncones);
+  solver->work->sbar = qcos_malloc(qmax * sizeof(QCOSFloat));
+  solver->work->zbar = qcos_malloc(qmax * sizeof(QCOSFloat));
+
+  // Number of columns of KKT matrix.
   QCOSInt Kn = solver->work->kkt->K->n;
   solver->work->kkt->etree = qcos_malloc(sizeof(QCOSInt) * Kn);
   solver->work->kkt->Lnz = qcos_malloc(sizeof(QCOSInt) * Kn);
@@ -111,6 +119,8 @@ void set_default_settings(QCOSSettings* settings)
 {
   settings->max_iters = 50;
   settings->verbose = 0;
+  settings->abstol = 1e-7;
+  settings->reltol = 1e-7;
 }
 
 QCOSInt qcos_solve(QCOSSolver* solver)
@@ -130,13 +140,13 @@ QCOSInt qcos_solve(QCOSSolver* solver)
     // Compute mu.
     compute_mu(solver->work);
 
-    // // Check stopping criteria.
-    // if (check_stopping(solver)) {
-    //   break;
-    // }
+    // Check stopping criteria.
+    if (check_stopping(solver)) {
+      break;
+    }
 
-    // // Compute Nesterov-Todd scalings.
-    // compute_nt_scaling(solver->work);
+    // Compute Nesterov-Todd scalings.
+    compute_nt_scaling(solver->work);
 
     // // Perform predictor-corrector
     // predictor_corrector(solver->work);
@@ -177,6 +187,12 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->s);
   qcos_free(solver->work->y);
   qcos_free(solver->work->z);
+
+  // Free Nesterov-Todd scalings and scaled variables.
+  qcos_free(solver->work->W);
+  qcos_free(solver->work->lambda);
+  qcos_free(solver->work->sbar);
+  qcos_free(solver->work->zbar);
 
   // Free KKT struct.
   qcos_free(solver->work->kkt->K->i);

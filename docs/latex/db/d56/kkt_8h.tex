@@ -8,7 +8,7 @@ Include dependency graph for kkt.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=274pt]{db/ddf/kkt_8h__incl}
+\includegraphics[width=284pt]{db/ddf/kkt_8h__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
@@ -21,7 +21,7 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$ \mbox{\hyperlink{kkt_8h_a94dd318bc689080a4050a7c6bf5d1216}{allocate\+\_\+kkt}} (\mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
+void \mbox{\hyperlink{kkt_8h_a7139a39ce63dadf3225134e8eaa09ce9}{allocate\+\_\+kkt}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
 \begin{DoxyCompactList}\small\item\em Allocate memory for KKT matrix. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{kkt_8h_a489712294c041513c348e2983c492b6d}{construct\+\_\+kkt}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
 \begin{DoxyCompactList}\small\item\em Constructs upper triangular part of KKT matrix with -\/I for Nestrov-\/\+Todd scaling matrix (the (3,3) block) \end{DoxyCompactList}\item 
@@ -42,11 +42,11 @@ Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2
 Provides various functions for constructing and updating blocks for the KKT matrix. 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{kkt_8h_a94dd318bc689080a4050a7c6bf5d1216}\label{kkt_8h_a94dd318bc689080a4050a7c6bf5d1216}} 
+\mbox{\Hypertarget{kkt_8h_a7139a39ce63dadf3225134e8eaa09ce9}\label{kkt_8h_a7139a39ce63dadf3225134e8eaa09ce9}} 
 \index{kkt.h@{kkt.h}!allocate\_kkt@{allocate\_kkt}}
 \index{allocate\_kkt@{allocate\_kkt}!kkt.h@{kkt.h}}
 \doxysubsubsection{\texorpdfstring{allocate\_kkt()}{allocate\_kkt()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}}$\ast$ allocate\+\_\+kkt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$}]{data }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void allocate\+\_\+kkt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
 
 
 
@@ -54,12 +54,9 @@ Allocate memory for KKT matrix.
 
 
 \begin{DoxyParams}{Parameters}
-{\em data} & Pointer to problem data. \\
+{\em work} & Pointer to workspace. \\
 \hline
 \end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Pointer to allocated KKT matrix. 
-\end{DoxyReturn}
 \mbox{\Hypertarget{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}\label{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}} 
 \index{kkt.h@{kkt.h}!compute\_kkt\_residual@{compute\_kkt\_residual}}
 \index{compute\_kkt\_residual@{compute\_kkt\_residual}!kkt.h@{kkt.h}}

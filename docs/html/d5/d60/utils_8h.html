@@ -78,12 +78,13 @@ Include dependency graph for utils.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../db/d29/utils_8h__incl.png" border="0" usemap="#ainclude_2utils_8h" alt=""/></div>
 <map name="ainclude_2utils_8h" id="ainclude_2utils_8h">
-<area shape="rect" title=" " alt="" coords="77,5,191,32"/>
-<area shape="rect" href="../../d1/d3d/structs_8h.html" title=" " alt="" coords="47,80,125,107"/>
-<area shape="rect" title=" " alt="" coords="150,80,217,107"/>
-<area shape="rect" href="../../d6/dc2/definitions_8h.html" title=" " alt="" coords="35,155,137,181"/>
-<area shape="rect" title=" " alt="" coords="5,229,73,256"/>
-<area shape="rect" title=" " alt="" coords="97,229,168,256"/>
+<area shape="rect" title=" " alt="" coords="125,5,239,32"/>
+<area shape="rect" href="../../d1/d3d/structs_8h.html" title=" " alt="" coords="95,80,173,107"/>
+<area shape="rect" title=" " alt="" coords="198,80,265,107"/>
+<area shape="rect" href="../../d6/dc2/definitions_8h.html" title=" " alt="" coords="83,155,185,181"/>
+<area shape="rect" title=" " alt="" coords="5,229,76,256"/>
+<area shape="rect" title=" " alt="" coords="100,229,168,256"/>
+<area shape="rect" title=" " alt="" coords="192,229,263,256"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -107,10 +108,16 @@ Functions</h2></td></tr>
 <tr class="memitem:adb98c110934765387c256d85f876a56d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#adb98c110934765387c256d85f876a56d">print_arrayf</a> (QCOSFloat *x, QCOSInt n)</td></tr>
 <tr class="memdesc:adb98c110934765387c256d85f876a56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints array of QCOSFloats.  <a href="../../d5/d60/utils_8h.html#adb98c110934765387c256d85f876a56d">More...</a><br /></td></tr>
 <tr class="separator:adb98c110934765387c256d85f876a56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8f9972d72abd7de68cf6c9eca7008f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#af8f9972d72abd7de68cf6c9eca7008f7">print_arrayi</a> (QCOSInt *x, QCOSInt n)</td></tr>
+<tr class="memdesc:af8f9972d72abd7de68cf6c9eca7008f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints array of QCOSInts.  <a href="../../d5/d60/utils_8h.html#af8f9972d72abd7de68cf6c9eca7008f7">More...</a><br /></td></tr>
+<tr class="separator:af8f9972d72abd7de68cf6c9eca7008f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab0a749241244d13922556533aeb7069"><td class="memItemLeft" align="right" valign="top"><a id="aab0a749241244d13922556533aeb7069"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#aab0a749241244d13922556533aeb7069">print_header</a> ()</td></tr>
 <tr class="memdesc:aab0a749241244d13922556533aeb7069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints qcos header. <br /></td></tr>
 <tr class="separator:aab0a749241244d13922556533aeb7069"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5951e7e52308e51cc1893da225ec60db"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a5951e7e52308e51cc1893da225ec60db">check_stopping</a> (<a class="el" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a> *solver)</td></tr>
+<tr class="memdesc:a5951e7e52308e51cc1893da225ec60db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks stopping criteria.  <a href="../../d5/d60/utils_8h.html#a5951e7e52308e51cc1893da225ec60db">More...</a><br /></td></tr>
+<tr class="separator:a5951e7e52308e51cc1893da225ec60db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind M. Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
@@ -121,6 +128,33 @@ LICENSE</h1>
 DESCRIPTION</h1>
 <p>Provides useful utility functions. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a5951e7e52308e51cc1893da225ec60db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5951e7e52308e51cc1893da225ec60db">&#9670;&nbsp;</a></span>check_stopping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char check_stopping </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a> *&#160;</td>
+          <td class="paramname"><em>solver</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks stopping criteria. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">solver</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if stopping criteria met and 0 otherwise. </dd></dl>
+
+</div>
+</div>
 <a id="adb98c110934765387c256d85f876a56d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb98c110934765387c256d85f876a56d">&#9670;&nbsp;</a></span>print_arrayf()</h2>
 
@@ -148,6 +182,43 @@ DESCRIPTION</h1>
 </div><div class="memdoc">
 
 <p>Prints array of QCOSFloats. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Pointer to array. </td></tr>
+    <tr><td class="paramname">n</td><td>Number of elements in array. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af8f9972d72abd7de68cf6c9eca7008f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8f9972d72abd7de68cf6c9eca7008f7">&#9670;&nbsp;</a></span>print_arrayi()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_arrayi </td>
+          <td>(</td>
+          <td class="paramtype">QCOSInt *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSInt&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints array of QCOSInts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>Pointer to array. </td></tr>

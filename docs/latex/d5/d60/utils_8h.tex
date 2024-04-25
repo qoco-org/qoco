@@ -6,11 +6,10 @@ Include dependency graph for utils.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=239pt]{db/d29/utils_8h__incl}
+\includegraphics[width=275pt]{db/d29/utils_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -24,9 +23,13 @@ void \mbox{\hyperlink{utils_8h_af6aef0df372cd3c15b0b69f1d745bd9a}{print\+\_\+qco
 \begin{DoxyCompactList}\small\item\em Prints \mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}}. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{utils_8h_adb98c110934765387c256d85f876a56d}{print\+\_\+arrayf}} (QCOSFloat $\ast$x, QCOSInt n)
 \begin{DoxyCompactList}\small\item\em Prints array of QCOSFloats. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_af8f9972d72abd7de68cf6c9eca7008f7}{print\+\_\+arrayi}} (QCOSInt $\ast$x, QCOSInt n)
+\begin{DoxyCompactList}\small\item\em Prints array of QCOSInts. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{utils_8h_aab0a749241244d13922556533aeb7069}\label{utils_8h_aab0a749241244d13922556533aeb7069}} 
 void \mbox{\hyperlink{utils_8h_aab0a749241244d13922556533aeb7069}{print\+\_\+header}} ()
-\begin{DoxyCompactList}\small\item\em Prints qcos header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Prints qcos header. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{utils_8h_a5951e7e52308e51cc1893da225ec60db}{check\+\_\+stopping}} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Checks stopping criteria. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -38,6 +41,24 @@ Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2
 Provides useful utility functions. 
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{utils_8h_a5951e7e52308e51cc1893da225ec60db}\label{utils_8h_a5951e7e52308e51cc1893da225ec60db}} 
+\index{utils.h@{utils.h}!check\_stopping@{check\_stopping}}
+\index{check\_stopping@{check\_stopping}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{check\_stopping()}{check\_stopping()}}
+{\footnotesize\ttfamily unsigned char check\+\_\+stopping (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Checks stopping criteria. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if stopping criteria met and 0 otherwise. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{utils_8h_adb98c110934765387c256d85f876a56d}\label{utils_8h_adb98c110934765387c256d85f876a56d}} 
 \index{utils.h@{utils.h}!print\_arrayf@{print\_arrayf}}
 \index{print\_arrayf@{print\_arrayf}!utils.h@{utils.h}}
@@ -47,6 +68,23 @@ Provides useful utility functions.
 
 
 Prints array of QCOSFloats. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Pointer to array. \\
+\hline
+{\em n} & Number of elements in array. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utils_8h_af8f9972d72abd7de68cf6c9eca7008f7}\label{utils_8h_af8f9972d72abd7de68cf6c9eca7008f7}} 
+\index{utils.h@{utils.h}!print\_arrayi@{print\_arrayi}}
+\index{print\_arrayi@{print\_arrayi}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{print\_arrayi()}{print\_arrayi()}}
+{\footnotesize\ttfamily void print\+\_\+arrayi (\begin{DoxyParamCaption}\item[{QCOSInt $\ast$}]{x,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
+
+
+
+Prints array of QCOSInts. 
 
 
 \begin{DoxyParams}{Parameters}

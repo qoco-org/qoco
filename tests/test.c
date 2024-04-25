@@ -56,13 +56,15 @@ int main()
   // printf("z: ");
   // print_arrayf(solver->work->z, m);
 
+  // // print_qcos_csc_matrix(solver->work->kkt->K);
+
+  // compute_kkt_residual(solver->work);
+
+  // print_arrayf(solver->work->kkt->rhs, n + m + p);
+
   // print_qcos_csc_matrix(solver->work->kkt->K);
 
-  compute_kkt_residual(solver->work);
-
-  print_arrayf(solver->work->kkt->rhs, n + m + p);
-
-  // print_qcos_csc_matrix(solver->work->kkt->K);
+  // print_arrayi(solver->work->kkt->nt2kkt, 9);
 
   if (solver && !exit) {
     qcos_cleanup(solver);

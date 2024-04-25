@@ -1,16 +1,16 @@
 \hypertarget{definitions_8h}{}\doxysection{include/definitions.h File Reference}
 \label{definitions_8h}\index{include/definitions.h@{include/definitions.h}}
+{\ttfamily \#include $<$limits.\+h$>$}\newline
 {\ttfamily \#include \char`\"{}math.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
 Include dependency graph for definitions.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=202pt]{dd/d18/definitions_8h__incl}
+\includegraphics[width=273pt]{dd/d18/definitions_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,8 +20,20 @@ This graph shows which files directly or indirectly include this file\+:
 \doxysubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\Hypertarget{definitions_8h_ab2e13be6209ccfc19ce4a108e7e68f93}\label{definitions_8h_ab2e13be6209ccfc19ce4a108e7e68f93}} 
+\#define {\bfseries QCOSInt\+\_\+\+MAX}~INT\+\_\+\+MAX
+\item 
+\mbox{\Hypertarget{definitions_8h_a7262ee9fa280d716daee8ef85358972b}\label{definitions_8h_a7262ee9fa280d716daee8ef85358972b}} 
+\#define {\bfseries QCOSFloat\+\_\+\+MAX}~\+\_\+\+\_\+\+DBL\+\_\+\+MAX\+\_\+\+\_\+
+\item 
 \mbox{\Hypertarget{definitions_8h_a07aa8317f91c7ead6a219a1985c2e5c6}\label{definitions_8h_a07aa8317f91c7ead6a219a1985c2e5c6}} 
 \#define {\bfseries qcos\+\_\+max}(a,  b)~(a $>$ b) ? a \+: b
+\item 
+\mbox{\Hypertarget{definitions_8h_ac1134952a0efb4c8e5637d0c417c35eb}\label{definitions_8h_ac1134952a0efb4c8e5637d0c417c35eb}} 
+\#define {\bfseries qcos\+\_\+abs}(a)~(a $>$ 0) ? a \+: -\/a
+\item 
+\mbox{\Hypertarget{definitions_8h_ab65fb67e9a764fbda260b2b867c0be3a}\label{definitions_8h_ab65fb67e9a764fbda260b2b867c0be3a}} 
+\#define {\bfseries safe\+\_\+div}(a,  b)~(qcos\+\_\+abs(a) $>$ 1e-\/15) ? (a / b) \+: QCOSFloat\+\_\+\+MAX
 \item 
 \mbox{\Hypertarget{definitions_8h_a18911854e2158baa8a9b2c6ce1c5e7d5}\label{definitions_8h_a18911854e2158baa8a9b2c6ce1c5e7d5}} 
 \#define {\bfseries qcos\+\_\+sqrt}(a)~sqrt(a)
@@ -52,4 +64,4 @@ Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail
 \end{DoxyAuthor}
 \hypertarget{utils_8h_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8h_LICENSE}
 Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
-Defines QCOSInt, QCOSFloat, qcos\+\_\+malloc, qcos\+\_\+calloc, and qcos\+\_\+free. 
+Defines various macros used in qcos. 

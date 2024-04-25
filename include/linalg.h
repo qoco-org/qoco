@@ -72,4 +72,24 @@ QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n);
  */
 void qcos_USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
 
+/**
+ * @brief Computes maximum element of array.
+ *
+ * @param x Input array.
+ * @param n Length of array.
+ * @return Maximum element of x.
+ */
+QCOSInt max_arrayi(QCOSInt* x, QCOSInt n);
+
+/**
+ * @brief Scales array x by s.
+ * y = s * x
+ *
+ * @param x Input array.
+ * @param x Output array.
+ * @param s Scaling factor.
+ * @param n Length of arrays.
+ */
+void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n);
+
 #endif /* #ifndef LINALG_H*/

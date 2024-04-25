@@ -34,6 +34,16 @@ QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a29782079b22d7325dab189c88
 QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a9edaae097395e35361943005e1c42208}{z}}
 \item 
 QCOSFloat \mbox{\hyperlink{structQCOSWorkspace_a9ff9f65a7afdcc49eb8659ce556fb71d}{mu}}
+\item 
+QCOSInt \mbox{\hyperlink{structQCOSWorkspace_ae2f8ee64fca368ad2f33ade293528a9b}{Wnnz}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a9eb646cc7308610114f9ebc0cd6517e3}{W}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a45e7f9de85a021bbccd2117ad3e0557a}{lambda}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a4e099ae4359469a57ed68d70b6a37f8b}{sbar}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a108749eda1fafe764997c0fa142b4ce1}{zbar}}
 \end{DoxyCompactItemize}
 
 
@@ -53,19 +63,43 @@ Contains SOCP problem data. \mbox{\Hypertarget{structQCOSWorkspace_ae0803795a430
 \doxysubsubsection{\texorpdfstring{kkt}{kkt}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structQCOSKKT}{QCOSKKT}}$\ast$ QCOSWorkspace\+::kkt}
 
-Contains all data related to KKT system. \mbox{\Hypertarget{structQCOSWorkspace_a9ff9f65a7afdcc49eb8659ce556fb71d}\label{structQCOSWorkspace_a9ff9f65a7afdcc49eb8659ce556fb71d}} 
+Contains all data related to KKT system. \mbox{\Hypertarget{structQCOSWorkspace_a45e7f9de85a021bbccd2117ad3e0557a}\label{structQCOSWorkspace_a45e7f9de85a021bbccd2117ad3e0557a}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!lambda@{lambda}}
+\index{lambda@{lambda}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{lambda}{lambda}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::lambda}
+
+Scaled variables. \mbox{\Hypertarget{structQCOSWorkspace_a9ff9f65a7afdcc49eb8659ce556fb71d}\label{structQCOSWorkspace_a9ff9f65a7afdcc49eb8659ce556fb71d}} 
 \index{QCOSWorkspace@{QCOSWorkspace}!mu@{mu}}
 \index{mu@{mu}!QCOSWorkspace@{QCOSWorkspace}}
 \doxysubsubsection{\texorpdfstring{mu}{mu}}
 {\footnotesize\ttfamily QCOSFloat QCOSWorkspace\+::mu}
 
-Gap metric (s\textquotesingle{}$\ast$z / m) \mbox{\Hypertarget{structQCOSWorkspace_a875282429ee247a9646c3206abc88636}\label{structQCOSWorkspace_a875282429ee247a9646c3206abc88636}} 
+Gap (s\textquotesingle{}$\ast$z / m) \mbox{\Hypertarget{structQCOSWorkspace_a875282429ee247a9646c3206abc88636}\label{structQCOSWorkspace_a875282429ee247a9646c3206abc88636}} 
 \index{QCOSWorkspace@{QCOSWorkspace}!s@{s}}
 \index{s@{s}!QCOSWorkspace@{QCOSWorkspace}}
 \doxysubsubsection{\texorpdfstring{s}{s}}
 {\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::s}
 
-Iterate of slack variables associated with conic constraint. \mbox{\Hypertarget{structQCOSWorkspace_ab9c423590e48fb6dab0b2e92e34c0b15}\label{structQCOSWorkspace_ab9c423590e48fb6dab0b2e92e34c0b15}} 
+Iterate of slack variables associated with conic constraint. \mbox{\Hypertarget{structQCOSWorkspace_a4e099ae4359469a57ed68d70b6a37f8b}\label{structQCOSWorkspace_a4e099ae4359469a57ed68d70b6a37f8b}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!sbar@{sbar}}
+\index{sbar@{sbar}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{sbar}{sbar}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::sbar}
+
+Temporary array needed in Nesterov-\/\+Todd scaling calculations. \mbox{\Hypertarget{structQCOSWorkspace_a9eb646cc7308610114f9ebc0cd6517e3}\label{structQCOSWorkspace_a9eb646cc7308610114f9ebc0cd6517e3}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!W@{W}}
+\index{W@{W}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{W}{W}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::W}
+
+Nesterov-\/\+Todd Scaling \mbox{\Hypertarget{structQCOSWorkspace_ae2f8ee64fca368ad2f33ade293528a9b}\label{structQCOSWorkspace_ae2f8ee64fca368ad2f33ade293528a9b}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!Wnnz@{Wnnz}}
+\index{Wnnz@{Wnnz}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{Wnnz}{Wnnz}}
+{\footnotesize\ttfamily QCOSInt QCOSWorkspace\+::\+Wnnz}
+
+Number of nonzeros in Nesterov-\/\+Todd Scaling. \mbox{\Hypertarget{structQCOSWorkspace_ab9c423590e48fb6dab0b2e92e34c0b15}\label{structQCOSWorkspace_ab9c423590e48fb6dab0b2e92e34c0b15}} 
 \index{QCOSWorkspace@{QCOSWorkspace}!x@{x}}
 \index{x@{x}!QCOSWorkspace@{QCOSWorkspace}}
 \doxysubsubsection{\texorpdfstring{x}{x}}
@@ -83,7 +117,13 @@ Iterate of dual variables associated with affine equality constraint. \mbox{\Hyp
 \doxysubsubsection{\texorpdfstring{z}{z}}
 {\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::z}
 
-Iterate of dual variables associated with conic constraint. 
+Iterate of dual variables associated with conic constraint. \mbox{\Hypertarget{structQCOSWorkspace_a108749eda1fafe764997c0fa142b4ce1}\label{structQCOSWorkspace_a108749eda1fafe764997c0fa142b4ce1}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!zbar@{zbar}}
+\index{zbar@{zbar}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{zbar}{zbar}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::zbar}
+
+Temporary array needed in Nesterov-\/\+Todd scaling calculations. 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

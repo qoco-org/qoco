@@ -67,3 +67,19 @@ void qcos_USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
     }
   }
 }
+
+QCOSInt max_arrayi(QCOSInt* x, QCOSInt n)
+{
+  QCOSInt max = -QCOSInt_MAX;
+  for (QCOSInt i = 0; i < n; ++i) {
+    max = qcos_max(max, x[i]);
+  }
+  return max;
+}
+
+void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n)
+{
+  for (QCOSInt i = 0; i < n; ++i) {
+    y[i] = s * x[i];
+  }
+}

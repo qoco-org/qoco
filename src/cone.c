@@ -34,6 +34,15 @@ QCOSFloat soc_residual(QCOSFloat* u, QCOSInt n)
   return res;
 }
 
+QCOSFloat soc_residual2(QCOSFloat* u, QCOSInt n)
+{
+  QCOSFloat res = u[0] * u[0];
+  for (QCOSInt i = 1; i < n; ++i) {
+    res -= u[i] * u[i];
+  }
+  return res;
+}
+
 QCOSFloat cone_residual(QCOSFloat* u, QCOSProblemData* data)
 {
   QCOSFloat res = -1e7;
@@ -91,4 +100,66 @@ void bring2cone(QCOSFloat* u, QCOSProblemData* data)
 void compute_mu(QCOSWorkspace* work)
 {
   work->mu = dot(work->s, work->z, work->data->m) / work->data->m;
+}
+
+void compute_nt_scaling(QCOSWorkspace* work)
+{
+  // Compute Nesterov-Todd scaling and scaled variables for LP cone.
+  QCOSInt idx;
+  for (idx = 0; idx < work->data->l; ++idx) {
+    work->W[idx] = qcos_sqrt(safe_div(work->s[idx], work->z[idx]));
+    work->lambda[idx] = qcos_sqrt(work->s[idx] * work->z[idx]);
+  }
+  // Compute Nesterov-Todd scaling for second-order cones.
+  QCOSInt nt_idx = idx;
+  for (QCOSInt i = 0; i < work->data->ncones; ++i) {
+    // Compute normalized vectors.
+    QCOSFloat s_scal = soc_residual2(&work->s[idx], work->data->q[i]);
+    s_scal = qcos_sqrt(s_scal);
+    QCOSFloat f = safe_div(1.0, s_scal);
+    scale_arrayf(&work->s[idx], work->sbar, f, work->data->q[i]);
+
+    QCOSFloat z_scal = soc_residual2(&work->z[idx], work->data->q[i]);
+    z_scal = qcos_sqrt(z_scal);
+    f = safe_div(1.0, z_scal);
+    scale_arrayf(&work->z[idx], work->zbar, f, work->data->q[i]);
+
+    QCOSFloat gamma =
+        qcos_sqrt(0.5 * (1 + dot(work->sbar, work->zbar, work->data->q[i])));
+
+    f = safe_div(1.0, (2 * gamma));
+
+    // Overwrite sbar with wbar.
+    work->sbar[0] = f * (work->sbar[0] + work->zbar[0]);
+    for (QCOSInt j = 1; j < work->data->q[i]; ++j) {
+      work->sbar[j] = f * (work->sbar[j] - work->zbar[j]);
+    }
+
+    // Overwrite zbar with v.
+    f = safe_div(1.0, qcos_sqrt(2 * (work->sbar[0] + 1)));
+    work->zbar[0] = f * (work->sbar[0] + 1.0);
+    for (QCOSInt j = 1; j < work->data->q[i]; ++j) {
+      work->zbar[j] = f * work->sbar[j];
+    }
+
+    QCOSInt shift = 0;
+    f = qcos_sqrt(safe_div(s_scal, z_scal));
+    for (QCOSInt j = 0; j < work->data->q[i]; ++j) {
+      for (QCOSInt k = 0; k < work->data->q[i]; ++k) {
+        if (k <= j) {
+          work->W[nt_idx + shift] = 2 * (work->zbar[k] * work->zbar[j]);
+          if (j == k && j == 0) {
+            work->W[nt_idx + shift] -= 1;
+          }
+          else if (j == k) {
+            work->W[nt_idx + shift] += 1;
+          }
+          work->W[nt_idx + shift] *= f;
+          shift += 1;
+        }
+      }
+    }
+    idx += work->data->q[i];
+    nt_idx += (work->data->q[i] * work->data->q[i] + work->data->q[i]) / 2;
+  }
 }

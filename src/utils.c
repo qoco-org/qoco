@@ -46,6 +46,18 @@ void print_arrayf(QCOSFloat* x, QCOSInt n)
   printf("}\n");
 }
 
+void print_arrayi(QCOSInt* x, QCOSInt n)
+{
+  printf("{");
+  for (QCOSInt i = 0; i < n; ++i) {
+    printf("%d", x[i]);
+    if (i != n - 1) {
+      printf(", ");
+    }
+  }
+  printf("}\n");
+}
+
 void print_header()
 {
   // clang-format off
@@ -58,4 +70,12 @@ void print_header()
     printf("| Iteration |   Primal cost  |     Gap     | Primal residual |     Mu     |    Step    |\n");
     printf("+-----------+----------------+-------------+-----------------+------------+------------+\n");
   // clang-format on
+}
+
+unsigned char check_stopping(QCOSSolver* solver)
+{
+  if (solver->work->mu < solver->settings->abstol) {
+    return 1;
+  }
+  return 0;
 }

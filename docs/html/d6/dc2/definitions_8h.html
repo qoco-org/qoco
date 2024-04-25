@@ -72,16 +72,18 @@ $(function() {
 <div class="title">definitions.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;math.h&quot;</code><br />
+<div class="textblock"><code>#include &lt;limits.h&gt;</code><br />
+<code>#include &quot;math.h&quot;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for definitions.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../dd/d18/definitions_8h__incl.png" border="0" usemap="#ainclude_2definitions_8h" alt=""/></div>
 <map name="ainclude_2definitions_8h" id="ainclude_2definitions_8h">
-<area shape="rect" title=" " alt="" coords="9,5,163,32"/>
-<area shape="rect" title=" " alt="" coords="5,80,73,107"/>
-<area shape="rect" title=" " alt="" coords="97,80,168,107"/>
+<area shape="rect" title=" " alt="" coords="57,5,211,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,76,107"/>
+<area shape="rect" title=" " alt="" coords="100,80,168,107"/>
+<area shape="rect" title=" " alt="" coords="192,80,263,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -105,9 +107,21 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:ab2e13be6209ccfc19ce4a108e7e68f93"><td class="memItemLeft" align="right" valign="top"><a id="ab2e13be6209ccfc19ce4a108e7e68f93"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>QCOSInt_MAX</b>&#160;&#160;&#160;INT_MAX</td></tr>
+<tr class="separator:ab2e13be6209ccfc19ce4a108e7e68f93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7262ee9fa280d716daee8ef85358972b"><td class="memItemLeft" align="right" valign="top"><a id="a7262ee9fa280d716daee8ef85358972b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>QCOSFloat_MAX</b>&#160;&#160;&#160;__DBL_MAX__</td></tr>
+<tr class="separator:a7262ee9fa280d716daee8ef85358972b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07aa8317f91c7ead6a219a1985c2e5c6"><td class="memItemLeft" align="right" valign="top"><a id="a07aa8317f91c7ead6a219a1985c2e5c6"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>qcos_max</b>(a,  b)&#160;&#160;&#160;(a &gt; b) ? a : b</td></tr>
 <tr class="separator:a07aa8317f91c7ead6a219a1985c2e5c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1134952a0efb4c8e5637d0c417c35eb"><td class="memItemLeft" align="right" valign="top"><a id="ac1134952a0efb4c8e5637d0c417c35eb"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>qcos_abs</b>(a)&#160;&#160;&#160;(a &gt; 0) ? a : -a</td></tr>
+<tr class="separator:ac1134952a0efb4c8e5637d0c417c35eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab65fb67e9a764fbda260b2b867c0be3a"><td class="memItemLeft" align="right" valign="top"><a id="ab65fb67e9a764fbda260b2b867c0be3a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>safe_div</b>(a,  b)&#160;&#160;&#160;(qcos_abs(a) &gt; 1e-15) ? (a / b) : QCOSFloat_MAX</td></tr>
+<tr class="separator:ab65fb67e9a764fbda260b2b867c0be3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18911854e2158baa8a9b2c6ce1c5e7d5"><td class="memItemLeft" align="right" valign="top"><a id="a18911854e2158baa8a9b2c6ce1c5e7d5"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>qcos_sqrt</b>(a)&#160;&#160;&#160;sqrt(a)</td></tr>
 <tr class="separator:a18911854e2158baa8a9b2c6ce1c5e7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,7 +151,7 @@ LICENSE</h1>
 <p>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-Clause License</p>
 <h1><a class="anchor" id="DESCRIPTION"></a>
 DESCRIPTION</h1>
-<p>Defines QCOSInt, QCOSFloat, qcos_malloc, qcos_calloc, and qcos_free. </p>
+<p>Defines various macros used in qcos. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

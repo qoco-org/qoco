@@ -1,21 +1,29 @@
 #include "kkt.h"
 #include "utils.h"
 
-QCOSCscMatrix* allocate_kkt(QCOSProblemData* data)
+void allocate_kkt(QCOSWorkspace* work)
 {
-  QCOSCscMatrix* K = qcos_malloc(sizeof(QCOSCscMatrix));
+  work->kkt->K = qcos_malloc(sizeof(QCOSCscMatrix));
 
   // Number of nonzeros in KKT matrix is sum of nnz for P, A, G, and m (for the
   // NT scaling matrix block).
 
-  K->m = data->n + data->m + data->p;
-  K->n = data->n + data->m + data->p;
-  K->nnz = data->P->nnz + data->A->nnz + data->G->nnz + data->m;
-  K->x = qcos_calloc(K->nnz, sizeof(QCOSFloat));
-  K->i = qcos_calloc(K->nnz, sizeof(QCOSInt));
-  K->p = qcos_calloc((K->n + 1), sizeof(QCOSInt));
+  // Number of nonzeros in second-order cone part of NT scaling.
+  QCOSInt Wsoc_nnz = 0;
+  for (QCOSInt i = 0; i < work->data->ncones; ++i) {
+    Wsoc_nnz += work->data->q[i] * work->data->q[i] - work->data->q[i];
+  }
+  Wsoc_nnz /= 2;
 
-  return K;
+  work->Wnnz = work->data->m + Wsoc_nnz;
+  work->kkt->K->m = work->data->n + work->data->m + work->data->p;
+  work->kkt->K->n = work->data->n + work->data->m + work->data->p;
+  work->kkt->K->nnz =
+      work->data->P->nnz + work->data->A->nnz + work->data->G->nnz + work->Wnnz;
+
+  work->kkt->K->x = qcos_calloc(work->kkt->K->nnz, sizeof(QCOSFloat));
+  work->kkt->K->i = qcos_calloc(work->kkt->K->nnz, sizeof(QCOSInt));
+  work->kkt->K->p = qcos_calloc((work->kkt->K->n + 1), sizeof(QCOSInt));
 }
 
 void construct_kkt(QCOSWorkspace* work)
@@ -34,7 +42,7 @@ void construct_kkt(QCOSWorkspace* work)
   }
 
   // Add A^T block
-  for (QCOSInt i = 0; i < work->data->A->m; ++i) {
+  for (QCOSInt row = 0; row < work->data->A->m; ++row) {
     // Loop over columns of A
     // Counter for number of nonzeros from A added to this column of KKT matrix
     QCOSInt nzadded = 0;
@@ -42,7 +50,7 @@ void construct_kkt(QCOSWorkspace* work)
       // Loop over all nonzeros in column j
       for (QCOSInt k = work->data->A->p[j]; k < work->data->A->p[j + 1]; ++k) {
         // If the nonzero is in row i of A then add
-        if (work->data->A->i[k] == i) {
+        if (work->data->A->i[k] == row) {
           work->kkt->K->x[nz] = work->data->A->x[k];
           work->kkt->K->i[nz] = j;
           nz += 1;
@@ -54,16 +62,17 @@ void construct_kkt(QCOSWorkspace* work)
     col += 1;
   }
 
-  // Add G^T block
-  for (QCOSInt i = 0; i < work->data->G->m; ++i) {
-    // Loop over columns of A
-    // Counter for number of nonzeros from A added to this column of KKT matrix
+  // Add non-negative orthant part of G^T.
+  QCOSInt nz_nt = 0;
+  for (QCOSInt row = 0; row < work->data->l; ++row) {
+    // Loop over columns of G
+    // Counter for number of nonzeros from G added to this column of KKT matrix
     QCOSInt nzadded = 0;
     for (QCOSInt j = 0; j < work->data->G->n; ++j) {
       // Loop over all nonzeros in column j
       for (QCOSInt k = work->data->G->p[j]; k < work->data->G->p[j + 1]; ++k) {
-        // If the nonzero is in row i of A then add
-        if (work->data->G->i[k] == i) {
+        // If the nonzero is in row i of G then add.
+        if (work->data->G->i[k] == row) {
           work->kkt->K->x[nz] = work->data->G->x[k];
           work->kkt->K->i[nz] = j;
           nz += 1;
@@ -74,14 +83,63 @@ void construct_kkt(QCOSWorkspace* work)
 
     // Add -Id to NT block.
     work->kkt->K->x[nz] = -1.0;
-    work->kkt->K->i[nz] = work->data->n + work->data->p + i;
+    work->kkt->K->i[nz] = work->data->n + work->data->p + row;
     work->kkt->K->p[col] = work->kkt->K->p[col - 1] + nzadded + 1;
 
     // Mapping from NT matrix entries to KKT matrix entries.
-    work->kkt->nt2kkt[i] = nz;
+    work->kkt->nt2kkt[nz_nt] = nz;
+    nz_nt += 1;
 
     nz += 1;
     col += 1;
+  }
+
+  // Add second-order cone parts of G^T.
+  QCOSInt idx = work->data->l;
+  for (QCOSInt c = 0; c < work->data->ncones; ++c) {
+    for (QCOSInt row = idx; row < idx + work->data->q[c]; ++row) {
+      // Loop over columns of G
+
+      // Counter for number of nonzeros from G added to this column of KKT
+      // matrix
+      QCOSInt nzadded = 0;
+      for (QCOSInt j = 0; j < work->data->G->n; ++j) {
+        // Loop over all nonzeros in column j
+        for (QCOSInt k = work->data->G->p[j]; k < work->data->G->p[j + 1];
+             ++k) {
+          // If the nonzero is in row i of G then add.
+          if (work->data->G->i[k] == row) {
+            work->kkt->K->x[nz] = work->data->G->x[k];
+            work->kkt->K->i[nz] = j;
+            nz += 1;
+            nzadded += 1;
+          }
+        }
+      }
+
+      // Add NT block.
+      for (QCOSInt i = idx; i < idx + work->data->q[c]; i++) {
+        // Only add upper triangular part.
+        if (i + work->data->n + work->data->p <= col - 1) {
+          // Add -1 if element is on main diagonal and 0 otherwise.
+          if (i + work->data->n + work->data->p == col - 1) {
+            work->kkt->K->x[nz] = -1.0;
+          }
+          else {
+            work->kkt->K->x[nz] = 0.0;
+          }
+          work->kkt->K->i[nz] = work->data->n + work->data->p + i;
+          work->kkt->nt2kkt[nz_nt] = nz;
+          nz_nt += 1;
+          nz += 1;
+          nzadded += 1;
+        }
+      }
+      work->kkt->K->p[col] = work->kkt->K->p[col - 1] + nzadded;
+      // Mapping from NT matrix entries to KKT matrix entries.
+      col += 1;
+    }
+    idx += work->data->q[c];
   }
 }
 
@@ -144,7 +202,7 @@ void initialize_ipm(QCOSSolver* solver)
 
 void set_nt_block_zeros(QCOSWorkspace* work)
 {
-  for (QCOSInt i = 0; i < work->data->m; ++i) {
+  for (QCOSInt i = 0; i < work->Wnnz; ++i) {
     work->kkt->K->x[work->kkt->nt2kkt[i]] = 0.0;
   }
 }

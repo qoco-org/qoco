@@ -50,6 +50,16 @@ void soc_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt n);
 QCOSFloat soc_residual(QCOSFloat* u, QCOSInt n);
 
 /**
+ * @brief Computes u0^2 - u1'*u1 of vector u with respect to the second order
+ * cone of dimension n.
+ *
+ * @param u u = (u0, u1) is a vector in second order cone of dimension n.
+ * @param n Dimension of second order cone.
+ * @return Residual: u0^2 - u1'*u1.
+ */
+QCOSFloat soc_residual2(QCOSFloat* u, QCOSInt n);
+
+/**
  * @brief Computes residual of vector u with respect to cone C.
  *
  * @param u Vector to be tested.
@@ -75,5 +85,12 @@ void bring2cone(QCOSFloat* u, QCOSProblemData* data);
  * @param work Pointer to workspace.
  */
 void compute_mu(QCOSWorkspace* work);
+
+/**
+ * @brief Compute Nesterov-Todd scalings and scaled variables.
+ *
+ * @param work Pointer to workspace.
+ */
+void compute_nt_scaling(QCOSWorkspace* work);
 
 #endif

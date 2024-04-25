@@ -78,11 +78,12 @@ Include dependency graph for linalg.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d7/d1d/linalg_8h__incl.png" border="0" usemap="#ainclude_2linalg_8h" alt=""/></div>
 <map name="ainclude_2linalg_8h" id="ainclude_2linalg_8h">
-<area shape="rect" title=" " alt="" coords="25,5,147,32"/>
-<area shape="rect" href="../../d6/dc2/definitions_8h.html" title=" " alt="" coords="35,155,137,181"/>
-<area shape="rect" href="../../d1/d3d/structs_8h.html" title=" " alt="" coords="85,80,164,107"/>
-<area shape="rect" title=" " alt="" coords="5,229,73,256"/>
-<area shape="rect" title=" " alt="" coords="97,229,168,256"/>
+<area shape="rect" title=" " alt="" coords="73,5,195,32"/>
+<area shape="rect" href="../../d6/dc2/definitions_8h.html" title=" " alt="" coords="83,155,185,181"/>
+<area shape="rect" href="../../d1/d3d/structs_8h.html" title=" " alt="" coords="133,80,212,107"/>
+<area shape="rect" title=" " alt="" coords="5,229,76,256"/>
+<area shape="rect" title=" " alt="" coords="100,229,168,256"/>
+<area shape="rect" title=" " alt="" coords="192,229,263,256"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -120,6 +121,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a1d03b9dad3cc93f16b80ddb95439ed05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d46/linalg_8h.html#a1d03b9dad3cc93f16b80ddb95439ed05">qcos_USpMv</a> (<a class="el" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a> *M, QCOSFloat *v, QCOSFloat *r)</td></tr>
 <tr class="memdesc:a1d03b9dad3cc93f16b80ddb95439ed05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M * v.  <a href="../../dd/d46/linalg_8h.html#a1d03b9dad3cc93f16b80ddb95439ed05">More...</a><br /></td></tr>
 <tr class="separator:a1d03b9dad3cc93f16b80ddb95439ed05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b023ba260fab3c8a4794c293e993ae8"><td class="memItemLeft" align="right" valign="top">QCOSInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d46/linalg_8h.html#a1b023ba260fab3c8a4794c293e993ae8">max_arrayi</a> (QCOSInt *x, QCOSInt n)</td></tr>
+<tr class="memdesc:a1b023ba260fab3c8a4794c293e993ae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes maximum element of array.  <a href="../../dd/d46/linalg_8h.html#a1b023ba260fab3c8a4794c293e993ae8">More...</a><br /></td></tr>
+<tr class="separator:a1b023ba260fab3c8a4794c293e993ae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acda7ecb523df6e138fd26cdd194c8086"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d46/linalg_8h.html#acda7ecb523df6e138fd26cdd194c8086">scale_arrayf</a> (QCOSFloat *x, QCOSFloat *y, QCOSFloat s, QCOSInt n)</td></tr>
+<tr class="memdesc:acda7ecb523df6e138fd26cdd194c8086"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scales array x by s. y = s * x.  <a href="../../dd/d46/linalg_8h.html#acda7ecb523df6e138fd26cdd194c8086">More...</a><br /></td></tr>
+<tr class="separator:acda7ecb523df6e138fd26cdd194c8086"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind M. Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
@@ -307,6 +314,44 @@ DESCRIPTION</h1>
 
 </div>
 </div>
+<a id="a1b023ba260fab3c8a4794c293e993ae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b023ba260fab3c8a4794c293e993ae8">&#9670;&nbsp;</a></span>max_arrayi()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCOSInt max_arrayi </td>
+          <td>(</td>
+          <td class="paramtype">QCOSInt *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSInt&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes maximum element of array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Input array. </td></tr>
+    <tr><td class="paramname">n</td><td>Length of array. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Maximum element of x. </dd></dl>
+
+</div>
+</div>
 <a id="a48fe41ad1659f444e12a98fe0b21ccd3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a48fe41ad1659f444e12a98fe0b21ccd3">&#9670;&nbsp;</a></span>new_qcos_csc_matrix()</h2>
 
@@ -372,6 +417,57 @@ DESCRIPTION</h1>
     <tr><td class="paramname">M</td><td>Upper triangular part of M in CSC form. </td></tr>
     <tr><td class="paramname">v</td><td>Vector. </td></tr>
     <tr><td class="paramname">r</td><td>Result. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acda7ecb523df6e138fd26cdd194c8086"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acda7ecb523df6e138fd26cdd194c8086">&#9670;&nbsp;</a></span>scale_arrayf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scale_arrayf </td>
+          <td>(</td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSInt&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Scales array x by s. y = s * x. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Input array. </td></tr>
+    <tr><td class="paramname">x</td><td>Output array. </td></tr>
+    <tr><td class="paramname">s</td><td>Scaling factor. </td></tr>
+    <tr><td class="paramname">n</td><td>Length of arrays. </td></tr>
   </table>
   </dd>
 </dl>

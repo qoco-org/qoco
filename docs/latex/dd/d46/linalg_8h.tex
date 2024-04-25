@@ -6,7 +6,7 @@ Include dependency graph for linalg.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=202pt]{d7/d1d/linalg_8h__incl}
+\includegraphics[width=273pt]{d7/d1d/linalg_8h__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
@@ -30,7 +30,11 @@ void \mbox{\hyperlink{linalg_8h_a441dbb63eaf3e562be9e033c0933e2d5}{copy\+\_\+arr
 QCOSFloat \mbox{\hyperlink{linalg_8h_a5f379401b4b367c0971b7dd2514b2f64}{dot}} (QCOSFloat $\ast$u, QCOSFloat $\ast$v, QCOSInt n)
 \begin{DoxyCompactList}\small\item\em Computes dot product of u and v. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{linalg_8h_a1d03b9dad3cc93f16b80ddb95439ed05}{qcos\+\_\+\+USp\+Mv}} (\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$M, QCOSFloat $\ast$v, QCOSFloat $\ast$r)
-\begin{DoxyCompactList}\small\item\em Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M $\ast$ v. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M $\ast$ v. \end{DoxyCompactList}\item 
+QCOSInt \mbox{\hyperlink{linalg_8h_a1b023ba260fab3c8a4794c293e993ae8}{max\+\_\+arrayi}} (QCOSInt $\ast$x, QCOSInt n)
+\begin{DoxyCompactList}\small\item\em Computes maximum element of array. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{linalg_8h_acda7ecb523df6e138fd26cdd194c8086}{scale\+\_\+arrayf}} (QCOSFloat $\ast$x, QCOSFloat $\ast$y, QCOSFloat s, QCOSInt n)
+\begin{DoxyCompactList}\small\item\em Scales array x by s. y = s $\ast$ x. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -121,6 +125,26 @@ Computes dot product of u and v.
 \begin{DoxyReturn}{Returns}
 Dot product of u and v. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{linalg_8h_a1b023ba260fab3c8a4794c293e993ae8}\label{linalg_8h_a1b023ba260fab3c8a4794c293e993ae8}} 
+\index{linalg.h@{linalg.h}!max\_arrayi@{max\_arrayi}}
+\index{max\_arrayi@{max\_arrayi}!linalg.h@{linalg.h}}
+\doxysubsubsection{\texorpdfstring{max\_arrayi()}{max\_arrayi()}}
+{\footnotesize\ttfamily QCOSInt max\+\_\+arrayi (\begin{DoxyParamCaption}\item[{QCOSInt $\ast$}]{x,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes maximum element of array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input array. \\
+\hline
+{\em n} & Length of array. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Maximum element of x. 
+\end{DoxyReturn}
 \mbox{\Hypertarget{linalg_8h_a48fe41ad1659f444e12a98fe0b21ccd3}\label{linalg_8h_a48fe41ad1659f444e12a98fe0b21ccd3}} 
 \index{linalg.h@{linalg.h}!new\_qcos\_csc\_matrix@{new\_qcos\_csc\_matrix}}
 \index{new\_qcos\_csc\_matrix@{new\_qcos\_csc\_matrix}!linalg.h@{linalg.h}}
@@ -156,5 +180,26 @@ Sparse matrix vector multiplication for CSC matrices where M is symmetric and on
 {\em v} & Vector. \\
 \hline
 {\em r} & Result. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{linalg_8h_acda7ecb523df6e138fd26cdd194c8086}\label{linalg_8h_acda7ecb523df6e138fd26cdd194c8086}} 
+\index{linalg.h@{linalg.h}!scale\_arrayf@{scale\_arrayf}}
+\index{scale\_arrayf@{scale\_arrayf}!linalg.h@{linalg.h}}
+\doxysubsubsection{\texorpdfstring{scale\_arrayf()}{scale\_arrayf()}}
+{\footnotesize\ttfamily void scale\+\_\+arrayf (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{x,  }\item[{QCOSFloat $\ast$}]{y,  }\item[{QCOSFloat}]{s,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
+
+
+
+Scales array x by s. y = s $\ast$ x. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input array. \\
+\hline
+{\em x} & Output array. \\
+\hline
+{\em s} & Scaling factor. \\
+\hline
+{\em n} & Length of arrays. \\
 \hline
 \end{DoxyParams}

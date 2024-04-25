@@ -24,10 +24,9 @@
 /**
  * @brief Allocate memory for KKT matrix.
  *
- * @param data Pointer to problem data.
- * @return Pointer to allocated KKT matrix.
+ * @param work Pointer to workspace.
  */
-QCOSCscMatrix* allocate_kkt(QCOSProblemData* data);
+void allocate_kkt(QCOSWorkspace* work);
 
 /**
  * @brief Constructs upper triangular part of KKT matrix with -I

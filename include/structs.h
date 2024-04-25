@@ -93,6 +93,12 @@ typedef struct {
   /** Maximum number of IPM iterations. */
   QCOSInt max_iters;
 
+  /** Absolute tolerance. */
+  QCOSFloat abstol;
+
+  /** Relative tolerance. */
+  QCOSFloat reltol;
+
   /** 0 for quiet anything else for verbose. */
   unsigned char verbose;
 } QCOSSettings;
@@ -161,8 +167,23 @@ typedef struct {
   /** Iterate of dual variables associated with conic constraint. */
   QCOSFloat* z;
 
-  /** Gap metric (s'*z / m) */
+  /** Gap (s'*z / m) */
   QCOSFloat mu;
+
+  /** Number of nonzeros in Nesterov-Todd Scaling. */
+  QCOSInt Wnnz;
+
+  /** Nesterov-Todd Scaling */
+  QCOSFloat* W;
+
+  /** Scaled variables. */
+  QCOSFloat* lambda;
+
+  /** Temporary array needed in Nesterov-Todd scaling calculations. */
+  QCOSFloat* sbar;
+
+  /** Temporary array needed in Nesterov-Todd scaling calculations. */
+  QCOSFloat* zbar;
 
 } QCOSWorkspace;
 

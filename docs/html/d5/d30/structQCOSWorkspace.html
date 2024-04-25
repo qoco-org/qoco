@@ -101,6 +101,16 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a9edaae097395e35361943005e1c42208"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ff9f65a7afdcc49eb8659ce556fb71d"><td class="memItemLeft" align="right" valign="top">QCOSFloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d30/structQCOSWorkspace.html#a9ff9f65a7afdcc49eb8659ce556fb71d">mu</a></td></tr>
 <tr class="separator:a9ff9f65a7afdcc49eb8659ce556fb71d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2f8ee64fca368ad2f33ade293528a9b"><td class="memItemLeft" align="right" valign="top">QCOSInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d30/structQCOSWorkspace.html#ae2f8ee64fca368ad2f33ade293528a9b">Wnnz</a></td></tr>
+<tr class="separator:ae2f8ee64fca368ad2f33ade293528a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eb646cc7308610114f9ebc0cd6517e3"><td class="memItemLeft" align="right" valign="top">QCOSFloat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d30/structQCOSWorkspace.html#a9eb646cc7308610114f9ebc0cd6517e3">W</a></td></tr>
+<tr class="separator:a9eb646cc7308610114f9ebc0cd6517e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45e7f9de85a021bbccd2117ad3e0557a"><td class="memItemLeft" align="right" valign="top">QCOSFloat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d30/structQCOSWorkspace.html#a45e7f9de85a021bbccd2117ad3e0557a">lambda</a></td></tr>
+<tr class="separator:a45e7f9de85a021bbccd2117ad3e0557a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e099ae4359469a57ed68d70b6a37f8b"><td class="memItemLeft" align="right" valign="top">QCOSFloat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d30/structQCOSWorkspace.html#a4e099ae4359469a57ed68d70b6a37f8b">sbar</a></td></tr>
+<tr class="separator:a4e099ae4359469a57ed68d70b6a37f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a108749eda1fafe764997c0fa142b4ce1"><td class="memItemLeft" align="right" valign="top">QCOSFloat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d30/structQCOSWorkspace.html#a108749eda1fafe764997c0fa142b4ce1">zbar</a></td></tr>
+<tr class="separator:a108749eda1fafe764997c0fa142b4ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>QCOS Workspace. </p>
@@ -135,6 +145,21 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a45e7f9de85a021bbccd2117ad3e0557a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45e7f9de85a021bbccd2117ad3e0557a">&#9670;&nbsp;</a></span>lambda</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCOSFloat* QCOSWorkspace::lambda</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Scaled variables. </p>
+
+</div>
+</div>
 <a id="a9ff9f65a7afdcc49eb8659ce556fb71d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9ff9f65a7afdcc49eb8659ce556fb71d">&#9670;&nbsp;</a></span>mu</h2>
 
@@ -146,7 +171,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Gap metric (s'*z / m) </p>
+<p>Gap (s'*z / m) </p>
 
 </div>
 </div>
@@ -162,6 +187,51 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Iterate of slack variables associated with conic constraint. </p>
+
+</div>
+</div>
+<a id="a4e099ae4359469a57ed68d70b6a37f8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e099ae4359469a57ed68d70b6a37f8b">&#9670;&nbsp;</a></span>sbar</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCOSFloat* QCOSWorkspace::sbar</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Temporary array needed in Nesterov-Todd scaling calculations. </p>
+
+</div>
+</div>
+<a id="a9eb646cc7308610114f9ebc0cd6517e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9eb646cc7308610114f9ebc0cd6517e3">&#9670;&nbsp;</a></span>W</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCOSFloat* QCOSWorkspace::W</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Nesterov-Todd Scaling </p>
+
+</div>
+</div>
+<a id="ae2f8ee64fca368ad2f33ade293528a9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2f8ee64fca368ad2f33ade293528a9b">&#9670;&nbsp;</a></span>Wnnz</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCOSInt QCOSWorkspace::Wnnz</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Number of nonzeros in Nesterov-Todd Scaling. </p>
 
 </div>
 </div>
@@ -207,6 +277,21 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Iterate of dual variables associated with conic constraint. </p>
+
+</div>
+</div>
+<a id="a108749eda1fafe764997c0fa142b4ce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a108749eda1fafe764997c0fa142b4ce1">&#9670;&nbsp;</a></span>zbar</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCOSFloat* QCOSWorkspace::zbar</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Temporary array needed in Nesterov-Todd scaling calculations. </p>
 
 </div>
 </div>
