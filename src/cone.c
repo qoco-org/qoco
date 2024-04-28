@@ -1,4 +1,5 @@
 #include "cone.h"
+#include "utils.h"
 
 void cone_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p,
                   QCOSProblemData* data)
@@ -107,11 +108,14 @@ void compute_nt_scaling(QCOSWorkspace* work)
   // Compute Nesterov-Todd scaling and scaled variables for LP cone.
   QCOSInt idx;
   for (idx = 0; idx < work->data->l; ++idx) {
-    work->W[idx] = qcos_sqrt(safe_div(work->s[idx], work->z[idx]));
+    work->WtW[idx] = safe_div(work->s[idx], work->z[idx]);
+    work->W[idx] = qcos_sqrt(work->WtW[idx]);
+    work->Wfull[idx] = work->W[idx];
     work->lambda[idx] = qcos_sqrt(work->s[idx] * work->z[idx]);
   }
   // Compute Nesterov-Todd scaling for second-order cones.
   QCOSInt nt_idx = idx;
+  QCOSInt nt_idx_full = idx;
   for (QCOSInt i = 0; i < work->data->ncones; ++i) {
     // Compute normalized vectors.
     QCOSFloat s_scal = soc_residual2(&work->s[idx], work->data->q[i]);
@@ -142,24 +146,47 @@ void compute_nt_scaling(QCOSWorkspace* work)
       work->zbar[j] = f * work->sbar[j];
     }
 
+    // Compute W for second-order cones.
     QCOSInt shift = 0;
     f = qcos_sqrt(safe_div(s_scal, z_scal));
     for (QCOSInt j = 0; j < work->data->q[i]; ++j) {
-      for (QCOSInt k = 0; k < work->data->q[i]; ++k) {
-        if (k <= j) {
-          work->W[nt_idx + shift] = 2 * (work->zbar[k] * work->zbar[j]);
-          if (j == k && j == 0) {
-            work->W[nt_idx + shift] -= 1;
-          }
-          else if (j == k) {
-            work->W[nt_idx + shift] += 1;
-          }
-          work->W[nt_idx + shift] *= f;
-          shift += 1;
+      for (QCOSInt k = 0; k <= j; ++k) {
+        QCOSInt full_idx1 = nt_idx_full + j * work->data->q[i] + k;
+        QCOSInt full_idx2 = nt_idx_full + k * work->data->q[i] + j;
+        work->W[nt_idx + shift] = 2 * (work->zbar[k] * work->zbar[j]);
+        if (j == k && j == 0) {
+          work->W[nt_idx + shift] -= 1;
         }
+        else if (j == k) {
+          work->W[nt_idx + shift] += 1;
+        }
+        work->W[nt_idx + shift] *= f;
+        work->Wfull[full_idx1] = work->W[nt_idx + shift];
+        work->Wfull[full_idx2] = work->W[nt_idx + shift];
+        shift += 1;
       }
     }
+
+    // Compute WtW for second-order cones.
+    shift = 0;
+    for (QCOSInt j = 0; j < work->data->q[i]; ++j) {
+      for (QCOSInt k = 0; k <= j; ++k) {
+        work->WtW[nt_idx + shift] =
+            dot(&work->Wfull[nt_idx + j * work->data->q[i]],
+                &work->Wfull[nt_idx + k * work->data->q[i]], work->data->q[i]);
+        shift += 1;
+      }
+    }
+
+    // Compute lambda for second-order cones. lambda(soc_idx) = Wsoc * z_soc
+    for (QCOSInt j = 0; j < work->data->q[i]; ++j) {
+      work->lambda[nt_idx + j] =
+          dot(&work->Wfull[nt_idx + j * work->data->q[i]], &work->z[idx],
+              work->data->q[i]);
+    }
+
     idx += work->data->q[i];
     nt_idx += (work->data->q[i] * work->data->q[i] + work->data->q[i]) / 2;
+    nt_idx_full += work->data->q[i] * work->data->q[i];
   }
 }

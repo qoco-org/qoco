@@ -145,7 +145,6 @@ void construct_kkt(QCOSWorkspace* work)
 
 void initialize_ipm(QCOSSolver* solver)
 {
-
   // Construct rhs of KKT system and initialize the solution variable to the
   // right hand side (needed by qdldl).
   QCOSInt idx;
@@ -207,6 +206,12 @@ void set_nt_block_zeros(QCOSWorkspace* work)
   }
 }
 
+void update_nt_block(QCOSWorkspace* work)
+{
+  for (QCOSInt i = 0; i < work->Wnnz; ++i) {
+    work->kkt->K->x[work->kkt->nt2kkt[i]] = -work->WtW[i];
+  }
+}
 void compute_kkt_residual(QCOSWorkspace* work)
 {
   // Zero out the NT scaling block.

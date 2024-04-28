@@ -173,8 +173,14 @@ typedef struct {
   /** Number of nonzeros in Nesterov-Todd Scaling. */
   QCOSInt Wnnz;
 
-  /** Nesterov-Todd Scaling */
+  /** Upper triangular part of Nesterov-Todd Scaling */
   QCOSFloat* W;
+
+  /** Full Nesterov-Todd Scaling */
+  QCOSFloat* Wfull;
+
+  /** Nesterov-Todd Scaling squared */
+  QCOSFloat* WtW;
 
   /** Scaled variables. */
   QCOSFloat* lambda;

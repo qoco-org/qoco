@@ -75,7 +75,14 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   solver->work->mu = 0.0;
 
   // Allocate Nesterov-Todd scalings and scaled variables.
+  QCOSInt Wnnzfull = solver->work->data->l;
+  for (QCOSInt i = 0; i < solver->work->data->ncones; ++i) {
+    Wnnzfull += solver->work->data->q[i] * solver->work->data->q[i];
+  }
+
   solver->work->W = qcos_malloc(solver->work->Wnnz * sizeof(QCOSFloat));
+  solver->work->Wfull = qcos_malloc(Wnnzfull * sizeof(QCOSFloat));
+  solver->work->WtW = qcos_malloc(solver->work->Wnnz * sizeof(QCOSFloat));
   solver->work->lambda = qcos_malloc(m * sizeof(QCOSFloat));
   QCOSInt qmax = max_arrayi(solver->work->data->q, solver->work->data->ncones);
   solver->work->sbar = qcos_malloc(qmax * sizeof(QCOSFloat));
@@ -148,6 +155,9 @@ QCOSInt qcos_solve(QCOSSolver* solver)
     // Compute Nesterov-Todd scalings.
     compute_nt_scaling(solver->work);
 
+    // Update Nestrov-Todd block of KKT matrix.
+    update_nt_block(solver->work);
+
     // // Perform predictor-corrector
     // predictor_corrector(solver->work);
 
@@ -190,6 +200,8 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
 
   // Free Nesterov-Todd scalings and scaled variables.
   qcos_free(solver->work->W);
+  qcos_free(solver->work->Wfull);
+  qcos_free(solver->work->WtW);
   qcos_free(solver->work->lambda);
   qcos_free(solver->work->sbar);
   qcos_free(solver->work->zbar);

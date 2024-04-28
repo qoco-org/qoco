@@ -62,9 +62,10 @@ int main()
 
   // print_arrayf(solver->work->kkt->rhs, n + m + p);
 
-  // print_qcos_csc_matrix(solver->work->kkt->K);
+  print_qcos_csc_matrix(solver->work->kkt->K);
 
-  // print_arrayi(solver->work->kkt->nt2kkt, 9);
+  // print_arrayf(solver->work->lambda, solver->work->data->m);
+  // print_arrayf(solver->work->Wfull, 12);
 
   if (solver && !exit) {
     qcos_cleanup(solver);
