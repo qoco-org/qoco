@@ -212,6 +212,7 @@ void update_nt_block(QCOSWorkspace* work)
     work->kkt->K->x[work->kkt->nt2kkt[i]] = -work->WtW[i];
   }
 }
+
 void compute_kkt_residual(QCOSWorkspace* work)
 {
   // Zero out the NT scaling block.
@@ -245,4 +246,65 @@ void compute_kkt_residual(QCOSWorkspace* work)
     work->kkt->rhs[idx] += -work->data->h[i] + work->s[i];
     idx += 1;
   }
+}
+
+void construct_kkt_aff_rhs(QCOSWorkspace* work)
+{
+  // Negate the kkt residual.
+  for (QCOSInt i = 0; i < work->data->n + work->data->p + work->data->m; ++i) {
+    work->kkt->rhs[i] = -work->kkt->rhs[i];
+  }
+
+  // Add W*lambda to z portion of rhs.
+
+  // Compute product for LP cone part of W.
+  for (QCOSInt i = 0; i < work->data->l; ++i) {
+    work->kkt->rhs[work->data->n + work->data->p + i] +=
+        (work->Wfull[i] * work->lambda[i]);
+  }
+
+  // Compute product for second-order cones.
+  QCOSInt nt_idx = work->data->l;
+  QCOSInt idx = work->data->l;
+
+  // Loop over all second-order cones.
+  for (QCOSInt i = 0; i < work->data->ncones; ++i) {
+    // Loop over elements within a second-order cone.
+    for (QCOSInt j = 0; j < work->data->q[i]; ++j) {
+      work->kkt->rhs[work->data->n + work->data->p + idx + j] +=
+          dot(&work->Wfull[nt_idx + j * work->data->q[i]], &work->lambda[idx],
+              work->data->q[i]);
+    }
+    idx += work->data->q[i];
+    nt_idx += work->data->q[i] * work->data->q[i];
+  }
+}
+
+void predictor_corrector(QCOSWorkspace* work)
+{
+  // Factor KKT matrix.
+  QDLDL_factor(work->kkt->K->n, work->kkt->K->p, work->kkt->K->i,
+               work->kkt->K->x, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
+               work->kkt->D, work->kkt->Dinv, work->kkt->Lnz, work->kkt->etree,
+               work->kkt->bwork, work->kkt->iwork, work->kkt->fwork);
+
+  // Construct rhs.
+  construct_kkt_aff_rhs(work);
+
+  // Solve to get affine scaling direction.
+  for (QCOSInt i = 0; i < work->data->n + work->data->m + work->data->p; ++i) {
+    work->kkt->xyz[i] = work->kkt->rhs[i];
+  }
+  QDLDL_solve(work->kkt->K->n, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
+              work->kkt->Dinv, work->kkt->xyz);
+
+  // Compute centering parameter. (TODO)
+
+  // Compute rhs for combined direction. (TODO)
+
+  // Compute combined direction. (TODO)
+
+  // Compute step-size. (TODO)
+
+  // Update iterates. (TODO)
 }

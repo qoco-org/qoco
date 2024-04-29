@@ -86,4 +86,20 @@ void update_nt_block(QCOSWorkspace* work);
  */
 void compute_kkt_residual(QCOSWorkspace* work);
 
+/**
+ * @brief Constructs rhs for the affine scaling KKT system.
+ * Before calling this function, work->kkt->rhs must contain the
+ * residual of the KKT conditions as computed by compute_kkt_residual().
+ *
+ * @param work Pointer to workspace.
+ */
+void construct_kkt_aff_rhs(QCOSWorkspace* work);
+
+/**
+ * @brief Performs Mehrotra predictor-corrector step.
+ *
+ * @param work Pointer to workspace.
+ */
+void predictor_corrector(QCOSWorkspace* work);
+
 #endif /* #ifndef QCOS_KKT_H */

@@ -17,11 +17,42 @@ void cone_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p,
   }
 }
 
+void cone_division(QCOSFloat* lambda, QCOSFloat* v, QCOSFloat* d,
+                   QCOSProblemData* data)
+{
+  QCOSInt idx;
+
+  // Compute LP cone division.
+  for (idx = 0; idx < data->l; ++idx) {
+    d[idx] = safe_div(v[idx], lambda[idx]);
+  }
+
+  // Compute second-order cone division.
+  for (QCOSInt i = 0; i < data->ncones; ++i) {
+    soc_division(&lambda[idx], &v[idx], &d[idx], data->q[i]);
+    idx += data->q[i];
+  }
+}
+
 void soc_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt n)
 {
   p[0] = dot(u, v, n);
   for (QCOSInt i = 1; i < n; ++i) {
     p[i] = u[0] * v[i] + v[0] * u[i];
+  }
+}
+
+void soc_division(QCOSFloat* lam, QCOSFloat* v, QCOSFloat* d, QCOSInt n)
+{
+  QCOSFloat f = lam[0] * lam[0] - dot(&lam[1], &lam[1], n - 1);
+  QCOSFloat finv = safe_div(1.0, f);
+  QCOSFloat lam0inv = safe_div(1.0, lam[0]);
+  QCOSFloat lam1dv1 = dot(&lam[1], &v[1], n - 1);
+
+  d[0] = finv * (lam[0] * v[0] - dot(&lam[1], &v[1], n - 1));
+  for (QCOSInt i = 1; i < n; ++i) {
+    d[i] = finv *
+           (-lam[i] * v[0] + lam0inv * f * v[i] + lam0inv * lam1dv1 * lam[i]);
   }
 }
 

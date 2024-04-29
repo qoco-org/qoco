@@ -49,7 +49,9 @@ void print_header();
 
 /**
  * @brief Checks stopping criteria.
- *
+ * Before calling this function, work->kkt->rhs must contain the
+ * residual of the KKT conditions as computed by compute_kkt_residual() and
+ * work->mu must contain the scaled slackness as computed by compute_mu().
  * @param solver
  * @return 1 if stopping criteria met and 0 otherwise.
  */

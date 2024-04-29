@@ -29,20 +29,42 @@ void cone_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p,
                   QCOSProblemData* data);
 
 /**
+ * @brief Computed cone division lambda # v = d
+ *
+ * @param lambda Input vector.
+ * @param v Input vector.
+ * @param d Cone quotient of lambda and v.
+ * @param data Pointer to problem data.
+ */
+void cone_division(QCOSFloat* lambda, QCOSFloat* v, QCOSFloat* d,
+                   QCOSProblemData* data);
+
+/**
  * @brief Computes second-order cone product u * v = p.
  *
- * @param u Input vector.
- * @param v Input vector.
+ * @param u u = (u0, u1) is a vector in second-order cone of dimension n.
+ * @param v v = (v0, v1) is a vector in second-order cone of dimension n.
  * @param p Cone product of u and v.
- * @param n Length of vectors.
+ * @param n Dimension of second-order cone.
  */
 void soc_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt n);
+
+/**
+ * @brief Commpues second-order cone division lambda # v = d
+ *
+ * @param lam lam = (lam0, lam1) is a vector in second-order cone of dimension
+ * n.
+ * @param v v = (v0, v1) is a vector in second-order cone of dimension n.
+ * @param d Cone divisin of lam and v.
+ * @param n Dimension of second-order cone.
+ */
+void soc_division(QCOSFloat* lam, QCOSFloat* v, QCOSFloat* d, QCOSInt n);
 
 /**
  * @brief Computes residual of vector u with respect to the second order cone of
  * dimension n.
  *
- * @param u u = (u0, u1) is a vector in second order cone of dimension n.
+ * @param u u = (u0, u1) is a vector in second-order cone of dimension n.
  * @param n Dimension of second order cone.
  * @return Residual: norm(u1) - u0. Negative if the vector is in the cone and
  * positive otherwise.

@@ -47,6 +47,14 @@ int main()
 
   QCOSInt exit = qcos_solve(solver);
 
+  print_arrayf(solver->work->kkt->xyz, m + n + p);
+
+  // QCOSFloat a[] = {2, 3, 4};
+  // QCOSFloat z[] = {6, 7, 8};
+  // QCOSFloat ans[] = {0, 0, 0};
+  // soc_division(a, z, ans, 3);
+  // print_arrayf(ans, 3);
+
   // printf("x: ");
   // print_arrayf(solver->work->x, n);
   // printf("s: ");
@@ -62,10 +70,7 @@ int main()
 
   // print_arrayf(solver->work->kkt->rhs, n + m + p);
 
-  print_qcos_csc_matrix(solver->work->kkt->K);
-
-  // print_arrayf(solver->work->lambda, solver->work->data->m);
-  // print_arrayf(solver->work->Wfull, 12);
+  // print_qcos_csc_matrix(solver->work->kkt->K);
 
   if (solver && !exit) {
     qcos_cleanup(solver);

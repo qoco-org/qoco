@@ -158,8 +158,8 @@ QCOSInt qcos_solve(QCOSSolver* solver)
     // Update Nestrov-Todd block of KKT matrix.
     update_nt_block(solver->work);
 
-    // // Perform predictor-corrector
-    // predictor_corrector(solver->work);
+    // Perform predictor-corrector
+    predictor_corrector(solver->work);
 
     // if (solver->settings->verbose) {
     //   log_iter(solver->work);
