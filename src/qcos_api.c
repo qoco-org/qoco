@@ -87,6 +87,9 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   QCOSInt qmax = max_arrayi(solver->work->data->q, solver->work->data->ncones);
   solver->work->sbar = qcos_malloc(qmax * sizeof(QCOSFloat));
   solver->work->zbar = qcos_malloc(qmax * sizeof(QCOSFloat));
+  solver->work->ubuff1 = qcos_malloc(m * sizeof(QCOSFloat));
+  solver->work->ubuff2 = qcos_malloc(m * sizeof(QCOSFloat));
+  solver->work->Ds = qcos_malloc(m * sizeof(QCOSFloat));
 
   // Number of columns of KKT matrix.
   QCOSInt Kn = solver->work->kkt->K->n;
@@ -125,6 +128,7 @@ void qcos_set_csc(QCOSCscMatrix* A, QCOSInt m, QCOSInt n, QCOSInt Annz,
 void set_default_settings(QCOSSettings* settings)
 {
   settings->max_iters = 50;
+  settings->max_iter_bisection = 5;
   settings->verbose = 0;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
@@ -159,7 +163,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
     update_nt_block(solver->work);
 
     // Perform predictor-corrector
-    predictor_corrector(solver->work);
+    predictor_corrector(solver);
 
     // if (solver->settings->verbose) {
     //   log_iter(solver->work);
@@ -205,6 +209,9 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->lambda);
   qcos_free(solver->work->sbar);
   qcos_free(solver->work->zbar);
+  qcos_free(solver->work->ubuff1);
+  qcos_free(solver->work->ubuff2);
+  qcos_free(solver->work->Ds);
 
   // Free KKT struct.
   qcos_free(solver->work->kkt->K->i);

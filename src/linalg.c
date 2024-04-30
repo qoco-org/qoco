@@ -83,3 +83,38 @@ void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n)
     y[i] = s * x[i];
   }
 }
+
+void axpy(QCOSFloat* x, QCOSFloat* y, QCOSFloat* z, QCOSFloat a, QCOSInt n)
+{
+  for (QCOSInt i = 0; i < n; ++i) {
+    z[i] = a * x[i] + y[i];
+  }
+}
+
+void nt_multiply(QCOSFloat* W, QCOSFloat* x, QCOSFloat* z,
+                 QCOSProblemData* data)
+{
+  // Compute product for LP cone part of W.
+  for (QCOSInt i = 0; i < data->l; ++i) {
+    z[i] = (W[i] * x[i]);
+  }
+
+  // Compute product for second-order cones.
+  QCOSInt nt_idx = data->l;
+  QCOSInt idx = data->l;
+
+  // Zero out second-order cone block of result z.
+  for (QCOSInt i = data->l; i < data->m; ++i) {
+    z[i] = 0;
+  }
+
+  // Loop over all second-order cones.
+  for (QCOSInt i = 0; i < data->ncones; ++i) {
+    // Loop over elements within a second-order cone.
+    for (QCOSInt j = 0; j < data->q[i]; ++j) {
+      z[idx + j] += dot(&W[nt_idx + j * data->q[i]], &x[idx], data->q[i]);
+    }
+    idx += data->q[i];
+    nt_idx += data->q[i] * data->q[i];
+  }
+}

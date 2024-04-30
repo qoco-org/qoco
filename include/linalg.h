@@ -92,4 +92,28 @@ QCOSInt max_arrayi(QCOSInt* x, QCOSInt n);
  */
 void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n);
 
+/**
+ * @brief Computes z = a * x + y.
+ *
+ * @param x Input vector.
+ * @param y Input vector.
+ * @param z Result vector.
+ * @param a Scaling factor.
+ * @param n Length of vectors.
+ */
+void axpy(QCOSFloat* x, QCOSFloat* y, QCOSFloat* z, QCOSFloat a, QCOSInt n);
+
+/**
+ * @brief Computes z = W * x where W is a full Nesterov-Todd scaling matrix. The
+ * NT scaling array for the LP cones are stored first, then the NT scalings for
+ * the second-order order cones are stores in column major order.
+ *
+ * @param W Nesterov Todd scaling matrix.
+ * @param x Input vector.
+ * @param z Output vector.
+ * @param data Pointer to problem data.
+ */
+void nt_multiply(QCOSFloat* W, QCOSFloat* x, QCOSFloat* z,
+                 QCOSProblemData* data);
+
 #endif /* #ifndef LINALG_H*/

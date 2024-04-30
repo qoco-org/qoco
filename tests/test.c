@@ -47,7 +47,9 @@ int main()
 
   QCOSInt exit = qcos_solve(solver);
 
-  print_arrayf(solver->work->kkt->xyz, m + n + p);
+  // print_arrayf(solver->work->lambda, m);
+
+  // print_arrayf(solver->work->kkt->xyz, m + n + p);
 
   // QCOSFloat a[] = {2, 3, 4};
   // QCOSFloat z[] = {6, 7, 8};

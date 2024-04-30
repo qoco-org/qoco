@@ -98,8 +98,8 @@ void construct_kkt_aff_rhs(QCOSWorkspace* work);
 /**
  * @brief Performs Mehrotra predictor-corrector step.
  *
- * @param work Pointer to workspace.
+ * @param solver Pointer to solver.
  */
-void predictor_corrector(QCOSWorkspace* work);
+void predictor_corrector(QCOSSolver* solver);
 
 #endif /* #ifndef QCOS_KKT_H */

@@ -115,4 +115,25 @@ void compute_mu(QCOSWorkspace* work);
  */
 void compute_nt_scaling(QCOSWorkspace* work);
 
+/**
+ * @brief Computes centering parameter.
+ *
+ * @param solver Pointer to solver.
+ * @return Centering parameter
+ */
+QCOSFloat centering(QCOSSolver* solver);
+
+/**
+ * @brief Conducts linesearch by bisection to compute a \in (0, 1] such that
+ * u + (a / f) * Du \in C
+ *
+ * @param u Initial vector.
+ * @param Du Search direction.
+ * @param f Conservatism factor.
+ * @param work Pointer to workspace.
+ * @return Step-size.
+ */
+QCOSFloat linesearch(QCOSFloat* u, QCOSFloat* Du, QCOSFloat f,
+                     QCOSSolver* solver);
+
 #endif

@@ -255,33 +255,19 @@ void construct_kkt_aff_rhs(QCOSWorkspace* work)
     work->kkt->rhs[i] = -work->kkt->rhs[i];
   }
 
+  // Compute W*lambda
+  nt_multiply(work->Wfull, work->lambda, work->ubuff1, work->data);
+
   // Add W*lambda to z portion of rhs.
-
-  // Compute product for LP cone part of W.
-  for (QCOSInt i = 0; i < work->data->l; ++i) {
-    work->kkt->rhs[work->data->n + work->data->p + i] +=
-        (work->Wfull[i] * work->lambda[i]);
-  }
-
-  // Compute product for second-order cones.
-  QCOSInt nt_idx = work->data->l;
-  QCOSInt idx = work->data->l;
-
-  // Loop over all second-order cones.
-  for (QCOSInt i = 0; i < work->data->ncones; ++i) {
-    // Loop over elements within a second-order cone.
-    for (QCOSInt j = 0; j < work->data->q[i]; ++j) {
-      work->kkt->rhs[work->data->n + work->data->p + idx + j] +=
-          dot(&work->Wfull[nt_idx + j * work->data->q[i]], &work->lambda[idx],
-              work->data->q[i]);
-    }
-    idx += work->data->q[i];
-    nt_idx += work->data->q[i] * work->data->q[i];
+  for (QCOSInt i = 0; i < work->data->m; ++i) {
+    work->kkt->rhs[work->data->n + work->data->p + i] += work->ubuff1[i];
   }
 }
 
-void predictor_corrector(QCOSWorkspace* work)
+void predictor_corrector(QCOSSolver* solver)
 {
+  QCOSWorkspace* work = solver->work;
+
   // Factor KKT matrix.
   QDLDL_factor(work->kkt->K->n, work->kkt->K->p, work->kkt->K->i,
                work->kkt->K->x, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
@@ -298,7 +284,18 @@ void predictor_corrector(QCOSWorkspace* work)
   QDLDL_solve(work->kkt->K->n, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
               work->kkt->Dinv, work->kkt->xyz);
 
-  // Compute centering parameter. (TODO)
+  QCOSFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
+
+  // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
+  nt_multiply(work->Wfull, Dzaff, work->ubuff1, work->data);
+  for (QCOSInt i = 0; i < work->data->m; ++i) {
+    work->ubuff1[i] = -work->lambda[i] - work->ubuff1[i];
+  }
+  nt_multiply(work->Wfull, work->ubuff1, work->Ds, work->data);
+
+  // Compute centering parameter.
+  QCOSFloat sigma = centering(solver);
+  printf("Sigma: %f\n", sigma);
 
   // Compute rhs for combined direction. (TODO)
 

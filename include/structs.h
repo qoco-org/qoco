@@ -93,6 +93,9 @@ typedef struct {
   /** Maximum number of IPM iterations. */
   QCOSInt max_iters;
 
+  /** Maximum number of bisection iterations for linesearch. */
+  QCOSInt max_iter_bisection;
+
   /** Absolute tolerance. */
   QCOSFloat abstol;
 
@@ -185,11 +188,22 @@ typedef struct {
   /** Scaled variables. */
   QCOSFloat* lambda;
 
-  /** Temporary array needed in Nesterov-Todd scaling calculations. */
+  /** Temporary array needed in Nesterov-Todd scaling calculations. Length of
+   * max(q). */
   QCOSFloat* sbar;
 
-  /** Temporary array needed in Nesterov-Todd scaling calculations. */
+  /** Temporary array needed in Nesterov-Todd scaling calculations. Length of
+   * max(q). */
   QCOSFloat* zbar;
+
+  /** Temporary variable of length m. */
+  QCOSFloat* ubuff1;
+
+  /** Temporary variable of length m. */
+  QCOSFloat* ubuff2;
+
+  /** Search direction for slack variables. Length of m. */
+  QCOSFloat* Ds;
 
 } QCOSWorkspace;
 

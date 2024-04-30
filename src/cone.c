@@ -136,14 +136,14 @@ void compute_mu(QCOSWorkspace* work)
 
 void compute_nt_scaling(QCOSWorkspace* work)
 {
-  // Compute Nesterov-Todd scaling and scaled variables for LP cone.
+  // Compute Nesterov-Todd scaling for LP cone.
   QCOSInt idx;
   for (idx = 0; idx < work->data->l; ++idx) {
     work->WtW[idx] = safe_div(work->s[idx], work->z[idx]);
     work->W[idx] = qcos_sqrt(work->WtW[idx]);
     work->Wfull[idx] = work->W[idx];
-    work->lambda[idx] = qcos_sqrt(work->s[idx] * work->z[idx]);
   }
+
   // Compute Nesterov-Todd scaling for second-order cones.
   QCOSInt nt_idx = idx;
   QCOSInt nt_idx_full = idx;
@@ -209,15 +209,52 @@ void compute_nt_scaling(QCOSWorkspace* work)
       }
     }
 
-    // Compute lambda for second-order cones. lambda(soc_idx) = Wsoc * z_soc
-    for (QCOSInt j = 0; j < work->data->q[i]; ++j) {
-      work->lambda[nt_idx + j] =
-          dot(&work->Wfull[nt_idx + j * work->data->q[i]], &work->z[idx],
-              work->data->q[i]);
-    }
-
     idx += work->data->q[i];
     nt_idx += (work->data->q[i] * work->data->q[i] + work->data->q[i]) / 2;
     nt_idx_full += work->data->q[i] * work->data->q[i];
   }
+
+  // Compute scaled variable lambda. lambda = W * z.
+  nt_multiply(work->Wfull, work->z, work->lambda, work->data);
+}
+
+QCOSFloat centering(QCOSSolver* solver)
+{
+  QCOSWorkspace* work = solver->work;
+  QCOSFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
+  QCOSFloat a = qcos_min(linesearch(work->z, Dzaff, 1.0, solver),
+                         linesearch(work->s, work->Ds, 1.0, solver));
+
+  // Compute rho. rho = ((s + a * Ds)'*(z + a * Dz)) / (s'*z).
+  axpy(Dzaff, work->z, work->ubuff1, a, work->data->m);
+  axpy(work->Ds, work->s, work->ubuff2, a, work->data->m);
+  QCOSFloat rho = dot(work->ubuff1, work->ubuff2, work->data->m) /
+                  dot(work->z, work->s, work->data->m);
+
+  // Compute sigma. sigma = max(0, min(1, rho))^3.
+  QCOSFloat sigma = qcos_min(1.0, rho);
+  sigma = qcos_max(0.0, sigma);
+  sigma = sigma * sigma * sigma;
+  return sigma;
+}
+
+QCOSFloat linesearch(QCOSFloat* u, QCOSFloat* Du, QCOSFloat f,
+                     QCOSSolver* solver)
+{
+  QCOSWorkspace* work = solver->work;
+
+  QCOSFloat al = 0.0;
+  QCOSFloat au = 1.0;
+  QCOSFloat a = 0.0;
+  for (QCOSInt i = 0; i < solver->settings->max_iter_bisection; ++i) {
+    a = 0.5 * (al + au);
+    axpy(Du, u, work->ubuff1, (a / f), work->data->m);
+    if (cone_residual(work->ubuff1, work->data) >= 0) {
+      au = a;
+    }
+    else {
+      al = a;
+    }
+  }
+  return al;
 }
