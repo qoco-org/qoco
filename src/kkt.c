@@ -255,12 +255,66 @@ void construct_kkt_aff_rhs(QCOSWorkspace* work)
     work->kkt->rhs[i] = -work->kkt->rhs[i];
   }
 
+  // Save -rz into ubuff1. Needed when constructing rhs for combined direction.
+  for (QCOSInt i = work->data->n + work->data->p;
+       i < work->data->n + work->data->p + work->data->m; ++i) {
+    work->ubuff1[i] = work->kkt->rhs[i];
+  }
+
   // Compute W*lambda
   nt_multiply(work->Wfull, work->lambda, work->ubuff1, work->data);
 
   // Add W*lambda to z portion of rhs.
   for (QCOSInt i = 0; i < work->data->m; ++i) {
     work->kkt->rhs[work->data->n + work->data->p + i] += work->ubuff1[i];
+  }
+}
+
+void construct_kkt_comb_rhs(QCOSWorkspace* work)
+{
+
+  /// ds = -cone_product(lambda, lambda) - settings.mehrotra *
+  /// cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
+
+  // ubuff1 = Winv * Dsaff.
+  nt_multiply(work->Winvfull, work->Ds, work->ubuff1, work->data);
+
+  // ubuff2 = W * Dzaff.
+  QCOSFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
+  nt_multiply(work->Wfull, Dzaff, work->ubuff2, work->data);
+
+  // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata).
+  cone_product(work->ubuff1, work->ubuff2, work->ubuff3, work->data);
+
+  // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata) - sigma * mu * e.
+  QCOSFloat sm = work->sigma * work->mu;
+  QCOSInt idx = 0;
+  for (idx = 0; idx < work->data->l; ++idx) {
+    work->ubuff3[idx] -= sm;
+  }
+  for (QCOSInt i = 0; i < work->data->ncones; ++i) {
+    work->ubuff3[idx] -= sm;
+    idx += work->data->q[i];
+  }
+  // ubuff1 = lambda * lambda.
+  cone_product(work->lambda, work->lambda, work->ubuff1, work->data);
+
+  // Ds = -cone_product(lambda, lambda) - settings.mehrotra *
+  // cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
+
+  for (QCOSInt i = 0; i < work->data->m; ++i) {
+    work->Ds[i] = -work->ubuff1[i] - work->ubuff3[i];
+  }
+
+  // ubuff2 = cone_division(lambda, ds).
+  cone_division(work->lambda, work->Ds, work->ubuff2, work->data);
+
+  // ubuff1 = W * cone_division(lambda, ds).
+  nt_multiply(work->Wfull, work->ubuff2, work->ubuff1, work->data);
+
+  // rhs = [dx;dy;dz-W'*cone_division(lambda, ds, pdata)];
+  for (QCOSInt i = 0; i < work->data->m; ++i) {
+    work->kkt->rhs[work->data->n + work->data->p + i] -= work->ubuff1[i];
   }
 }
 
@@ -274,7 +328,7 @@ void predictor_corrector(QCOSSolver* solver)
                work->kkt->D, work->kkt->Dinv, work->kkt->Lnz, work->kkt->etree,
                work->kkt->bwork, work->kkt->iwork, work->kkt->fwork);
 
-  // Construct rhs.
+  // Construct rhs for affine scaling direction.
   construct_kkt_aff_rhs(work);
 
   // Solve to get affine scaling direction.
@@ -284,9 +338,14 @@ void predictor_corrector(QCOSSolver* solver)
   QDLDL_solve(work->kkt->K->n, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
               work->kkt->Dinv, work->kkt->xyz);
 
-  QCOSFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
+  // Copy -rz back into rhs. Needed for computing rhs for combined direction.
+  for (QCOSInt i = work->data->n + work->data->p;
+       i < work->data->n + work->data->p + work->data->m; ++i) {
+    work->kkt->rhs[i] = work->ubuff1[i];
+  }
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
+  QCOSFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
   nt_multiply(work->Wfull, Dzaff, work->ubuff1, work->data);
   for (QCOSInt i = 0; i < work->data->m; ++i) {
     work->ubuff1[i] = -work->lambda[i] - work->ubuff1[i];
@@ -294,14 +353,49 @@ void predictor_corrector(QCOSSolver* solver)
   nt_multiply(work->Wfull, work->ubuff1, work->Ds, work->data);
 
   // Compute centering parameter.
-  QCOSFloat sigma = centering(solver);
-  printf("Sigma: %f\n", sigma);
+  compute_centering(solver);
 
-  // Compute rhs for combined direction. (TODO)
+  // Construct rhs for affine scaling direction.
+  construct_kkt_comb_rhs(work);
 
-  // Compute combined direction. (TODO)
+  // Solve to get combined direction.
+  for (QCOSInt i = 0; i < work->data->n + work->data->m + work->data->p; ++i) {
+    work->kkt->xyz[i] = work->kkt->rhs[i];
+  }
+  QDLDL_solve(work->kkt->K->n, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
+              work->kkt->Dinv, work->kkt->xyz);
 
-  // Compute step-size. (TODO)
+  // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
+  // computed in construct_kkt_comb_rhs() and stored in work->Ds.
+  QCOSFloat* Dz = &work->kkt->xyz[work->data->n + work->data->p];
+  cone_division(work->lambda, work->Ds, work->ubuff1, work->data);
+  nt_multiply(work->Wfull, Dz, work->ubuff2, work->data);
+  for (QCOSInt i = 0; i < work->data->m; ++i) {
+    work->ubuff3[i] = work->ubuff1[i] - work->ubuff2[i];
+  }
+  nt_multiply(work->Wfull, work->ubuff3, work->Ds, work->data);
 
-  // Update iterates. (TODO)
+  // Compute step-size.
+  nt_multiply(work->Winvfull, work->Ds, work->ubuff3, work->data);
+  nt_multiply(work->Wfull, Dz, work->ubuff2, work->data);
+  QCOSFloat a = qcos_min(linesearch(work->lambda, work->ubuff3, 0.99, solver),
+                         linesearch(work->lambda, work->ubuff2, 0.99, solver));
+  printf("a: %f\n", a);
+
+  // Update iterates.
+  QCOSFloat* Dx = work->kkt->xyz;
+  QCOSFloat* Dy = &work->kkt->xyz[work->data->n];
+
+  for (QCOSInt i = 0; i < work->data->n; ++i) {
+    work->x[i] = work->x[i] + a * Dx[i];
+  }
+  for (QCOSInt i = 0; i < work->data->m; ++i) {
+    work->s[i] = work->s[i] + a * work->Ds[i];
+  }
+  for (QCOSInt i = 0; i < work->data->p; ++i) {
+    work->y[i] = work->y[i] + a * Dy[i];
+  }
+  for (QCOSInt i = 0; i < work->data->m; ++i) {
+    work->z[i] = work->z[i] + a * Dz[i];
+  }
 }

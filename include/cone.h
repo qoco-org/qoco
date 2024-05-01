@@ -119,13 +119,14 @@ void compute_nt_scaling(QCOSWorkspace* work);
  * @brief Computes centering parameter.
  *
  * @param solver Pointer to solver.
- * @return Centering parameter
  */
-QCOSFloat centering(QCOSSolver* solver);
+void compute_centering(QCOSSolver* solver);
 
 /**
  * @brief Conducts linesearch by bisection to compute a \in (0, 1] such that
  * u + (a / f) * Du \in C
+ * Warning: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du.
+ * Consider a dedicated buffer for linesearch.
  *
  * @param u Initial vector.
  * @param Du Search direction.

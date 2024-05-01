@@ -142,6 +142,8 @@ void compute_nt_scaling(QCOSWorkspace* work)
     work->WtW[idx] = safe_div(work->s[idx], work->z[idx]);
     work->W[idx] = qcos_sqrt(work->WtW[idx]);
     work->Wfull[idx] = work->W[idx];
+    work->Winv[idx] = safe_div(1.0, work->W[idx]);
+    work->Winvfull[idx] = work->Winv[idx];
   }
 
   // Compute Nesterov-Todd scaling for second-order cones.
@@ -180,20 +182,32 @@ void compute_nt_scaling(QCOSWorkspace* work)
     // Compute W for second-order cones.
     QCOSInt shift = 0;
     f = qcos_sqrt(safe_div(s_scal, z_scal));
+    QCOSFloat finv = safe_div(1.0, f);
     for (QCOSInt j = 0; j < work->data->q[i]; ++j) {
       for (QCOSInt k = 0; k <= j; ++k) {
         QCOSInt full_idx1 = nt_idx_full + j * work->data->q[i] + k;
         QCOSInt full_idx2 = nt_idx_full + k * work->data->q[i] + j;
         work->W[nt_idx + shift] = 2 * (work->zbar[k] * work->zbar[j]);
+        if (j != 0 && k == 0) {
+          work->Winv[nt_idx + shift] = -work->W[nt_idx + shift];
+        }
+        else {
+          work->Winv[nt_idx + shift] = work->W[nt_idx + shift];
+        }
         if (j == k && j == 0) {
           work->W[nt_idx + shift] -= 1;
+          work->Winv[nt_idx + shift] -= 1;
         }
         else if (j == k) {
           work->W[nt_idx + shift] += 1;
+          work->Winv[nt_idx + shift] += 1;
         }
         work->W[nt_idx + shift] *= f;
+        work->Winv[nt_idx + shift] *= finv;
         work->Wfull[full_idx1] = work->W[nt_idx + shift];
         work->Wfull[full_idx2] = work->W[nt_idx + shift];
+        work->Winvfull[full_idx1] = work->Winv[nt_idx + shift];
+        work->Winvfull[full_idx2] = work->Winv[nt_idx + shift];
         shift += 1;
       }
     }
@@ -218,7 +232,7 @@ void compute_nt_scaling(QCOSWorkspace* work)
   nt_multiply(work->Wfull, work->z, work->lambda, work->data);
 }
 
-QCOSFloat centering(QCOSSolver* solver)
+void compute_centering(QCOSSolver* solver)
 {
   QCOSWorkspace* work = solver->work;
   QCOSFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
@@ -235,7 +249,7 @@ QCOSFloat centering(QCOSSolver* solver)
   QCOSFloat sigma = qcos_min(1.0, rho);
   sigma = qcos_max(0.0, sigma);
   sigma = sigma * sigma * sigma;
-  return sigma;
+  solver->work->sigma = sigma;
 }
 
 QCOSFloat linesearch(QCOSFloat* u, QCOSFloat* Du, QCOSFloat f,

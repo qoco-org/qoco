@@ -82,6 +82,8 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
 
   solver->work->W = qcos_malloc(solver->work->Wnnz * sizeof(QCOSFloat));
   solver->work->Wfull = qcos_malloc(Wnnzfull * sizeof(QCOSFloat));
+  solver->work->Winv = qcos_malloc(solver->work->Wnnz * sizeof(QCOSFloat));
+  solver->work->Winvfull = qcos_malloc(Wnnzfull * sizeof(QCOSFloat));
   solver->work->WtW = qcos_malloc(solver->work->Wnnz * sizeof(QCOSFloat));
   solver->work->lambda = qcos_malloc(m * sizeof(QCOSFloat));
   QCOSInt qmax = max_arrayi(solver->work->data->q, solver->work->data->ncones);
@@ -89,6 +91,7 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   solver->work->zbar = qcos_malloc(qmax * sizeof(QCOSFloat));
   solver->work->ubuff1 = qcos_malloc(m * sizeof(QCOSFloat));
   solver->work->ubuff2 = qcos_malloc(m * sizeof(QCOSFloat));
+  solver->work->ubuff3 = qcos_malloc(m * sizeof(QCOSFloat));
   solver->work->Ds = qcos_malloc(m * sizeof(QCOSFloat));
 
   // Number of columns of KKT matrix.
@@ -143,7 +146,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
   // Get initializations for primal and dual variables.
   initialize_ipm(solver);
 
-  for (QCOSInt i = 0; i < 1; ++i) {
+  for (QCOSInt i = 0; i < 10; ++i) {
 
     // Compute kkt residual.
     compute_kkt_residual(solver->work);
@@ -205,12 +208,15 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   // Free Nesterov-Todd scalings and scaled variables.
   qcos_free(solver->work->W);
   qcos_free(solver->work->Wfull);
+  qcos_free(solver->work->Winv);
+  qcos_free(solver->work->Winvfull);
   qcos_free(solver->work->WtW);
   qcos_free(solver->work->lambda);
   qcos_free(solver->work->sbar);
   qcos_free(solver->work->zbar);
   qcos_free(solver->work->ubuff1);
   qcos_free(solver->work->ubuff2);
+  qcos_free(solver->work->ubuff3);
   qcos_free(solver->work->Ds);
 
   // Free KKT struct.

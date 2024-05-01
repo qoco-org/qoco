@@ -173,6 +173,9 @@ typedef struct {
   /** Gap (s'*z / m) */
   QCOSFloat mu;
 
+  /** Centering parameter */
+  QCOSFloat sigma;
+
   /** Number of nonzeros in Nesterov-Todd Scaling. */
   QCOSInt Wnnz;
 
@@ -181,6 +184,12 @@ typedef struct {
 
   /** Full Nesterov-Todd Scaling */
   QCOSFloat* Wfull;
+
+  /** Upper triangular part of inverse of Nesterov-Todd Scaling */
+  QCOSFloat* Winv;
+
+  /** Full inverse of Nesterov-Todd Scaling */
+  QCOSFloat* Winvfull;
 
   /** Nesterov-Todd Scaling squared */
   QCOSFloat* WtW;
@@ -201,6 +210,9 @@ typedef struct {
 
   /** Temporary variable of length m. */
   QCOSFloat* ubuff2;
+
+  /** Temporary variable of length m. */
+  QCOSFloat* ubuff3;
 
   /** Search direction for slack variables. Length of m. */
   QCOSFloat* Ds;

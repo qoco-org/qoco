@@ -57,14 +57,14 @@ int main()
   // soc_division(a, z, ans, 3);
   // print_arrayf(ans, 3);
 
-  // printf("x: ");
-  // print_arrayf(solver->work->x, n);
-  // printf("s: ");
-  // print_arrayf(solver->work->s, m);
-  // printf("y: ");
-  // print_arrayf(solver->work->y, p);
-  // printf("z: ");
-  // print_arrayf(solver->work->z, m);
+  printf("x: ");
+  print_arrayf(solver->work->x, n);
+  printf("s: ");
+  print_arrayf(solver->work->s, m);
+  printf("y: ");
+  print_arrayf(solver->work->y, p);
+  printf("z: ");
+  print_arrayf(solver->work->z, m);
 
   // // print_qcos_csc_matrix(solver->work->kkt->K);
 
