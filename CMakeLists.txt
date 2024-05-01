@@ -12,7 +12,6 @@ endif()
 message(STATUS "Build Type: " ${QCOS_BUILD_TYPE})
 message(STATUS "Build Flags: " ${CMAKE_C_FLAGS})
 
-
 # Set integer size to 32 bits unless otherwise specified.
 if(QCOS_LONG_INT)
     message(STATUS "Using 64 byte integers")
@@ -34,15 +33,27 @@ endif()
 # Add qdldl.
 add_subdirectory(lib/qdldl)
 
-# Build qcos shared library
+# Build qcos shared library.
 add_library(qcoslib SHARED)
 target_link_libraries(qcoslib qdldl)
-target_include_directories(qcoslib PUBLIC include)
+target_include_directories(qcoslib PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_sources(qcoslib PRIVATE src/qcos_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c)
 
-# Build test executable.
-add_executable(test tests/test.c)
-target_link_libraries(test qcoslib)
+# Test definitions.
+configure_file(CMakeLists.txt.in
+        googletest-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
+        ${CMAKE_BINARY_DIR}/googletest-build)
+enable_testing()
+add_subdirectory(tests)
 
-add_executable(test_qdldl tests/test_qdldl.c)
-target_link_libraries(test_qdldl qcoslib)
+# Build test executable.
+# add_executable(old_test old_tests/test.c)
+# target_link_libraries(old_test qcoslib)
+
+# add_executable(test_qdldl old_tests/test_qdldl.c)
+# target_link_libraries(test_qdldl qcoslib)

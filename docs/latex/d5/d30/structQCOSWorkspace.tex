@@ -35,15 +35,33 @@ QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a9edaae097395e35361943005e
 \item 
 QCOSFloat \mbox{\hyperlink{structQCOSWorkspace_a9ff9f65a7afdcc49eb8659ce556fb71d}{mu}}
 \item 
+QCOSFloat \mbox{\hyperlink{structQCOSWorkspace_a0c23b2759eab599786830124f3c239aa}{sigma}}
+\item 
 QCOSInt \mbox{\hyperlink{structQCOSWorkspace_ae2f8ee64fca368ad2f33ade293528a9b}{Wnnz}}
 \item 
 QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a9eb646cc7308610114f9ebc0cd6517e3}{W}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_aacbcc50cc5ea060eab6d4f5399496d84}{Wfull}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a20c180b1c2741fb8a8c144b6bbb9ea2e}{Winv}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a00af0cbb2f96215c810b28b3cef51e94}{Winvfull}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a5afffe63b68bf378c78e78804f81385c}{WtW}}
 \item 
 QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a45e7f9de85a021bbccd2117ad3e0557a}{lambda}}
 \item 
 QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a4e099ae4359469a57ed68d70b6a37f8b}{sbar}}
 \item 
 QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a108749eda1fafe764997c0fa142b4ce1}{zbar}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_aa6ad9371748fd396fc35970a3111a2d3}{ubuff1}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a5ecb69ebe6ef05845e227d726e6e2b93}{ubuff2}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a6258b7ddd5e1cc8eb75b39e862efea36}{ubuff3}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_ad216b1c9867aff775f4c379f201af06e}{Ds}}
 \end{DoxyCompactItemize}
 
 
@@ -57,7 +75,13 @@ QCOS Workspace.
 \doxysubsubsection{\texorpdfstring{data}{data}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}}$\ast$ QCOSWorkspace\+::data}
 
-Contains SOCP problem data. \mbox{\Hypertarget{structQCOSWorkspace_ae0803795a4307643633fdf030377cfe4}\label{structQCOSWorkspace_ae0803795a4307643633fdf030377cfe4}} 
+Contains SOCP problem data. \mbox{\Hypertarget{structQCOSWorkspace_ad216b1c9867aff775f4c379f201af06e}\label{structQCOSWorkspace_ad216b1c9867aff775f4c379f201af06e}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!Ds@{Ds}}
+\index{Ds@{Ds}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{Ds}{Ds}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::\+Ds}
+
+Search direction for slack variables. Length of m. \mbox{\Hypertarget{structQCOSWorkspace_ae0803795a4307643633fdf030377cfe4}\label{structQCOSWorkspace_ae0803795a4307643633fdf030377cfe4}} 
 \index{QCOSWorkspace@{QCOSWorkspace}!kkt@{kkt}}
 \index{kkt@{kkt}!QCOSWorkspace@{QCOSWorkspace}}
 \doxysubsubsection{\texorpdfstring{kkt}{kkt}}
@@ -87,19 +111,67 @@ Iterate of slack variables associated with conic constraint. \mbox{\Hypertarget{
 \doxysubsubsection{\texorpdfstring{sbar}{sbar}}
 {\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::sbar}
 
-Temporary array needed in Nesterov-\/\+Todd scaling calculations. \mbox{\Hypertarget{structQCOSWorkspace_a9eb646cc7308610114f9ebc0cd6517e3}\label{structQCOSWorkspace_a9eb646cc7308610114f9ebc0cd6517e3}} 
+Temporary array needed in Nesterov-\/\+Todd scaling calculations. Length of max(q). \mbox{\Hypertarget{structQCOSWorkspace_a0c23b2759eab599786830124f3c239aa}\label{structQCOSWorkspace_a0c23b2759eab599786830124f3c239aa}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!sigma@{sigma}}
+\index{sigma@{sigma}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{sigma}{sigma}}
+{\footnotesize\ttfamily QCOSFloat QCOSWorkspace\+::sigma}
+
+Centering parameter \mbox{\Hypertarget{structQCOSWorkspace_aa6ad9371748fd396fc35970a3111a2d3}\label{structQCOSWorkspace_aa6ad9371748fd396fc35970a3111a2d3}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!ubuff1@{ubuff1}}
+\index{ubuff1@{ubuff1}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{ubuff1}{ubuff1}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::ubuff1}
+
+Temporary variable of length m. \mbox{\Hypertarget{structQCOSWorkspace_a5ecb69ebe6ef05845e227d726e6e2b93}\label{structQCOSWorkspace_a5ecb69ebe6ef05845e227d726e6e2b93}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!ubuff2@{ubuff2}}
+\index{ubuff2@{ubuff2}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{ubuff2}{ubuff2}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::ubuff2}
+
+Temporary variable of length m. \mbox{\Hypertarget{structQCOSWorkspace_a6258b7ddd5e1cc8eb75b39e862efea36}\label{structQCOSWorkspace_a6258b7ddd5e1cc8eb75b39e862efea36}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!ubuff3@{ubuff3}}
+\index{ubuff3@{ubuff3}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{ubuff3}{ubuff3}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::ubuff3}
+
+Temporary variable of length m. \mbox{\Hypertarget{structQCOSWorkspace_a9eb646cc7308610114f9ebc0cd6517e3}\label{structQCOSWorkspace_a9eb646cc7308610114f9ebc0cd6517e3}} 
 \index{QCOSWorkspace@{QCOSWorkspace}!W@{W}}
 \index{W@{W}!QCOSWorkspace@{QCOSWorkspace}}
 \doxysubsubsection{\texorpdfstring{W}{W}}
 {\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::W}
 
-Nesterov-\/\+Todd Scaling \mbox{\Hypertarget{structQCOSWorkspace_ae2f8ee64fca368ad2f33ade293528a9b}\label{structQCOSWorkspace_ae2f8ee64fca368ad2f33ade293528a9b}} 
+Upper triangular part of Nesterov-\/\+Todd Scaling \mbox{\Hypertarget{structQCOSWorkspace_aacbcc50cc5ea060eab6d4f5399496d84}\label{structQCOSWorkspace_aacbcc50cc5ea060eab6d4f5399496d84}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!Wfull@{Wfull}}
+\index{Wfull@{Wfull}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{Wfull}{Wfull}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::\+Wfull}
+
+Full Nesterov-\/\+Todd Scaling \mbox{\Hypertarget{structQCOSWorkspace_a20c180b1c2741fb8a8c144b6bbb9ea2e}\label{structQCOSWorkspace_a20c180b1c2741fb8a8c144b6bbb9ea2e}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!Winv@{Winv}}
+\index{Winv@{Winv}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{Winv}{Winv}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::\+Winv}
+
+Upper triangular part of inverse of Nesterov-\/\+Todd Scaling \mbox{\Hypertarget{structQCOSWorkspace_a00af0cbb2f96215c810b28b3cef51e94}\label{structQCOSWorkspace_a00af0cbb2f96215c810b28b3cef51e94}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!Winvfull@{Winvfull}}
+\index{Winvfull@{Winvfull}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{Winvfull}{Winvfull}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::\+Winvfull}
+
+Full inverse of Nesterov-\/\+Todd Scaling \mbox{\Hypertarget{structQCOSWorkspace_ae2f8ee64fca368ad2f33ade293528a9b}\label{structQCOSWorkspace_ae2f8ee64fca368ad2f33ade293528a9b}} 
 \index{QCOSWorkspace@{QCOSWorkspace}!Wnnz@{Wnnz}}
 \index{Wnnz@{Wnnz}!QCOSWorkspace@{QCOSWorkspace}}
 \doxysubsubsection{\texorpdfstring{Wnnz}{Wnnz}}
 {\footnotesize\ttfamily QCOSInt QCOSWorkspace\+::\+Wnnz}
 
-Number of nonzeros in Nesterov-\/\+Todd Scaling. \mbox{\Hypertarget{structQCOSWorkspace_ab9c423590e48fb6dab0b2e92e34c0b15}\label{structQCOSWorkspace_ab9c423590e48fb6dab0b2e92e34c0b15}} 
+Number of nonzeros in Nesterov-\/\+Todd Scaling. \mbox{\Hypertarget{structQCOSWorkspace_a5afffe63b68bf378c78e78804f81385c}\label{structQCOSWorkspace_a5afffe63b68bf378c78e78804f81385c}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!WtW@{WtW}}
+\index{WtW@{WtW}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{WtW}{WtW}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::\+WtW}
+
+Nesterov-\/\+Todd Scaling squared \mbox{\Hypertarget{structQCOSWorkspace_ab9c423590e48fb6dab0b2e92e34c0b15}\label{structQCOSWorkspace_ab9c423590e48fb6dab0b2e92e34c0b15}} 
 \index{QCOSWorkspace@{QCOSWorkspace}!x@{x}}
 \index{x@{x}!QCOSWorkspace@{QCOSWorkspace}}
 \doxysubsubsection{\texorpdfstring{x}{x}}
@@ -123,7 +195,7 @@ Iterate of dual variables associated with conic constraint. \mbox{\Hypertarget{s
 \doxysubsubsection{\texorpdfstring{zbar}{zbar}}
 {\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::zbar}
 
-Temporary array needed in Nesterov-\/\+Todd scaling calculations. 
+Temporary array needed in Nesterov-\/\+Todd scaling calculations. Length of max(q). 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

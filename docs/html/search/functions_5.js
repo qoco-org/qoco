@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['max_5farrayi_114',['max_arrayi',['../dd/d46/linalg_8h.html#a1b023ba260fab3c8a4794c293e993ae8',1,'linalg.c']]]
+  ['linesearch_139',['linesearch',['../db/df0/cone_8h.html#a3a332345e9e7bcd906738d5b0168a301',1,'cone.c']]]
 ];

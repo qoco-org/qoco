@@ -15,10 +15,18 @@
 #ifndef QCOS_H
 #define QCOS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "cone.h"
 #include "definitions.h"
 #include "qcos_api.h"
 #include "structs.h"
 #include "utils.h"
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* #ifndef QCOS_H */

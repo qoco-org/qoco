@@ -146,7 +146,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
   // Get initializations for primal and dual variables.
   initialize_ipm(solver);
 
-  for (QCOSInt i = 0; i < 10; ++i) {
+  for (QCOSInt i = 0; i < 8; ++i) {
 
     // Compute kkt residual.
     compute_kkt_residual(solver->work);

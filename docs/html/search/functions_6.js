@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['new_5fqcos_5fcsc_5fmatrix_115',['new_qcos_csc_matrix',['../dd/d46/linalg_8h.html#a48fe41ad1659f444e12a98fe0b21ccd3',1,'linalg.c']]]
+  ['max_5farrayi_140',['max_arrayi',['../dd/d46/linalg_8h.html#a1b023ba260fab3c8a4794c293e993ae8',1,'linalg.c']]]
 ];

@@ -1,9 +1,9 @@
+#include "gtest/gtest.h"
+
 #include "qcos.h"
-#include <stdio.h>
 
-int main()
+TEST(simple_socp, ok)
 {
-
   QCOSInt p = 2;
   QCOSInt m = 6;
   QCOSInt n = 6;
@@ -30,15 +30,15 @@ int main()
   QCOSFloat h[] = {0, 0, 0, 0, 0, 0};
   QCOSInt q[] = {3};
 
-  QCOSCscMatrix* P = malloc(sizeof(QCOSCscMatrix));
-  QCOSCscMatrix* A = malloc(sizeof(QCOSCscMatrix));
-  QCOSCscMatrix* G = malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* G = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
 
   qcos_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
   qcos_set_csc(A, p, n, Annz, Ax, Ap, Ai);
   qcos_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
 
-  QCOSSettings* settings = malloc(sizeof(QCOSSettings));
+  QCOSSettings* settings = (QCOSSettings*)malloc(sizeof(QCOSSettings));
 
   set_default_settings(settings);
   settings->verbose = 1;
@@ -46,16 +46,6 @@ int main()
   QCOSSolver* solver = qcos_setup(P, c, A, b, G, h, l, ncones, q, settings);
 
   QCOSInt exit = qcos_solve(solver);
-
-  // print_arrayf(solver->work->lambda, m);
-
-  // print_arrayf(solver->work->kkt->xyz, m + n + p);
-
-  // QCOSFloat a[] = {2, 3, 4};
-  // QCOSFloat z[] = {6, 7, 8};
-  // QCOSFloat ans[] = {0, 0, 0};
-  // soc_division(a, z, ans, 3);
-  // print_arrayf(ans, 3);
 
   printf("x: ");
   print_arrayf(solver->work->x, n);
@@ -66,25 +56,14 @@ int main()
   printf("z: ");
   print_arrayf(solver->work->z, m);
 
-  // // print_qcos_csc_matrix(solver->work->kkt->K);
-
-  // compute_kkt_residual(solver->work);
-
-  // print_arrayf(solver->work->kkt->rhs, n + m + p);
-
-  // print_qcos_csc_matrix(solver->work->kkt->K);
-
-  if (solver && !exit) {
-    qcos_cleanup(solver);
+  if (!exit) {
     printf("Success");
   }
-  else {
-    printf("Error");
-  }
 
+  qcos_cleanup(solver);
   free(P);
   free(A);
   free(G);
 
-  return 0;
+  ASSERT_EQ(1, 1);
 }

@@ -127,6 +127,12 @@ Functions</h2></td></tr>
 <tr class="memitem:acda7ecb523df6e138fd26cdd194c8086"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d46/linalg_8h.html#acda7ecb523df6e138fd26cdd194c8086">scale_arrayf</a> (QCOSFloat *x, QCOSFloat *y, QCOSFloat s, QCOSInt n)</td></tr>
 <tr class="memdesc:acda7ecb523df6e138fd26cdd194c8086"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scales array x by s. y = s * x.  <a href="../../dd/d46/linalg_8h.html#acda7ecb523df6e138fd26cdd194c8086">More...</a><br /></td></tr>
 <tr class="separator:acda7ecb523df6e138fd26cdd194c8086"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17f57f22b93fcba74e3b376fd5dfb56c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d46/linalg_8h.html#a17f57f22b93fcba74e3b376fd5dfb56c">axpy</a> (QCOSFloat *x, QCOSFloat *y, QCOSFloat *z, QCOSFloat a, QCOSInt n)</td></tr>
+<tr class="memdesc:a17f57f22b93fcba74e3b376fd5dfb56c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes z = a * x + y.  <a href="../../dd/d46/linalg_8h.html#a17f57f22b93fcba74e3b376fd5dfb56c">More...</a><br /></td></tr>
+<tr class="separator:a17f57f22b93fcba74e3b376fd5dfb56c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa22232a37dff3ebc9e38e0dc7fde5acb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d46/linalg_8h.html#aa22232a37dff3ebc9e38e0dc7fde5acb">nt_multiply</a> (QCOSFloat *W, QCOSFloat *x, QCOSFloat *z, <a class="el" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a> *data)</td></tr>
+<tr class="memdesc:aa22232a37dff3ebc9e38e0dc7fde5acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes z = W * x where W is a full Nesterov-Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-order order cones are stores in column major order.  <a href="../../dd/d46/linalg_8h.html#aa22232a37dff3ebc9e38e0dc7fde5acb">More...</a><br /></td></tr>
+<tr class="separator:aa22232a37dff3ebc9e38e0dc7fde5acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind M. Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
@@ -137,6 +143,64 @@ LICENSE</h1>
 DESCRIPTION</h1>
 <p>Provides various linear algebra operations. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a17f57f22b93fcba74e3b376fd5dfb56c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17f57f22b93fcba74e3b376fd5dfb56c">&#9670;&nbsp;</a></span>axpy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void axpy </td>
+          <td>(</td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSInt&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes z = a * x + y. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>Input vector. </td></tr>
+    <tr><td class="paramname">y</td><td>Input vector. </td></tr>
+    <tr><td class="paramname">z</td><td>Result vector. </td></tr>
+    <tr><td class="paramname">a</td><td>Scaling factor. </td></tr>
+    <tr><td class="paramname">n</td><td>Length of vectors. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ae780f3d6161a166977bf584f2564b09c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae780f3d6161a166977bf584f2564b09c">&#9670;&nbsp;</a></span>copy_and_negate_arrayf()</h2>
 
@@ -376,6 +440,57 @@ DESCRIPTION</h1>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to new constructed matrix. </dd></dl>
+
+</div>
+</div>
+<a id="aa22232a37dff3ebc9e38e0dc7fde5acb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa22232a37dff3ebc9e38e0dc7fde5acb">&#9670;&nbsp;</a></span>nt_multiply()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void nt_multiply </td>
+          <td>(</td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>W</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a> *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes z = W * x where W is a full Nesterov-Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-order order cones are stores in column major order. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">W</td><td>Nesterov Todd scaling matrix. </td></tr>
+    <tr><td class="paramname">x</td><td>Input vector. </td></tr>
+    <tr><td class="paramname">z</td><td>Output vector. </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to problem data. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

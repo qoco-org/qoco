@@ -380,7 +380,6 @@ void predictor_corrector(QCOSSolver* solver)
   nt_multiply(work->Wfull, Dz, work->ubuff2, work->data);
   QCOSFloat a = qcos_min(linesearch(work->lambda, work->ubuff3, 0.99, solver),
                          linesearch(work->lambda, work->ubuff2, 0.99, solver));
-  printf("a: %f\n", a);
 
   // Update iterates.
   QCOSFloat* Dx = work->kkt->xyz;

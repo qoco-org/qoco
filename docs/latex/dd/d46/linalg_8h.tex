@@ -34,7 +34,11 @@ void \mbox{\hyperlink{linalg_8h_a1d03b9dad3cc93f16b80ddb95439ed05}{qcos\+\_\+\+U
 QCOSInt \mbox{\hyperlink{linalg_8h_a1b023ba260fab3c8a4794c293e993ae8}{max\+\_\+arrayi}} (QCOSInt $\ast$x, QCOSInt n)
 \begin{DoxyCompactList}\small\item\em Computes maximum element of array. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{linalg_8h_acda7ecb523df6e138fd26cdd194c8086}{scale\+\_\+arrayf}} (QCOSFloat $\ast$x, QCOSFloat $\ast$y, QCOSFloat s, QCOSInt n)
-\begin{DoxyCompactList}\small\item\em Scales array x by s. y = s $\ast$ x. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Scales array x by s. y = s $\ast$ x. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{linalg_8h_a17f57f22b93fcba74e3b376fd5dfb56c}{axpy}} (QCOSFloat $\ast$x, QCOSFloat $\ast$y, QCOSFloat $\ast$z, QCOSFloat a, QCOSInt n)
+\begin{DoxyCompactList}\small\item\em Computes z = a $\ast$ x + y. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{linalg_8h_aa22232a37dff3ebc9e38e0dc7fde5acb}{nt\+\_\+multiply}} (QCOSFloat $\ast$W, QCOSFloat $\ast$x, QCOSFloat $\ast$z, \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
+\begin{DoxyCompactList}\small\item\em Computes z = W $\ast$ x where W is a full Nesterov-\/\+Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-\/order order cones are stores in column major order. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -46,6 +50,29 @@ Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2
 Provides various linear algebra operations. 
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{linalg_8h_a17f57f22b93fcba74e3b376fd5dfb56c}\label{linalg_8h_a17f57f22b93fcba74e3b376fd5dfb56c}} 
+\index{linalg.h@{linalg.h}!axpy@{axpy}}
+\index{axpy@{axpy}!linalg.h@{linalg.h}}
+\doxysubsubsection{\texorpdfstring{axpy()}{axpy()}}
+{\footnotesize\ttfamily void axpy (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{x,  }\item[{QCOSFloat $\ast$}]{y,  }\item[{QCOSFloat $\ast$}]{z,  }\item[{QCOSFloat}]{a,  }\item[{QCOSInt}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes z = a $\ast$ x + y. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+{\em y} & Input vector. \\
+\hline
+{\em z} & Result vector. \\
+\hline
+{\em a} & Scaling factor. \\
+\hline
+{\em n} & Length of vectors. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{linalg_8h_ae780f3d6161a166977bf584f2564b09c}\label{linalg_8h_ae780f3d6161a166977bf584f2564b09c}} 
 \index{linalg.h@{linalg.h}!copy\_and\_negate\_arrayf@{copy\_and\_negate\_arrayf}}
 \index{copy\_and\_negate\_arrayf@{copy\_and\_negate\_arrayf}!linalg.h@{linalg.h}}
@@ -163,6 +190,27 @@ Allocates a new csc matrix and copies A to it.
 \begin{DoxyReturn}{Returns}
 Pointer to new constructed matrix. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{linalg_8h_aa22232a37dff3ebc9e38e0dc7fde5acb}\label{linalg_8h_aa22232a37dff3ebc9e38e0dc7fde5acb}} 
+\index{linalg.h@{linalg.h}!nt\_multiply@{nt\_multiply}}
+\index{nt\_multiply@{nt\_multiply}!linalg.h@{linalg.h}}
+\doxysubsubsection{\texorpdfstring{nt\_multiply()}{nt\_multiply()}}
+{\footnotesize\ttfamily void nt\+\_\+multiply (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{W,  }\item[{QCOSFloat $\ast$}]{x,  }\item[{QCOSFloat $\ast$}]{z,  }\item[{\mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$}]{data }\end{DoxyParamCaption})}
+
+
+
+Computes z = W $\ast$ x where W is a full Nesterov-\/\+Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-\/order order cones are stores in column major order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em W} & Nesterov Todd scaling matrix. \\
+\hline
+{\em x} & Input vector. \\
+\hline
+{\em z} & Output vector. \\
+\hline
+{\em data} & Pointer to problem data. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{linalg_8h_a1d03b9dad3cc93f16b80ddb95439ed05}\label{linalg_8h_a1d03b9dad3cc93f16b80ddb95439ed05}} 
 \index{linalg.h@{linalg.h}!qcos\_USpMv@{qcos\_USpMv}}
 \index{qcos\_USpMv@{qcos\_USpMv}!linalg.h@{linalg.h}}

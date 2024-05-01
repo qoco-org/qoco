@@ -116,7 +116,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../.
 <tr class="memdesc:aab0a749241244d13922556533aeb7069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints qcos header. <br /></td></tr>
 <tr class="separator:aab0a749241244d13922556533aeb7069"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5951e7e52308e51cc1893da225ec60db"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a5951e7e52308e51cc1893da225ec60db">check_stopping</a> (<a class="el" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a> *solver)</td></tr>
-<tr class="memdesc:a5951e7e52308e51cc1893da225ec60db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks stopping criteria.  <a href="../../d5/d60/utils_8h.html#a5951e7e52308e51cc1893da225ec60db">More...</a><br /></td></tr>
+<tr class="memdesc:a5951e7e52308e51cc1893da225ec60db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks stopping criteria. Before calling this function, work-&gt;kkt-&gt;rhs must contain the residual of the KKT conditions as computed by <a class="el" href="../../db/d56/kkt_8h.html#a1498e55f92c85bf1710e039f2a3c49f0" title="Computes residual of KKT conditions and stores in work-&gt;kkt-&gt;rhs.">compute_kkt_residual()</a> and work-&gt;mu must contain the scaled slackness as computed by <a class="el" href="../../db/df0/cone_8h.html#aa9d319888db390c7c2b965061ba72cfe" title="Computes gap (z&#39;*s / m) and stores in work-&gt;mu.">compute_mu()</a>.  <a href="../../d5/d60/utils_8h.html#a5951e7e52308e51cc1893da225ec60db">More...</a><br /></td></tr>
 <tr class="separator:a5951e7e52308e51cc1893da225ec60db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -144,7 +144,7 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p>Checks stopping criteria. </p>
+<p>Checks stopping criteria. Before calling this function, work-&gt;kkt-&gt;rhs must contain the residual of the KKT conditions as computed by <a class="el" href="../../db/d56/kkt_8h.html#a1498e55f92c85bf1710e039f2a3c49f0" title="Computes residual of KKT conditions and stores in work-&gt;kkt-&gt;rhs.">compute_kkt_residual()</a> and work-&gt;mu must contain the scaled slackness as computed by <a class="el" href="../../db/df0/cone_8h.html#aa9d319888db390c7c2b965061ba72cfe" title="Computes gap (z&#39;*s / m) and stores in work-&gt;mu.">compute_mu()</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">solver</td><td></td></tr>

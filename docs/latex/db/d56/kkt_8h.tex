@@ -28,9 +28,17 @@ void \mbox{\hyperlink{kkt_8h_a489712294c041513c348e2983c492b6d}{construct\+\_\+k
 void \mbox{\hyperlink{kkt_8h_a944d74cccfbc1ee385c89c3b3232d4e0}{initialize\+\_\+ipm}} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
 \begin{DoxyCompactList}\small\item\em Gets initial values for primal and dual variables such that (s,z) \textbackslash{}in C. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{kkt_8h_ab613ee541bfc09d68949baff31334351}{set\+\_\+nt\+\_\+block\+\_\+zeros}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
-\begin{DoxyCompactList}\small\item\em Set the Nesterov-\/\+Todd block to be zeros. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Set the Nesterov-\/\+Todd block to be zeros. Used prior to \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_aa3966d7a0363a33b4dc0f7146fd1b6bc}{update\+\_\+nt\+\_\+block}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Updates Nesterov-\/\+Todd scaling block of KKT matrix. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
-\begin{DoxyCompactList}\small\item\em Computes residual of KKT conditions and stores in work-\/$>$kkt-\/$>$rhs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Computes residual of KKT conditions and stores in work-\/$>$kkt-\/$>$rhs. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_a2aec873a47cf5ab8676af7a7579b69a0}{construct\+\_\+kkt\+\_\+aff\+\_\+rhs}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Constructs rhs for the affine scaling KKT system. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}}. Also saves -\/rz into ubuff1. This is needed when constructing rhs for combined direction. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_a464c0bda0499a352cd89baefa4a19998}{construct\+\_\+kkt\+\_\+comb\+\_\+rhs}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Constructs rhs for the combined direction KKT system. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the negative residual of the KKT conditions. The residual is computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}} then negated by calling \mbox{\hyperlink{kkt_8h_a2aec873a47cf5ab8676af7a7579b69a0}{construct\+\_\+kkt\+\_\+aff\+\_\+rhs()}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_abdca566d11410ac9d9cba933b1db6ea9}{predictor\+\_\+corrector}} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Performs Mehrotra predictor-\/corrector step. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -99,7 +107,37 @@ clang-\/format on
 {\em work} & Pointer to \mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{kkt_8h_a944d74cccfbc1ee385c89c3b3232d4e0}\label{kkt_8h_a944d74cccfbc1ee385c89c3b3232d4e0}} 
+\mbox{\Hypertarget{kkt_8h_a2aec873a47cf5ab8676af7a7579b69a0}\label{kkt_8h_a2aec873a47cf5ab8676af7a7579b69a0}} 
+\index{kkt.h@{kkt.h}!construct\_kkt\_aff\_rhs@{construct\_kkt\_aff\_rhs}}
+\index{construct\_kkt\_aff\_rhs@{construct\_kkt\_aff\_rhs}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{construct\_kkt\_aff\_rhs()}{construct\_kkt\_aff\_rhs()}}
+{\footnotesize\ttfamily void construct\+\_\+kkt\+\_\+aff\+\_\+rhs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Constructs rhs for the affine scaling KKT system. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}}. Also saves -\/rz into ubuff1. This is needed when constructing rhs for combined direction. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_a464c0bda0499a352cd89baefa4a19998}\label{kkt_8h_a464c0bda0499a352cd89baefa4a19998}} 
+\index{kkt.h@{kkt.h}!construct\_kkt\_comb\_rhs@{construct\_kkt\_comb\_rhs}}
+\index{construct\_kkt\_comb\_rhs@{construct\_kkt\_comb\_rhs}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{construct\_kkt\_comb\_rhs()}{construct\_kkt\_comb\_rhs()}}
+{\footnotesize\ttfamily void construct\+\_\+kkt\+\_\+comb\+\_\+rhs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Constructs rhs for the combined direction KKT system. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the negative residual of the KKT conditions. The residual is computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}} then negated by calling \mbox{\hyperlink{kkt_8h_a2aec873a47cf5ab8676af7a7579b69a0}{construct\+\_\+kkt\+\_\+aff\+\_\+rhs()}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
+ds = -\/cone\+\_\+product(lambda, lambda) -\/ settings.\+mehrotra $\ast$ cone\+\_\+product((W\textquotesingle{} \textbackslash{} Dsaff), (W $\ast$ Dzaff), pdata) + sigma $\ast$ mu $\ast$ e.\mbox{\Hypertarget{kkt_8h_a944d74cccfbc1ee385c89c3b3232d4e0}\label{kkt_8h_a944d74cccfbc1ee385c89c3b3232d4e0}} 
 \index{kkt.h@{kkt.h}!initialize\_ipm@{initialize\_ipm}}
 \index{initialize\_ipm@{initialize\_ipm}!kkt.h@{kkt.h}}
 \doxysubsubsection{\texorpdfstring{initialize\_ipm()}{initialize\_ipm()}}
@@ -114,6 +152,21 @@ Gets initial values for primal and dual variables such that (s,z) \textbackslash
 {\em solver} & Pointer to solver. \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_abdca566d11410ac9d9cba933b1db6ea9}\label{kkt_8h_abdca566d11410ac9d9cba933b1db6ea9}} 
+\index{kkt.h@{kkt.h}!predictor\_corrector@{predictor\_corrector}}
+\index{predictor\_corrector@{predictor\_corrector}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{predictor\_corrector()}{predictor\_corrector()}}
+{\footnotesize\ttfamily void predictor\+\_\+corrector (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Performs Mehrotra predictor-\/corrector step. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{kkt_8h_ab613ee541bfc09d68949baff31334351}\label{kkt_8h_ab613ee541bfc09d68949baff31334351}} 
 \index{kkt.h@{kkt.h}!set\_nt\_block\_zeros@{set\_nt\_block\_zeros}}
 \index{set\_nt\_block\_zeros@{set\_nt\_block\_zeros}!kkt.h@{kkt.h}}
@@ -122,7 +175,26 @@ Gets initial values for primal and dual variables such that (s,z) \textbackslash
 
 
 
-Set the Nesterov-\/\+Todd block to be zeros. 
+Set the Nesterov-\/\+Todd block to be zeros. Used prior to \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_aa3966d7a0363a33b4dc0f7146fd1b6bc}\label{kkt_8h_aa3966d7a0363a33b4dc0f7146fd1b6bc}} 
+\index{kkt.h@{kkt.h}!update\_nt\_block@{update\_nt\_block}}
+\index{update\_nt\_block@{update\_nt\_block}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{update\_nt\_block()}{update\_nt\_block()}}
+{\footnotesize\ttfamily void update\+\_\+nt\+\_\+block (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Updates Nesterov-\/\+Todd scaling block of KKT matrix. 
+
+\begin{DoxyVerb}[ P   A^T   G^T  ]
+\end{DoxyVerb}
+ K = $\vert$ A 0 0 $\vert$ \mbox{[} G 0 -\/W\textquotesingle{}W \mbox{]}
 
 
 \begin{DoxyParams}{Parameters}

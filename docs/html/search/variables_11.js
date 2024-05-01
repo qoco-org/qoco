@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['w_162',['W',['../d5/d30/structQCOSWorkspace.html#a9eb646cc7308610114f9ebc0cd6517e3',1,'QCOSWorkspace']]],
-  ['wnnz_163',['Wnnz',['../d5/d30/structQCOSWorkspace.html#ae2f8ee64fca368ad2f33ade293528a9b',1,'QCOSWorkspace']]],
-  ['work_164',['work',['../d3/d33/structQCOSSolver.html#afa007835ae87cd3ad8b7cde83ad86abe',1,'QCOSSolver']]]
+  ['verbose_197',['verbose',['../d9/dc4/structQCOSSettings.html#a07b783fb1598c273ab0ed4c4b498c86b',1,'QCOSSettings']]]
 ];
