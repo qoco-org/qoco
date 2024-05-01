@@ -1,7 +1,11 @@
 <map id="include/linalg.h" name="include/linalg.h">
-<area shape="rect" id="node1" title=" " alt="" coords="99,5,220,32"/>
-<area shape="rect" id="node2" href="$db/df0/cone_8h.html" title=" " alt="" coords="5,80,121,107"/>
-<area shape="rect" id="node3" href="$db/d56/kkt_8h.html" title=" " alt="" coords="83,155,190,181"/>
-<area shape="rect" id="node4" href="$d7/d15/qcos__api_8h.html" title=" " alt="" coords="84,229,227,256"/>
-<area shape="rect" id="node5" href="$d5/de4/qcos_8h.html" title=" " alt="" coords="43,304,158,331"/>
+<area shape="rect" id="node1" title=" " alt="" coords="131,5,253,32"/>
+<area shape="rect" id="node2" href="$db/df0/cone_8h.html" title=" " alt="" coords="86,80,202,107"/>
+<area shape="rect" id="node3" href="$db/d56/kkt_8h.html" title=" " alt="" coords="212,155,319,181"/>
+<area shape="rect" id="node4" href="$d7/d15/qcos__api_8h.html" title=" " alt="" coords="101,229,243,256"/>
+<area shape="rect" id="node9" href="$d8/d14/linalg_8c.html" title=" " alt="" coords="278,80,370,107"/>
+<area shape="rect" id="node5" href="$d5/de4/qcos_8h.html" title=" " alt="" coords="5,304,120,331"/>
+<area shape="rect" id="node8" href="$df/d3b/cone_8c.html" title=" " alt="" coords="101,155,187,181"/>
+<area shape="rect" id="node7" href="$db/d03/kkt_8c.html" title=" " alt="" coords="268,229,345,256"/>
+<area shape="rect" id="node6" href="$d9/dff/qcos__api_8c.html" title=" " alt="" coords="145,304,258,331"/>
 </map>

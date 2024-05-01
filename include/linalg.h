@@ -73,7 +73,7 @@ QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n);
 void qcos_USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
 
 /**
- * @brief Computes maximum element of array.
+ * @brief Computes maximum element of array of QCOSInts.
  *
  * @param x Input array.
  * @param n Length of array.

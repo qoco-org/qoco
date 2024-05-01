@@ -92,9 +92,13 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d9/d4c/utils_8h__dep__incl.png" border="0" usemap="#ainclude_2utils_8hdep" alt=""/></div>
 <map name="ainclude_2utils_8hdep" id="ainclude_2utils_8hdep">
-<area shape="rect" title=" " alt="" coords="6,5,119,32"/>
+<area shape="rect" title=" " alt="" coords="254,5,367,32"/>
 <area shape="rect" href="../../d5/de4/qcos_8h.html" title=" " alt="" coords="5,155,120,181"/>
-<area shape="rect" href="../../d7/d15/qcos__api_8h.html" title=" " alt="" coords="46,80,189,107"/>
+<area shape="rect" href="../../d7/d15/qcos__api_8h.html" title=" " alt="" coords="101,80,243,107"/>
+<area shape="rect" href="../../df/d3b/cone_8c.html" title=" " alt="" coords="267,80,354,107"/>
+<area shape="rect" href="../../db/d03/kkt_8c.html" title=" " alt="" coords="379,80,456,107"/>
+<area shape="rect" href="../../d3/d91/utils_8c.html" title=" " alt="" coords="481,80,565,107"/>
+<area shape="rect" href="../../d9/dff/qcos__api_8c.html" title=" " alt="" coords="145,155,258,181"/>
 </map>
 </div>
 </div>
@@ -103,7 +107,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:af6aef0df372cd3c15b0b69f1d745bd9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#af6aef0df372cd3c15b0b69f1d745bd9a">print_qcos_csc_matrix</a> (<a class="el" href="../../d0/d99/structQCOSCscMatrix.html">QCOSCscMatrix</a> *M)</td></tr>
-<tr class="memdesc:af6aef0df372cd3c15b0b69f1d745bd9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints <a class="el" href="../../d0/d99/structQCOSCscMatrix.html" title="Compressed sparse column format matrices.">QCOSCscMatrix</a>.  <a href="../../d5/d60/utils_8h.html#af6aef0df372cd3c15b0b69f1d745bd9a">More...</a><br /></td></tr>
+<tr class="memdesc:af6aef0df372cd3c15b0b69f1d745bd9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints dimensions, number of nonzero elements, data, column pointers and row indices for a sparse matrix in CSC form.  <a href="../../d5/d60/utils_8h.html#af6aef0df372cd3c15b0b69f1d745bd9a">More...</a><br /></td></tr>
 <tr class="separator:af6aef0df372cd3c15b0b69f1d745bd9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb98c110934765387c256d85f876a56d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#adb98c110934765387c256d85f876a56d">print_arrayf</a> (QCOSFloat *x, QCOSInt n)</td></tr>
 <tr class="memdesc:adb98c110934765387c256d85f876a56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints array of QCOSFloats.  <a href="../../d5/d60/utils_8h.html#adb98c110934765387c256d85f876a56d">More...</a><br /></td></tr>
@@ -113,7 +117,7 @@ Functions</h2></td></tr>
 <tr class="separator:af8f9972d72abd7de68cf6c9eca7008f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab0a749241244d13922556533aeb7069"><td class="memItemLeft" align="right" valign="top"><a id="aab0a749241244d13922556533aeb7069"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#aab0a749241244d13922556533aeb7069">print_header</a> ()</td></tr>
-<tr class="memdesc:aab0a749241244d13922556533aeb7069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints qcos header. <br /></td></tr>
+<tr class="memdesc:aab0a749241244d13922556533aeb7069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints QCOS header. <br /></td></tr>
 <tr class="separator:aab0a749241244d13922556533aeb7069"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5951e7e52308e51cc1893da225ec60db"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a5951e7e52308e51cc1893da225ec60db">check_stopping</a> (<a class="el" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a> *solver)</td></tr>
 <tr class="memdesc:a5951e7e52308e51cc1893da225ec60db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks stopping criteria. Before calling this function, work-&gt;kkt-&gt;rhs must contain the residual of the KKT conditions as computed by <a class="el" href="../../db/d56/kkt_8h.html#a1498e55f92c85bf1710e039f2a3c49f0" title="Computes residual of KKT conditions and stores in work-&gt;kkt-&gt;rhs.">compute_kkt_residual()</a> and work-&gt;mu must contain the scaled slackness as computed by <a class="el" href="../../db/df0/cone_8h.html#aa9d319888db390c7c2b965061ba72cfe" title="Computes gap (z&#39;*s / m) and stores in work-&gt;mu.">compute_mu()</a>.  <a href="../../d5/d60/utils_8h.html#a5951e7e52308e51cc1893da225ec60db">More...</a><br /></td></tr>
@@ -126,7 +130,7 @@ LICENSE</h1>
 <p>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-Clause License</p>
 <h1><a class="anchor" id="DESCRIPTION"></a>
 DESCRIPTION</h1>
-<p>Provides useful utility functions. </p>
+<p>Provides various utility functions. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a5951e7e52308e51cc1893da225ec60db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5951e7e52308e51cc1893da225ec60db">&#9670;&nbsp;</a></span>check_stopping()</h2>
@@ -245,7 +249,7 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p>Prints <a class="el" href="../../d0/d99/structQCOSCscMatrix.html" title="Compressed sparse column format matrices.">QCOSCscMatrix</a>. </p>
+<p>Prints dimensions, number of nonzero elements, data, column pointers and row indices for a sparse matrix in CSC form. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">M</td><td>Pointer to <a class="el" href="../../d0/d99/structQCOSCscMatrix.html" title="Compressed sparse column format matrices.">QCOSCscMatrix</a> that will be printed. </td></tr>

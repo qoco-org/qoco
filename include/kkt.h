@@ -9,8 +9,8 @@
  *
  * @section DESCRIPTION
  *
- * Provides various functions for constructing and updating blocks for the KKT
- * matrix.
+ * Provides various functions for solving, constructing and updating KKT
+ * systems.
  */
 
 #ifndef QCOS_KKT_H

@@ -1,6 +1,9 @@
 <map id="include/cone.h" name="include/cone.h">
-<area shape="rect" id="node1" title=" " alt="" coords="73,5,189,32"/>
-<area shape="rect" id="node2" href="$db/d56/kkt_8h.html" title=" " alt="" coords="33,80,139,107"/>
-<area shape="rect" id="node4" href="$d5/de4/qcos_8h.html" title=" " alt="" coords="74,229,189,256"/>
+<area shape="rect" id="node1" title=" " alt="" coords="229,5,345,32"/>
+<area shape="rect" id="node2" href="$db/d56/kkt_8h.html" title=" " alt="" coords="143,80,250,107"/>
+<area shape="rect" id="node4" href="$d5/de4/qcos_8h.html" title=" " alt="" coords="194,229,309,256"/>
+<area shape="rect" id="node7" href="$df/d3b/cone_8c.html" title=" " alt="" coords="325,80,412,107"/>
 <area shape="rect" id="node3" href="$d7/d15/qcos__api_8h.html" title=" " alt="" coords="5,155,148,181"/>
+<area shape="rect" id="node6" href="$db/d03/kkt_8c.html" title=" " alt="" coords="173,155,250,181"/>
+<area shape="rect" id="node5" href="$d9/dff/qcos__api_8c.html" title=" " alt="" coords="20,229,133,256"/>
 </map>

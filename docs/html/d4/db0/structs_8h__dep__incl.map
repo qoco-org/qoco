@@ -1,10 +1,16 @@
 <map id="include/structs.h" name="include/structs.h">
-<area shape="rect" id="node1" title=" " alt="" coords="225,5,354,32"/>
-<area shape="rect" id="node2" href="$d8/d7d/input__validation_8h.html" title=" " alt="" coords="94,155,285,181"/>
-<area shape="rect" id="node3" href="$d7/d15/qcos__api_8h.html" title=" " alt="" coords="303,304,446,331"/>
-<area shape="rect" id="node4" href="$d5/de4/qcos_8h.html" title=" " alt="" coords="408,379,523,405"/>
-<area shape="rect" id="node5" href="$db/d56/kkt_8h.html" title=" " alt="" coords="376,229,483,256"/>
-<area shape="rect" id="node6" href="$dd/d46/linalg_8h.html" title=" " alt="" coords="362,80,483,107"/>
-<area shape="rect" id="node8" href="$d5/d60/utils_8h.html" title=" " alt="" coords="558,229,671,256"/>
-<area shape="rect" id="node7" href="$db/df0/cone_8h.html" title=" " alt="" coords="462,155,578,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="305,5,434,32"/>
+<area shape="rect" id="node2" href="$d8/d7d/input__validation_8h.html" title=" " alt="" coords="562,80,753,107"/>
+<area shape="rect" id="node3" href="$d7/d15/qcos__api_8h.html" title=" " alt="" coords="467,304,610,331"/>
+<area shape="rect" id="node4" href="$d5/de4/qcos_8h.html" title=" " alt="" coords="24,379,139,405"/>
+<area shape="rect" id="node7" href="$db/d56/kkt_8h.html" title=" " alt="" coords="319,229,425,256"/>
+<area shape="rect" id="node9" href="$dd/d46/linalg_8h.html" title=" " alt="" coords="358,80,479,107"/>
+<area shape="rect" id="node13" href="$d5/d60/utils_8h.html" title=" " alt="" coords="130,229,243,256"/>
+<area shape="rect" id="node6" href="$dd/d08/input__validation_8c.html" title=" " alt="" coords="577,155,738,181"/>
+<area shape="rect" id="node5" href="$d9/dff/qcos__api_8c.html" title=" " alt="" coords="482,379,595,405"/>
+<area shape="rect" id="node8" href="$db/d03/kkt_8c.html" title=" " alt="" coords="364,304,441,331"/>
+<area shape="rect" id="node10" href="$db/df0/cone_8h.html" title=" " alt="" coords="166,155,282,181"/>
+<area shape="rect" id="node12" href="$d8/d14/linalg_8c.html" title=" " alt="" coords="409,155,501,181"/>
+<area shape="rect" id="node11" href="$df/d3b/cone_8c.html" title=" " alt="" coords="253,304,339,331"/>
+<area shape="rect" id="node14" href="$d3/d91/utils_8c.html" title=" " alt="" coords="145,304,229,331"/>
 </map>

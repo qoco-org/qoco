@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * Provides useful utility functions.
+ * Provides various utility functions.
  */
 
 #ifndef UTILS_H
@@ -19,7 +19,8 @@
 #include <stdio.h>
 
 /**
- * @brief Prints QCOSCscMatrix.
+ * @brief Prints dimensions, number of nonzero elements, data, column pointers
+ * and row indices for a sparse matrix in CSC form.
  *
  * @param M Pointer to QCOSCscMatrix that will be printed.
  */
@@ -42,7 +43,7 @@ void print_arrayf(QCOSFloat* x, QCOSInt n);
 void print_arrayi(QCOSInt* x, QCOSInt n);
 
 /**
- * @brief Prints qcos header.
+ * @brief Prints QCOS header.
  *
  */
 void print_header();

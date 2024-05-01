@@ -1,3 +1,13 @@
+/**
+ * @file qcos_api.c
+ * @author Govind M. Chari <govindchari1@gmail.com>
+ *
+ * @section LICENSE
+ *
+ * Copyright (c) 2024, Govind M. Chari
+ * This source code is licensed under the BSD 2-Clause License
+ */
+
 #include "qcos_api.h"
 
 QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,

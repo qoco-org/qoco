@@ -1,3 +1,13 @@
+/**
+ * @file utils.c
+ * @author Govind M. Chari <govindchari1@gmail.com>
+ *
+ * @section LICENSE
+ *
+ * Copyright (c) 2024, Govind M. Chari
+ * This source code is licensed under the BSD 2-Clause License
+ */
+
 #include "utils.h"
 
 void print_qcos_csc_matrix(QCOSCscMatrix* M)

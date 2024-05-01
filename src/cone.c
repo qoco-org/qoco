@@ -1,3 +1,13 @@
+/**
+ * @file cone.c
+ * @author Govind M. Chari <govindchari1@gmail.com>
+ *
+ * @section LICENSE
+ *
+ * Copyright (c) 2024, Govind M. Chari
+ * This source code is licensed under the BSD 2-Clause License
+ */
+
 #include "cone.h"
 #include "utils.h"
 
@@ -131,7 +141,7 @@ void bring2cone(QCOSFloat* u, QCOSProblemData* data)
 
 void compute_mu(QCOSWorkspace* work)
 {
-  work->mu = dot(work->s, work->z, work->data->m) / work->data->m;
+  work->mu = safe_div(dot(work->s, work->z, work->data->m), work->data->m);
 }
 
 void compute_nt_scaling(QCOSWorkspace* work)
@@ -262,7 +272,7 @@ QCOSFloat linesearch(QCOSFloat* u, QCOSFloat* Du, QCOSFloat f,
   QCOSFloat a = 0.0;
   for (QCOSInt i = 0; i < solver->settings->max_iter_bisection; ++i) {
     a = 0.5 * (al + au);
-    axpy(Du, u, work->ubuff1, (a / f), work->data->m);
+    axpy(Du, u, work->ubuff1, safe_div(a, f), work->data->m);
     if (cone_residual(work->ubuff1, work->data) >= 0) {
       au = a;
     }
