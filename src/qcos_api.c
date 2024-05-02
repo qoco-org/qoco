@@ -190,18 +190,9 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
 {
 
   // Free problem data.
-  qcos_free(solver->work->data->A->i);
-  qcos_free(solver->work->data->A->p);
-  qcos_free(solver->work->data->A->x);
-  qcos_free(solver->work->data->A);
-  qcos_free(solver->work->data->G->i);
-  qcos_free(solver->work->data->G->p);
-  qcos_free(solver->work->data->G->x);
-  qcos_free(solver->work->data->G);
-  qcos_free(solver->work->data->P->i);
-  qcos_free(solver->work->data->P->p);
-  qcos_free(solver->work->data->P->x);
-  qcos_free(solver->work->data->P);
+  free_qcos_csc_matrix(solver->work->data->P);
+  free_qcos_csc_matrix(solver->work->data->A);
+  free_qcos_csc_matrix(solver->work->data->G);
   qcos_free(solver->work->data->b);
   qcos_free(solver->work->data->c);
   qcos_free(solver->work->data->h);
@@ -230,10 +221,7 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->Ds);
 
   // Free KKT struct.
-  qcos_free(solver->work->kkt->K->i);
-  qcos_free(solver->work->kkt->K->p);
-  qcos_free(solver->work->kkt->K->x);
-  qcos_free(solver->work->kkt->K);
+  free_qcos_csc_matrix(solver->work->kkt->K);
   qcos_free(solver->work->kkt->nt2kkt);
   qcos_free(solver->work->kkt->etree);
   qcos_free(solver->work->kkt->Lnz);

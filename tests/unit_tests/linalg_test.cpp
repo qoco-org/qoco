@@ -30,10 +30,7 @@ TEST(linalg, new_qcos_csc_matrix_test)
   expect_eq_vectorf(A->x, M->x, Annz, tol);
 
   free(A);
-  free(M->x);
-  free(M->i);
-  free(M->p);
-  free(M);
+  free_qcos_csc_matrix(M);
 }
 
 TEST(linalg, copy_arrayf_test)

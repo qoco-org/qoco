@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['m_43',['m',['../d0/d99/structQCOSCscMatrix.html#a95f8e7eeaa14e87186df198b4034ee12',1,'QCOSCscMatrix::m()'],['../d7/d42/structQCOSProblemData.html#adc887f20ca01f826fdded71a981423d6',1,'QCOSProblemData::m()']]],
-  ['max_5farrayi_44',['max_arrayi',['../dd/d46/linalg_8h.html#a1b023ba260fab3c8a4794c293e993ae8',1,'max_arrayi(QCOSInt *x, QCOSInt n):&#160;linalg.c'],['../d8/d14/linalg_8c.html#a1b023ba260fab3c8a4794c293e993ae8',1,'max_arrayi(QCOSInt *x, QCOSInt n):&#160;linalg.c']]],
-  ['max_5fiter_5fbisection_45',['max_iter_bisection',['../d9/dc4/structQCOSSettings.html#afe26953bbbeeac72c3e3b72897097a14',1,'QCOSSettings']]],
-  ['max_5fiters_46',['max_iters',['../d9/dc4/structQCOSSettings.html#a6b4a9b5ddd75726a32ef44a1444bb8d5',1,'QCOSSettings']]],
-  ['mu_47',['mu',['../d5/d30/structQCOSWorkspace.html#a9ff9f65a7afdcc49eb8659ce556fb71d',1,'QCOSWorkspace']]]
+  ['l_39',['l',['../d7/d42/structQCOSProblemData.html#a02b1afefceecb6c4204a3ac82ae8cb5b',1,'QCOSProblemData']]],
+  ['lambda_40',['lambda',['../d5/d30/structQCOSWorkspace.html#a45e7f9de85a021bbccd2117ad3e0557a',1,'QCOSWorkspace']]],
+  ['linalg_2ec_41',['linalg.c',['../d8/d14/linalg_8c.html',1,'']]],
+  ['linalg_2eh_42',['linalg.h',['../dd/d46/linalg_8h.html',1,'']]],
+  ['linesearch_43',['linesearch',['../db/df0/cone_8h.html#a3a332345e9e7bcd906738d5b0168a301',1,'linesearch(QCOSFloat *u, QCOSFloat *Du, QCOSFloat f, QCOSSolver *solver):&#160;cone.c'],['../df/d3b/cone_8c.html#a3a332345e9e7bcd906738d5b0168a301',1,'linesearch(QCOSFloat *u, QCOSFloat *Du, QCOSFloat f, QCOSSolver *solver):&#160;cone.c']]]
 ];

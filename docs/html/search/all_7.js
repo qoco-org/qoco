@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['i_30',['i',['../d0/d99/structQCOSCscMatrix.html#acd252d63e1390e9bd4b191e0dd1da218',1,'QCOSCscMatrix']]],
-  ['initialize_5fipm_31',['initialize_ipm',['../db/d56/kkt_8h.html#a944d74cccfbc1ee385c89c3b3232d4e0',1,'initialize_ipm(QCOSSolver *solver):&#160;kkt.c'],['../db/d03/kkt_8c.html#a944d74cccfbc1ee385c89c3b3232d4e0',1,'initialize_ipm(QCOSSolver *solver):&#160;kkt.c']]],
-  ['input_5fvalidation_2ec_32',['input_validation.c',['../dd/d08/input__validation_8c.html',1,'']]],
-  ['input_5fvalidation_2eh_33',['input_validation.h',['../d8/d7d/input__validation_8h.html',1,'']]]
+  ['h_30',['h',['../d7/d42/structQCOSProblemData.html#a691f6ebfb448f931a22264f49c18d783',1,'QCOSProblemData']]]
 ];

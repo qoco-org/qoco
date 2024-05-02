@@ -1,3 +1,4 @@
+#include "test_utils.h"
 #include "gtest/gtest.h"
 
 #include "qcos.h"
@@ -38,32 +39,26 @@ TEST(simple_socp, ok)
   qcos_set_csc(A, p, n, Annz, Ax, Ap, Ai);
   qcos_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
 
-  QCOSSettings* settings = (QCOSSettings*)malloc(sizeof(QCOSSettings));
+  QCOSFloat xexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
+  QCOSFloat sexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
+  QCOSFloat yexp[] = {-1.200, -2.400};
+  QCOSFloat zexp[] = {0.0000, 0.0000, 0.0000, 5.5923, 3.6875, 4.2043};
+  QCOSFloat tol = 1e-4;
 
+  QCOSSettings* settings = (QCOSSettings*)malloc(sizeof(QCOSSettings));
   set_default_settings(settings);
-  settings->verbose = 1;
 
   QCOSSolver* solver = qcos_setup(P, c, A, b, G, h, l, ncones, q, settings);
-
   QCOSInt exit = qcos_solve(solver);
 
-  printf("x: ");
-  print_arrayf(solver->work->x, n);
-  printf("s: ");
-  print_arrayf(solver->work->s, m);
-  printf("y: ");
-  print_arrayf(solver->work->y, p);
-  printf("z: ");
-  print_arrayf(solver->work->z, m);
-
-  if (!exit) {
-    printf("Success\n");
-  }
+  expect_eq_vectorf(solver->work->x, xexp, n, tol);
+  expect_eq_vectorf(solver->work->s, sexp, m, tol);
+  expect_eq_vectorf(solver->work->y, yexp, p, tol);
+  expect_eq_vectorf(solver->work->z, zexp, n, tol);
+  ASSERT_EQ(exit, 0);
 
   qcos_cleanup(solver);
   free(P);
   free(A);
   free(G);
-
-  ASSERT_EQ(1, 1);
 }

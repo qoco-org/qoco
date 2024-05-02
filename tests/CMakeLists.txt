@@ -12,7 +12,8 @@ foreach(file ${convex_tests})
   get_filename_component(name ${file} NAME_WE)
   add_executable("${name}"
     "convex_tests/${name}.cpp"
-    "${PROJECT_SOURCE_DIR}/tests/main.cpp")
+    "${PROJECT_SOURCE_DIR}/tests/main.cpp"
+    "${PROJECT_SOURCE_DIR}/tests/test_utils.cpp")
   target_link_libraries("${name}" qcoslib gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()

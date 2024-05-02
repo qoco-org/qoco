@@ -26,6 +26,14 @@
 QCOSCscMatrix* new_qcos_csc_matrix(QCOSCscMatrix* A);
 
 /**
+ * @brief Frees all the internal arrays and the pointer to the QCOSCscMatrix.
+ * Should only be used if QCOSCscMatrix and all internal arrays were malloc'ed.
+ *
+ * @param A Pointer to QCOSCscMatrix.
+ */
+void free_qcos_csc_matrix(QCOSCscMatrix* A);
+
+/**
  * @brief Copies array of QCOSFloats from x to array y.
  *
  * @param x Source array.

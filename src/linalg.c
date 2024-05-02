@@ -37,6 +37,14 @@ QCOSCscMatrix* new_qcos_csc_matrix(QCOSCscMatrix* A)
   return M;
 }
 
+void free_qcos_csc_matrix(QCOSCscMatrix* A)
+{
+  free(A->x);
+  free(A->i);
+  free(A->p);
+  free(A);
+}
+
 void copy_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
 {
   qcos_assert(x);
