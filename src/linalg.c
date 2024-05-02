@@ -12,6 +12,8 @@
 
 QCOSCscMatrix* new_qcos_csc_matrix(QCOSCscMatrix* A)
 {
+  qcos_assert(A);
+
   QCOSInt m = A->m;
   QCOSInt n = A->n;
   QCOSInt nnz = A->nnz;
@@ -37,6 +39,9 @@ QCOSCscMatrix* new_qcos_csc_matrix(QCOSCscMatrix* A)
 
 void copy_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
 {
+  qcos_assert(x);
+  qcos_assert(y);
+
   for (QCOSInt i = 0; i < n; ++i) {
     y[i] = x[i];
   }
@@ -44,6 +49,9 @@ void copy_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
 
 void copy_and_negate_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
 {
+  qcos_assert(x);
+  qcos_assert(y);
+
   for (QCOSInt i = 0; i < n; ++i) {
     y[i] = -x[i];
   }
@@ -51,6 +59,9 @@ void copy_and_negate_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
 
 void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n)
 {
+  qcos_assert(x);
+  qcos_assert(y);
+
   for (QCOSInt i = 0; i < n; ++i) {
     y[i] = x[i];
   }
@@ -58,6 +69,9 @@ void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n)
 
 QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n)
 {
+  qcos_assert(u);
+  qcos_assert(v);
+
   QCOSFloat x = 0.0;
   for (QCOSInt i = 0; i < n; ++i) {
     x += u[i] * v[i];
@@ -65,21 +79,10 @@ QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n)
   return x;
 }
 
-void qcos_USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
-{
-  for (QCOSInt i = 0; i < M->n; i++) {
-    r[i] = 0.0;
-    for (QCOSInt j = M->p[i]; j < M->p[i + 1]; j++) {
-      int row = M->i[j];
-      r[row] += M->x[j] * v[i];
-      if (row != i)
-        r[i] += M->x[j] * v[row];
-    }
-  }
-}
-
 QCOSInt max_arrayi(QCOSInt* x, QCOSInt n)
 {
+  qcos_assert(x);
+
   QCOSInt max = -QCOSInt_MAX;
   for (QCOSInt i = 0; i < n; ++i) {
     max = qcos_max(max, x[i]);
@@ -89,6 +92,9 @@ QCOSInt max_arrayi(QCOSInt* x, QCOSInt n)
 
 void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n)
 {
+  qcos_assert(x);
+  qcos_assert(y);
+
   for (QCOSInt i = 0; i < n; ++i) {
     y[i] = s * x[i];
   }
@@ -96,35 +102,27 @@ void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n)
 
 void axpy(QCOSFloat* x, QCOSFloat* y, QCOSFloat* z, QCOSFloat a, QCOSInt n)
 {
+  qcos_assert(x);
+  qcos_assert(y);
+
   for (QCOSInt i = 0; i < n; ++i) {
     z[i] = a * x[i] + y[i];
   }
 }
 
-void nt_multiply(QCOSFloat* W, QCOSFloat* x, QCOSFloat* z,
-                 QCOSProblemData* data)
+void USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
 {
-  // Compute product for LP cone part of W.
-  for (QCOSInt i = 0; i < data->l; ++i) {
-    z[i] = (W[i] * x[i]);
-  }
+  qcos_assert(M);
+  qcos_assert(v);
+  qcos_assert(r);
 
-  // Compute product for second-order cones.
-  QCOSInt nt_idx = data->l;
-  QCOSInt idx = data->l;
-
-  // Zero out second-order cone block of result z.
-  for (QCOSInt i = data->l; i < data->m; ++i) {
-    z[i] = 0;
-  }
-
-  // Loop over all second-order cones.
-  for (QCOSInt i = 0; i < data->ncones; ++i) {
-    // Loop over elements within a second-order cone.
-    for (QCOSInt j = 0; j < data->q[i]; ++j) {
-      z[idx + j] += dot(&W[nt_idx + j * data->q[i]], &x[idx], data->q[i]);
+  for (QCOSInt i = 0; i < M->n; i++) {
+    r[i] = 0.0;
+    for (QCOSInt j = M->p[i]; j < M->p[i + 1]; j++) {
+      int row = M->i[j];
+      r[row] += M->x[j] * v[i];
+      if (row != i)
+        r[i] += M->x[j] * v[row];
     }
-    idx += data->q[i];
-    nt_idx += data->q[i] * data->q[i];
   }
 }

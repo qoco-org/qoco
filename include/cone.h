@@ -102,6 +102,22 @@ QCOSFloat cone_residual(QCOSFloat* u, QCOSProblemData* data);
 void bring2cone(QCOSFloat* u, QCOSProblemData* data);
 
 /**
+ * @brief Computes z = W * x where W is a full Nesterov-Todd scaling matrix. The
+ * NT scaling array for the LP cones are stored first, then the NT scalings for
+ * the second-order order cones are stores in column major order.
+ *
+ * @param W Nesterov Todd scaling matrix.
+ * @param x Input vector.
+ * @param z Output vector.
+ * @param l Dimension of LP cone.
+ * @param m Length of x.
+ * @param ncones Number of second-order cones in C.
+ * @param q Array of second-order cone dimensions.
+ */
+void nt_multiply(QCOSFloat* W, QCOSFloat* x, QCOSFloat* z, QCOSInt l, QCOSInt m,
+                 QCOSInt ncones, QCOSInt* q);
+
+/**
  * @brief Computes gap (z'*s / m) and stores in work->mu.
  *
  * @param work Pointer to workspace.

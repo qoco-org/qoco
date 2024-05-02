@@ -5,5 +5,5 @@ var searchData=
   ['new_5fqcos_5fcsc_5fmatrix_50',['new_qcos_csc_matrix',['../dd/d46/linalg_8h.html#a48fe41ad1659f444e12a98fe0b21ccd3',1,'new_qcos_csc_matrix(QCOSCscMatrix *A):&#160;linalg.c'],['../d8/d14/linalg_8c.html#a48fe41ad1659f444e12a98fe0b21ccd3',1,'new_qcos_csc_matrix(QCOSCscMatrix *A):&#160;linalg.c']]],
   ['nnz_51',['nnz',['../d0/d99/structQCOSCscMatrix.html#a369d13e994795a04cdf153879f5c1307',1,'QCOSCscMatrix']]],
   ['nt2kkt_52',['nt2kkt',['../d0/d72/structQCOSKKT.html#a7b9fb5434c1c9cab9af8784a2f4248c8',1,'QCOSKKT']]],
-  ['nt_5fmultiply_53',['nt_multiply',['../dd/d46/linalg_8h.html#aa22232a37dff3ebc9e38e0dc7fde5acb',1,'nt_multiply(QCOSFloat *W, QCOSFloat *x, QCOSFloat *z, QCOSProblemData *data):&#160;linalg.c'],['../d8/d14/linalg_8c.html#aa22232a37dff3ebc9e38e0dc7fde5acb',1,'nt_multiply(QCOSFloat *W, QCOSFloat *x, QCOSFloat *z, QCOSProblemData *data):&#160;linalg.c']]]
+  ['nt_5fmultiply_53',['nt_multiply',['../db/df0/cone_8h.html#a3027fc6abee7d5231ffc26a137d595b9',1,'nt_multiply(QCOSFloat *W, QCOSFloat *x, QCOSFloat *z, QCOSInt l, QCOSInt m, QCOSInt ncones, QCOSInt *q):&#160;cone.c'],['../df/d3b/cone_8c.html#a3027fc6abee7d5231ffc26a137d595b9',1,'nt_multiply(QCOSFloat *W, QCOSFloat *x, QCOSFloat *z, QCOSInt l, QCOSInt m, QCOSInt ncones, QCOSInt *q):&#160;cone.c']]]
 ];

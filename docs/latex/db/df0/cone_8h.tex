@@ -8,8 +8,7 @@ Include dependency graph for cone.\+h\+:\nopagebreak
 \includegraphics[width=273pt]{de/de5/cone_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -35,6 +34,8 @@ QCOSFloat \mbox{\hyperlink{cone_8h_a3f9cfa8e07709d3ca39fdedfdc39b099}{cone\+\_\+
 \begin{DoxyCompactList}\small\item\em Computes residual of vector u with respect to cone C. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{cone_8h_acef168ff9f0dd13d2b60b85f159e21d6}{bring2cone}} (QCOSFloat $\ast$u, \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
 \begin{DoxyCompactList}\small\item\em Performs u = u + (1 + a) $\ast$ e where e is the cannonical vector for each cone LP Cone\+: e = ones(n), second-\/order cone\+: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) $\ast$ e is in cone C. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8h_a3027fc6abee7d5231ffc26a137d595b9}{nt\+\_\+multiply}} (QCOSFloat $\ast$W, QCOSFloat $\ast$x, QCOSFloat $\ast$z, QCOSInt l, QCOSInt m, QCOSInt ncones, QCOSInt $\ast$q)
+\begin{DoxyCompactList}\small\item\em Computes z = W $\ast$ x where W is a full Nesterov-\/\+Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-\/order order cones are stores in column major order. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{cone_8h_aa9d319888db390c7c2b965061ba72cfe}{compute\+\_\+mu}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
 \begin{DoxyCompactList}\small\item\em Computes gap (z\textquotesingle{}$\ast$s / m) and stores in work-\/$>$mu. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{cone_8h_a12d2e90953304f38fc093cc51b53eafd}{compute\+\_\+nt\+\_\+scaling}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
@@ -202,6 +203,33 @@ Conducts linesearch by bisection to compute a \textbackslash{}in (0, 1\mbox{]} s
 \begin{DoxyReturn}{Returns}
 Step-\/size. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{cone_8h_a3027fc6abee7d5231ffc26a137d595b9}\label{cone_8h_a3027fc6abee7d5231ffc26a137d595b9}} 
+\index{cone.h@{cone.h}!nt\_multiply@{nt\_multiply}}
+\index{nt\_multiply@{nt\_multiply}!cone.h@{cone.h}}
+\doxysubsubsection{\texorpdfstring{nt\_multiply()}{nt\_multiply()}}
+{\footnotesize\ttfamily void nt\+\_\+multiply (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{W,  }\item[{QCOSFloat $\ast$}]{x,  }\item[{QCOSFloat $\ast$}]{z,  }\item[{QCOSInt}]{l,  }\item[{QCOSInt}]{m,  }\item[{QCOSInt}]{ncones,  }\item[{QCOSInt $\ast$}]{q }\end{DoxyParamCaption})}
+
+
+
+Computes z = W $\ast$ x where W is a full Nesterov-\/\+Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-\/order order cones are stores in column major order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em W} & Nesterov Todd scaling matrix. \\
+\hline
+{\em x} & Input vector. \\
+\hline
+{\em z} & Output vector. \\
+\hline
+{\em l} & Dimension of LP cone. \\
+\hline
+{\em m} & Length of x. \\
+\hline
+{\em ncones} & Number of second-\/order cones in C. \\
+\hline
+{\em q} & Array of second-\/order cone dimensions. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{cone_8h_aea56612fcbae31f163de92776165932e}\label{cone_8h_aea56612fcbae31f163de92776165932e}} 
 \index{cone.h@{cone.h}!soc\_division@{soc\_division}}
 \index{soc\_division@{soc\_division}!cone.h@{cone.h}}

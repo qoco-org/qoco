@@ -139,6 +139,34 @@ void bring2cone(QCOSFloat* u, QCOSProblemData* data)
   }
 }
 
+void nt_multiply(QCOSFloat* W, QCOSFloat* x, QCOSFloat* z, QCOSInt l, QCOSInt m,
+                 QCOSInt ncones, QCOSInt* q)
+{
+  // Compute product for LP cone part of W.
+  for (QCOSInt i = 0; i < l; ++i) {
+    z[i] = (W[i] * x[i]);
+  }
+
+  // Compute product for second-order cones.
+  QCOSInt nt_idx = l;
+  QCOSInt idx = l;
+
+  // Zero out second-order cone block of result z.
+  for (QCOSInt i = l; i < m; ++i) {
+    z[i] = 0;
+  }
+
+  // Loop over all second-order cones.
+  for (QCOSInt i = 0; i < ncones; ++i) {
+    // Loop over elements within a second-order cone.
+    for (QCOSInt j = 0; j < q[i]; ++j) {
+      z[idx + j] += dot(&W[nt_idx + j * q[i]], &x[idx], q[i]);
+    }
+    idx += q[i];
+    nt_idx += q[i] * q[i];
+  }
+}
+
 void compute_mu(QCOSWorkspace* work)
 {
   work->mu = safe_div(dot(work->s, work->z, work->data->m), work->data->m);
@@ -239,7 +267,8 @@ void compute_nt_scaling(QCOSWorkspace* work)
   }
 
   // Compute scaled variable lambda. lambda = W * z.
-  nt_multiply(work->Wfull, work->z, work->lambda, work->data);
+  nt_multiply(work->Wfull, work->z, work->lambda, work->data->l, work->data->m,
+              work->data->ncones, work->data->q);
 }
 
 void compute_centering(QCOSSolver* solver)

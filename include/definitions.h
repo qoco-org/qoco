@@ -41,6 +41,22 @@ typedef double QCOSFloat;
 #include "math.h"
 #define qcos_sqrt(a) sqrt(a)
 
+#ifdef QCOS_DEBUG
+#include <assert.h>
+#include <stdio.h>
+#define qcos_assert(a)                                                         \
+  do {                                                                         \
+    if (!(a)) {                                                                \
+      printf("Assertion Failed: %s\n", #a);                                    \
+      __asm__ volatile("int $0x03");                                           \
+    }                                                                          \
+  } while (0)
+#else
+#define qcos_assert(a)                                                         \
+  do {                                                                         \
+  } while (0)
+#endif
+
 // Need for malloc, calloc, and free.
 #include <stdlib.h>
 #define qcos_malloc malloc

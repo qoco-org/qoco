@@ -129,6 +129,9 @@ Functions</h2></td></tr>
 <tr class="memitem:acef168ff9f0dd13d2b60b85f159e21d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df0/cone_8h.html#acef168ff9f0dd13d2b60b85f159e21d6">bring2cone</a> (QCOSFloat *u, <a class="el" href="../../d7/d42/structQCOSProblemData.html">QCOSProblemData</a> *data)</td></tr>
 <tr class="memdesc:acef168ff9f0dd13d2b60b85f159e21d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs u = u + (1 + a) * e where e is the cannonical vector for each cone LP Cone: e = ones(n), second-order cone: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) * e is in cone C.  <a href="../../db/df0/cone_8h.html#acef168ff9f0dd13d2b60b85f159e21d6">More...</a><br /></td></tr>
 <tr class="separator:acef168ff9f0dd13d2b60b85f159e21d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3027fc6abee7d5231ffc26a137d595b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df0/cone_8h.html#a3027fc6abee7d5231ffc26a137d595b9">nt_multiply</a> (QCOSFloat *W, QCOSFloat *x, QCOSFloat *z, QCOSInt l, QCOSInt m, QCOSInt ncones, QCOSInt *q)</td></tr>
+<tr class="memdesc:a3027fc6abee7d5231ffc26a137d595b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes z = W * x where W is a full Nesterov-Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-order order cones are stores in column major order.  <a href="../../db/df0/cone_8h.html#a3027fc6abee7d5231ffc26a137d595b9">More...</a><br /></td></tr>
+<tr class="separator:a3027fc6abee7d5231ffc26a137d595b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9d319888db390c7c2b965061ba72cfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df0/cone_8h.html#aa9d319888db390c7c2b965061ba72cfe">compute_mu</a> (<a class="el" href="../../d5/d30/structQCOSWorkspace.html">QCOSWorkspace</a> *work)</td></tr>
 <tr class="memdesc:aa9d319888db390c7c2b965061ba72cfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes gap (z'*s / m) and stores in work-&gt;mu.  <a href="../../db/df0/cone_8h.html#aa9d319888db390c7c2b965061ba72cfe">More...</a><br /></td></tr>
 <tr class="separator:aa9d319888db390c7c2b965061ba72cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -455,6 +458,78 @@ DESCRIPTION</h1>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Step-size. </dd></dl>
+
+</div>
+</div>
+<a id="a3027fc6abee7d5231ffc26a137d595b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3027fc6abee7d5231ffc26a137d595b9">&#9670;&nbsp;</a></span>nt_multiply()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void nt_multiply </td>
+          <td>(</td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>W</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSFloat *&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSInt&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSInt&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSInt&#160;</td>
+          <td class="paramname"><em>ncones</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QCOSInt *&#160;</td>
+          <td class="paramname"><em>q</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes z = W * x where W is a full Nesterov-Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-order order cones are stores in column major order. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">W</td><td>Nesterov Todd scaling matrix. </td></tr>
+    <tr><td class="paramname">x</td><td>Input vector. </td></tr>
+    <tr><td class="paramname">z</td><td>Output vector. </td></tr>
+    <tr><td class="paramname">l</td><td>Dimension of LP cone. </td></tr>
+    <tr><td class="paramname">m</td><td>Length of x. </td></tr>
+    <tr><td class="paramname">ncones</td><td>Number of second-order cones in C. </td></tr>
+    <tr><td class="paramname">q</td><td>Array of second-order cone dimensions. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

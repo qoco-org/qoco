@@ -10,8 +10,7 @@ Include dependency graph for definitions.\+h\+:\nopagebreak
 \includegraphics[width=273pt]{dd/d18/definitions_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -42,6 +41,8 @@ This graph shows which files directly or indirectly include this file\+:
 \mbox{\Hypertarget{definitions_8h_a18911854e2158baa8a9b2c6ce1c5e7d5}\label{definitions_8h_a18911854e2158baa8a9b2c6ce1c5e7d5}} 
 \#define {\bfseries qcos\+\_\+sqrt}(a)~sqrt(a)
 \item 
+\#define {\bfseries qcos\+\_\+assert}(a)
+\item 
 \mbox{\Hypertarget{definitions_8h_ad5942037555e5a8bf835cb1be3c113d3}\label{definitions_8h_ad5942037555e5a8bf835cb1be3c113d3}} 
 \#define {\bfseries qcos\+\_\+malloc}~malloc
 \item 
@@ -69,3 +70,17 @@ Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail
 \hypertarget{utils_8c_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8c_LICENSE}
 Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
 Defines various macros used in qcos. 
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{definitions_8h_adf7845743ab20b40eacc96a9f48b9a11}\label{definitions_8h_adf7845743ab20b40eacc96a9f48b9a11}} 
+\index{definitions.h@{definitions.h}!qcos\_assert@{qcos\_assert}}
+\index{qcos\_assert@{qcos\_assert}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{qcos\_assert}{qcos\_assert}}
+{\footnotesize\ttfamily \#define qcos\+\_\+assert(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{  \textcolor{keywordflow}{do} \{                                                                         \(\backslash\)}
+\DoxyCodeLine{  \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}

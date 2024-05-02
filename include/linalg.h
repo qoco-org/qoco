@@ -63,16 +63,6 @@ void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n);
 QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n);
 
 /**
- * @brief Sparse matrix vector multiplication for CSC matrices where M is
- * symmetric and only the upper triangular part is given. Computes r = M * v
- *
- * @param M Upper triangular part of M in CSC form.
- * @param v Vector.
- * @param r Result.
- */
-void qcos_USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
-
-/**
  * @brief Computes maximum element of array of QCOSInts.
  *
  * @param x Input array.
@@ -82,7 +72,7 @@ void qcos_USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
 QCOSInt max_arrayi(QCOSInt* x, QCOSInt n);
 
 /**
- * @brief Scales array x by s.
+ * @brief Scales array x by s and stores result in y.
  * y = s * x
  *
  * @param x Input array.
@@ -104,16 +94,13 @@ void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n);
 void axpy(QCOSFloat* x, QCOSFloat* y, QCOSFloat* z, QCOSFloat a, QCOSInt n);
 
 /**
- * @brief Computes z = W * x where W is a full Nesterov-Todd scaling matrix. The
- * NT scaling array for the LP cones are stored first, then the NT scalings for
- * the second-order order cones are stores in column major order.
+ * @brief Sparse matrix vector multiplication for CSC matrices where M is
+ * symmetric and only the upper triangular part is given. Computes r = M * v
  *
- * @param W Nesterov Todd scaling matrix.
- * @param x Input vector.
- * @param z Output vector.
- * @param data Pointer to problem data.
+ * @param M Upper triangular part of M in CSC form.
+ * @param v Vector.
+ * @param r Result.
  */
-void nt_multiply(QCOSFloat* W, QCOSFloat* x, QCOSFloat* z,
-                 QCOSProblemData* data);
+void USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
 
 #endif /* #ifndef LINALG_H*/

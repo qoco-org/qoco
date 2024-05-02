@@ -4,6 +4,7 @@ project(qcos)
 # If build type is not specified set to Release.
 if(QCOS_BUILD_TYPE STREQUAL Debug)
     set(QCOS_BUILD_TYPE ${QCOS_BUILD_TYPE})
+    add_compile_definitions(QCOS_DEBUG)
     set(CMAKE_C_FLAGS "-g -march=native -Werror -Wall -Wextra -fsanitize=address,undefined")
 else()
     set(QCOS_BUILD_TYPE Release)
@@ -50,10 +51,3 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
         ${CMAKE_BINARY_DIR}/googletest-build)
 enable_testing()
 add_subdirectory(tests)
-
-# Build test executable.
-# add_executable(old_test old_tests/test.c)
-# target_link_libraries(old_test qcoslib)
-
-# add_executable(test_qdldl old_tests/test_qdldl.c)
-# target_link_libraries(test_qdldl qcoslib)

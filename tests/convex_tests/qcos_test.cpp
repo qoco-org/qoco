@@ -57,7 +57,7 @@ TEST(simple_socp, ok)
   print_arrayf(solver->work->z, m);
 
   if (!exit) {
-    printf("Success");
+    printf("Success\n");
   }
 
   qcos_cleanup(solver);

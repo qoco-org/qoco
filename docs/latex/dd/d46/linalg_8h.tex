@@ -9,8 +9,7 @@ Include dependency graph for linalg.\+h\+:\nopagebreak
 \includegraphics[width=273pt]{d7/d1d/linalg_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:
-\nopagebreak
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -30,16 +29,14 @@ void \mbox{\hyperlink{linalg_8h_a441dbb63eaf3e562be9e033c0933e2d5}{copy\+\_\+arr
 \begin{DoxyCompactList}\small\item\em Copies array of QCOSInts from x to array y. \end{DoxyCompactList}\item 
 QCOSFloat \mbox{\hyperlink{linalg_8h_a5f379401b4b367c0971b7dd2514b2f64}{dot}} (QCOSFloat $\ast$u, QCOSFloat $\ast$v, QCOSInt n)
 \begin{DoxyCompactList}\small\item\em Computes dot product of u and v. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{linalg_8h_a1d03b9dad3cc93f16b80ddb95439ed05}{qcos\+\_\+\+USp\+Mv}} (\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$M, QCOSFloat $\ast$v, QCOSFloat $\ast$r)
+void \mbox{\hyperlink{linalg_8h_a3ea0b52c4800071d48186e6a2ec6cbd8}{USp\+Mv}} (\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$M, QCOSFloat $\ast$v, QCOSFloat $\ast$r)
 \begin{DoxyCompactList}\small\item\em Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M $\ast$ v. \end{DoxyCompactList}\item 
 QCOSInt \mbox{\hyperlink{linalg_8h_a1b023ba260fab3c8a4794c293e993ae8}{max\+\_\+arrayi}} (QCOSInt $\ast$x, QCOSInt n)
-\begin{DoxyCompactList}\small\item\em Computes maximum element of array. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Computes maximum element of array of QCOSInts. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{linalg_8h_acda7ecb523df6e138fd26cdd194c8086}{scale\+\_\+arrayf}} (QCOSFloat $\ast$x, QCOSFloat $\ast$y, QCOSFloat s, QCOSInt n)
 \begin{DoxyCompactList}\small\item\em Scales array x by s. y = s $\ast$ x. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{linalg_8h_a17f57f22b93fcba74e3b376fd5dfb56c}{axpy}} (QCOSFloat $\ast$x, QCOSFloat $\ast$y, QCOSFloat $\ast$z, QCOSFloat a, QCOSInt n)
-\begin{DoxyCompactList}\small\item\em Computes z = a $\ast$ x + y. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{linalg_8h_aa22232a37dff3ebc9e38e0dc7fde5acb}{nt\+\_\+multiply}} (QCOSFloat $\ast$W, QCOSFloat $\ast$x, QCOSFloat $\ast$z, \mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$data)
-\begin{DoxyCompactList}\small\item\em Computes z = W $\ast$ x where W is a full Nesterov-\/\+Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-\/order order cones are stores in column major order. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Computes z = a $\ast$ x + y. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -161,7 +158,7 @@ Dot product of u and v.
 
 
 
-Computes maximum element of array. 
+Computes maximum element of array of QCOSInts. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -191,46 +188,6 @@ Allocates a new csc matrix and copies A to it.
 \begin{DoxyReturn}{Returns}
 Pointer to new constructed matrix. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{linalg_8h_aa22232a37dff3ebc9e38e0dc7fde5acb}\label{linalg_8h_aa22232a37dff3ebc9e38e0dc7fde5acb}} 
-\index{linalg.h@{linalg.h}!nt\_multiply@{nt\_multiply}}
-\index{nt\_multiply@{nt\_multiply}!linalg.h@{linalg.h}}
-\doxysubsubsection{\texorpdfstring{nt\_multiply()}{nt\_multiply()}}
-{\footnotesize\ttfamily void nt\+\_\+multiply (\begin{DoxyParamCaption}\item[{QCOSFloat $\ast$}]{W,  }\item[{QCOSFloat $\ast$}]{x,  }\item[{QCOSFloat $\ast$}]{z,  }\item[{\mbox{\hyperlink{structQCOSProblemData}{QCOSProblem\+Data}} $\ast$}]{data }\end{DoxyParamCaption})}
-
-
-
-Computes z = W $\ast$ x where W is a full Nesterov-\/\+Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-\/order order cones are stores in column major order. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em W} & Nesterov Todd scaling matrix. \\
-\hline
-{\em x} & Input vector. \\
-\hline
-{\em z} & Output vector. \\
-\hline
-{\em data} & Pointer to problem data. \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{linalg_8h_a1d03b9dad3cc93f16b80ddb95439ed05}\label{linalg_8h_a1d03b9dad3cc93f16b80ddb95439ed05}} 
-\index{linalg.h@{linalg.h}!qcos\_USpMv@{qcos\_USpMv}}
-\index{qcos\_USpMv@{qcos\_USpMv}!linalg.h@{linalg.h}}
-\doxysubsubsection{\texorpdfstring{qcos\_USpMv()}{qcos\_USpMv()}}
-{\footnotesize\ttfamily void qcos\+\_\+\+USp\+Mv (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$}]{M,  }\item[{QCOSFloat $\ast$}]{v,  }\item[{QCOSFloat $\ast$}]{r }\end{DoxyParamCaption})}
-
-
-
-Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M $\ast$ v. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em M} & Upper triangular part of M in CSC form. \\
-\hline
-{\em v} & Vector. \\
-\hline
-{\em r} & Result. \\
-\hline
-\end{DoxyParams}
 \mbox{\Hypertarget{linalg_8h_acda7ecb523df6e138fd26cdd194c8086}\label{linalg_8h_acda7ecb523df6e138fd26cdd194c8086}} 
 \index{linalg.h@{linalg.h}!scale\_arrayf@{scale\_arrayf}}
 \index{scale\_arrayf@{scale\_arrayf}!linalg.h@{linalg.h}}
@@ -250,5 +207,24 @@ Scales array x by s. y = s $\ast$ x.
 {\em s} & Scaling factor. \\
 \hline
 {\em n} & Length of arrays. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{linalg_8h_a3ea0b52c4800071d48186e6a2ec6cbd8}\label{linalg_8h_a3ea0b52c4800071d48186e6a2ec6cbd8}} 
+\index{linalg.h@{linalg.h}!USpMv@{USpMv}}
+\index{USpMv@{USpMv}!linalg.h@{linalg.h}}
+\doxysubsubsection{\texorpdfstring{USpMv()}{USpMv()}}
+{\footnotesize\ttfamily void USp\+Mv (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSCscMatrix}{QCOSCsc\+Matrix}} $\ast$}]{M,  }\item[{QCOSFloat $\ast$}]{v,  }\item[{QCOSFloat $\ast$}]{r }\end{DoxyParamCaption})}
+
+
+
+Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M $\ast$ v. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Upper triangular part of M in CSC form. \\
+\hline
+{\em v} & Vector. \\
+\hline
+{\em r} & Result. \\
 \hline
 \end{DoxyParams}
