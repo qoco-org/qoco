@@ -297,7 +297,8 @@ void construct_kkt_comb_rhs(QCOSWorkspace* work)
               work->data->ncones, work->data->q);
 
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata).
-  cone_product(work->ubuff1, work->ubuff2, work->ubuff3, work->data);
+  cone_product(work->ubuff1, work->ubuff2, work->ubuff3, work->data->l,
+               work->data->ncones, work->data->q);
 
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata) - sigma * mu * e.
   QCOSFloat sm = work->sigma * work->mu;
@@ -310,7 +311,8 @@ void construct_kkt_comb_rhs(QCOSWorkspace* work)
     idx += work->data->q[i];
   }
   // ubuff1 = lambda * lambda.
-  cone_product(work->lambda, work->lambda, work->ubuff1, work->data);
+  cone_product(work->lambda, work->lambda, work->ubuff1, work->data->l,
+               work->data->ncones, work->data->q);
 
   // Ds = -cone_product(lambda, lambda) - settings.mehrotra *
   // cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
@@ -320,7 +322,8 @@ void construct_kkt_comb_rhs(QCOSWorkspace* work)
   }
 
   // ubuff2 = cone_division(lambda, ds).
-  cone_division(work->lambda, work->Ds, work->ubuff2, work->data);
+  cone_division(work->lambda, work->Ds, work->ubuff2, work->data->l,
+                work->data->ncones, work->data->q);
 
   // ubuff1 = W * cone_division(lambda, ds).
   nt_multiply(work->Wfull, work->ubuff2, work->ubuff1, work->data->l,
@@ -384,7 +387,8 @@ void predictor_corrector(QCOSSolver* solver)
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
   // computed in construct_kkt_comb_rhs() and stored in work->Ds.
   QCOSFloat* Dz = &work->kkt->xyz[work->data->n + work->data->p];
-  cone_division(work->lambda, work->Ds, work->ubuff1, work->data);
+  cone_division(work->lambda, work->Ds, work->ubuff1, work->data->l,
+                work->data->ncones, work->data->q);
   nt_multiply(work->Wfull, Dz, work->ubuff2, work->data->l, work->data->m,
               work->data->ncones, work->data->q);
   for (QCOSInt i = 0; i < work->data->m; ++i) {

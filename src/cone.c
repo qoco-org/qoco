@@ -11,39 +11,6 @@
 #include "cone.h"
 #include "utils.h"
 
-void cone_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p,
-                  QCOSProblemData* data)
-{
-  QCOSInt idx;
-  // Compute LP cone product.
-  for (idx = 0; idx < data->l; ++idx) {
-    p[idx] = u[idx] * v[idx];
-  }
-
-  // Compute second-order cone product.
-  for (QCOSInt i = 0; i < data->ncones; ++i) {
-    soc_product(&u[idx], &v[idx], &p[idx], data->q[i]);
-    idx += data->q[i];
-  }
-}
-
-void cone_division(QCOSFloat* lambda, QCOSFloat* v, QCOSFloat* d,
-                   QCOSProblemData* data)
-{
-  QCOSInt idx;
-
-  // Compute LP cone division.
-  for (idx = 0; idx < data->l; ++idx) {
-    d[idx] = safe_div(v[idx], lambda[idx]);
-  }
-
-  // Compute second-order cone division.
-  for (QCOSInt i = 0; i < data->ncones; ++i) {
-    soc_division(&lambda[idx], &v[idx], &d[idx], data->q[i]);
-    idx += data->q[i];
-  }
-}
-
 void soc_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt n)
 {
   p[0] = dot(u, v, n);
@@ -83,6 +50,38 @@ QCOSFloat soc_residual2(QCOSFloat* u, QCOSInt n)
     res -= u[i] * u[i];
   }
   return res;
+}
+
+void cone_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt l,
+                  QCOSInt ncones, QCOSInt* q)
+{
+  QCOSInt idx;
+  // Compute LP cone product.
+  for (idx = 0; idx < l; ++idx) {
+    p[idx] = u[idx] * v[idx];
+  }
+
+  // Compute second-order cone product.
+  for (QCOSInt i = 0; i < ncones; ++i) {
+    soc_product(&u[idx], &v[idx], &p[idx], q[i]);
+    idx += q[i];
+  }
+}
+
+void cone_division(QCOSFloat* lambda, QCOSFloat* v, QCOSFloat* d, QCOSInt l,
+                   QCOSInt ncones, QCOSInt* q)
+{
+  QCOSInt idx;
+  // Compute LP cone division.
+  for (idx = 0; idx < l; ++idx) {
+    d[idx] = safe_div(v[idx], lambda[idx]);
+  }
+
+  // Compute second-order cone division.
+  for (QCOSInt i = 0; i < ncones; ++i) {
+    soc_division(&lambda[idx], &v[idx], &d[idx], q[i]);
+    idx += q[i];
+  }
 }
 
 QCOSFloat cone_residual(QCOSFloat* u, QCOSProblemData* data)
