@@ -88,10 +88,8 @@ void compute_kkt_residual(QCOSWorkspace* work);
 
 /**
  * @brief Constructs rhs for the affine scaling KKT system.
- * Before calling this function, work->kkt->rhs must contain the
+ * Before calling this function, work->kkt->kktres must contain the
  * residual of the KKT conditions as computed by compute_kkt_residual().
- * Also saves -rz into ubuff1. This is needed when constructing rhs for combined
- * direction.
  *
  * @param work Pointer to workspace.
  */
@@ -99,9 +97,9 @@ void construct_kkt_aff_rhs(QCOSWorkspace* work);
 
 /**
  * @brief Constructs rhs for the combined direction KKT system.
- * Before calling this function, work->kkt->rhs must contain the
- * negative residual of the KKT conditions. The residual is computed by
- * compute_kkt_residual() then negated by calling construct_kkt_aff_rhs().
+ * Before calling this function, work->kkt->kktres must contain the
+ * negative residual of the KKT conditions as computed by
+ * compute_kkt_residual().
  *
  * @param work Pointer to workspace.
  */

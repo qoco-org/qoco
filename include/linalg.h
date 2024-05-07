@@ -111,4 +111,13 @@ void axpy(QCOSFloat* x, QCOSFloat* y, QCOSFloat* z, QCOSFloat a, QCOSInt n);
  */
 void USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
 
+/**
+ * @brief Computes the infinity norm of x.
+ *
+ * @param x Input vector.
+ * @param n Length of input vector.
+ * @return Infinity norm of x.
+ */
+QCOSFloat norm_inf(QCOSFloat* x, QCOSInt n);
+
 #endif /* #ifndef LINALG_H*/

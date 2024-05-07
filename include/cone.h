@@ -89,11 +89,13 @@ void cone_division(QCOSFloat* lambda, QCOSFloat* v, QCOSFloat* d, QCOSInt l,
  * @brief Computes residual of vector u with respect to cone C.
  *
  * @param u Vector to be tested.
- * @param data Pointer to problem data.
+ * @param l Dimension of LP cone.
+ * @param ncones Number of second-order cones.
+ * @param q Dimension of each second-order cone.
  * @return Residual: Negative if the vector is in the cone and positive
  * otherwise.
  */
-QCOSFloat cone_residual(QCOSFloat* u, QCOSProblemData* data);
+QCOSFloat cone_residual(QCOSFloat* u, QCOSInt l, QCOSInt ncones, QCOSInt* q);
 
 /**
  * @brief Performs u = u + (1 + a) * e where e is the cannonical vector for each

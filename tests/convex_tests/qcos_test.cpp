@@ -47,14 +47,15 @@ TEST(simple_socp, ok)
 
   QCOSSettings* settings = (QCOSSettings*)malloc(sizeof(QCOSSettings));
   set_default_settings(settings);
+  settings->verbose = 1;
 
   QCOSSolver* solver = qcos_setup(P, c, A, b, G, h, l, ncones, q, settings);
   QCOSInt exit = qcos_solve(solver);
 
-  expect_eq_vectorf(solver->work->x, xexp, n, tol);
-  expect_eq_vectorf(solver->work->s, sexp, m, tol);
-  expect_eq_vectorf(solver->work->y, yexp, p, tol);
-  expect_eq_vectorf(solver->work->z, zexp, n, tol);
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
+  expect_eq_vectorf(solver->sol->y, yexp, p, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
   ASSERT_EQ(exit, 0);
 
   qcos_cleanup(solver);

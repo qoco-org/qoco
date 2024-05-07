@@ -108,10 +108,13 @@ TEST(cone, cone_division_test)
 //   constexpr QCOSInt n = 5;
 //   constexpr QCOSInt l = 3;
 //   constexpr QCOSInt ncones = 2;
-//   QCOSInt q[] = {5, 5};
-//   QCOSFloat x[] = {6.0, 7.0, 8.0, 1.0, 2.0, 3.0, 4.0,
-//                    5.0, 1.0, 2.0, 3.0, 4.0, 5.0};
+//   QCOSInt q[] = {5, 4};
+//   QCOSFloat x[] =
+//   {6.0, 7.0, 8.0, 1.0, 2.0, 3.0, 4.0, 5.0, 1.0, 2.0, 3.0, 4.0};
 
-//   QCOSFloat res = cone_residual(x, n);
+//   QCOSFloat res_expected = ;
+
+//   QCOSFloat res = cone_residual(x, l, ncones, q);
 //   EXPECT_NEAR(res, res_expected, tol);
+//   EXPECT_EQ(1, 1);
 // }

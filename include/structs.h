@@ -142,6 +142,9 @@ typedef struct {
   /** Solution of KKT system. */
   QCOSFloat* xyz;
 
+  /** Residual of KKT condition. */
+  QCOSFloat* kktres;
+
   /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
    * the KKT matrix. */
   QCOSInt* nt2kkt;
@@ -172,6 +175,9 @@ typedef struct {
 
   /** Gap (s'*z / m) */
   QCOSFloat mu;
+
+  /** Newton Step-size */
+  QCOSFloat a;
 
   /** Centering parameter */
   QCOSFloat sigma;
@@ -205,6 +211,9 @@ typedef struct {
    * max(q). */
   QCOSFloat* zbar;
 
+  /** Temporary variable of length n. */
+  QCOSFloat* xbuff;
+
   /** Temporary variable of length m. */
   QCOSFloat* ubuff1;
 
@@ -219,6 +228,36 @@ typedef struct {
 
 } QCOSWorkspace;
 
+typedef struct {
+  /* Primal solution. */
+  QCOSFloat* x;
+
+  /* Slack variable for conic constraints. */
+  QCOSFloat* s;
+
+  /* Dual variables for affine equality constraints. */
+  QCOSFloat* y;
+
+  /* Dual variables for conic constraints. */
+  QCOSFloat* z;
+
+  /* Number of iterations. */
+  QCOSInt iters;
+
+  /* Setup time. */
+  QCOSFloat setup_time_ms;
+
+  /* Solve time. */
+  QCOSFloat solve_time_ms;
+
+  /* Optimal objective value. */
+  QCOSFloat obj;
+
+  /* Solve status. */
+  QCOSInt status;
+
+} QCOSSolution;
+
 /**
  * @brief QCOS Solver struct. Contains all information about the state of the
  * solver.
@@ -230,6 +269,9 @@ typedef struct {
 
   /** Solver workspace. */
   QCOSWorkspace* work;
+
+  /* Solution. */
+  QCOSSolution* sol;
 
 } QCOSSolver;
 

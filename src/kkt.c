@@ -235,41 +235,40 @@ void compute_kkt_residual(QCOSWorkspace* work)
               work->data->m);
 
   // rhs = K * [x;y;z]
-  USpMv(work->kkt->K, work->kkt->xyz, work->kkt->rhs);
+  USpMv(work->kkt->K, work->kkt->xyz, work->kkt->kktres);
 
   // rhs += [c;-b;-h+s]
   QCOSInt idx;
 
   // Add c.
   for (idx = 0; idx < work->data->n; ++idx) {
-    work->kkt->rhs[idx] += work->data->c[idx];
+    work->kkt->kktres[idx] += work->data->c[idx];
   }
 
   // Add -b;
   for (QCOSInt i = 0; i < work->data->p; ++i) {
-    work->kkt->rhs[idx] += -work->data->b[i];
+    work->kkt->kktres[idx] += -work->data->b[i];
     idx += 1;
   }
 
   // Add -h + s.
   for (QCOSInt i = 0; i < work->data->m; ++i) {
-    work->kkt->rhs[idx] += -work->data->h[i] + work->s[i];
+    work->kkt->kktres[idx] += -work->data->h[i] + work->s[i];
     idx += 1;
   }
 }
 
 void construct_kkt_aff_rhs(QCOSWorkspace* work)
 {
-  // Negate the kkt residual.
-  for (QCOSInt i = 0; i < work->data->n + work->data->p + work->data->m; ++i) {
-    work->kkt->rhs[i] = -work->kkt->rhs[i];
-  }
+  // Negate the kkt residual and store in rhs.
+  copy_and_negate_arrayf(work->kkt->kktres, work->kkt->rhs,
+                         work->data->n + work->data->p + work->data->m);
 
-  // Save -rz into ubuff1. Needed when constructing rhs for combined direction.
-  for (QCOSInt i = work->data->n + work->data->p;
-       i < work->data->n + work->data->p + work->data->m; ++i) {
-    work->ubuff1[i] = work->kkt->rhs[i];
-  }
+  // // Save -rz into ubuff1. Needed when constructing rhs for combined
+  // direction. for (QCOSInt i = work->data->n + work->data->p;
+  //      i < work->data->n + work->data->p + work->data->m; ++i) {
+  //   work->ubuff1[i] = work->kkt->rhs[i];
+  // }
 
   // Compute W*lambda
   nt_multiply(work->Wfull, work->lambda, work->ubuff1, work->data->l,
@@ -283,6 +282,10 @@ void construct_kkt_aff_rhs(QCOSWorkspace* work)
 
 void construct_kkt_comb_rhs(QCOSWorkspace* work)
 {
+
+  // Negate the kkt residual and store in rhs.
+  copy_and_negate_arrayf(work->kkt->kktres, work->kkt->rhs,
+                         work->data->n + work->data->p + work->data->m);
 
   /// ds = -cone_product(lambda, lambda) - settings.mehrotra *
   /// cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
@@ -355,12 +358,6 @@ void predictor_corrector(QCOSSolver* solver)
   QDLDL_solve(work->kkt->K->n, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
               work->kkt->Dinv, work->kkt->xyz);
 
-  // Copy -rz back into rhs. Needed for computing rhs for combined direction.
-  for (QCOSInt i = work->data->n + work->data->p;
-       i < work->data->n + work->data->p + work->data->m; ++i) {
-    work->kkt->rhs[i] = work->ubuff1[i];
-  }
-
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
   QCOSFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
   nt_multiply(work->Wfull, Dzaff, work->ubuff1, work->data->l, work->data->m,
@@ -404,6 +401,9 @@ void predictor_corrector(QCOSSolver* solver)
               work->data->ncones, work->data->q);
   QCOSFloat a = qcos_min(linesearch(work->lambda, work->ubuff3, 0.99, solver),
                          linesearch(work->lambda, work->ubuff2, 0.99, solver));
+
+  // Save step-size.
+  work->a = a;
 
   // Update iterates.
   QCOSFloat* Dx = work->kkt->xyz;

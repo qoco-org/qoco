@@ -84,21 +84,21 @@ void cone_division(QCOSFloat* lambda, QCOSFloat* v, QCOSFloat* d, QCOSInt l,
   }
 }
 
-QCOSFloat cone_residual(QCOSFloat* u, QCOSProblemData* data)
+QCOSFloat cone_residual(QCOSFloat* u, QCOSInt l, QCOSInt ncones, QCOSInt* q)
 {
   QCOSFloat res = -1e7;
 
   // Compute LP cone residuals.
   QCOSInt idx;
-  for (idx = 0; idx < data->l; ++idx) {
+  for (idx = 0; idx < l; ++idx) {
     res = qcos_max(-u[idx], res);
     // If res is positive can just return here.
   }
 
   // Compute second-order cone residual.
-  for (QCOSInt i = 0; i < data->ncones; ++i) {
-    res = qcos_max(res, soc_residual(&u[idx], data->q[i]));
-    idx += data->q[i];
+  for (QCOSInt i = 0; i < ncones; ++i) {
+    res = qcos_max(res, soc_residual(&u[idx], q[i]));
+    idx += q[i];
   }
 
   return res;
@@ -106,7 +106,7 @@ QCOSFloat cone_residual(QCOSFloat* u, QCOSProblemData* data)
 
 void bring2cone(QCOSFloat* u, QCOSProblemData* data)
 {
-  if (cone_residual(u, data) >= 0) {
+  if (cone_residual(u, data->l, data->ncones, data->q) >= 0) {
     QCOSFloat a = 0.0;
 
     // Get a for for LP cone.
@@ -301,7 +301,8 @@ QCOSFloat linesearch(QCOSFloat* u, QCOSFloat* Du, QCOSFloat f,
   for (QCOSInt i = 0; i < solver->settings->max_iter_bisection; ++i) {
     a = 0.5 * (al + au);
     axpy(Du, u, work->ubuff1, safe_div(a, f), work->data->m);
-    if (cone_residual(work->ubuff1, work->data) >= 0) {
+    if (cone_residual(work->ubuff1, work->data->l, work->data->ncones,
+                      work->data->q) >= 0) {
       au = a;
     }
     else {

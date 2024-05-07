@@ -134,3 +134,14 @@ void USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
     }
   }
 }
+
+QCOSFloat norm_inf(QCOSFloat* x, QCOSInt n)
+{
+  QCOSFloat norm = 0.0;
+  QCOSFloat xi;
+  for (QCOSInt i = 0; i < n; ++i) {
+    xi = qcos_abs(x[i]);
+    norm = qcos_max(norm, xi);
+  }
+  return norm;
+}

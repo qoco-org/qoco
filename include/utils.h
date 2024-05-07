@@ -15,6 +15,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include "linalg.h"
 #include "structs.h"
 #include <stdio.h>
 
@@ -57,5 +58,26 @@ void print_header();
  * @return 1 if stopping criteria met and 0 otherwise.
  */
 unsigned char check_stopping(QCOSSolver* solver);
+
+/**
+ * @brief Copies data to QCOSSolution struct when solver terminates.
+ *
+ * @param solver Pointer to solver.
+ */
+void copy_solution(QCOSSolver* solver);
+
+/**
+ * @brief Print solver progress.
+ *
+ * @param solver Pointer to solver.
+ */
+void log_iter(QCOSSolver* solver);
+
+/**
+ * @brief Prints QCOS footer.
+ *
+ * @param solution Pointer to solution struct.
+ */
+void print_footer(QCOSSolution* solution);
 
 #endif /* #ifndef UTILS_H */

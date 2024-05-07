@@ -74,6 +74,7 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   allocate_kkt(solver->work);
   solver->work->kkt->nt2kkt = qcos_calloc(solver->work->Wnnz, sizeof(QCOSInt));
   solver->work->kkt->rhs = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
+  solver->work->kkt->kktres = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   solver->work->kkt->xyz = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   construct_kkt(solver->work);
 
@@ -99,6 +100,7 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   QCOSInt qmax = max_arrayi(solver->work->data->q, solver->work->data->ncones);
   solver->work->sbar = qcos_malloc(qmax * sizeof(QCOSFloat));
   solver->work->zbar = qcos_malloc(qmax * sizeof(QCOSFloat));
+  solver->work->xbuff = qcos_malloc(n * sizeof(QCOSFloat));
   solver->work->ubuff1 = qcos_malloc(m * sizeof(QCOSFloat));
   solver->work->ubuff2 = qcos_malloc(m * sizeof(QCOSFloat));
   solver->work->ubuff3 = qcos_malloc(m * sizeof(QCOSFloat));
@@ -106,6 +108,8 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
 
   // Number of columns of KKT matrix.
   QCOSInt Kn = solver->work->kkt->K->n;
+
+  // Allocate memory for QDLDL.
   solver->work->kkt->etree = qcos_malloc(sizeof(QCOSInt) * Kn);
   solver->work->kkt->Lnz = qcos_malloc(sizeof(QCOSInt) * Kn);
   solver->work->kkt->Lp = qcos_malloc(sizeof(QCOSInt) * (Kn + 1));
@@ -120,9 +124,15 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
       QDLDL_etree(Kn, solver->work->kkt->K->p, solver->work->kkt->K->i,
                   solver->work->kkt->iwork, solver->work->kkt->Lnz,
                   solver->work->kkt->etree);
-
   solver->work->kkt->Li = qcos_malloc(sizeof(QCOSInt) * sumLnz);
   solver->work->kkt->Lx = qcos_malloc(sizeof(QCOSFloat) * sumLnz);
+
+  // Allocate solution struct.
+  solver->sol = qcos_malloc(sizeof(QCOSSolution));
+  solver->sol->x = qcos_malloc(n * sizeof(QCOSFloat));
+  solver->sol->s = qcos_malloc(m * sizeof(QCOSFloat));
+  solver->sol->y = qcos_malloc(p * sizeof(QCOSFloat));
+  solver->sol->z = qcos_malloc(m * sizeof(QCOSFloat));
 
   return solver;
 }
@@ -156,7 +166,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
   // Get initializations for primal and dual variables.
   initialize_ipm(solver);
 
-  for (QCOSInt i = 0; i < 8; ++i) {
+  for (QCOSInt i = 1; i <= solver->settings->max_iters; ++i) {
 
     // Compute kkt residual.
     compute_kkt_residual(solver->work);
@@ -166,6 +176,10 @@ QCOSInt qcos_solve(QCOSSolver* solver)
 
     // Check stopping criteria.
     if (check_stopping(solver)) {
+      copy_solution(solver);
+      if (solver->settings->verbose) {
+        print_footer(solver->sol);
+      }
       break;
     }
 
@@ -175,12 +189,16 @@ QCOSInt qcos_solve(QCOSSolver* solver)
     // Update Nestrov-Todd block of KKT matrix.
     update_nt_block(solver->work);
 
-    // Perform predictor-corrector
+    // Perform predictor-corrector.
     predictor_corrector(solver);
 
-    // if (solver->settings->verbose) {
-    //   log_iter(solver->work);
-    // }
+    // Update iteration count.
+    solver->sol->iters = i;
+
+    // Log solver progress to console if we are solving in verbose mode.
+    if (solver->settings->verbose) {
+      log_iter(solver);
+    }
   }
 
   return 0;
@@ -200,6 +218,7 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
 
   // Free primal and dual variables.
   qcos_free(solver->work->kkt->rhs);
+  qcos_free(solver->work->kkt->kktres);
   qcos_free(solver->work->kkt->xyz);
   qcos_free(solver->work->x);
   qcos_free(solver->work->s);
@@ -215,6 +234,7 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->lambda);
   qcos_free(solver->work->sbar);
   qcos_free(solver->work->zbar);
+  qcos_free(solver->work->xbuff);
   qcos_free(solver->work->ubuff1);
   qcos_free(solver->work->ubuff2);
   qcos_free(solver->work->ubuff3);
@@ -234,6 +254,13 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->kkt->Li);
   qcos_free(solver->work->kkt->Lx);
   qcos_free(solver->work->kkt);
+
+  // Free solution struct.
+  qcos_free(solver->sol->x);
+  qcos_free(solver->sol->s);
+  qcos_free(solver->sol->y);
+  qcos_free(solver->sol->z);
+  qcos_free(solver->sol);
 
   qcos_free(solver->work);
   qcos_free(solver->settings);

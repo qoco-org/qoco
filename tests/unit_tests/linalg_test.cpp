@@ -136,3 +136,13 @@ TEST(linalg, USpMv_test)
   expect_eq_vectorf(r, rexpected, n, tol);
   free(A);
 }
+
+TEST(linalg, norm_inf_test)
+{
+  constexpr QCOSInt n = 4;
+  QCOSFloat x[] = {-1.5, 6.0, -10.0, 8.0};
+  QCOSFloat expected_ans = 10.0;
+  QCOSFloat tol = 1e-12;
+
+  EXPECT_NEAR(norm_inf(x, n), expected_ans, tol);
+}
