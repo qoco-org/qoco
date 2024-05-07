@@ -135,8 +135,46 @@ void USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
   }
 }
 
+void SpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
+{
+  qcos_assert(M);
+  qcos_assert(v);
+  qcos_assert(r);
+
+  // Clear result buffer.
+  for (QCOSInt i = 0; i < M->m; ++i) {
+    r[i] = 0.0;
+  }
+
+  for (QCOSInt j = 0; j < M->n; j++) {
+    for (QCOSInt i = M->p[j]; i < M->p[j + 1]; i++) {
+      r[M->i[i]] += M->x[i] * v[j];
+    }
+  }
+}
+
+void SpMtv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
+{
+  qcos_assert(M);
+  qcos_assert(v);
+  qcos_assert(r);
+
+  // Clear result buffer.
+  for (QCOSInt i = 0; i < M->n; ++i) {
+    r[i] = 0.0;
+  }
+
+  for (QCOSInt i = 0; i < M->n; i++) {
+    for (QCOSInt j = M->p[i]; j < M->p[i + 1]; j++) {
+      r[i] += M->x[j] * v[M->i[j]];
+    }
+  }
+}
+
 QCOSFloat norm_inf(QCOSFloat* x, QCOSInt n)
 {
+  qcos_assert(x);
+
   QCOSFloat norm = 0.0;
   QCOSFloat xi;
   for (QCOSInt i = 0; i < n; ++i) {

@@ -34,9 +34,9 @@ void \mbox{\hyperlink{kkt_8h_aa3966d7a0363a33b4dc0f7146fd1b6bc}{update\+\_\+nt\+
 void \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
 \begin{DoxyCompactList}\small\item\em Computes residual of KKT conditions and stores in work-\/$>$kkt-\/$>$rhs. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{kkt_8h_a2aec873a47cf5ab8676af7a7579b69a0}{construct\+\_\+kkt\+\_\+aff\+\_\+rhs}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
-\begin{DoxyCompactList}\small\item\em Constructs rhs for the affine scaling KKT system. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}}. Also saves -\/rz into ubuff1. This is needed when constructing rhs for combined direction. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Constructs rhs for the affine scaling KKT system. Before calling this function, work-\/$>$kkt-\/$>$kktres must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}}. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{kkt_8h_a464c0bda0499a352cd89baefa4a19998}{construct\+\_\+kkt\+\_\+comb\+\_\+rhs}} (\mbox{\hyperlink{structQCOSWorkspace}{QCOSWorkspace}} $\ast$work)
-\begin{DoxyCompactList}\small\item\em Constructs rhs for the combined direction KKT system. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the negative residual of the KKT conditions. The residual is computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}} then negated by calling \mbox{\hyperlink{kkt_8h_a2aec873a47cf5ab8676af7a7579b69a0}{construct\+\_\+kkt\+\_\+aff\+\_\+rhs()}}. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Constructs rhs for the combined direction KKT system. Before calling this function, work-\/$>$kkt-\/$>$kktres must contain the negative residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}}. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{kkt_8h_abdca566d11410ac9d9cba933b1db6ea9}{predictor\+\_\+corrector}} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
 \begin{DoxyCompactList}\small\item\em Performs Mehrotra predictor-\/corrector step. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -115,7 +115,7 @@ clang-\/format on
 
 
 
-Constructs rhs for the affine scaling KKT system. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}}. Also saves -\/rz into ubuff1. This is needed when constructing rhs for combined direction. 
+Constructs rhs for the affine scaling KKT system. Before calling this function, work-\/$>$kkt-\/$>$kktres must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}}. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -130,7 +130,7 @@ Constructs rhs for the affine scaling KKT system. Before calling this function, 
 
 
 
-Constructs rhs for the combined direction KKT system. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the negative residual of the KKT conditions. The residual is computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}} then negated by calling \mbox{\hyperlink{kkt_8h_a2aec873a47cf5ab8676af7a7579b69a0}{construct\+\_\+kkt\+\_\+aff\+\_\+rhs()}}. 
+Constructs rhs for the combined direction KKT system. Before calling this function, work-\/$>$kkt-\/$>$kktres must contain the negative residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}}. 
 
 
 \begin{DoxyParams}{Parameters}

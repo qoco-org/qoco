@@ -214,6 +214,9 @@ typedef struct {
   /** Temporary variable of length n. */
   QCOSFloat* xbuff;
 
+  /** Temporary variable of length p. */
+  QCOSFloat* ybuff;
+
   /** Temporary variable of length m. */
   QCOSFloat* ubuff1;
 
@@ -252,6 +255,15 @@ typedef struct {
 
   /* Optimal objective value. */
   QCOSFloat obj;
+
+  /** Primal residual. */
+  QCOSFloat pres;
+
+  /** Dual residual. */
+  QCOSFloat dres;
+
+  /** Duality gap. */
+  QCOSFloat gap;
 
   /* Solve status. */
   QCOSInt status;

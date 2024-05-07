@@ -112,6 +112,26 @@ void axpy(QCOSFloat* x, QCOSFloat* y, QCOSFloat* z, QCOSFloat a, QCOSInt n);
 void USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
 
 /**
+ * @brief Sparse matrix vector multiplication for CSC matrices. Computes r = M *
+ * v.
+ *
+ * @param M Matrix in CSC form.
+ * @param v Vector.
+ * @param r Result.
+ */
+void SpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
+
+/**
+ * @brief Sparse matrix vector multiplication for CSC matrices where M is first
+ * transposed. Computes r = M^T * v.
+ *
+ * @param M Matrix in CSC form.
+ * @param v Vector.
+ * @param r Result.
+ */
+void SpMtv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
+
+/**
  * @brief Computes the infinity norm of x.
  *
  * @param x Input vector.

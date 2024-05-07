@@ -35,6 +35,8 @@ QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a9edaae097395e35361943005e
 \item 
 QCOSFloat \mbox{\hyperlink{structQCOSWorkspace_a9ff9f65a7afdcc49eb8659ce556fb71d}{mu}}
 \item 
+QCOSFloat \mbox{\hyperlink{structQCOSWorkspace_a58d29b3f63ac2e7ca91cac4ef673551e}{a}}
+\item 
 QCOSFloat \mbox{\hyperlink{structQCOSWorkspace_a0c23b2759eab599786830124f3c239aa}{sigma}}
 \item 
 QCOSInt \mbox{\hyperlink{structQCOSWorkspace_ae2f8ee64fca368ad2f33ade293528a9b}{Wnnz}}
@@ -55,6 +57,10 @@ QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a4e099ae4359469a57ed68d70b
 \item 
 QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a108749eda1fafe764997c0fa142b4ce1}{zbar}}
 \item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a84a8a3741c50761c8bedc5d922f8ebf4}{xbuff}}
+\item 
+QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_af495056179a53087874447e9c0e52f57}{ybuff}}
+\item 
 QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_aa6ad9371748fd396fc35970a3111a2d3}{ubuff1}}
 \item 
 QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_a5ecb69ebe6ef05845e227d726e6e2b93}{ubuff2}}
@@ -69,7 +75,13 @@ QCOSFloat $\ast$ \mbox{\hyperlink{structQCOSWorkspace_ad216b1c9867aff775f4c379f2
 QCOS Workspace. 
 
 \doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{structQCOSWorkspace_a1e55bcceee03fea866619d5836e00d33}\label{structQCOSWorkspace_a1e55bcceee03fea866619d5836e00d33}} 
+\mbox{\Hypertarget{structQCOSWorkspace_a58d29b3f63ac2e7ca91cac4ef673551e}\label{structQCOSWorkspace_a58d29b3f63ac2e7ca91cac4ef673551e}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!a@{a}}
+\index{a@{a}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{a}{a}}
+{\footnotesize\ttfamily QCOSFloat QCOSWorkspace\+::a}
+
+Newton Step-\/size \mbox{\Hypertarget{structQCOSWorkspace_a1e55bcceee03fea866619d5836e00d33}\label{structQCOSWorkspace_a1e55bcceee03fea866619d5836e00d33}} 
 \index{QCOSWorkspace@{QCOSWorkspace}!data@{data}}
 \index{data@{data}!QCOSWorkspace@{QCOSWorkspace}}
 \doxysubsubsection{\texorpdfstring{data}{data}}
@@ -177,13 +189,25 @@ Nesterov-\/\+Todd Scaling squared \mbox{\Hypertarget{structQCOSWorkspace_ab9c423
 \doxysubsubsection{\texorpdfstring{x}{x}}
 {\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::x}
 
-Iterate of primal variables. \mbox{\Hypertarget{structQCOSWorkspace_a29782079b22d7325dab189c8855461b8}\label{structQCOSWorkspace_a29782079b22d7325dab189c8855461b8}} 
+Iterate of primal variables. \mbox{\Hypertarget{structQCOSWorkspace_a84a8a3741c50761c8bedc5d922f8ebf4}\label{structQCOSWorkspace_a84a8a3741c50761c8bedc5d922f8ebf4}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!xbuff@{xbuff}}
+\index{xbuff@{xbuff}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{xbuff}{xbuff}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::xbuff}
+
+Temporary variable of length n. \mbox{\Hypertarget{structQCOSWorkspace_a29782079b22d7325dab189c8855461b8}\label{structQCOSWorkspace_a29782079b22d7325dab189c8855461b8}} 
 \index{QCOSWorkspace@{QCOSWorkspace}!y@{y}}
 \index{y@{y}!QCOSWorkspace@{QCOSWorkspace}}
 \doxysubsubsection{\texorpdfstring{y}{y}}
 {\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::y}
 
-Iterate of dual variables associated with affine equality constraint. \mbox{\Hypertarget{structQCOSWorkspace_a9edaae097395e35361943005e1c42208}\label{structQCOSWorkspace_a9edaae097395e35361943005e1c42208}} 
+Iterate of dual variables associated with affine equality constraint. \mbox{\Hypertarget{structQCOSWorkspace_af495056179a53087874447e9c0e52f57}\label{structQCOSWorkspace_af495056179a53087874447e9c0e52f57}} 
+\index{QCOSWorkspace@{QCOSWorkspace}!ybuff@{ybuff}}
+\index{ybuff@{ybuff}!QCOSWorkspace@{QCOSWorkspace}}
+\doxysubsubsection{\texorpdfstring{ybuff}{ybuff}}
+{\footnotesize\ttfamily QCOSFloat$\ast$ QCOSWorkspace\+::ybuff}
+
+Temporary variable of length p. \mbox{\Hypertarget{structQCOSWorkspace_a9edaae097395e35361943005e1c42208}\label{structQCOSWorkspace_a9edaae097395e35361943005e1c42208}} 
 \index{QCOSWorkspace@{QCOSWorkspace}!z@{z}}
 \index{z@{z}!QCOSWorkspace@{QCOSWorkspace}}
 \doxysubsubsection{\texorpdfstring{z}{z}}

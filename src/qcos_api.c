@@ -101,6 +101,7 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   solver->work->sbar = qcos_malloc(qmax * sizeof(QCOSFloat));
   solver->work->zbar = qcos_malloc(qmax * sizeof(QCOSFloat));
   solver->work->xbuff = qcos_malloc(n * sizeof(QCOSFloat));
+  solver->work->ybuff = qcos_malloc(p * sizeof(QCOSFloat));
   solver->work->ubuff1 = qcos_malloc(m * sizeof(QCOSFloat));
   solver->work->ubuff2 = qcos_malloc(m * sizeof(QCOSFloat));
   solver->work->ubuff3 = qcos_malloc(m * sizeof(QCOSFloat));
@@ -235,6 +236,7 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->sbar);
   qcos_free(solver->work->zbar);
   qcos_free(solver->work->xbuff);
+  qcos_free(solver->work->ybuff);
   qcos_free(solver->work->ubuff1);
   qcos_free(solver->work->ubuff2);
   qcos_free(solver->work->ubuff3);

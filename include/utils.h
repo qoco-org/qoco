@@ -50,6 +50,20 @@ void print_arrayi(QCOSInt* x, QCOSInt n);
 void print_header();
 
 /**
+ * @brief Print solver progress.
+ *
+ * @param solver Pointer to solver.
+ */
+void log_iter(QCOSSolver* solver);
+
+/**
+ * @brief Prints QCOS footer.
+ *
+ * @param solution Pointer to solution struct.
+ */
+void print_footer(QCOSSolution* solution);
+
+/**
  * @brief Checks stopping criteria.
  * Before calling this function, work->kkt->rhs must contain the
  * residual of the KKT conditions as computed by compute_kkt_residual() and
@@ -65,19 +79,5 @@ unsigned char check_stopping(QCOSSolver* solver);
  * @param solver Pointer to solver.
  */
 void copy_solution(QCOSSolver* solver);
-
-/**
- * @brief Print solver progress.
- *
- * @param solver Pointer to solver.
- */
-void log_iter(QCOSSolver* solver);
-
-/**
- * @brief Prints QCOS footer.
- *
- * @param solution Pointer to solution struct.
- */
-void print_footer(QCOSSolution* solution);
 
 #endif /* #ifndef UTILS_H */

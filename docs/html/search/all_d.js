@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['p_55',['p',['../d0/d99/structQCOSCscMatrix.html#aa35f6ebcbee11b853fc68a62c7a8cd75',1,'QCOSCscMatrix::p()'],['../d7/d42/structQCOSProblemData.html#acf67b77ab2f64da1e6dea72b4cfedf6d',1,'QCOSProblemData::p()']]],
-  ['p_56',['P',['../d7/d42/structQCOSProblemData.html#a0c370b159b03f570bb33984891ba969b',1,'QCOSProblemData']]],
-  ['predictor_5fcorrector_57',['predictor_corrector',['../db/d56/kkt_8h.html#abdca566d11410ac9d9cba933b1db6ea9',1,'predictor_corrector(QCOSSolver *solver):&#160;kkt.c'],['../db/d03/kkt_8c.html#abdca566d11410ac9d9cba933b1db6ea9',1,'predictor_corrector(QCOSSolver *solver):&#160;kkt.c']]],
-  ['print_5farrayf_58',['print_arrayf',['../d5/d60/utils_8h.html#adb98c110934765387c256d85f876a56d',1,'print_arrayf(QCOSFloat *x, QCOSInt n):&#160;utils.c'],['../d3/d91/utils_8c.html#adb98c110934765387c256d85f876a56d',1,'print_arrayf(QCOSFloat *x, QCOSInt n):&#160;utils.c']]],
-  ['print_5farrayi_59',['print_arrayi',['../d5/d60/utils_8h.html#af8f9972d72abd7de68cf6c9eca7008f7',1,'print_arrayi(QCOSInt *x, QCOSInt n):&#160;utils.c'],['../d3/d91/utils_8c.html#af8f9972d72abd7de68cf6c9eca7008f7',1,'print_arrayi(QCOSInt *x, QCOSInt n):&#160;utils.c']]],
-  ['print_5fheader_60',['print_header',['../d5/d60/utils_8h.html#aab0a749241244d13922556533aeb7069',1,'print_header():&#160;utils.c'],['../d3/d91/utils_8c.html#aab0a749241244d13922556533aeb7069',1,'print_header():&#160;utils.c']]],
-  ['print_5fqcos_5fcsc_5fmatrix_61',['print_qcos_csc_matrix',['../d5/d60/utils_8h.html#af6aef0df372cd3c15b0b69f1d745bd9a',1,'print_qcos_csc_matrix(QCOSCscMatrix *M):&#160;utils.c'],['../d3/d91/utils_8c.html#af6aef0df372cd3c15b0b69f1d745bd9a',1,'print_qcos_csc_matrix(QCOSCscMatrix *M):&#160;utils.c']]]
+  ['p_62',['p',['../d0/d99/structQCOSCscMatrix.html#aa35f6ebcbee11b853fc68a62c7a8cd75',1,'QCOSCscMatrix::p()'],['../d7/d42/structQCOSProblemData.html#acf67b77ab2f64da1e6dea72b4cfedf6d',1,'QCOSProblemData::p()']]],
+  ['p_63',['P',['../d7/d42/structQCOSProblemData.html#a0c370b159b03f570bb33984891ba969b',1,'QCOSProblemData']]],
+  ['predictor_5fcorrector_64',['predictor_corrector',['../db/d56/kkt_8h.html#abdca566d11410ac9d9cba933b1db6ea9',1,'predictor_corrector(QCOSSolver *solver):&#160;kkt.c'],['../db/d03/kkt_8c.html#abdca566d11410ac9d9cba933b1db6ea9',1,'predictor_corrector(QCOSSolver *solver):&#160;kkt.c']]],
+  ['pres_65',['pres',['../d7/d3e/structQCOSSolution.html#a2538bc951550a52d80aac5c866badf05',1,'QCOSSolution']]],
+  ['print_5farrayf_66',['print_arrayf',['../d5/d60/utils_8h.html#adb98c110934765387c256d85f876a56d',1,'print_arrayf(QCOSFloat *x, QCOSInt n):&#160;utils.c'],['../d3/d91/utils_8c.html#adb98c110934765387c256d85f876a56d',1,'print_arrayf(QCOSFloat *x, QCOSInt n):&#160;utils.c']]],
+  ['print_5farrayi_67',['print_arrayi',['../d5/d60/utils_8h.html#af8f9972d72abd7de68cf6c9eca7008f7',1,'print_arrayi(QCOSInt *x, QCOSInt n):&#160;utils.c'],['../d3/d91/utils_8c.html#af8f9972d72abd7de68cf6c9eca7008f7',1,'print_arrayi(QCOSInt *x, QCOSInt n):&#160;utils.c']]],
+  ['print_5ffooter_68',['print_footer',['../d5/d60/utils_8h.html#a09dd99a8ce4249d11e8857d8df3d4be9',1,'print_footer(QCOSSolution *solution):&#160;utils.c'],['../d3/d91/utils_8c.html#a09dd99a8ce4249d11e8857d8df3d4be9',1,'print_footer(QCOSSolution *solution):&#160;utils.c']]],
+  ['print_5fheader_69',['print_header',['../d5/d60/utils_8h.html#aab0a749241244d13922556533aeb7069',1,'print_header():&#160;utils.c'],['../d3/d91/utils_8c.html#aab0a749241244d13922556533aeb7069',1,'print_header():&#160;utils.c']]],
+  ['print_5fqcos_5fcsc_5fmatrix_70',['print_qcos_csc_matrix',['../d5/d60/utils_8h.html#af6aef0df372cd3c15b0b69f1d745bd9a',1,'print_qcos_csc_matrix(QCOSCscMatrix *M):&#160;utils.c'],['../d3/d91/utils_8c.html#af6aef0df372cd3c15b0b69f1d745bd9a',1,'print_qcos_csc_matrix(QCOSCscMatrix *M):&#160;utils.c']]]
 ];

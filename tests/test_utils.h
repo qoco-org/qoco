@@ -6,7 +6,7 @@
 
 /**
  * @brief Utility function to extend EXPECT_NEAR to vectors.
- * Passes if ||x-y||_\infty < tol
+ * Passes if ||x-y||_\infty < tol.
  *
  * @param x Input vector.
  * @param y Input vector.

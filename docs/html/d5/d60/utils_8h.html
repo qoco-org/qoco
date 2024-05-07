@@ -71,20 +71,22 @@ $(function() {
 <div class="title">utils.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="../../d1/d3d/structs_8h_source.html">structs.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="../../dd/d46/linalg_8h_source.html">linalg.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d1/d3d/structs_8h_source.html">structs.h</a>&quot;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for utils.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../db/d29/utils_8h__incl.png" border="0" usemap="#ainclude_2utils_8h" alt=""/></div>
 <map name="ainclude_2utils_8h" id="ainclude_2utils_8h">
-<area shape="rect" title=" " alt="" coords="125,5,239,32"/>
-<area shape="rect" href="../../d1/d3d/structs_8h.html" title=" " alt="" coords="95,80,173,107"/>
-<area shape="rect" title=" " alt="" coords="198,80,265,107"/>
-<area shape="rect" href="../../d6/dc2/definitions_8h.html" title=" " alt="" coords="83,155,185,181"/>
-<area shape="rect" title=" " alt="" coords="5,229,76,256"/>
-<area shape="rect" title=" " alt="" coords="100,229,168,256"/>
-<area shape="rect" title=" " alt="" coords="192,229,263,256"/>
+<area shape="rect" title=" " alt="" coords="116,5,229,32"/>
+<area shape="rect" href="../../dd/d46/linalg_8h.html" title=" " alt="" coords="64,80,135,107"/>
+<area shape="rect" href="../../d1/d3d/structs_8h.html" title=" " alt="" coords="133,155,212,181"/>
+<area shape="rect" title=" " alt="" coords="210,80,277,107"/>
+<area shape="rect" href="../../d6/dc2/definitions_8h.html" title=" " alt="" coords="83,229,185,256"/>
+<area shape="rect" title=" " alt="" coords="5,304,76,331"/>
+<area shape="rect" title=" " alt="" coords="100,304,168,331"/>
+<area shape="rect" title=" " alt="" coords="192,304,263,331"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -119,9 +121,18 @@ Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#aab0a749241244d13922556533aeb7069">print_header</a> ()</td></tr>
 <tr class="memdesc:aab0a749241244d13922556533aeb7069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints QCOS header. <br /></td></tr>
 <tr class="separator:aab0a749241244d13922556533aeb7069"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dd28cad20fef797f3048e2c87f25e0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a5dd28cad20fef797f3048e2c87f25e0b">log_iter</a> (<a class="el" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a> *solver)</td></tr>
+<tr class="memdesc:a5dd28cad20fef797f3048e2c87f25e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print solver progress.  <a href="../../d5/d60/utils_8h.html#a5dd28cad20fef797f3048e2c87f25e0b">More...</a><br /></td></tr>
+<tr class="separator:a5dd28cad20fef797f3048e2c87f25e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09dd99a8ce4249d11e8857d8df3d4be9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a09dd99a8ce4249d11e8857d8df3d4be9">print_footer</a> (<a class="el" href="../../d7/d3e/structQCOSSolution.html">QCOSSolution</a> *solution)</td></tr>
+<tr class="memdesc:a09dd99a8ce4249d11e8857d8df3d4be9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints QCOS footer.  <a href="../../d5/d60/utils_8h.html#a09dd99a8ce4249d11e8857d8df3d4be9">More...</a><br /></td></tr>
+<tr class="separator:a09dd99a8ce4249d11e8857d8df3d4be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5951e7e52308e51cc1893da225ec60db"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a5951e7e52308e51cc1893da225ec60db">check_stopping</a> (<a class="el" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a> *solver)</td></tr>
 <tr class="memdesc:a5951e7e52308e51cc1893da225ec60db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks stopping criteria. Before calling this function, work-&gt;kkt-&gt;rhs must contain the residual of the KKT conditions as computed by <a class="el" href="../../db/d56/kkt_8h.html#a1498e55f92c85bf1710e039f2a3c49f0" title="Computes residual of KKT conditions and stores in work-&gt;kkt-&gt;rhs.">compute_kkt_residual()</a> and work-&gt;mu must contain the scaled slackness as computed by <a class="el" href="../../db/df0/cone_8h.html#aa9d319888db390c7c2b965061ba72cfe" title="Computes gap (z&#39;*s / m) and stores in work-&gt;mu.">compute_mu()</a>.  <a href="../../d5/d60/utils_8h.html#a5951e7e52308e51cc1893da225ec60db">More...</a><br /></td></tr>
 <tr class="separator:a5951e7e52308e51cc1893da225ec60db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2293e6581a392cd85e5f33281a6cb09f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d60/utils_8h.html#a2293e6581a392cd85e5f33281a6cb09f">copy_solution</a> (<a class="el" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a> *solver)</td></tr>
+<tr class="memdesc:a2293e6581a392cd85e5f33281a6cb09f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies data to <a class="el" href="../../d7/d3e/structQCOSSolution.html">QCOSSolution</a> struct when solver terminates.  <a href="../../d5/d60/utils_8h.html#a2293e6581a392cd85e5f33281a6cb09f">More...</a><br /></td></tr>
+<tr class="separator:a2293e6581a392cd85e5f33281a6cb09f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Govind M. Chari <a href="#" onclick="location.href='mai'+'lto:'+'gov'+'in'+'dch'+'ar'+'i1@'+'gm'+'ail'+'.c'+'om'; return false;">govin<span style="display: none;">.nosp@m.</span>dcha<span style="display: none;">.nosp@m.</span>ri1@g<span style="display: none;">.nosp@m.</span>mail<span style="display: none;">.nosp@m.</span>.com</a></dd></dl>
@@ -156,6 +167,58 @@ DESCRIPTION</h1>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>1 if stopping criteria met and 0 otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a2293e6581a392cd85e5f33281a6cb09f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2293e6581a392cd85e5f33281a6cb09f">&#9670;&nbsp;</a></span>copy_solution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void copy_solution </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a> *&#160;</td>
+          <td class="paramname"><em>solver</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copies data to <a class="el" href="../../d7/d3e/structQCOSSolution.html">QCOSSolution</a> struct when solver terminates. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">solver</td><td>Pointer to solver. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5dd28cad20fef797f3048e2c87f25e0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dd28cad20fef797f3048e2c87f25e0b">&#9670;&nbsp;</a></span>log_iter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void log_iter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d33/structQCOSSolver.html">QCOSSolver</a> *&#160;</td>
+          <td class="paramname"><em>solver</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print solver progress. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">solver</td><td>Pointer to solver. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -227,6 +290,32 @@ DESCRIPTION</h1>
   <table class="params">
     <tr><td class="paramname">x</td><td>Pointer to array. </td></tr>
     <tr><td class="paramname">n</td><td>Number of elements in array. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a09dd99a8ce4249d11e8857d8df3d4be9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09dd99a8ce4249d11e8857d8df3d4be9">&#9670;&nbsp;</a></span>print_footer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_footer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d3e/structQCOSSolution.html">QCOSSolution</a> *&#160;</td>
+          <td class="paramname"><em>solution</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints QCOS footer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">solution</td><td>Pointer to solution struct. </td></tr>
   </table>
   </dd>
 </dl>

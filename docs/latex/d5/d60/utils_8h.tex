@@ -1,12 +1,13 @@
 \hypertarget{utils_8h}{}\doxysection{include/utils.h File Reference}
 \label{utils_8h}\index{include/utils.h@{include/utils.h}}
+{\ttfamily \#include \char`\"{}linalg.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}structs.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 Include dependency graph for utils.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=275pt]{db/d29/utils_8h__incl}
+\includegraphics[width=284pt]{db/d29/utils_8h__incl}
 \end{center}
 \end{figure}
 This graph shows which files directly or indirectly include this file\+:\nopagebreak
@@ -28,8 +29,14 @@ void \mbox{\hyperlink{utils_8h_af8f9972d72abd7de68cf6c9eca7008f7}{print\+\_\+arr
 \mbox{\Hypertarget{utils_8h_aab0a749241244d13922556533aeb7069}\label{utils_8h_aab0a749241244d13922556533aeb7069}} 
 void \mbox{\hyperlink{utils_8h_aab0a749241244d13922556533aeb7069}{print\+\_\+header}} ()
 \begin{DoxyCompactList}\small\item\em Prints QCOS header. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_a5dd28cad20fef797f3048e2c87f25e0b}{log\+\_\+iter}} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Print solver progress. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_a09dd99a8ce4249d11e8857d8df3d4be9}{print\+\_\+footer}} (\mbox{\hyperlink{structQCOSSolution}{QCOSSolution}} $\ast$solution)
+\begin{DoxyCompactList}\small\item\em Prints QCOS footer. \end{DoxyCompactList}\item 
 unsigned char \mbox{\hyperlink{utils_8h_a5951e7e52308e51cc1893da225ec60db}{check\+\_\+stopping}} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
-\begin{DoxyCompactList}\small\item\em Checks stopping criteria. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}} and work-\/$>$mu must contain the scaled slackness as computed by \mbox{\hyperlink{cone_8h_aa9d319888db390c7c2b965061ba72cfe}{compute\+\_\+mu()}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Checks stopping criteria. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_a1498e55f92c85bf1710e039f2a3c49f0}{compute\+\_\+kkt\+\_\+residual()}} and work-\/$>$mu must contain the scaled slackness as computed by \mbox{\hyperlink{cone_8h_aa9d319888db390c7c2b965061ba72cfe}{compute\+\_\+mu()}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_a2293e6581a392cd85e5f33281a6cb09f}{copy\+\_\+solution}} (\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Copies data to \mbox{\hyperlink{structQCOSSolution}{QCOSSolution}} struct when solver terminates. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -59,6 +66,36 @@ Checks stopping criteria. Before calling this function, work-\/$>$kkt-\/$>$rhs m
 \begin{DoxyReturn}{Returns}
 1 if stopping criteria met and 0 otherwise. 
 \end{DoxyReturn}
+\mbox{\Hypertarget{utils_8h_a2293e6581a392cd85e5f33281a6cb09f}\label{utils_8h_a2293e6581a392cd85e5f33281a6cb09f}} 
+\index{utils.h@{utils.h}!copy\_solution@{copy\_solution}}
+\index{copy\_solution@{copy\_solution}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{copy\_solution()}{copy\_solution()}}
+{\footnotesize\ttfamily void copy\+\_\+solution (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Copies data to \mbox{\hyperlink{structQCOSSolution}{QCOSSolution}} struct when solver terminates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utils_8h_a5dd28cad20fef797f3048e2c87f25e0b}\label{utils_8h_a5dd28cad20fef797f3048e2c87f25e0b}} 
+\index{utils.h@{utils.h}!log\_iter@{log\_iter}}
+\index{log\_iter@{log\_iter}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{log\_iter()}{log\_iter()}}
+{\footnotesize\ttfamily void log\+\_\+iter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSSolver}{QCOSSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Print solver progress. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{utils_8h_adb98c110934765387c256d85f876a56d}\label{utils_8h_adb98c110934765387c256d85f876a56d}} 
 \index{utils.h@{utils.h}!print\_arrayf@{print\_arrayf}}
 \index{print\_arrayf@{print\_arrayf}!utils.h@{utils.h}}
@@ -91,6 +128,21 @@ Prints array of QCOSInts.
 {\em x} & Pointer to array. \\
 \hline
 {\em n} & Number of elements in array. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utils_8h_a09dd99a8ce4249d11e8857d8df3d4be9}\label{utils_8h_a09dd99a8ce4249d11e8857d8df3d4be9}} 
+\index{utils.h@{utils.h}!print\_footer@{print\_footer}}
+\index{print\_footer@{print\_footer}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{print\_footer()}{print\_footer()}}
+{\footnotesize\ttfamily void print\+\_\+footer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQCOSSolution}{QCOSSolution}} $\ast$}]{solution }\end{DoxyParamCaption})}
+
+
+
+Prints QCOS footer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solution} & Pointer to solution struct. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{utils_8h_af6aef0df372cd3c15b0b69f1d745bd9a}\label{utils_8h_af6aef0df372cd3c15b0b69f1d745bd9a}} 

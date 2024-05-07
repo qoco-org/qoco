@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['s_204',['s',['../d5/d30/structQCOSWorkspace.html#a875282429ee247a9646c3206abc88636',1,'QCOSWorkspace']]],
-  ['sbar_205',['sbar',['../d5/d30/structQCOSWorkspace.html#a4e099ae4359469a57ed68d70b6a37f8b',1,'QCOSWorkspace']]],
-  ['settings_206',['settings',['../d3/d33/structQCOSSolver.html#ad0962d0c1db060f7f5339ce3d697e9c8',1,'QCOSSolver']]],
-  ['sigma_207',['sigma',['../d5/d30/structQCOSWorkspace.html#a0c23b2759eab599786830124f3c239aa',1,'QCOSWorkspace']]]
+  ['s_230',['s',['../d5/d30/structQCOSWorkspace.html#a875282429ee247a9646c3206abc88636',1,'QCOSWorkspace']]],
+  ['sbar_231',['sbar',['../d5/d30/structQCOSWorkspace.html#a4e099ae4359469a57ed68d70b6a37f8b',1,'QCOSWorkspace']]],
+  ['settings_232',['settings',['../d3/d33/structQCOSSolver.html#ad0962d0c1db060f7f5339ce3d697e9c8',1,'QCOSSolver']]],
+  ['sigma_233',['sigma',['../d5/d30/structQCOSWorkspace.html#a0c23b2759eab599786830124f3c239aa',1,'QCOSWorkspace']]]
 ];
