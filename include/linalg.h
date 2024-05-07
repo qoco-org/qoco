@@ -68,7 +68,7 @@ void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n);
  * @param n Length of vectors.
  * @return Dot product of u and v.
  */
-QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n);
+QCOSFloat dot(const QCOSFloat* u, const QCOSFloat* v, QCOSInt n);
 
 /**
  * @brief Computes maximum element of array of QCOSInts.
@@ -77,7 +77,7 @@ QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n);
  * @param n Length of array.
  * @return Maximum element of x.
  */
-QCOSInt max_arrayi(QCOSInt* x, QCOSInt n);
+QCOSInt max_arrayi(const QCOSInt* x, QCOSInt n);
 
 /**
  * @brief Scales array x by s and stores result in y.
@@ -88,7 +88,7 @@ QCOSInt max_arrayi(QCOSInt* x, QCOSInt n);
  * @param s Scaling factor.
  * @param n Length of arrays.
  */
-void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n);
+void scale_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n);
 
 /**
  * @brief Computes z = a * x + y.
@@ -99,7 +99,8 @@ void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n);
  * @param a Scaling factor.
  * @param n Length of vectors.
  */
-void axpy(QCOSFloat* x, QCOSFloat* y, QCOSFloat* z, QCOSFloat a, QCOSInt n);
+void axpy(const QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSFloat a,
+          QCOSInt n);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices where M is
@@ -109,7 +110,7 @@ void axpy(QCOSFloat* x, QCOSFloat* y, QCOSFloat* z, QCOSFloat a, QCOSInt n);
  * @param v Vector.
  * @param r Result.
  */
-void USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
+void USpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices. Computes r = M *
@@ -119,7 +120,7 @@ void USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
  * @param v Vector.
  * @param r Result.
  */
-void SpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
+void SpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices where M is first
@@ -129,7 +130,7 @@ void SpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
  * @param v Vector.
  * @param r Result.
  */
-void SpMtv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
+void SpMtv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
 
 /**
  * @brief Computes the infinity norm of x.
@@ -138,6 +139,6 @@ void SpMtv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r);
  * @param n Length of input vector.
  * @return Infinity norm of x.
  */
-QCOSFloat norm_inf(QCOSFloat* x, QCOSInt n);
+QCOSFloat norm_inf(const QCOSFloat* x, QCOSInt n);
 
 #endif /* #ifndef LINALG_H*/

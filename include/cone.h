@@ -25,7 +25,8 @@
  * @param p Cone product of u and v.
  * @param n Dimension of second-order cone.
  */
-void soc_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt n);
+void soc_product(const QCOSFloat* u, const QCOSFloat* v, QCOSFloat* p,
+                 QCOSInt n);
 
 /**
  * @brief Commpues second-order cone division lambda # v = d
@@ -36,7 +37,8 @@ void soc_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt n);
  * @param d Cone divisin of lam and v.
  * @param n Dimension of second-order cone.
  */
-void soc_division(QCOSFloat* lam, QCOSFloat* v, QCOSFloat* d, QCOSInt n);
+void soc_division(const QCOSFloat* lam, const QCOSFloat* v, QCOSFloat* d,
+                  QCOSInt n);
 
 /**
  * @brief Computes residual of vector u with respect to the second order cone of
@@ -47,7 +49,7 @@ void soc_division(QCOSFloat* lam, QCOSFloat* v, QCOSFloat* d, QCOSInt n);
  * @return Residual: norm(u1) - u0. Negative if the vector is in the cone and
  * positive otherwise.
  */
-QCOSFloat soc_residual(QCOSFloat* u, QCOSInt n);
+QCOSFloat soc_residual(const QCOSFloat* u, QCOSInt n);
 
 /**
  * @brief Computes u0^2 - u1'*u1 of vector u with respect to the second order
@@ -57,7 +59,7 @@ QCOSFloat soc_residual(QCOSFloat* u, QCOSInt n);
  * @param n Dimension of second order cone.
  * @return Residual: u0^2 - u1'*u1.
  */
-QCOSFloat soc_residual2(QCOSFloat* u, QCOSInt n);
+QCOSFloat soc_residual2(const QCOSFloat* u, QCOSInt n);
 
 /**
  * @brief Computes cone product u * v = p with respect to C.
@@ -69,8 +71,8 @@ QCOSFloat soc_residual2(QCOSFloat* u, QCOSInt n);
  * @param ncones Number of second-order cones.
  * @param q Dimension of each second-order cone.
  */
-void cone_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt l,
-                  QCOSInt ncones, QCOSInt* q);
+void cone_product(const QCOSFloat* u, const QCOSFloat* v, QCOSFloat* p,
+                  QCOSInt l, QCOSInt ncones, const QCOSInt* q);
 
 /**
  * @brief Computed cone division lambda # v = d
@@ -82,8 +84,8 @@ void cone_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt l,
  * @param ncones Number of second-order cones.
  * @param q Dimension of each second-order cone.
  */
-void cone_division(QCOSFloat* lambda, QCOSFloat* v, QCOSFloat* d, QCOSInt l,
-                   QCOSInt ncones, QCOSInt* q);
+void cone_division(const QCOSFloat* lambda, const QCOSFloat* v, QCOSFloat* d,
+                   QCOSInt l, QCOSInt ncones, const QCOSInt* q);
 
 /**
  * @brief Computes residual of vector u with respect to cone C.
@@ -95,7 +97,8 @@ void cone_division(QCOSFloat* lambda, QCOSFloat* v, QCOSFloat* d, QCOSInt l,
  * @return Residual: Negative if the vector is in the cone and positive
  * otherwise.
  */
-QCOSFloat cone_residual(QCOSFloat* u, QCOSInt l, QCOSInt ncones, QCOSInt* q);
+QCOSFloat cone_residual(const QCOSFloat* u, QCOSInt l, QCOSInt ncones,
+                        const QCOSInt* q);
 
 /**
  * @brief Performs u = u + (1 + a) * e where e is the cannonical vector for each

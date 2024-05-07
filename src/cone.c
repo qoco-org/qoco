@@ -11,7 +11,8 @@
 #include "cone.h"
 #include "utils.h"
 
-void soc_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt n)
+void soc_product(const QCOSFloat* u, const QCOSFloat* v, QCOSFloat* p,
+                 QCOSInt n)
 {
   p[0] = dot(u, v, n);
   for (QCOSInt i = 1; i < n; ++i) {
@@ -19,7 +20,8 @@ void soc_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt n)
   }
 }
 
-void soc_division(QCOSFloat* lam, QCOSFloat* v, QCOSFloat* d, QCOSInt n)
+void soc_division(const QCOSFloat* lam, const QCOSFloat* v, QCOSFloat* d,
+                  QCOSInt n)
 {
   QCOSFloat f = lam[0] * lam[0] - dot(&lam[1], &lam[1], n - 1);
   QCOSFloat finv = safe_div(1.0, f);
@@ -33,7 +35,7 @@ void soc_division(QCOSFloat* lam, QCOSFloat* v, QCOSFloat* d, QCOSInt n)
   }
 }
 
-QCOSFloat soc_residual(QCOSFloat* u, QCOSInt n)
+QCOSFloat soc_residual(const QCOSFloat* u, QCOSInt n)
 {
   QCOSFloat res = 0;
   for (QCOSInt i = 1; i < n; ++i) {
@@ -43,7 +45,7 @@ QCOSFloat soc_residual(QCOSFloat* u, QCOSInt n)
   return res;
 }
 
-QCOSFloat soc_residual2(QCOSFloat* u, QCOSInt n)
+QCOSFloat soc_residual2(const QCOSFloat* u, QCOSInt n)
 {
   QCOSFloat res = u[0] * u[0];
   for (QCOSInt i = 1; i < n; ++i) {
@@ -52,8 +54,8 @@ QCOSFloat soc_residual2(QCOSFloat* u, QCOSInt n)
   return res;
 }
 
-void cone_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt l,
-                  QCOSInt ncones, QCOSInt* q)
+void cone_product(const QCOSFloat* u, const QCOSFloat* v, QCOSFloat* p,
+                  QCOSInt l, QCOSInt ncones, const QCOSInt* q)
 {
   QCOSInt idx;
   // Compute LP cone product.
@@ -68,8 +70,8 @@ void cone_product(QCOSFloat* u, QCOSFloat* v, QCOSFloat* p, QCOSInt l,
   }
 }
 
-void cone_division(QCOSFloat* lambda, QCOSFloat* v, QCOSFloat* d, QCOSInt l,
-                   QCOSInt ncones, QCOSInt* q)
+void cone_division(const QCOSFloat* lambda, const QCOSFloat* v, QCOSFloat* d,
+                   QCOSInt l, QCOSInt ncones, const QCOSInt* q)
 {
   QCOSInt idx;
   // Compute LP cone division.
@@ -84,7 +86,8 @@ void cone_division(QCOSFloat* lambda, QCOSFloat* v, QCOSFloat* d, QCOSInt l,
   }
 }
 
-QCOSFloat cone_residual(QCOSFloat* u, QCOSInt l, QCOSInt ncones, QCOSInt* q)
+QCOSFloat cone_residual(const QCOSFloat* u, QCOSInt l, QCOSInt ncones,
+                        const QCOSInt* q)
 {
   QCOSFloat res = -1e7;
 

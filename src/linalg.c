@@ -75,7 +75,7 @@ void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n)
   }
 }
 
-QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n)
+QCOSFloat dot(const QCOSFloat* u, const QCOSFloat* v, QCOSInt n)
 {
   qcos_assert(u);
   qcos_assert(v);
@@ -87,7 +87,7 @@ QCOSFloat dot(QCOSFloat* u, QCOSFloat* v, QCOSInt n)
   return x;
 }
 
-QCOSInt max_arrayi(QCOSInt* x, QCOSInt n)
+QCOSInt max_arrayi(const QCOSInt* x, QCOSInt n)
 {
   qcos_assert(x);
 
@@ -98,7 +98,7 @@ QCOSInt max_arrayi(QCOSInt* x, QCOSInt n)
   return max;
 }
 
-void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n)
+void scale_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n)
 {
   qcos_assert(x);
   qcos_assert(y);
@@ -108,7 +108,8 @@ void scale_arrayf(QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n)
   }
 }
 
-void axpy(QCOSFloat* x, QCOSFloat* y, QCOSFloat* z, QCOSFloat a, QCOSInt n)
+void axpy(const QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSFloat a,
+          QCOSInt n)
 {
   qcos_assert(x);
   qcos_assert(y);
@@ -118,7 +119,7 @@ void axpy(QCOSFloat* x, QCOSFloat* y, QCOSFloat* z, QCOSFloat a, QCOSInt n)
   }
 }
 
-void USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
+void USpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r)
 {
   qcos_assert(M);
   qcos_assert(v);
@@ -135,7 +136,7 @@ void USpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
   }
 }
 
-void SpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
+void SpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r)
 {
   qcos_assert(M);
   qcos_assert(v);
@@ -153,7 +154,7 @@ void SpMv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
   }
 }
 
-void SpMtv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
+void SpMtv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r)
 {
   qcos_assert(M);
   qcos_assert(v);
@@ -171,7 +172,7 @@ void SpMtv(QCOSCscMatrix* M, QCOSFloat* v, QCOSFloat* r)
   }
 }
 
-QCOSFloat norm_inf(QCOSFloat* x, QCOSInt n)
+QCOSFloat norm_inf(const QCOSFloat* x, QCOSInt n)
 {
   qcos_assert(x);
 
