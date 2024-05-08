@@ -50,7 +50,10 @@ TEST(simple_socp, ok)
   settings->verbose = 1;
 
   QCOSSolver* solver = qcos_setup(P, c, A, b, G, h, l, ncones, q, settings);
-  QCOSInt exit = qcos_solve(solver);
+  QCOSInt exit;
+  if (solver) {
+    exit = qcos_solve(solver);
+  }
 
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->s, sexp, m, tol);

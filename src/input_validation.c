@@ -12,8 +12,30 @@
 
 QCOSInt qcos_validate_settings(QCOSSettings* settings)
 {
-  if (settings->max_iters < 0)
+  // max_iters must be positive.
+  if (settings->max_iters <= 0) {
     return 1;
+    printf("Settings validation error: max_iters must be positive.");
+  }
+
+  // max_iter_bisection must be positive.
+  if (settings->max_iter_bisection <= 0) {
+    return 1;
+    printf("Settings validation error: max_iter_bisection must be positive.");
+  }
+
+  // abstol must be positive.
+  if (settings->abstol <= 0) {
+    return 1;
+    printf("Settings validation error: abstol must be positive.");
+  }
+
+  // reltol must be non-negative.
+  if (settings->reltol < 0) {
+    return 1;
+    printf("Settings validation error: reltol must be positive.");
+  }
+
   return 0;
 }
 
@@ -23,24 +45,55 @@ QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
                            const QCOSInt l, const QCOSInt ncones,
                            const QCOSInt* q)
 {
-  if (!P)
+
+  // If there are second-order cones, then the cone dimensions must be provided.
+  if (!q && ncones != 0) {
+    printf("Data validation error: Provide second-order cone dimensions.");
     return 1;
-  if (!c)
+  }
+
+  // P must be a square matrix.
+  if (P->m != P->n) {
+    printf("Data validation error: P must be a square matrix.");
     return 1;
-  if (!A)
+  }
+
+  // c cannot be null.
+  if (!c) {
+    printf("Data validation error: linear cost term, c, must be provided.");
+  }
+
+  // l + sum(q) should be equal to m.
+  QCOSInt sum = l;
+  for (QCOSInt i = 0; i < ncones; ++i) {
+    sum += q[i];
+  }
+  if (sum != G->m) {
+    printf("Data validation error: l + sum(q) must be equal to m.");
     return 1;
-  if (!b)
+  }
+
+  // l must be non-negative.
+  if (l < 0) {
+    printf("Data validation error: l must be non-negative.");
     return 1;
-  if (!G)
+  }
+
+  // ncones must be non-negative.
+  if (ncones < 0) {
+    printf("Data validation error: ncones must be non-negative.");
     return 1;
-  if (!h)
-    return 1;
-  if (l < 0)
-    return 1;
-  if (ncones < 0)
-    return 1;
-  if (!q)
-    return 1;
+  }
+
+  if ((A && !b) || (b && !A)) {
+    printf("Data validation error: If there are equality constraints, A and b "
+           "must be provided.");
+  }
+
+  if ((G && !h) || (h && !G)) {
+    printf("Data validation error: If there are conic constraints, G and h "
+           "must be provided.");
+  }
 
   return 0;
 }
