@@ -16,6 +16,8 @@
 #define QCOS_API_H
 
 #include "definitions.h"
+#include "enums.h"
+#include "error.h"
 #include "input_validation.h"
 #include "kkt.h"
 #include "linalg.h"
@@ -35,21 +37,23 @@
 /**
  * @brief Allocates all memory needed for QCOS to solve the SOCP.
  *
- * @param P Upper triangular part of quadratic cost Hessian in CSC form
- * @param c Linear cost vector
- * @param A Affine equality constraint matrix in CSC form
- * @param b Affine equality constraint offset vector
- * @param G Conic constraint matrix in CSC form
- * @param h Conic constraint offset vector
- * @param l Dimension of non-negative orthant
- * @param ncones Number of second-order cones
- * @param q Dimension of each second-order cone
- * @param settings Settings struct
- * @return Pointer to solver
+ * @param solver Pointer to solver.
+ * @param P Upper triangular part of quadratic cost Hessian in CSC form.
+ * @param c Linear cost vector.
+ * @param A Affine equality constraint matrix in CSC form.
+ * @param b Affine equality constraint offset vector.
+ * @param G Conic constraint matrix in CSC form.
+ * @param h Conic constraint offset vector.
+ * @param l Dimension of non-negative orthant.
+ * @param ncones Number of second-order cones.
+ * @param q Dimension of each second-order cone.
+ * @param settings Settings struct.
+ * @return error code.
  */
-QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
-                       QCOSFloat* b, QCOSCscMatrix* G, QCOSFloat* h, QCOSInt l,
-                       QCOSInt ncones, QCOSInt* q, QCOSSettings* settings);
+QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
+                   QCOSCscMatrix* A, QCOSFloat* b, QCOSCscMatrix* G,
+                   QCOSFloat* h, QCOSInt l, QCOSInt ncones, QCOSInt* q,
+                   QCOSSettings* settings);
 
 /**
  * @brief Sets the data for a compressed sparse column matrix.

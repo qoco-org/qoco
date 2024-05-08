@@ -91,18 +91,15 @@ void log_iter(QCOSSolver* solver)
   // clang-format on
 }
 
-void print_footer(QCOSSolution* solution)
+void print_footer(QCOSSolution* solution, enum qcos_solve_status status)
 {
-  // clang-format off
-  printf("|                                    Converged.                                     |\n");
-  printf("+-----------------------------------------------------------------------------------+\n");
   printf("\n");
-  // clang-format on
-
-  printf("\nstatus:                solved\n");
+  printf("status:                %s\n", QCOS_SOLVE_STATUS_MESSAGE[status]);
   printf("number of iterations:  %d\n", solution->iters);
   printf("optimal objective:     %+.3f\n", solution->obj);
-  printf("run time:              %.2es\n", solution->solve_time_ms);
+  printf("setup time:            %.2e ms\n", solution->setup_time_ms);
+  printf("solve time:            %.2e ms\n", solution->solve_time_ms);
+  printf("\n");
 }
 
 unsigned char check_stopping(QCOSSolver* solver)
@@ -189,15 +186,9 @@ unsigned char check_stopping(QCOSSolver* solver)
 
 void copy_solution(QCOSSolver* solver)
 {
-  // Copy optimization variables
+  // Copy optimization variables.
   copy_arrayf(solver->work->x, solver->sol->x, solver->work->data->n);
   copy_arrayf(solver->work->s, solver->sol->s, solver->work->data->m);
   copy_arrayf(solver->work->y, solver->sol->y, solver->work->data->p);
   copy_arrayf(solver->work->z, solver->sol->z, solver->work->data->m);
-
-  // // Compute objective.
-  // QCOSFloat obj = dot(work->x, data->c, data->n);
-  // USpMv(data->P, work->x, work->xbuff);
-  // obj += 0.5 * (dot(work->xbuff, work->x, data->n));
-  // solver->sol->obj = obj;
 }

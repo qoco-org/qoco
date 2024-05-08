@@ -15,6 +15,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include "enums.h"
 #include "linalg.h"
 #include "structs.h"
 #include <stdio.h>
@@ -60,8 +61,9 @@ void log_iter(QCOSSolver* solver);
  * @brief Prints QCOS footer.
  *
  * @param solution Pointer to solution struct.
+ * @param status Solve status.
  */
-void print_footer(QCOSSolution* solution);
+void print_footer(QCOSSolution* solution, enum qcos_solve_status status);
 
 /**
  * @brief Checks stopping criteria.

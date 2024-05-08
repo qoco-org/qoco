@@ -10,25 +10,19 @@
 
 #include "qcos_api.h"
 
-QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
-                       QCOSFloat* b, QCOSCscMatrix* G, QCOSFloat* h, QCOSInt l,
-                       QCOSInt ncones, QCOSInt* q, QCOSSettings* settings)
+QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
+                   QCOSCscMatrix* A, QCOSFloat* b, QCOSCscMatrix* G,
+                   QCOSFloat* h, QCOSInt l, QCOSInt ncones, QCOSInt* q,
+                   QCOSSettings* settings)
 {
-  QCOSSolver* solver = qcos_malloc(sizeof(QCOSSolver));
-
-  // Malloc error
-  if (!(solver)) {
-    return NULL;
-  }
-
   // Validate problem data.
   if (qcos_validate_data(P, c, A, b, G, h, l, ncones, q)) {
-    return NULL;
+    return QCOS_DATA_VALIDATION_ERROR;
   }
 
   // Validate settings.
   if (qcos_validate_settings(settings)) {
-    return NULL;
+    return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 
   solver->settings = settings;
@@ -42,14 +36,14 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
 
   // Malloc error.
   if (!(solver->work)) {
-    return NULL;
+    return QCOS_MALLOC_ERROR;
   }
 
   // Copy problem data.
   solver->work->data = qcos_malloc(sizeof(QCOSProblemData));
   // Malloc error
   if (!(solver->work->data)) {
-    return NULL;
+    return QCOS_MALLOC_ERROR;
   }
 
   // Copy problem data.
@@ -135,7 +129,7 @@ QCOSSolver* qcos_setup(QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
   solver->sol->y = qcos_malloc(p * sizeof(QCOSFloat));
   solver->sol->z = qcos_malloc(m * sizeof(QCOSFloat));
 
-  return solver;
+  return QCOS_NO_ERROR;
 }
 
 void qcos_set_csc(QCOSCscMatrix* A, QCOSInt m, QCOSInt n, QCOSInt Annz,
@@ -178,10 +172,11 @@ QCOSInt qcos_solve(QCOSSolver* solver)
     // Check stopping criteria.
     if (check_stopping(solver)) {
       copy_solution(solver);
+      solver->sol->status = QCOS_SOLVED;
       if (solver->settings->verbose) {
-        print_footer(solver->sol);
+        print_footer(solver->sol, solver->sol->status);
       }
-      break;
+      return QCOS_SOLVED;
     }
 
     // Compute Nesterov-Todd scalings.
@@ -202,7 +197,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
     }
   }
 
-  return 0;
+  return QCOS_MAX_ITER;
 }
 
 QCOSInt qcos_cleanup(QCOSSolver* solver)

@@ -58,6 +58,13 @@ QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
     return 1;
   }
 
+  // Number of columns for A and G must be n.
+  if ((G->n != A->n) || (P->n != G->n)) {
+    printf("Data validation error: The number of columns for A and G must be "
+           "equal to n.");
+    return 1;
+  }
+
   // c cannot be null.
   if (!c) {
     printf("Data validation error: linear cost term, c, must be provided.");
