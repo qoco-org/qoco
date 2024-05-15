@@ -256,9 +256,9 @@ void compute_nt_scaling(QCOSWorkspace* work)
     shift = 0;
     for (QCOSInt j = 0; j < work->data->q[i]; ++j) {
       for (QCOSInt k = 0; k <= j; ++k) {
-        work->WtW[nt_idx + shift] =
-            dot(&work->Wfull[nt_idx + j * work->data->q[i]],
-                &work->Wfull[nt_idx + k * work->data->q[i]], work->data->q[i]);
+        work->WtW[nt_idx + shift] = dot(
+            &work->Wfull[nt_idx_full + j * work->data->q[i]],
+            &work->Wfull[nt_idx_full + k * work->data->q[i]], work->data->q[i]);
         shift += 1;
       }
     }

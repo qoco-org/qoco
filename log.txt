@@ -1,0 +1,118 @@
+-- Build Type: Debug
+-- Build Flags: -g -march=native -Werror -Wall -Wextra -fsanitize=address,undefined
+-- Using 32 byte integers
+-- Using double precision floating point
+-- Using double precision floats
+-- Long integers (64bit) are OFF
+-- Static library build is ON
+-- Shared library build is ON
+-- Demo executable build is ON
+-- Unit testing suite build is OFF
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/govind/Desktop/git/qcos/build/googletest-download
+[ 11%] Performing update step for 'googletest'
+[ 22%] No patch step for 'googletest'
+[ 33%] No configure step for 'googletest'
+[ 44%] No build step for 'googletest'
+[ 55%] No install step for 'googletest'
+[ 66%] No test step for 'googletest'
+[ 77%] Completed 'googletest'
+[100%] Built target googletest
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/govind/Desktop/git/qcos/build
+Consolidate compiler generated dependencies of target qdldl
+[  4%] Built target qdldl
+Consolidate compiler generated dependencies of target qcoslib
+[  6%] Building C object CMakeFiles/qcoslib.dir/src/qcos_api.c.o
+[  9%] Linking C shared library libqcoslib.so
+[ 23%] Built target qcoslib
+Consolidate compiler generated dependencies of target qdldlobject
+[ 25%] Built target qdldlobject
+Consolidate compiler generated dependencies of target qdldlstatic
+[ 30%] Built target qdldlstatic
+Consolidate compiler generated dependencies of target qdldl_example
+[ 34%] Built target qdldl_example
+Consolidate compiler generated dependencies of target gtest
+[ 39%] Built target gtest
+Consolidate compiler generated dependencies of target gmock
+[ 44%] Built target gmock
+Consolidate compiler generated dependencies of target gmock_main
+[ 48%] Built target gmock_main
+Consolidate compiler generated dependencies of target gtest_main
+[ 53%] Built target gtest_main
+Consolidate compiler generated dependencies of target qcos_test
+[ 55%] Linking CXX executable qcos_test
+[ 62%] Built target qcos_test
+Consolidate compiler generated dependencies of target cone_test
+[ 65%] Linking CXX executable cone_test
+[ 72%] Built target cone_test
+Consolidate compiler generated dependencies of target input_validation_test
+[ 74%] Linking CXX executable input_validation_test
+[ 81%] Built target input_validation_test
+Consolidate compiler generated dependencies of target kkt_test
+[ 83%] Linking CXX executable kkt_test
+[ 90%] Built target kkt_test
+Consolidate compiler generated dependencies of target linalg_test
+[ 93%] Linking CXX executable linalg_test
+[100%] Built target linalg_test
+UpdateCTestConfiguration  from :/home/govind/Desktop/git/qcos/build/DartConfiguration.tcl
+UpdateCTestConfiguration  from :/home/govind/Desktop/git/qcos/build/DartConfiguration.tcl
+Test project /home/govind/Desktop/git/qcos/build
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+    Start 1: qcos_test
+
+1: Test command: /home/govind/Desktop/git/qcos/build/tests/qcos_test
+1: Working Directory: /home/govind/Desktop/git/qcos/build/tests
+1: Test timeout computed to be: 10000000
+1: [==========] Running 1 test from 1 test case.
+1: [----------] Global test environment set-up.
+1: [----------] 1 test from simple_socp
+1: [ RUN      ] simple_socp.p2
+1: /home/govind/Desktop/git/qcos/tests/convex_tests/qcos_test.cpp:125:30: runtime error: member access within misaligned address 0xbebebebebebebebe for type 'QCOSWorkspace', which requires 8 byte alignment
+1: 0xbebebebebebebebe: note: pointer points here
+1: <memory cannot be printed>
+1: SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /home/govind/Desktop/git/qcos/tests/convex_tests/qcos_test.cpp:125:30 
+1: /home/govind/Desktop/git/qcos/tests/convex_tests/qcos_test.cpp:125:30: runtime error: load of misaligned address 0xbebebebebebebece for type 'QCOSFloat *' (aka 'double *'), which requires 8 byte alignment
+1: 0xbebebebebebebece: note: pointer points here
+1: <memory cannot be printed>
+1: SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /home/govind/Desktop/git/qcos/tests/convex_tests/qcos_test.cpp:125:30 
+1: AddressSanitizer:DEADLYSIGNAL
+1: =================================================================
+1: ==83289==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x56c3558ecd31 bp 0x7ffc1d21f3f0 sp 0x7ffc1d21f1a0 T0)
+1: ==83289==The signal is caused by a READ memory access.
+1: ==83289==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+1:     #0 0x56c3558ecd31 in simple_socp_p2_Test::TestBody() /home/govind/Desktop/git/qcos/tests/convex_tests/qcos_test.cpp:125:30
+1:     #1 0x56c35592e33a in void testing::internal::HandleSehExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) (/home/govind/Desktop/git/qcos/build/tests/qcos_test+0x15233a)
+1:     #2 0x56c355919009 in void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) (/home/govind/Desktop/git/qcos/build/tests/qcos_test+0x13d009)
+1:     #3 0x56c3558fb5e5 in testing::Test::Run() (/home/govind/Desktop/git/qcos/build/tests/qcos_test+0x11f5e5)
+1:     #4 0x56c3558fc2ec in testing::TestInfo::Run() (/home/govind/Desktop/git/qcos/build/tests/qcos_test+0x1202ec)
+1:     #5 0x56c3558fc922 in testing::TestCase::Run() (/home/govind/Desktop/git/qcos/build/tests/qcos_test+0x120922)
+1:     #6 0x56c355908330 in testing::internal::UnitTestImpl::RunAllTests() (/home/govind/Desktop/git/qcos/build/tests/qcos_test+0x12c330)
+1:     #7 0x56c355930e6a in bool testing::internal::HandleSehExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool>(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*) (/home/govind/Desktop/git/qcos/build/tests/qcos_test+0x154e6a)
+1:     #8 0x56c35591b479 in bool testing::internal::HandleExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool>(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*) (/home/govind/Desktop/git/qcos/build/tests/qcos_test+0x13f479)
+1:     #9 0x56c355908057 in testing::UnitTest::Run() (/home/govind/Desktop/git/qcos/build/tests/qcos_test+0x12c057)
+1:     #10 0x56c3558f0870 in RUN_ALL_TESTS() /home/govind/Desktop/git/qcos/build/googletest-src/googletest/include/gtest/gtest.h:2341:46
+1:     #11 0x56c3558f071e in main /home/govind/Desktop/git/qcos/tests/main.cpp:6:10
+1:     #12 0x7aafbac29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+1:     #13 0x7aafbac29e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+1:     #14 0x56c355811974 in _start (/home/govind/Desktop/git/qcos/build/tests/qcos_test+0x35974)
+1: 
+1: AddressSanitizer can not provide additional info.
+1: SUMMARY: AddressSanitizer: SEGV /home/govind/Desktop/git/qcos/tests/convex_tests/qcos_test.cpp:125:30 in simple_socp_p2_Test::TestBody()
+1: ==83289==ABORTING
+1/1 Test #1: qcos_test ........................***Failed    0.12 sec
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.12 sec
+
+The following tests FAILED:
+	  1 - qcos_test (Failed)

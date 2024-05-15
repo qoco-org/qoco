@@ -5,7 +5,6 @@
 
 TEST(input_validation, settings_validation)
 {
-  // Replace with real test
   QCOSInt p = 2;
   QCOSInt m = 6;
   QCOSInt n = 6;
