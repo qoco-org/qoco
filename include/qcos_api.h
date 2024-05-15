@@ -17,10 +17,10 @@
 
 #include "definitions.h"
 #include "enums.h"
-#include "error.h"
 #include "input_validation.h"
 #include "kkt.h"
 #include "linalg.h"
+#include "qcos_error.h"
 #include "structs.h"
 #include "utils.h"
 

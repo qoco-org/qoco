@@ -14,29 +14,29 @@ QCOSInt qcos_validate_settings(QCOSSettings* settings)
 {
   // max_iters must be positive.
   if (settings->max_iters <= 0) {
-    return 1;
-    printf("Settings validation error: max_iters must be positive.");
+    printf("max_iters must be positive.\n");
+    return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 
   // max_iter_bisection must be positive.
   if (settings->max_iter_bisection <= 0) {
-    return 1;
-    printf("Settings validation error: max_iter_bisection must be positive.");
+    printf("max_iter_bisection must be positive.\n");
+    return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 
   // abstol must be positive.
   if (settings->abstol <= 0) {
-    return 1;
-    printf("Settings validation error: abstol must be positive.");
+    printf("abstol must be positive.\n");
+    return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 
   // reltol must be non-negative.
   if (settings->reltol < 0) {
-    return 1;
-    printf("Settings validation error: reltol must be positive.");
+    printf("reltol must be positive.\n");
+    return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 
-  return 0;
+  return QCOS_NO_ERROR;
 }
 
 QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,

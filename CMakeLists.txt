@@ -38,7 +38,7 @@ add_subdirectory(lib/qdldl)
 add_library(qcoslib SHARED)
 target_link_libraries(qcoslib qdldl)
 target_include_directories(qcoslib PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_sources(qcoslib PRIVATE src/qcos_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c)
+target_sources(qcoslib PRIVATE src/qcos_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qcos_error.c)
 
 # Test definitions.
 configure_file(CMakeLists.txt.in

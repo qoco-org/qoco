@@ -1,5 +1,5 @@
-#ifndef ERROR_H
-#define ERROR_H
+#ifndef QCOS_ERROR_H
+#define QCOS_ERROR_H
 
 #include "definitions.h"
 #include "enums.h"

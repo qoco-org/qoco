@@ -17,12 +17,12 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
 {
   // Validate problem data.
   if (qcos_validate_data(P, c, A, b, G, h, l, ncones, q)) {
-    return QCOS_DATA_VALIDATION_ERROR;
+    return qcos_error(QCOS_DATA_VALIDATION_ERROR);
   }
 
   // Validate settings.
   if (qcos_validate_settings(settings)) {
-    return QCOS_SETTINGS_VALIDATION_ERROR;
+    return qcos_error(QCOS_SETTINGS_VALIDATION_ERROR);
   }
 
   solver->settings = settings;
@@ -39,7 +39,6 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
     return QCOS_MALLOC_ERROR;
   }
 
-  // Copy problem data.
   solver->work->data = qcos_malloc(sizeof(QCOSProblemData));
   // Malloc error
   if (!(solver->work->data)) {

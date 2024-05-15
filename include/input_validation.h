@@ -15,6 +15,8 @@
 #ifndef INPUT_VALIDATION_H
 #define INPUT_VALIDATION_H
 
+#include "enums.h"
+#include "error.h"
 #include "structs.h"
 
 /**
