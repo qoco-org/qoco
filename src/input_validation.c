@@ -49,25 +49,40 @@ QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
   // If there are second-order cones, then the cone dimensions must be provided.
   if (!q && ncones != 0) {
     printf("Data validation error: Provide second-order cone dimensions.");
-    return 1;
+    return QCOS_DATA_VALIDATION_ERROR;
   }
 
   // P must be a square matrix.
   if (P->m != P->n) {
     printf("Data validation error: P must be a square matrix.");
-    return 1;
+    return QCOS_DATA_VALIDATION_ERROR;
   }
 
-  // Number of columns for A and G must be n.
-  if ((G->n != A->n) || (P->n != G->n)) {
+  // Number of columns for A and G must be equal.
+  if (G && A && (G->n != A->n)) {
     printf("Data validation error: The number of columns for A and G must be "
            "equal to n.");
-    return 1;
+    return QCOS_DATA_VALIDATION_ERROR;
+  }
+
+  // Number of columns for A must be equal to n.
+  if (A && (P->n != A->n)) {
+    printf("Data validation error: The number of columns for A must be "
+           "equal to n.");
+    return QCOS_DATA_VALIDATION_ERROR;
+  }
+
+  // Number of columns for G must be equal to n.
+  if (G && (P->n != G->n)) {
+    printf("Data validation error: The number of columns for G must be "
+           "equal to n.");
+    return QCOS_DATA_VALIDATION_ERROR;
   }
 
   // c cannot be null.
   if (!c) {
     printf("Data validation error: linear cost term, c, must be provided.");
+    return QCOS_DATA_VALIDATION_ERROR;
   }
 
   // l + sum(q) should be equal to m.
@@ -75,32 +90,34 @@ QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
   for (QCOSInt i = 0; i < ncones; ++i) {
     sum += q[i];
   }
-  if (sum != G->m) {
+  if (G && sum != G->m) {
     printf("Data validation error: l + sum(q) must be equal to m.");
-    return 1;
+    return QCOS_DATA_VALIDATION_ERROR;
   }
 
   // l must be non-negative.
   if (l < 0) {
     printf("Data validation error: l must be non-negative.");
-    return 1;
+    return QCOS_DATA_VALIDATION_ERROR;
   }
 
   // ncones must be non-negative.
   if (ncones < 0) {
     printf("Data validation error: ncones must be non-negative.");
-    return 1;
+    return QCOS_DATA_VALIDATION_ERROR;
   }
 
   if ((A && !b) || (b && !A)) {
     printf("Data validation error: If there are equality constraints, A and b "
            "must be provided.");
+    return QCOS_DATA_VALIDATION_ERROR;
   }
 
   if ((G && !h) || (h && !G)) {
     printf("Data validation error: If there are conic constraints, G and h "
            "must be provided.");
+    return QCOS_DATA_VALIDATION_ERROR;
   }
 
-  return 0;
+  return QCOS_NO_ERROR;
 }

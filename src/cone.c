@@ -171,7 +171,9 @@ void nt_multiply(QCOSFloat* W, QCOSFloat* x, QCOSFloat* z, QCOSInt l, QCOSInt m,
 
 void compute_mu(QCOSWorkspace* work)
 {
-  work->mu = safe_div(dot(work->s, work->z, work->data->m), work->data->m);
+  work->mu = (work->data->m > 0)
+                 ? safe_div(dot(work->s, work->z, work->data->m), work->data->m)
+                 : 0;
 }
 
 void compute_nt_scaling(QCOSWorkspace* work)

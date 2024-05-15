@@ -28,8 +28,8 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
   solver->settings = settings;
 
   QCOSInt n = P->n;
-  QCOSInt m = G->m;
-  QCOSInt p = A->m;
+  QCOSInt m = G ? G->m : 0;
+  QCOSInt p = A ? A->m : 0;
 
   // Allocate workspace.
   solver->work = qcos_malloc(sizeof(QCOSWorkspace));
@@ -90,7 +90,10 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
   solver->work->Winvfull = qcos_malloc(Wnnzfull * sizeof(QCOSFloat));
   solver->work->WtW = qcos_malloc(solver->work->Wnnz * sizeof(QCOSFloat));
   solver->work->lambda = qcos_malloc(m * sizeof(QCOSFloat));
-  QCOSInt qmax = max_arrayi(solver->work->data->q, solver->work->data->ncones);
+  QCOSInt qmax = 0;
+  if (solver->work->data->q) {
+    qmax = max_arrayi(solver->work->data->q, solver->work->data->ncones);
+  }
   solver->work->sbar = qcos_malloc(qmax * sizeof(QCOSFloat));
   solver->work->zbar = qcos_malloc(qmax * sizeof(QCOSFloat));
   solver->work->xbuff = qcos_malloc(n * sizeof(QCOSFloat));
@@ -127,6 +130,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
   solver->sol->s = qcos_malloc(m * sizeof(QCOSFloat));
   solver->sol->y = qcos_malloc(p * sizeof(QCOSFloat));
   solver->sol->z = qcos_malloc(m * sizeof(QCOSFloat));
+  solver->sol->iters = 0;
 
   return QCOS_NO_ERROR;
 }

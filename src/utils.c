@@ -110,15 +110,15 @@ unsigned char check_stopping(QCOSSolver* solver)
   QCOSFloat erel = solver->settings->reltol;
 
   QCOSFloat ctx = dot(data->c, work->x, data->n);
-  QCOSFloat bty = dot(data->b, work->y, data->p);
-  QCOSFloat htz = dot(data->h, work->z, data->m);
+  QCOSFloat bty = data->p > 0 ? dot(data->b, work->y, data->p) : 0;
+  QCOSFloat htz = data->m > 0 ? dot(data->h, work->z, data->m) : 0;
   QCOSFloat ctxabs = qcos_abs(ctx);
   QCOSFloat btyabs = qcos_abs(bty);
   QCOSFloat htzabs = qcos_abs(htz);
-  QCOSFloat binf = norm_inf(data->b, data->p);
-  QCOSFloat sinf = norm_inf(work->s, data->m);
+  QCOSFloat binf = data->p > 0 ? norm_inf(data->b, data->p) : 0;
+  QCOSFloat sinf = data->m > 0 ? norm_inf(work->s, data->m) : 0;
   QCOSFloat cinf = norm_inf(data->c, data->n);
-  QCOSFloat hinf = norm_inf(data->h, data->m);
+  QCOSFloat hinf = data->m > 0 ? norm_inf(data->h, data->m) : 0;
 
   // Compute objective.
   QCOSFloat obj = dot(work->x, data->c, data->n);
@@ -126,13 +126,15 @@ unsigned char check_stopping(QCOSSolver* solver)
   obj += 0.5 * (dot(work->xbuff, work->x, data->n));
   solver->sol->obj = obj;
 
-  // Compute ||A^T * y||_\infty
+  // Compute ||A^T * y||_\infty. If equality constraints aren't present, A->m =
+  // A->n = 0 and SpMtv is a nullop.
   SpMtv(data->A, work->y, work->xbuff);
-  QCOSFloat Atyinf = norm_inf(work->xbuff, data->n);
+  QCOSFloat Atyinf = data->p ? norm_inf(work->xbuff, data->n) : 0;
 
-  // Compute ||G^T * z||_\infty
+  // Compute ||G^T * z||_\infty. If inequality constraints aren't present, G->m
+  // = G->n = 0 and SpMtv is a nullop.
   SpMtv(data->G, work->z, work->xbuff);
-  QCOSFloat Gtzinf = norm_inf(work->xbuff, data->n);
+  QCOSFloat Gtzinf = data->m > 0 ? norm_inf(work->xbuff, data->n) : 0;
 
   // Compute ||P * x||_\infty
   SpMv(data->P, work->x, work->xbuff);
@@ -142,17 +144,17 @@ unsigned char check_stopping(QCOSSolver* solver)
 
   // Compute ||A * x||_\infty
   SpMv(data->A, work->x, work->ybuff);
-  QCOSFloat Axinf = norm_inf(work->ybuff, data->p);
+  QCOSFloat Axinf = data->p ? norm_inf(work->ybuff, data->p) : 0;
 
   // Compute ||G * x||_\infty
   SpMv(data->G, work->x, work->ubuff1);
-  QCOSFloat Gxinf = norm_inf(work->ubuff1, data->m);
+  QCOSFloat Gxinf = data->m ? norm_inf(work->ubuff1, data->m) : 0;
 
   // Compute primal residual.
-  QCOSFloat pres = norm_inf(&work->kkt->kktres[data->n], data->n);
+  QCOSFloat pres = norm_inf(&work->kkt->kktres[data->n], data->m + data->p);
   solver->sol->pres = pres;
 
-  // COmpute dual residual.
+  // Compute dual residual.
   QCOSFloat dres = norm_inf(work->kkt->kktres, data->n);
   solver->sol->dres = dres;
 

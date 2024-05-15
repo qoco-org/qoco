@@ -12,27 +12,36 @@
 
 QCOSCscMatrix* new_qcos_csc_matrix(QCOSCscMatrix* A)
 {
-  qcos_assert(A);
-
-  QCOSInt m = A->m;
-  QCOSInt n = A->n;
-  QCOSInt nnz = A->nnz;
-
   QCOSCscMatrix* M = qcos_malloc(sizeof(QCOSCscMatrix));
-  QCOSFloat* x = qcos_malloc(nnz * sizeof(QCOSFloat));
-  QCOSInt* p = qcos_malloc((n + 1) * sizeof(QCOSInt));
-  QCOSInt* i = qcos_malloc(nnz * sizeof(QCOSInt));
 
-  copy_arrayf(A->x, x, nnz);
-  copy_arrayi(A->i, i, nnz);
-  copy_arrayi(A->p, p, n + 1);
+  if (A) {
+    QCOSInt m = A->m;
+    QCOSInt n = A->n;
+    QCOSInt nnz = A->nnz;
 
-  M->m = m;
-  M->n = n;
-  M->nnz = nnz;
-  M->x = x;
-  M->i = i;
-  M->p = p;
+    QCOSFloat* x = qcos_malloc(nnz * sizeof(QCOSFloat));
+    QCOSInt* p = qcos_malloc((n + 1) * sizeof(QCOSInt));
+    QCOSInt* i = qcos_malloc(nnz * sizeof(QCOSInt));
+
+    copy_arrayf(A->x, x, nnz);
+    copy_arrayi(A->i, i, nnz);
+    copy_arrayi(A->p, p, n + 1);
+
+    M->m = m;
+    M->n = n;
+    M->nnz = nnz;
+    M->x = x;
+    M->i = i;
+    M->p = p;
+  }
+  else {
+    M->m = 0;
+    M->n = 0;
+    M->nnz = 0;
+    M->x = NULL;
+    M->i = NULL;
+    M->p = NULL;
+  }
 
   return M;
 }
@@ -47,8 +56,8 @@ void free_qcos_csc_matrix(QCOSCscMatrix* A)
 
 void copy_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
 {
-  qcos_assert(x);
-  qcos_assert(y);
+  qcos_assert(x || n == 0);
+  qcos_assert(y || n == 0);
 
   for (QCOSInt i = 0; i < n; ++i) {
     y[i] = x[i];
@@ -57,8 +66,8 @@ void copy_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
 
 void copy_and_negate_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
 {
-  qcos_assert(x);
-  qcos_assert(y);
+  qcos_assert(x || n == 0);
+  qcos_assert(y || n == 0);
 
   for (QCOSInt i = 0; i < n; ++i) {
     y[i] = -x[i];
@@ -67,8 +76,8 @@ void copy_and_negate_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
 
 void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n)
 {
-  qcos_assert(x);
-  qcos_assert(y);
+  qcos_assert(x || n == 0);
+  qcos_assert(y || n == 0);
 
   for (QCOSInt i = 0; i < n; ++i) {
     y[i] = x[i];
@@ -77,8 +86,8 @@ void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n)
 
 QCOSFloat dot(const QCOSFloat* u, const QCOSFloat* v, QCOSInt n)
 {
-  qcos_assert(u);
-  qcos_assert(v);
+  qcos_assert(u || n == 0);
+  qcos_assert(v || n == 0);
 
   QCOSFloat x = 0.0;
   for (QCOSInt i = 0; i < n; ++i) {
@@ -89,7 +98,7 @@ QCOSFloat dot(const QCOSFloat* u, const QCOSFloat* v, QCOSInt n)
 
 QCOSInt max_arrayi(const QCOSInt* x, QCOSInt n)
 {
-  qcos_assert(x);
+  qcos_assert(x || n == 0);
 
   QCOSInt max = -QCOSInt_MAX;
   for (QCOSInt i = 0; i < n; ++i) {
@@ -100,8 +109,8 @@ QCOSInt max_arrayi(const QCOSInt* x, QCOSInt n)
 
 void scale_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n)
 {
-  qcos_assert(x);
-  qcos_assert(y);
+  qcos_assert(x || n == 0);
+  qcos_assert(y || n == 0);
 
   for (QCOSInt i = 0; i < n; ++i) {
     y[i] = s * x[i];
@@ -111,8 +120,8 @@ void scale_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n)
 void axpy(const QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSFloat a,
           QCOSInt n)
 {
-  qcos_assert(x);
-  qcos_assert(y);
+  qcos_assert(x || n == 0);
+  qcos_assert(y || n == 0);
 
   for (QCOSInt i = 0; i < n; ++i) {
     z[i] = a * x[i] + y[i];
@@ -174,7 +183,7 @@ void SpMtv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r)
 
 QCOSFloat norm_inf(const QCOSFloat* x, QCOSInt n)
 {
-  qcos_assert(x);
+  qcos_assert(x || n == 0);
 
   QCOSFloat norm = 0.0;
   QCOSFloat xi;
