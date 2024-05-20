@@ -44,31 +44,32 @@ TEST(input_validation, settings_validation)
 
   set_default_settings(settings);
   settings->max_iter_bisection = 0;
-  QCOSInt exit = qcos_setup(solver, P, c, A, b, G, h, l, ncones, q, settings);
+  QCOSInt exit =
+      qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
   settings->max_iter_bisection = -1;
-  exit = qcos_setup(solver, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
 
   set_default_settings(settings);
   settings->max_iters = 0;
-  exit = qcos_setup(solver, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
   settings->max_iters = -1;
-  exit = qcos_setup(solver, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
 
   set_default_settings(settings);
   settings->abstol = 0;
-  exit = qcos_setup(solver, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
   settings->abstol = -1e-6;
-  exit = qcos_setup(solver, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
 
   set_default_settings(settings);
   settings->reltol = -1e-6;
-  exit = qcos_setup(solver, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
 
   free(solver);

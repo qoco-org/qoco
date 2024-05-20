@@ -102,6 +102,9 @@ typedef struct {
   /** Relative tolerance. */
   QCOSFloat reltol;
 
+  /** Regularization parameter for KKT system. */
+  QCOSFloat reg;
+
   /** 0 for quiet anything else for verbose. */
   unsigned char verbose;
 } QCOSSettings;

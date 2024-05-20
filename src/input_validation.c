@@ -53,7 +53,7 @@ QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
   }
 
   // P must be a square matrix.
-  if (P->m != P->n) {
+  if (P && P->m != P->n) {
     printf("Data validation error: P must be a square matrix.");
     return QCOS_DATA_VALIDATION_ERROR;
   }
@@ -66,14 +66,14 @@ QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
   }
 
   // Number of columns for A must be equal to n.
-  if (A && (P->n != A->n)) {
+  if (A && P && (P->n != A->n)) {
     printf("Data validation error: The number of columns for A must be "
            "equal to n.");
     return QCOS_DATA_VALIDATION_ERROR;
   }
 
   // Number of columns for G must be equal to n.
-  if (G && (P->n != G->n)) {
+  if (G && P && (P->n != G->n)) {
     printf("Data validation error: The number of columns for G must be "
            "equal to n.");
     return QCOS_DATA_VALIDATION_ERROR;

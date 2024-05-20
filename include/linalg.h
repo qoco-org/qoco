@@ -26,6 +26,15 @@
 QCOSCscMatrix* new_qcos_csc_matrix(QCOSCscMatrix* A);
 
 /**
+ * @brief Allocates a new csc matrix that is lambda * I.
+ *
+ * @param n Size of identity matrix.
+ * @param lambda Scaling factor for identity.
+ * @return Pointer to new constructed matrix.
+ */
+QCOSCscMatrix* construct_identity(QCOSInt n, QCOSFloat lambda);
+
+/**
  * @brief Frees all the internal arrays and the pointer to the QCOSCscMatrix.
  * Should only be used if QCOSCscMatrix and all internal arrays were malloc'ed.
  *
@@ -140,5 +149,15 @@ void SpMtv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
  * @return Infinity norm of x.
  */
 QCOSFloat norm_inf(const QCOSFloat* x, QCOSInt n);
+
+/**
+ * @brief Adds lambda * I to a CSC matrix. Called on P prior to construction of
+ * KKT system in qcos_setup(). This function calls realloc() when adding new
+ * nonzeros.
+ *
+ * @param M
+ * @param lambda
+ */
+void regularize(QCOSCscMatrix* M, QCOSFloat lambda);
 
 #endif /* #ifndef LINALG_H*/

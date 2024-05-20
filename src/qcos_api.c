@@ -10,10 +10,10 @@
 
 #include "qcos_api.h"
 
-QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
-                   QCOSCscMatrix* A, QCOSFloat* b, QCOSCscMatrix* G,
-                   QCOSFloat* h, QCOSInt l, QCOSInt ncones, QCOSInt* q,
-                   QCOSSettings* settings)
+QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
+                   QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
+                   QCOSFloat* b, QCOSCscMatrix* G, QCOSFloat* h, QCOSInt l,
+                   QCOSInt ncones, QCOSInt* q, QCOSSettings* settings)
 {
   // Validate problem data.
   if (qcos_validate_data(P, c, A, b, G, h, l, ncones, q)) {
@@ -26,10 +26,6 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
   }
 
   solver->settings = settings;
-
-  QCOSInt n = P->n;
-  QCOSInt m = G ? G->m : 0;
-  QCOSInt p = A ? A->m : 0;
 
   // Allocate workspace.
   solver->work = qcos_malloc(sizeof(QCOSWorkspace));
@@ -49,7 +45,6 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
   solver->work->data->m = m;
   solver->work->data->n = n;
   solver->work->data->p = p;
-  solver->work->data->P = new_qcos_csc_matrix(P);
   solver->work->data->A = new_qcos_csc_matrix(A);
   solver->work->data->G = new_qcos_csc_matrix(G);
   solver->work->data->c = qcos_malloc(n * sizeof(QCOSFloat));
@@ -61,6 +56,15 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
   solver->work->data->q = q;
   solver->work->data->l = l;
   solver->work->data->ncones = ncones;
+
+  // Copy and regularize P.
+  if (P) {
+    solver->work->data->P = new_qcos_csc_matrix(P);
+    regularize(solver->work->data->P, solver->settings->reg);
+  }
+  else {
+    solver->work->data->P = construct_identity(n, solver->settings->reg);
+  }
 
   // Allocate KKT struct.
   solver->work->kkt = qcos_malloc(sizeof(QCOSKKT));
@@ -153,6 +157,7 @@ void set_default_settings(QCOSSettings* settings)
   settings->verbose = 0;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
+  settings->reg = 1e-8;
 }
 
 QCOSInt qcos_solve(QCOSSolver* solver)

@@ -194,3 +194,60 @@ TEST(linalg, norm_inf_test)
 
   EXPECT_NEAR(norm_inf(x, n), expected_ans, tol);
 }
+
+TEST(linalg, regularize_test1)
+{
+  QCOSInt n = 6;
+  QCOSFloat Px[] = {1, 2, 3, 4, 5, 6};
+  QCOSInt Pnnz = 6;
+  QCOSInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
+  QCOSInt Pi[] = {0, 1, 2, 3, 4, 5};
+
+  QCOSFloat Px_exp[] = {1.5, 2.5, 3.5, 4.5, 5.5, 6.5};
+  QCOSFloat tol = 1e-12;
+
+  QCOSCscMatrix* P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* Pexp = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+
+  qcos_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+  qcos_set_csc(Pexp, n, n, Pnnz, Px_exp, Pp, Pi);
+
+  regularize(P, 0.5);
+  expect_eq_csc(P, Pexp, tol);
+
+  free(P);
+  free(Pexp);
+}
+
+TEST(linalg, regularize_test2)
+{
+  QCOSInt n = 3;
+  QCOSFloat Px[] = {1, 2, 2, 3, 3};
+  QCOSInt Pnnz = 5;
+  QCOSInt Pp[] = {0, 2, 5, 5};
+  QCOSInt Pi[] = {1, 2, 0, 1, 2};
+
+  QCOSFloat Px_exp[] = {1, 1, 2, 2, 4, 3, 1};
+  QCOSInt Pnnz_exp = 7;
+  QCOSInt Pp_exp[] = {0, 3, 6, 7};
+  QCOSInt Pi_exp[] = {0, 1, 2, 0, 1, 2, 2};
+
+  QCOSFloat tol = 1e-12;
+
+  QCOSCscMatrix* P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* Pexp = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+
+  qcos_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+  qcos_set_csc(Pexp, n, n, Pnnz_exp, Px_exp, Pp_exp, Pi_exp);
+
+  QCOSCscMatrix* Pmalloc = new_qcos_csc_matrix(P);
+  QCOSCscMatrix* Pexpmalloc = new_qcos_csc_matrix(Pexp);
+
+  regularize(Pmalloc, 1.0);
+  expect_eq_csc(Pmalloc, Pexpmalloc, tol);
+
+  free(P);
+  free(Pexp);
+  free_qcos_csc_matrix(Pmalloc);
+  free_qcos_csc_matrix(Pexpmalloc);
+}

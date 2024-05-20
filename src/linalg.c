@@ -46,6 +46,32 @@ QCOSCscMatrix* new_qcos_csc_matrix(QCOSCscMatrix* A)
   return M;
 }
 
+QCOSCscMatrix* construct_identity(QCOSInt n, QCOSFloat lambda)
+{
+  QCOSCscMatrix* M = qcos_malloc(sizeof(QCOSCscMatrix));
+  QCOSFloat* x = qcos_malloc(n * sizeof(QCOSFloat));
+  QCOSInt* p = qcos_malloc((n + 1) * sizeof(QCOSInt));
+  QCOSInt* i = qcos_malloc(n * sizeof(QCOSInt));
+
+  M->m = n;
+  M->n = n;
+  M->nnz = n;
+  M->x = x;
+  M->i = i;
+  M->p = p;
+
+  for (QCOSInt k = 0; k < n; ++k) {
+    M->i[k] = k;
+    M->x[k] = lambda;
+  }
+
+  for (QCOSInt k = 0; k < n + 1; ++k) {
+    M->p[k] = k;
+  }
+
+  return M;
+}
+
 void free_qcos_csc_matrix(QCOSCscMatrix* A)
 {
   free(A->x);
@@ -192,4 +218,54 @@ QCOSFloat norm_inf(const QCOSFloat* x, QCOSInt n)
     norm = qcos_max(norm, xi);
   }
   return norm;
+}
+
+void regularize(QCOSCscMatrix* M, QCOSFloat lambda)
+{
+  // Iterate over each column.
+  for (QCOSInt col = 0; col < M->n; col++) {
+    QCOSInt start = M->p[col];
+    QCOSInt end = M->p[col + 1];
+
+    // Flag to check if the diagonal element exists.
+    QCOSInt diagonal_exists = 0;
+
+    // Iterate over the elements in the current column.
+    unsigned char insert_set = 0;
+    QCOSInt insert = end;
+    for (QCOSInt i = start; i < end; i++) {
+      if (!insert_set && M->i[i] > col) {
+        insert = i;
+        insert_set = 1;
+      }
+      if (M->i[i] == col) {
+        M->x[i] += lambda; // Add lambda to the diagonal element.
+        diagonal_exists = 1;
+        break;
+      }
+    }
+
+    // If the diagonal element does not exist, we need to insert it.
+    if (!diagonal_exists) {
+      // Shift all the elements in values and row_indices arrays to make space
+      // for the new diagonal element.
+      M->nnz++;
+      M->x = realloc(M->x, M->nnz * sizeof(QCOSFloat));
+      M->i = realloc(M->i, M->nnz * sizeof(QCOSInt));
+
+      for (QCOSInt i = M->nnz - 1; i > insert; i--) {
+        M->x[i] = M->x[i - 1];
+        M->i[i] = M->i[i - 1];
+      }
+
+      // Insert the new diagonal element.
+      M->x[insert] = lambda;
+      M->i[insert] = col;
+
+      // Update the column_pointers array.
+      for (QCOSInt i = col + 1; i <= M->n; i++) {
+        M->p[i]++;
+      }
+    }
+  }
 }

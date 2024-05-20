@@ -50,8 +50,8 @@ TEST(missing_constraints_test, no_soc)
 
   QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
 
-  QCOSInt exit =
-      qcos_setup(solver, P, c, A, b, G, h, l, ncones, nullptr, settings);
+  QCOSInt exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones,
+                            nullptr, settings);
   if (exit == QCOS_NO_ERROR) {
     exit = qcos_solve(solver);
   }
@@ -70,6 +70,7 @@ TEST(missing_constraints_test, no_soc)
 
 TEST(missing_constraints_test, no_ineq)
 {
+  QCOSInt m = 0;
   QCOSInt p = 2;
   QCOSInt n = 6;
   QCOSInt l = 0;
@@ -104,8 +105,8 @@ TEST(missing_constraints_test, no_ineq)
 
   QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
 
-  QCOSInt exit = qcos_setup(solver, P, c, A, b, nullptr, nullptr, l, ncones,
-                            nullptr, settings);
+  QCOSInt exit = qcos_setup(solver, n, m, p, P, c, A, b, nullptr, nullptr, l,
+                            ncones, nullptr, settings);
   if (exit == QCOS_NO_ERROR) {
     exit = qcos_solve(solver);
   }
@@ -122,6 +123,7 @@ TEST(missing_constraints_test, no_ineq)
 TEST(missing_constraints_test, no_eq)
 {
   QCOSInt m = 6;
+  QCOSInt p = 0;
   QCOSInt n = 6;
   QCOSInt l = 3;
   QCOSInt ncones = 1;
@@ -157,8 +159,8 @@ TEST(missing_constraints_test, no_eq)
 
   QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
 
-  QCOSInt exit =
-      qcos_setup(solver, P, c, nullptr, nullptr, G, h, l, ncones, q, settings);
+  QCOSInt exit = qcos_setup(solver, n, m, p, P, c, nullptr, nullptr, G, h, l,
+                            ncones, q, settings);
   if (exit == QCOS_NO_ERROR) {
     exit = qcos_solve(solver);
   }
@@ -175,6 +177,8 @@ TEST(missing_constraints_test, no_eq)
 
 TEST(missing_constraints_test, no_constraints)
 {
+  QCOSInt m = 0;
+  QCOSInt p = 0;
   QCOSInt l = 0;
   QCOSInt n = 6;
   QCOSInt ncones = 0;
@@ -197,8 +201,8 @@ TEST(missing_constraints_test, no_constraints)
 
   QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
 
-  QCOSInt exit = qcos_setup(solver, P, c, nullptr, nullptr, nullptr, nullptr, l,
-                            ncones, nullptr, settings);
+  QCOSInt exit = qcos_setup(solver, n, m, p, P, c, nullptr, nullptr, nullptr,
+                            nullptr, l, ncones, nullptr, settings);
   if (exit == QCOS_NO_ERROR) {
     exit = qcos_solve(solver);
   }
@@ -208,4 +212,56 @@ TEST(missing_constraints_test, no_constraints)
 
   qcos_cleanup(solver);
   free(P);
+}
+
+TEST(missing_constraints_test, lp_test)
+{
+  //  Solves the following LP
+  //  minimize   -x1 - x2
+  //  subject to x1 >= 0
+  //             x2 >= 0
+  //             x1 + x2 <= 1
+
+  QCOSInt p = 0;
+  QCOSInt m = 3;
+  QCOSInt n = 2;
+  QCOSInt l = 3;
+  QCOSInt ncones = 0;
+
+  QCOSFloat Gx[] = {-1, 1, -1, 1};
+  QCOSInt Gnnz = 4;
+  QCOSInt Gp[] = {0, 2, 4};
+  QCOSInt Gi[] = {0, 2, 1, 2};
+
+  QCOSFloat c[] = {-1, -2};
+  QCOSFloat h[] = {0, 0, 1};
+
+  QCOSCscMatrix* G = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+
+  qcos_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
+
+  QCOSFloat xexp[] = {0.0, 1.0};
+  QCOSFloat sexp[] = {0.0, 1.0, 0.0};
+  QCOSFloat zexp[] = {1.0, 0.0, 2.0};
+  QCOSFloat tol = 1e-4;
+
+  QCOSSettings* settings = (QCOSSettings*)malloc(sizeof(QCOSSettings));
+  set_default_settings(settings);
+  settings->verbose = 1;
+
+  QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
+
+  QCOSInt exit = qcos_setup(solver, n, m, p, nullptr, c, nullptr, nullptr, G, h,
+                            l, ncones, nullptr, settings);
+  if (exit == QCOS_NO_ERROR) {
+    exit = qcos_solve(solver);
+  }
+
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  ASSERT_EQ(exit, QCOS_SOLVED);
+
+  qcos_cleanup(solver);
+  free(G);
 }

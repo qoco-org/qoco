@@ -16,4 +16,13 @@
  */
 void expect_eq_vectorf(QCOSFloat* x, QCOSFloat* y, QCOSInt n, QCOSFloat tol);
 
+/**
+ * @brief Utility function to extend EXPECT_EQ to QCOSCscMatrix.
+ *
+ * @param A Input matrix.
+ * @param B Input matrix.
+ * @param tol Tolerace.
+ */
+void expect_eq_csc(QCOSCscMatrix* A, QCOSCscMatrix* B, QCOSFloat tol);
+
 #endif /* #ifndef TEST_UTILS_H */

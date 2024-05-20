@@ -51,7 +51,8 @@ TEST(simple_socp_test, p1)
 
   QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
 
-  QCOSInt exit = qcos_setup(solver, P, c, A, b, G, h, l, ncones, q, settings);
+  QCOSInt exit =
+      qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
   if (exit == QCOS_NO_ERROR) {
     exit = qcos_solve(solver);
   }
@@ -116,7 +117,8 @@ TEST(simple_socp_test, p3)
 
   QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
 
-  QCOSInt exit = qcos_setup(solver, P, c, A, b, G, h, l, ncones, q, settings);
+  QCOSInt exit =
+      qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
   if (exit == QCOS_NO_ERROR) {
     exit = qcos_solve(solver);
   }
@@ -181,7 +183,8 @@ TEST(simple_socp_test, p2)
 
   QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
 
-  QCOSInt exit = qcos_setup(solver, P, c, A, b, G, h, l, ncones, q, settings);
+  QCOSInt exit =
+      qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
   if (exit == QCOS_NO_ERROR) {
     exit = qcos_solve(solver);
   }

@@ -38,6 +38,9 @@
  * @brief Allocates all memory needed for QCOS to solve the SOCP.
  *
  * @param solver Pointer to solver.
+ * @param n Number of optimization variables.
+ * @param m Number of conic constraints.
+ * @param p Number of affine equality constraints.
  * @param P Upper triangular part of quadratic cost Hessian in CSC form.
  * @param c Linear cost vector.
  * @param A Affine equality constraint matrix in CSC form.
@@ -50,10 +53,10 @@
  * @param settings Settings struct.
  * @return error code.
  */
-QCOSInt qcos_setup(QCOSSolver* solver, QCOSCscMatrix* P, QCOSFloat* c,
-                   QCOSCscMatrix* A, QCOSFloat* b, QCOSCscMatrix* G,
-                   QCOSFloat* h, QCOSInt l, QCOSInt ncones, QCOSInt* q,
-                   QCOSSettings* settings);
+QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
+                   QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
+                   QCOSFloat* b, QCOSCscMatrix* G, QCOSFloat* h, QCOSInt l,
+                   QCOSInt ncones, QCOSInt* q, QCOSSettings* settings);
 
 /**
  * @brief Sets the data for a compressed sparse column matrix.
