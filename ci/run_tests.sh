@@ -1,1 +1,1 @@
-export CXX=/usr/local/bin/clang++ && export CC=/usr/local/bin/clang && cd build && cmake -DQCOS_BUILD_TYPE:STR=Debug .. && make && ctest --verbose && cd ..
+export CXX=/usr/local/bin/clang++ && export CC=/usr/local/bin/clang && cd build && cmake -DQCOS_BUILD_TYPE:STR=Debug -DENABLE_TESTING:BOOL=True .. && make && ctest --verbose && cd ..

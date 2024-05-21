@@ -2,8 +2,18 @@ include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("${PROJECT_SOURCE_DIR}/tests")
 include_directories("${PROJECT_SOURCE_DIR}/lib/qdldl/include")
 
-# Tests are only run in Debug mode.
-set(CMAKE_CXX_FLAGS "-g -march=native -Werror -Wall -Wextra -fsanitize=address,undefined")
+if(QCOS_BUILD_TYPE STREQUAL Debug)
+    set(QCOS_BUILD_TYPE ${QCOS_BUILD_TYPE})
+    add_compile_definitions(QCOS_DEBUG)
+    set(CMAKE_CXX_FLAGS "-g -march=native -Werror -Wall -Wextra -fsanitize=address,undefined")
+else()
+    set(QCOS_BUILD_TYPE Release)
+    set(CMAKE_CXX_FLAGS "-O3 -march=native -Werror -Wall -Wextra")
+endif()
+
+message(STATUS "Test Build Type: " ${QCOS_BUILD_TYPE})
+message(STATUS "Test Build Flags: " ${CMAKE_C_FLAGS})
+
 file(GLOB convex_tests "${PROJECT_SOURCE_DIR}/tests/convex_tests/*.cpp")
 file(GLOB unit_tests "${PROJECT_SOURCE_DIR}/tests/unit_tests/*.cpp")
 

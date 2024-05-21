@@ -18,6 +18,7 @@
 #include "enums.h"
 #include "error.h"
 #include "structs.h"
+#include <stdio.h>
 
 /**
  * @brief Validates solver settings.

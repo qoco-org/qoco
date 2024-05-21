@@ -3,6 +3,7 @@
 
 #include "definitions.h"
 #include "enums.h"
+#include <stdio.h>
 
 /**
  * @brief Function to print error messages.

@@ -41,13 +41,15 @@ target_include_directories(qcoslib PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_sources(qcoslib PRIVATE src/qcos_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qcos_error.c src/timer.c)
 
 # Test definitions.
-configure_file(CMakeLists.txt.in
-        googletest-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
-add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
-        ${CMAKE_BINARY_DIR}/googletest-build)
-enable_testing()
-add_subdirectory(tests)
+if(ENABLE_TESTING)
+    configure_file(CMakeLists.txt.in
+            googletest-download/CMakeLists.txt)
+    execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+    execute_process(COMMAND ${CMAKE_COMMAND} --build .
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+    add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
+            ${CMAKE_BINARY_DIR}/googletest-build)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
