@@ -16,6 +16,7 @@
 #define STRUCTS_H
 
 #include "definitions.h"
+#include "timer.h"
 
 /**
  * @brief Compressed sparse column format matrices.
@@ -161,6 +162,9 @@ typedef struct {
   /** Contains SOCP problem data. */
   QCOSProblemData* data;
 
+  /** Solve timer. */
+  QCOSTimer solve_timer;
+
   /** Contains all data related to KKT system. */
   QCOSKKT* kkt;
 
@@ -250,11 +254,8 @@ typedef struct {
   /* Number of iterations. */
   QCOSInt iters;
 
-  /* Setup time. */
-  QCOSFloat setup_time_ms;
-
   /* Solve time. */
-  QCOSFloat solve_time_ms;
+  QCOSFloat solve_time_sec;
 
   /* Optimal objective value. */
   QCOSFloat obj;

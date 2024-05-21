@@ -97,8 +97,7 @@ void print_footer(QCOSSolution* solution, enum qcos_solve_status status)
   printf("status:                %s\n", QCOS_SOLVE_STATUS_MESSAGE[status]);
   printf("number of iterations:  %d\n", solution->iters);
   printf("optimal objective:     %+.3f\n", solution->obj);
-  printf("setup time:            %.2e ms\n", solution->setup_time_ms);
-  printf("solve time:            %.2e ms\n", solution->solve_time_ms);
+  printf("solve time:            %.2e sec\n", solution->solve_time_sec);
   printf("\n");
 }
 
@@ -193,4 +192,7 @@ void copy_solution(QCOSSolver* solver)
   copy_arrayf(solver->work->s, solver->sol->s, solver->work->data->m);
   copy_arrayf(solver->work->y, solver->sol->y, solver->work->data->p);
   copy_arrayf(solver->work->z, solver->sol->z, solver->work->data->m);
+
+  solver->sol->solve_time_sec =
+      get_elapsed_time_sec(&(solver->work->solve_timer));
 }

@@ -162,6 +162,8 @@ void set_default_settings(QCOSSettings* settings)
 
 QCOSInt qcos_solve(QCOSSolver* solver)
 {
+  start_timer(&(solver->work->solve_timer));
+
   if (solver->settings->verbose) {
     print_header();
   }
@@ -179,6 +181,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
 
     // Check stopping criteria.
     if (check_stopping(solver)) {
+      stop_timer(&(solver->work->solve_timer));
       copy_solution(solver);
       solver->sol->status = QCOS_SOLVED;
       if (solver->settings->verbose) {
@@ -205,6 +208,8 @@ QCOSInt qcos_solve(QCOSSolver* solver)
     }
   }
 
+  stop_timer(&(solver->work->solve_timer));
+  copy_solution(solver);
   return QCOS_MAX_ITER;
 }
 
