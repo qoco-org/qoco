@@ -1,7 +1,8 @@
-include_directories("${PROJECT_SOURCE_DIR}/include")
-include_directories("${PROJECT_SOURCE_DIR}/tests")
-include_directories("${PROJECT_SOURCE_DIR}/tests/utils")
-include_directories("${PROJECT_SOURCE_DIR}/lib/qdldl/include")
+# Python requirement.
+find_package(Python COMPONENTS Interpreter)
+if (NOT Python_FOUND)
+  message(FATAL_ERROR "Python is required to generate data for tests.")
+endif()
 
 if(QCOS_BUILD_TYPE STREQUAL Debug)
     set(QCOS_BUILD_TYPE ${QCOS_BUILD_TYPE})
@@ -11,9 +12,13 @@ else()
     set(QCOS_BUILD_TYPE Release)
     set(CMAKE_CXX_FLAGS "-O3 -march=native -Werror -Wall -Wextra")
 endif()
-
 message(STATUS "Test Build Type: " ${QCOS_BUILD_TYPE})
 message(STATUS "Test Build Flags: " ${CMAKE_C_FLAGS})
+
+include_directories("${PROJECT_SOURCE_DIR}/include")
+include_directories("${PROJECT_SOURCE_DIR}/tests")
+include_directories("${PROJECT_SOURCE_DIR}/tests/utils")
+include_directories("${PROJECT_SOURCE_DIR}/lib/qdldl/include")
 
 # Unit tests.
 file(GLOB unit_tests "${PROJECT_SOURCE_DIR}/tests/unit_tests/*.cpp")
