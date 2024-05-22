@@ -2,6 +2,7 @@ import utils.codegen_functions as cgen
 from scipy import sparse
 import numpy as np
 
+
 def generate_double_integrator():
     P = sparse.diags([1., 2., 3., 4., 5., 6.])
     P = sparse.triu(P, format='csc')
@@ -19,7 +20,9 @@ def generate_double_integrator():
     ncones = 2
     q = np.array([2, 3])
 
-    cgen.generate_data(P, c, A, b, G, h, l, ncones, q, "ocp", "double_integrator")
+    cgen.generate_data(P, c, A, b, G, h, l, ncones, q,
+                       4.042, "ocp", "double_integrator")
     cgen.generate_test("ocp", "double_integrator")
+
 
 generate_double_integrator()

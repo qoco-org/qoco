@@ -178,8 +178,10 @@ unsigned char check_stopping(QCOSSolver* solver)
   gap_rel = qcos_max(gap_rel, btyabs);
   gap_rel = qcos_max(gap_rel, htzabs);
 
+  // if (solver->work->mu < eabs && pres < eabs + erel * pres_rel &&
+  //     dres < eabs + erel * dres_rel && gap < eabs + erel * gap_rel) {
   if (solver->work->mu < eabs && pres < eabs + erel * pres_rel &&
-      dres < eabs + erel * dres_rel && gap < eabs + erel * gap_rel) {
+      dres < eabs + erel * dres_rel) {
     return 1;
   }
   return 0;

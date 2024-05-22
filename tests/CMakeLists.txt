@@ -61,3 +61,15 @@ foreach(file ${ocp})
   target_link_libraries("${name}" qcoslib gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
+
+file(GLOB portfolio "${PROJECT_SOURCE_DIR}/tests/portfolio/*.cpp")
+foreach(file ${portfolio})
+  set(name)
+  get_filename_component(name ${file} NAME_WE)
+  add_executable("${name}"
+    "portfolio/${name}.cpp"
+    "${PROJECT_SOURCE_DIR}/tests/main.cpp"
+    "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
+  target_link_libraries("${name}" qcoslib gtest_main)
+  add_test(NAME ${name} COMMAND "${name}")
+endforeach()
