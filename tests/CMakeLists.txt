@@ -1,5 +1,6 @@
 include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("${PROJECT_SOURCE_DIR}/tests")
+include_directories("${PROJECT_SOURCE_DIR}/tests/utils")
 include_directories("${PROJECT_SOURCE_DIR}/lib/qdldl/include")
 
 if(QCOS_BUILD_TYPE STREQUAL Debug)
@@ -14,27 +15,44 @@ endif()
 message(STATUS "Test Build Type: " ${QCOS_BUILD_TYPE})
 message(STATUS "Test Build Flags: " ${CMAKE_C_FLAGS})
 
-file(GLOB convex_tests "${PROJECT_SOURCE_DIR}/tests/convex_tests/*.cpp")
+# Unit tests.
 file(GLOB unit_tests "${PROJECT_SOURCE_DIR}/tests/unit_tests/*.cpp")
-
-foreach(file ${convex_tests})
-  set(name)
-  get_filename_component(name ${file} NAME_WE)
-  add_executable("${name}"
-    "convex_tests/${name}.cpp"
-    "${PROJECT_SOURCE_DIR}/tests/main.cpp"
-    "${PROJECT_SOURCE_DIR}/tests/test_utils.cpp")
-  target_link_libraries("${name}" qcoslib gtest_main)
-  add_test(NAME ${name} COMMAND "${name}")
-endforeach()
-
 foreach(file ${unit_tests})
   set(name)
   get_filename_component(name ${file} NAME_WE)
   add_executable("${name}"
     "unit_tests/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
-    "${PROJECT_SOURCE_DIR}/tests/test_utils.cpp")
+    "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
+  target_link_libraries("${name}" qcoslib gtest_main)
+  add_test(NAME ${name} COMMAND "${name}")
+endforeach()
+
+# Simple convex tests.
+file(GLOB simple_tests "${PROJECT_SOURCE_DIR}/tests/simple_tests/*.cpp")
+foreach(file ${simple_tests})
+  set(name)
+  get_filename_component(name ${file} NAME_WE)
+  add_executable("${name}"
+    "simple_tests/${name}.cpp"
+    "${PROJECT_SOURCE_DIR}/tests/main.cpp"
+    "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
+  target_link_libraries("${name}" qcoslib gtest_main)
+  add_test(NAME ${name} COMMAND "${name}")
+endforeach()
+
+# Generate problem data.
+execute_process(COMMAND python generate_all_problem_data.py 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
+
+file(GLOB ocp "${PROJECT_SOURCE_DIR}/tests/ocp/*.cpp")
+foreach(file ${ocp})
+  set(name)
+  get_filename_component(name ${file} NAME_WE)
+  add_executable("${name}"
+    "ocp/${name}.cpp"
+    "${PROJECT_SOURCE_DIR}/tests/main.cpp"
+    "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
   target_link_libraries("${name}" qcoslib gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
