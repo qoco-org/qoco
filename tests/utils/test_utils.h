@@ -25,4 +25,14 @@ void expect_eq_vectorf(QCOSFloat* x, QCOSFloat* y, QCOSInt n, QCOSFloat tol);
  */
 void expect_eq_csc(QCOSCscMatrix* A, QCOSCscMatrix* B, QCOSFloat tol);
 
+/**
+ * @brief Utility function to test if
+ * |x-y|/|y| <= tol
+ *
+ * @param x Tested value.
+ * @param y True value.
+ * @param tol Tolerance.
+ */
+void expect_rel_error(QCOSFloat x, QCOSFloat y, QCOSFloat tol);
+
 #endif /* #ifndef TEST_UTILS_H */

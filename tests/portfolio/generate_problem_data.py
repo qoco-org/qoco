@@ -10,13 +10,13 @@ def generate_markowitz():
     rng = np.random.default_rng(12345)
 
     # Number of factors.
-    m = 100
+    f = 50
 
     # Number of assets.
-    n = 500
+    n = 100
 
     # Factor loading matrix.
-    F = sparse.random(m, n, density=0.25, random_state=rng)
+    F = sparse.random(f, n, density=0.25, random_state=rng)
     Pfull = F.T @ F + 0.1 * sparse.eye(n)
     P = sparse.triu(Pfull, format='csc')
     c = -rng.random(n)
@@ -32,18 +32,16 @@ def generate_markowitz():
     l = n
     ncones = 0
     q = None
-    # breakpoint()
 
+    # Solve with cvxpy.
     xvar = cp.Variable(n)
     prob = cp.Problem(cp.Minimize((1/2)*cp.quad_form(xvar, Pfull) + c.T @ xvar),
                       [G @ xvar <= h,
                        A @ xvar == b])
-    prob.solve(verbose=True)
-    print("\nThe optimal value is", prob.value)
-    print("A solution x is")
-    print(xvar.value)
+    prob.solve(verbose=False)
 
-    cgen.generate_data(P, c, A, b, G, h, l, ncones, q,
+    # Generate data file for unit test.
+    cgen.generate_data(n, n, 1, P, c, A, b, G, h, l, ncones, q,
                        prob.value, "portfolio", "markowitz")
     cgen.generate_test("portfolio", "markowitz")
 

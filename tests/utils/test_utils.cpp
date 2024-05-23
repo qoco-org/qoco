@@ -23,3 +23,12 @@ void expect_eq_csc(QCOSCscMatrix* A, QCOSCscMatrix* B, QCOSFloat tol)
 
   expect_eq_vectorf(A->x, B->x, A->nnz, tol);
 }
+
+void expect_rel_error(QCOSFloat x, QCOSFloat y, QCOSFloat tol)
+{
+  QCOSFloat err = x - y;
+  err = qcos_abs(err);
+  QCOSFloat yabs = qcos_abs(y);
+  err = err / yabs;
+  EXPECT_LE(err, tol);
+}

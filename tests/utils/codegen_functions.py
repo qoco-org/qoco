@@ -31,10 +31,16 @@ def write_vector_float(f, x, name):
 
 
 def write_csc_matrix(f, M, name):
-    write_int(f, M.nnz, name + "_nnz")
-    write_vector_float(f, M.data, name + "_x")
-    write_vector_int(f, M.indices, name + "_i")
-    write_vector_int(f, M.indptr, name + "_p")
+    if M is None:
+        write_int(f, 0, name + "_nnz")
+        write_vector_float(f, None, name + "_x")
+        write_vector_int(f, None, name + "_i")
+        write_vector_int(f, None, name + "_p")
+    else:
+        write_int(f, M.nnz, name + "_nnz")
+        write_vector_float(f, M.data, name + "_x")
+        write_vector_int(f, M.indices, name + "_i")
+        write_vector_int(f, M.indptr, name + "_p")
 
 
 def generate_test(problem_name, test_name):
@@ -49,18 +55,37 @@ def generate_test(problem_name, test_name):
     f.write("#include \"" + test_name + "_" + "data.h\"\n\n")
     f.write("TEST(%s, %s)\n" % (problem_name + "_test", test_name))
     f.write("{\n")
-
     # Allocate and set sparse matrix data.
     f.write("    // Allocate and set sparse matrix data.\n")
-    f.write("    QCOSCscMatrix* P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));\n")
-    f.write("    QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));\n")
-    f.write("    QCOSCscMatrix* G = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));\n\n")
-    f.write("    qcos_set_csc(P, " + test_name + "_n, " + test_name + "_n, " + test_name + "_P_nnz, "
+    f.write("    QCOSCscMatrix* P;\n")
+    f.write("    QCOSCscMatrix* A;\n")
+    f.write("    QCOSCscMatrix* G;\n")
+    f.write("    if("+ test_name + "_P_nnz > 0) {\n")
+    f.write("        P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));\n")
+    f.write("        qcos_set_csc(P, " + test_name + "_n, " + test_name + "_n, " + test_name + "_P_nnz, "
             + test_name + "_P_x, " + test_name + "_P_p, " + test_name + "_P_i);\n")
-    f.write("    qcos_set_csc(A, " + test_name + "_p, " + test_name + "_n, " + test_name + "_A_nnz, "
+    f.write("    }\n")
+    f.write("    else {\n")
+    f.write("        P = nullptr;\n")
+    f.write("    }\n")
+    f.write("    if("+ test_name + "_A_nnz > 0) {\n")
+    f.write("        A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));\n")
+    f.write("        qcos_set_csc(A, " + test_name + "_p, " + test_name + "_n, " + test_name + "_A_nnz, "
             + test_name + "_A_x, " + test_name + "_A_p, " + test_name + "_A_i);\n")
-    f.write("    qcos_set_csc(G, " + test_name + "_m, " + test_name + "_n, " + test_name + "_G_nnz, "
-            + test_name + "_G_x, " + test_name + "_G_p, " + test_name + "_G_i);\n\n")
+    f.write("    }\n")
+    f.write("    else {\n")
+    f.write("        A = nullptr;\n")
+    f.write("    }\n")
+    f.write("    if("+ test_name + "_G_nnz > 0) {\n")
+    f.write("        G = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));\n")
+    f.write("        qcos_set_csc(G, " + test_name + "_m, " + test_name + "_n, " + test_name + "_G_nnz, "
+            + test_name + "_G_x, " + test_name + "_G_p, " + test_name + "_G_i);\n")
+    f.write("    }\n")
+    f.write("    else {\n")
+    f.write("        G = nullptr;\n")
+    f.write("    }\n")
+
+
 
     # Allocate settings struct.
     f.write(
@@ -73,7 +98,8 @@ def generate_test(problem_name, test_name):
     f.write("    ASSERT_EQ(exit, QCOS_NO_ERROR);\n\n")
     f.write("    exit = qcos_solve(solver);\n")
     f.write("    ASSERT_EQ(exit, QCOS_SOLVED);\n\n")
-    f.write("    ASSERT_NEAR(solver->sol->obj, " +
+    f.write("    // Expect relative error of objective to be less that 0.01%\n")
+    f.write("    expect_rel_error(solver->sol->obj, " +
             test_name + "_objopt, 1e-4);\n\n")
 
     # Cleanup memory allocations.
@@ -86,11 +112,7 @@ def generate_test(problem_name, test_name):
     f.write("}\n")
 
 
-def generate_data(P, c, A, b, G, h, l, ncones, q, objopt, problem_name, test_name):
-
-    p, n = A.shape
-    m, _ = G.shape
-
+def generate_data(n, m, p, P, c, A, b, G, h, l, ncones, q, objopt, problem_name, test_name):
     # Create data file.
     f = open(problem_name + "/" + test_name + "_" + "data.h", "w")
 
