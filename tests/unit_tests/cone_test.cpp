@@ -57,7 +57,7 @@ TEST(cone, cone_product_test)
 {
   constexpr QCOSInt n = 5;
   constexpr QCOSInt l = 3;
-  constexpr QCOSInt ncones = 2;
+  constexpr QCOSInt nsoc = 2;
   QCOSInt q[] = {5, 5};
 
   QCOSFloat x[] = {6.0, 7.0, 8.0, 1.0, 2.0, 3.0, 4.0,
@@ -69,7 +69,7 @@ TEST(cone, cone_product_test)
                            40.0, 130.0, 19.0, 26.0,  33.0, 40.0};
   QCOSFloat tol = 1e-12;
 
-  cone_product(x, y, p, l, ncones, q);
+  cone_product(x, y, p, l, nsoc, q);
   expect_eq_vectorf(p, pexpected, n, tol);
 }
 
@@ -77,7 +77,7 @@ TEST(cone, cone_division_test)
 {
   constexpr QCOSInt n = 5;
   constexpr QCOSInt l = 3;
-  constexpr QCOSInt ncones = 2;
+  constexpr QCOSInt nsoc = 2;
   QCOSInt q[] = {5, 5};
   QCOSFloat x[] = {6.0, 7.0, 8.0, 1.0, 2.0, 3.0, 4.0,
                    5.0, 1.0, 2.0, 3.0, 4.0, 5.0};
@@ -99,7 +99,7 @@ TEST(cone, cone_division_test)
                            -1.1320754716981127};
   QCOSFloat tol = 1e-12;
 
-  cone_division(x, y, d, l, ncones, q);
+  cone_division(x, y, d, l, nsoc, q);
   expect_eq_vectorf(d, dexpected, n, tol);
 }
 
@@ -107,14 +107,14 @@ TEST(cone, cone_division_test)
 // {
 //   constexpr QCOSInt n = 5;
 //   constexpr QCOSInt l = 3;
-//   constexpr QCOSInt ncones = 2;
+//   constexpr QCOSInt nsoc = 2;
 //   QCOSInt q[] = {5, 4};
 //   QCOSFloat x[] =
 //   {6.0, 7.0, 8.0, 1.0, 2.0, 3.0, 4.0, 5.0, 1.0, 2.0, 3.0, 4.0};
 
 //   QCOSFloat res_expected = ;
 
-//   QCOSFloat res = cone_residual(x, l, ncones, q);
+//   QCOSFloat res = cone_residual(x, l, nsoc, q);
 //   EXPECT_NEAR(res, res_expected, tol);
 //   EXPECT_EQ(1, 1);
 // }

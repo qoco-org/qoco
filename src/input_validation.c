@@ -42,12 +42,12 @@ QCOSInt qcos_validate_settings(QCOSSettings* settings)
 QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
                            const QCOSCscMatrix* A, const QCOSFloat* b,
                            const QCOSCscMatrix* G, const QCOSFloat* h,
-                           const QCOSInt l, const QCOSInt ncones,
+                           const QCOSInt l, const QCOSInt nsoc,
                            const QCOSInt* q)
 {
 
   // If there are second-order cones, then the cone dimensions must be provided.
-  if (!q && ncones != 0) {
+  if (!q && nsoc != 0) {
     printf("Data validation error: Provide second-order cone dimensions.");
     return QCOS_DATA_VALIDATION_ERROR;
   }
@@ -87,7 +87,7 @@ QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
 
   // l + sum(q) should be equal to m.
   QCOSInt sum = l;
-  for (QCOSInt i = 0; i < ncones; ++i) {
+  for (QCOSInt i = 0; i < nsoc; ++i) {
     sum += q[i];
   }
   if (G && sum != G->m) {
@@ -101,9 +101,9 @@ QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
     return QCOS_DATA_VALIDATION_ERROR;
   }
 
-  // ncones must be non-negative.
-  if (ncones < 0) {
-    printf("Data validation error: ncones must be non-negative.");
+  // nsoc must be non-negative.
+  if (nsoc < 0) {
+    printf("Data validation error: nsoc must be non-negative.");
     return QCOS_DATA_VALIDATION_ERROR;
   }
 

@@ -68,11 +68,11 @@ QCOSFloat soc_residual2(const QCOSFloat* u, QCOSInt n);
  * @param v Input vector.
  * @param p Cone product of u and v.
  * @param l Dimension of LP cone.
- * @param ncones Number of second-order cones.
+ * @param nsoc Number of second-order cones.
  * @param q Dimension of each second-order cone.
  */
 void cone_product(const QCOSFloat* u, const QCOSFloat* v, QCOSFloat* p,
-                  QCOSInt l, QCOSInt ncones, const QCOSInt* q);
+                  QCOSInt l, QCOSInt nsoc, const QCOSInt* q);
 
 /**
  * @brief Computed cone division lambda # v = d
@@ -81,23 +81,23 @@ void cone_product(const QCOSFloat* u, const QCOSFloat* v, QCOSFloat* p,
  * @param v Input vector.
  * @param d Cone quotient of lambda and v.
  * @param l Dimension of LP cone.
- * @param ncones Number of second-order cones.
+ * @param nsoc Number of second-order cones.
  * @param q Dimension of each second-order cone.
  */
 void cone_division(const QCOSFloat* lambda, const QCOSFloat* v, QCOSFloat* d,
-                   QCOSInt l, QCOSInt ncones, const QCOSInt* q);
+                   QCOSInt l, QCOSInt nsoc, const QCOSInt* q);
 
 /**
  * @brief Computes residual of vector u with respect to cone C.
  *
  * @param u Vector to be tested.
  * @param l Dimension of LP cone.
- * @param ncones Number of second-order cones.
+ * @param nsoc Number of second-order cones.
  * @param q Dimension of each second-order cone.
  * @return Residual: Negative if the vector is in the cone and positive
  * otherwise.
  */
-QCOSFloat cone_residual(const QCOSFloat* u, QCOSInt l, QCOSInt ncones,
+QCOSFloat cone_residual(const QCOSFloat* u, QCOSInt l, QCOSInt nsoc,
                         const QCOSInt* q);
 
 /**
@@ -120,11 +120,11 @@ void bring2cone(QCOSFloat* u, QCOSProblemData* data);
  * @param z Output vector.
  * @param l Dimension of LP cone.
  * @param m Length of x.
- * @param ncones Number of second-order cones in C.
+ * @param nsoc Number of second-order cones in C.
  * @param q Array of second-order cone dimensions.
  */
 void nt_multiply(QCOSFloat* W, QCOSFloat* x, QCOSFloat* z, QCOSInt l, QCOSInt m,
-                 QCOSInt ncones, QCOSInt* q);
+                 QCOSInt nsoc, QCOSInt* q);
 
 /**
  * @brief Computes gap (z'*s / m) and stores in work->mu.

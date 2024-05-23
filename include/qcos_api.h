@@ -48,7 +48,7 @@
  * @param G Conic constraint matrix in CSC form.
  * @param h Conic constraint offset vector.
  * @param l Dimension of non-negative orthant.
- * @param ncones Number of second-order cones.
+ * @param nsoc Number of second-order cones.
  * @param q Dimension of each second-order cone.
  * @param settings Settings struct.
  * @return error code.
@@ -56,7 +56,7 @@
 QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
                    QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
                    QCOSFloat* b, QCOSCscMatrix* G, QCOSFloat* h, QCOSInt l,
-                   QCOSInt ncones, QCOSInt* q, QCOSSettings* settings);
+                   QCOSInt nsoc, QCOSInt* q, QCOSSettings* settings);
 
 /**
  * @brief Sets the data for a compressed sparse column matrix.

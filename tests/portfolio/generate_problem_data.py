@@ -30,7 +30,7 @@ def generate_markowitz():
     h = np.zeros(n)
 
     l = n
-    ncones = 0
+    nsoc = 0
     q = None
 
     # Solve with cvxpy.
@@ -41,7 +41,7 @@ def generate_markowitz():
     prob.solve(verbose=False)
 
     # Generate data file for unit test.
-    cgen.generate_data(n, n, 1, P, c, A, b, G, h, l, ncones, q,
+    cgen.generate_data(n, n, 1, P, c, A, b, G, h, l, nsoc, q,
                        prob.value, "portfolio", "markowitz")
     cgen.generate_test("portfolio", "markowitz")
 

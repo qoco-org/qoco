@@ -94,7 +94,7 @@ def generate_test(problem_name, test_name):
     f.write("    settings->verbose = 1;\n")
     f.write("    QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));\n\n")
     f.write("    QCOSInt exit = qcos_setup(solver, " + test_name + "_n, " + test_name + "_m, " + test_name + "_p, P, " + test_name + "_c, A, " +
-            test_name + "_b, G, " + test_name + "_h, " + test_name + "_l, " + test_name + "_ncones, " + test_name + "_q, settings);\n")
+            test_name + "_b, G, " + test_name + "_h, " + test_name + "_l, " + test_name + "_nsoc, " + test_name + "_q, settings);\n")
     f.write("    ASSERT_EQ(exit, QCOS_NO_ERROR);\n\n")
     f.write("    exit = qcos_solve(solver);\n")
     f.write("    ASSERT_EQ(exit, QCOS_SOLVED);\n\n")
@@ -112,7 +112,7 @@ def generate_test(problem_name, test_name):
     f.write("}\n")
 
 
-def generate_data(n, m, p, P, c, A, b, G, h, l, ncones, q, objopt, problem_name, test_name):
+def generate_data(n, m, p, P, c, A, b, G, h, l, nsoc, q, objopt, problem_name, test_name):
     # Create data file.
     f = open(problem_name + "/" + test_name + "_" + "data.h", "w")
 
@@ -132,7 +132,7 @@ def generate_data(n, m, p, P, c, A, b, G, h, l, ncones, q, objopt, problem_name,
     write_int(f, m, test_name + "_m")
     write_int(f, p, test_name + "_p")
     write_int(f, l, test_name + "_l")
-    write_int(f, ncones, test_name + "_ncones")
+    write_int(f, nsoc, test_name + "_nsoc")
     write_vector_int(f, q, test_name + "_q")
     f.write("\n")
 

@@ -70,9 +70,9 @@ typedef struct {
   QCOSInt l;
 
   /** Number of second-order cones in C */
-  QCOSInt ncones;
+  QCOSInt nsoc;
 
-  /** Dimension of each second-order cone (length of ncones)*/
+  /** Dimension of each second-order cone (length of nsoc)*/
   QCOSInt* q;
 
   /** Number of primal variables. */

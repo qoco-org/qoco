@@ -46,13 +46,13 @@ def generate_pdg():
     # Double integrator dynamics.
     Ad = np.block([[np.eye(nu), dt*np.eye(nu)],[np.zeros((nu,nu)), np.eye(nu)]])
     Bd = np.block([[0.5*dt**2*np.eye(nu)],[dt*np.eye(nu)]])
-    gvec = np.array([0, 0, -0.5*g0*dt**2, 0, 0, -g0*dt])
+    g = np.array([0, 0, -0.5*g0*dt**2, 0, 0, -g0*dt])
 
     # Parse dynamics constraint.
     Ax = np.block([np.kron(np.eye(N-1), Ad), np.zeros((nx*(N - 1), nx))]) - np.block([np.zeros((nx*(N-1), nx)), np.eye(nx*(N - 1))])
     Au = np.kron(np.eye(N-1), Bd)
     Adyn = np.block([Ax, Au])
-    bdyn = np.kron(np.ones(N - 1), -gvec)
+    bdyn = np.kron(np.ones(N - 1), -g)
 
     # Parse boundary conditions.
     Aic = np.block([np.eye(nx), np.zeros((nx, nx * (N - 1))), np.zeros((nx, nu * (N - 1)))])
@@ -72,7 +72,7 @@ def generate_pdg():
     h = None
     l = 0
     q = None
-    ncones = 0
+    nsoc = 0
 
     # Solve with cvxpy.
     xvar = cp.Variable((nx, N))
@@ -81,11 +81,12 @@ def generate_pdg():
     con = [xvar[:, 0] == xi, xvar[:,N - 1] == xf]
     for i in range(N - 1):
         obj += (1/2)*(cp.quad_form(xvar[:,i], Q) + cp.quad_form(uvar[:,i], R))
-        con += [xvar[:, i + 1] == Ad @ xvar[:, i] + Bd @ uvar[:, i] + gvec]
+        con += [xvar[:, i + 1] == Ad @ xvar[:, i] + Bd @ uvar[:, i] + g]
     obj += (1/2)*(cp.quad_form(xvar[:,N - 1], Q))
     prob = cp.Problem(cp.Minimize(obj), con)
     prob.solve(verbose=True)
 
+    # data, chain, inverse_data = prob.get_problem_data(cp.SCS)
     # unorm = np.zeros(N - 1)
     # for i in range(N - 1):
     #     unorm[i] = np.linalg.norm(uvar.value[:, i])
@@ -100,7 +101,7 @@ def generate_pdg():
     # plt.show()
 
     # Generate data file for unit test.
-    cgen.generate_data(n, m, p, P, c, A, b, G, h, l, ncones, q,
+    cgen.generate_data(n, m, p, P, c, A, b, G, h, l, nsoc, q,
                        prob.value, "ocp", "pdg")
     cgen.generate_test("ocp", "pdg")
 

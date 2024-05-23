@@ -55,7 +55,7 @@ QCOSFloat soc_residual2(const QCOSFloat* u, QCOSInt n)
 }
 
 void cone_product(const QCOSFloat* u, const QCOSFloat* v, QCOSFloat* p,
-                  QCOSInt l, QCOSInt ncones, const QCOSInt* q)
+                  QCOSInt l, QCOSInt nsoc, const QCOSInt* q)
 {
   QCOSInt idx;
   // Compute LP cone product.
@@ -64,14 +64,14 @@ void cone_product(const QCOSFloat* u, const QCOSFloat* v, QCOSFloat* p,
   }
 
   // Compute second-order cone product.
-  for (QCOSInt i = 0; i < ncones; ++i) {
+  for (QCOSInt i = 0; i < nsoc; ++i) {
     soc_product(&u[idx], &v[idx], &p[idx], q[i]);
     idx += q[i];
   }
 }
 
 void cone_division(const QCOSFloat* lambda, const QCOSFloat* v, QCOSFloat* d,
-                   QCOSInt l, QCOSInt ncones, const QCOSInt* q)
+                   QCOSInt l, QCOSInt nsoc, const QCOSInt* q)
 {
   QCOSInt idx;
   // Compute LP cone division.
@@ -80,13 +80,13 @@ void cone_division(const QCOSFloat* lambda, const QCOSFloat* v, QCOSFloat* d,
   }
 
   // Compute second-order cone division.
-  for (QCOSInt i = 0; i < ncones; ++i) {
+  for (QCOSInt i = 0; i < nsoc; ++i) {
     soc_division(&lambda[idx], &v[idx], &d[idx], q[i]);
     idx += q[i];
   }
 }
 
-QCOSFloat cone_residual(const QCOSFloat* u, QCOSInt l, QCOSInt ncones,
+QCOSFloat cone_residual(const QCOSFloat* u, QCOSInt l, QCOSInt nsoc,
                         const QCOSInt* q)
 {
   QCOSFloat res = -1e7;
@@ -99,7 +99,7 @@ QCOSFloat cone_residual(const QCOSFloat* u, QCOSInt l, QCOSInt ncones,
   }
 
   // Compute second-order cone residual.
-  for (QCOSInt i = 0; i < ncones; ++i) {
+  for (QCOSInt i = 0; i < nsoc; ++i) {
     res = qcos_max(res, soc_residual(&u[idx], q[i]));
     idx += q[i];
   }
@@ -109,7 +109,7 @@ QCOSFloat cone_residual(const QCOSFloat* u, QCOSInt l, QCOSInt ncones,
 
 void bring2cone(QCOSFloat* u, QCOSProblemData* data)
 {
-  if (cone_residual(u, data->l, data->ncones, data->q) >= 0) {
+  if (cone_residual(u, data->l, data->nsoc, data->q) >= 0) {
     QCOSFloat a = 0.0;
 
     // Get a for for LP cone.
@@ -120,7 +120,7 @@ void bring2cone(QCOSFloat* u, QCOSProblemData* data)
     a = qcos_max(a, 0.0);
 
     // Get a for second-order cone.
-    for (QCOSInt i = 0; i < data->ncones; ++i) {
+    for (QCOSInt i = 0; i < data->nsoc; ++i) {
       QCOSFloat soc_res = soc_residual(&u[idx], data->q[i]);
       if (soc_res > 0 && soc_res > a) {
         a = soc_res;
@@ -134,7 +134,7 @@ void bring2cone(QCOSFloat* u, QCOSProblemData* data)
     }
 
     // Compute u + (1 + a) * e for second-order cones.
-    for (QCOSInt i = 0; i < data->ncones; ++i) {
+    for (QCOSInt i = 0; i < data->nsoc; ++i) {
       u[idx] += (1 + a);
       idx += data->q[i];
     }
@@ -142,7 +142,7 @@ void bring2cone(QCOSFloat* u, QCOSProblemData* data)
 }
 
 void nt_multiply(QCOSFloat* W, QCOSFloat* x, QCOSFloat* z, QCOSInt l, QCOSInt m,
-                 QCOSInt ncones, QCOSInt* q)
+                 QCOSInt nsoc, QCOSInt* q)
 {
   // Compute product for LP cone part of W.
   for (QCOSInt i = 0; i < l; ++i) {
@@ -159,7 +159,7 @@ void nt_multiply(QCOSFloat* W, QCOSFloat* x, QCOSFloat* z, QCOSInt l, QCOSInt m,
   }
 
   // Loop over all second-order cones.
-  for (QCOSInt i = 0; i < ncones; ++i) {
+  for (QCOSInt i = 0; i < nsoc; ++i) {
     // Loop over elements within a second-order cone.
     for (QCOSInt j = 0; j < q[i]; ++j) {
       z[idx + j] += dot(&W[nt_idx + j * q[i]], &x[idx], q[i]);
@@ -191,7 +191,7 @@ void compute_nt_scaling(QCOSWorkspace* work)
   // Compute Nesterov-Todd scaling for second-order cones.
   QCOSInt nt_idx = idx;
   QCOSInt nt_idx_full = idx;
-  for (QCOSInt i = 0; i < work->data->ncones; ++i) {
+  for (QCOSInt i = 0; i < work->data->nsoc; ++i) {
     // Compute normalized vectors.
     QCOSFloat s_scal = soc_residual2(&work->s[idx], work->data->q[i]);
     s_scal = qcos_sqrt(s_scal);
@@ -272,7 +272,7 @@ void compute_nt_scaling(QCOSWorkspace* work)
 
   // Compute scaled variable lambda. lambda = W * z.
   nt_multiply(work->Wfull, work->z, work->lambda, work->data->l, work->data->m,
-              work->data->ncones, work->data->q);
+              work->data->nsoc, work->data->q);
 }
 
 void compute_centering(QCOSSolver* solver)
@@ -306,7 +306,7 @@ QCOSFloat linesearch(QCOSFloat* u, QCOSFloat* Du, QCOSFloat f,
   for (QCOSInt i = 0; i < solver->settings->max_iter_bisection; ++i) {
     a = 0.5 * (al + au);
     axpy(Du, u, work->ubuff1, safe_div(a, f), work->data->m);
-    if (cone_residual(work->ubuff1, work->data->l, work->data->ncones,
+    if (cone_residual(work->ubuff1, work->data->l, work->data->nsoc,
                       work->data->q) >= 0) {
       au = a;
     }

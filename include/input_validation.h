@@ -38,14 +38,14 @@ QCOSInt qcos_validate_settings(QCOSSettings* settings);
  * @param G Conic constraint matrix in CSC form
  * @param h Conic constraint offset vector
  * @param l Dimension of non-negative orthant
- * @param ncones Number of second-order cones
+ * @param nsoc Number of second-order cones
  * @param q Dimension of each second-order cone
  * @return Exitflag to check (0 for success, failure otherwise)
  */
 QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
                            const QCOSCscMatrix* A, const QCOSFloat* b,
                            const QCOSCscMatrix* G, const QCOSFloat* h,
-                           const QCOSInt l, const QCOSInt ncones,
+                           const QCOSInt l, const QCOSInt nsoc,
                            const QCOSInt* q);
 
 #endif /* #ifndef INPUT_VALIDATION_H */

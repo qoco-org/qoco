@@ -13,10 +13,10 @@
 QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
                    QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
                    QCOSFloat* b, QCOSCscMatrix* G, QCOSFloat* h, QCOSInt l,
-                   QCOSInt ncones, QCOSInt* q, QCOSSettings* settings)
+                   QCOSInt nsoc, QCOSInt* q, QCOSSettings* settings)
 {
   // Validate problem data.
-  if (qcos_validate_data(P, c, A, b, G, h, l, ncones, q)) {
+  if (qcos_validate_data(P, c, A, b, G, h, l, nsoc, q)) {
     return qcos_error(QCOS_DATA_VALIDATION_ERROR);
   }
 
@@ -55,7 +55,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   copy_arrayf(h, solver->work->data->h, m);
   solver->work->data->q = q;
   solver->work->data->l = l;
-  solver->work->data->ncones = ncones;
+  solver->work->data->nsoc = nsoc;
 
   // Copy and regularize P.
   if (P) {
@@ -84,7 +84,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
 
   // Allocate Nesterov-Todd scalings and scaled variables.
   QCOSInt Wnnzfull = solver->work->data->l;
-  for (QCOSInt i = 0; i < solver->work->data->ncones; ++i) {
+  for (QCOSInt i = 0; i < solver->work->data->nsoc; ++i) {
     Wnnzfull += solver->work->data->q[i] * solver->work->data->q[i];
   }
 
@@ -96,7 +96,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->work->lambda = qcos_malloc(m * sizeof(QCOSFloat));
   QCOSInt qmax = 0;
   if (solver->work->data->q) {
-    qmax = max_arrayi(solver->work->data->q, solver->work->data->ncones);
+    qmax = max_arrayi(solver->work->data->q, solver->work->data->nsoc);
   }
   solver->work->sbar = qcos_malloc(qmax * sizeof(QCOSFloat));
   solver->work->zbar = qcos_malloc(qmax * sizeof(QCOSFloat));

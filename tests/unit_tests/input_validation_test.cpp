@@ -9,7 +9,7 @@ TEST(input_validation, settings_validation)
   QCOSInt m = 6;
   QCOSInt n = 6;
   QCOSInt l = 3;
-  QCOSInt ncones = 1;
+  QCOSInt nsoc = 1;
 
   QCOSFloat Px[] = {1, 2, 3, 4, 5, 6};
   QCOSInt Pnnz = 6;
@@ -45,31 +45,31 @@ TEST(input_validation, settings_validation)
   set_default_settings(settings);
   settings->max_iter_bisection = 0;
   QCOSInt exit =
-      qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
+      qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
   settings->max_iter_bisection = -1;
-  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
 
   set_default_settings(settings);
   settings->max_iters = 0;
-  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
   settings->max_iters = -1;
-  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
 
   set_default_settings(settings);
   settings->abstol = 0;
-  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
   settings->abstol = -1e-6;
-  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
 
   set_default_settings(settings);
   settings->reltol = -1e-6;
-  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, ncones, q, settings);
+  exit = qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   EXPECT_EQ(exit, QCOS_SETTINGS_VALIDATION_ERROR);
 
   free(solver);
