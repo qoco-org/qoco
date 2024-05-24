@@ -13,12 +13,6 @@ def generate_pdg():
     # Discretization interval.
     dt = 1
 
-    # Number of states.
-    nx = 6
-
-    # Number of control inputs.
-    nu = 3
-
     # Gravitational acceleration.
     g0 = 9.8
 
@@ -26,75 +20,93 @@ def generate_pdg():
     zi = np.array([10,10,100,0,0,0])
 
     # Terminal condition.
-    zf = np.zeros(nx)
+    zf = np.zeros(6)
 
     # State cost matrix.
-    Q = sparse.eye(nx)
+    Q = 1.0 * sparse.eye(6)
 
     # Input cost matrix.
-    R = 5.0 * sparse.eye(nu)
+    R = 5.0 * sparse.eye(3)
 
     # Max inf norm on velocity.
     vmax = 10.0
 
-    n = nx * N + nu * (N - 1)
+    # Maximum thrust
+    umax = 12.0
+
+    n = 9 * N - 2
 
     # Parse cost function.
     Qfull = sparse.kron(sparse.eye(N), Q)
     Rfull = sparse.kron(sparse.eye(N - 1), R)
-    P = sparse.block_diag((Qfull, Rfull))
-    P = sparse.triu(P, format='csc')
-    c = np.zeros(nx * N + nu * (N - 1))
+    P = sparse.block_diag((Qfull, Rfull, 0.0*sparse.eye(1)))
+    c = np.zeros(n)
 
     # Double integrator dynamics.
-    Ad = np.block([[np.eye(nu), dt*np.eye(nu)],[np.zeros((nu,nu)), np.eye(nu)]])
-    Bd = np.block([[0.5*dt**2*np.eye(nu)],[dt*np.eye(nu)]])
+    Ad = np.block([[np.eye(3), dt*np.eye(3)],[np.zeros((3,3)), np.eye(3)]])
+    Bd = np.block([[0.5*dt**2*np.eye(3)],[dt*np.eye(3)]])
     g = np.array([0, 0, -0.5*g0*dt**2, 0, 0, -g0*dt])
 
     # Parse dynamics constraint.
-    Ax = np.block([np.kron(np.eye(N-1), Ad), np.zeros((nx*(N - 1), nx))]) - np.block([np.zeros((nx*(N-1), nx)), np.eye(nx*(N - 1))])
-    Au = np.kron(np.eye(N-1), Bd)
-    Adyn = np.block([Ax, Au])
-    bdyn = np.kron(np.ones(N - 1), -g)
+    Azdyn = np.block([np.kron(np.eye(N-1), Ad), np.zeros((6*(N - 1), 6))]) - np.block([np.zeros((6*(N-1), 6)), np.eye(6*(N - 1))])
+    Audyn = np.kron(np.eye(N-1), Bd)
+    Axidyn = np.zeros((6*(N - 1), 1))
 
     # Parse boundary conditions.
-    Aic = np.block([np.eye(nx), np.zeros((nx, nx * (N - 1))), np.zeros((nx, nu * (N - 1)))])
-    Atc = np.block([np.zeros((nx, nx * (N - 1))), np.eye(nx), np.zeros((nx, nu * (N - 1)))])
-    Abc = np.block([[Aic],[Atc]])
-    bbc = np.hstack((zi, zf))
+    Azbc = np.block([[np.eye(6), np.zeros((6, 6*(N-1)))],[np.zeros((6, 6*(N-1))), np.eye(6)]])
+    Aubc = np.zeros((12, 3 * (N - 1)))
+    Axibc = np.zeros((12, 1))
+
+    # Parse slack variable.
+    Azslack = np.zeros((1, 6*N))
+    Auslack = np.zeros((1, 3*(N - 1)))
+    Axislack = np.array([1.0])
 
     # Combine dynamics and boundary conditions into equality constraint matrix A, and vector b.
-    A = np.block([[Adyn],[Abc]])
-    A = sparse.csc_matrix(A)
-    b = np.hstack((bdyn, bbc))
-    p, _ = A.shape
+    A = np.block([[Azdyn, Audyn, Axidyn],[Azbc, Aubc, Axibc],[Azslack, Auslack, Axislack]])
+    b = np.hstack((np.kron(np.ones(N - 1), -g), zi, zf, umax))
+    p = 6 * N + 7
 
-    Gub = np.kron(np.eye(N), np.block([np.zeros((3,3)), np.eye(3)]))
-    Glb = np.kron(np.eye(N), np.block([np.zeros((3,3)), -np.eye(3)]))
-    G = np.block([[Gub],[Glb]])
-    h = vmax * np.ones((6 * N))
-    G = np.block([G, np.zeros((nx * N, nu*(N-1)))])
-    G = sparse.csc_matrix(G)
+    # Parse velocity constraint.
+    Gzvelocity = np.block([[np.kron(np.eye(N), np.block([np.zeros((3,3)), np.eye(3)]))], \
+                           [np.kron(np.eye(N), np.block([np.zeros((3,3)), -np.eye(3)]))]])
+    Guvelocity = np.zeros((6 * N, 3*(N-1)))
+    Gxivelocity = np.zeros((6*N, 1))
+
+    # Parse thrust constraint.
+    Gzthrust = np.zeros((4*(N-1), 6*N))
+    Guthrust = np.kron(np.eye(N - 1), np.block([[np.zeros((1,3))],[-np.eye(3)]]))
+    Gxithrust = np.kron(np.ones(N-1), np.array([-1,0,0,0]))
+    Gxithrust = np.asmatrix(Gxithrust).T
+    G = np.block([[Gzvelocity, Guvelocity, Gxivelocity], [Gzthrust, Guthrust, Gxithrust]])
+    h = np.hstack((vmax * np.ones((6 * N)), np.zeros(4*(N-1))))
+
+    l = 6 * N
     m, _ = G.shape
-    l = m
 
-    q = None
-    nsoc = 0
+    q = 4 * np.ones(N - 1)
+    nsoc = N - 1
+
+    # Convert to sparse data type.
+    P = sparse.triu(P, format='csc')
+    A = sparse.csc_matrix(A)
+    G = sparse.csc_matrix(G)
 
     # Solve with cvxpy.
-    zvar = cp.Variable((nx, N))
-    uvar = cp.Variable((nu, N - 1))
+    zvar = cp.Variable((6, N))
+    uvar = cp.Variable((3, N - 1))
     obj = 0
     con = [zvar[:, 0] == zi, zvar[:,N - 1] == zf]
     for i in range(N - 1):
         obj += (1/2)*(cp.quad_form(zvar[:,i], Q) + cp.quad_form(uvar[:,i], R))
         con += [zvar[:, i + 1] == Ad @ zvar[:, i] + Bd @ uvar[:, i] + g]
-        con += [cp.norm_inf(zvar[4:6,:]) <= vmax]
+        con += [cp.norm_inf(zvar[4:6,i]) <= vmax]
+        con += [cp.norm(uvar[:,i]) <= umax]
     obj += (1/2)*(cp.quad_form(zvar[:,N - 1], Q))
     prob = cp.Problem(cp.Minimize(obj), con)
     prob.solve(verbose=True)
 
-    # # data, chain, inverse_data = prob.get_problem_data(cp.SCS)
+    # data, chain, inverse_data = prob.get_problem_data(cp.SCS)
     # unorm = np.zeros(N - 1)
     # for i in range(N - 1):
     #     unorm[i] = np.linalg.norm(uvar.value[:, i])
