@@ -23,16 +23,19 @@ def generate_pdg():
     g0 = 9.8
 
     # Initial condition.
-    xi = np.array([10,10,100,0,0,0])
+    zi = np.array([10,10,100,0,0,0])
 
     # Terminal condition.
-    xf = np.zeros(nx)
+    zf = np.zeros(nx)
 
     # State cost matrix.
     Q = sparse.eye(nx)
 
     # Input cost matrix.
     R = 5.0 * sparse.eye(nu)
+
+    # Max inf norm on velocity.
+    vmax = 10.0
 
     n = nx * N + nu * (N - 1)
 
@@ -58,35 +61,40 @@ def generate_pdg():
     Aic = np.block([np.eye(nx), np.zeros((nx, nx * (N - 1))), np.zeros((nx, nu * (N - 1)))])
     Atc = np.block([np.zeros((nx, nx * (N - 1))), np.eye(nx), np.zeros((nx, nu * (N - 1)))])
     Abc = np.block([[Aic],[Atc]])
-    bbc = np.hstack((xi, xf))
+    bbc = np.hstack((zi, zf))
 
     # Combine dynamics and boundary conditions into equality constraint matrix A, and vector b.
     A = np.block([[Adyn],[Abc]])
     A = sparse.csc_matrix(A)
     b = np.hstack((bdyn, bbc))
-
     p, _ = A.shape
-    m = 0
 
-    G = None
-    h = None
-    l = 0
+    Gub = np.kron(np.eye(N), np.block([np.zeros((3,3)), np.eye(3)]))
+    Glb = np.kron(np.eye(N), np.block([np.zeros((3,3)), -np.eye(3)]))
+    G = np.block([[Gub],[Glb]])
+    h = vmax * np.ones((6 * N))
+    G = np.block([G, np.zeros((nx * N, nu*(N-1)))])
+    G = sparse.csc_matrix(G)
+    m, _ = G.shape
+    l = m
+
     q = None
     nsoc = 0
 
     # Solve with cvxpy.
-    xvar = cp.Variable((nx, N))
+    zvar = cp.Variable((nx, N))
     uvar = cp.Variable((nu, N - 1))
     obj = 0
-    con = [xvar[:, 0] == xi, xvar[:,N - 1] == xf]
+    con = [zvar[:, 0] == zi, zvar[:,N - 1] == zf]
     for i in range(N - 1):
-        obj += (1/2)*(cp.quad_form(xvar[:,i], Q) + cp.quad_form(uvar[:,i], R))
-        con += [xvar[:, i + 1] == Ad @ xvar[:, i] + Bd @ uvar[:, i] + g]
-    obj += (1/2)*(cp.quad_form(xvar[:,N - 1], Q))
+        obj += (1/2)*(cp.quad_form(zvar[:,i], Q) + cp.quad_form(uvar[:,i], R))
+        con += [zvar[:, i + 1] == Ad @ zvar[:, i] + Bd @ uvar[:, i] + g]
+        con += [cp.norm_inf(zvar[4:6,:]) <= vmax]
+    obj += (1/2)*(cp.quad_form(zvar[:,N - 1], Q))
     prob = cp.Problem(cp.Minimize(obj), con)
     prob.solve(verbose=True)
 
-    # data, chain, inverse_data = prob.get_problem_data(cp.SCS)
+    # # data, chain, inverse_data = prob.get_problem_data(cp.SCS)
     # unorm = np.zeros(N - 1)
     # for i in range(N - 1):
     #     unorm[i] = np.linalg.norm(uvar.value[:, i])
@@ -94,10 +102,16 @@ def generate_pdg():
     # # syntax for 3-D projection
     # ax = plt.axes(projection ='3d')
     # # plotting
-    # ax.plot3D(xvar.value[0,:], xvar.value[1,:], xvar.value[2,:], 'green')
+    # ax.plot3D(zvar.value[0,:], zvar.value[1,:], zvar.value[2,:], 'green')
     # plt.figure()
     # plt.plot(unorm)
     # plt.title("Thrust magnitude")
+
+    # plt.figure()
+    # plt.plot(zvar.value[3,:])
+    # plt.plot(zvar.value[4,:])
+    # plt.plot(zvar.value[5,:])
+
     # plt.show()
 
     # Generate data file for unit test.
