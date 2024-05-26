@@ -2,31 +2,31 @@
 
 #include "test_utils.h"
 #include "gtest/gtest.h"
-#include "markowitz_data.h"
+#include "pdg_cvxpy_data.h"
 
-TEST(portfolio_test, markowitz)
+TEST(ocp_test, pdg_cvxpy)
 {
     // Allocate and set sparse matrix data.
     QCOSCscMatrix* P;
     QCOSCscMatrix* A;
     QCOSCscMatrix* G;
-    if(markowitz_P_nnz > 0) {
+    if(pdg_cvxpy_P_nnz > 0) {
         P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
-        qcos_set_csc(P, markowitz_n, markowitz_n, markowitz_P_nnz, markowitz_P_x, markowitz_P_p, markowitz_P_i);
+        qcos_set_csc(P, pdg_cvxpy_n, pdg_cvxpy_n, pdg_cvxpy_P_nnz, pdg_cvxpy_P_x, pdg_cvxpy_P_p, pdg_cvxpy_P_i);
     }
     else {
         P = nullptr;
     }
-    if(markowitz_A_nnz > 0) {
+    if(pdg_cvxpy_A_nnz > 0) {
         A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
-        qcos_set_csc(A, markowitz_p, markowitz_n, markowitz_A_nnz, markowitz_A_x, markowitz_A_p, markowitz_A_i);
+        qcos_set_csc(A, pdg_cvxpy_p, pdg_cvxpy_n, pdg_cvxpy_A_nnz, pdg_cvxpy_A_x, pdg_cvxpy_A_p, pdg_cvxpy_A_i);
     }
     else {
         A = nullptr;
     }
-    if(markowitz_G_nnz > 0) {
+    if(pdg_cvxpy_G_nnz > 0) {
         G = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
-        qcos_set_csc(G, markowitz_m, markowitz_n, markowitz_G_nnz, markowitz_G_x, markowitz_G_p, markowitz_G_i);
+        qcos_set_csc(G, pdg_cvxpy_m, pdg_cvxpy_n, pdg_cvxpy_G_nnz, pdg_cvxpy_G_x, pdg_cvxpy_G_p, pdg_cvxpy_G_i);
     }
     else {
         G = nullptr;
@@ -36,14 +36,14 @@ TEST(portfolio_test, markowitz)
     settings->verbose = 1;
     QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
 
-    QCOSInt exit = qcos_setup(solver, markowitz_n, markowitz_m, markowitz_p, P, markowitz_c, A, markowitz_b, G, markowitz_h, markowitz_l, markowitz_nsoc, markowitz_q, settings);
+    QCOSInt exit = qcos_setup(solver, pdg_cvxpy_n, pdg_cvxpy_m, pdg_cvxpy_p, P, pdg_cvxpy_c, A, pdg_cvxpy_b, G, pdg_cvxpy_h, pdg_cvxpy_l, pdg_cvxpy_nsoc, pdg_cvxpy_q, settings);
     ASSERT_EQ(exit, QCOS_NO_ERROR);
 
     exit = qcos_solve(solver);
     ASSERT_EQ(exit, QCOS_SOLVED);
 
     // Expect relative error of objective to be less that 0.01%
-    expect_rel_error(solver->sol->obj, markowitz_objopt, 1e-4);
+    expect_rel_error(solver->sol->obj, pdg_cvxpy_objopt, 1e-4);
 
     // Cleanup memory allocations. 
     qcos_cleanup(solver);
