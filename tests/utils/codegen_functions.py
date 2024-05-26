@@ -11,7 +11,7 @@ def write_float(f, x, name):
 
 
 def write_vector_int(f, x, name):
-    if x is None:
+    if x is None or len(x) == 0:
         f.write("QCOSInt* %s = nullptr;\n" % name)
     else:
         f.write("QCOSInt %s[%i] = { \n" % (name, len(x)))
@@ -21,7 +21,7 @@ def write_vector_int(f, x, name):
 
 
 def write_vector_float(f, x, name):
-    if x is None:
+    if x is None or len(x) == 0:
         f.write("QCOSFloat* %s = nullptr;\n" % name)
     else:
         f.write("QCOSFloat %s[%i] = { \n" % (name, len(x)))
