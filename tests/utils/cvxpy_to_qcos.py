@@ -10,10 +10,13 @@ def convert(prob):
     nsoc = len(q)
 
     c = data['c']
-    P = data['P']
-    P = sparse.triu(P, format='csc')
-    n = len(c)
+    try:
+        P = data['P']
+        P = sparse.triu(P, format='csc')
+    except:
+        P = None
 
+    n = len(c)
     A = data['A'][0:p,:]
     b = data['b'][0:p]
     

@@ -85,7 +85,7 @@ void print_header()
 void log_iter(QCOSSolver* solver)
 {
   // clang-format off
-  printf("|  %2d    | %+.2e | %+.3e | %+.3e | %+.3e | %+.2e |   %.3f   |\n",
+  printf("|   %2d   | %+.2e | %+.3e | %+.3e | %+.3e | %+.2e |   %.3f   |\n",
          solver->sol->iters, solver->sol->obj, solver->sol->pres, solver->sol->dres, solver->sol->gap, solver->work->mu, solver->work->a);
   printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
   // clang-format on
