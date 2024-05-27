@@ -40,9 +40,9 @@ void allocate_kkt(QCOSWorkspace* work);
  *
  * clang-format on
  *
- * @param work Pointer to QCOSWorkspace
+ * @param work Pointer to solver
  */
-void construct_kkt(QCOSWorkspace* work);
+void construct_kkt(QCOSSolver* solver);
 
 /**
  * @brief Gets initial values for primal and dual variables such that (s,z) \in
@@ -61,15 +61,15 @@ void initialize_ipm(QCOSSolver* solver);
 void set_nt_block_zeros(QCOSWorkspace* work);
 
 /**
- * @brief Updates Nesterov-Todd scaling block of KKT matrix.
+ * @brief Updates and regularizes Nesterov-Todd scaling block of KKT matrix.
  *
- *     [ P   A^T   G^T  ]
- * K = | A    0     0   |
- *     [ G    0   -W'W  ]
+ *     [ P   A^T       G^T      ]
+ * K = | A    0         0       |
+ *     [ G    0   -W'W - e * I  ]
  *
- * @param work Pointer to workspace.
+ * @param work Pointer to solver.
  */
-void update_nt_block(QCOSWorkspace* work);
+void update_nt_block(QCOSSolver* solver);
 
 /**
  * @brief Computes residual of KKT conditions and stores in work->kkt->rhs.

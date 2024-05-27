@@ -70,10 +70,12 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->work->kkt = qcos_malloc(sizeof(QCOSKKT));
   allocate_kkt(solver->work);
   solver->work->kkt->nt2kkt = qcos_calloc(solver->work->Wnnz, sizeof(QCOSInt));
+  solver->work->kkt->ntdiag2kkt =
+      qcos_calloc(solver->work->data->m, sizeof(QCOSInt));
   solver->work->kkt->rhs = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   solver->work->kkt->kktres = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   solver->work->kkt->xyz = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
-  construct_kkt(solver->work);
+  construct_kkt(solver);
 
   // Allocate primal and dual variables.
   solver->work->x = qcos_malloc(n * sizeof(QCOSFloat));
@@ -194,7 +196,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
     compute_nt_scaling(solver->work);
 
     // Update Nestrov-Todd block of KKT matrix.
-    update_nt_block(solver->work);
+    update_nt_block(solver);
 
     // Perform predictor-corrector.
     predictor_corrector(solver);
@@ -253,6 +255,7 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   // Free KKT struct.
   free_qcos_csc_matrix(solver->work->kkt->K);
   qcos_free(solver->work->kkt->nt2kkt);
+  qcos_free(solver->work->kkt->ntdiag2kkt);
   qcos_free(solver->work->kkt->etree);
   qcos_free(solver->work->kkt->Lnz);
   qcos_free(solver->work->kkt->Lp);

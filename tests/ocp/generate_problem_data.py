@@ -6,6 +6,8 @@ import numpy as np
 import cvxpy as cp
 
 # Handparses pdg problem.
+
+
 def generate_pdg():
     N = 30  # Number of timesteps.
     dt = 0.5  # Discretization interval.
@@ -121,55 +123,15 @@ def generate_pdg():
                        prob.value, "ocp", "pdg")
     cgen.generate_test("ocp", "pdg")
 
-# Uses cvxpy to parse pdg problem.
-def generate_pdg_cvxpy():
-    N = 30  # Number of timesteps.
-    dt = 0.5  # Discretization interval.
-    g0 = 9.8  # Gravitational acceleration.
-    zi = np.array([100, 50, 50, -9, 5, -9])  # Initial condition.
-    zf = np.zeros(6)  # Terminal condition.
-    Q = 1.0 * sparse.eye(6)  # State cost matrix.
-    R = 5.0 * sparse.eye(3)  # Input cost matrix.
-    vmax = 10.0  # Max inf norm on velocity.
-    umax = 12.0  # Maximum thrust.
-    thmax = np.deg2rad(35.)  # Maximum Thrust pointing angle.
-
-    # Double integrator dynamics.
-    Ad = np.block([[np.eye(3), dt*np.eye(3)], [np.zeros((3, 3)), np.eye(3)]])
-    Bd = np.block([[0.5*dt**2*np.eye(3)], [dt*np.eye(3)]])
-    g = np.array([-0.5*g0*dt**2, 0, 0, -g0*dt, 0, 0])
-
-    # Solve with cvxpy.
-    zvar = cp.Variable((6, N))
-    uvar = cp.Variable((3, N - 1))
-    obj = 0
-    con = [zvar[:, 0] == zi, zvar[:, N - 1] == zf]
-    for i in range(N - 1):
-        obj += (1/2)*(cp.quad_form(zvar[:, i],
-                                   Q) + cp.quad_form(uvar[:, i], R))
-        con += [zvar[:, i + 1] == Ad @ zvar[:, i] + Bd @ uvar[:, i] + g]
-        con += [cp.norm_inf(zvar[3:6, i]) <= vmax]
-        con += [cp.norm(uvar[:, i]) <= umax]
-        con += [cp.norm(uvar[1:3, i], 2) <= uvar[0, i] * np.tan(thmax)]
-    obj += (1/2)*(cp.quad_form(zvar[:, N - 1], Q))
-    prob = cp.Problem(cp.Minimize(obj), con)
-    prob.solve(verbose=True)
-
-    n, m, p, P, c, A, b, G, h, l, nsoc, q = c2q.convert(prob)
-
-    # Generate data file for unit test.
-    cgen.generate_data(n, m, p, P, c, A, b, G, h, l, nsoc, q,
-                       prob.value, "ocp", "pdg_cvxpy")
-    cgen.generate_test("ocp", "pdg_cvxpy")
 
 def generate_lcvx():
-    tspan = 20
+    tspan = 8
     dt = 1
     x0 = np.array([10., 10., 30., 0., 0., 0.])
     g = 9.807
     gs = np.deg2rad(1.)
     tvc_max = np.deg2rad(25.)
-    rho1 = 0.40 * 411.0
+    rho1 = 100.0
     rho2 = 411.0
     m_dry = 25.0
     m_fuel = 10.
@@ -183,20 +145,20 @@ def generate_lcvx():
     nu = 3
 
     A = np.array([[1., 0., 0., dt, 0., 0.],
-                [0., 1., 0., 0., dt, 0.],
-                [0., 0., 1., 0., 0., dt],
-                [0., 0., 0., 1., 0., 0.],
-                [0., 0., 0., 0., 1., 0.],
-                [0., 0., 0., 0., 0., 1.]])
+                  [0., 1., 0., 0., dt, 0.],
+                  [0., 0., 1., 0., 0., dt],
+                  [0., 0., 0., 1., 0., 0.],
+                  [0., 0., 0., 0., 1., 0.],
+                  [0., 0., 0., 0., 0., 1.]])
     B = np.array([[0.5*dt**2, 0., 0.],
-                [0., 0.5*dt**2, 0.],
-                [0., 0., 0.5*dt**2],
-                [dt, 0., 0.],
-                [0., dt, 0.],
-                [0., 0., dt]])
+                  [0., 0.5*dt**2, 0.],
+                  [0., 0., 0.5*dt**2],
+                  [dt, 0., 0.],
+                  [0., dt, 0.],
+                  [0., 0., dt]])
     G = np.array([0., 0., -0.5*g*dt**2, 0., 0., -g*dt])
     S = np.array([[1., 0., 0., 0., 0., 0.],
-                [0., 1., 0., 0., 0., 0.]])
+                  [0., 1., 0., 0., 0., 0.]])
     c = np.array([0., 0., -np.tan(0.5*np.pi-gs), 0., 0., 0.])
     xT = np.zeros((nx))
 
@@ -231,7 +193,7 @@ def generate_lcvx():
         con += [z[k] <= np.log(m0 - a * rho1 * k * dt)]
         con += [cp.norm(S@x[:, k]) + c@x[:, k] <= 0]
         # constraints += [u[2, k] >= s[k] * np.cos(tvc_max)]
-        con += [u[2, k] >= cp.norm(u[:,k]) * np.cos(tvc_max)]
+        con += [u[2, k] >= cp.norm(u[:, k]) * np.cos(tvc_max)]
 
     prob = cp.Problem(cp.Minimize(obj), con)
     prob.solve(verbose=True)
@@ -244,6 +206,5 @@ def generate_lcvx():
     cgen.generate_test("ocp", "lcvx")
 
 
-# generate_pdg()
-# generate_pdg_cvxpy()
+generate_pdg()
 generate_lcvx()

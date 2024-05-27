@@ -153,6 +153,10 @@ typedef struct {
    * the KKT matrix. */
   QCOSInt* nt2kkt;
 
+  /** Mapping from elements on the main diagonal of the Nesterov-Todd scaling
+   * matrices to elements in the KKT matrix. Used for regularization.*/
+  QCOSInt* ntdiag2kkt;
+
 } QCOSKKT;
 
 /**

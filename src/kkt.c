@@ -28,16 +28,17 @@ void allocate_kkt(QCOSWorkspace* work)
   work->Wnnz = work->data->m + Wsoc_nnz;
   work->kkt->K->m = work->data->n + work->data->m + work->data->p;
   work->kkt->K->n = work->data->n + work->data->m + work->data->p;
-  work->kkt->K->nnz =
-      work->data->P->nnz + work->data->A->nnz + work->data->G->nnz + work->Wnnz;
+  work->kkt->K->nnz = work->data->P->nnz + work->data->A->nnz +
+                      work->data->G->nnz + work->Wnnz + work->data->p;
 
   work->kkt->K->x = qcos_calloc(work->kkt->K->nnz, sizeof(QCOSFloat));
   work->kkt->K->i = qcos_calloc(work->kkt->K->nnz, sizeof(QCOSInt));
   work->kkt->K->p = qcos_calloc((work->kkt->K->n + 1), sizeof(QCOSInt));
 }
 
-void construct_kkt(QCOSWorkspace* work)
+void construct_kkt(QCOSSolver* solver)
 {
+  QCOSWorkspace* work = solver->work;
   QCOSInt nz = 0;
   QCOSInt col = 0;
   // Add P block
@@ -68,12 +69,19 @@ void construct_kkt(QCOSWorkspace* work)
         }
       }
     }
+
+    // Add -e * Id regularization.
+    work->kkt->K->x[nz] = -solver->settings->reg;
+    work->kkt->K->i[nz] = work->data->n + row;
+    nz += 1;
+    nzadded += 1;
     work->kkt->K->p[col] = work->kkt->K->p[col - 1] + nzadded;
     col += 1;
   }
 
   // Add non-negative orthant part of G^T.
   QCOSInt nz_nt = 0;
+  QCOSInt diag = 0;
   for (QCOSInt row = 0; row < work->data->l; ++row) {
     // Loop over columns of G
     // Counter for number of nonzeros from G added to this column of KKT matrix
@@ -98,6 +106,8 @@ void construct_kkt(QCOSWorkspace* work)
 
     // Mapping from NT matrix entries to KKT matrix entries.
     work->kkt->nt2kkt[nz_nt] = nz;
+    work->kkt->ntdiag2kkt[diag] = nz;
+    diag++;
     nz_nt += 1;
 
     nz += 1;
@@ -134,6 +144,8 @@ void construct_kkt(QCOSWorkspace* work)
           // Add -1 if element is on main diagonal and 0 otherwise.
           if (i + work->data->n + work->data->p == col - 1) {
             work->kkt->K->x[nz] = -1.0;
+            work->kkt->ntdiag2kkt[diag] = nz;
+            diag++;
           }
           else {
             work->kkt->K->x[nz] = 0.0;
@@ -216,10 +228,16 @@ void set_nt_block_zeros(QCOSWorkspace* work)
   }
 }
 
-void update_nt_block(QCOSWorkspace* work)
+void update_nt_block(QCOSSolver* solver)
 {
-  for (QCOSInt i = 0; i < work->Wnnz; ++i) {
-    work->kkt->K->x[work->kkt->nt2kkt[i]] = -work->WtW[i];
+  for (QCOSInt i = 0; i < solver->work->Wnnz; ++i) {
+    solver->work->kkt->K->x[solver->work->kkt->nt2kkt[i]] =
+        -solver->work->WtW[i];
+  }
+
+  // Regularize Nesterov-Todd block of KKT matrix.
+  for (QCOSInt i = 0; i < solver->work->data->m; ++i) {
+    solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] -= 1e-8;
   }
 }
 
