@@ -124,7 +124,7 @@ def generate_pdg():
     cgen.generate_test("ocp", "pdg")
 
 
-def generate_lcvx():
+def generate_lcvx_well_scaled():
     tspan = 8
     dt = 1
     x0 = np.array([10., 10., 30., 0., 0., 0.])
@@ -207,4 +207,4 @@ def generate_lcvx():
 
 
 generate_pdg()
-generate_lcvx()
+generate_lcvx_well_scaled()
