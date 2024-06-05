@@ -75,6 +75,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->work->kkt->rhs = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   solver->work->kkt->kktres = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   solver->work->kkt->xyz = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
+  solver->work->kkt->xyzbuff = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   construct_kkt(solver);
 
   // Allocate primal and dual variables.
@@ -156,6 +157,7 @@ void set_default_settings(QCOSSettings* settings)
 {
   settings->max_iters = 50;
   settings->max_iter_bisection = 5;
+  settings->iterative_refinement_iterations = 5;
   settings->verbose = 0;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
@@ -176,7 +178,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
   for (QCOSInt i = 1; i <= solver->settings->max_iters; ++i) {
 
     // Compute kkt residual.
-    compute_kkt_residual(solver->work);
+    compute_kkt_residual(solver);
 
     // Compute mu.
     compute_mu(solver->work);
@@ -231,6 +233,7 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->kkt->rhs);
   qcos_free(solver->work->kkt->kktres);
   qcos_free(solver->work->kkt->xyz);
+  qcos_free(solver->work->kkt->xyzbuff);
   qcos_free(solver->work->x);
   qcos_free(solver->work->s);
   qcos_free(solver->work->y);

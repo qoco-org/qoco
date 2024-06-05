@@ -1,6 +1,7 @@
 import utils.codegen_functions as cgen
 import utils.cvxpy_to_qcos as c2q
 from matplotlib import pyplot as plt
+from scipy.io import savemat
 from scipy import sparse
 import numpy as np
 import cvxpy as cp
@@ -117,6 +118,9 @@ def generate_pdg():
     obj += (1/2)*(cp.quad_form(zvar[:, N - 1], Q))
     prob = cp.Problem(cp.Minimize(obj), con)
     prob.solve(verbose=True)
+
+    # data = {"A": A.toarray(), "G":G.toarray(), "c": c, "b": b, "h": h, "l": l, "nsoc": nsoc, "q": q}
+    # savemat("lcvx.mat", data)
 
     # Generate data file for unit test.
     cgen.generate_data(n, m, p, P, c, A, b, G, h, l, nsoc, q,

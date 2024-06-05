@@ -84,7 +84,7 @@ void update_nt_block(QCOSSolver* solver);
  *
  * @param work Pointer to workspace.
  */
-void compute_kkt_residual(QCOSWorkspace* work);
+void compute_kkt_residual(QCOSSolver* solver);
 
 /**
  * @brief Constructs rhs for the affine scaling KKT system.
@@ -111,5 +111,15 @@ void construct_kkt_comb_rhs(QCOSWorkspace* work);
  * @param solver Pointer to solver.
  */
 void predictor_corrector(QCOSSolver* solver);
+
+/**
+ * @brief Solves Kx = b once K has been factored. Solves via traingular solves
+ * and applies iterative refinement afterwards.
+ *
+ * @param kkt Pointer to kkt struct.
+ * @param b Pointer to rhs of kkt system.
+ * @param iters Number of iterations of iterative refinement performed.
+ */
+void kkt_solve(QCOSKKT* kkt, QCOSFloat* b, QCOSInt iters);
 
 #endif /* #ifndef QCOS_KKT_H */

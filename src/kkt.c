@@ -167,21 +167,17 @@ void construct_kkt(QCOSSolver* solver)
 
 void initialize_ipm(QCOSSolver* solver)
 {
-  // Construct rhs of KKT system and initialize the solution variable to the
-  // right hand side (needed by qdldl).
+  // Construct rhs of KKT system..
   QCOSInt idx;
   for (idx = 0; idx < solver->work->data->n; ++idx) {
     solver->work->kkt->rhs[idx] = -solver->work->data->c[idx];
-    solver->work->kkt->xyz[idx] = -solver->work->data->c[idx];
   }
   for (QCOSInt i = 0; i < solver->work->data->p; ++i) {
     solver->work->kkt->rhs[idx] = solver->work->data->b[i];
-    solver->work->kkt->xyz[idx] = solver->work->data->b[i];
     idx += 1;
   }
   for (QCOSInt i = 0; i < solver->work->data->m; ++i) {
     solver->work->kkt->rhs[idx] = solver->work->data->h[i];
-    solver->work->kkt->xyz[idx] = solver->work->data->h[i];
     idx += 1;
   }
 
@@ -195,9 +191,8 @@ void initialize_ipm(QCOSSolver* solver)
                solver->work->kkt->iwork, solver->work->kkt->fwork);
 
   // Solve KKT system.
-  QDLDL_solve(solver->work->kkt->K->n, solver->work->kkt->Lp,
-              solver->work->kkt->Li, solver->work->kkt->Lx,
-              solver->work->kkt->Dinv, solver->work->kkt->xyz);
+  kkt_solve(solver->work->kkt, solver->work->kkt->rhs,
+            solver->settings->iterative_refinement_iterations);
 
   // Copy x part of solution to x.
   copy_arrayf(solver->work->kkt->xyz, solver->work->x, solver->work->data->n);
@@ -237,12 +232,15 @@ void update_nt_block(QCOSSolver* solver)
 
   // Regularize Nesterov-Todd block of KKT matrix.
   for (QCOSInt i = 0; i < solver->work->data->m; ++i) {
-    solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] -= 1e-8;
+    solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] -=
+        solver->settings->reg;
   }
 }
 
-void compute_kkt_residual(QCOSWorkspace* work)
+void compute_kkt_residual(QCOSSolver* solver)
 {
+  QCOSWorkspace* work = solver->work;
+
   // Zero out the NT scaling block.
   set_nt_block_zeros(work);
 
@@ -258,13 +256,19 @@ void compute_kkt_residual(QCOSWorkspace* work)
   // rhs += [c;-b;-h+s]
   QCOSInt idx;
 
-  // Add c.
+  // Add c and account for regularization of P.
   for (idx = 0; idx < work->data->n; ++idx) {
+    // work->kkt->kktres[idx] =
+    //     work->kkt->kktres[idx] +
+    //     (work->data->c[idx] - solver->settings->reg * work->x[idx]);
     work->kkt->kktres[idx] += work->data->c[idx];
   }
 
-  // Add -b;
+  // Add -b and account for regularization.
   for (QCOSInt i = 0; i < work->data->p; ++i) {
+    // work->kkt->kktres[idx] =
+    //     work->kkt->kktres[idx] +
+    //     (-work->data->b[i] + solver->settings->reg * work->y[i]);
     work->kkt->kktres[idx] += -work->data->b[i];
     idx += 1;
   }
@@ -281,12 +285,6 @@ void construct_kkt_aff_rhs(QCOSWorkspace* work)
   // Negate the kkt residual and store in rhs.
   copy_and_negate_arrayf(work->kkt->kktres, work->kkt->rhs,
                          work->data->n + work->data->p + work->data->m);
-
-  // // Save -rz into ubuff1. Needed when constructing rhs for combined
-  // direction. for (QCOSInt i = work->data->n + work->data->p;
-  //      i < work->data->n + work->data->p + work->data->m; ++i) {
-  //   work->ubuff1[i] = work->kkt->rhs[i];
-  // }
 
   // Compute W*lambda
   nt_multiply(work->Wfull, work->lambda, work->ubuff1, work->data->l,
@@ -370,11 +368,8 @@ void predictor_corrector(QCOSSolver* solver)
   construct_kkt_aff_rhs(work);
 
   // Solve to get affine scaling direction.
-  for (QCOSInt i = 0; i < work->data->n + work->data->m + work->data->p; ++i) {
-    work->kkt->xyz[i] = work->kkt->rhs[i];
-  }
-  QDLDL_solve(work->kkt->K->n, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
-              work->kkt->Dinv, work->kkt->xyz);
+  kkt_solve(work->kkt, work->kkt->rhs,
+            solver->settings->iterative_refinement_iterations);
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
   QCOSFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
@@ -393,11 +388,8 @@ void predictor_corrector(QCOSSolver* solver)
   construct_kkt_comb_rhs(work);
 
   // Solve to get combined direction.
-  for (QCOSInt i = 0; i < work->data->n + work->data->m + work->data->p; ++i) {
-    work->kkt->xyz[i] = work->kkt->rhs[i];
-  }
-  QDLDL_solve(work->kkt->K->n, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
-              work->kkt->Dinv, work->kkt->xyz);
+  kkt_solve(work->kkt, work->kkt->rhs,
+            solver->settings->iterative_refinement_iterations);
 
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
   // computed in construct_kkt_comb_rhs() and stored in work->Ds.
@@ -438,5 +430,34 @@ void predictor_corrector(QCOSSolver* solver)
   }
   for (QCOSInt i = 0; i < work->data->m; ++i) {
     work->z[i] = work->z[i] + a * Dz[i];
+  }
+}
+
+void kkt_solve(QCOSKKT* kkt, QCOSFloat* b, QCOSInt iters)
+{
+  // Copy b into xyz.
+  for (QCOSInt i = 0; i < kkt->K->n; ++i) {
+    kkt->xyz[i] = b[i];
+  }
+
+  // Triangular solve.
+  QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyz);
+
+  // Iterative refinement.
+  for (QCOSInt i = 0; i < iters; ++i) {
+
+    // xyzbuff = b - K * x
+    USpMv(kkt->K, kkt->xyz, kkt->xyzbuff);
+    for (QCOSInt j = 0; j < kkt->K->n; ++j) {
+      kkt->xyzbuff[j] = b[j] - kkt->xyzbuff[j];
+    }
+
+    // dx = K \ xyzbuff
+    QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyzbuff);
+
+    // x = x + dx.
+    for (QCOSInt i = 0; i < kkt->K->n; ++i) {
+      kkt->xyz[i] += kkt->xyzbuff[i];
+    }
   }
 }

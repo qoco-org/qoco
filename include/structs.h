@@ -97,6 +97,9 @@ typedef struct {
   /** Maximum number of bisection iterations for linesearch. */
   QCOSInt max_iter_bisection;
 
+  /** Number of iterative refinement iterations performed. */
+  QCOSInt iterative_refinement_iterations;
+
   /** Absolute tolerance. */
   QCOSFloat abstol;
 
@@ -145,6 +148,9 @@ typedef struct {
 
   /** Solution of KKT system. */
   QCOSFloat* xyz;
+
+  /** Buffer of size n + m + p. */
+  QCOSFloat* xyzbuff;
 
   /** Residual of KKT condition. */
   QCOSFloat* kktres;

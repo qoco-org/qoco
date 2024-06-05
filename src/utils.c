@@ -108,14 +108,9 @@ unsigned char check_stopping(QCOSSolver* solver)
   QCOSFloat eabs = solver->settings->abstol;
   QCOSFloat erel = solver->settings->reltol;
 
-  QCOSFloat ctx = dot(data->c, work->x, data->n);
-  QCOSFloat bty = data->p > 0 ? dot(data->b, work->y, data->p) : 0;
-  QCOSFloat htz = data->m > 0 ? dot(data->h, work->z, data->m) : 0;
-  QCOSFloat ctxabs = qcos_abs(ctx);
-  QCOSFloat btyabs = qcos_abs(bty);
-  QCOSFloat htzabs = qcos_abs(htz);
   QCOSFloat binf = data->p > 0 ? norm_inf(data->b, data->p) : 0;
   QCOSFloat sinf = data->m > 0 ? norm_inf(work->s, data->m) : 0;
+  QCOSFloat zinf = data->m > 0 ? norm_inf(work->z, data->m) : 0;
   QCOSFloat cinf = norm_inf(data->c, data->n);
   QCOSFloat hinf = data->m > 0 ? norm_inf(data->h, data->m) : 0;
 
@@ -137,8 +132,9 @@ unsigned char check_stopping(QCOSSolver* solver)
 
   // Compute ||P * x||_\infty
   SpMv(data->P, work->x, work->xbuff);
-  QCOSFloat xtPx = dot(work->xbuff, work->x, data->n);
-  QCOSFloat xtPxabs = qcos_abs(xtPx);
+  for (QCOSInt i = 0; i < data->n; ++i) {
+    work->xbuff[i] -= solver->settings->reg * work->x[i];
+  }
   QCOSFloat Pxinf = norm_inf(work->xbuff, data->n);
 
   // Compute ||A * x||_\infty
@@ -158,9 +154,7 @@ unsigned char check_stopping(QCOSSolver* solver)
   solver->sol->dres = dres;
 
   // Compute duality gap.
-  QCOSFloat gap = xtPx + ctx + bty + htz;
-  gap = qcos_abs(gap);
-  solver->sol->gap = gap;
+  solver->sol->gap = work->mu * data->m;
 
   // Compute max{Axinf, binf, Gxinf, hinf, sinf}.
   QCOSFloat pres_rel = qcos_max(Axinf, binf);
@@ -173,15 +167,12 @@ unsigned char check_stopping(QCOSSolver* solver)
   dres_rel = qcos_max(pres_rel, Gtzinf);
   dres_rel = qcos_max(pres_rel, cinf);
 
-  // Compute max{xtPxabs, ctxabs, btyabs, htzabs}.
-  QCOSFloat gap_rel = qcos_max(xtPxabs, ctxabs);
-  gap_rel = qcos_max(gap_rel, btyabs);
-  gap_rel = qcos_max(gap_rel, htzabs);
+  // Compute max{sinf, zinf}.
+  QCOSFloat gap_rel = qcos_max(sinf, zinf);
 
-  // if (solver->work->mu < eabs && pres < eabs + erel * pres_rel &&
-  //     dres < eabs + erel * dres_rel && gap < eabs + erel * gap_rel) {
   if (solver->work->mu < eabs && pres < eabs + erel * pres_rel &&
-      dres < eabs + erel * dres_rel) {
+      dres < eabs + erel * dres_rel &&
+      solver->sol->gap < eabs + erel * gap_rel) {
     return 1;
   }
   return 0;
