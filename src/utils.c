@@ -18,7 +18,7 @@ void print_qcos_csc_matrix(QCOSCscMatrix* M)
   printf("nnz: %d\n", M->nnz);
   printf("Data: {");
   for (QCOSInt i = 0; i < M->nnz; ++i) {
-    printf("%.3f", M->x[i]);
+    printf("%.17g", M->x[i]);
     if (i != M->nnz - 1) {
       printf(",");
     }
@@ -48,7 +48,7 @@ void print_arrayf(QCOSFloat* x, QCOSInt n)
 {
   printf("{");
   for (QCOSInt i = 0; i < n; ++i) {
-    printf("%f", x[i]);
+    printf("%.17g", x[i]);
     if (i != n - 1) {
       printf(", ");
     }
@@ -117,6 +117,13 @@ unsigned char check_stopping(QCOSSolver* solver)
   // Compute objective.
   QCOSFloat obj = dot(work->x, data->c, data->n);
   USpMv(data->P, work->x, work->xbuff);
+
+  // Correct for regularization in P.
+  QCOSFloat regularization_correction = 0.0;
+  for (QCOSInt i = 0; i < work->data->n; ++i) {
+    regularization_correction += solver->settings->reg * solver->settings->reg;
+  }
+  obj -= regularization_correction;
   obj += 0.5 * (dot(work->xbuff, work->x, data->n));
   solver->sol->obj = obj;
 

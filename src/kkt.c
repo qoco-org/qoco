@@ -258,18 +258,16 @@ void compute_kkt_residual(QCOSSolver* solver)
 
   // Add c and account for regularization of P.
   for (idx = 0; idx < work->data->n; ++idx) {
-    // work->kkt->kktres[idx] =
-    //     work->kkt->kktres[idx] +
-    //     (work->data->c[idx] - solver->settings->reg * work->x[idx]);
-    work->kkt->kktres[idx] += work->data->c[idx];
+    work->kkt->kktres[idx] =
+        work->kkt->kktres[idx] +
+        (work->data->c[idx] - solver->settings->reg * work->x[idx]);
   }
 
   // Add -b and account for regularization.
   for (QCOSInt i = 0; i < work->data->p; ++i) {
-    // work->kkt->kktres[idx] =
-    //     work->kkt->kktres[idx] +
-    //     (-work->data->b[i] + solver->settings->reg * work->y[i]);
-    work->kkt->kktres[idx] += -work->data->b[i];
+    work->kkt->kktres[idx] =
+        work->kkt->kktres[idx] +
+        (-work->data->b[i] + solver->settings->reg * work->y[i]);
     idx += 1;
   }
 

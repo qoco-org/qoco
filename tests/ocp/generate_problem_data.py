@@ -119,9 +119,6 @@ def generate_pdg():
     prob = cp.Problem(cp.Minimize(obj), con)
     prob.solve(verbose=True)
 
-    # data = {"A": A.toarray(), "G":G.toarray(), "c": c, "b": b, "h": h, "l": l, "nsoc": nsoc, "q": q}
-    # savemat("lcvx.mat", data)
-
     # Generate data file for unit test.
     cgen.generate_data(n, m, p, P, c, A, b, G, h, l, nsoc, q,
                        prob.value, "ocp", "pdg")
@@ -203,6 +200,9 @@ def generate_lcvx_well_scaled():
     prob.solve(verbose=True)
 
     n, m, p, P, c, A, b, G, h, l, nsoc, q = c2q.convert(prob)
+
+    # data = {"A": A.toarray(), "G":G.toarray(), "c": c, "b": b, "h": h, "l": l, "nsoc": nsoc, "q": q}
+    # savemat("lcvx.mat", data)
 
     # Generate data file for unit test.
     cgen.generate_data(n, m, p, P, c, A, b, G, h, l, nsoc, q,

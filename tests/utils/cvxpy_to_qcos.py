@@ -2,7 +2,7 @@ import cvxpy as cp
 from scipy import sparse
 
 def convert(prob):
-    data, _, _ = prob.get_problem_data(cp.SCS)
+    data, _, _ = prob.get_problem_data(cp.CLARABEL)
     p = data['dims'].zero
     l = data['dims'].nonneg
     q = data['dims'].soc
