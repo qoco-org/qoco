@@ -98,9 +98,9 @@ def generate_test(problem_name, test_name):
     f.write("    ASSERT_EQ(exit, QCOS_NO_ERROR);\n\n")
     f.write("    exit = qcos_solve(solver);\n")
     f.write("    ASSERT_EQ(exit, QCOS_SOLVED);\n\n")
-    f.write("    // Expect relative error of objective to be less that 0.5%\n")
+    f.write("    // Expect relative error of objective to be less that 0.01%\n")
     f.write("    expect_rel_error(solver->sol->obj, " +
-            test_name + "_objopt, 5e-3);\n\n")
+            test_name + "_objopt, 1e-4);\n\n")
 
     # Cleanup memory allocations.
     f.write("    // Cleanup memory allocations. \n")

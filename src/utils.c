@@ -121,10 +121,10 @@ unsigned char check_stopping(QCOSSolver* solver)
   // Correct for regularization in P.
   QCOSFloat regularization_correction = 0.0;
   for (QCOSInt i = 0; i < work->data->n; ++i) {
-    regularization_correction += solver->settings->reg * solver->settings->reg;
+    regularization_correction +=
+        solver->settings->reg * work->x[i] * work->x[i];
   }
-  obj -= regularization_correction;
-  obj += 0.5 * (dot(work->xbuff, work->x, data->n));
+  obj += 0.5 * (dot(work->xbuff, work->x, data->n) - regularization_correction);
   solver->sol->obj = obj;
 
   // Compute ||A^T * y||_\infty. If equality constraints aren't present, A->m =
