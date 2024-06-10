@@ -207,7 +207,7 @@ void SpMtv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r)
   }
 }
 
-QCOSFloat norm_inf(const QCOSFloat* x, QCOSInt n)
+QCOSFloat inf_norm(const QCOSFloat* x, QCOSInt n)
 {
   qcos_assert(x || n == 0);
 
@@ -267,5 +267,74 @@ void regularize(QCOSCscMatrix* M, QCOSFloat lambda)
         M->p[i]++;
       }
     }
+  }
+}
+
+void col_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm)
+{
+  for (QCOSInt j = 0; j < M->n; ++j) {
+    norm[j] = inf_norm(&M->x[M->p[j]], M->p[j + 1] - M->p[j]);
+  }
+}
+
+void col_inf_norm_USymm(const QCOSCscMatrix* M, QCOSFloat* norm)
+{
+  for (QCOSInt j = 0; j < M->n; j++) {
+    for (QCOSInt idx = M->p[j]; idx < M->p[j + 1]; idx++) {
+      QCOSInt row = M->i[idx];
+      QCOSFloat val = qcos_abs(M->x[idx]);
+
+      if (val > norm[j]) {
+        norm[j] = val;
+      }
+
+      if (row != j) {
+        if (val > norm[row]) {
+          norm[row] = val;
+        }
+      }
+    }
+  }
+}
+
+void row_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm)
+{
+  for (QCOSInt i = 0; i < M->m; ++i) {
+    QCOSFloat nrm = 0;
+    QCOSFloat xi;
+    for (QCOSInt nz = 0; nz < M->nnz; ++nz) {
+      if (i == M->i[nz]) {
+        xi = qcos_abs(M->x[nz]);
+        nrm = qcos_max(nrm, xi);
+      }
+    }
+    norm[i] = nrm;
+  }
+}
+
+void col_scale(const QCOSCscMatrix* M, QCOSFloat* S)
+{
+  for (QCOSInt j = 0; j < M->n; ++j) {
+    for (QCOSInt i = M->p[j]; i < M->p[j + 1]; ++i) {
+      M->x[i] *= S[j];
+    }
+  }
+}
+
+void row_scale(const QCOSCscMatrix* M, QCOSFloat* S)
+{
+  for (QCOSInt i = 0; i < M->m; ++i) {
+    for (QCOSInt nz = 0; nz < M->nnz; ++nz) {
+      if (i == M->i[nz]) {
+        M->x[nz] *= S[i];
+      }
+    }
+  }
+}
+
+void ew_product(QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSInt n)
+{
+  for (QCOSInt i = 0; i < n; ++i) {
+    z[i] = x[i] * y[i];
   }
 }

@@ -56,7 +56,6 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->work->data->q = q;
   solver->work->data->l = l;
   solver->work->data->nsoc = nsoc;
-
   // Copy and regularize P.
   if (P) {
     solver->work->data->P = new_qcos_csc_matrix(P);
@@ -66,8 +65,18 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
     solver->work->data->P = construct_identity(n, solver->settings->reg);
   }
 
-  // Allocate KKT struct.
+  // Equilibrate data.
   solver->work->kkt = qcos_malloc(sizeof(QCOSKKT));
+  solver->work->kkt->delta = qcos_malloc((n + p + m) * sizeof(QCOSFloat));
+  solver->work->kkt->Druiz = qcos_malloc(n * sizeof(QCOSFloat));
+  solver->work->kkt->Eruiz = qcos_malloc(p * sizeof(QCOSFloat));
+  solver->work->kkt->Fruiz = qcos_malloc(m * sizeof(QCOSFloat));
+  solver->work->kkt->Dinvruiz = qcos_malloc(n * sizeof(QCOSFloat));
+  solver->work->kkt->Einvruiz = qcos_malloc(p * sizeof(QCOSFloat));
+  solver->work->kkt->Finvruiz = qcos_malloc(m * sizeof(QCOSFloat));
+  ruiz_equilibration(solver);
+
+  // Allocate KKT struct.
   allocate_kkt(solver->work);
   solver->work->kkt->nt2kkt = qcos_calloc(solver->work->Wnnz, sizeof(QCOSInt));
   solver->work->kkt->ntdiag2kkt =
@@ -157,16 +166,22 @@ void set_default_settings(QCOSSettings* settings)
 {
   settings->max_iters = 50;
   settings->max_iter_bisection = 5;
-  settings->iterative_refinement_iterations = 5;
+  settings->ruiz_iters = 5;
+  settings->iterative_refinement_iterations = 3;
   settings->verbose = 0;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
-  settings->reg = 1e-8;
+  settings->reg = 1e-7;
 }
 
 QCOSInt qcos_solve(QCOSSolver* solver)
 {
   start_timer(&(solver->work->solve_timer));
+
+  // Validate settings.
+  if (qcos_validate_settings(solver->settings)) {
+    return qcos_error(QCOS_SETTINGS_VALIDATION_ERROR);
+  }
 
   if (solver->settings->verbose) {
     print_header();
@@ -186,6 +201,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
     // Check stopping criteria.
     if (check_stopping(solver)) {
       stop_timer(&(solver->work->solve_timer));
+      unscale_variables(solver->work);
       copy_solution(solver);
       solver->sol->status = QCOS_SOLVED;
       if (solver->settings->verbose) {
@@ -213,6 +229,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
   }
 
   stop_timer(&(solver->work->solve_timer));
+  unscale_variables(solver->work);
   copy_solution(solver);
   return QCOS_MAX_ITER;
 }
@@ -257,6 +274,13 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
 
   // Free KKT struct.
   free_qcos_csc_matrix(solver->work->kkt->K);
+  qcos_free(solver->work->kkt->delta);
+  qcos_free(solver->work->kkt->Druiz);
+  qcos_free(solver->work->kkt->Eruiz);
+  qcos_free(solver->work->kkt->Fruiz);
+  qcos_free(solver->work->kkt->Dinvruiz);
+  qcos_free(solver->work->kkt->Einvruiz);
+  qcos_free(solver->work->kkt->Finvruiz);
   qcos_free(solver->work->kkt->nt2kkt);
   qcos_free(solver->work->kkt->ntdiag2kkt);
   qcos_free(solver->work->kkt->etree);

@@ -102,6 +102,18 @@ TEST(linalg, scale_arrayf_test)
   expect_eq_vectorf(y, yexpected, n, tol);
 }
 
+TEST(linalg, scale_arrayf_inplace_test)
+{
+  constexpr QCOSInt n = 6;
+  QCOSFloat x[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+  QCOSFloat xexpected[] = {0.5, 1.0, 1.5, 2.0, 2.5, 3.0};
+  QCOSFloat s = 0.5;
+  QCOSFloat tol = 1e-12;
+
+  scale_arrayf(x, x, s, n);
+  expect_eq_vectorf(x, xexpected, n, tol);
+}
+
 TEST(linalg, axpy_test)
 {
   constexpr QCOSInt n = 6;
@@ -185,14 +197,14 @@ TEST(linalg, SpMtv_test)
   free(A);
 }
 
-TEST(linalg, norm_inf_test)
+TEST(linalg, inf_norm_test)
 {
   constexpr QCOSInt n = 4;
   QCOSFloat x[] = {-1.5, 6.0, -10.0, 8.0};
   QCOSFloat expected_ans = 10.0;
   QCOSFloat tol = 1e-12;
 
-  EXPECT_NEAR(norm_inf(x, n), expected_ans, tol);
+  EXPECT_NEAR(inf_norm(x, n), expected_ans, tol);
 }
 
 TEST(linalg, regularize_test1)
@@ -250,4 +262,117 @@ TEST(linalg, regularize_test2)
   free(Pexp);
   free_qcos_csc_matrix(Pmalloc);
   free_qcos_csc_matrix(Pexpmalloc);
+}
+
+TEST(linalg, col_inf_norm_test)
+{
+  constexpr QCOSInt m = 5;
+  constexpr QCOSInt n = 3;
+  QCOSFloat Ax[] = {1, 4, 10, 3, 2, 8, -11, 4, 3, -6, 9, 5};
+  QCOSInt Annz = 12;
+  QCOSInt Ap[] = {0, 4, 8, 12};
+  QCOSInt Ai[] = {0, 1, 3, 4, 0, 2, 3, 4, 0, 1, 2, 4};
+  QCOSFloat norm[n];
+  QCOSFloat norm_expected[] = {10.0, 11.0, 9.0};
+
+  QCOSFloat tol = 1e-12;
+
+  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  qcos_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+
+  col_inf_norm(A, norm);
+
+  expect_eq_vectorf(norm, norm_expected, n, tol);
+
+  free(A);
+}
+
+TEST(linalg, col_inf_norm_USymm_test)
+{
+  constexpr QCOSInt m = 3;
+  constexpr QCOSInt n = 3;
+  QCOSFloat Ax[] = {1, 2, 5, 3, 6, 8};
+  QCOSInt Annz = 6;
+  QCOSInt Ap[] = {0, 1, 3, 6};
+  QCOSInt Ai[] = {0, 0, 1, 0, 1, 2};
+  QCOSFloat norm[n];
+  QCOSFloat norm_expected[] = {3, 6, 8};
+
+  QCOSFloat tol = 1e-12;
+
+  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  qcos_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+
+  col_inf_norm_USymm(A, norm);
+
+  expect_eq_vectorf(norm, norm_expected, n, tol);
+
+  free(A);
+}
+
+TEST(linalg, row_inf_norm_test)
+{
+  constexpr QCOSInt m = 5;
+  constexpr QCOSInt n = 3;
+  QCOSFloat Ax[] = {1, 4, 10, 3, 2, 8, -11, 4, 3, -6, 9, 5};
+  QCOSInt Annz = 12;
+  QCOSInt Ap[] = {0, 4, 8, 12};
+  QCOSInt Ai[] = {0, 1, 3, 4, 0, 2, 3, 4, 0, 1, 2, 4};
+  QCOSFloat norm[m];
+  QCOSFloat norm_expected[] = {3.0, 6.0, 9.0, 11.0, 5.0};
+
+  QCOSFloat tol = 1e-12;
+
+  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  qcos_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+
+  row_inf_norm(A, norm);
+
+  expect_eq_vectorf(norm, norm_expected, n, tol);
+
+  free(A);
+}
+
+TEST(linalg, col_scale_norm_test)
+{
+  constexpr QCOSInt m = 5;
+  constexpr QCOSInt n = 3;
+  QCOSFloat Ax[] = {1, 4, 10, 3, 2, 8, -11, 4, 3, -6, 9, 5};
+  QCOSInt Annz = 12;
+  QCOSInt Ap[] = {0, 4, 8, 12};
+  QCOSInt Ai[] = {0, 1, 3, 4, 0, 2, 3, 4, 0, 1, 2, 4};
+  QCOSFloat S[] = {1, 2, 3};
+  QCOSFloat Axexpect[] = {1, 4, 10, 3, 4, 16, -22, 8, 9, -18, 27, 15};
+  QCOSFloat tol = 1e-12;
+
+  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  qcos_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+
+  col_scale(A, S);
+
+  expect_eq_vectorf(A->x, Axexpect, n, tol);
+
+  free(A);
+}
+
+TEST(linalg, row_scale_norm_test)
+{
+  constexpr QCOSInt m = 5;
+  constexpr QCOSInt n = 3;
+  QCOSFloat Ax[] = {1, 4, 10, 3, 2, 8, -11, 4, 3, -6, 9, 5};
+  QCOSInt Annz = 12;
+  QCOSInt Ap[] = {0, 4, 8, 12};
+  QCOSInt Ai[] = {0, 1, 3, 4, 0, 2, 3, 4, 0, 1, 2, 4};
+  QCOSFloat S[] = {1, 2, 3, 4, 5};
+  QCOSFloat Axexpect[] = {1, 8, 40, 15, 2, 24, -44, 20, 3, -12, 27, 25};
+  QCOSFloat tol = 1e-12;
+
+  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  qcos_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+
+  row_scale(A, S);
+
+  expect_eq_vectorf(A->x, Axexpect, n, tol);
+
+  free(A);
 }

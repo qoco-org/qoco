@@ -18,6 +18,12 @@ QCOSInt qcos_validate_settings(QCOSSettings* settings)
     return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 
+  // ruiz_iters must be positive.
+  if (settings->ruiz_iters < 0) {
+    printf("ruiz_iters must be positive.\n");
+    return QCOS_SETTINGS_VALIDATION_ERROR;
+  }
+
   // max_iter_bisection must be positive.
   if (settings->max_iter_bisection <= 0) {
     printf("max_iter_bisection must be positive.\n");
@@ -33,6 +39,12 @@ QCOSInt qcos_validate_settings(QCOSSettings* settings)
   // reltol must be non-negative.
   if (settings->reltol < 0) {
     printf("reltol must be positive.\n");
+    return QCOS_SETTINGS_VALIDATION_ERROR;
+  }
+
+  // reg must be less than 1.
+  if (settings->reg > 1) {
+    printf("reg must be less than 1.\n");
     return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 

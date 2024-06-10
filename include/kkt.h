@@ -122,4 +122,29 @@ void predictor_corrector(QCOSSolver* solver);
  */
 void kkt_solve(QCOSKKT* kkt, QCOSFloat* b, QCOSInt iters);
 
+/**
+ * @brief Applies modified ruiz equilibration to scale data matrices. Computes
+ D, E, F, and k as shown below to make the row and column infinity norms equal
+ for the scaled KKT matrix.
+ *
+ *  * clang-format off
+ *
+ *  [ D     ] [ kP   A^T   G^T ] [ D     ]
+ *  |   E   | |  A    0     0  | |   E   |
+ *  [     F ] [  G    0    -I  ] [     F ]
+ *
+ * clang-format on
+
+ *
+ * @param solver Pointer to solver.
+ */
+void ruiz_equilibration(QCOSSolver* solver);
+
+/**
+ * @brief Undo variable transformation induced by ruiz equilibration.
+ *
+ * @param work Pointer to workspace.
+ */
+void unscale_variables(QCOSWorkspace* work);
+
 #endif /* #ifndef QCOS_KKT_H */

@@ -97,6 +97,9 @@ typedef struct {
   /** Maximum number of bisection iterations for linesearch. */
   QCOSInt max_iter_bisection;
 
+  /** Number of Ruiz equilibration iterations. */
+  QCOSInt ruiz_iters;
+
   /** Number of iterative refinement iterations performed. */
   QCOSInt iterative_refinement_iterations;
 
@@ -121,6 +124,30 @@ typedef struct {
 typedef struct {
   /** KKT matrix in CSC form. */
   QCOSCscMatrix* K;
+
+  /** Diagonal of scaling matrix. */
+  QCOSFloat* delta;
+
+  /** Diagonal of scaling matrix. */
+  QCOSFloat* Druiz;
+
+  /** Diagonal of scaling matrix. */
+  QCOSFloat* Eruiz;
+
+  /** Diagonal of scaling matrix. */
+  QCOSFloat* Fruiz;
+
+  /** Inverse of Druiz. */
+  QCOSFloat* Dinvruiz;
+
+  /** Inverse of Eruiz. */
+  QCOSFloat* Einvruiz;
+
+  /** Inverse of Fruiz. */
+  QCOSFloat* Finvruiz;
+
+  /** Cost scaling factor. */
+  QCOSFloat k;
 
   /** Elimination tree for LDL factorization of K. */
   QCOSInt* etree;

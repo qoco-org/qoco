@@ -108,11 +108,20 @@ unsigned char check_stopping(QCOSSolver* solver)
   QCOSFloat eabs = solver->settings->abstol;
   QCOSFloat erel = solver->settings->reltol;
 
-  QCOSFloat binf = data->p > 0 ? norm_inf(data->b, data->p) : 0;
-  QCOSFloat sinf = data->m > 0 ? norm_inf(work->s, data->m) : 0;
-  QCOSFloat zinf = data->m > 0 ? norm_inf(work->z, data->m) : 0;
-  QCOSFloat cinf = norm_inf(data->c, data->n);
-  QCOSFloat hinf = data->m > 0 ? norm_inf(data->h, data->m) : 0;
+  ew_product(work->kkt->Einvruiz, data->b, work->ybuff, data->p);
+  QCOSFloat binf = data->p > 0 ? inf_norm(work->ybuff, data->p) : 0;
+
+  ew_product(work->kkt->Fruiz, work->s, work->ubuff1, data->m);
+  QCOSFloat sinf = data->m > 0 ? inf_norm(work->ubuff1, data->m) : 0;
+
+  ew_product(work->kkt->Fruiz, work->z, work->ubuff2, data->m);
+  QCOSFloat zinf = data->m > 0 ? inf_norm(work->ubuff2, data->m) : 0;
+
+  ew_product(work->kkt->Dinvruiz, work->x, work->xbuff, data->n);
+  QCOSFloat cinf = inf_norm(work->xbuff, data->n);
+
+  ew_product(work->kkt->Finvruiz, data->h, work->ubuff3, data->m);
+  QCOSFloat hinf = data->m > 0 ? inf_norm(work->ubuff3, data->m) : 0;
 
   // Compute objective.
   QCOSFloat obj = dot(work->x, data->c, data->n);
@@ -121,47 +130,69 @@ unsigned char check_stopping(QCOSSolver* solver)
   // Correct for regularization in P.
   QCOSFloat regularization_correction = 0.0;
   for (QCOSInt i = 0; i < work->data->n; ++i) {
-    regularization_correction +=
-        solver->settings->reg * work->x[i] * work->x[i];
+    regularization_correction += solver->settings->reg * work->kkt->k *
+                                 work->kkt->Druiz[i] * work->kkt->Druiz[i] *
+                                 work->x[i] * work->x[i];
   }
   obj += 0.5 * (dot(work->xbuff, work->x, data->n) - regularization_correction);
+  obj = safe_div(obj, work->kkt->k);
   solver->sol->obj = obj;
 
   // Compute ||A^T * y||_\infty. If equality constraints aren't present, A->m =
   // A->n = 0 and SpMtv is a nullop.
   SpMtv(data->A, work->y, work->xbuff);
-  QCOSFloat Atyinf = data->p ? norm_inf(work->xbuff, data->n) : 0;
+  ew_product(work->xbuff, work->kkt->Dinvruiz, work->xbuff, data->n);
+  QCOSFloat Atyinf = data->p ? inf_norm(work->xbuff, data->n) : 0;
 
   // Compute ||G^T * z||_\infty. If inequality constraints aren't present, G->m
   // = G->n = 0 and SpMtv is a nullop.
   SpMtv(data->G, work->z, work->xbuff);
-  QCOSFloat Gtzinf = data->m > 0 ? norm_inf(work->xbuff, data->n) : 0;
+  ew_product(work->xbuff, work->kkt->Dinvruiz, work->xbuff, data->n);
+  QCOSFloat Gtzinf = data->m > 0 ? inf_norm(work->xbuff, data->n) : 0;
 
   // Compute ||P * x||_\infty
   SpMv(data->P, work->x, work->xbuff);
   for (QCOSInt i = 0; i < data->n; ++i) {
     work->xbuff[i] -= solver->settings->reg * work->x[i];
   }
-  QCOSFloat Pxinf = norm_inf(work->xbuff, data->n);
+  ew_product(work->xbuff, work->kkt->Dinvruiz, work->xbuff, data->n);
+  QCOSFloat Pxinf = inf_norm(work->xbuff, data->n);
 
   // Compute ||A * x||_\infty
   SpMv(data->A, work->x, work->ybuff);
-  QCOSFloat Axinf = data->p ? norm_inf(work->ybuff, data->p) : 0;
+  ew_product(work->ybuff, work->kkt->Einvruiz, work->ybuff, data->p);
+  QCOSFloat Axinf = data->p ? inf_norm(work->ybuff, data->p) : 0;
 
   // Compute ||G * x||_\infty
   SpMv(data->G, work->x, work->ubuff1);
-  QCOSFloat Gxinf = data->m ? norm_inf(work->ubuff1, data->m) : 0;
+  ew_product(work->ubuff1, work->kkt->Finvruiz, work->ubuff1, data->m);
+  QCOSFloat Gxinf = data->m ? inf_norm(work->ubuff1, data->m) : 0;
 
   // Compute primal residual.
-  QCOSFloat pres = norm_inf(&work->kkt->kktres[data->n], data->m + data->p);
+  ew_product(&work->kkt->kktres[data->n], work->kkt->Einvruiz, work->ybuff,
+             data->p);
+  QCOSFloat eq_res = inf_norm(work->ybuff, data->p);
+
+  ew_product(&work->kkt->kktres[data->n + data->p], work->kkt->Finvruiz,
+             work->ubuff1, data->m);
+  QCOSFloat conic_res = inf_norm(work->ubuff1, data->m);
+
+  QCOSFloat pres = qcos_max(eq_res, conic_res);
   solver->sol->pres = pres;
 
   // Compute dual residual.
-  QCOSFloat dres = norm_inf(work->kkt->kktres, data->n);
+  ew_product(work->kkt->kktres, work->kkt->Dinvruiz, work->xbuff, data->n);
+  QCOSFloat kinv = safe_div(1.0, work->kkt->k);
+  scale_arrayf(work->xbuff, work->xbuff, kinv, data->n);
+  QCOSFloat dres = inf_norm(work->xbuff, data->n);
   solver->sol->dres = dres;
 
   // Compute duality gap.
-  solver->sol->gap = work->mu * data->m;
+  ew_product(work->s, work->kkt->Fruiz, work->ubuff1, data->m);
+  ew_product(work->z, work->kkt->Fruiz, work->ubuff2, data->m);
+  QCOSFloat gap = dot(work->ubuff1, work->ubuff2, data->m);
+  gap *= kinv;
+  solver->sol->gap = gap;
 
   // Compute max{Axinf, binf, Gxinf, hinf, sinf}.
   QCOSFloat pres_rel = qcos_max(Axinf, binf);
@@ -173,6 +204,7 @@ unsigned char check_stopping(QCOSSolver* solver)
   QCOSFloat dres_rel = qcos_max(Pxinf, Atyinf);
   dres_rel = qcos_max(pres_rel, Gtzinf);
   dres_rel = qcos_max(pres_rel, cinf);
+  dres_rel *= kinv;
 
   // Compute max{sinf, zinf}.
   QCOSFloat gap_rel = qcos_max(sinf, zinf);

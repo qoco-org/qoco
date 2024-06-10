@@ -93,7 +93,7 @@ QCOSInt max_arrayi(const QCOSInt* x, QCOSInt n);
  * y = s * x
  *
  * @param x Input array.
- * @param x Output array.
+ * @param y Output array.
  * @param s Scaling factor.
  * @param n Length of arrays.
  */
@@ -148,7 +148,7 @@ void SpMtv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
  * @param n Length of input vector.
  * @return Infinity norm of x.
  */
-QCOSFloat norm_inf(const QCOSFloat* x, QCOSInt n);
+QCOSFloat inf_norm(const QCOSFloat* x, QCOSInt n);
 
 /**
  * @brief Adds lambda * I to a CSC matrix. Called on P prior to construction of
@@ -159,5 +159,58 @@ QCOSFloat norm_inf(const QCOSFloat* x, QCOSInt n);
  * @param lambda
  */
 void regularize(QCOSCscMatrix* M, QCOSFloat lambda);
+
+/**
+ * @brief Computes the infinity norm of each column of M and stores in norm.
+ *
+ * @param M An m by n sparse matrix.
+ * @param norm Result vector of length n.
+ */
+void col_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm);
+
+/**
+ * @brief Computes the infinity norm of each column (or equivalently row) of a
+ * symmetric sparse matrix M where only the upper triangular portion of M is
+ * given.
+ *
+ * @param M Upper triangular part of sparse symmetric matrix.
+ * @param norm Result vector of length n.
+ */
+void col_inf_norm_USymm(const QCOSCscMatrix* M, QCOSFloat* norm);
+
+/**
+ * @brief Computes the infinity norm of each row of M and stores in norm.
+ *
+ * @param M An m by n sparse matrix.
+ * @param norm Result vector of length m.
+ */
+void row_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm);
+
+/**
+ * @brief Scales the columns of M by S.
+ * M = M * diag(S)
+ *
+ * @param M An m by n sparse matrix.
+ * @param S Vector of length n.
+ */
+void col_scale(const QCOSCscMatrix* M, QCOSFloat* S);
+
+/**
+ * @brief Scales the rows of M by S.
+ * M = diag(S) * M
+ *
+ * @param M An m by n sparse matrix.
+ * @param S Vector of length m.
+ */
+void row_scale(const QCOSCscMatrix* M, QCOSFloat* S);
+
+/**
+ * @brief Computes elementwise product z = x .* y
+ *
+ * @param x Input array.
+ * @param y Input array.
+ * @param n Length of arrays.
+ */
+void ew_product(QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSInt n);
 
 #endif /* #ifndef LINALG_H*/
