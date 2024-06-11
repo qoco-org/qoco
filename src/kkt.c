@@ -267,9 +267,7 @@ void compute_kkt_residual(QCOSSolver* solver)
   for (idx = 0; idx < work->data->n; ++idx) {
     work->kkt->kktres[idx] =
         work->kkt->kktres[idx] +
-        (work->data->c[idx] - solver->settings->reg * work->kkt->k *
-                                  work->kkt->Druiz[idx] *
-                                  work->kkt->Druiz[idx] * work->x[idx]);
+        (work->data->c[idx] - solver->settings->reg * work->x[idx]);
   }
 
   // Add -b and account for regularization.
@@ -501,11 +499,11 @@ void ruiz_equilibration(QCOSSolver* solver)
     // d(i) = 1 / sqrt(max([Pinf(i), Atinf(i), Gtinf(i)]));
     // g = 1 / max(mean(Pinf), norm(c, "inf"));
     for (QCOSInt j = 0; j < data->n; ++j) {
-      work->kkt->delta[j] = 0.0;
+      work->kkt->delta[j] = 1.0;
     }
     g = inf_norm(data->c, data->n);
     QCOSFloat Pinf_mean = 0.0;
-    if (data->P->nnz > 0) {
+    if (data->P) {
       col_inf_norm_USymm(data->P, work->kkt->delta);
       for (QCOSInt j = 0; j < data->P->n; ++j) {
         Pinf_mean += work->kkt->delta[j];
@@ -568,9 +566,11 @@ void ruiz_equilibration(QCOSSolver* solver)
     }
 
     // Scale P.
-    scale_arrayf(data->P->x, data->P->x, g, data->P->nnz);
-    row_scale(data->P, D);
-    col_scale(data->P, D);
+    if (data->P) {
+      scale_arrayf(data->P->x, data->P->x, g, data->P->nnz);
+      row_scale(data->P, D);
+      col_scale(data->P, D);
+    }
 
     // Scale c.
     scale_arrayf(data->c, data->c, g, data->n);

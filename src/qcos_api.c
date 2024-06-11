@@ -57,13 +57,13 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->work->data->q = q;
   solver->work->data->l = l;
   solver->work->data->nsoc = nsoc;
-  // Copy and regularize P.
+
+  // Copy P.
   if (P) {
     solver->work->data->P = new_qcos_csc_matrix(P);
-    regularize(solver->work->data->P, solver->settings->reg);
   }
   else {
-    solver->work->data->P = construct_identity(n, solver->settings->reg);
+    solver->work->data->P = NULL;
   }
 
   // Equilibrate data.
@@ -76,6 +76,14 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->work->kkt->Einvruiz = qcos_malloc(p * sizeof(QCOSFloat));
   solver->work->kkt->Finvruiz = qcos_malloc(m * sizeof(QCOSFloat));
   ruiz_equilibration(solver);
+
+  // Regularize P.
+  if (P) {
+    regularize(solver->work->data->P, solver->settings->reg);
+  }
+  else {
+    solver->work->data->P = construct_identity(n, solver->settings->reg);
+  }
 
   // Allocate KKT struct.
   allocate_kkt(solver->work);
