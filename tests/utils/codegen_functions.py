@@ -43,7 +43,7 @@ def write_csc_matrix(f, M, name):
         write_vector_int(f, M.indptr, name + "_p")
 
 
-def generate_test(problem_name, test_name):
+def generate_test(problem_name, test_name, tol):
     # Create test file.
     f = open(problem_name + "/" + test_name + "_test.cpp", "w")
 
@@ -96,9 +96,9 @@ def generate_test(problem_name, test_name):
     f.write("    ASSERT_EQ(exit, QCOS_NO_ERROR);\n\n")
     f.write("    exit = qcos_solve(solver);\n")
     f.write("    ASSERT_EQ(exit, QCOS_SOLVED);\n\n")
-    f.write("    // Expect relative error of objective to be less that 0.01%\n")
+    f.write("    // Expect relative error of objective to be less than tolerance.\n")
     f.write("    expect_rel_error(solver->sol->obj, " +
-            test_name + "_objopt, 1e-4);\n\n")
+            test_name + "_objopt, " + str(tol) + ");\n\n")
 
     # Cleanup memory allocations.
     f.write("    // Cleanup memory allocations. \n")

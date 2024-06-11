@@ -40,8 +40,8 @@ TEST(portfolio_test, markowitz)
     exit = qcos_solve(solver);
     ASSERT_EQ(exit, QCOS_SOLVED);
 
-    // Expect relative error of objective to be less that 0.01%
-    expect_rel_error(solver->sol->obj, markowitz_objopt, 1e-4);
+    // Expect relative error of objective to be less than tolerance.
+    expect_rel_error(solver->sol->obj, markowitz_objopt, 0.0001);
 
     // Cleanup memory allocations. 
     qcos_cleanup(solver);

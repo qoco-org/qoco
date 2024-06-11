@@ -46,7 +46,7 @@ def generate_markowitz():
     # Generate data file for unit test.
     cgen.generate_data(n, n, 1, P, c, A, b, G, h, l, nsoc, q,
                        prob.value, "portfolio", "markowitz")
-    cgen.generate_test("portfolio", "markowitz")
+    cgen.generate_test("portfolio", "markowitz", 1e-4)
 
 
 generate_markowitz()
