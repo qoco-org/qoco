@@ -42,6 +42,18 @@ QCOSInt qcos_validate_settings(QCOSSettings* settings)
     return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 
+  // abstol_inaccurate must be positive.
+  if (settings->abstol_inaccurate <= 0) {
+    printf("abstol_inaccurate must be positive.\n");
+    return QCOS_SETTINGS_VALIDATION_ERROR;
+  }
+
+  // reltol_inaccurate must be non-negative.
+  if (settings->reltol_inaccurate < 0) {
+    printf("reltol must be positive.\n");
+    return QCOS_SETTINGS_VALIDATION_ERROR;
+  }
+
   // reg must be less than 1.
   if (settings->reg > 1) {
     printf("reg must be less than 1.\n");

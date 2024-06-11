@@ -411,6 +411,15 @@ void predictor_corrector(QCOSSolver* solver)
   kkt_solve(work->kkt, work->kkt->rhs,
             solver->settings->iterative_refinement_iterations);
 
+  // Check if solution has NaNs. If NaNs are present, early exit and set a to
+  // 0.0 to trigger reduced tolerance optimality checks.
+  for (QCOSInt i = 0; i < work->kkt->K->n; ++i) {
+    if (isnan(work->kkt->xyz[i])) {
+      work->a = 0.0;
+      return;
+    }
+  }
+
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
   // computed in construct_kkt_comb_rhs() and stored in work->Ds.
   QCOSFloat* Dz = &work->kkt->xyz[work->data->n + work->data->p];

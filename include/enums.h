@@ -29,6 +29,9 @@ enum qcos_solve_status {
   // Solved successfully.
   QCOS_SOLVED = 1,
 
+  // Solved Inaccurately.
+  QCOS_SOLVED_INACCURATE,
+
   // Maximum number of iterations reached.
   QCOS_MAX_ITER,
 
@@ -49,6 +52,7 @@ static const char *QCOS_ERROR_MESSAGE[] = {
 static const char *QCOS_SOLVE_STATUS_MESSAGE[] = {
     "", // Solve status start from 1.
     "solved",
+    "solved inaccurately",
     "maximum iterations reached",
     "run time limit exceeded"
 };

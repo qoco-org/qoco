@@ -102,6 +102,11 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->work->z = qcos_malloc(m * sizeof(QCOSFloat));
   solver->work->mu = 0.0;
 
+  // Need to be set to 1.0 not 0.0 due to low tolerance stopping criteria checks
+  // which only occur when a = 0.0. If a is set to 0.0 then the low tolerance
+  // stopping criteria check would be triggered.
+  solver->work->a = 1.0;
+
   // Allocate Nesterov-Todd scalings and scaled variables.
   QCOSInt Wnnzfull = solver->work->data->l;
   for (QCOSInt i = 0; i < solver->work->data->nsoc; ++i) {
@@ -208,6 +213,8 @@ void set_default_settings(QCOSSettings* settings)
   settings->verbose = 0;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
+  settings->abstol_inaccurate = 1e-5;
+  settings->reltol_inaccurate = 1e-5;
   settings->reg = 1e-7;
 }
 
@@ -240,11 +247,10 @@ QCOSInt qcos_solve(QCOSSolver* solver)
       stop_timer(&(solver->work->solve_timer));
       unscale_variables(solver->work);
       copy_solution(solver);
-      solver->sol->status = QCOS_SOLVED;
       if (solver->settings->verbose) {
         print_footer(solver->sol, solver->sol->status);
       }
-      return QCOS_SOLVED;
+      return solver->sol->status;
     }
 
     // Compute Nesterov-Todd scalings.

@@ -107,6 +107,8 @@ unsigned char check_stopping(QCOSSolver* solver)
   QCOSProblemData* data = solver->work->data;
   QCOSFloat eabs = solver->settings->abstol;
   QCOSFloat erel = solver->settings->reltol;
+  QCOSFloat eabsinacc = solver->settings->abstol_inaccurate;
+  QCOSFloat erelinacc = solver->settings->reltol_inaccurate;
 
   ew_product(work->kkt->Einvruiz, data->b, work->ybuff, data->p);
   QCOSFloat binf = data->p > 0 ? inf_norm(work->ybuff, data->p) : 0;
@@ -193,9 +195,21 @@ unsigned char check_stopping(QCOSSolver* solver)
   // Compute max{sinf, zinf}.
   QCOSFloat gap_rel = qcos_max(sinf, zinf);
 
+  // If the solver stalled (stepsize = 0) check if low tolerance stopping
+  // criteria is met.
+  if ((solver->work->a < 1e-8) &&
+      (solver->work->mu < eabsinacc &&
+       pres < eabsinacc + erelinacc * pres_rel &&
+       dres < eabsinacc + erelinacc * dres_rel &&
+       solver->sol->gap < eabsinacc + erelinacc * gap_rel)) {
+    solver->sol->status = QCOS_SOLVED_INACCURATE;
+    return 1;
+  }
+
   if (solver->work->mu < eabs && pres < eabs + erel * pres_rel &&
       dres < eabs + erel * dres_rel &&
       solver->sol->gap < eabs + erel * gap_rel) {
+    solver->sol->status = QCOS_SOLVED;
     return 1;
   }
   return 0;

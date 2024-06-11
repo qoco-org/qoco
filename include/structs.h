@@ -109,6 +109,12 @@ typedef struct {
   /** Relative tolerance. */
   QCOSFloat reltol;
 
+  /** Low tolerance stopping criteria. */
+  QCOSFloat abstol_inaccurate;
+
+  /** Low tolerance stopping criteria. */
+  QCOSFloat reltol_inaccurate;
+
   /** Regularization parameter for KKT system. */
   QCOSFloat reg;
 
