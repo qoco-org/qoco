@@ -9,6 +9,7 @@
  */
 
 #include "qcos_api.h"
+#include "amd.h"
 
 QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
                    QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
@@ -79,8 +80,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   // Allocate KKT struct.
   allocate_kkt(solver->work);
   solver->work->kkt->nt2kkt = qcos_calloc(solver->work->Wnnz, sizeof(QCOSInt));
-  solver->work->kkt->ntdiag2kkt =
-      qcos_calloc(solver->work->data->m, sizeof(QCOSInt));
+  solver->work->kkt->ntdiag2kkt = qcos_calloc(m, sizeof(QCOSInt));
   solver->work->kkt->rhs = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   solver->work->kkt->kktres = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   solver->work->kkt->xyz = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
@@ -131,6 +131,35 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->work->kkt->iwork = qcos_malloc(sizeof(QCOSInt) * 3 * Kn);
   solver->work->kkt->bwork = qcos_malloc(sizeof(unsigned char) * Kn);
   solver->work->kkt->fwork = qcos_malloc(sizeof(QCOSFloat) * Kn);
+
+  // Compute AMD ordering.
+  QCOSCscMatrix* K = solver->work->kkt->K;
+  solver->work->kkt->p = qcos_malloc(K->n * sizeof(QCOSInt));
+  solver->work->kkt->pinv = qcos_malloc(K->n * sizeof(QCOSInt));
+  QCOSInt amd_status = amd_order(K->n, K->p, K->i, solver->work->kkt->p,
+                                 (double*)NULL, (double*)NULL);
+  if (amd_status < 0) {
+    return qcos_error(QCOS_AMD_ERROR);
+  }
+  invert_permutation(solver->work->kkt->p, solver->work->kkt->pinv, K->n);
+
+  // Permute KKT matrix.
+  QCOSInt* KtoPKPt = qcos_malloc(K->nnz * sizeof(QCOSInt));
+  QCOSCscMatrix* PKPt = csc_symperm(K, solver->work->kkt->pinv, KtoPKPt);
+
+  // Update mappings from NT matrix to permuted matrix.
+  for (QCOSInt i = 0; i < solver->work->Wnnz; ++i) {
+    solver->work->kkt->nt2kkt[i] = KtoPKPt[solver->work->kkt->nt2kkt[i]];
+  }
+  for (QCOSInt i = 0; i < m; ++i) {
+    solver->work->kkt->ntdiag2kkt[i] =
+        KtoPKPt[solver->work->kkt->ntdiag2kkt[i]];
+  }
+
+  free_qcos_csc_matrix(solver->work->kkt->K);
+  qcos_free(KtoPKPt);
+
+  solver->work->kkt->K = PKPt;
 
   // Compute elimination tree.
   QCOSInt sumLnz =
@@ -274,6 +303,8 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
 
   // Free KKT struct.
   free_qcos_csc_matrix(solver->work->kkt->K);
+  qcos_free(solver->work->kkt->p);
+  qcos_free(solver->work->kkt->pinv);
   qcos_free(solver->work->kkt->delta);
   qcos_free(solver->work->kkt->Druiz);
   qcos_free(solver->work->kkt->Eruiz);

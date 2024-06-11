@@ -14,6 +14,9 @@ enum qcos_error_code {
   // Error in settings validation.
   QCOS_SETTINGS_VALIDATION_ERROR,
 
+  // Error in performing amd ordering.
+  QCOS_AMD_ERROR,
+
   // Memory allocation error.
   QCOS_MALLOC_ERROR
 };
@@ -38,6 +41,7 @@ static const char *QCOS_ERROR_MESSAGE[] = {
     "", // Error codes start from 1.
     "data validation error",
     "settings validation error",
+    "amd error",
     "memory allocation error"
 };
 

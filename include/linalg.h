@@ -23,7 +23,7 @@
  * @param A Matrix to copy.
  * @return Pointer to new constructed matrix.
  */
-QCOSCscMatrix* new_qcos_csc_matrix(QCOSCscMatrix* A);
+QCOSCscMatrix* new_qcos_csc_matrix(const QCOSCscMatrix* A);
 
 /**
  * @brief Allocates a new csc matrix that is lambda * I.
@@ -212,5 +212,33 @@ void row_scale(const QCOSCscMatrix* M, QCOSFloat* S);
  * @param n Length of arrays.
  */
 void ew_product(QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSInt n);
+
+/**
+ * @brief Inverts permutation vector p and stores inverse in pinv.
+ *
+ * @param p Input permutation vector.
+ * @param pinv Inverse of permutation vector.
+ * @param n Length of vectors.
+ */
+void invert_permutation(const QCOSInt* p, QCOSInt* pinv, QCOSInt n);
+
+/**
+ * @brief Computes cumulative sum of c.
+ * @return Cumulative sum of c.
+ */
+QCOSInt cumsum(QCOSInt* p, QCOSInt* c, QCOSInt n);
+
+/**
+ * @brief C = A(p,p) = PAP' where A and C are symmetric and the upper triangular
+ * part is stored.
+ *
+ * @param A
+ * @param pinv
+ * @param AtoC
+ * @param values
+ * @return QCOSCscMatrix*
+ */
+QCOSCscMatrix* csc_symperm(const QCOSCscMatrix* A, const QCOSInt* pinv,
+                           QCOSInt* AtoC);
 
 #endif /* #ifndef LINALG_H*/

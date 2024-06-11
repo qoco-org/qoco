@@ -241,14 +241,24 @@ void compute_kkt_residual(QCOSSolver* solver)
   // Zero out the NT scaling block.
   set_nt_block_zeros(work);
 
-  // Set xyz to [x;y;z]
-  copy_arrayf(work->x, work->kkt->xyz, work->data->n);
-  copy_arrayf(work->y, &work->kkt->xyz[work->data->n], work->data->p);
-  copy_arrayf(work->z, &work->kkt->xyz[work->data->n + work->data->p],
+  // Set xyzbuff to [x;y;z]
+  copy_arrayf(work->x, work->kkt->xyzbuff, work->data->n);
+  copy_arrayf(work->y, &work->kkt->xyzbuff[work->data->n], work->data->p);
+  copy_arrayf(work->z, &work->kkt->xyzbuff[work->data->n + work->data->p],
               work->data->m);
 
+  // Permute xyzbuff and store into xyz.
+  for (QCOSInt i = 0; i < work->kkt->K->n; ++i) {
+    work->kkt->xyz[i] = work->kkt->xyzbuff[work->kkt->p[i]];
+  }
+
   // rhs = K * [x;y;z]
-  USpMv(work->kkt->K, work->kkt->xyz, work->kkt->kktres);
+  USpMv(work->kkt->K, work->kkt->xyz, work->kkt->xyzbuff);
+
+  // Permute again to get xyz.
+  for (QCOSInt i = 0; i < work->kkt->K->n; ++i) {
+    work->kkt->kktres[work->kkt->p[i]] = work->kkt->xyzbuff[i];
+  }
 
   // rhs += [c;-b;-h+s]
   QCOSInt idx;
@@ -432,30 +442,38 @@ void predictor_corrector(QCOSSolver* solver)
 
 void kkt_solve(QCOSKKT* kkt, QCOSFloat* b, QCOSInt iters)
 {
-  // Copy b into xyz.
+  // Permute b and store in xyzbuff.
   for (QCOSInt i = 0; i < kkt->K->n; ++i) {
-    kkt->xyz[i] = b[i];
+    kkt->xyzbuff[i] = b[kkt->p[i]];
+  }
+
+  // Copy permuted b into b.
+  for (QCOSInt i = 0; i < kkt->K->n; ++i) {
+    b[i] = kkt->xyzbuff[i];
   }
 
   // Triangular solve.
-  QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyz);
+  QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyzbuff);
 
   // Iterative refinement.
   for (QCOSInt i = 0; i < iters; ++i) {
-
-    // xyzbuff = b - K * x
-    USpMv(kkt->K, kkt->xyz, kkt->xyzbuff);
+    // r = b - K * x
+    USpMv(kkt->K, kkt->xyzbuff, kkt->xyz);
     for (QCOSInt j = 0; j < kkt->K->n; ++j) {
-      kkt->xyzbuff[j] = b[j] - kkt->xyzbuff[j];
+      kkt->xyz[j] = b[j] - kkt->xyz[j];
     }
 
-    // dx = K \ xyzbuff
-    QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyzbuff);
+    // dx = K \ r
+    QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyz);
 
     // x = x + dx.
     for (QCOSInt i = 0; i < kkt->K->n; ++i) {
-      kkt->xyz[i] += kkt->xyzbuff[i];
+      kkt->xyzbuff[i] += kkt->xyz[i];
     }
+  }
+
+  for (QCOSInt i = 0; i < kkt->K->n; ++i) {
+    kkt->xyz[kkt->p[i]] = kkt->xyzbuff[i];
   }
 }
 

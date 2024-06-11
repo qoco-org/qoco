@@ -10,7 +10,7 @@
 
 #include "linalg.h"
 
-QCOSCscMatrix* new_qcos_csc_matrix(QCOSCscMatrix* A)
+QCOSCscMatrix* new_qcos_csc_matrix(const QCOSCscMatrix* A)
 {
   QCOSCscMatrix* M = qcos_malloc(sizeof(QCOSCscMatrix));
 
@@ -337,4 +337,93 @@ void ew_product(QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSInt n)
   for (QCOSInt i = 0; i < n; ++i) {
     z[i] = x[i] * y[i];
   }
+}
+
+void invert_permutation(const QCOSInt* p, QCOSInt* pinv, QCOSInt n)
+{
+  for (QCOSInt i = 0; i < n; ++i) {
+    pinv[p[i]] = i;
+  }
+}
+
+QCOSInt cumsum(QCOSInt* p, QCOSInt* c, QCOSInt n)
+{
+  qcos_assert(p);
+  qcos_assert(c);
+
+  QCOSInt nz = 0;
+  for (QCOSInt i = 0; i < n; i++) {
+    p[i] = nz;
+    nz += c[i];
+    c[i] = p[i];
+  }
+  p[n] = nz;
+  return nz;
+}
+
+QCOSCscMatrix* csc_symperm(const QCOSCscMatrix* A, const QCOSInt* pinv,
+                           QCOSInt* AtoC)
+{
+  QCOSInt i, j, p, q, i2, j2, n;
+  QCOSInt* Ap;
+  QCOSInt* Ai;
+  QCOSInt* Cp;
+  QCOSInt* Ci;
+  QCOSInt* w;
+  QCOSFloat* Cx;
+  QCOSFloat* Ax;
+  QCOSCscMatrix* C;
+
+  n = A->n;
+  Ap = A->p;
+  Ai = A->i;
+  Ax = A->x;
+  C = new_qcos_csc_matrix(A);
+  w = qcos_calloc(n, sizeof(QCOSInt));
+
+  qcos_assert(C);
+  qcos_assert(w);
+
+  Cp = C->p;
+  Ci = C->i;
+  Cx = C->x;
+
+  for (j = 0; j < n; j++) /* count entries in each column of C */
+  {
+    j2 = pinv ? pinv[j] : j; /* column j of A is column j2 of C */
+
+    for (p = Ap[j]; p < Ap[j + 1]; p++) {
+      i = Ai[p];
+
+      if (i > j)
+        continue;              /* skip lower triangular part of A */
+      i2 = pinv ? pinv[i] : i; /* row i of A is row i2 of C */
+      w[qcos_max(i2, j2)]++;   /* column count of C */
+    }
+  }
+  cumsum(Cp, w, n); /* compute column pointers of C */
+
+  for (j = 0; j < n; j++) {
+    j2 = pinv ? pinv[j] : j; /* column j of A is column j2 of C */
+
+    for (p = Ap[j]; p < Ap[j + 1]; p++) {
+      i = Ai[p];
+
+      if (i > j)
+        continue;              /* skip lower triangular
+                                  part of A*/
+      i2 = pinv ? pinv[i] : i; /* row i of A is row i2
+                                  of C */
+      Ci[q = w[qcos_max(i2, j2)]++] = qcos_min(i2, j2);
+
+      if (Cx)
+        Cx[q] = Ax[p];
+
+      if (AtoC) { // If vector AtoC passed, store values of the mappings
+        AtoC[p] = q;
+      }
+    }
+  }
+  qcos_free(w);
+  return C;
 }

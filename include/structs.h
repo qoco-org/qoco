@@ -149,6 +149,12 @@ typedef struct {
   /** Cost scaling factor. */
   QCOSFloat k;
 
+  /** Permutation vector. */
+  QCOSInt* p;
+
+  /** Inverse of permutation vector. */
+  QCOSInt* pinv;
+
   /** Elimination tree for LDL factorization of K. */
   QCOSInt* etree;
 
