@@ -353,3 +353,64 @@ TEST(linalg, row_scale_norm_test)
 
   free(A);
 }
+
+TEST(linalg, ruiz_test)
+{
+  QCOSInt p = 2;
+  QCOSInt m = 6;
+  QCOSInt n = 6;
+  QCOSInt l = 3;
+  QCOSInt nsoc = 1;
+
+  QCOSFloat Px[] = {1, 2, 3, 4, 5, 6};
+  QCOSInt Pnnz = 6;
+  QCOSInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
+  QCOSInt Pi[] = {0, 1, 2, 3, 4, 5};
+
+  QCOSFloat Ax[] = {1, 1, 1, 2};
+  QCOSInt Annz = 4;
+  QCOSInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
+  QCOSInt Ai[] = {0, 0, 1, 1};
+
+  QCOSFloat Gx[] = {-1, -1, -1, -1, -1, -1};
+  QCOSInt Gnnz = 6;
+  QCOSInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
+  QCOSInt Gi[] = {0, 1, 2, 3, 4, 5};
+
+  QCOSFloat c[] = {1, 2, 3, 4, 5, 6};
+  QCOSFloat b[] = {1, 2};
+  QCOSFloat h[] = {0, 0, 0, 0, 0, 0};
+  QCOSInt q[] = {3};
+
+  QCOSCscMatrix* P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* G = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+
+  qcos_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+  qcos_set_csc(A, p, n, Annz, Ax, Ap, Ai);
+  qcos_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
+
+  QCOSFloat Dexp[] = {1.0000, 0.8409, 0.6389, 0.7071, 0.7022, 0.6894};
+  QCOSFloat Eexp[] = {1.0000, 0.7825};
+  QCOSFloat Fexp[] = {1.0000, 1.1892, 1.5315, 1.4142, 1.4142, 1.4142};
+  QCOSFloat kexp = 0.2480;
+  QCOSFloat tol = 1e-4;
+
+  QCOSSettings* settings = (QCOSSettings*)malloc(sizeof(QCOSSettings));
+  set_default_settings(settings);
+  settings->ruiz_iters = 5;
+
+  QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
+
+  qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
+
+  expect_eq_vectorf(solver->work->kkt->Druiz, Dexp, n, tol);
+  expect_eq_vectorf(solver->work->kkt->Eruiz, Eexp, p, tol);
+  expect_eq_vectorf(solver->work->kkt->Fruiz, Fexp, m, tol);
+  EXPECT_NEAR(solver->work->kkt->k, kexp, tol);
+
+  qcos_cleanup(solver);
+  free(P);
+  free(A);
+  free(G);
+}
