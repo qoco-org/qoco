@@ -123,20 +123,6 @@ unsigned char check_stopping(QCOSSolver* solver)
   ew_product(work->kkt->Finvruiz, data->h, work->ubuff3, data->m);
   QCOSFloat hinf = data->m > 0 ? inf_norm(work->ubuff3, data->m) : 0;
 
-  // Compute objective.
-  QCOSFloat obj = dot(work->x, data->c, data->n);
-  USpMv(data->P, work->x, work->xbuff);
-
-  // Correct for regularization in P.
-  QCOSFloat regularization_correction = 0.0;
-  for (QCOSInt i = 0; i < work->data->n; ++i) {
-    regularization_correction +=
-        solver->settings->reg * work->x[i] * work->x[i];
-  }
-  obj += 0.5 * (dot(work->xbuff, work->x, data->n) - regularization_correction);
-  obj = safe_div(obj, work->kkt->k);
-  solver->sol->obj = obj;
-
   // Compute ||A^T * y||_\infty. If equality constraints aren't present, A->m =
   // A->n = 0 and SpMtv is a nullop.
   SpMtv(data->A, work->y, work->xbuff);

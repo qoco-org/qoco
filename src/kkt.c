@@ -283,6 +283,21 @@ void compute_kkt_residual(QCOSSolver* solver)
     work->kkt->kktres[idx] += -work->data->h[i] + work->s[i];
     idx += 1;
   }
+
+  // Compute objective.
+  QCOSFloat obj = dot(work->x, work->data->c, work->data->n);
+  USpMv(work->data->P, work->x, work->xbuff);
+
+  // Correct for regularization in P.
+  QCOSFloat regularization_correction = 0.0;
+  for (QCOSInt i = 0; i < work->data->n; ++i) {
+    regularization_correction +=
+        solver->settings->reg * work->x[i] * work->x[i];
+  }
+  obj += 0.5 *
+         (dot(work->xbuff, work->x, work->data->n) - regularization_correction);
+  obj = safe_div(obj, work->kkt->k);
+  solver->sol->obj = obj;
 }
 
 void construct_kkt_aff_rhs(QCOSWorkspace* work)

@@ -68,9 +68,8 @@ void print_footer(QCOSSolution* solution, enum qcos_solve_status status);
 /**
  * @brief Checks stopping criteria.
  * Before calling this function, work->kkt->rhs must contain the
- * residual of the KKT conditions as computed by compute_kkt_residual() and
- * work->mu must contain the scaled slackness as computed by compute_mu().
- * @param solver
+ * residual of the KKT conditions as computed by compute_kkt_residual().
+ * @param solver Pointer to solver.
  * @return 1 if stopping criteria met and 0 otherwise.
  */
 unsigned char check_stopping(QCOSSolver* solver);

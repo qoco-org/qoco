@@ -26,7 +26,7 @@ void ruiz_equilibration(QCOSSolver* solver)
 
     // Compute infinity norm of rows of [P A' G']
     for (QCOSInt j = 0; j < data->n; ++j) {
-      work->kkt->delta[j] = 1.0;
+      work->kkt->delta[j] = 0.0;
     }
     g = inf_norm(data->c, data->n);
     QCOSFloat Pinf_mean = 0.0;
