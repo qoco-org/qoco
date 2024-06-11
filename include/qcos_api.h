@@ -17,6 +17,7 @@
 
 #include "definitions.h"
 #include "enums.h"
+#include "equilibration.h"
 #include "input_validation.h"
 #include "kkt.h"
 #include "linalg.h"

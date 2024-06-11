@@ -149,6 +149,9 @@ typedef struct {
   /** Cost scaling factor. */
   QCOSFloat k;
 
+  /** Inverse of cost scaling factor. */
+  QCOSFloat kinv;
+
   /** Permutation vector. */
   QCOSInt* p;
 

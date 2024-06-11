@@ -181,8 +181,7 @@ unsigned char check_stopping(QCOSSolver* solver)
 
   // Compute dual residual.
   ew_product(work->kkt->kktres, work->kkt->Dinvruiz, work->xbuff, data->n);
-  QCOSFloat kinv = safe_div(1.0, work->kkt->k);
-  scale_arrayf(work->xbuff, work->xbuff, kinv, data->n);
+  scale_arrayf(work->xbuff, work->xbuff, work->kkt->kinv, data->n);
   QCOSFloat dres = inf_norm(work->xbuff, data->n);
   solver->sol->dres = dres;
 
@@ -190,7 +189,7 @@ unsigned char check_stopping(QCOSSolver* solver)
   ew_product(work->s, work->kkt->Fruiz, work->ubuff1, data->m);
   ew_product(work->z, work->kkt->Fruiz, work->ubuff2, data->m);
   QCOSFloat gap = dot(work->ubuff1, work->ubuff2, data->m);
-  gap *= kinv;
+  gap *= work->kkt->kinv;
   solver->sol->gap = gap;
 
   // Compute max{Axinf, binf, Gxinf, hinf, sinf}.
@@ -203,7 +202,7 @@ unsigned char check_stopping(QCOSSolver* solver)
   QCOSFloat dres_rel = qcos_max(Pxinf, Atyinf);
   dres_rel = qcos_max(pres_rel, Gtzinf);
   dres_rel = qcos_max(pres_rel, cinf);
-  dres_rel *= kinv;
+  dres_rel *= work->kkt->kinv;
 
   // Compute max{sinf, zinf}.
   QCOSFloat gap_rel = qcos_max(sinf, zinf);
