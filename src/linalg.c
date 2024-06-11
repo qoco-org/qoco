@@ -270,13 +270,6 @@ void regularize(QCOSCscMatrix* M, QCOSFloat lambda)
   }
 }
 
-void col_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm)
-{
-  for (QCOSInt j = 0; j < M->n; ++j) {
-    norm[j] = inf_norm(&M->x[M->p[j]], M->p[j + 1] - M->p[j]);
-  }
-}
-
 void col_inf_norm_USymm(const QCOSCscMatrix* M, QCOSFloat* norm)
 {
   for (QCOSInt j = 0; j < M->n; j++) {
@@ -419,9 +412,7 @@ QCOSCscMatrix* csc_symperm(const QCOSCscMatrix* A, const QCOSInt* pinv,
       if (Cx)
         Cx[q] = Ax[p];
 
-      if (AtoC) { // If vector AtoC passed, store values of the mappings
-        AtoC[p] = q;
-      }
+      AtoC[p] = q;
     }
   }
   qcos_free(w);

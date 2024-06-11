@@ -130,9 +130,8 @@ unsigned char check_stopping(QCOSSolver* solver)
   // Correct for regularization in P.
   QCOSFloat regularization_correction = 0.0;
   for (QCOSInt i = 0; i < work->data->n; ++i) {
-    regularization_correction += solver->settings->reg * work->kkt->k *
-                                 work->kkt->Druiz[i] * work->kkt->Druiz[i] *
-                                 work->x[i] * work->x[i];
+    regularization_correction +=
+        solver->settings->reg * work->x[i] * work->x[i];
   }
   obj += 0.5 * (dot(work->xbuff, work->x, data->n) - regularization_correction);
   obj = safe_div(obj, work->kkt->k);

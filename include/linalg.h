@@ -161,14 +161,6 @@ QCOSFloat inf_norm(const QCOSFloat* x, QCOSInt n);
 void regularize(QCOSCscMatrix* M, QCOSFloat lambda);
 
 /**
- * @brief Computes the infinity norm of each column of M and stores in norm.
- *
- * @param M An m by n sparse matrix.
- * @param norm Result vector of length n.
- */
-void col_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm);
-
-/**
  * @brief Computes the infinity norm of each column (or equivalently row) of a
  * symmetric sparse matrix M where only the upper triangular portion of M is
  * given.

@@ -264,29 +264,6 @@ TEST(linalg, regularize_test2)
   free_qcos_csc_matrix(Pexpmalloc);
 }
 
-TEST(linalg, col_inf_norm_test)
-{
-  constexpr QCOSInt m = 5;
-  constexpr QCOSInt n = 3;
-  QCOSFloat Ax[] = {1, 4, 10, 3, 2, 8, -11, 4, 3, -6, 9, 5};
-  QCOSInt Annz = 12;
-  QCOSInt Ap[] = {0, 4, 8, 12};
-  QCOSInt Ai[] = {0, 1, 3, 4, 0, 2, 3, 4, 0, 1, 2, 4};
-  QCOSFloat norm[n];
-  QCOSFloat norm_expected[] = {10.0, 11.0, 9.0};
-
-  QCOSFloat tol = 1e-12;
-
-  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
-  qcos_set_csc(A, m, n, Annz, Ax, Ap, Ai);
-
-  col_inf_norm(A, norm);
-
-  expect_eq_vectorf(norm, norm_expected, n, tol);
-
-  free(A);
-}
-
 TEST(linalg, col_inf_norm_USymm_test)
 {
   constexpr QCOSInt m = 3;
