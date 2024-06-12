@@ -68,14 +68,38 @@ void print_arrayi(QCOSInt* x, QCOSInt n)
   printf("}\n");
 }
 
-void print_header()
+void print_header(QCOSSolver* solver)
 {
+  QCOSProblemData* data = solver->work->data;
+  QCOSSettings* settings = solver->settings;
+
   // clang-format off
   printf("\n");
-  printf("+-----------------------------------------------------------------------------------+\n");
-  printf("|          ..:: QCOS - Quadratic Objective Conic Optimization Solver ::..           |\n");
-  printf("|                            (c) Govind M. Chari, 2024                              |\n");
-  printf("|                 University of Washington Autonomous Controls Lab                  |\n");
+  printf("+-------------------------------------------------------+\n");
+  printf("|  QCOS - Quadratic Objective Conic Optimization Solver |\n");
+  printf("|             (c) Govind M. Chari, 2024                 |\n");
+  printf("|    University of Washington Autonomous Controls Lab   |\n");
+  printf("+-------------------------------------------------------+\n");
+  printf("| Problem Data:                                         |\n");
+  printf("|     variables:        %-9d                       |\n", data->n);
+  printf("|     constraints:      %-9d                       |\n", data->l + data->p + data->nsoc);
+  printf("|     eq constraints:   %-9d                       |\n", data->p);
+  printf("|     ineq constraints: %-9d                       |\n", data->l);
+  printf("|     soc constraints:  %-9d                       |\n", data->l);
+  printf("|     nnz(P):           %-9d                       |\n", data->P->nnz);
+  printf("|     nnz(A):           %-9d                       |\n", data->A->nnz);
+  printf("|     nnz(G):           %-9d                       |\n", data->G->nnz);
+  printf("| Solver Settings:                                      |\n");
+  printf("|     max_iter: %-3d abstol: %3.2e reltol: %3.2e   |\n", settings->max_iters, settings->abstol, settings->reltol);
+  printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inaccurate, settings->reltol_inaccurate);
+  printf("|     bisection_iters: %-2d iterative_refine_iters: %-2d    |\n", settings->bisection_iters, settings->iterative_refinement_iterations);
+  printf("|     ruiz_iters: %-2d static_regularization: %3.2e    |\n", settings->ruiz_iters, settings->reg);
+  printf("+-------------------------------------------------------+\n");
+  printf("\n");
+  // printf("+-----------------------------------------------------------------------------------+\n");
+  // printf("|          ..:: QCOS - Quadratic Objective Conic Optimization Solver ::..           |\n");
+  // printf("|                            (c) Govind M. Chari, 2024                              |\n");
+  // printf("|                 University of Washington Autonomous Controls Lab                  |\n");
   printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
   printf("|  Iter  |   Pcost   |    Pres    |    Dres    |     Gap    |     Mu    |    Step   |\n");
   printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");

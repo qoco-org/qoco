@@ -24,9 +24,9 @@ QCOSInt qcos_validate_settings(QCOSSettings* settings)
     return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 
-  // max_iter_bisection must be positive.
-  if (settings->max_iter_bisection <= 0) {
-    printf("max_iter_bisection must be positive.\n");
+  // bisection_iters must be positive.
+  if (settings->bisection_iters <= 0) {
+    printf("bisection_iters must be positive.\n");
     return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 

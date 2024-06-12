@@ -47,8 +47,9 @@ void print_arrayi(QCOSInt* x, QCOSInt n);
 /**
  * @brief Prints QCOS header.
  *
+ * @param solver Pointer to solver.
  */
-void print_header();
+void print_header(QCOSSolver* solver);
 
 /**
  * @brief Print solver progress.

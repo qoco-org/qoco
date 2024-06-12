@@ -207,7 +207,7 @@ void qcos_set_csc(QCOSCscMatrix* A, QCOSInt m, QCOSInt n, QCOSInt Annz,
 void set_default_settings(QCOSSettings* settings)
 {
   settings->max_iters = 50;
-  settings->max_iter_bisection = 5;
+  settings->bisection_iters = 5;
   settings->ruiz_iters = 5;
   settings->iterative_refinement_iterations = 3;
   settings->verbose = 0;
@@ -228,7 +228,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
   }
 
   if (solver->settings->verbose) {
-    print_header();
+    print_header(solver);
   }
 
   // Get initializations for primal and dual variables.

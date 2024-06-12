@@ -94,8 +94,8 @@ typedef struct {
   /** Maximum number of IPM iterations. */
   QCOSInt max_iters;
 
-  /** Maximum number of bisection iterations for linesearch. */
-  QCOSInt max_iter_bisection;
+  /** Number of bisection iterations for linesearch. */
+  QCOSInt bisection_iters;
 
   /** Number of Ruiz equilibration iterations. */
   QCOSInt ruiz_iters;
