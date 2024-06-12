@@ -44,6 +44,11 @@ target_include_directories(qcos PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qcos PUBLIC lib/amd)
 target_sources(qcos PRIVATE src/qcos_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qcos_error.c src/timer.c src/equilibration.c)
 
+# Build qcos demo.
+add_executable(qcos_demo examples/qcos_demo.c)
+target_include_directories(qcos_demo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(qcos_demo qcos)
+
 # Test definitions.
 if(ENABLE_TESTING)
     configure_file(CMakeLists.txt.in
