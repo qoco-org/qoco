@@ -81,6 +81,18 @@ void qcos_set_csc(QCOSCscMatrix* A, QCOSInt m, QCOSInt n, QCOSInt Annz,
 void set_default_settings(QCOSSettings* settings);
 
 /**
+ * @brief Updates data vectors. NULL can be passed in for any vector if that
+ * data will not be updated.
+ *
+ * @param solver Pointer to solver.
+ * @param cnew New c vector.
+ * @param bnew New b vector.
+ * @param hnew New h vector.
+ */
+void update_vector_data(QCOSSolver* solver, QCOSFloat* cnew, QCOSFloat* bnew,
+                        QCOSFloat* hnew);
+
+/**
  * @brief Solves SOCP.
  *
  * @param solver Pointer to solver.

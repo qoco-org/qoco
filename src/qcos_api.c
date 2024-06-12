@@ -189,6 +189,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->sol->y = qcos_malloc(p * sizeof(QCOSFloat));
   solver->sol->z = qcos_malloc(m * sizeof(QCOSFloat));
   solver->sol->iters = 0;
+  solver->sol->status = QCOS_UNSOLVED;
 
   return QCOS_NO_ERROR;
 }
@@ -216,6 +217,34 @@ void set_default_settings(QCOSSettings* settings)
   settings->abstol_inaccurate = 1e-5;
   settings->reltol_inaccurate = 1e-5;
   settings->reg = 1e-7;
+}
+
+void update_vector_data(QCOSSolver* solver, QCOSFloat* cnew, QCOSFloat* bnew,
+                        QCOSFloat* hnew)
+{
+  solver->sol->status = QCOS_UNSOLVED;
+  QCOSProblemData* data = solver->work->data;
+
+  // Update cost vector.
+  if (cnew) {
+    for (QCOSInt i = 0; i < data->n; ++i) {
+      data->c[i] = solver->work->kkt->k * solver->work->kkt->Druiz[i] * cnew[i];
+    }
+  }
+
+  // Update equality constraint vector.
+  if (bnew) {
+    for (QCOSInt i = 0; i < data->p; ++i) {
+      data->b[i] = solver->work->kkt->Eruiz[i] * bnew[i];
+    }
+  }
+
+  // Update conic constraint vector.
+  if (hnew) {
+    for (QCOSInt i = 0; i < data->m; ++i) {
+      data->h[i] = solver->work->kkt->Fruiz[i] * hnew[i];
+    }
+  }
 }
 
 QCOSInt qcos_solve(QCOSSolver* solver)

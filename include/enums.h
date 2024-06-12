@@ -26,6 +26,9 @@ enum qcos_error_code {
  *
  */
 enum qcos_solve_status {
+  // Unsolved (Solver needs to be called.)
+  QCOS_UNSOLVED = 0,
+
   // Solved successfully.
   QCOS_SOLVED = 1,
 

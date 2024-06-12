@@ -268,3 +268,77 @@ TEST(simple_socp_test, reduced_tolerance)
   free(A);
   free(G);
 }
+
+TEST(simple_socp_test, update_vector_data_test)
+{
+  QCOSInt p = 2;
+  QCOSInt m = 6;
+  QCOSInt n = 6;
+  QCOSInt l = 3;
+  QCOSInt nsoc = 1;
+
+  QCOSFloat Px[] = {1, 2, 3, 4, 5, 6};
+  QCOSInt Pnnz = 6;
+  QCOSInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
+  QCOSInt Pi[] = {0, 1, 2, 3, 4, 5};
+
+  QCOSFloat Ax[] = {1, 1, 1, 2};
+  QCOSInt Annz = 4;
+  QCOSInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
+  QCOSInt Ai[] = {0, 0, 1, 1};
+
+  QCOSFloat Gx[] = {-1, -1, -1, -1, -1, -1};
+  QCOSInt Gnnz = 6;
+  QCOSInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
+  QCOSInt Gi[] = {0, 1, 2, 3, 4, 5};
+
+  QCOSFloat c[] = {1, 2, 3, 4, 5, 6};
+  QCOSFloat b[] = {1, 2};
+  QCOSFloat h[] = {0, 0, 0, 0, 0, 0};
+
+  QCOSFloat cnew[] = {0, 0, 0, 0, 0, 0};
+  QCOSFloat bnew[] = {4, 5};
+  QCOSFloat hnew[] = {1, 1, 1, 1, 1, 1};
+
+  QCOSInt q[] = {3};
+
+  QCOSCscMatrix* P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* G = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+
+  qcos_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+  qcos_set_csc(A, p, n, Annz, Ax, Ap, Ai);
+  qcos_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
+
+  QCOSFloat xexp[] = {1.9333, 2.0667, 1.4667, 0.2391, -0.1337, -0.1140};
+  QCOSFloat sexp[] = {2.9333, 3.0667, 2.4667, 1.2391, 0.8663, 0.8860};
+  QCOSFloat yexp[] = {-1.9333, -2.2000};
+  QCOSFloat zexp[] = {0.0000, 0.0000, 0.0000, 0.9565, -0.6687, -0.6839};
+  QCOSFloat tol = 1e-4;
+
+  QCOSSettings* settings = (QCOSSettings*)malloc(sizeof(QCOSSettings));
+  set_default_settings(settings);
+  settings->verbose = 1;
+
+  QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
+
+  QCOSInt exit =
+      qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
+  if (exit == QCOS_NO_ERROR) {
+    exit = qcos_solve(solver);
+  }
+
+  update_vector_data(solver, cnew, bnew, hnew);
+  exit = qcos_solve(solver);
+
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
+  expect_eq_vectorf(solver->sol->y, yexp, p, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  ASSERT_EQ(exit, QCOS_SOLVED);
+
+  qcos_cleanup(solver);
+  free(P);
+  free(A);
+  free(G);
+}
