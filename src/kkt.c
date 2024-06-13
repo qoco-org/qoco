@@ -40,6 +40,7 @@ void construct_kkt(QCOSSolver* solver)
   QCOSInt col = 0;
   // Add P block
   for (QCOSInt k = 0; k < work->data->P->nnz; ++k) {
+    work->kkt->PregtoKKT[k] = nz;
     work->kkt->K->x[nz] = work->data->P->x[k];
     work->kkt->K->i[nz] = work->data->P->i[k];
     nz += 1;
@@ -59,6 +60,7 @@ void construct_kkt(QCOSSolver* solver)
       for (QCOSInt k = work->data->A->p[j]; k < work->data->A->p[j + 1]; ++k) {
         // If the nonzero is in row i of A then add
         if (work->data->A->i[k] == row) {
+          work->kkt->AtoKKT[k] = nz;
           work->kkt->K->x[nz] = work->data->A->x[k];
           work->kkt->K->i[nz] = j;
           nz += 1;
@@ -88,6 +90,7 @@ void construct_kkt(QCOSSolver* solver)
       for (QCOSInt k = work->data->G->p[j]; k < work->data->G->p[j + 1]; ++k) {
         // If the nonzero is in row i of G then add.
         if (work->data->G->i[k] == row) {
+          work->kkt->GtoKKT[k] = nz;
           work->kkt->K->x[nz] = work->data->G->x[k];
           work->kkt->K->i[nz] = j;
           nz += 1;
@@ -126,6 +129,7 @@ void construct_kkt(QCOSSolver* solver)
              ++k) {
           // If the nonzero is in row i of G then add.
           if (work->data->G->i[k] == row) {
+            work->kkt->GtoKKT[k] = nz;
             work->kkt->K->x[nz] = work->data->G->x[k];
             work->kkt->K->i[nz] = j;
             nz += 1;
@@ -164,6 +168,11 @@ void construct_kkt(QCOSSolver* solver)
 
 void initialize_ipm(QCOSSolver* solver)
 {
+  // Set Nesterov-Todd block to -I.
+  for (QCOSInt i = 0; i < solver->work->data->m; ++i) {
+    solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] = -1.0;
+  }
+
   // Construct rhs of KKT system..
   QCOSInt idx;
   for (idx = 0; idx < solver->work->data->n; ++idx) {

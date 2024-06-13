@@ -93,6 +93,19 @@ void update_vector_data(QCOSSolver* solver, QCOSFloat* cnew, QCOSFloat* bnew,
                         QCOSFloat* hnew);
 
 /**
+ * @brief Updates data matrices. NULL can be passed in for any matrix data
+ * pointers if that matrix will not be updated. It is assumed that the new
+ * matrix will have the same sparsity structure as the existing matrix. This
+ * function equilibrates the new KKT matrix.
+ *
+ * @param Pxnew New data for P->x.
+ * @param Axnew New data for A->x.
+ * @param Gxnew New data for G->x.
+ */
+void update_matrix_data(QCOSSolver* solver, QCOSFloat* Pxnew, QCOSFloat* Axnew,
+                        QCOSFloat* Gxnew);
+
+/**
  * @brief Solves SOCP.
  *
  * @param solver Pointer to solver.

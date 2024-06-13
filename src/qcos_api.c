@@ -78,8 +78,11 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   ruiz_equilibration(solver);
 
   // Regularize P.
+  solver->work->kkt->Pnzadded_idx = qcos_calloc(n, sizeof(QCOSInt));
   if (P) {
-    regularize(solver->work->data->P, solver->settings->reg);
+    solver->work->kkt->Pnum_nzadded =
+        regularize(solver->work->data->P, solver->settings->reg,
+                   solver->work->kkt->Pnzadded_idx);
   }
   else {
     solver->work->data->P = construct_identity(n, solver->settings->reg);
@@ -89,6 +92,12 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   allocate_kkt(solver->work);
   solver->work->kkt->nt2kkt = qcos_calloc(solver->work->Wnnz, sizeof(QCOSInt));
   solver->work->kkt->ntdiag2kkt = qcos_calloc(m, sizeof(QCOSInt));
+  solver->work->kkt->PregtoKKT =
+      qcos_calloc(solver->work->data->P->nnz, sizeof(QCOSInt));
+  solver->work->kkt->AtoKKT =
+      qcos_calloc(solver->work->data->A->nnz, sizeof(QCOSInt));
+  solver->work->kkt->GtoKKT =
+      qcos_calloc(solver->work->data->G->nnz, sizeof(QCOSInt));
   solver->work->kkt->rhs = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   solver->work->kkt->kktres = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
   solver->work->kkt->xyz = qcos_malloc((n + m + p) * sizeof(QCOSFloat));
@@ -169,6 +178,18 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
         KtoPKPt[solver->work->kkt->ntdiag2kkt[i]];
   }
 
+  for (QCOSInt i = 0; i < solver->work->data->P->nnz; ++i) {
+    solver->work->kkt->PregtoKKT[i] = KtoPKPt[solver->work->kkt->PregtoKKT[i]];
+  }
+
+  for (QCOSInt i = 0; i < solver->work->data->A->nnz; ++i) {
+    solver->work->kkt->AtoKKT[i] = KtoPKPt[solver->work->kkt->AtoKKT[i]];
+  }
+
+  for (QCOSInt i = 0; i < solver->work->data->G->nnz; ++i) {
+    solver->work->kkt->GtoKKT[i] = KtoPKPt[solver->work->kkt->GtoKKT[i]];
+  }
+
   free_qcos_csc_matrix(solver->work->kkt->K);
   qcos_free(KtoPKPt);
 
@@ -244,6 +265,90 @@ void update_vector_data(QCOSSolver* solver, QCOSFloat* cnew, QCOSFloat* bnew,
     for (QCOSInt i = 0; i < data->m; ++i) {
       data->h[i] = solver->work->kkt->Fruiz[i] * hnew[i];
     }
+  }
+}
+
+void update_matrix_data(QCOSSolver* solver, QCOSFloat* Pxnew, QCOSFloat* Axnew,
+                        QCOSFloat* Gxnew)
+{
+  solver->sol->status = QCOS_UNSOLVED;
+  QCOSProblemData* data = solver->work->data;
+  QCOSKKT* kkt = solver->work->kkt;
+
+  // Undo regularization.
+  unregularize(data->P, solver->settings->reg);
+
+  // Unequilibrate P.
+  scale_arrayf(data->P->x, data->P->x, kkt->kinv, data->P->nnz);
+  row_scale(data->P, kkt->Dinvruiz);
+  col_scale(data->P, kkt->Dinvruiz);
+
+  // Unequilibrate c.
+  scale_arrayf(data->c, data->c, kkt->kinv, data->n);
+  ew_product(data->c, kkt->Dinvruiz, data->c, data->n);
+
+  // Unequilibrate A.
+  row_scale(data->A, kkt->Einvruiz);
+  col_scale(data->A, kkt->Dinvruiz);
+
+  // Unequilibrate G.
+  row_scale(data->G, kkt->Finvruiz);
+  col_scale(data->G, kkt->Dinvruiz);
+
+  // ScaUnequilibratele b.
+  ew_product(data->b, kkt->Einvruiz, data->b, data->p);
+
+  // Unequilibrate h.
+  ew_product(data->h, kkt->Finvruiz, data->h, data->m);
+
+  // Update P and avoid nonzeros that were added for regularization.
+  if (Pxnew) {
+    QCOSInt avoid =
+        kkt->Pnum_nzadded > 0 ? kkt->Pnzadded_idx[0] : data->P->nnz + 1;
+    QCOSInt offset = 0;
+    for (QCOSInt i = 0; i < data->P->nnz - kkt->Pnum_nzadded; ++i) {
+      if (i == avoid) {
+        offset++;
+        avoid = offset > kkt->Pnum_nzadded ? kkt->Pnzadded_idx[offset]
+                                           : data->P->nnz + 1;
+      }
+      data->P->x[i + offset] = Pxnew[i];
+    }
+  }
+
+  // Update A.
+  if (Axnew) {
+    for (QCOSInt i = 0; i < data->A->nnz; ++i) {
+      data->A->x[i] = Axnew[i];
+    }
+  }
+
+  // Update G.
+  if (Gxnew) {
+    for (QCOSInt i = 0; i < data->G->nnz; ++i) {
+      data->G->x[i] = Gxnew[i];
+    }
+  }
+
+  // Equilibrate new matrix data.
+  ruiz_equilibration(solver);
+
+  // Regularize P.
+  unregularize(data->P, -solver->settings->reg);
+
+  // Update P in KKT matrix.
+  for (QCOSInt i = 0; i < data->P->nnz; ++i) {
+    solver->work->kkt->K->x[solver->work->kkt->PregtoKKT[i]] = data->P->x[i];
+  }
+
+  // Update A in KKT matrix.
+  for (QCOSInt i = 0; i < data->A->nnz; ++i) {
+    solver->work->kkt->K->x[solver->work->kkt->AtoKKT[i]] = data->A->x[i];
+  }
+
+  // Update G in KKT matrix.
+  for (QCOSInt i = 0; i < data->G->nnz; ++i) {
+    solver->work->kkt->K->x[solver->work->kkt->GtoKKT[i]] = data->G->x[i];
   }
 }
 
@@ -357,6 +462,10 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   qcos_free(solver->work->kkt->Finvruiz);
   qcos_free(solver->work->kkt->nt2kkt);
   qcos_free(solver->work->kkt->ntdiag2kkt);
+  qcos_free(solver->work->kkt->Pnzadded_idx);
+  qcos_free(solver->work->kkt->PregtoKKT);
+  qcos_free(solver->work->kkt->AtoKKT);
+  qcos_free(solver->work->kkt->GtoKKT);
   qcos_free(solver->work->kkt->etree);
   qcos_free(solver->work->kkt->Lnz);
   qcos_free(solver->work->kkt->Lp);

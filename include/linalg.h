@@ -155,10 +155,21 @@ QCOSFloat inf_norm(const QCOSFloat* x, QCOSInt n);
  * KKT system in qcos_setup(). This function calls realloc() when adding new
  * nonzeros.
  *
- * @param M
- * @param lambda
+ * @param M Matrix to be regularized.
+ * @param lambda Regularization factor.
+ * @param nzadded Indices of elements of M->x that are added.
+ * @return Number of nonzeros added to M->x.
  */
-void regularize(QCOSCscMatrix* M, QCOSFloat lambda);
+QCOSInt regularize(QCOSCscMatrix* M, QCOSFloat lambda, QCOSInt* nzadded_idx);
+
+/**
+ * @brief Subtracts lambda * I to a CSC matrix. Called on P when updating
+ * matrix data in update_matrix_data(). This function does not allocate.
+ *
+ * @param M Matrix.
+ * @param lambda Regularization.
+ */
+void unregularize(QCOSCscMatrix* M, QCOSFloat lambda);
 
 /**
  * @brief Computes the infinity norm of each column (or equivalently row) of a

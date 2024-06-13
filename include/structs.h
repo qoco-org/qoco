@@ -205,6 +205,21 @@ typedef struct {
    * matrices to elements in the KKT matrix. Used for regularization.*/
   QCOSInt* ntdiag2kkt;
 
+  /** Mapping from elements in regularized P to elements in the KKT matrix. */
+  QCOSInt* PregtoKKT;
+
+  /** Indices of P->x that were added due to regularization. */
+  QCOSInt* Pnzadded_idx;
+
+  /** Number of elements of P->x that were added due to regularization. */
+  QCOSInt Pnum_nzadded;
+
+  /** Mapping from elements in A to elements in the KKT matrix. */
+  QCOSInt* AtoKKT;
+
+  /** Mapping from elements in G to elements in the KKT matrix. */
+  QCOSInt* GtoKKT;
+
 } QCOSKKT;
 
 /**

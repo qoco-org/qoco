@@ -220,8 +220,9 @@ QCOSFloat inf_norm(const QCOSFloat* x, QCOSInt n)
   return norm;
 }
 
-void regularize(QCOSCscMatrix* M, QCOSFloat lambda)
+QCOSInt regularize(QCOSCscMatrix* M, QCOSFloat lambda, QCOSInt* nzadded_idx)
 {
+  QCOSInt num_nz = 0;
   // Iterate over each column.
   for (QCOSInt col = 0; col < M->n; col++) {
     QCOSInt start = M->p[col];
@@ -261,12 +262,46 @@ void regularize(QCOSCscMatrix* M, QCOSFloat lambda)
       // Insert the new diagonal element.
       M->x[insert] = lambda;
       M->i[insert] = col;
+      if (nzadded_idx) {
+        nzadded_idx[num_nz] = insert;
+      }
+      num_nz++;
 
       // Update the column_pointers array.
       for (QCOSInt i = col + 1; i <= M->n; i++) {
         M->p[i]++;
       }
     }
+  }
+  return num_nz;
+}
+
+void unregularize(QCOSCscMatrix* M, QCOSFloat lambda)
+{
+  // Iterate over each column.
+  for (QCOSInt col = 0; col < M->n; col++) {
+    QCOSInt start = M->p[col];
+    QCOSInt end = M->p[col + 1];
+
+    // Flag to check if the diagonal element exists.
+    QCOSInt diagonal_exists = 0;
+
+    // Iterate over the elements in the current column.
+    unsigned char insert_set = 0;
+    for (QCOSInt i = start; i < end; i++) {
+      if (!insert_set && M->i[i] > col) {
+        insert_set = 1;
+      }
+      if (M->i[i] == col) {
+        M->x[i] -= lambda; // Add lambda to the diagonal element.
+        diagonal_exists = 1;
+        break;
+      }
+    }
+
+    // Since this function is called after regularization, the diangonal element
+    // should exist.
+    qcos_assert(diagonal_exists);
   }
 }
 

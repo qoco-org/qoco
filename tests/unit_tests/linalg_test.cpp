@@ -224,7 +224,7 @@ TEST(linalg, regularize_test1)
   qcos_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
   qcos_set_csc(Pexp, n, n, Pnnz, Px_exp, Pp, Pi);
 
-  regularize(P, 0.5);
+  regularize(P, 0.5, NULL);
   expect_eq_csc(P, Pexp, tol);
 
   free(P);
@@ -233,9 +233,9 @@ TEST(linalg, regularize_test1)
 
 TEST(linalg, regularize_test2)
 {
-  QCOSInt n = 3;
+  constexpr QCOSInt n = 3;
   QCOSFloat Px[] = {1, 2, 2, 3, 3};
-  QCOSInt Pnnz = 5;
+  constexpr QCOSInt Pnnz = 5;
   QCOSInt Pp[] = {0, 2, 5, 5};
   QCOSInt Pi[] = {1, 2, 0, 1, 2};
 
@@ -243,6 +243,10 @@ TEST(linalg, regularize_test2)
   QCOSInt Pnnz_exp = 7;
   QCOSInt Pp_exp[] = {0, 3, 6, 7};
   QCOSInt Pi_exp[] = {0, 1, 2, 0, 1, 2, 2};
+
+  QCOSInt nzadded_idx[n];
+  QCOSInt nzadded_idx_exp[] = {0, 6};
+  QCOSInt nz_added_exp = 2;
 
   QCOSFloat tol = 1e-12;
 
@@ -255,13 +259,50 @@ TEST(linalg, regularize_test2)
   QCOSCscMatrix* Pmalloc = new_qcos_csc_matrix(P);
   QCOSCscMatrix* Pexpmalloc = new_qcos_csc_matrix(Pexp);
 
-  regularize(Pmalloc, 1.0);
+  QCOSInt nz_added = regularize(Pmalloc, 1.0, nzadded_idx);
+
   expect_eq_csc(Pmalloc, Pexpmalloc, tol);
+
+  EXPECT_EQ(nz_added, nz_added_exp);
+
+  for (QCOSInt i = 0; i < nz_added; ++i) {
+    EXPECT_EQ(nzadded_idx[i], nzadded_idx_exp[i]);
+  }
 
   free(P);
   free(Pexp);
   free_qcos_csc_matrix(Pmalloc);
   free_qcos_csc_matrix(Pexpmalloc);
+}
+
+TEST(linalg, regularize_test3)
+{
+  QCOSInt n = 6;
+  QCOSFloat Px[] = {1, 2, 3, 3, 5, 7, 8};
+  QCOSInt Pnnz = 7;
+  QCOSInt Pp[] = {0, 1, 3, 4, 5, 7, 7};
+  QCOSInt Pi[] = {0, 0, 1, 0, 2, 2, 4};
+
+  QCOSFloat Pxexp[] = {1.001, 2.0,   3.001, 3.0,   0.001,
+                       5.0,   0.001, 7.0,   8.001, 0.001};
+  QCOSInt Pnnzexp = 10;
+  QCOSInt Ppexp[] = {0, 1, 3, 5, 7, 9, 10};
+  QCOSInt Piexp[] = {0, 0, 1, 0, 2, 2, 3, 2, 4, 5};
+  QCOSFloat tol = 1e-12;
+
+  QCOSCscMatrix* P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* Pexp = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  qcos_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+  qcos_set_csc(Pexp, n, n, Pnnzexp, Pxexp, Ppexp, Piexp);
+
+  QCOSCscMatrix* Pmalloc = new_qcos_csc_matrix(P);
+
+  regularize(Pmalloc, 1e-3, NULL);
+  expect_eq_csc(Pmalloc, Pexp, tol);
+
+  free_qcos_csc_matrix(Pmalloc);
+  free(P);
+  free(Pexp);
 }
 
 TEST(linalg, col_inf_norm_USymm_test)
