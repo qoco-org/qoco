@@ -21,12 +21,12 @@ def generate_markowitz():
     # Factor loading matrix.
     F = sparse.random(f, n, density=0.25, random_state=rng)
     Pfull = F.T @ F + 0.1 * sparse.eye(n)
-    P = sparse.triu(Pfull, format='csc')
+    P = sparse.triu(Pfull, format="csc")
     c = -rng.random(n)
 
     A = np.ones((1, n))
     A = sparse.csc_matrix(A)
-    b = np.array([1.])
+    b = np.array([1.0])
 
     G = -sparse.eye(n)
     G = sparse.csc_matrix(G)
@@ -38,14 +38,16 @@ def generate_markowitz():
 
     # Solve with cvxpy.
     xvar = cp.Variable(n)
-    prob = cp.Problem(cp.Minimize((1/2)*cp.quad_form(xvar, Pfull) + c.T @ xvar),
-                      [G @ xvar <= h,
-                       A @ xvar == b])
+    prob = cp.Problem(
+        cp.Minimize((1 / 2) * cp.quad_form(xvar, Pfull) + c.T @ xvar),
+        [G @ xvar <= h, A @ xvar == b],
+    )
     prob.solve(verbose=False)
 
     # Generate data file for unit test.
-    cgen.generate_data(n, n, 1, P, c, A, b, G, h, l, nsoc, q,
-                       prob.value, "portfolio", "markowitz")
+    cgen.generate_data(
+        n, n, 1, P, c, A, b, G, h, l, nsoc, q, prob.value, "portfolio", "markowitz"
+    )
     cgen.generate_test("portfolio", "markowitz", 1e-4)
 
 

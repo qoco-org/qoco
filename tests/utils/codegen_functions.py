@@ -48,9 +48,9 @@ def generate_test(problem_name, test_name, tol):
     f = open(problem_name + "/" + test_name + "_test.cpp", "w")
 
     # Print header.
-    f.write("#include \"test_utils.h\"\n")
-    f.write("#include \"gtest/gtest.h\"\n")
-    f.write("#include \"" + test_name + "_" + "data.h\"\n\n")
+    f.write('#include "test_utils.h"\n')
+    f.write('#include "gtest/gtest.h"\n')
+    f.write('#include "' + test_name + "_" + 'data.h"\n\n')
     f.write("TEST(%s, %s)\n" % (problem_name + "_test", test_name))
     f.write("{\n")
     # Allocate and set sparse matrix data.
@@ -58,47 +58,109 @@ def generate_test(problem_name, test_name, tol):
     f.write("    QCOSCscMatrix* P;\n")
     f.write("    QCOSCscMatrix* A;\n")
     f.write("    QCOSCscMatrix* G;\n")
-    f.write("    if("+ test_name + "_P_nnz > 0) {\n")
+    f.write("    if(" + test_name + "_P_nnz > 0) {\n")
     f.write("        P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));\n")
-    f.write("        qcos_set_csc(P, " + test_name + "_n, " + test_name + "_n, " + test_name + "_P_nnz, "
-            + test_name + "_P_x, " + test_name + "_P_p, " + test_name + "_P_i);\n")
+    f.write(
+        "        qcos_set_csc(P, "
+        + test_name
+        + "_n, "
+        + test_name
+        + "_n, "
+        + test_name
+        + "_P_nnz, "
+        + test_name
+        + "_P_x, "
+        + test_name
+        + "_P_p, "
+        + test_name
+        + "_P_i);\n"
+    )
     f.write("    }\n")
     f.write("    else {\n")
     f.write("        P = nullptr;\n")
     f.write("    }\n")
-    f.write("    if("+ test_name + "_A_nnz > 0) {\n")
+    f.write("    if(" + test_name + "_A_nnz > 0) {\n")
     f.write("        A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));\n")
-    f.write("        qcos_set_csc(A, " + test_name + "_p, " + test_name + "_n, " + test_name + "_A_nnz, "
-            + test_name + "_A_x, " + test_name + "_A_p, " + test_name + "_A_i);\n")
+    f.write(
+        "        qcos_set_csc(A, "
+        + test_name
+        + "_p, "
+        + test_name
+        + "_n, "
+        + test_name
+        + "_A_nnz, "
+        + test_name
+        + "_A_x, "
+        + test_name
+        + "_A_p, "
+        + test_name
+        + "_A_i);\n"
+    )
     f.write("    }\n")
     f.write("    else {\n")
     f.write("        A = nullptr;\n")
     f.write("    }\n")
-    f.write("    if("+ test_name + "_G_nnz > 0) {\n")
+    f.write("    if(" + test_name + "_G_nnz > 0) {\n")
     f.write("        G = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));\n")
-    f.write("        qcos_set_csc(G, " + test_name + "_m, " + test_name + "_n, " + test_name + "_G_nnz, "
-            + test_name + "_G_x, " + test_name + "_G_p, " + test_name + "_G_i);\n")
+    f.write(
+        "        qcos_set_csc(G, "
+        + test_name
+        + "_m, "
+        + test_name
+        + "_n, "
+        + test_name
+        + "_G_nnz, "
+        + test_name
+        + "_G_x, "
+        + test_name
+        + "_G_p, "
+        + test_name
+        + "_G_i);\n"
+    )
     f.write("    }\n")
     f.write("    else {\n")
     f.write("        G = nullptr;\n")
     f.write("    }\n")
 
-
-
     # Allocate settings struct.
     f.write(
-        "    QCOSSettings* settings = (QCOSSettings*)malloc(sizeof(QCOSSettings));\n")
+        "    QCOSSettings* settings = (QCOSSettings*)malloc(sizeof(QCOSSettings));\n"
+    )
     f.write("    set_default_settings(settings);\n")
     f.write("    settings->verbose = 1;\n")
     f.write("    QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));\n\n")
-    f.write("    QCOSInt exit = qcos_setup(solver, " + test_name + "_n, " + test_name + "_m, " + test_name + "_p, P, " + test_name + "_c, A, " +
-            test_name + "_b, G, " + test_name + "_h, " + test_name + "_l, " + test_name + "_nsoc, " + test_name + "_q, settings);\n")
+    f.write(
+        "    QCOSInt exit = qcos_setup(solver, "
+        + test_name
+        + "_n, "
+        + test_name
+        + "_m, "
+        + test_name
+        + "_p, P, "
+        + test_name
+        + "_c, A, "
+        + test_name
+        + "_b, G, "
+        + test_name
+        + "_h, "
+        + test_name
+        + "_l, "
+        + test_name
+        + "_nsoc, "
+        + test_name
+        + "_q, settings);\n"
+    )
     f.write("    ASSERT_EQ(exit, QCOS_NO_ERROR);\n\n")
     f.write("    exit = qcos_solve(solver);\n")
     f.write("    ASSERT_EQ(exit, QCOS_SOLVED);\n\n")
     f.write("    // Expect relative error of objective to be less than tolerance.\n")
-    f.write("    expect_rel_error(solver->sol->obj, " +
-            test_name + "_objopt, " + str(tol) + ");\n\n")
+    f.write(
+        "    expect_rel_error(solver->sol->obj, "
+        + test_name
+        + "_objopt, "
+        + str(tol)
+        + ");\n\n"
+    )
 
     # Cleanup memory allocations.
     f.write("    // Cleanup memory allocations. \n")
@@ -110,14 +172,19 @@ def generate_test(problem_name, test_name, tol):
     f.write("}\n")
 
 
-def generate_data(n, m, p, P, c, A, b, G, h, l, nsoc, q, objopt, problem_name, test_name):
+def generate_data(
+    n, m, p, P, c, A, b, G, h, l, nsoc, q, objopt, problem_name, test_name
+):
     # Create data file.
     f = open(problem_name + "/" + test_name + "_" + "data.h", "w")
 
     # Print header.
-    f.write("// This file was autogenerated by the QCOS test suite on " +
-            str(datetime.now().strftime("%m/%d/%Y %H:%M:%S")) + "\n\n")
-    f.write("#include \"qcos.h\"\n\n")
+    f.write(
+        "// This file was autogenerated by the QCOS test suite on "
+        + str(datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+        + "\n\n"
+    )
+    f.write('#include "qcos.h"\n\n')
 
     # Optimal objective.
     f.write("// Optimal objective.\n")
