@@ -86,6 +86,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   }
   else {
     solver->work->data->P = construct_identity(n, solver->settings->reg);
+    solver->work->kkt->Pnum_nzadded = n;
   }
 
   // Allocate KKT struct.

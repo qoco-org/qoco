@@ -86,7 +86,7 @@ void print_header(QCOSSolver* solver)
   printf("|     eq constraints:   %-9d                       |\n", data->p);
   printf("|     ineq constraints: %-9d                       |\n", data->l);
   printf("|     soc constraints:  %-9d                       |\n", data->l);
-  printf("|     nnz(P):           %-9d                       |\n", data->P->nnz);
+  printf("|     nnz(P):           %-9d                       |\n", data->P->nnz - solver->work->kkt->Pnum_nzadded);
   printf("|     nnz(A):           %-9d                       |\n", data->A->nnz);
   printf("|     nnz(G):           %-9d                       |\n", data->G->nnz);
   printf("| Solver Settings:                                      |\n");
