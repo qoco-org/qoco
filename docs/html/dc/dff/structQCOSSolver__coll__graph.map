@@ -1,9 +1,0 @@
-<map id="QCOSSolver" name="QCOSSolver">
-<area shape="rect" id="node1" title="QCOS Solver struct. Contains all information about the state of the solver." alt="" coords="242,303,342,329"/>
-<area shape="rect" id="node2" href="$d5/d30/structQCOSWorkspace.html" title="QCOS Workspace." alt="" coords="81,213,212,240"/>
-<area shape="rect" id="node3" href="$d7/d42/structQCOSProblemData.html" title="SOCP problem data." alt="" coords="5,124,149,151"/>
-<area shape="rect" id="node4" href="$d0/d99/structQCOSCscMatrix.html" title="Compressed sparse column format matrices." alt="" coords="83,5,207,32"/>
-<area shape="rect" id="node5" href="$d0/d72/structQCOSKKT.html" title="Contains all data needed for constructing and modifying KKT matrix and performing predictor&#45;corrector..." alt="" coords="174,124,258,151"/>
-<area shape="rect" id="node6" href="$d7/d3e/structQCOSSolution.html" title=" " alt="" coords="236,213,348,240"/>
-<area shape="rect" id="node7" href="$d9/dc4/structQCOSSettings.html" title="QCOS solver settings." alt="" coords="372,213,484,240"/>
-</map>
