@@ -13,23 +13,12 @@ endif()
 message(STATUS "Build Type: " ${QCOS_BUILD_TYPE})
 message(STATUS "Build Flags: " ${CMAKE_C_FLAGS})
 
-# Set integer size to 32 bits unless otherwise specified.
-if(QCOS_LONG_INT)
-    message(STATUS "Using 64 byte integers")
-    add_compile_definitions(QCOS_LONG_INT)
-else()
-    message(STATUS "Using 32 byte integers")
-    set(QDLDL_LONG OFF)
-endif()
+# Set integer size to 32 bits.
+message(STATUS "Using 32 byte integers")
+set(QDLDL_LONG OFF)
 
-# Set floating points to double precision unless otherwise specified.
-if(QCOS_SINGLE_PRECISION)
-    message(STATUS "Using single precision floating point")
-    add_compile_definitions(QCOS_SINGLE_PRECISION)
-    set(QDLDL_FLOAT True)
-else()
-    message(STATUS "Using double precision floating point")
-endif()
+# Set floating points to double precision.
+message(STATUS "Using double precision floating point")
 
 # Add qdldl.
 add_subdirectory(lib/qdldl)
