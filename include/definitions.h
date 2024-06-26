@@ -27,7 +27,7 @@ typedef double QCOSFloat;
 #define qcos_min(a, b) (((a) < (b)) ? (a) : (b))
 #define qcos_abs(a) (((a) > 0) ? (a) : (-a))
 #define safe_div(a, b) (qcos_abs(a) > 1e-15) ? (a / b) : QCOSFloat_MAX
-#include "math.h"
+#include <math.h>
 #define qcos_sqrt(a) sqrt(a)
 
 #ifdef QCOS_DEBUG

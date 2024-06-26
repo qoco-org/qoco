@@ -164,7 +164,8 @@ QCOSInt regularize(QCOSCscMatrix* M, QCOSFloat lambda, QCOSInt* nzadded_idx);
 
 /**
  * @brief Subtracts lambda * I to a CSC matrix. Called on P when updating
- * matrix data in update_matrix_data(). This function does not allocate.
+ * matrix data in update_matrix_data(). This function does not allocate and must
+ * be called after regularize.
  *
  * @param M Matrix.
  * @param lambda Regularization.

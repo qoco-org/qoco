@@ -28,7 +28,7 @@ add_subdirectory(lib/amd)
 
 # Build qcos shared library.
 add_library(qcos SHARED)
-target_link_libraries(qcos qdldl amd)
+target_link_libraries(qcos qdldl amd m)
 target_include_directories(qcos PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qcos PUBLIC lib/amd)
 target_sources(qcos PRIVATE src/qcos_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qcos_error.c src/timer.c src/equilibration.c)

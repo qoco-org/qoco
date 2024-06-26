@@ -283,9 +283,6 @@ void unregularize(QCOSCscMatrix* M, QCOSFloat lambda)
     QCOSInt start = M->p[col];
     QCOSInt end = M->p[col + 1];
 
-    // Flag to check if the diagonal element exists.
-    QCOSInt diagonal_exists = 0;
-
     // Iterate over the elements in the current column.
     unsigned char insert_set = 0;
     for (QCOSInt i = start; i < end; i++) {
@@ -294,14 +291,9 @@ void unregularize(QCOSCscMatrix* M, QCOSFloat lambda)
       }
       if (M->i[i] == col) {
         M->x[i] -= lambda; // Add lambda to the diagonal element.
-        diagonal_exists = 1;
         break;
       }
     }
-
-    // Since this function is called after regularization, the diangonal element
-    // should exist.
-    qcos_assert(diagonal_exists);
   }
 }
 
