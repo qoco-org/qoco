@@ -37,9 +37,6 @@ enum qcos_solve_status {
 
   // Maximum number of iterations reached.
   QCOS_MAX_ITER,
-
-  // Time limit reached.
-  QCOS_TIME_LIMIT
 };
 
 // clang-format off
