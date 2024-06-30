@@ -165,6 +165,7 @@ def generate_test(problem_name, test_name, tol):
     # Cleanup memory allocations.
     f.write("    // Cleanup memory allocations. \n")
     f.write("    qcos_cleanup(solver);\n")
+    f.write("    free(settings);\n")
     f.write("    free(P);\n")
     f.write("    free(A);\n")
     f.write("    free(G);\n")

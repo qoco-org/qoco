@@ -26,7 +26,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
     return qcos_error(QCOS_SETTINGS_VALIDATION_ERROR);
   }
 
-  solver->settings = settings;
+  solver->settings = copy_settings(settings);
 
   // Allocate workspace.
   solver->work = qcos_malloc(sizeof(QCOSWorkspace));

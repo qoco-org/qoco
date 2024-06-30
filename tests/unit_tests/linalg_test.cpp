@@ -451,6 +451,7 @@ TEST(linalg, ruiz_test)
   EXPECT_NEAR(solver->work->kkt->k, kexp, tol);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(A);
   free(G);

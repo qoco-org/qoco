@@ -45,6 +45,7 @@ TEST(ocp_test, lcvx_bad_scaling)
 
     // Cleanup memory allocations. 
     qcos_cleanup(solver);
+    free(settings);
     free(P);
     free(A);
     free(G);

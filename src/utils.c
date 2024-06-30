@@ -250,3 +250,21 @@ void copy_solution(QCOSSolver* solver)
   solver->sol->solve_time_sec =
       get_elapsed_time_sec(&(solver->work->solve_timer));
 }
+
+QCOSSettings* copy_settings(QCOSSettings* settings)
+{
+  QCOSSettings* new_settings = malloc(sizeof(QCOSSettings));
+  new_settings->abstol = settings->abstol;
+  new_settings->abstol_inaccurate = settings->abstol_inaccurate;
+  new_settings->bisection_iters = settings->bisection_iters;
+  new_settings->iterative_refinement_iterations =
+      settings->iterative_refinement_iterations;
+  new_settings->max_iters = settings->max_iters;
+  new_settings->reg = settings->reg;
+  new_settings->reltol = settings->reltol;
+  new_settings->reltol_inaccurate = settings->reltol_inaccurate;
+  new_settings->ruiz_iters = settings->ruiz_iters;
+  new_settings->verbose = settings->verbose;
+
+  return new_settings;
+}

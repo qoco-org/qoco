@@ -82,4 +82,12 @@ unsigned char check_stopping(QCOSSolver* solver);
  */
 void copy_solution(QCOSSolver* solver);
 
+/**
+ * @brief Allocates and returns a copy of the input settings struct.
+ *
+ * @param settings Input struct.
+ * @return Pointer to constructed and copies settings struct.
+ */
+QCOSSettings* copy_settings(QCOSSettings* settings);
+
 #endif /* #ifndef UTILS_H */

@@ -63,6 +63,7 @@ TEST(missing_constraints_test, no_soc_constraints)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(A);
   free(G);
@@ -116,6 +117,7 @@ TEST(missing_constraints_test, no_ineq_constraints)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(A);
 }
@@ -171,6 +173,7 @@ TEST(missing_constraints_test, no_eq_constraints)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(G);
 }
@@ -211,6 +214,7 @@ TEST(missing_constraints_test, no_constraints)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
 }
 
@@ -263,5 +267,6 @@ TEST(missing_constraints_test, lp_test_no_P)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(G);
 }

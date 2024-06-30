@@ -45,6 +45,7 @@ TEST(portfolio_test, markowitz)
 
     // Cleanup memory allocations. 
     qcos_cleanup(solver);
+    free(settings);
     free(P);
     free(A);
     free(G);

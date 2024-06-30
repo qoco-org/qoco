@@ -64,6 +64,7 @@ TEST(simple_socp_test, p1)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(A);
   free(G);
@@ -130,6 +131,7 @@ TEST(simple_socp_test, p2)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(A);
   free(G);
@@ -196,6 +198,7 @@ TEST(simple_socp_test, p3)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(A);
   free(G);
@@ -264,6 +267,7 @@ TEST(simple_socp_test, reduced_tolerance)
   ASSERT_EQ(exit, QCOS_SOLVED_INACCURATE);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(A);
   free(G);
@@ -338,6 +342,7 @@ TEST(simple_socp_test, update_vector_data_test)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(A);
   free(G);
@@ -409,6 +414,7 @@ TEST(simple_socp_test, update_constraint_data_test)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(A);
   free(G);
@@ -483,6 +489,7 @@ TEST(simple_socp_test, update_cost_matrix_test)
   ASSERT_EQ(exit, QCOS_SOLVED);
 
   qcos_cleanup(solver);
+  free(settings);
   free(P);
   free(A);
   free(G);
