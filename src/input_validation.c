@@ -10,7 +10,7 @@
 
 #include "input_validation.h"
 
-QCOSInt qcos_validate_settings(QCOSSettings* settings)
+QCOSInt qcos_validate_settings(const QCOSSettings* settings)
 {
   // max_iters must be positive.
   if (settings->max_iters <= 0) {

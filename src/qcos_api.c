@@ -241,6 +241,28 @@ void set_default_settings(QCOSSettings* settings)
   settings->reg = 1e-7;
 }
 
+QCOSInt qcos_update_settings(QCOSSolver* solver,
+                             const QCOSSettings* new_settings)
+{
+  if (qcos_validate_settings(new_settings)) {
+    return qcos_error(QCOS_SETTINGS_VALIDATION_ERROR);
+  }
+
+  solver->settings->abstol = new_settings->abstol;
+  solver->settings->abstol_inaccurate = new_settings->abstol_inaccurate;
+  solver->settings->bisection_iters = new_settings->bisection_iters;
+  solver->settings->iterative_refinement_iterations =
+      new_settings->iterative_refinement_iterations;
+  solver->settings->max_iters = new_settings->max_iters;
+  solver->settings->reg = new_settings->reg;
+  solver->settings->reltol = new_settings->reltol;
+  solver->settings->reltol_inaccurate = new_settings->reltol_inaccurate;
+  solver->settings->ruiz_iters = new_settings->ruiz_iters;
+  solver->settings->verbose = new_settings->verbose;
+
+  return 0;
+}
+
 void update_vector_data(QCOSSolver* solver, QCOSFloat* cnew, QCOSFloat* bnew,
                         QCOSFloat* hnew)
 {

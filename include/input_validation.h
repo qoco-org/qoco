@@ -26,7 +26,7 @@
  * @param settings Pointer to settings struct
  * @return Exitflag to check (0 for success, failure otherwise)
  */
-QCOSInt qcos_validate_settings(QCOSSettings* settings);
+QCOSInt qcos_validate_settings(const QCOSSettings* settings);
 
 /**
  * @brief Validate problem data.

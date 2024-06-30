@@ -81,6 +81,16 @@ void qcos_set_csc(QCOSCscMatrix* A, QCOSInt m, QCOSInt n, QCOSInt Annz,
 void set_default_settings(QCOSSettings* settings);
 
 /**
+ * @brief Updates settings struct.
+ *
+ * @param solver Pointer to solver.
+ * @param new_settings New settings struct.
+ * @return Return code is 0 if update is successful.
+ */
+QCOSInt qcos_update_settings(QCOSSolver* solver,
+                             const QCOSSettings* new_settings);
+
+/**
  * @brief Updates data vectors. NULL can be passed in for any vector if that
  * data will not be updated.
  *
