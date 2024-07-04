@@ -14,6 +14,9 @@ enum qcos_error_code {
   // Error in settings validation.
   QCOS_SETTINGS_VALIDATION_ERROR,
 
+  // Error in setup.
+  QCOS_SETUP_ERROR,
+
   // Error in performing amd ordering.
   QCOS_AMD_ERROR,
 
