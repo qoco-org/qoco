@@ -434,6 +434,7 @@ QCOSInt qcos_solve(QCOSSolver* solver)
   stop_timer(&(solver->work->solve_timer));
   unscale_variables(solver->work);
   copy_solution(solver);
+  solver->sol->status = QCOS_MAX_ITER;
   return QCOS_MAX_ITER;
 }
 
