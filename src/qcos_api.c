@@ -201,7 +201,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
       QDLDL_etree(Kn, solver->work->kkt->K->p, solver->work->kkt->K->i,
                   solver->work->kkt->iwork, solver->work->kkt->Lnz,
                   solver->work->kkt->etree);
-  if (sumLnz <= 0) {
+  if (sumLnz < 0) {
     return QCOS_SETUP_ERROR;
   }
   solver->work->kkt->Li = qcos_malloc(sizeof(QCOSInt) * sumLnz);
