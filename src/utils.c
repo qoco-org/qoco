@@ -85,7 +85,7 @@ void print_header(QCOSSolver* solver)
   printf("|     constraints:      %-9d                       |\n", data->l + data->p + data->nsoc);
   printf("|     eq constraints:   %-9d                       |\n", data->p);
   printf("|     ineq constraints: %-9d                       |\n", data->l);
-  printf("|     soc constraints:  %-9d                       |\n", data->l);
+  printf("|     soc constraints:  %-9d                       |\n", data->nsoc);
   printf("|     nnz(P):           %-9d                       |\n", data->P->nnz - solver->work->kkt->Pnum_nzadded);
   printf("|     nnz(A):           %-9d                       |\n", data->A->nnz);
   printf("|     nnz(G):           %-9d                       |\n", data->G->nnz);
@@ -120,7 +120,7 @@ void print_footer(QCOSSolution* solution, enum qcos_solve_status status)
   printf("\n");
   printf("status:                %s\n", QCOS_SOLVE_STATUS_MESSAGE[status]);
   printf("number of iterations:  %d\n", solution->iters);
-  printf("optimal objective:     %+.3f\n", solution->obj);
+  printf("objective:             %+.3f\n", solution->obj);
   printf("solve time:            %.2e sec\n", solution->solve_time_sec);
   printf("\n");
 }
