@@ -204,6 +204,7 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   if (sumLnz < 0) {
     return QCOS_SETUP_ERROR;
   }
+  print_qcos_csc_matrix(solver->work->kkt->K);
   solver->work->kkt->Li = qcos_malloc(sizeof(QCOSInt) * sumLnz);
   solver->work->kkt->Lx = qcos_malloc(sizeof(QCOSFloat) * sumLnz);
 
