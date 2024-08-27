@@ -173,6 +173,11 @@ void initialize_ipm(QCOSSolver* solver)
     solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] = -1.0;
   }
 
+  // Need to be set to 1.0 not 0.0 due to low tolerance stopping criteria checks
+  // which only occur when a = 0.0. If a is set to 0.0 then the low tolerance
+  // stopping criteria check would be triggered.
+  solver->work->a = 1.0;
+
   // Construct rhs of KKT system..
   QCOSInt idx;
   for (idx = 0; idx < solver->work->data->n; ++idx) {
