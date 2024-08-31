@@ -221,13 +221,18 @@ unsigned char check_stopping(QCOSSolver* solver)
 
   // If the solver stalled (stepsize = 0) check if low tolerance stopping
   // criteria is met.
-  if ((solver->work->a < 1e-8) &&
-      (solver->work->mu < eabsinacc &&
-       pres < eabsinacc + erelinacc * pres_rel &&
-       dres < eabsinacc + erelinacc * dres_rel &&
-       solver->sol->gap < eabsinacc + erelinacc * gap_rel)) {
-    solver->sol->status = QCOS_SOLVED_INACCURATE;
-    return 1;
+  if (solver->work->a < 1e-8) {
+    if (solver->work->mu < eabsinacc &&
+        pres < eabsinacc + erelinacc * pres_rel &&
+        dres < eabsinacc + erelinacc * dres_rel &&
+        solver->sol->gap < eabsinacc + erelinacc * gap_rel) {
+      solver->sol->status = QCOS_SOLVED_INACCURATE;
+      return 1;
+    }
+    else {
+      solver->sol->status = QCOS_NUMERICAL_ERROR;
+      return 1;
+    }
   }
 
   if (solver->work->mu < eabs && pres < eabs + erel * pres_rel &&

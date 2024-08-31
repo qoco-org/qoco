@@ -38,6 +38,10 @@ enum qcos_solve_status {
   // Solved Inaccurately.
   QCOS_SOLVED_INACCURATE,
 
+  // Numerical error (occurs when a = 0 and inaccurate stopping criteria not
+  // met).
+  QCOS_NUMERICAL_ERROR,
+
   // Maximum number of iterations reached.
   QCOS_MAX_ITER,
 };
@@ -53,11 +57,11 @@ static const char *QCOS_ERROR_MESSAGE[] = {
 
 
 static const char *QCOS_SOLVE_STATUS_MESSAGE[] = {
-    "", // Solve status start from 1.
+    "unsolved", // Solver not run.
     "solved",
     "solved inaccurately",
+    "numerical error",
     "maximum iterations reached",
-    "run time limit exceeded"
 };
 // clang-format on
 
