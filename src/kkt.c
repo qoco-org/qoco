@@ -484,9 +484,7 @@ void kkt_solve(QCOSKKT* kkt, QCOSFloat* b, QCOSInt iters)
   }
 
   // Copy permuted b into b.
-  for (QCOSInt i = 0; i < kkt->K->n; ++i) {
-    b[i] = kkt->xyzbuff[i];
-  }
+  copy_arrayf(kkt->xyzbuff, b, kkt->K->n);
 
   // Triangular solve.
   QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyzbuff);
@@ -503,9 +501,7 @@ void kkt_solve(QCOSKKT* kkt, QCOSFloat* b, QCOSInt iters)
     QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyz);
 
     // x = x + dx.
-    for (QCOSInt i = 0; i < kkt->K->n; ++i) {
-      kkt->xyzbuff[i] += kkt->xyz[i];
-    }
+    axpy(kkt->xyzbuff, kkt->xyz, kkt->xyzbuff, 1.0, kkt->K->n);
   }
 
   for (QCOSInt i = 0; i < kkt->K->n; ++i) {
