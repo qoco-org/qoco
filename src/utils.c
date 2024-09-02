@@ -121,6 +121,7 @@ void print_footer(QCOSSolution* solution, enum qcos_solve_status status)
   printf("status:                %s\n", QCOS_SOLVE_STATUS_MESSAGE[status]);
   printf("number of iterations:  %d\n", solution->iters);
   printf("objective:             %+.3f\n", solution->obj);
+  printf("setup time:            %.2e sec\n", solution->setup_time_sec);
   printf("solve time:            %.2e sec\n", solution->solve_time_sec);
   printf("\n");
 }

@@ -321,6 +321,9 @@ typedef struct {
   /* Number of iterations. */
   QCOSInt iters;
 
+  /* Setup time. */
+  QCOSFloat setup_time_sec;
+
   /* Solve time. */
   QCOSFloat solve_time_sec;
 

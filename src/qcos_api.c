@@ -16,6 +16,10 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
                    QCOSFloat* b, QCOSCscMatrix* G, QCOSFloat* h, QCOSInt l,
                    QCOSInt nsoc, QCOSInt* q, QCOSSettings* settings)
 {
+  // Start setup timer.
+  QCOSTimer setup_timer;
+  start_timer(&setup_timer);
+
   // Validate problem data.
   if (qcos_validate_data(P, c, A, b, G, h, l, nsoc, q)) {
     return qcos_error(QCOS_DATA_VALIDATION_ERROR);
@@ -210,6 +214,9 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->sol->z = qcos_malloc(m * sizeof(QCOSFloat));
   solver->sol->iters = 0;
   solver->sol->status = QCOS_UNSOLVED;
+
+  stop_timer(&setup_timer);
+  solver->sol->setup_time_sec = get_elapsed_time_sec(&setup_timer);
 
   return QCOS_NO_ERROR;
 }
