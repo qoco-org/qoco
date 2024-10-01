@@ -115,8 +115,11 @@ typedef struct {
   /** Low tolerance stopping criteria. */
   QCOSFloat reltol_inaccurate;
 
-  /** Regularization parameter for KKT system. */
-  QCOSFloat reg;
+  /** Static regularization parameter for KKT system. */
+  QCOSFloat static_reg;
+
+  /** Dynamic regularization parameter for KKT system. */
+  QCOSFloat dyn_reg;
 
   /** 0 for quiet anything else for verbose. */
   unsigned char verbose;

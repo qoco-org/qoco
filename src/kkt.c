@@ -70,7 +70,7 @@ void construct_kkt(QCOSSolver* solver)
     }
 
     // Add -e * Id regularization.
-    work->kkt->K->x[nz] = -solver->settings->reg;
+    work->kkt->K->x[nz] = -solver->settings->static_reg;
     work->kkt->K->i[nz] = work->data->n + row;
     nz += 1;
     nzadded += 1;
@@ -193,13 +193,14 @@ void initialize_ipm(QCOSSolver* solver)
   }
 
   // Factor KKT matrix.
-  QDLDL_factor(solver->work->kkt->K->n, solver->work->kkt->K->p,
-               solver->work->kkt->K->i, solver->work->kkt->K->x,
-               solver->work->kkt->Lp, solver->work->kkt->Li,
-               solver->work->kkt->Lx, solver->work->kkt->D,
-               solver->work->kkt->Dinv, solver->work->kkt->Lnz,
-               solver->work->kkt->etree, solver->work->kkt->bwork,
-               solver->work->kkt->iwork, solver->work->kkt->fwork);
+  QDLDL_factor(
+      solver->work->kkt->K->n, solver->work->kkt->K->p, solver->work->kkt->K->i,
+      solver->work->kkt->K->x, solver->work->kkt->Lp, solver->work->kkt->Li,
+      solver->work->kkt->Lx, solver->work->kkt->D, solver->work->kkt->Dinv,
+      solver->work->kkt->Lnz, solver->work->kkt->etree,
+      solver->work->kkt->bwork, solver->work->kkt->iwork,
+      solver->work->kkt->fwork, solver->work->kkt->p, solver->work->data->n,
+      solver->settings->dyn_reg);
 
   // Solve KKT system.
   kkt_solve(solver->work->kkt, solver->work->kkt->rhs,
@@ -244,7 +245,7 @@ void update_nt_block(QCOSSolver* solver)
   // Regularize Nesterov-Todd block of KKT matrix.
   for (QCOSInt i = 0; i < solver->work->data->m; ++i) {
     solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] -=
-        solver->settings->reg;
+        solver->settings->static_reg;
   }
 }
 
@@ -281,14 +282,14 @@ void compute_kkt_residual(QCOSSolver* solver)
   for (idx = 0; idx < work->data->n; ++idx) {
     work->kkt->kktres[idx] =
         work->kkt->kktres[idx] +
-        (work->data->c[idx] - solver->settings->reg * work->x[idx]);
+        (work->data->c[idx] - solver->settings->static_reg * work->x[idx]);
   }
 
   // Add -b and account for regularization.
   for (QCOSInt i = 0; i < work->data->p; ++i) {
     work->kkt->kktres[idx] =
         work->kkt->kktres[idx] +
-        (-work->data->b[i] + solver->settings->reg * work->y[i]);
+        (-work->data->b[i] + solver->settings->static_reg * work->y[i]);
     idx += 1;
   }
 
@@ -306,7 +307,7 @@ void compute_kkt_residual(QCOSSolver* solver)
   QCOSFloat regularization_correction = 0.0;
   for (QCOSInt i = 0; i < work->data->n; ++i) {
     regularization_correction +=
-        solver->settings->reg * work->x[i] * work->x[i];
+        solver->settings->static_reg * work->x[i] * work->x[i];
   }
   obj += 0.5 *
          (dot(work->xbuff, work->x, work->data->n) - regularization_correction);
@@ -396,7 +397,9 @@ void predictor_corrector(QCOSSolver* solver)
   QDLDL_factor(work->kkt->K->n, work->kkt->K->p, work->kkt->K->i,
                work->kkt->K->x, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
                work->kkt->D, work->kkt->Dinv, work->kkt->Lnz, work->kkt->etree,
-               work->kkt->bwork, work->kkt->iwork, work->kkt->fwork);
+               work->kkt->bwork, work->kkt->iwork, work->kkt->fwork,
+               solver->work->kkt->p, solver->work->data->n,
+               solver->settings->dyn_reg);
 
   // Construct rhs for affine scaling direction.
   construct_kkt_aff_rhs(work);

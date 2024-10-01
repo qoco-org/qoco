@@ -54,9 +54,15 @@ QCOSInt qcos_validate_settings(const QCOSSettings* settings)
     return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 
-  // reg must be less than 1.
-  if (settings->reg > 1) {
-    printf("reg must be less than 1.\n");
+  // static_reg must be less than 1.
+  if (settings->static_reg > 1) {
+    printf("static_reg must be less than 1.\n");
+    return QCOS_SETTINGS_VALIDATION_ERROR;
+  }
+
+  // dyn_reg must be less than 1.
+  if (settings->dyn_reg > 1) {
+    printf("dyn_reg must be less than 1.\n");
     return QCOS_SETTINGS_VALIDATION_ERROR;
   }
 

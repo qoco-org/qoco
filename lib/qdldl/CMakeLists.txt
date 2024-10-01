@@ -196,17 +196,6 @@ if( QDLDL_BUILD_SHARED_LIB )
         RUNTIME       DESTINATION "${CMAKE_INSTALL_BINDIR}")
 endif()
 
-
-message( STATUS "Demo executable build is ${QDLDL_BUILD_DEMO_EXE}" )
-
-if( QDLDL_BUILD_DEMO_EXE )
-    # Create demo executable (linked to static library)
-    add_executable (qdldl_example ${PROJECT_SOURCE_DIR}/examples/example.c)
-    target_link_libraries (qdldl_example qdldlstatic)
-else()
-    message( STATUS "Not building demo executable" )
-endif()
-
 # Create CMake packages for the build directory
 # ----------------------------------------------
 if( QDLDL_BUILD_SHARED_LIB OR QDLDL_BUILD_STATIC_LIB)

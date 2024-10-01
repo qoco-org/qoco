@@ -85,11 +85,11 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->work->kkt->Pnzadded_idx = qcos_calloc(n, sizeof(QCOSInt));
   if (P) {
     solver->work->kkt->Pnum_nzadded =
-        regularize(solver->work->data->P, solver->settings->reg,
+        regularize(solver->work->data->P, solver->settings->static_reg,
                    solver->work->kkt->Pnzadded_idx);
   }
   else {
-    solver->work->data->P = construct_identity(n, solver->settings->reg);
+    solver->work->data->P = construct_identity(n, solver->settings->static_reg);
     solver->work->kkt->Pnum_nzadded = n;
   }
 
@@ -243,7 +243,8 @@ void set_default_settings(QCOSSettings* settings)
   settings->reltol = 1e-7;
   settings->abstol_inaccurate = 1e-5;
   settings->reltol_inaccurate = 1e-5;
-  settings->reg = 1e-7;
+  settings->static_reg = 1e-7;
+  settings->dyn_reg = 1e-7;
 }
 
 QCOSInt qcos_update_settings(QCOSSolver* solver,
@@ -259,7 +260,8 @@ QCOSInt qcos_update_settings(QCOSSolver* solver,
   solver->settings->iterative_refinement_iterations =
       new_settings->iterative_refinement_iterations;
   solver->settings->max_iters = new_settings->max_iters;
-  solver->settings->reg = new_settings->reg;
+  solver->settings->static_reg = new_settings->static_reg;
+  solver->settings->dyn_reg = new_settings->dyn_reg;
   solver->settings->reltol = new_settings->reltol;
   solver->settings->reltol_inaccurate = new_settings->reltol_inaccurate;
   solver->settings->ruiz_iters = new_settings->ruiz_iters;
@@ -304,7 +306,7 @@ void update_matrix_data(QCOSSolver* solver, QCOSFloat* Pxnew, QCOSFloat* Axnew,
   QCOSKKT* kkt = solver->work->kkt;
 
   // Undo regularization.
-  unregularize(data->P, solver->settings->reg);
+  unregularize(data->P, solver->settings->static_reg);
 
   // Unequilibrate P.
   scale_arrayf(data->P->x, data->P->x, kkt->kinv, data->P->nnz);
@@ -362,7 +364,7 @@ void update_matrix_data(QCOSSolver* solver, QCOSFloat* Pxnew, QCOSFloat* Axnew,
   ruiz_equilibration(solver);
 
   // Regularize P.
-  unregularize(data->P, -solver->settings->reg);
+  unregularize(data->P, -solver->settings->static_reg);
 
   // Update P in KKT matrix.
   for (QCOSInt i = 0; i < data->P->nnz; ++i) {

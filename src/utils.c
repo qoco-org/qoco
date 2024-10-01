@@ -93,7 +93,8 @@ void print_header(QCOSSolver* solver)
   printf("|     max_iter: %-3d abstol: %3.2e reltol: %3.2e   |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inaccurate, settings->reltol_inaccurate);
   printf("|     bisection_iters: %-2d iterative_refine_iters: %-2d    |\n", settings->bisection_iters, settings->iterative_refinement_iterations);
-  printf("|     ruiz_iters: %-2d static_regularization: %3.2e    |\n", settings->ruiz_iters, settings->reg);
+  printf("|     ruiz_iters: %-2d static_regularization: %3.2e    |\n", settings->ruiz_iters, settings->static_reg);
+  printf("|     dynamic_regularization: %3.2e                  |\n", settings->dyn_reg);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
   // printf("+-----------------------------------------------------------------------------------+\n");
@@ -165,7 +166,7 @@ unsigned char check_stopping(QCOSSolver* solver)
   // Compute ||P * x||_\infty
   SpMv(data->P, work->x, work->xbuff);
   for (QCOSInt i = 0; i < data->n; ++i) {
-    work->xbuff[i] -= solver->settings->reg * work->x[i];
+    work->xbuff[i] -= solver->settings->static_reg * work->x[i];
   }
   ew_product(work->xbuff, work->kkt->Dinvruiz, work->xbuff, data->n);
   QCOSFloat Pxinf = inf_norm(work->xbuff, data->n);
@@ -266,7 +267,8 @@ QCOSSettings* copy_settings(QCOSSettings* settings)
   new_settings->iterative_refinement_iterations =
       settings->iterative_refinement_iterations;
   new_settings->max_iters = settings->max_iters;
-  new_settings->reg = settings->reg;
+  new_settings->static_reg = settings->static_reg;
+  new_settings->dyn_reg = settings->dyn_reg;
   new_settings->reltol = settings->reltol;
   new_settings->reltol_inaccurate = settings->reltol_inaccurate;
   new_settings->ruiz_iters = settings->ruiz_iters;
