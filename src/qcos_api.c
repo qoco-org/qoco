@@ -237,13 +237,13 @@ void set_default_settings(QCOSSettings* settings)
   settings->max_iters = 50;
   settings->bisection_iters = 5;
   settings->ruiz_iters = 5;
-  settings->iterative_refinement_iterations = 3;
+  settings->iterative_refinement_iterations = 5;
   settings->verbose = 0;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
   settings->abstol_inaccurate = 1e-5;
   settings->reltol_inaccurate = 1e-5;
-  settings->static_reg = 1e-7;
+  settings->static_reg = 1e-8;
   settings->dyn_reg = 1e-7;
 }
 
