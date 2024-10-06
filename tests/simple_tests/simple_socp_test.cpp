@@ -204,6 +204,66 @@ TEST(simple_socp_test, p3)
   free(G);
 }
 
+TEST(simple_socp_test, TAME)
+{
+  QCOSInt p = 1;
+  QCOSInt m = 2;
+  QCOSInt n = 2;
+  QCOSInt l = 2;
+  QCOSInt nsoc = 0;
+
+  QCOSFloat Px[] = {2, -2, 2};
+  QCOSInt Pnnz = 3;
+  QCOSInt Pp[] = {0, 1, 3};
+  QCOSInt Pi[] = {0, 0, 1};
+
+  QCOSFloat Ax[] = {1, 1};
+  QCOSInt Annz = 2;
+  QCOSInt Ap[] = {0, 1, 2};
+  QCOSInt Ai[] = {0, 0};
+
+  QCOSFloat Gx[] = {-1, -1};
+  QCOSInt Gnnz = 2;
+  QCOSInt Gp[] = {0, 1, 2};
+  QCOSInt Gi[] = {0, 1};
+
+  QCOSFloat c[] = {0, 0};
+  QCOSFloat b[] = {1};
+  QCOSFloat h[] = {0, 0};
+
+  QCOSCscMatrix* P = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+  QCOSCscMatrix* G = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
+
+  qcos_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+  qcos_set_csc(A, p, n, Annz, Ax, Ap, Ai);
+  qcos_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
+
+  QCOSSettings* settings = (QCOSSettings*)malloc(sizeof(QCOSSettings));
+  set_default_settings(settings);
+  settings->verbose = 1;
+
+  QCOSSolver* solver = (QCOSSolver*)malloc(sizeof(QCOSSolver));
+
+  QCOSInt exit =
+      qcos_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, nullptr, settings);
+  if (exit == QCOS_NO_ERROR) {
+    exit = qcos_solve(solver);
+  }
+
+  QCOSFloat tol = 1e-8;
+  QCOSFloat xexp[] = {0.5, 0.5};
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  ASSERT_NEAR(solver->sol->obj, 0, tol);
+  ASSERT_EQ(exit, QCOS_SOLVED);
+
+  qcos_cleanup(solver);
+  free(settings);
+  free(P);
+  free(A);
+  free(G);
+}
+
 TEST(simple_socp_test, reduced_tolerance)
 {
   QCOSInt p = 2;
