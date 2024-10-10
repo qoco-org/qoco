@@ -105,21 +105,16 @@ void ruiz_equilibration(QCOSSolver* solver)
     // Scale P.
     if (data->P) {
       scale_arrayf(data->P->x, data->P->x, g, data->P->nnz);
-      row_scale(data->P, D);
-      col_scale(data->P, D);
+      row_col_scale(data->P, D, D);
     }
 
     // Scale c.
     scale_arrayf(data->c, data->c, g, data->n);
     ew_product(data->c, D, data->c, data->n);
 
-    // Scale A.
-    row_scale(data->A, E);
-    col_scale(data->A, D);
-
-    // Scale G.
-    row_scale(data->G, F);
-    col_scale(data->G, D);
+    // Scale A and G.
+    row_col_scale(data->A, E, D);
+    row_col_scale(data->G, F, D);
 
     // Update scaling matrices with delta.
     ew_product(work->kkt->Druiz, D, work->kkt->Druiz, data->n);

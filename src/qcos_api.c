@@ -310,22 +310,19 @@ void update_matrix_data(QCOSSolver* solver, QCOSFloat* Pxnew, QCOSFloat* Axnew,
 
   // Unequilibrate P.
   scale_arrayf(data->P->x, data->P->x, kkt->kinv, data->P->nnz);
-  row_scale(data->P, kkt->Dinvruiz);
-  col_scale(data->P, kkt->Dinvruiz);
+  row_col_scale(data->P, kkt->Dinvruiz, kkt->Dinvruiz);
 
   // Unequilibrate c.
   scale_arrayf(data->c, data->c, kkt->kinv, data->n);
   ew_product(data->c, kkt->Dinvruiz, data->c, data->n);
 
   // Unequilibrate A.
-  row_scale(data->A, kkt->Einvruiz);
-  col_scale(data->A, kkt->Dinvruiz);
+  row_col_scale(data->A, kkt->Einvruiz, kkt->Dinvruiz);
 
   // Unequilibrate G.
-  row_scale(data->G, kkt->Finvruiz);
-  col_scale(data->G, kkt->Dinvruiz);
+  row_col_scale(data->G, kkt->Finvruiz, kkt->Dinvruiz);
 
-  // ScaUnequilibratele b.
+  // Unequilibrate b.
   ew_product(data->b, kkt->Einvruiz, data->b, data->p);
 
   // Unequilibrate h.

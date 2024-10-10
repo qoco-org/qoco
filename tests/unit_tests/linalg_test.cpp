@@ -351,50 +351,6 @@ TEST(linalg, row_inf_norm_test)
   free(A);
 }
 
-TEST(linalg, col_scale_norm_test)
-{
-  constexpr QCOSInt m = 5;
-  constexpr QCOSInt n = 3;
-  QCOSFloat Ax[] = {1, 4, 10, 3, 2, 8, -11, 4, 3, -6, 9, 5};
-  QCOSInt Annz = 12;
-  QCOSInt Ap[] = {0, 4, 8, 12};
-  QCOSInt Ai[] = {0, 1, 3, 4, 0, 2, 3, 4, 0, 1, 2, 4};
-  QCOSFloat S[] = {1, 2, 3};
-  QCOSFloat Axexpect[] = {1, 4, 10, 3, 4, 16, -22, 8, 9, -18, 27, 15};
-  QCOSFloat tol = 1e-12;
-
-  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
-  qcos_set_csc(A, m, n, Annz, Ax, Ap, Ai);
-
-  col_scale(A, S);
-
-  expect_eq_vectorf(A->x, Axexpect, n, tol);
-
-  free(A);
-}
-
-TEST(linalg, row_scale_norm_test)
-{
-  constexpr QCOSInt m = 5;
-  constexpr QCOSInt n = 3;
-  QCOSFloat Ax[] = {1, 4, 10, 3, 2, 8, -11, 4, 3, -6, 9, 5};
-  QCOSInt Annz = 12;
-  QCOSInt Ap[] = {0, 4, 8, 12};
-  QCOSInt Ai[] = {0, 1, 3, 4, 0, 2, 3, 4, 0, 1, 2, 4};
-  QCOSFloat S[] = {1, 2, 3, 4, 5};
-  QCOSFloat Axexpect[] = {1, 8, 40, 15, 2, 24, -44, 20, 3, -12, 27, 25};
-  QCOSFloat tol = 1e-12;
-
-  QCOSCscMatrix* A = (QCOSCscMatrix*)malloc(sizeof(QCOSCscMatrix));
-  qcos_set_csc(A, m, n, Annz, Ax, Ap, Ai);
-
-  row_scale(A, S);
-
-  expect_eq_vectorf(A->x, Axexpect, n, tol);
-
-  free(A);
-}
-
 TEST(linalg, ruiz_test)
 {
   QCOSInt p = 2;

@@ -191,22 +191,14 @@ void col_inf_norm_USymm(const QCOSCscMatrix* M, QCOSFloat* norm);
 void row_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm);
 
 /**
- * @brief Scales the columns of M by S.
- * M = M * diag(S)
+ * @brief Scales the rows of M by E and columns of M by D.
+ * M = diag(E) * M * diag(S)
  *
  * @param M An m by n sparse matrix.
- * @param S Vector of length n.
+ * @param E Vector of length m.
+ * @param D Vector of length m.
  */
-void col_scale(const QCOSCscMatrix* M, QCOSFloat* S);
-
-/**
- * @brief Scales the rows of M by S.
- * M = diag(S) * M
- *
- * @param M An m by n sparse matrix.
- * @param S Vector of length m.
- */
-void row_scale(const QCOSCscMatrix* M, QCOSFloat* S);
+void row_col_scale(const QCOSCscMatrix* M, QCOSFloat* E, QCOSFloat* D);
 
 /**
  * @brief Computes elementwise product z = x .* y

@@ -332,22 +332,11 @@ void row_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm)
   }
 }
 
-void col_scale(const QCOSCscMatrix* M, QCOSFloat* S)
+void row_col_scale(const QCOSCscMatrix* M, QCOSFloat* E, QCOSFloat* D)
 {
   for (QCOSInt j = 0; j < M->n; ++j) {
     for (QCOSInt i = M->p[j]; i < M->p[j + 1]; ++i) {
-      M->x[i] *= S[j];
-    }
-  }
-}
-
-void row_scale(const QCOSCscMatrix* M, QCOSFloat* S)
-{
-  for (QCOSInt i = 0; i < M->m; ++i) {
-    for (QCOSInt nz = 0; nz < M->nnz; ++nz) {
-      if (i == M->i[nz]) {
-        M->x[nz] *= S[i];
-      }
+      M->x[i] *= (D[j] * E[M->i[i]]);
     }
   }
 }
