@@ -23,7 +23,7 @@
  * @param A Matrix to copy.
  * @return Pointer to new constructed matrix.
  */
-QCOSCscMatrix* new_qcos_csc_matrix(const QCOSCscMatrix* A);
+QOCOCscMatrix* new_qoco_csc_matrix(const QOCOCscMatrix* A);
 
 /**
  * @brief Allocates a new csc matrix that is lambda * I.
@@ -32,42 +32,42 @@ QCOSCscMatrix* new_qcos_csc_matrix(const QCOSCscMatrix* A);
  * @param lambda Scaling factor for identity.
  * @return Pointer to new constructed matrix.
  */
-QCOSCscMatrix* construct_identity(QCOSInt n, QCOSFloat lambda);
+QOCOCscMatrix* construct_identity(QOCOInt n, QOCOFloat lambda);
 
 /**
- * @brief Frees all the internal arrays and the pointer to the QCOSCscMatrix.
- * Should only be used if QCOSCscMatrix and all internal arrays were malloc'ed.
+ * @brief Frees all the internal arrays and the pointer to the QOCOCscMatrix.
+ * Should only be used if QOCOCscMatrix and all internal arrays were malloc'ed.
  *
- * @param A Pointer to QCOSCscMatrix.
+ * @param A Pointer to QOCOCscMatrix.
  */
-void free_qcos_csc_matrix(QCOSCscMatrix* A);
+void free_qoco_csc_matrix(QOCOCscMatrix* A);
 
 /**
- * @brief Copies array of QCOSFloats from x to array y.
- *
- * @param x Source array.
- * @param y Destination array.
- * @param n Length of arrays.
- */
-void copy_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n);
-
-/**
- * @brief Copies and negates array of QCOSFloats from x to array y.
+ * @brief Copies array of QOCOFloats from x to array y.
  *
  * @param x Source array.
  * @param y Destination array.
  * @param n Length of arrays.
  */
-void copy_and_negate_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n);
+void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n);
 
 /**
- * @brief Copies array of QCOSInts from x to array y.
+ * @brief Copies and negates array of QOCOFloats from x to array y.
  *
  * @param x Source array.
  * @param y Destination array.
  * @param n Length of arrays.
  */
-void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n);
+void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n);
+
+/**
+ * @brief Copies array of QOCOInts from x to array y.
+ *
+ * @param x Source array.
+ * @param y Destination array.
+ * @param n Length of arrays.
+ */
+void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n);
 
 /**
  * @brief Computes dot product of u and v.
@@ -77,16 +77,16 @@ void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n);
  * @param n Length of vectors.
  * @return Dot product of u and v.
  */
-QCOSFloat dot(const QCOSFloat* u, const QCOSFloat* v, QCOSInt n);
+QOCOFloat dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n);
 
 /**
- * @brief Computes maximum element of array of QCOSInts.
+ * @brief Computes maximum element of array of QOCOInts.
  *
  * @param x Input array.
  * @param n Length of array.
  * @return Maximum element of x.
  */
-QCOSInt max_arrayi(const QCOSInt* x, QCOSInt n);
+QOCOInt max_arrayi(const QOCOInt* x, QOCOInt n);
 
 /**
  * @brief Scales array x by s and stores result in y.
@@ -97,7 +97,7 @@ QCOSInt max_arrayi(const QCOSInt* x, QCOSInt n);
  * @param s Scaling factor.
  * @param n Length of arrays.
  */
-void scale_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n);
+void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n);
 
 /**
  * @brief Computes z = a * x + y.
@@ -108,8 +108,8 @@ void scale_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n);
  * @param a Scaling factor.
  * @param n Length of vectors.
  */
-void axpy(const QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSFloat a,
-          QCOSInt n);
+void axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOFloat a,
+          QOCOInt n);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices where M is
@@ -119,7 +119,7 @@ void axpy(const QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSFloat a,
  * @param v Vector.
  * @param r Result.
  */
-void USpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
+void USpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices. Computes r = M *
@@ -129,7 +129,7 @@ void USpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
  * @param v Vector.
  * @param r Result.
  */
-void SpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
+void SpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices where M is first
@@ -139,7 +139,7 @@ void SpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
  * @param v Vector.
  * @param r Result.
  */
-void SpMtv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
+void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 
 /**
  * @brief Computes the infinity norm of x.
@@ -148,11 +148,11 @@ void SpMtv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r);
  * @param n Length of input vector.
  * @return Infinity norm of x.
  */
-QCOSFloat inf_norm(const QCOSFloat* x, QCOSInt n);
+QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n);
 
 /**
  * @brief Adds lambda * I to a CSC matrix. Called on P prior to construction of
- * KKT system in qcos_setup(). This function calls realloc() when adding new
+ * KKT system in qoco_setup(). This function calls realloc() when adding new
  * nonzeros.
  *
  * @param M Matrix to be regularized.
@@ -160,7 +160,7 @@ QCOSFloat inf_norm(const QCOSFloat* x, QCOSInt n);
  * @param nzadded Indices of elements of M->x that are added.
  * @return Number of nonzeros added to M->x.
  */
-QCOSInt regularize(QCOSCscMatrix* M, QCOSFloat lambda, QCOSInt* nzadded_idx);
+QOCOInt regularize(QOCOCscMatrix* M, QOCOFloat lambda, QOCOInt* nzadded_idx);
 
 /**
  * @brief Subtracts lambda * I to a CSC matrix. Called on P when updating
@@ -170,7 +170,7 @@ QCOSInt regularize(QCOSCscMatrix* M, QCOSFloat lambda, QCOSInt* nzadded_idx);
  * @param M Matrix.
  * @param lambda Regularization.
  */
-void unregularize(QCOSCscMatrix* M, QCOSFloat lambda);
+void unregularize(QOCOCscMatrix* M, QOCOFloat lambda);
 
 /**
  * @brief Computes the infinity norm of each column (or equivalently row) of a
@@ -180,7 +180,7 @@ void unregularize(QCOSCscMatrix* M, QCOSFloat lambda);
  * @param M Upper triangular part of sparse symmetric matrix.
  * @param norm Result vector of length n.
  */
-void col_inf_norm_USymm(const QCOSCscMatrix* M, QCOSFloat* norm);
+void col_inf_norm_USymm(const QOCOCscMatrix* M, QOCOFloat* norm);
 
 /**
  * @brief Computes the infinity norm of each row of M and stores in norm.
@@ -188,14 +188,14 @@ void col_inf_norm_USymm(const QCOSCscMatrix* M, QCOSFloat* norm);
  * @param M An m by n sparse matrix.
  * @param norm Result vector of length m.
  */
-void row_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm);
+void row_inf_norm(const QOCOCscMatrix* M, QOCOFloat* norm);
 
 /**
  * @brief Allocates and computes A^T.
  *
  * @param A Input matrix.
  */
-QCOSCscMatrix* create_transposed_matrix(const QCOSCscMatrix* A);
+QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A);
 
 /**
  * @brief Scales the rows of M by E and columns of M by D.
@@ -205,7 +205,7 @@ QCOSCscMatrix* create_transposed_matrix(const QCOSCscMatrix* A);
  * @param E Vector of length m.
  * @param D Vector of length m.
  */
-void row_col_scale(const QCOSCscMatrix* M, QCOSFloat* E, QCOSFloat* D);
+void row_col_scale(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D);
 
 /**
  * @brief Computes elementwise product z = x .* y
@@ -214,7 +214,7 @@ void row_col_scale(const QCOSCscMatrix* M, QCOSFloat* E, QCOSFloat* D);
  * @param y Input array.
  * @param n Length of arrays.
  */
-void ew_product(QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSInt n);
+void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n);
 
 /**
  * @brief Inverts permutation vector p and stores inverse in pinv.
@@ -223,13 +223,13 @@ void ew_product(QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSInt n);
  * @param pinv Inverse of permutation vector.
  * @param n Length of vectors.
  */
-void invert_permutation(const QCOSInt* p, QCOSInt* pinv, QCOSInt n);
+void invert_permutation(const QOCOInt* p, QOCOInt* pinv, QOCOInt n);
 
 /**
  * @brief Computes cumulative sum of c.
  * @return Cumulative sum of c.
  */
-QCOSInt cumsum(QCOSInt* p, QCOSInt* c, QCOSInt n);
+QOCOInt cumsum(QOCOInt* p, QOCOInt* c, QOCOInt n);
 
 /**
  * @brief C = A(p,p) = PAP' where A and C are symmetric and the upper triangular
@@ -239,9 +239,9 @@ QCOSInt cumsum(QCOSInt* p, QCOSInt* c, QCOSInt n);
  * @param pinv
  * @param AtoC
  * @param values
- * @return QCOSCscMatrix*
+ * @return QOCOCscMatrix*
  */
-QCOSCscMatrix* csc_symperm(const QCOSCscMatrix* A, const QCOSInt* pinv,
-                           QCOSInt* AtoC);
+QOCOCscMatrix* csc_symperm(const QOCOCscMatrix* A, const QOCOInt* pinv,
+                           QOCOInt* AtoC);
 
 #endif /* #ifndef LINALG_H*/

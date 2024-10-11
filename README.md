@@ -1,19 +1,18 @@
-# Quadratic Objective Conic Optimization Solver (QCOS)
+# Quadratic Objective Conic Optimizer (QOCO)
 
-QCOS implements a primal-dual interior point method to solve second-order cone programs with quadratic objectives of the following form
+QOCO implements a primal-dual interior point method to solve second-order cone programs with quadratic objectives of the following form
 
 $$
   \begin{split}
-      \underset{x}{\text{minimize}} 
+      \underset{x}{\text{minimize}}
       \quad & \frac{1}{2}x^\top P x + c^\top x \\
-      \text{subject to} 
+      \text{subject to}
       \quad & Gx \preceq_\mathcal{C} h \\
       \quad & Ax = b
   \end{split}
 $$
 
-
-with optimization variable $x \in \mathbb{R}^n$ and problem data $P = P^\top \succeq 0$, $c \in \mathbb{R}^n$, $G \in \mathbb{R}^{m \times n}$, $h \in \mathbb{R}^m$, $A \in \mathbb{R}^{p \times n}$, $b \in \mathbb{R}^p$, and $\preceq_\mathcal{C}$ 
+with optimization variable $x \in \mathbb{R}^n$ and problem data $P = P^\top \succeq 0$, $c \in \mathbb{R}^n$, $G \in \mathbb{R}^{m \times n}$, $h \in \mathbb{R}^m$, $A \in \mathbb{R}^{p \times n}$, $b \in \mathbb{R}^p$, and $\preceq_\mathcal{C}$
 is an inequality with respect to cone $\mathcal{C}$, i.e. $h - Gx \in \mathcal{C}$. Cone $\mathcal{C}$ is the Cartesian product of the non-negative orthant and second-order cones, which can be expressed as
 
 $$\mathcal{C} =  \mathbb{R}^l_+ \times \mathcal{Q}^{q_1}_1 \times \ldots \times \mathcal{Q}^{q_N}_N$$

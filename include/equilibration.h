@@ -34,13 +34,13 @@
  *
  * @param solver Pointer to solver.
  */
-void ruiz_equilibration(QCOSSolver* solver);
+void ruiz_equilibration(QOCOSolver* solver);
 
 /**
  * @brief Undo variable transformation induced by ruiz equilibration.
  *
  * @param work Pointer to workspace.
  */
-void unscale_variables(QCOSWorkspace* work);
+void unscale_variables(QOCOWorkspace* work);
 
 #endif /* #ifndef EQUILIBRATION_H */

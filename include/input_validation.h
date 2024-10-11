@@ -26,7 +26,7 @@
  * @param settings Pointer to settings struct
  * @return Exitflag to check (0 for success, failure otherwise)
  */
-QCOSInt qcos_validate_settings(const QCOSSettings* settings);
+QOCOInt qoco_validate_settings(const QOCOSettings* settings);
 
 /**
  * @brief Validate problem data.
@@ -42,10 +42,10 @@ QCOSInt qcos_validate_settings(const QCOSSettings* settings);
  * @param q Dimension of each second-order cone
  * @return Exitflag to check (0 for success, failure otherwise)
  */
-QCOSInt qcos_validate_data(const QCOSCscMatrix* P, const QCOSFloat* c,
-                           const QCOSCscMatrix* A, const QCOSFloat* b,
-                           const QCOSCscMatrix* G, const QCOSFloat* h,
-                           const QCOSInt l, const QCOSInt nsoc,
-                           const QCOSInt* q);
+QOCOInt qoco_validate_data(const QOCOCscMatrix* P, const QOCOFloat* c,
+                           const QOCOCscMatrix* A, const QOCOFloat* b,
+                           const QOCOCscMatrix* G, const QOCOFloat* h,
+                           const QOCOInt l, const QOCOInt nsoc,
+                           const QOCOInt* q);
 
 #endif /* #ifndef INPUT_VALIDATION_H */

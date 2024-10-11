@@ -4,15 +4,15 @@ if (NOT Python_FOUND)
   message(FATAL_ERROR "Python is required to generate data for tests.")
 endif()
 
-if(QCOS_BUILD_TYPE STREQUAL Debug)
-    set(QCOS_BUILD_TYPE ${QCOS_BUILD_TYPE})
-    add_compile_definitions(QCOS_DEBUG)
+if(qoco_BUILD_TYPE STREQUAL Debug)
+    set(qoco_BUILD_TYPE ${qoco_BUILD_TYPE})
+    add_compile_definitions(qoco_DEBUG)
     set(CMAKE_CXX_FLAGS "-g -march=native -Werror -Wall -Wextra -fsanitize=address,undefined")
 else()
-    set(QCOS_BUILD_TYPE Release)
+    set(qoco_BUILD_TYPE Release)
     set(CMAKE_CXX_FLAGS "-O3 -march=native -Werror -Wall -Wextra")
 endif()
-message(STATUS "Test Build Type: " ${QCOS_BUILD_TYPE})
+message(STATUS "Test Build Type: " ${qoco_BUILD_TYPE})
 message(STATUS "Test Build Flags: " ${CMAKE_C_FLAGS})
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
@@ -29,7 +29,7 @@ foreach(file ${unit_tests})
     "unit_tests/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qcos gtest_main)
+  target_link_libraries("${name}" qoco gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -42,7 +42,7 @@ foreach(file ${simple_tests})
     "simple_tests/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qcos gtest_main)
+  target_link_libraries("${name}" qoco gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -58,7 +58,7 @@ foreach(file ${ocp})
     "ocp/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qcos gtest_main)
+  target_link_libraries("${name}" qoco gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -70,6 +70,6 @@ foreach(file ${portfolio})
     "portfolio/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qcos gtest_main)
+  target_link_libraries("${name}" qoco gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()

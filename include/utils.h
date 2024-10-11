@@ -24,47 +24,47 @@
  * @brief Prints dimensions, number of nonzero elements, data, column pointers
  * and row indices for a sparse matrix in CSC form.
  *
- * @param M Pointer to QCOSCscMatrix that will be printed.
+ * @param M Pointer to QOCOCscMatrix that will be printed.
  */
-void print_qcos_csc_matrix(QCOSCscMatrix* M);
+void print_qoco_csc_matrix(QOCOCscMatrix* M);
 
 /**
- * @brief Prints array of QCOSFloats.
+ * @brief Prints array of QOCOFloats.
  *
  * @param x Pointer to array.
  * @param n Number of elements in array.
  */
-void print_arrayf(QCOSFloat* x, QCOSInt n);
+void print_arrayf(QOCOFloat* x, QOCOInt n);
 
 /**
- * @brief Prints array of QCOSInts.
+ * @brief Prints array of QOCOInts.
  *
  * @param x Pointer to array.
  * @param n Number of elements in array.
  */
-void print_arrayi(QCOSInt* x, QCOSInt n);
+void print_arrayi(QOCOInt* x, QOCOInt n);
 
 /**
- * @brief Prints QCOS header.
+ * @brief Prints QOCO header.
  *
  * @param solver Pointer to solver.
  */
-void print_header(QCOSSolver* solver);
+void print_header(QOCOSolver* solver);
 
 /**
  * @brief Print solver progress.
  *
  * @param solver Pointer to solver.
  */
-void log_iter(QCOSSolver* solver);
+void log_iter(QOCOSolver* solver);
 
 /**
- * @brief Prints QCOS footer.
+ * @brief Prints QOCO footer.
  *
  * @param solution Pointer to solution struct.
  * @param status Solve status.
  */
-void print_footer(QCOSSolution* solution, enum qcos_solve_status status);
+void print_footer(QOCOSolution* solution, enum qoco_solve_status status);
 
 /**
  * @brief Checks stopping criteria.
@@ -73,14 +73,14 @@ void print_footer(QCOSSolution* solution, enum qcos_solve_status status);
  * @param solver Pointer to solver.
  * @return 1 if stopping criteria met and 0 otherwise.
  */
-unsigned char check_stopping(QCOSSolver* solver);
+unsigned char check_stopping(QOCOSolver* solver);
 
 /**
- * @brief Copies data to QCOSSolution struct when solver terminates.
+ * @brief Copies data to QOCOSolution struct when solver terminates.
  *
  * @param solver Pointer to solver.
  */
-void copy_solution(QCOSSolver* solver);
+void copy_solution(QOCOSolver* solver);
 
 /**
  * @brief Allocates and returns a copy of the input settings struct.
@@ -88,6 +88,6 @@ void copy_solution(QCOSSolver* solver);
  * @param settings Input struct.
  * @return Pointer to constructed and copies settings struct.
  */
-QCOSSettings* copy_settings(QCOSSettings* settings);
+QOCOSettings* copy_settings(QOCOSettings* settings);
 
 #endif /* #ifndef UTILS_H */

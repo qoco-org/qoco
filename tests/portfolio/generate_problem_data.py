@@ -1,5 +1,5 @@
 import utils.codegen_functions as cgen
-import utils.cvxpy_to_qcos as c2q
+import utils.cvxpy_to_qoco as c2q
 from scipy import sparse
 import numpy as np
 import cvxpy as cp

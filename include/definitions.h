@@ -9,31 +9,31 @@
  *
  * @section DESCRIPTION
  *
- * Defines various macros used in qcos.
+ * Defines various macros used in qoco.
  */
 
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
-// Define QCOSInt and QCOSFloat.
+// Define QOCOInt and QOCOFloat.
 #include <limits.h>
-typedef int QCOSInt;
-#define QCOSInt_MAX INT_MAX
+typedef int QOCOInt;
+#define QOCOInt_MAX INT_MAX
 
-typedef double QCOSFloat;
-#define QCOSFloat_MAX __DBL_MAX__
+typedef double QOCOFloat;
+#define QOCOFloat_MAX __DBL_MAX__
 
-#define qcos_max(a, b) (((a) > (b)) ? (a) : (b))
-#define qcos_min(a, b) (((a) < (b)) ? (a) : (b))
-#define qcos_abs(a) (((a) > 0) ? (a) : (-a))
-#define safe_div(a, b) (qcos_abs(b) > 1e-15) ? (a / b) : QCOSFloat_MAX
+#define qoco_max(a, b) (((a) > (b)) ? (a) : (b))
+#define qoco_min(a, b) (((a) < (b)) ? (a) : (b))
+#define qoco_abs(a) (((a) > 0) ? (a) : (-a))
+#define safe_div(a, b) (qoco_abs(b) > 1e-15) ? (a / b) : QOCOFloat_MAX
 #include <math.h>
-#define qcos_sqrt(a) sqrt(a)
+#define qoco_sqrt(a) sqrt(a)
 
-#ifdef QCOS_DEBUG
+#ifdef QOCO_DEBUG
 #include <assert.h>
 #include <stdio.h>
-#define qcos_assert(a)                                                         \
+#define qoco_assert(a)                                                         \
   do {                                                                         \
     if (!(a)) {                                                                \
       printf("Assertion Failed: %s\n", #a);                                    \
@@ -41,14 +41,14 @@ typedef double QCOSFloat;
     }                                                                          \
   } while (0)
 #else
-#define qcos_assert(a)                                                         \
+#define qoco_assert(a)                                                         \
   do {                                                                         \
   } while (0)
 #endif
 
 // Need for malloc, calloc, and free.
 #include <stdlib.h>
-#define qcos_malloc malloc
-#define qcos_calloc calloc
-#define qcos_free free
+#define qoco_malloc malloc
+#define qoco_calloc calloc
+#define qoco_free free
 #endif /* ifndef DEFINITIONS_H */

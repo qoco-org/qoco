@@ -9,7 +9,7 @@
  *
  * @section DESCRIPTION
  *
- * Defines all structs used by QCOS.
+ * Defines all structs used by QOCO.
  */
 
 #ifndef STRUCTS_H
@@ -24,24 +24,24 @@
  */
 typedef struct {
   /** Number of rows. */
-  QCOSInt m;
+  QOCOInt m;
 
   /** Number of columns. */
-  QCOSInt n;
+  QOCOInt n;
 
   /** Number of nonzero elements. */
-  QCOSInt nnz;
+  QOCOInt nnz;
 
   /** Row indices (length: nnz). */
-  QCOSInt* i;
+  QOCOInt* i;
 
   /** Column pointers (length: n+1). */
-  QCOSInt* p;
+  QOCOInt* p;
 
   /** Data (length: nnz). */
-  QCOSFloat* x;
+  QOCOFloat* x;
 
-} QCOSCscMatrix;
+} QOCOCscMatrix;
 
 /**
  * @brief SOCP problem data.
@@ -49,87 +49,87 @@ typedef struct {
  */
 typedef struct {
   /** Quadratic cost term. */
-  QCOSCscMatrix* P; //
+  QOCOCscMatrix* P; //
 
   /** Linear cost term. */
-  QCOSFloat* c;
+  QOCOFloat* c;
 
   /** Affine equality constraint matrix. */
-  QCOSCscMatrix* A;
+  QOCOCscMatrix* A;
 
   /** Transpose of A (used in Ruiz for fast row norm calculations of A). */
-  QCOSCscMatrix* At;
+  QOCOCscMatrix* At;
 
   /** Affine equality constraint offset. */
-  QCOSFloat* b;
+  QOCOFloat* b;
 
   /** Conic constraint matrix. */
-  QCOSCscMatrix* G;
+  QOCOCscMatrix* G;
 
   /** Transpose of G (used in Ruiz for fast row norm calculations of G). */
-  QCOSCscMatrix* Gt;
+  QOCOCscMatrix* Gt;
 
   /** Conic constraint offset. */
-  QCOSFloat* h;
+  QOCOFloat* h;
 
   /** Dimension of non-negative orthant in cone C. */
-  QCOSInt l;
+  QOCOInt l;
 
   /** Number of second-order cones in C */
-  QCOSInt nsoc;
+  QOCOInt nsoc;
 
   /** Dimension of each second-order cone (length of nsoc)*/
-  QCOSInt* q;
+  QOCOInt* q;
 
   /** Number of primal variables. */
-  QCOSInt n;
+  QOCOInt n;
 
   /** Number of conic constraints. */
-  QCOSInt m;
+  QOCOInt m;
 
   /** Number of affine equality constraints. */
-  QCOSInt p;
+  QOCOInt p;
 
-} QCOSProblemData;
+} QOCOProblemData;
 
 /**
- * @brief QCOS solver settings
+ * @brief QOCO solver settings
  *
  */
 typedef struct {
   /** Maximum number of IPM iterations. */
-  QCOSInt max_iters;
+  QOCOInt max_iters;
 
   /** Number of bisection iterations for linesearch. */
-  QCOSInt bisection_iters;
+  QOCOInt bisection_iters;
 
   /** Number of Ruiz equilibration iterations. */
-  QCOSInt ruiz_iters;
+  QOCOInt ruiz_iters;
 
   /** Number of iterative refinement iterations performed. */
-  QCOSInt iterative_refinement_iterations;
+  QOCOInt iterative_refinement_iterations;
 
   /** Absolute tolerance. */
-  QCOSFloat abstol;
+  QOCOFloat abstol;
 
   /** Relative tolerance. */
-  QCOSFloat reltol;
+  QOCOFloat reltol;
 
   /** Low tolerance stopping criteria. */
-  QCOSFloat abstol_inaccurate;
+  QOCOFloat abstol_inaccurate;
 
   /** Low tolerance stopping criteria. */
-  QCOSFloat reltol_inaccurate;
+  QOCOFloat reltol_inaccurate;
 
   /** Static regularization parameter for KKT system. */
-  QCOSFloat static_reg;
+  QOCOFloat static_reg;
 
   /** Dynamic regularization parameter for KKT system. */
-  QCOSFloat dyn_reg;
+  QOCOFloat dyn_reg;
 
   /** 0 for quiet anything else for verbose. */
   unsigned char verbose;
-} QCOSSettings;
+} QOCOSettings;
 
 /**
  * @brief Contains all data needed for constructing and modifying KKT matrix and
@@ -138,236 +138,236 @@ typedef struct {
  */
 typedef struct {
   /** KKT matrix in CSC form. */
-  QCOSCscMatrix* K;
+  QOCOCscMatrix* K;
 
   /** Diagonal of scaling matrix. */
-  QCOSFloat* delta;
+  QOCOFloat* delta;
 
   /** Diagonal of scaling matrix. */
-  QCOSFloat* Druiz;
+  QOCOFloat* Druiz;
 
   /** Diagonal of scaling matrix. */
-  QCOSFloat* Eruiz;
+  QOCOFloat* Eruiz;
 
   /** Diagonal of scaling matrix. */
-  QCOSFloat* Fruiz;
+  QOCOFloat* Fruiz;
 
   /** Inverse of Druiz. */
-  QCOSFloat* Dinvruiz;
+  QOCOFloat* Dinvruiz;
 
   /** Inverse of Eruiz. */
-  QCOSFloat* Einvruiz;
+  QOCOFloat* Einvruiz;
 
   /** Inverse of Fruiz. */
-  QCOSFloat* Finvruiz;
+  QOCOFloat* Finvruiz;
 
   /** Cost scaling factor. */
-  QCOSFloat k;
+  QOCOFloat k;
 
   /** Inverse of cost scaling factor. */
-  QCOSFloat kinv;
+  QOCOFloat kinv;
 
   /** Permutation vector. */
-  QCOSInt* p;
+  QOCOInt* p;
 
   /** Inverse of permutation vector. */
-  QCOSInt* pinv;
+  QOCOInt* pinv;
 
   /** Elimination tree for LDL factorization of K. */
-  QCOSInt* etree;
+  QOCOInt* etree;
 
-  QCOSInt* Lnz;
+  QOCOInt* Lnz;
 
-  QCOSFloat* Lx;
+  QOCOFloat* Lx;
 
-  QCOSInt* Lp;
+  QOCOInt* Lp;
 
-  QCOSInt* Li;
+  QOCOInt* Li;
 
-  QCOSFloat* D;
+  QOCOFloat* D;
 
-  QCOSFloat* Dinv;
+  QOCOFloat* Dinv;
 
-  QCOSInt* iwork;
+  QOCOInt* iwork;
 
   unsigned char* bwork;
 
-  QCOSFloat* fwork;
+  QOCOFloat* fwork;
 
   /** RHS of KKT system. */
-  QCOSFloat* rhs;
+  QOCOFloat* rhs;
 
   /** Solution of KKT system. */
-  QCOSFloat* xyz;
+  QOCOFloat* xyz;
 
   /** Buffer of size n + m + p. */
-  QCOSFloat* xyzbuff;
+  QOCOFloat* xyzbuff;
 
   /** Residual of KKT condition. */
-  QCOSFloat* kktres;
+  QOCOFloat* kktres;
 
   /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
    * the KKT matrix. */
-  QCOSInt* nt2kkt;
+  QOCOInt* nt2kkt;
 
   /** Mapping from elements on the main diagonal of the Nesterov-Todd scaling
    * matrices to elements in the KKT matrix. Used for regularization.*/
-  QCOSInt* ntdiag2kkt;
+  QOCOInt* ntdiag2kkt;
 
   /** Mapping from elements in regularized P to elements in the KKT matrix. */
-  QCOSInt* PregtoKKT;
+  QOCOInt* PregtoKKT;
 
   /** Indices of P->x that were added due to regularization. */
-  QCOSInt* Pnzadded_idx;
+  QOCOInt* Pnzadded_idx;
 
   /** Number of elements of P->x that were added due to regularization. */
-  QCOSInt Pnum_nzadded;
+  QOCOInt Pnum_nzadded;
 
   /** Mapping from elements in A to elements in the KKT matrix. */
-  QCOSInt* AtoKKT;
+  QOCOInt* AtoKKT;
 
   /** Mapping from elements in G to elements in the KKT matrix. */
-  QCOSInt* GtoKKT;
+  QOCOInt* GtoKKT;
 
-} QCOSKKT;
+} QOCOKKT;
 
 /**
- * @brief QCOS Workspace
+ * @brief QOCO Workspace
  */
 typedef struct {
   /** Contains SOCP problem data. */
-  QCOSProblemData* data;
+  QOCOProblemData* data;
 
   /** Solve timer. */
-  QCOSTimer solve_timer;
+  QOCOTimer solve_timer;
 
   /** Contains all data related to KKT system. */
-  QCOSKKT* kkt;
+  QOCOKKT* kkt;
 
   /** Iterate of primal variables. */
-  QCOSFloat* x;
+  QOCOFloat* x;
 
   /** Iterate of slack variables associated with conic constraint. */
-  QCOSFloat* s;
+  QOCOFloat* s;
 
   /** Iterate of dual variables associated with affine equality constraint. */
-  QCOSFloat* y;
+  QOCOFloat* y;
 
   /** Iterate of dual variables associated with conic constraint. */
-  QCOSFloat* z;
+  QOCOFloat* z;
 
   /** Gap (s'*z / m) */
-  QCOSFloat mu;
+  QOCOFloat mu;
 
   /** Newton Step-size */
-  QCOSFloat a;
+  QOCOFloat a;
 
   /** Centering parameter */
-  QCOSFloat sigma;
+  QOCOFloat sigma;
 
   /** Number of nonzeros in Nesterov-Todd Scaling. */
-  QCOSInt Wnnz;
+  QOCOInt Wnnz;
 
   /** Upper triangular part of Nesterov-Todd Scaling */
-  QCOSFloat* W;
+  QOCOFloat* W;
 
   /** Full Nesterov-Todd Scaling */
-  QCOSFloat* Wfull;
+  QOCOFloat* Wfull;
 
   /** Upper triangular part of inverse of Nesterov-Todd Scaling */
-  QCOSFloat* Winv;
+  QOCOFloat* Winv;
 
   /** Full inverse of Nesterov-Todd Scaling */
-  QCOSFloat* Winvfull;
+  QOCOFloat* Winvfull;
 
   /** Nesterov-Todd Scaling squared */
-  QCOSFloat* WtW;
+  QOCOFloat* WtW;
 
   /** Scaled variables. */
-  QCOSFloat* lambda;
+  QOCOFloat* lambda;
 
   /** Temporary array needed in Nesterov-Todd scaling calculations. Length of
    * max(q). */
-  QCOSFloat* sbar;
+  QOCOFloat* sbar;
 
   /** Temporary array needed in Nesterov-Todd scaling calculations. Length of
    * max(q). */
-  QCOSFloat* zbar;
+  QOCOFloat* zbar;
 
   /** Temporary variable of length n. */
-  QCOSFloat* xbuff;
+  QOCOFloat* xbuff;
 
   /** Temporary variable of length p. */
-  QCOSFloat* ybuff;
+  QOCOFloat* ybuff;
 
   /** Temporary variable of length m. */
-  QCOSFloat* ubuff1;
+  QOCOFloat* ubuff1;
 
   /** Temporary variable of length m. */
-  QCOSFloat* ubuff2;
+  QOCOFloat* ubuff2;
 
   /** Temporary variable of length m. */
-  QCOSFloat* ubuff3;
+  QOCOFloat* ubuff3;
 
   /** Search direction for slack variables. Length of m. */
-  QCOSFloat* Ds;
+  QOCOFloat* Ds;
 
-} QCOSWorkspace;
+} QOCOWorkspace;
 
 typedef struct {
   /* Primal solution. */
-  QCOSFloat* x;
+  QOCOFloat* x;
 
   /* Slack variable for conic constraints. */
-  QCOSFloat* s;
+  QOCOFloat* s;
 
   /* Dual variables for affine equality constraints. */
-  QCOSFloat* y;
+  QOCOFloat* y;
 
   /* Dual variables for conic constraints. */
-  QCOSFloat* z;
+  QOCOFloat* z;
 
   /* Number of iterations. */
-  QCOSInt iters;
+  QOCOInt iters;
 
   /* Setup time. */
-  QCOSFloat setup_time_sec;
+  QOCOFloat setup_time_sec;
 
   /* Solve time. */
-  QCOSFloat solve_time_sec;
+  QOCOFloat solve_time_sec;
 
   /* Optimal objective value. */
-  QCOSFloat obj;
+  QOCOFloat obj;
 
   /** Primal residual. */
-  QCOSFloat pres;
+  QOCOFloat pres;
 
   /** Dual residual. */
-  QCOSFloat dres;
+  QOCOFloat dres;
 
   /** Duality gap. */
-  QCOSFloat gap;
+  QOCOFloat gap;
 
   /* Solve status. */
-  QCOSInt status;
+  QOCOInt status;
 
-} QCOSSolution;
+} QOCOSolution;
 
 /**
- * @brief QCOS Solver struct. Contains all information about the state of the
+ * @brief QOCO Solver struct. Contains all information about the state of the
  * solver.
  *
  */
 typedef struct {
   /** Solver settings. */
-  QCOSSettings* settings;
+  QOCOSettings* settings;
 
   /** Solver workspace. */
-  QCOSWorkspace* work;
+  QOCOWorkspace* work;
 
   /* Solution. */
-  QCOSSolution* sol;
+  QOCOSolution* sol;
 
-} QCOSSolver;
+} QOCOSolver;
 
 #endif /* #ifndef STRUCTS_H */

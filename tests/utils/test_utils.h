@@ -1,7 +1,7 @@
 #ifndef TEST_UTILS_H
 #define TEST_UTILS_H
 
-#include "qcos.h"
+#include "qoco.h"
 #include "gtest/gtest.h"
 
 /**
@@ -14,16 +14,16 @@
  * @param tol Tolerace.
  *
  */
-void expect_eq_vectorf(QCOSFloat* x, QCOSFloat* y, QCOSInt n, QCOSFloat tol);
+void expect_eq_vectorf(QOCOFloat* x, QOCOFloat* y, QOCOInt n, QOCOFloat tol);
 
 /**
- * @brief Utility function to extend EXPECT_EQ to QCOSCscMatrix.
+ * @brief Utility function to extend EXPECT_EQ to QOCOCscMatrix.
  *
  * @param A Input matrix.
  * @param B Input matrix.
  * @param tol Tolerace.
  */
-void expect_eq_csc(QCOSCscMatrix* A, QCOSCscMatrix* B, QCOSFloat tol);
+void expect_eq_csc(QOCOCscMatrix* A, QOCOCscMatrix* B, QOCOFloat tol);
 
 /**
  * @brief Utility function to test if
@@ -33,6 +33,6 @@ void expect_eq_csc(QCOSCscMatrix* A, QCOSCscMatrix* B, QCOSFloat tol);
  * @param y True value.
  * @param tol Tolerance.
  */
-void expect_rel_error(QCOSFloat x, QCOSFloat y, QCOSFloat tol);
+void expect_rel_error(QOCOFloat x, QOCOFloat y, QOCOFloat tol);
 
 #endif /* #ifndef TEST_UTILS_H */

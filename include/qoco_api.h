@@ -1,5 +1,5 @@
 /**
- * @file qcos_api.h
+ * @file qoco_api.h
  * @author Govind M. Chari <govindchari1@gmail.com>
  *
  * @section LICENSE
@@ -9,11 +9,11 @@
  *
  * @section DESCRIPTION
  *
- * Exposes the API for QCOS.
+ * Exposes the API for QOCO.
  */
 
-#ifndef QCOS_API_H
-#define QCOS_API_H
+#ifndef QOCO_API_H
+#define QOCO_API_H
 
 #include "definitions.h"
 #include "enums.h"
@@ -21,12 +21,12 @@
 #include "input_validation.h"
 #include "kkt.h"
 #include "linalg.h"
-#include "qcos_error.h"
+#include "qoco_error.h"
 #include "structs.h"
 #include "utils.h"
 
 /*
- QCOS solves second-order cone problems of the following form
+ QOCO solves second-order cone problems of the following form
  minimize   (1/2)x'Px + c'x
  subject to Gx \leq_C h <==> h - Gx \in C
             Ax = b
@@ -36,7 +36,7 @@
 */
 
 /**
- * @brief Allocates all memory needed for QCOS to solve the SOCP.
+ * @brief Allocates all memory needed for QOCO to solve the SOCP.
  *
  * @param solver Pointer to solver.
  * @param n Number of optimization variables.
@@ -54,10 +54,10 @@
  * @param settings Settings struct.
  * @return error code.
  */
-QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
-                   QCOSCscMatrix* P, QCOSFloat* c, QCOSCscMatrix* A,
-                   QCOSFloat* b, QCOSCscMatrix* G, QCOSFloat* h, QCOSInt l,
-                   QCOSInt nsoc, QCOSInt* q, QCOSSettings* settings);
+QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
+                   QOCOCscMatrix* P, QOCOFloat* c, QOCOCscMatrix* A,
+                   QOCOFloat* b, QOCOCscMatrix* G, QOCOFloat* h, QOCOInt l,
+                   QOCOInt nsoc, QOCOInt* q, QOCOSettings* settings);
 
 /**
  * @brief Sets the data for a compressed sparse column matrix.
@@ -70,15 +70,15 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
  * @param Ap Array of column pointers for the data
  * @param Ai Array of row indices for data
  */
-void qcos_set_csc(QCOSCscMatrix* A, QCOSInt m, QCOSInt n, QCOSInt Annz,
-                  QCOSFloat* Ax, QCOSInt* Ap, QCOSInt* Ai);
+void qoco_set_csc(QOCOCscMatrix* A, QOCOInt m, QOCOInt n, QOCOInt Annz,
+                  QOCOFloat* Ax, QOCOInt* Ap, QOCOInt* Ai);
 
 /**
  * @brief Set the default settings struct
  *
  * @param settings Pointer to settings struct
  */
-void set_default_settings(QCOSSettings* settings);
+void set_default_settings(QOCOSettings* settings);
 
 /**
  * @brief Updates settings struct.
@@ -87,8 +87,8 @@ void set_default_settings(QCOSSettings* settings);
  * @param new_settings New settings struct.
  * @return Return code is 0 if update is successful.
  */
-QCOSInt qcos_update_settings(QCOSSolver* solver,
-                             const QCOSSettings* new_settings);
+QOCOInt qoco_update_settings(QOCOSolver* solver,
+                             const QOCOSettings* new_settings);
 
 /**
  * @brief Updates data vectors. NULL can be passed in for any vector if that
@@ -99,8 +99,8 @@ QCOSInt qcos_update_settings(QCOSSolver* solver,
  * @param bnew New b vector.
  * @param hnew New h vector.
  */
-void update_vector_data(QCOSSolver* solver, QCOSFloat* cnew, QCOSFloat* bnew,
-                        QCOSFloat* hnew);
+void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
+                        QOCOFloat* hnew);
 
 /**
  * @brief Updates data matrices. NULL can be passed in for any matrix data
@@ -112,8 +112,8 @@ void update_vector_data(QCOSSolver* solver, QCOSFloat* cnew, QCOSFloat* bnew,
  * @param Axnew New data for A->x.
  * @param Gxnew New data for G->x.
  */
-void update_matrix_data(QCOSSolver* solver, QCOSFloat* Pxnew, QCOSFloat* Axnew,
-                        QCOSFloat* Gxnew);
+void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
+                        QOCOFloat* Gxnew);
 
 /**
  * @brief Solves SOCP.
@@ -121,7 +121,7 @@ void update_matrix_data(QCOSSolver* solver, QCOSFloat* Pxnew, QCOSFloat* Axnew,
  * @param solver Pointer to solver.
  * @return Exitflag to check (0 for success, failure otherwise)
  */
-QCOSInt qcos_solve(QCOSSolver* solver);
+QOCOInt qoco_solve(QOCOSolver* solver);
 
 /**
  * @brief Frees all allocated memory.
@@ -129,6 +129,6 @@ QCOSInt qcos_solve(QCOSSolver* solver);
  * @param solver Pointer to solver.
  * @return Exitflag to check (0 for success, failure otherwise)
  */
-QCOSInt qcos_cleanup(QCOSSolver* solver);
+QOCOInt qoco_cleanup(QOCOSolver* solver);
 
-#endif /* #ifndef QCOS_API_H */
+#endif /* #ifndef QOCO_API_H */

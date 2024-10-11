@@ -1,5 +1,5 @@
 /**
- * @file qcos.h
+ * @file qoco.h
  * @author Govind M. Chari <govindchari1@gmail.com>
  *
  * @section LICENSE
@@ -9,11 +9,11 @@
  *
  * @section DESCRIPTION
  *
- * This is the file that should be included when using QCOS.
+ * This is the file that should be included when using QOCO.
  */
 
-#ifndef QCOS_H
-#define QCOS_H
+#ifndef QOCO_H
+#define QOCO_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,7 +21,7 @@ extern "C" {
 
 #include "cone.h"
 #include "definitions.h"
-#include "qcos_api.h"
+#include "qoco_api.h"
 #include "structs.h"
 #include "utils.h"
 
@@ -29,4 +29,4 @@ extern "C" {
 }
 #endif
 
-#endif /* #ifndef QCOS_H */
+#endif /* #ifndef QOCO_H */

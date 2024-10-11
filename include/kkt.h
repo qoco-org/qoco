@@ -26,7 +26,7 @@
  *
  * @param work Pointer to workspace.
  */
-void allocate_kkt(QCOSWorkspace* work);
+void allocate_kkt(QOCOWorkspace* work);
 
 /**
  * @brief Constructs upper triangular part of KKT matrix with -I
@@ -42,7 +42,7 @@ void allocate_kkt(QCOSWorkspace* work);
  *
  * @param work Pointer to solver
  */
-void construct_kkt(QCOSSolver* solver);
+void construct_kkt(QOCOSolver* solver);
 
 /**
  * @brief Gets initial values for primal and dual variables such that (s,z) \in
@@ -50,7 +50,7 @@ void construct_kkt(QCOSSolver* solver);
  *
  * @param solver Pointer to solver.
  */
-void initialize_ipm(QCOSSolver* solver);
+void initialize_ipm(QOCOSolver* solver);
 
 /**
  * @brief Set the Nesterov-Todd block to be zeros. Used prior to
@@ -58,7 +58,7 @@ void initialize_ipm(QCOSSolver* solver);
  *
  * @param work Pointer to workspace.
  */
-void set_nt_block_zeros(QCOSWorkspace* work);
+void set_nt_block_zeros(QOCOWorkspace* work);
 
 /**
  * @brief Updates and regularizes Nesterov-Todd scaling block of KKT matrix.
@@ -69,7 +69,7 @@ void set_nt_block_zeros(QCOSWorkspace* work);
  *
  * @param work Pointer to solver.
  */
-void update_nt_block(QCOSSolver* solver);
+void update_nt_block(QOCOSolver* solver);
 
 /**
  * @brief Computes residual of KKT conditions and stores in work->kkt->rhs.
@@ -84,7 +84,7 @@ void update_nt_block(QCOSSolver* solver);
  *
  * @param work Pointer to workspace.
  */
-void compute_kkt_residual(QCOSSolver* solver);
+void compute_kkt_residual(QOCOSolver* solver);
 
 /**
  * @brief Constructs rhs for the affine scaling KKT system.
@@ -93,7 +93,7 @@ void compute_kkt_residual(QCOSSolver* solver);
  *
  * @param work Pointer to workspace.
  */
-void construct_kkt_aff_rhs(QCOSWorkspace* work);
+void construct_kkt_aff_rhs(QOCOWorkspace* work);
 
 /**
  * @brief Constructs rhs for the combined direction KKT system.
@@ -103,14 +103,14 @@ void construct_kkt_aff_rhs(QCOSWorkspace* work);
  *
  * @param work Pointer to workspace.
  */
-void construct_kkt_comb_rhs(QCOSWorkspace* work);
+void construct_kkt_comb_rhs(QOCOWorkspace* work);
 
 /**
  * @brief Performs Mehrotra predictor-corrector step.
  *
  * @param solver Pointer to solver.
  */
-void predictor_corrector(QCOSSolver* solver);
+void predictor_corrector(QOCOSolver* solver);
 
 /**
  * @brief Solves Kx = b once K has been factored. Solves via traingular solves
@@ -120,6 +120,6 @@ void predictor_corrector(QCOSSolver* solver);
  * @param b Pointer to rhs of kkt system.
  * @param iters Number of iterations of iterative refinement performed.
  */
-void kkt_solve(QCOSKKT* kkt, QCOSFloat* b, QCOSInt iters);
+void kkt_solve(QOCOKKT* kkt, QOCOFloat* b, QOCOInt iters);
 
 #endif /* #ifndef KKT_H */

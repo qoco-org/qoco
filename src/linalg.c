@@ -10,18 +10,18 @@
 
 #include "linalg.h"
 
-QCOSCscMatrix* new_qcos_csc_matrix(const QCOSCscMatrix* A)
+QOCOCscMatrix* new_qoco_csc_matrix(const QOCOCscMatrix* A)
 {
-  QCOSCscMatrix* M = qcos_malloc(sizeof(QCOSCscMatrix));
+  QOCOCscMatrix* M = qoco_malloc(sizeof(QOCOCscMatrix));
 
   if (A) {
-    QCOSInt m = A->m;
-    QCOSInt n = A->n;
-    QCOSInt nnz = A->nnz;
+    QOCOInt m = A->m;
+    QOCOInt n = A->n;
+    QOCOInt nnz = A->nnz;
 
-    QCOSFloat* x = qcos_malloc(nnz * sizeof(QCOSFloat));
-    QCOSInt* p = qcos_malloc((n + 1) * sizeof(QCOSInt));
-    QCOSInt* i = qcos_malloc(nnz * sizeof(QCOSInt));
+    QOCOFloat* x = qoco_malloc(nnz * sizeof(QOCOFloat));
+    QOCOInt* p = qoco_malloc((n + 1) * sizeof(QOCOInt));
+    QOCOInt* i = qoco_malloc(nnz * sizeof(QOCOInt));
 
     copy_arrayf(A->x, x, nnz);
     copy_arrayi(A->i, i, nnz);
@@ -46,12 +46,12 @@ QCOSCscMatrix* new_qcos_csc_matrix(const QCOSCscMatrix* A)
   return M;
 }
 
-QCOSCscMatrix* construct_identity(QCOSInt n, QCOSFloat lambda)
+QOCOCscMatrix* construct_identity(QOCOInt n, QOCOFloat lambda)
 {
-  QCOSCscMatrix* M = qcos_malloc(sizeof(QCOSCscMatrix));
-  QCOSFloat* x = qcos_malloc(n * sizeof(QCOSFloat));
-  QCOSInt* p = qcos_malloc((n + 1) * sizeof(QCOSInt));
-  QCOSInt* i = qcos_malloc(n * sizeof(QCOSInt));
+  QOCOCscMatrix* M = qoco_malloc(sizeof(QOCOCscMatrix));
+  QOCOFloat* x = qoco_malloc(n * sizeof(QOCOFloat));
+  QOCOInt* p = qoco_malloc((n + 1) * sizeof(QOCOInt));
+  QOCOInt* i = qoco_malloc(n * sizeof(QOCOInt));
 
   M->m = n;
   M->n = n;
@@ -60,19 +60,19 @@ QCOSCscMatrix* construct_identity(QCOSInt n, QCOSFloat lambda)
   M->i = i;
   M->p = p;
 
-  for (QCOSInt k = 0; k < n; ++k) {
+  for (QOCOInt k = 0; k < n; ++k) {
     M->i[k] = k;
     M->x[k] = lambda;
   }
 
-  for (QCOSInt k = 0; k < n + 1; ++k) {
+  for (QOCOInt k = 0; k < n + 1; ++k) {
     M->p[k] = k;
   }
 
   return M;
 }
 
-void free_qcos_csc_matrix(QCOSCscMatrix* A)
+void free_qoco_csc_matrix(QOCOCscMatrix* A)
 {
   free(A->x);
   free(A->i);
@@ -80,89 +80,89 @@ void free_qcos_csc_matrix(QCOSCscMatrix* A)
   free(A);
 }
 
-void copy_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
+void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
 {
-  qcos_assert(x || n == 0);
-  qcos_assert(y || n == 0);
+  qoco_assert(x || n == 0);
+  qoco_assert(y || n == 0);
 
-  for (QCOSInt i = 0; i < n; ++i) {
+  for (QOCOInt i = 0; i < n; ++i) {
     y[i] = x[i];
   }
 }
 
-void copy_and_negate_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSInt n)
+void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
 {
-  qcos_assert(x || n == 0);
-  qcos_assert(y || n == 0);
+  qoco_assert(x || n == 0);
+  qoco_assert(y || n == 0);
 
-  for (QCOSInt i = 0; i < n; ++i) {
+  for (QOCOInt i = 0; i < n; ++i) {
     y[i] = -x[i];
   }
 }
 
-void copy_arrayi(const QCOSInt* x, QCOSInt* y, QCOSInt n)
+void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
 {
-  qcos_assert(x || n == 0);
-  qcos_assert(y || n == 0);
+  qoco_assert(x || n == 0);
+  qoco_assert(y || n == 0);
 
-  for (QCOSInt i = 0; i < n; ++i) {
+  for (QOCOInt i = 0; i < n; ++i) {
     y[i] = x[i];
   }
 }
 
-QCOSFloat dot(const QCOSFloat* u, const QCOSFloat* v, QCOSInt n)
+QOCOFloat dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
 {
-  qcos_assert(u || n == 0);
-  qcos_assert(v || n == 0);
+  qoco_assert(u || n == 0);
+  qoco_assert(v || n == 0);
 
-  QCOSFloat x = 0.0;
-  for (QCOSInt i = 0; i < n; ++i) {
+  QOCOFloat x = 0.0;
+  for (QOCOInt i = 0; i < n; ++i) {
     x += u[i] * v[i];
   }
   return x;
 }
 
-QCOSInt max_arrayi(const QCOSInt* x, QCOSInt n)
+QOCOInt max_arrayi(const QOCOInt* x, QOCOInt n)
 {
-  qcos_assert(x || n == 0);
+  qoco_assert(x || n == 0);
 
-  QCOSInt max = -QCOSInt_MAX;
-  for (QCOSInt i = 0; i < n; ++i) {
-    max = qcos_max(max, x[i]);
+  QOCOInt max = -QOCOInt_MAX;
+  for (QOCOInt i = 0; i < n; ++i) {
+    max = qoco_max(max, x[i]);
   }
   return max;
 }
 
-void scale_arrayf(const QCOSFloat* x, QCOSFloat* y, QCOSFloat s, QCOSInt n)
+void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n)
 {
-  qcos_assert(x || n == 0);
-  qcos_assert(y || n == 0);
+  qoco_assert(x || n == 0);
+  qoco_assert(y || n == 0);
 
-  for (QCOSInt i = 0; i < n; ++i) {
+  for (QOCOInt i = 0; i < n; ++i) {
     y[i] = s * x[i];
   }
 }
 
-void axpy(const QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSFloat a,
-          QCOSInt n)
+void axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOFloat a,
+          QOCOInt n)
 {
-  qcos_assert(x || n == 0);
-  qcos_assert(y || n == 0);
+  qoco_assert(x || n == 0);
+  qoco_assert(y || n == 0);
 
-  for (QCOSInt i = 0; i < n; ++i) {
+  for (QOCOInt i = 0; i < n; ++i) {
     z[i] = a * x[i] + y[i];
   }
 }
 
-void USpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r)
+void USpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  qcos_assert(M);
-  qcos_assert(v);
-  qcos_assert(r);
+  qoco_assert(M);
+  qoco_assert(v);
+  qoco_assert(r);
 
-  for (QCOSInt i = 0; i < M->n; i++) {
+  for (QOCOInt i = 0; i < M->n; i++) {
     r[i] = 0.0;
-    for (QCOSInt j = M->p[i]; j < M->p[i + 1]; j++) {
+    for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
       int row = M->i[j];
       r[row] += M->x[j] * v[i];
       if (row != i)
@@ -171,70 +171,70 @@ void USpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r)
   }
 }
 
-void SpMv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r)
+void SpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  qcos_assert(M);
-  qcos_assert(v);
-  qcos_assert(r);
+  qoco_assert(M);
+  qoco_assert(v);
+  qoco_assert(r);
 
   // Clear result buffer.
-  for (QCOSInt i = 0; i < M->m; ++i) {
+  for (QOCOInt i = 0; i < M->m; ++i) {
     r[i] = 0.0;
   }
 
-  for (QCOSInt j = 0; j < M->n; j++) {
-    for (QCOSInt i = M->p[j]; i < M->p[j + 1]; i++) {
+  for (QOCOInt j = 0; j < M->n; j++) {
+    for (QOCOInt i = M->p[j]; i < M->p[j + 1]; i++) {
       r[M->i[i]] += M->x[i] * v[j];
     }
   }
 }
 
-void SpMtv(const QCOSCscMatrix* M, const QCOSFloat* v, QCOSFloat* r)
+void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  qcos_assert(M);
-  qcos_assert(v);
-  qcos_assert(r);
+  qoco_assert(M);
+  qoco_assert(v);
+  qoco_assert(r);
 
   // Clear result buffer.
-  for (QCOSInt i = 0; i < M->n; ++i) {
+  for (QOCOInt i = 0; i < M->n; ++i) {
     r[i] = 0.0;
   }
 
-  for (QCOSInt i = 0; i < M->n; i++) {
-    for (QCOSInt j = M->p[i]; j < M->p[i + 1]; j++) {
+  for (QOCOInt i = 0; i < M->n; i++) {
+    for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
       r[i] += M->x[j] * v[M->i[j]];
     }
   }
 }
 
-QCOSFloat inf_norm(const QCOSFloat* x, QCOSInt n)
+QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
 {
-  qcos_assert(x || n == 0);
+  qoco_assert(x || n == 0);
 
-  QCOSFloat norm = 0.0;
-  QCOSFloat xi;
-  for (QCOSInt i = 0; i < n; ++i) {
-    xi = qcos_abs(x[i]);
-    norm = qcos_max(norm, xi);
+  QOCOFloat norm = 0.0;
+  QOCOFloat xi;
+  for (QOCOInt i = 0; i < n; ++i) {
+    xi = qoco_abs(x[i]);
+    norm = qoco_max(norm, xi);
   }
   return norm;
 }
 
-QCOSInt regularize(QCOSCscMatrix* M, QCOSFloat lambda, QCOSInt* nzadded_idx)
+QOCOInt regularize(QOCOCscMatrix* M, QOCOFloat lambda, QOCOInt* nzadded_idx)
 {
-  QCOSInt num_nz = 0;
+  QOCOInt num_nz = 0;
   // Iterate over each column.
-  for (QCOSInt col = 0; col < M->n; col++) {
-    QCOSInt start = M->p[col];
-    QCOSInt end = M->p[col + 1];
+  for (QOCOInt col = 0; col < M->n; col++) {
+    QOCOInt start = M->p[col];
+    QOCOInt end = M->p[col + 1];
 
     // Flag to check if the diagonal element exists.
-    QCOSInt diagonal_exists = 0;
+    QOCOInt diagonal_exists = 0;
 
     // Iterate over the elements in the current column.
     unsigned char insert_set = 0;
-    QCOSInt insert = end;
-    for (QCOSInt i = start; i < end; i++) {
+    QOCOInt insert = end;
+    for (QOCOInt i = start; i < end; i++) {
       if (!insert_set && M->i[i] > col) {
         insert = i;
         insert_set = 1;
@@ -251,10 +251,10 @@ QCOSInt regularize(QCOSCscMatrix* M, QCOSFloat lambda, QCOSInt* nzadded_idx)
       // Shift all the elements in values and row_indices arrays to make space
       // for the new diagonal element.
       M->nnz++;
-      M->x = realloc(M->x, M->nnz * sizeof(QCOSFloat));
-      M->i = realloc(M->i, M->nnz * sizeof(QCOSInt));
+      M->x = realloc(M->x, M->nnz * sizeof(QOCOFloat));
+      M->i = realloc(M->i, M->nnz * sizeof(QOCOInt));
 
-      for (QCOSInt i = M->nnz - 1; i > insert; i--) {
+      for (QOCOInt i = M->nnz - 1; i > insert; i--) {
         M->x[i] = M->x[i - 1];
         M->i[i] = M->i[i - 1];
       }
@@ -268,7 +268,7 @@ QCOSInt regularize(QCOSCscMatrix* M, QCOSFloat lambda, QCOSInt* nzadded_idx)
       num_nz++;
 
       // Update the column_pointers array.
-      for (QCOSInt i = col + 1; i <= M->n; i++) {
+      for (QOCOInt i = col + 1; i <= M->n; i++) {
         M->p[i]++;
       }
     }
@@ -276,16 +276,16 @@ QCOSInt regularize(QCOSCscMatrix* M, QCOSFloat lambda, QCOSInt* nzadded_idx)
   return num_nz;
 }
 
-void unregularize(QCOSCscMatrix* M, QCOSFloat lambda)
+void unregularize(QOCOCscMatrix* M, QOCOFloat lambda)
 {
   // Iterate over each column.
-  for (QCOSInt col = 0; col < M->n; col++) {
-    QCOSInt start = M->p[col];
-    QCOSInt end = M->p[col + 1];
+  for (QOCOInt col = 0; col < M->n; col++) {
+    QOCOInt start = M->p[col];
+    QOCOInt end = M->p[col + 1];
 
     // Iterate over the elements in the current column.
     unsigned char insert_set = 0;
-    for (QCOSInt i = start; i < end; i++) {
+    for (QOCOInt i = start; i < end; i++) {
       if (!insert_set && M->i[i] > col) {
         insert_set = 1;
       }
@@ -297,12 +297,12 @@ void unregularize(QCOSCscMatrix* M, QCOSFloat lambda)
   }
 }
 
-void col_inf_norm_USymm(const QCOSCscMatrix* M, QCOSFloat* norm)
+void col_inf_norm_USymm(const QOCOCscMatrix* M, QOCOFloat* norm)
 {
-  for (QCOSInt j = 0; j < M->n; j++) {
-    for (QCOSInt idx = M->p[j]; idx < M->p[j + 1]; idx++) {
-      QCOSInt row = M->i[idx];
-      QCOSFloat val = qcos_abs(M->x[idx]);
+  for (QOCOInt j = 0; j < M->n; j++) {
+    for (QOCOInt idx = M->p[j]; idx < M->p[j + 1]; idx++) {
+      QOCOInt row = M->i[idx];
+      QOCOFloat val = qoco_abs(M->x[idx]);
 
       if (val > norm[j]) {
         norm[j] = val;
@@ -317,35 +317,35 @@ void col_inf_norm_USymm(const QCOSCscMatrix* M, QCOSFloat* norm)
   }
 }
 
-void row_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm)
+void row_inf_norm(const QOCOCscMatrix* M, QOCOFloat* norm)
 {
-  for (QCOSInt i = 0; i < M->m; ++i) {
-    QCOSFloat nrm = 0;
-    QCOSFloat xi;
-    for (QCOSInt nz = 0; nz < M->nnz; ++nz) {
+  for (QOCOInt i = 0; i < M->m; ++i) {
+    QOCOFloat nrm = 0;
+    QOCOFloat xi;
+    for (QOCOInt nz = 0; nz < M->nnz; ++nz) {
       if (i == M->i[nz]) {
-        xi = qcos_abs(M->x[nz]);
-        nrm = qcos_max(nrm, xi);
+        xi = qoco_abs(M->x[nz]);
+        nrm = qoco_max(nrm, xi);
       }
     }
     norm[i] = nrm;
   }
 }
 
-QCOSCscMatrix* create_transposed_matrix(const QCOSCscMatrix* A)
+QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A)
 {
-  QCOSCscMatrix* B = qcos_malloc(sizeof(QCOSCscMatrix));
+  QOCOCscMatrix* B = qoco_malloc(sizeof(QOCOCscMatrix));
   B->m = A->n;
   B->n = A->m;
   B->nnz = A->nnz;
 
   // Allocate memory for the transpose matrix.
-  B->p = (QCOSInt*)qcos_malloc((A->m + 1) * sizeof(int));
-  B->i = (QCOSInt*)qcos_malloc(A->nnz * sizeof(QCOSInt));
-  B->x = (double*)qcos_malloc(A->nnz * sizeof(QCOSFloat));
+  B->p = (QOCOInt*)qoco_malloc((A->m + 1) * sizeof(int));
+  B->i = (QOCOInt*)qoco_malloc(A->nnz * sizeof(QOCOInt));
+  B->x = (double*)qoco_malloc(A->nnz * sizeof(QOCOFloat));
 
   // Count the number of non-zeros in each row.
-  QCOSInt* row_counts = (QCOSInt*)calloc(A->m, sizeof(QCOSInt));
+  QOCOInt* row_counts = (QOCOInt*)calloc(A->m, sizeof(QOCOInt));
   for (int j = 0; j < A->n; j++) {
     for (int i = A->p[j]; i < A->p[j + 1]; i++) {
       row_counts[A->i[i]]++;
@@ -357,7 +357,7 @@ QCOSCscMatrix* create_transposed_matrix(const QCOSCscMatrix* A)
     B->p[i + 1] = B->p[i] + row_counts[i];
   }
 
-  QCOSInt* temp = (int*)calloc(
+  QOCOInt* temp = (int*)calloc(
       A->m, sizeof(int)); // To track the insertion position for each row
   for (int j = 0; j < A->n; j++) {
     for (int i = A->p[j]; i < A->p[j + 1]; i++) {
@@ -370,42 +370,42 @@ QCOSCscMatrix* create_transposed_matrix(const QCOSCscMatrix* A)
   }
 
   // Clean up
-  qcos_free(row_counts);
-  qcos_free(temp);
+  qoco_free(row_counts);
+  qoco_free(temp);
 
   return B;
 }
 
-void row_col_scale(const QCOSCscMatrix* M, QCOSFloat* E, QCOSFloat* D)
+void row_col_scale(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D)
 {
-  for (QCOSInt j = 0; j < M->n; ++j) {
-    for (QCOSInt i = M->p[j]; i < M->p[j + 1]; ++i) {
+  for (QOCOInt j = 0; j < M->n; ++j) {
+    for (QOCOInt i = M->p[j]; i < M->p[j + 1]; ++i) {
       M->x[i] *= (D[j] * E[M->i[i]]);
     }
   }
 }
 
-void ew_product(QCOSFloat* x, const QCOSFloat* y, QCOSFloat* z, QCOSInt n)
+void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
 {
-  for (QCOSInt i = 0; i < n; ++i) {
+  for (QOCOInt i = 0; i < n; ++i) {
     z[i] = x[i] * y[i];
   }
 }
 
-void invert_permutation(const QCOSInt* p, QCOSInt* pinv, QCOSInt n)
+void invert_permutation(const QOCOInt* p, QOCOInt* pinv, QOCOInt n)
 {
-  for (QCOSInt i = 0; i < n; ++i) {
+  for (QOCOInt i = 0; i < n; ++i) {
     pinv[p[i]] = i;
   }
 }
 
-QCOSInt cumsum(QCOSInt* p, QCOSInt* c, QCOSInt n)
+QOCOInt cumsum(QOCOInt* p, QOCOInt* c, QOCOInt n)
 {
-  qcos_assert(p);
-  qcos_assert(c);
+  qoco_assert(p);
+  qoco_assert(c);
 
-  QCOSInt nz = 0;
-  for (QCOSInt i = 0; i < n; i++) {
+  QOCOInt nz = 0;
+  for (QOCOInt i = 0; i < n; i++) {
     p[i] = nz;
     nz += c[i];
     c[i] = p[i];
@@ -414,28 +414,28 @@ QCOSInt cumsum(QCOSInt* p, QCOSInt* c, QCOSInt n)
   return nz;
 }
 
-QCOSCscMatrix* csc_symperm(const QCOSCscMatrix* A, const QCOSInt* pinv,
-                           QCOSInt* AtoC)
+QOCOCscMatrix* csc_symperm(const QOCOCscMatrix* A, const QOCOInt* pinv,
+                           QOCOInt* AtoC)
 {
-  QCOSInt i, j, p, q, i2, j2, n;
-  QCOSInt* Ap;
-  QCOSInt* Ai;
-  QCOSInt* Cp;
-  QCOSInt* Ci;
-  QCOSInt* w;
-  QCOSFloat* Cx;
-  QCOSFloat* Ax;
-  QCOSCscMatrix* C;
+  QOCOInt i, j, p, q, i2, j2, n;
+  QOCOInt* Ap;
+  QOCOInt* Ai;
+  QOCOInt* Cp;
+  QOCOInt* Ci;
+  QOCOInt* w;
+  QOCOFloat* Cx;
+  QOCOFloat* Ax;
+  QOCOCscMatrix* C;
 
   n = A->n;
   Ap = A->p;
   Ai = A->i;
   Ax = A->x;
-  C = new_qcos_csc_matrix(A);
-  w = qcos_calloc(n, sizeof(QCOSInt));
+  C = new_qoco_csc_matrix(A);
+  w = qoco_calloc(n, sizeof(QOCOInt));
 
-  qcos_assert(C);
-  qcos_assert(w);
+  qoco_assert(C);
+  qoco_assert(w);
 
   Cp = C->p;
   Ci = C->i;
@@ -451,7 +451,7 @@ QCOSCscMatrix* csc_symperm(const QCOSCscMatrix* A, const QCOSInt* pinv,
       if (i > j)
         continue;              /* skip lower triangular part of A */
       i2 = pinv ? pinv[i] : i; /* row i of A is row i2 of C */
-      w[qcos_max(i2, j2)]++;   /* column count of C */
+      w[qoco_max(i2, j2)]++;   /* column count of C */
     }
   }
   cumsum(Cp, w, n); /* compute column pointers of C */
@@ -467,7 +467,7 @@ QCOSCscMatrix* csc_symperm(const QCOSCscMatrix* A, const QCOSInt* pinv,
                                   part of A*/
       i2 = pinv ? pinv[i] : i; /* row i of A is row i2
                                   of C */
-      Ci[q = w[qcos_max(i2, j2)]++] = qcos_min(i2, j2);
+      Ci[q = w[qoco_max(i2, j2)]++] = qoco_min(i2, j2);
 
       if (Cx)
         Cx[q] = Ax[p];
@@ -475,6 +475,6 @@ QCOSCscMatrix* csc_symperm(const QCOSCscMatrix* A, const QCOSInt* pinv,
       AtoC[p] = q;
     }
   }
-  qcos_free(w);
+  qoco_free(w);
   return C;
 }

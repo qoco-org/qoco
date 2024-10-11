@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 3.18)
-project(qcos)
+project(qoco)
 
 # If build type is not specified set to Release.
-if(QCOS_BUILD_TYPE STREQUAL Debug)
-    set(QCOS_BUILD_TYPE ${QCOS_BUILD_TYPE})
-    add_compile_definitions(QCOS_DEBUG)
+if(QOCO_BUILD_TYPE STREQUAL Debug)
+    set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
+    add_compile_definitions(QOCO_DEBUG)
     set(CMAKE_C_FLAGS "-g -march=native -Werror -Wall -Wextra -fsanitize=address,undefined")
 else()
-    set(QCOS_BUILD_TYPE Release)
+    set(QOCO_BUILD_TYPE Release)
     set(CMAKE_C_FLAGS "-O3 -march=native -Wall -Wextra")
 endif()
-message(STATUS "Build Type: " ${QCOS_BUILD_TYPE})
+message(STATUS "Build Type: " ${QOCO_BUILD_TYPE})
 message(STATUS "Build Flags: " ${CMAKE_C_FLAGS})
 
 # Set integer size to 32 bits.
@@ -26,17 +26,17 @@ add_subdirectory(lib/qdldl)
 # Add amd
 add_subdirectory(lib/amd)
 
-# Build qcos shared library.
-add_library(qcos SHARED)
-target_link_libraries(qcos qdldl amd m)
-target_include_directories(qcos PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(qcos PUBLIC lib/amd)
-target_sources(qcos PRIVATE src/qcos_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qcos_error.c src/timer.c src/equilibration.c)
+# Build qoco shared library.
+add_library(qoco SHARED)
+target_link_libraries(qoco qdldl amd m)
+target_include_directories(qoco PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(qoco PUBLIC lib/amd)
+target_sources(qoco PRIVATE src/qoco_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qoco_error.c src/timer.c src/equilibration.c)
 
-# Build qcos demo.
-add_executable(qcos_demo examples/qcos_demo.c)
-target_include_directories(qcos_demo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(qcos_demo qcos)
+# Build qoco demo.
+add_executable(qoco_demo examples/qoco_demo.c)
+target_include_directories(qoco_demo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(qoco_demo qoco)
 
 # Test definitions.
 if(ENABLE_TESTING)
