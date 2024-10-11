@@ -191,6 +191,13 @@ void col_inf_norm_USymm(const QCOSCscMatrix* M, QCOSFloat* norm);
 void row_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm);
 
 /**
+ * @brief Allocates and computes A^T.
+ *
+ * @param A Input matrix.
+ */
+QCOSCscMatrix* create_transposed_matrix(const QCOSCscMatrix* A);
+
+/**
  * @brief Scales the rows of M by E and columns of M by D.
  * M = diag(E) * M * diag(S)
  *

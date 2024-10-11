@@ -332,6 +332,50 @@ void row_inf_norm(const QCOSCscMatrix* M, QCOSFloat* norm)
   }
 }
 
+QCOSCscMatrix* create_transposed_matrix(const QCOSCscMatrix* A)
+{
+  QCOSCscMatrix* B = qcos_malloc(sizeof(QCOSCscMatrix));
+  B->m = A->n;
+  B->n = A->m;
+  B->nnz = A->nnz;
+
+  // Allocate memory for the transpose matrix.
+  B->p = (QCOSInt*)qcos_malloc((A->m + 1) * sizeof(int));
+  B->i = (QCOSInt*)qcos_malloc(A->nnz * sizeof(QCOSInt));
+  B->x = (double*)qcos_malloc(A->nnz * sizeof(QCOSFloat));
+
+  // Count the number of non-zeros in each row.
+  QCOSInt* row_counts = (QCOSInt*)calloc(A->m, sizeof(QCOSInt));
+  for (int j = 0; j < A->n; j++) {
+    for (int i = A->p[j]; i < A->p[j + 1]; i++) {
+      row_counts[A->i[i]]++;
+    }
+  }
+
+  B->p[0] = 0;
+  for (int i = 0; i < A->m; i++) {
+    B->p[i + 1] = B->p[i] + row_counts[i];
+  }
+
+  QCOSInt* temp = (int*)calloc(
+      A->m, sizeof(int)); // To track the insertion position for each row
+  for (int j = 0; j < A->n; j++) {
+    for (int i = A->p[j]; i < A->p[j + 1]; i++) {
+      int row = A->i[i];
+      int dest_pos = B->p[row] + temp[row];
+      B->i[dest_pos] = j;       // Column index becomes row index
+      B->x[dest_pos] = A->x[i]; // Value remains the same
+      temp[row]++;
+    }
+  }
+
+  // Clean up
+  qcos_free(row_counts);
+  qcos_free(temp);
+
+  return B;
+}
+
 void row_col_scale(const QCOSCscMatrix* M, QCOSFloat* E, QCOSFloat* D)
 {
   for (QCOSInt j = 0; j < M->n; ++j) {

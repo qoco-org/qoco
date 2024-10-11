@@ -79,6 +79,8 @@ QCOSInt qcos_setup(QCOSSolver* solver, QCOSInt n, QCOSInt m, QCOSInt p,
   solver->work->kkt->Dinvruiz = qcos_malloc(n * sizeof(QCOSFloat));
   solver->work->kkt->Einvruiz = qcos_malloc(p * sizeof(QCOSFloat));
   solver->work->kkt->Finvruiz = qcos_malloc(m * sizeof(QCOSFloat));
+  solver->work->data->At = create_transposed_matrix(solver->work->data->A);
+  solver->work->data->Gt = create_transposed_matrix(solver->work->data->G);
   ruiz_equilibration(solver);
 
   // Regularize P.
@@ -446,6 +448,9 @@ QCOSInt qcos_cleanup(QCOSSolver* solver)
   free_qcos_csc_matrix(solver->work->data->P);
   free_qcos_csc_matrix(solver->work->data->A);
   free_qcos_csc_matrix(solver->work->data->G);
+  free_qcos_csc_matrix(solver->work->data->At);
+  free_qcos_csc_matrix(solver->work->data->Gt);
+
   qcos_free(solver->work->data->b);
   qcos_free(solver->work->data->c);
   qcos_free(solver->work->data->h);

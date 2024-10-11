@@ -67,8 +67,12 @@ void ruiz_equilibration(QCOSSolver* solver)
 
     // Compute infinity norm of rows of [A 0 0].
     if (data->A->nnz > 0) {
-      row_inf_norm(data->A, &work->kkt->delta[data->n]);
-
+      for (QCOSInt j = 0; j < solver->work->data->At->n; ++j) {
+        QCOSFloat nrm = inf_norm(
+            &solver->work->data->At->x[solver->work->data->At->p[j]],
+            solver->work->data->At->p[j + 1] - solver->work->data->At->p[j]);
+        work->kkt->delta[data->n + j] = nrm;
+      }
       // d(i) = 1 / sqrt(Ainf(i));
       for (QCOSInt k = 0; k < data->p; ++k) {
         QCOSFloat temp = qcos_sqrt(work->kkt->delta[data->n + k]);
@@ -79,8 +83,12 @@ void ruiz_equilibration(QCOSSolver* solver)
 
     // Compute infinity norm of rows of [G 0 0].
     if (data->G->nnz > 0) {
-      row_inf_norm(data->G, &work->kkt->delta[data->n + data->p]);
-
+      for (QCOSInt j = 0; j < solver->work->data->Gt->n; ++j) {
+        QCOSFloat nrm = inf_norm(
+            &solver->work->data->Gt->x[solver->work->data->Gt->p[j]],
+            solver->work->data->Gt->p[j + 1] - solver->work->data->Gt->p[j]);
+        work->kkt->delta[data->n + data->p + j] = nrm;
+      }
       // d(i) = 1 / sqrt(Ginf(i));
       for (QCOSInt k = 0; k < data->m; ++k) {
         QCOSFloat temp = qcos_sqrt(work->kkt->delta[data->n + data->p + k]);
@@ -115,6 +123,8 @@ void ruiz_equilibration(QCOSSolver* solver)
     // Scale A and G.
     row_col_scale(data->A, E, D);
     row_col_scale(data->G, F, D);
+    row_col_scale(solver->work->data->At, D, E);
+    row_col_scale(solver->work->data->Gt, D, F);
 
     // Update scaling matrices with delta.
     ew_product(work->kkt->Druiz, D, work->kkt->Druiz, data->n);

@@ -57,11 +57,17 @@ typedef struct {
   /** Affine equality constraint matrix. */
   QCOSCscMatrix* A;
 
+  /** Transpose of A (used in Ruiz for fast row norm calculations of A). */
+  QCOSCscMatrix* At;
+
   /** Affine equality constraint offset. */
   QCOSFloat* b;
 
   /** Conic constraint matrix. */
   QCOSCscMatrix* G;
+
+  /** Transpose of G (used in Ruiz for fast row norm calculations of G). */
+  QCOSCscMatrix* Gt;
 
   /** Conic constraint offset. */
   QCOSFloat* h;
