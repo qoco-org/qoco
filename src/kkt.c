@@ -51,27 +51,21 @@ void construct_kkt(QCOSSolver* solver)
   }
 
   // Add A^T block
-  for (QCOSInt row = 0; row < work->data->A->m; ++row) {
-    // Loop over columns of A
-    // Counter for number of nonzeros from A added to this column of KKT matrix
+  for (QCOSInt Atcol = 0; Atcol < work->data->At->n; ++Atcol) {
     QCOSInt nzadded = 0;
-    for (QCOSInt j = 0; j < work->data->A->n; ++j) {
-      // Loop over all nonzeros in column j
-      for (QCOSInt k = work->data->A->p[j]; k < work->data->A->p[j + 1]; ++k) {
-        // If the nonzero is in row i of A then add
-        if (work->data->A->i[k] == row) {
-          work->kkt->AtoKKT[k] = nz;
-          work->kkt->K->x[nz] = work->data->A->x[k];
-          work->kkt->K->i[nz] = j;
-          nz += 1;
-          nzadded += 1;
-        }
-      }
+    for (QCOSInt k = work->data->At->p[Atcol]; k < work->data->At->p[Atcol + 1];
+         ++k) {
+      // If the nonzero is in row i of A then add
+      work->kkt->AtoKKT[k] = nz;
+      work->kkt->K->x[nz] = work->data->At->x[k];
+      work->kkt->K->i[nz] = work->data->At->i[k];
+      nz += 1;
+      nzadded += 1;
     }
 
     // Add -e * Id regularization.
     work->kkt->K->x[nz] = -solver->settings->static_reg;
-    work->kkt->K->i[nz] = work->data->n + row;
+    work->kkt->K->i[nz] = work->data->n + Atcol;
     nz += 1;
     nzadded += 1;
     work->kkt->K->p[col] = work->kkt->K->p[col - 1] + nzadded;
@@ -81,27 +75,22 @@ void construct_kkt(QCOSSolver* solver)
   // Add non-negative orthant part of G^T.
   QCOSInt nz_nt = 0;
   QCOSInt diag = 0;
-  for (QCOSInt row = 0; row < work->data->l; ++row) {
-    // Loop over columns of G
+  for (QCOSInt Gtcol = 0; Gtcol < work->data->l; ++Gtcol) {
+
     // Counter for number of nonzeros from G added to this column of KKT matrix
     QCOSInt nzadded = 0;
-    for (QCOSInt j = 0; j < work->data->G->n; ++j) {
-      // Loop over all nonzeros in column j
-      for (QCOSInt k = work->data->G->p[j]; k < work->data->G->p[j + 1]; ++k) {
-        // If the nonzero is in row i of G then add.
-        if (work->data->G->i[k] == row) {
-          work->kkt->GtoKKT[k] = nz;
-          work->kkt->K->x[nz] = work->data->G->x[k];
-          work->kkt->K->i[nz] = j;
-          nz += 1;
-          nzadded += 1;
-        }
-      }
+    for (QCOSInt k = work->data->Gt->p[Gtcol]; k < work->data->Gt->p[Gtcol + 1];
+         ++k) {
+      work->kkt->GtoKKT[k] = nz;
+      work->kkt->K->x[nz] = work->data->Gt->x[k];
+      work->kkt->K->i[nz] = work->data->Gt->i[k];
+      nz += 1;
+      nzadded += 1;
     }
 
     // Add -Id to NT block.
     work->kkt->K->x[nz] = -1.0;
-    work->kkt->K->i[nz] = work->data->n + work->data->p + row;
+    work->kkt->K->i[nz] = work->data->n + work->data->p + Gtcol;
     work->kkt->K->p[col] = work->kkt->K->p[col - 1] + nzadded + 1;
 
     // Mapping from NT matrix entries to KKT matrix entries.
@@ -117,25 +106,19 @@ void construct_kkt(QCOSSolver* solver)
   // Add second-order cone parts of G^T.
   QCOSInt idx = work->data->l;
   for (QCOSInt c = 0; c < work->data->nsoc; ++c) {
-    for (QCOSInt row = idx; row < idx + work->data->q[c]; ++row) {
+    for (QCOSInt Gtcol = idx; Gtcol < idx + work->data->q[c]; ++Gtcol) {
       // Loop over columns of G
 
       // Counter for number of nonzeros from G added to this column of KKT
       // matrix
       QCOSInt nzadded = 0;
-      for (QCOSInt j = 0; j < work->data->G->n; ++j) {
-        // Loop over all nonzeros in column j
-        for (QCOSInt k = work->data->G->p[j]; k < work->data->G->p[j + 1];
-             ++k) {
-          // If the nonzero is in row i of G then add.
-          if (work->data->G->i[k] == row) {
-            work->kkt->GtoKKT[k] = nz;
-            work->kkt->K->x[nz] = work->data->G->x[k];
-            work->kkt->K->i[nz] = j;
-            nz += 1;
-            nzadded += 1;
-          }
-        }
+      for (QCOSInt k = work->data->Gt->p[Gtcol];
+           k < work->data->Gt->p[Gtcol + 1]; ++k) {
+        work->kkt->GtoKKT[k] = nz;
+        work->kkt->K->x[nz] = work->data->Gt->x[k];
+        work->kkt->K->i[nz] = work->data->Gt->i[k];
+        nz += 1;
+        nzadded += 1;
       }
 
       // Add NT block.
