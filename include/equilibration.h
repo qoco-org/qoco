@@ -27,7 +27,7 @@
  *
  *  [ D     ] [ kP   A^T   G^T ] [ D     ]
  *  |   E   | |  A    0     0  | |   E   |
- *  [     F ] [  G    0    -I  ] [     F ]
+ *  [     F ] [  G    0     0  ] [     F ]
  *
  * clang-format on
 
