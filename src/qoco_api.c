@@ -239,7 +239,7 @@ void set_default_settings(QOCOSettings* settings)
   settings->max_iters = 50;
   settings->bisection_iters = 5;
   settings->ruiz_iters = 5;
-  settings->iterative_refinement_iterations = 5;
+  settings->iterative_refinement_iterations = 1;
   settings->verbose = 0;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
