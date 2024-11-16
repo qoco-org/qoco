@@ -87,11 +87,12 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->kkt->Pnzadded_idx = qoco_calloc(n, sizeof(QOCOInt));
   if (P) {
     solver->work->kkt->Pnum_nzadded =
-        regularize(solver->work->data->P, solver->settings->static_reg,
+        regularize(solver->work->data->P, solver->settings->kkt_static_reg,
                    solver->work->kkt->Pnzadded_idx);
   }
   else {
-    solver->work->data->P = construct_identity(n, solver->settings->static_reg);
+    solver->work->data->P =
+        construct_identity(n, solver->settings->kkt_static_reg);
     solver->work->kkt->Pnum_nzadded = n;
   }
 
@@ -237,16 +238,16 @@ void qoco_set_csc(QOCOCscMatrix* A, QOCOInt m, QOCOInt n, QOCOInt Annz,
 void set_default_settings(QOCOSettings* settings)
 {
   settings->max_iters = 50;
-  settings->bisection_iters = 5;
+  settings->bisect_iters = 5;
   settings->ruiz_iters = 5;
-  settings->iterative_refinement_iterations = 1;
-  settings->verbose = 0;
+  settings->iter_ref_iters = 1;
+  settings->kkt_static_reg = 1e-8;
+  settings->kkt_dynamic_reg = 1e-7;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
-  settings->abstol_inaccurate = 1e-5;
-  settings->reltol_inaccurate = 1e-5;
-  settings->static_reg = 1e-8;
-  settings->dyn_reg = 1e-7;
+  settings->abstol_inacc = 1e-5;
+  settings->reltol_inacc = 1e-5;
+  settings->verbose = 0;
 }
 
 QOCOInt qoco_update_settings(QOCOSolver* solver,
@@ -256,17 +257,16 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
     return qoco_error(QOCO_SETTINGS_VALIDATION_ERROR);
   }
 
-  solver->settings->abstol = new_settings->abstol;
-  solver->settings->abstol_inaccurate = new_settings->abstol_inaccurate;
-  solver->settings->bisection_iters = new_settings->bisection_iters;
-  solver->settings->iterative_refinement_iterations =
-      new_settings->iterative_refinement_iterations;
   solver->settings->max_iters = new_settings->max_iters;
-  solver->settings->static_reg = new_settings->static_reg;
-  solver->settings->dyn_reg = new_settings->dyn_reg;
-  solver->settings->reltol = new_settings->reltol;
-  solver->settings->reltol_inaccurate = new_settings->reltol_inaccurate;
+  solver->settings->bisect_iters = new_settings->bisect_iters;
   solver->settings->ruiz_iters = new_settings->ruiz_iters;
+  solver->settings->iter_ref_iters = new_settings->iter_ref_iters;
+  solver->settings->kkt_static_reg = new_settings->kkt_static_reg;
+  solver->settings->kkt_dynamic_reg = new_settings->kkt_dynamic_reg;
+  solver->settings->abstol = new_settings->abstol;
+  solver->settings->reltol = new_settings->reltol;
+  solver->settings->abstol_inacc = new_settings->abstol_inacc;
+  solver->settings->abstol_inacc = new_settings->abstol_inacc;
   solver->settings->verbose = new_settings->verbose;
 
   return 0;
@@ -308,7 +308,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   QOCOKKT* kkt = solver->work->kkt;
 
   // Undo regularization.
-  unregularize(data->P, solver->settings->static_reg);
+  unregularize(data->P, solver->settings->kkt_static_reg);
 
   // Unequilibrate P.
   scale_arrayf(data->P->x, data->P->x, kkt->kinv, data->P->nnz);
@@ -363,7 +363,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   ruiz_equilibration(solver);
 
   // Regularize P.
-  unregularize(data->P, -solver->settings->static_reg);
+  unregularize(data->P, -solver->settings->kkt_static_reg);
 
   // Update P in KKT matrix.
   for (QOCOInt i = 0; i < data->P->nnz; ++i) {

@@ -91,10 +91,10 @@ void print_header(QOCOSolver* solver)
   printf("|     nnz(G):           %-9d                       |\n", data->G->nnz);
   printf("| Solver Settings:                                      |\n");
   printf("|     max_iter: %-3d abstol: %3.2e reltol: %3.2e   |\n", settings->max_iters, settings->abstol, settings->reltol);
-  printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inaccurate, settings->reltol_inaccurate);
-  printf("|     bisection_iters: %-2d iterative_refine_iters: %-2d    |\n", settings->bisection_iters, settings->iterative_refinement_iterations);
-  printf("|     ruiz_iters: %-2d static_regularization: %3.2e    |\n", settings->ruiz_iters, settings->static_reg);
-  printf("|     dynamic_regularization: %3.2e                  |\n", settings->dyn_reg);
+  printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
+  printf("|     bisect_iters: %-2d iter_ref_iters: %-2d    |\n", settings->bisect_iters, settings->iter_ref_iters);
+  printf("|     ruiz_iters: %-2d kkt_static_reg: %3.2e    |\n", settings->ruiz_iters, settings->kkt_static_reg);
+  printf("|     kkt_dynamic_reg: %3.2e                  |\n", settings->kkt_dynamic_reg);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
   printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
@@ -129,8 +129,8 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOProblemData* data = solver->work->data;
   QOCOFloat eabs = solver->settings->abstol;
   QOCOFloat erel = solver->settings->reltol;
-  QOCOFloat eabsinacc = solver->settings->abstol_inaccurate;
-  QOCOFloat erelinacc = solver->settings->reltol_inaccurate;
+  QOCOFloat eabsinacc = solver->settings->abstol_inacc;
+  QOCOFloat erelinacc = solver->settings->reltol_inacc;
 
   ew_product(work->kkt->Einvruiz, data->b, work->ybuff, data->p);
   QOCOFloat binf = data->p > 0 ? inf_norm(work->ybuff, data->p) : 0;
@@ -162,7 +162,7 @@ unsigned char check_stopping(QOCOSolver* solver)
   // Compute ||P * x||_\infty
   SpMv(data->P, work->x, work->xbuff);
   for (QOCOInt i = 0; i < data->n; ++i) {
-    work->xbuff[i] -= solver->settings->static_reg * work->x[i];
+    work->xbuff[i] -= solver->settings->kkt_static_reg * work->x[i];
   }
   ew_product(work->xbuff, work->kkt->Dinvruiz, work->xbuff, data->n);
   QOCOFloat Pxinf = inf_norm(work->xbuff, data->n);
@@ -258,15 +258,14 @@ QOCOSettings* copy_settings(QOCOSettings* settings)
 {
   QOCOSettings* new_settings = malloc(sizeof(QOCOSettings));
   new_settings->abstol = settings->abstol;
-  new_settings->abstol_inaccurate = settings->abstol_inaccurate;
-  new_settings->bisection_iters = settings->bisection_iters;
-  new_settings->iterative_refinement_iterations =
-      settings->iterative_refinement_iterations;
+  new_settings->abstol_inacc = settings->abstol_inacc;
+  new_settings->bisect_iters = settings->bisect_iters;
+  new_settings->iter_ref_iters = settings->iter_ref_iters;
   new_settings->max_iters = settings->max_iters;
-  new_settings->static_reg = settings->static_reg;
-  new_settings->dyn_reg = settings->dyn_reg;
+  new_settings->kkt_static_reg = settings->kkt_static_reg;
+  new_settings->kkt_dynamic_reg = settings->kkt_dynamic_reg;
   new_settings->reltol = settings->reltol;
-  new_settings->reltol_inaccurate = settings->reltol_inaccurate;
+  new_settings->reltol_inacc = settings->reltol_inacc;
   new_settings->ruiz_iters = settings->ruiz_iters;
   new_settings->verbose = settings->verbose;
 

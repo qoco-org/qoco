@@ -25,8 +25,8 @@ QOCOInt qoco_validate_settings(const QOCOSettings* settings)
   }
 
   // bisection_iters must be positive.
-  if (settings->bisection_iters <= 0) {
-    printf("bisection_iters must be positive.\n");
+  if (settings->bisect_iters <= 0) {
+    printf("bisect_iters must be positive.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 
@@ -43,26 +43,26 @@ QOCOInt qoco_validate_settings(const QOCOSettings* settings)
   }
 
   // abstol_inaccurate must be positive.
-  if (settings->abstol_inaccurate <= 0) {
-    printf("abstol_inaccurate must be positive.\n");
+  if (settings->abstol_inacc <= 0) {
+    printf("abstol_inacc must be positive.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 
   // reltol_inaccurate must be non-negative.
-  if (settings->reltol_inaccurate < 0) {
-    printf("reltol must be positive.\n");
+  if (settings->reltol_inacc < 0) {
+    printf("reltol_inacc must be positive.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 
   // static_reg must be less than 1.
-  if (settings->static_reg > 1) {
-    printf("static_reg must be less than 1.\n");
+  if (settings->kkt_static_reg > 1) {
+    printf("kkt_static_reg must be less than 1.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 
   // dyn_reg must be less than 1.
-  if (settings->dyn_reg > 1) {
-    printf("dyn_reg must be less than 1.\n");
+  if (settings->kkt_dynamic_reg > 1) {
+    printf("kkt_dynamic_reg must be less than 1.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 

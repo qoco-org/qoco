@@ -101,13 +101,19 @@ typedef struct {
   QOCOInt max_iters;
 
   /** Number of bisection iterations for linesearch. */
-  QOCOInt bisection_iters;
+  QOCOInt bisect_iters;
 
   /** Number of Ruiz equilibration iterations. */
   QOCOInt ruiz_iters;
 
   /** Number of iterative refinement iterations performed. */
-  QOCOInt iterative_refinement_iterations;
+  QOCOInt iter_ref_iters;
+
+  /** Static regularization parameter for KKT system. */
+  QOCOFloat kkt_static_reg;
+
+  /** Dynamic regularization parameter for KKT system. */
+  QOCOFloat kkt_dynamic_reg;
 
   /** Absolute tolerance. */
   QOCOFloat abstol;
@@ -116,16 +122,10 @@ typedef struct {
   QOCOFloat reltol;
 
   /** Low tolerance stopping criteria. */
-  QOCOFloat abstol_inaccurate;
+  QOCOFloat abstol_inacc;
 
   /** Low tolerance stopping criteria. */
-  QOCOFloat reltol_inaccurate;
-
-  /** Static regularization parameter for KKT system. */
-  QOCOFloat static_reg;
-
-  /** Dynamic regularization parameter for KKT system. */
-  QOCOFloat dyn_reg;
+  QOCOFloat reltol_inacc;
 
   /** 0 for quiet anything else for verbose. */
   unsigned char verbose;

@@ -303,7 +303,7 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   QOCOFloat al = 0.0;
   QOCOFloat au = 1.0;
   QOCOFloat a = 0.0;
-  for (QOCOInt i = 0; i < solver->settings->bisection_iters; ++i) {
+  for (QOCOInt i = 0; i < solver->settings->bisect_iters; ++i) {
     a = 0.5 * (al + au);
     axpy(Du, u, work->ubuff1, safe_div(a, f), work->data->m);
     if (cone_residual(work->ubuff1, work->data->l, work->data->nsoc,

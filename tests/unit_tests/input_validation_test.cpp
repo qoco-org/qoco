@@ -43,11 +43,11 @@ TEST(input_validation, settings_validation)
   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
 
   set_default_settings(settings);
-  settings->bisection_iters = 0;
+  settings->bisect_iters = 0;
   QOCOInt exit =
       qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   EXPECT_EQ(exit, QOCO_SETTINGS_VALIDATION_ERROR);
-  settings->bisection_iters = -1;
+  settings->bisect_iters = -1;
   exit = qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   EXPECT_EQ(exit, QOCO_SETTINGS_VALIDATION_ERROR);
 

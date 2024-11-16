@@ -64,7 +64,7 @@ void construct_kkt(QOCOSolver* solver)
     }
 
     // Add -e * Id regularization.
-    work->kkt->K->x[nz] = -solver->settings->static_reg;
+    work->kkt->K->x[nz] = -solver->settings->kkt_static_reg;
     work->kkt->K->i[nz] = work->data->n + Atcol;
     nz += 1;
     nzadded += 1;
@@ -183,11 +183,11 @@ void initialize_ipm(QOCOSolver* solver)
       solver->work->kkt->Lnz, solver->work->kkt->etree,
       solver->work->kkt->bwork, solver->work->kkt->iwork,
       solver->work->kkt->fwork, solver->work->kkt->p, solver->work->data->n,
-      solver->settings->dyn_reg);
+      solver->settings->kkt_dynamic_reg);
 
   // Solve KKT system.
   kkt_solve(solver->work->kkt, solver->work->kkt->rhs,
-            solver->settings->iterative_refinement_iterations);
+            solver->settings->iter_ref_iters);
 
   // Copy x part of solution to x.
   copy_arrayf(solver->work->kkt->xyz, solver->work->x, solver->work->data->n);
@@ -228,7 +228,7 @@ void update_nt_block(QOCOSolver* solver)
   // Regularize Nesterov-Todd block of KKT matrix.
   for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
     solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] -=
-        solver->settings->static_reg;
+        solver->settings->kkt_static_reg;
   }
 }
 
@@ -265,14 +265,14 @@ void compute_kkt_residual(QOCOSolver* solver)
   for (idx = 0; idx < work->data->n; ++idx) {
     work->kkt->kktres[idx] =
         work->kkt->kktres[idx] +
-        (work->data->c[idx] - solver->settings->static_reg * work->x[idx]);
+        (work->data->c[idx] - solver->settings->kkt_static_reg * work->x[idx]);
   }
 
   // Add -b and account for regularization.
   for (QOCOInt i = 0; i < work->data->p; ++i) {
     work->kkt->kktres[idx] =
         work->kkt->kktres[idx] +
-        (-work->data->b[i] + solver->settings->static_reg * work->y[i]);
+        (-work->data->b[i] + solver->settings->kkt_static_reg * work->y[i]);
     idx += 1;
   }
 
@@ -290,7 +290,7 @@ void compute_kkt_residual(QOCOSolver* solver)
   QOCOFloat regularization_correction = 0.0;
   for (QOCOInt i = 0; i < work->data->n; ++i) {
     regularization_correction +=
-        solver->settings->static_reg * work->x[i] * work->x[i];
+        solver->settings->kkt_static_reg * work->x[i] * work->x[i];
   }
   obj += 0.5 *
          (dot(work->xbuff, work->x, work->data->n) - regularization_correction);
@@ -382,14 +382,13 @@ void predictor_corrector(QOCOSolver* solver)
                work->kkt->D, work->kkt->Dinv, work->kkt->Lnz, work->kkt->etree,
                work->kkt->bwork, work->kkt->iwork, work->kkt->fwork,
                solver->work->kkt->p, solver->work->data->n,
-               solver->settings->dyn_reg);
+               solver->settings->kkt_dynamic_reg);
 
   // Construct rhs for affine scaling direction.
   construct_kkt_aff_rhs(work);
 
   // Solve to get affine scaling direction.
-  kkt_solve(work->kkt, work->kkt->rhs,
-            solver->settings->iterative_refinement_iterations);
+  kkt_solve(work->kkt, work->kkt->rhs, solver->settings->iter_ref_iters);
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
   QOCOFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
@@ -408,8 +407,7 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_comb_rhs(work);
 
   // Solve to get combined direction.
-  kkt_solve(work->kkt, work->kkt->rhs,
-            solver->settings->iterative_refinement_iterations);
+  kkt_solve(work->kkt, work->kkt->rhs, solver->settings->iter_ref_iters);
 
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
