@@ -92,9 +92,9 @@ void print_header(QOCOSolver* solver)
   printf("| Solver Settings:                                      |\n");
   printf("|     max_iter: %-3d abstol: %3.2e reltol: %3.2e   |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
-  printf("|     bisect_iters: %-2d iter_ref_iters: %-2d    |\n", settings->bisect_iters, settings->iter_ref_iters);
-  printf("|     ruiz_iters: %-2d kkt_static_reg: %3.2e    |\n", settings->ruiz_iters, settings->kkt_static_reg);
-  printf("|     kkt_dynamic_reg: %3.2e                  |\n", settings->kkt_dynamic_reg);
+  printf("|     bisect_iters: %-2d iter_ref_iters: %-2d               |\n", settings->bisect_iters, settings->iter_ref_iters);
+  printf("|     ruiz_iters: %-2d kkt_static_reg: %3.2e           |\n", settings->ruiz_iters, settings->kkt_static_reg);
+  printf("|     kkt_dynamic_reg: %3.2e                         |\n", settings->kkt_dynamic_reg);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
   printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
