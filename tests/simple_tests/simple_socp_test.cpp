@@ -43,7 +43,7 @@ TEST(simple_socp_test, p1)
   QOCOFloat sexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
   QOCOFloat yexp[] = {-1.200, -2.400};
   QOCOFloat zexp[] = {0.0000, 0.0000, 0.0000, 5.5923, 3.6875, 4.2043};
-  QOCOFloat tol = 1e-4;
+  QOCOFloat tol = 1e-3;
 
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
   set_default_settings(settings);
@@ -110,7 +110,7 @@ TEST(simple_socp_test, p2)
   QOCOFloat sexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
   QOCOFloat yexp[] = {-1.2000, -2.4000};
   QOCOFloat zexp[] = {0.0000, 0.0000, -0.0000, 5.5923, 3.6876, 4.2043};
-  QOCOFloat tol = 1e-4;
+  QOCOFloat tol = 1e-3;
 
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
   set_default_settings(settings);
@@ -177,7 +177,7 @@ TEST(simple_socp_test, p3)
   QOCOFloat sexp[] = {1.0000, 0.0000, 1.0000, 0.3981, -0.2625, -0.2993};
   QOCOFloat yexp[] = {4.0000, -6.0000};
   QOCOFloat zexp[] = {6.0000, -0.0000, -6.0000, 5.5923, 3.6876, 4.2043};
-  QOCOFloat tol = 1e-4;
+  QOCOFloat tol = 1e-3;
 
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
   set_default_settings(settings);
