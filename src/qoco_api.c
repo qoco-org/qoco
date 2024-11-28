@@ -437,6 +437,9 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   unscale_variables(solver->work);
   copy_solution(solver);
   solver->sol->status = QOCO_MAX_ITER;
+  if (solver->settings->verbose) {
+    print_footer(solver->sol, solver->sol->status);
+  }
   return QOCO_MAX_ITER;
 }
 
