@@ -298,6 +298,17 @@ void compute_centering(QOCOSolver* solver)
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                      QOCOSolver* solver)
 {
+  if (solver->work->data->nsoc == 0) {
+    return exact_linesearch(u, Du, f, solver);
+  }
+  else {
+    return bisection_search(u, Du, f, solver);
+  }
+}
+
+QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
+                           QOCOSolver* solver)
+{
   QOCOWorkspace* work = solver->work;
 
   QOCOFloat al = 0.0;
@@ -315,4 +326,27 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
     }
   }
   return al;
+}
+
+QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
+                           QOCOSolver* solver)
+{
+  QOCOWorkspace* work = solver->work;
+  QOCOProblemData* data = solver->work->data;
+
+  QOCOFloat a = 1.0;
+  QOCOFloat minval = 0;
+
+  // Compute a for LP cones.
+  for (QOCOInt i = 0; i < work->data->l; ++i) {
+    if (Du[i] < minval * u[i])
+      minval = Du[i] / u[i];
+  }
+
+  if (-f < minval)
+    a = 1;
+  else
+    a = -f / minval;
+
+  return a;
 }
