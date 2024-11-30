@@ -55,14 +55,14 @@ QOCOInt qoco_validate_settings(const QOCOSettings* settings)
   }
 
   // static_reg must be less than 1.
-  if (settings->kkt_static_reg > 1) {
-    printf("kkt_static_reg must be less than 1.\n");
+  if (settings->kkt_static_reg <= 0) {
+    printf("kkt_static_reg must be positive.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 
   // dyn_reg must be less than 1.
-  if (settings->kkt_dynamic_reg > 1) {
-    printf("kkt_dynamic_reg must be less than 1.\n");
+  if (settings->kkt_dynamic_reg <= 0) {
+    printf("kkt_dynamic_reg must be positive.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 

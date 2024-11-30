@@ -43,7 +43,7 @@ def write_csc_matrix(f, M, name):
         write_vector_int(f, M.indptr, name + "_p")
 
 
-def generate_test(problem_name, test_name, tol):
+def generate_test(problem_name, test_name, tol, **kwargs):
     # Create test file.
     f = open(problem_name + "/" + test_name + "_test.cpp", "w")
 
@@ -128,6 +128,11 @@ def generate_test(problem_name, test_name, tol):
     )
     f.write("    set_default_settings(settings);\n")
     f.write("    settings->verbose = 1;\n")
+
+    # Manually specify ruiz iters. Needed to pass lcvx_badly scaled test.
+    for key, value in kwargs.items():
+        if key == "ruiz_iters":
+            f.write("    settings->ruiz_iters = %d;\n" % value)
     f.write("    QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));\n\n")
     f.write(
         "    QOCOInt exit = qoco_setup(solver, "

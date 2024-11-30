@@ -109,7 +109,8 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->kkt->rhs = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->kktres = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyz = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  solver->work->kkt->xyzbuff = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->kkt->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->kkt->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   construct_kkt(solver);
 
   // Allocate primal and dual variables.
@@ -127,6 +128,10 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   solver->work->W = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
   solver->work->Wfull = qoco_malloc(Wnnzfull * sizeof(QOCOFloat));
+  for (int i = 0; i < Wnnzfull; ++i) {
+    solver->work->Wfull[i] = 0.0;
+  }
+  solver->work->Wnnzfull = Wnnzfull;
   solver->work->Winv = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
   solver->work->Winvfull = qoco_malloc(Wnnzfull * sizeof(QOCOFloat));
   solver->work->WtW = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
@@ -239,10 +244,10 @@ void set_default_settings(QOCOSettings* settings)
 {
   settings->max_iters = 200;
   settings->bisect_iters = 20;
-  settings->ruiz_iters = 5;
+  settings->ruiz_iters = 0;
   settings->iter_ref_iters = 1;
   settings->kkt_static_reg = 1e-8;
-  settings->kkt_dynamic_reg = 1e-7;
+  settings->kkt_dynamic_reg = 1e-8;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
   settings->abstol_inacc = 1e-5;
@@ -462,7 +467,8 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->kkt->rhs);
   qoco_free(solver->work->kkt->kktres);
   qoco_free(solver->work->kkt->xyz);
-  qoco_free(solver->work->kkt->xyzbuff);
+  qoco_free(solver->work->kkt->xyzbuff1);
+  qoco_free(solver->work->kkt->xyzbuff2);
   qoco_free(solver->work->x);
   qoco_free(solver->work->s);
   qoco_free(solver->work->y);

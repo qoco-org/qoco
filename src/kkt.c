@@ -151,9 +151,23 @@ void construct_kkt(QOCOSolver* solver)
 
 void initialize_ipm(QOCOSolver* solver)
 {
-  // Set Nesterov-Todd block to -I.
+  // Set Nesterov-Todd block in KKT matrix to -I.
   for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
     solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] = -1.0;
+  }
+
+  // Set Nesterov-Todd block in Wfull to -I.
+  for (QOCOInt i = 0; i < solver->work->data->l; ++i) {
+    solver->work->Wfull[i] = 1.0;
+  }
+  QOCOInt idx = solver->work->data->l;
+  for (QOCOInt i = 0; i < solver->work->data->nsoc; ++i) {
+    for (QOCOInt k = 0; k < solver->work->data->q[i]; ++k) {
+      for (QOCOInt l = 0; l < solver->work->data->q[i]; ++l) {
+        solver->work->Wfull[idx + k * solver->work->data->q[i] + k] = 1.0;
+      }
+    }
+    idx += solver->work->data->q[i] * solver->work->data->q[i];
   }
 
   // Need to be set to 1.0 not 0.0 due to low tolerance stopping criteria checks
@@ -161,8 +175,8 @@ void initialize_ipm(QOCOSolver* solver)
   // stopping criteria check would be triggered.
   solver->work->a = 1.0;
 
-  // Construct rhs of KKT system..
-  QOCOInt idx;
+  // Construct rhs of KKT system.
+  idx = 0;
   for (idx = 0; idx < solver->work->data->n; ++idx) {
     solver->work->kkt->rhs[idx] = -solver->work->data->c[idx];
   }
@@ -186,8 +200,7 @@ void initialize_ipm(QOCOSolver* solver)
       solver->settings->kkt_dynamic_reg);
 
   // Solve KKT system.
-  kkt_solve(solver->work->kkt, solver->work->kkt->rhs,
-            solver->settings->iter_ref_iters);
+  kkt_solve(solver, solver->work->kkt->rhs, solver->settings->iter_ref_iters);
 
   // Copy x part of solution to x.
   copy_arrayf(solver->work->kkt->xyz, solver->work->x, solver->work->data->n);
@@ -238,25 +251,17 @@ void compute_kkt_residual(QOCOSolver* solver)
 
   // Zero out the NT scaling block.
   set_nt_block_zeros(work);
+  for (QOCOInt i = 0; i < work->Wnnzfull; ++i) {
+    work->Wfull[i] = 0.0;
+  }
 
   // Set xyzbuff to [x;y;z]
-  copy_arrayf(work->x, work->kkt->xyzbuff, work->data->n);
-  copy_arrayf(work->y, &work->kkt->xyzbuff[work->data->n], work->data->p);
-  copy_arrayf(work->z, &work->kkt->xyzbuff[work->data->n + work->data->p],
+  copy_arrayf(work->x, work->kkt->xyzbuff1, work->data->n);
+  copy_arrayf(work->y, &work->kkt->xyzbuff1[work->data->n], work->data->p);
+  copy_arrayf(work->z, &work->kkt->xyzbuff1[work->data->n + work->data->p],
               work->data->m);
 
-  // Permute xyzbuff and store into xyz.
-  for (QOCOInt i = 0; i < work->kkt->K->n; ++i) {
-    work->kkt->xyz[i] = work->kkt->xyzbuff[work->kkt->p[i]];
-  }
-
-  // rhs = K * [x;y;z]
-  USpMv(work->kkt->K, work->kkt->xyz, work->kkt->xyzbuff);
-
-  // Permute again to get xyz.
-  for (QOCOInt i = 0; i < work->kkt->K->n; ++i) {
-    work->kkt->kktres[work->kkt->p[i]] = work->kkt->xyzbuff[i];
-  }
+  kkt_multiply(solver, work->kkt->xyzbuff1, work->kkt->kktres);
 
   // rhs += [c;-b;-h+s]
   QOCOInt idx;
@@ -268,11 +273,9 @@ void compute_kkt_residual(QOCOSolver* solver)
         (work->data->c[idx] - solver->settings->kkt_static_reg * work->x[idx]);
   }
 
-  // Add -b and account for regularization.
+  // Add -b.
   for (QOCOInt i = 0; i < work->data->p; ++i) {
-    work->kkt->kktres[idx] =
-        work->kkt->kktres[idx] +
-        (-work->data->b[i] + solver->settings->kkt_static_reg * work->y[i]);
+    work->kkt->kktres[idx] = work->kkt->kktres[idx] - work->data->b[i];
     idx += 1;
   }
 
@@ -388,7 +391,7 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_aff_rhs(work);
 
   // Solve to get affine scaling direction.
-  kkt_solve(work->kkt, work->kkt->rhs, solver->settings->iter_ref_iters);
+  kkt_solve(solver, work->kkt->rhs, solver->settings->iter_ref_iters);
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
   QOCOFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
@@ -407,7 +410,7 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_comb_rhs(work);
 
   // Solve to get combined direction.
-  kkt_solve(work->kkt, work->kkt->rhs, solver->settings->iter_ref_iters);
+  kkt_solve(solver, work->kkt->rhs, solver->settings->iter_ref_iters);
 
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
@@ -460,23 +463,37 @@ void predictor_corrector(QOCOSolver* solver)
   }
 }
 
-void kkt_solve(QOCOKKT* kkt, QOCOFloat* b, QOCOInt iters)
+void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
+  QOCOKKT* kkt = solver->work->kkt;
+
   // Permute b and store in xyzbuff.
   for (QOCOInt i = 0; i < kkt->K->n; ++i) {
-    kkt->xyzbuff[i] = b[kkt->p[i]];
+    kkt->xyzbuff1[i] = b[kkt->p[i]];
   }
 
   // Copy permuted b into b.
-  copy_arrayf(kkt->xyzbuff, b, kkt->K->n);
+  copy_arrayf(kkt->xyzbuff1, b, kkt->K->n);
 
   // Triangular solve.
-  QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyzbuff);
+  QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyzbuff1);
 
   // Iterative refinement.
   for (QOCOInt i = 0; i < iters; ++i) {
     // r = b - K * x
-    USpMv(kkt->K, kkt->xyzbuff, kkt->xyz);
+
+    // Must apply permutation since kkt_multiply multiplies by unpermuted KKT
+    // matrix.
+    for (QOCOInt k = 0; k < kkt->K->n; ++k) {
+      kkt->xyz[kkt->p[k]] = kkt->xyzbuff1[k];
+    }
+
+    kkt_multiply(solver, kkt->xyz, kkt->xyzbuff2);
+
+    for (QOCOInt k = 0; k < kkt->K->n; ++k) {
+      kkt->xyz[k] = kkt->xyzbuff2[kkt->p[k]];
+    }
+
     for (QOCOInt j = 0; j < kkt->K->n; ++j) {
       kkt->xyz[j] = b[j] - kkt->xyz[j];
     }
@@ -485,10 +502,38 @@ void kkt_solve(QOCOKKT* kkt, QOCOFloat* b, QOCOInt iters)
     QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyz);
 
     // x = x + dx.
-    axpy(kkt->xyzbuff, kkt->xyz, kkt->xyzbuff, 1.0, kkt->K->n);
+    axpy(kkt->xyzbuff1, kkt->xyz, kkt->xyzbuff1, 1.0, kkt->K->n);
   }
 
   for (QOCOInt i = 0; i < kkt->K->n; ++i) {
-    kkt->xyz[kkt->p[i]] = kkt->xyzbuff[i];
+    kkt->xyz[kkt->p[i]] = kkt->xyzbuff1[i];
   }
+}
+
+void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
+{
+  QOCOWorkspace* work = solver->work;
+  QOCOProblemData* data = solver->work->data;
+
+  // Compute y[1:n] = P * x[1:n] + A^T * x[n+1:n+p] + G^T * x[n+p+1:n+p+m].
+  USpMv(data->P, x, y);
+
+  if (data->p > 0) {
+    SpMtv(data->A, &x[data->n], work->xbuff);
+    axpy(y, work->xbuff, y, 1.0, data->n);
+    SpMv(data->A, x, &y[data->n]);
+  }
+
+  if (data->m > 0) {
+    SpMtv(data->G, &x[data->n + data->p], work->xbuff);
+    axpy(y, work->xbuff, y, 1.0, data->n);
+    SpMv(data->G, x, &y[data->n + data->p]);
+  }
+
+  nt_multiply(work->Wfull, &x[data->n + data->p], work->ubuff1, data->l,
+              data->m, data->nsoc, data->q);
+  nt_multiply(work->Wfull, work->ubuff1, work->ubuff2, data->l, data->m,
+              data->nsoc, data->q);
+  axpy(work->ubuff2, &y[data->n + data->p], &y[data->n + data->p], -1.0,
+       data->m);
 }

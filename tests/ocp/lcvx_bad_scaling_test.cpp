@@ -32,6 +32,7 @@ TEST(ocp_test, lcvx_bad_scaling)
     QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
     set_default_settings(settings);
     settings->verbose = 1;
+    settings->ruiz_iters = 5;
     QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
 
     QOCOInt exit = qoco_setup(solver, lcvx_bad_scaling_n, lcvx_bad_scaling_m, lcvx_bad_scaling_p, P, lcvx_bad_scaling_c, A, lcvx_bad_scaling_b, G, lcvx_bad_scaling_h, lcvx_bad_scaling_l, lcvx_bad_scaling_nsoc, lcvx_bad_scaling_q, settings);

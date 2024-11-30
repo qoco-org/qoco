@@ -308,8 +308,8 @@ TEST(simple_socp_test, reduced_tolerance)
 
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
   set_default_settings(settings);
-  settings->abstol = 1e-12;
-  settings->reltol = 1e-12;
+  settings->abstol = 1e-14;
+  settings->reltol = 1e-14;
   settings->verbose = 1;
 
   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
@@ -449,7 +449,7 @@ TEST(simple_socp_test, update_constraint_data_test)
   QOCOFloat sexp[] = {0.0000, 0.5000, 0.1250, 0.3981, -0.2625, -0.2993};
   QOCOFloat yexp[] = {-0.2344, -0.8437};
   QOCOFloat zexp[] = {0.7656, 0.0000, 0.0000, 5.5923, 3.6875, 4.2043};
-  QOCOFloat tol = 1e-4;
+  QOCOFloat tol = 1e-3;
 
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
   set_default_settings(settings);

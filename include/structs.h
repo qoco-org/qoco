@@ -201,7 +201,10 @@ typedef struct {
   QOCOFloat* xyz;
 
   /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff;
+  QOCOFloat* xyzbuff1;
+
+  /** Buffer of size n + m + p. */
+  QOCOFloat* xyzbuff2;
 
   /** Residual of KKT condition. */
   QOCOFloat* kktres;
@@ -265,8 +268,11 @@ typedef struct {
   /** Centering parameter */
   QOCOFloat sigma;
 
-  /** Number of nonzeros in Nesterov-Todd Scaling. */
+  /** Number of nonzeros in upper triangular part of Nesterov-Todd Scaling. */
   QOCOInt Wnnz;
+
+  /** Number of nonzeros in full Nesterov-Todd Scaling. */
+  QOCOInt Wnnzfull;
 
   /** Upper triangular part of Nesterov-Todd Scaling */
   QOCOFloat* W;

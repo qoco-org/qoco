@@ -113,7 +113,7 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data);
 /**
  * @brief Computes z = W * x where W is a full Nesterov-Todd scaling matrix. The
  * NT scaling array for the LP cones are stored first, then the NT scalings for
- * the second-order order cones are stores in column major order.
+ * the second-order cones are stored in column major order.
  *
  * @param W Nesterov Todd scaling matrix.
  * @param x Input vector.
