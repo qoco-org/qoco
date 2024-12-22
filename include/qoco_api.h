@@ -52,7 +52,7 @@
  * @param nsoc Number of second-order cones.
  * @param q Dimension of each second-order cone.
  * @param settings Settings struct.
- * @return error code.
+ * @return 0 if no error or flag containing error code.
  */
 QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
                    QOCOCscMatrix* P, QOCOFloat* c, QOCOCscMatrix* A,
@@ -62,21 +62,21 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 /**
  * @brief Sets the data for a compressed sparse column matrix.
  *
- * @param A Pointer to the CSC matrix
- * @param m Number of rows in the matrix
- * @param n Number of columns in the matrix
- * @param Annz Number of nonzero elements in the matrix
- * @param Ax Array of data for the matrix
- * @param Ap Array of column pointers for the data
- * @param Ai Array of row indices for data
+ * @param A Pointer to the CSC matrix.
+ * @param m Number of rows in the matrix.
+ * @param n Number of columns in the matrix.
+ * @param Annz Number of nonzero elements in the matrix.
+ * @param Ax Array of data for the matrix.
+ * @param Ap Array of column pointers for the data.
+ * @param Ai Array of row indices for data.
  */
 void qoco_set_csc(QOCOCscMatrix* A, QOCOInt m, QOCOInt n, QOCOInt Annz,
                   QOCOFloat* Ax, QOCOInt* Ap, QOCOInt* Ai);
 
 /**
- * @brief Set the default settings struct
+ * @brief Set the default settings struct.
  *
- * @param settings Pointer to settings struct
+ * @param settings Pointer to settings struct.
  */
 void set_default_settings(QOCOSettings* settings);
 
@@ -85,7 +85,7 @@ void set_default_settings(QOCOSettings* settings);
  *
  * @param solver Pointer to solver.
  * @param new_settings New settings struct.
- * @return Return code is 0 if update is successful.
+ * @return 0 if update is successful.
  */
 QOCOInt qoco_update_settings(QOCOSolver* solver,
                              const QOCOSettings* new_settings);
@@ -105,8 +105,7 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
 /**
  * @brief Updates data matrices. NULL can be passed in for any matrix data
  * pointers if that matrix will not be updated. It is assumed that the new
- * matrix will have the same sparsity structure as the existing matrix. This
- * function equilibrates the new KKT matrix.
+ * matrix will have the same sparsity structure as the existing matrix.
  *
  * @param Pxnew New data for P->x.
  * @param Axnew New data for A->x.
@@ -124,7 +123,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
 QOCOInt qoco_solve(QOCOSolver* solver);
 
 /**
- * @brief Frees all allocated memory.
+ * @brief Frees all memory allocated by qoco_setup.
  *
  * @param solver Pointer to solver.
  * @return Exitflag to check (0 for success, failure otherwise)
