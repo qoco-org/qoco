@@ -17,7 +17,7 @@ Main solver API
 .. doxygenfunction:: qoco_solve
 .. doxygenfunction:: qoco_cleanup
 
-Helper Functions
+Helper functions
 ----------------
 .. doxygenfunction:: qoco_set_csc
 .. doxygenfunction:: set_default_settings
@@ -25,14 +25,19 @@ Helper Functions
 .. doxygenfunction:: update_vector_data
 .. doxygenfunction:: update_matrix_data
 
-Structs
--------
+QOCO data types
+---------------
 .. doxygenstruct:: QOCOSolver
+   :members:
 .. doxygenstruct:: QOCOSettings
+   :members:
 .. doxygenstruct:: QOCOWorkspace
-.. doxygenstruct:: QOCOSolution
+   :members:
 .. doxygenstruct:: QOCOKKT
+   :members:
 .. doxygenstruct:: QOCOCscMatrix
-
+   :members:
+.. doxygenstruct:: QOCOSolution
+   :members:
 
 

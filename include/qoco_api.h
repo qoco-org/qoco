@@ -107,6 +107,7 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
  * pointers if that matrix will not be updated. It is assumed that the new
  * matrix will have the same sparsity structure as the existing matrix.
  *
+ * @param solver Pointer to solver.
  * @param Pxnew New data for P->x.
  * @param Axnew New data for A->x.
  * @param Gxnew New data for G->x.

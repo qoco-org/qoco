@@ -157,7 +157,7 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n);
  *
  * @param M Matrix to be regularized.
  * @param lambda Regularization factor.
- * @param nzadded Indices of elements of M->x that are added.
+ * @param nzadded_idx Indices of elements of M->x that are added.
  * @return Number of nonzeros added to M->x.
  */
 QOCOInt regularize(QOCOCscMatrix* M, QOCOFloat lambda, QOCOInt* nzadded_idx);
@@ -212,6 +212,7 @@ void row_col_scale(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D);
  *
  * @param x Input array.
  * @param y Input array.
+ * @param z Output array.
  * @param n Length of arrays.
  */
 void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n);
@@ -238,7 +239,6 @@ QOCOInt cumsum(QOCOInt* p, QOCOInt* c, QOCOInt n);
  * @param A
  * @param pinv
  * @param AtoC
- * @param values
  * @return QOCOCscMatrix*
  */
 QOCOCscMatrix* csc_symperm(const QOCOCscMatrix* A, const QOCOInt* pinv,

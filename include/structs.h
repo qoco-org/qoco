@@ -321,28 +321,28 @@ typedef struct {
 } QOCOWorkspace;
 
 typedef struct {
-  /* Primal solution. */
+  /**Primal solution. */
   QOCOFloat* x;
 
-  /* Slack variable for conic constraints. */
+  /**Slack variable for conic constraints. */
   QOCOFloat* s;
 
-  /* Dual variables for affine equality constraints. */
+  /**Dual variables for affine equality constraints. */
   QOCOFloat* y;
 
-  /* Dual variables for conic constraints. */
+  /**Dual variables for conic constraints. */
   QOCOFloat* z;
 
-  /* Number of iterations. */
+  /**Number of iterations. */
   QOCOInt iters;
 
-  /* Setup time. */
+  /**Setup time. */
   QOCOFloat setup_time_sec;
 
-  /* Solve time. */
+  /**Solve time. */
   QOCOFloat solve_time_sec;
 
-  /* Optimal objective value. */
+  /**Optimal objective value. */
   QOCOFloat obj;
 
   /** Primal residual. */
@@ -354,7 +354,7 @@ typedef struct {
   /** Duality gap. */
   QOCOFloat gap;
 
-  /* Solve status. */
+  /**Solve status. */
   QOCOInt status;
 
 } QOCOSolution;
@@ -371,7 +371,7 @@ typedef struct {
   /** Solver workspace. */
   QOCOWorkspace* work;
 
-  /* Solution. */
+  /** Solution struct. */
   QOCOSolution* sol;
 
 } QOCOSolver;

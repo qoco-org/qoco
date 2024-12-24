@@ -40,7 +40,7 @@ void allocate_kkt(QOCOWorkspace* work);
  *
  * clang-format on
  *
- * @param work Pointer to solver
+ * @param solver Pointer to solver
  */
 void construct_kkt(QOCOSolver* solver);
 
@@ -67,7 +67,7 @@ void set_nt_block_zeros(QOCOWorkspace* work);
  * K = | A    0         0       |
  *     [ G    0   -W'W - e * I  ]
  *
- * @param work Pointer to solver.
+ * @param solver Pointer to solver.
  */
 void update_nt_block(QOCOSolver* solver);
 
@@ -82,7 +82,7 @@ void update_nt_block(QOCOSolver* solver);
  *
  * clang-format on
  *
- * @param work Pointer to workspace.
+ * @param solver Pointer to solver.
  */
 void compute_kkt_residual(QOCOSolver* solver);
 

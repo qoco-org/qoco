@@ -155,7 +155,7 @@ void compute_centering(QOCOSolver* solver);
  * @param u Initial vector.
  * @param Du Search direction.
  * @param f Conservatism factor.
- * @param work Pointer to workspace.
+ * @param solver Pointer to solver.
  * @return Step-size.
  */
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
@@ -170,7 +170,7 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
  * @param u Initial vector.
  * @param Du Search direction.
  * @param f Conservatism factor.
- * @param work Pointer to workspace.
+ * @param solver Pointer to solver.
  * @return Step-size.
  */
 
@@ -185,7 +185,7 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
  * @param u Initial vector.
  * @param Du Search direction.
  * @param f Conservatism factor.
- * @param work Pointer to workspace.
+ * @param solver Pointer to solver.
  * @return Step-size.
  */
 QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
