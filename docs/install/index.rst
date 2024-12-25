@@ -1,6 +1,6 @@
 .. _install:
 
-Install
+Get Started
 ===============
 
 To install QOCO refer to the installation guides below for different languages.
