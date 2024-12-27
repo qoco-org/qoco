@@ -1,7 +1,9 @@
+.. _qocogen:
+
 QOCOGEN
 ========================
 
-QOCOGEN is a custom code generator which takes in an SOCP problem family and generates a customized C solver (called qoco_custom) for this problem family which implements the same algorithm as QOCO. This customized solver is library-free can be a few times faster than QOCO.
+QOCOGEN is a custom code generator which takes in an SOCP problem family and generates a customized C solver (called qoco_custom) for this problem family which implements the same algorithm as QOCO. This customized solver is library-free, only uses static memory allocation, and can be a few times faster than QOCO.
 
 All problems in the same problem family have identical sparsity patterns for matrices :code:`P`, :code:`A`, and :code:`G`, and have identical values for :code:`l`, :code:`m`, :code:`p`, :code:`nsoc`, and :code:`q`.
 
@@ -40,3 +42,4 @@ Usage
    generate.rst
    build.rst
    api.rst
+   calling.rst

@@ -6,7 +6,7 @@
 QOCO documentation
 ================================
 
-This website documents the Quadratic Objective Conic Optimizer (QOCO) and its code generator QOCOGEN.
+This website documents the Quadratic Objective Conic Optimizer (QOCO) and its code generator :ref:`QOCOGEN <qocogen>`.
 
 Standard Form
 --------------

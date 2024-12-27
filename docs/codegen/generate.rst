@@ -1,5 +1,6 @@
 Generating Custom Solver
 ------------------------
+.. _generate:
 
 Below is code that will generate a custom solver for the problem family defined in :ref:`simple example <simple_example>`.
 
@@ -31,7 +32,7 @@ Below is code that will generate a custom solver for the problem family defined 
     # Setup workspace.
     prob.setup(n, m, p, P, c, A, b, G, h, l, nsoc, q, verbose=True)
 
-    # Generate custom solver in directory dir with name qoco_custom.
-    prob.generate_solver("dir", "qoco_custom")
+    # Generate custom solver in this directory with name qoco_custom.
+    prob.generate_solver(".", "qoco_custom")
 
-You should now find your custom solver in the :code:`qoco_custom` directory within the :code:`dir` directory along with a file titled :code:`runtest.c` which demonstrates how to call :code:`qoco_custom` to solve the problem instance specified when generating the solver.
+You should now find your custom solver in the :code:`qoco_custom` directory within the current directory along with a file titled :code:`runtest.c` which demonstrates how to call :code:`qoco_custom` to solve the problem instance specified when generating the solver.
