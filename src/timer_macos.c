@@ -6,11 +6,10 @@ void stop_timer(QOCOTimer* timer) { timer->toc = mach_absolute_time(); }
 
 QOCOFloat get_elapsed_time_sec(QOCOTimer* timer)
 {
-  uint64_t duration; /* Elapsed time in clock cycles*/
+  uint64_t duration;
 
   duration = timer->toc - timer->tic;
 
-  /* Conversion from clock cycles to nanoseconds*/
   mach_timebase_info(&(timer->tinfo));
   duration *= timer->tinfo.numer;
   duration /= timer->tinfo.denom;
