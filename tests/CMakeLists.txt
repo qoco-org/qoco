@@ -1,3 +1,5 @@
+set (CMAKE_CXX_STANDARD 14)
+
 # Python requirement.
 find_package(Python COMPONENTS Interpreter)
 if (NOT Python_FOUND)

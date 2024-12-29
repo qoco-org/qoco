@@ -20,6 +20,16 @@ set(QDLDL_LONG OFF)
 # Set floating points to double precision.
 message(STATUS "Using double precision floating point")
 
+# Detect operating system.
+message(STATUS "We are on a ${CMAKE_SYSTEM_NAME} system")
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    add_compile_definitions(IS_LINUX)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    add_compile_definitions(IS_MACOS)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    add_compile_definitions(IS_WINDOWS)
+endif()
+
 # Add qdldl.
 add_subdirectory(lib/qdldl)
 
@@ -31,7 +41,16 @@ add_library(qoco SHARED)
 target_link_libraries(qoco qdldl amd m)
 target_include_directories(qoco PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qoco PUBLIC lib/amd)
-target_sources(qoco PRIVATE src/qoco_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qoco_error.c src/timer.c src/equilibration.c)
+target_sources(qoco PRIVATE src/qoco_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qoco_error.c src/equilibration.c)
+
+# Include timer file depending on OS.
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    target_sources(qoco PRIVATE src/timer_linux.c)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    target_sources(qoco PRIVATE src/timer_macos.c)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    target_sources(qoco PRIVATE src/timer_windows.c)
+endif()
 
 # Build qoco demo.
 add_executable(qoco_demo examples/qoco_demo.c)

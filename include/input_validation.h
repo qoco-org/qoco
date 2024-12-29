@@ -16,7 +16,7 @@
 #define INPUT_VALIDATION_H
 
 #include "enums.h"
-#include "error.h"
+#include "qoco_error.h"
 #include "structs.h"
 #include <stdio.h>
 

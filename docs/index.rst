@@ -48,9 +48,9 @@ If you are using QOCO please
 * :ref:`Cite the related paper <citing>`
 * Star the repository on `GitHub <https://github.com/govindchari/qoco>`_
 
-Benchmarks
---------------
-Benchmarks against other solvers can be found `here <https://github.com/govindchari/qoco_benchmarks>`_
+.. Benchmarks
+.. --------------
+.. Benchmarks against other solvers can be found `here <https://github.com/govindchari/qoco_benchmarks>`_
  
 .. toctree::
    :hidden:

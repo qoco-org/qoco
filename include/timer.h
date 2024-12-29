@@ -2,12 +2,23 @@
 #define TIMER_H
 
 #include "definitions.h"
-#include <time.h>
 
+#ifdef IS_LINUX
+#include <time.h>
 typedef struct {
   struct timespec tic;
   struct timespec toc;
 } QOCOTimer;
+#endif
+
+#ifdef IS_MACOS
+#include <mach/mach_time.h>
+typedef struct {
+  uint64_t tic;
+  uint64_t toc;
+  mach_timebase_info_data_t tinfo;
+} QOCOTimer;
+#endif
 
 /**
  * @brief Starts timer and sets tic field of struct to the current time.
