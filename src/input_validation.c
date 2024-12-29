@@ -5,7 +5,7 @@
  * @section LICENSE
  *
  * Copyright (c) 2024, Govind M. Chari
- * This source code is licensed under the BSD 2-Clause License
+ * This source code is licensed under the BSD 3-Clause License
  */
 
 #include "input_validation.h"

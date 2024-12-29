@@ -1,3 +1,17 @@
+/**
+ * @file timer.h
+ * @author Govind M. Chari <govindchari1@gmail.com>
+ *
+ * @section LICENSE
+ *
+ * Copyright (c) 2024, Govind M. Chari
+ * This source code is licensed under the BSD 3-Clause License
+ *
+ * @section DESCRIPTION
+ *
+ * Provides timing functions.
+ */
+
 #ifndef TIMER_H
 #define TIMER_H
 

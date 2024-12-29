@@ -39,7 +39,7 @@ Features
 
 License
 --------------
-Our code is open-source and distrubuted under the `BSD 2-Clause license <https://opensource.org/license/bsd-2-clause>`_, and can be found on `GitHub <https://github.com/govindchari/qoco>`_.
+Our code is open-source and distrubuted under the `BSD 3-Clause license <https://opensource.org/license/bsd-3-Clause>`_, and can be found on `GitHub <https://github.com/govindchari/qoco>`_.
 
 Citing
 --------------
