@@ -39,18 +39,18 @@ Features
 
 License
 --------------
-Our code is open-source and distrubuted under the `BSD 3-Clause license <https://opensource.org/license/bsd-3-Clause>`_, and can be found on `GitHub <https://github.com/govindchari/qoco>`_.
+Our code is open-source and distrubuted under the `BSD 3-Clause license <https://opensource.org/license/bsd-3-Clause>`_, and can be found on `GitHub <https://github.com/qoco-org/qoco>`_.
 
 Citing
 --------------
 If you are using QOCO please
 
 * :ref:`Cite the related paper <citing>`
-* Star the repository on `GitHub <https://github.com/govindchari/qoco>`_
+* Star the repository on `GitHub <https://github.com/qoco-org/qoco>`_
 
 .. Benchmarks
 .. --------------
-.. Benchmarks against other solvers can be found `here <https://github.com/govindchari/qoco_benchmarks>`_
+.. Benchmarks against other solvers can be found `here https://github.com/qoco-org/qoco_benchmarks>`_
  
 .. toctree::
    :hidden:

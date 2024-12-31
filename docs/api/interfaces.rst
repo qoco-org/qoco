@@ -8,9 +8,9 @@ QOCO has a few interfaces to different languages. The links below describe how t
 +------------------------------------+----------------------------------------------------------+------------------------------------------------------------------------------------------+
 | Language                           | Maintainers                                              | Repository                                                                               |
 +====================================+==========================================================+==========================================================================================+
-| :ref:`C/C++ <c_interface>`         |   `Govind Chari <https://govindchari.com/>`_             | `qoco <https://github.com/govindchari/qoco>`_                                            |
+| :ref:`C/C++ <c_interface>`         |   `Govind Chari <https://govindchari.com/>`_             | `qoco <https://github.com/qoco-org/qoco>`_                                               |
 +------------------------------------+----------------------------------------------------------+------------------------------------------------------------------------------------------+
-| :ref:`Python <python_interface>`   |   `Govind Chari <https://govindchari.com/>`_             | `qoco-python <https://github.com/govindchari/qoco-python>`_                              |
+| :ref:`Python <python_interface>`   |   `Govind Chari <https://govindchari.com/>`_             | `qoco-python <https://github.com/qoco-org/qoco-python>`_                                 |
 +------------------------------------+----------------------------------------------------------+------------------------------------------------------------------------------------------+
 
 .. toctree::

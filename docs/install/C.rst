@@ -11,7 +11,7 @@ Run the following to get the :code:`libqoco.so` shared object file.
 #. Clone the repository and change directory.
     .. code:: bash
 
-        git clone https://github.com/govindchari/qoco
+        git clone https://github.com/qoco-org/qoco
         cd qoco
 
 #. Make build directory and change directory.

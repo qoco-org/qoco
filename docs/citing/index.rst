@@ -16,6 +16,6 @@ The QOCO paper is in preparation. If you find QOCO useful in the meantime please
       year = {2025},
       publisher = {GitHub},
       journal = {GitHub repository},
-      howpublished = {\url{https://github.com/govindchari/qoco}},
+      howpublished = {\url{https://github.com/qoco-org/qoco}},
    }
 

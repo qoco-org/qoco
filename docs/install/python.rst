@@ -19,6 +19,6 @@ The Python wrapper for QOCO can also be built from source as follows
 
 .. code:: bash
 
-   git clone https://github.com/govindchari/qoco-python
+   git clone https://github.com/qoco-org/qoco-python
    cd qoco-python
    pip install .
