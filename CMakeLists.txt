@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 3.18)
-project(qoco)
+
+set(QOCO_VERSION_MAJOR "0")
+set(QOCO_VERSION_MINOR "1")
+set(QOCO_VERSION_PATCH "0")
+set(QOCO_VERSION "${QOCO_VERSION_MAJOR}.${QOCO_VERSION_MINOR}.${QOCO_VERSION_PATCH}")
+
+# Project name
+project(qoco VERSION ${QOCO_VERSION})
+message(STATUS "Building QOCO v${QOCO_VERSION}")
 
 # If build type is not specified set to Release.
 if(QOCO_BUILD_TYPE STREQUAL Debug)
@@ -42,6 +50,9 @@ target_link_libraries(qoco qdldl amd m)
 target_include_directories(qoco PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qoco PUBLIC lib/amd)
 target_sources(qoco PRIVATE src/qoco_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qoco_error.c src/equilibration.c)
+target_compile_definitions(qoco PUBLIC "QOCO_VERSION_MAJOR=${QOCO_VERSION_MAJOR}")
+target_compile_definitions(qoco PUBLIC "QOCO_VERSION_MINOR=${QOCO_VERSION_MINOR}")
+target_compile_definitions(qoco PUBLIC "QOCO_VERSION_PATCH=${QOCO_VERSION_PATCH}")
 
 # Include timer file depending on OS.
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")

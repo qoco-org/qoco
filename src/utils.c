@@ -77,6 +77,7 @@ void print_header(QOCOSolver* solver)
   printf("\n");
   printf("+-------------------------------------------------------+\n");
   printf("|     QOCO - Quadratic Objective Conic Optimizer        |\n");
+  printf("|                        v%i.%i.%i                         |\n", QOCO_VERSION_MAJOR, QOCO_VERSION_MINOR, QOCO_VERSION_PATCH);
   printf("|             (c) Govind M. Chari, 2024                 |\n");
   printf("|    University of Washington Autonomous Controls Lab   |\n");
   printf("+-------------------------------------------------------+\n");
