@@ -34,8 +34,6 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     add_compile_definitions(IS_LINUX)
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     add_compile_definitions(IS_MACOS)
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-    add_compile_definitions(IS_WINDOWS)
 endif()
 
 # Add qdldl.
@@ -59,8 +57,6 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     target_sources(qoco PRIVATE src/timer_linux.c)
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     target_sources(qoco PRIVATE src/timer_macos.c)
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-    target_sources(qoco PRIVATE src/timer_windows.c)
 endif()
 
 # Build qoco demo.

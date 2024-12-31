@@ -25,7 +25,7 @@ Run the following to get the :code:`libqoco.so` shared object file.
 
         cmake .. && make
 
-    You should now see two binaries: :code:`libqoco.so` which is the qoco library, and :code:`qoco_demo` which solves a sample SOCP.
+    You should now see two binaries: :code:`libqoco.so` which is the qoco library, and :code:`qoco_demo` which solves a sample SOCP. To build unit tests, add :code:`-DENABLE_TESTING:BOOL=True` to the :code:`cmake` call. Note that when running unit tests, it is required to have :code:`cvxpy` installed.
 
 Use with CMake
 -----------------

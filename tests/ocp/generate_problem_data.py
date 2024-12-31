@@ -1,6 +1,5 @@
 import utils.codegen_functions as cgen
 import utils.cvxpy_to_qoco as c2q
-from matplotlib import pyplot as plt
 from scipy.io import savemat
 from scipy import sparse
 import numpy as np
