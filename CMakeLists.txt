@@ -52,11 +52,23 @@ target_compile_definitions(qoco PUBLIC "QOCO_VERSION_MAJOR=${QOCO_VERSION_MAJOR}
 target_compile_definitions(qoco PUBLIC "QOCO_VERSION_MINOR=${QOCO_VERSION_MINOR}")
 target_compile_definitions(qoco PUBLIC "QOCO_VERSION_PATCH=${QOCO_VERSION_PATCH}")
 
+# Build qoco static library.
+add_library(qocostatic STATIC)
+target_link_libraries(qocostatic qdldlstatic amd m)
+target_include_directories(qocostatic PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(qocostatic PUBLIC lib/amd)
+target_sources(qocostatic PRIVATE src/qoco_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qoco_error.c src/equilibration.c)
+target_compile_definitions(qocostatic PUBLIC "QOCO_VERSION_MAJOR=${QOCO_VERSION_MAJOR}")
+target_compile_definitions(qocostatic PUBLIC "QOCO_VERSION_MINOR=${QOCO_VERSION_MINOR}")
+target_compile_definitions(qocostatic PUBLIC "QOCO_VERSION_PATCH=${QOCO_VERSION_PATCH}")
+
 # Include timer file depending on OS.
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     target_sources(qoco PRIVATE src/timer_linux.c)
+    target_sources(qocostatic PRIVATE src/timer_linux.c)
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     target_sources(qoco PRIVATE src/timer_macos.c)
+    target_sources(qocostatic PRIVATE src/timer_macos.c)
 endif()
 
 # Build qoco demo.
@@ -77,3 +89,21 @@ if(ENABLE_TESTING)
     enable_testing()
     add_subdirectory(tests)
 endif()
+
+install(
+    TARGETS qocostatic
+    EXPORT qocostatic
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+)
+install(
+    TARGETS qoco
+    EXPORT qoco
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+)
+install(FILES ${qoco_headers}
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/qoco"
+)

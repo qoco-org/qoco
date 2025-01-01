@@ -34,16 +34,6 @@ typedef struct {
 } QOCOTimer;
 #endif
 
-#ifdef IS_WINDOWS
-#define NOGDI
-#include <windows.h>
-typedef struct {
-  LARGE_INTEGER tic;
-  LARGE_INTEGER toc;
-  LARGE_INTEGER freq;
-} QOCOTimer;
-#endif
-
 /**
  * @brief Starts timer and sets tic field of struct to the current time.
  *
