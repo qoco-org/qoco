@@ -5,6 +5,7 @@ C/C++
 
 Build binaries
 -----------------
+Building binaries from source requires installation of `cmake <https://cmake.org/download/>`_ and a C compiler such as `clang <https://clang.llvm.org/get_started.html>`_ or `gcc <https://gcc.gnu.org/install/>`_.
 
 Run the following to get the :code:`libqoco.so` shared object file.
 
