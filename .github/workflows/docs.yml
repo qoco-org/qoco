@@ -38,7 +38,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.7.2
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: doc/build/html # The folder the action should deploy.
+          folder: docs/_build/html # The folder the action should deploy.
           target-folder: ${{ env.VERSION_PATH }}
 
       - name: Deploy to root if latest version
@@ -46,6 +46,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.7.2
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: doc/build/html # The folder the action should deploy.
+          folder: docs/_build/html # The folder the action should deploy.
           clean-exclude: |
             version/
