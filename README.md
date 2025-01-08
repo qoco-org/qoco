@@ -1,7 +1,7 @@
 # Quadratic Objective Conic Optimizer (QOCO)
 ![Unit Tests](https://github.com/qoco-org/qoco/actions/workflows/unit_tests.yml/badge.svg)
 
-QOCO implements a primal-dual interior point method to solve second-order cone programs with quadratic objectives of the following form
+QOCO is a C implementation of a primal-dual interior point method to solve second-order cone programs with quadratic objectives of the following form
 
 $$
   \begin{split}
@@ -20,8 +20,23 @@ $$\mathcal{C} =  \mathbb{R}^l_+ \times \mathcal{Q}^{q_1}_1 \times \ldots \times 
 
 where $l$ is the dimension of the non-negative orthant, and $\mathcal{Q}^{q_i}_i$ is the $i^{th}$ second-order cone with dimension $q_i$ defined by
 
-$$\mathcal{Q}^{q_i}_i = \\{(t,x)  \in \mathbb{R} \times \mathbb{R}^{q_i - 1} \\; | \\; ||x||_2 \leq t \\}$$
+$$\mathcal{Q}^{q_i}_i = \\{(t,x)  \in \mathbb{R} \times \mathbb{R}^{q_i - 1} \\; | \\; norm(x) \leq t \\}$$
 
 ## Bug reports
 
 File any issues or bug reports using the [issue tracker](https://github.com/qoco-org/qoco/issues).
+
+## Citing
+```
+ @misc{chari2025qoco,
+    author = {Chari, Govind M. and Acikmese, Behcet},
+    title = {QOCO},
+    year = {2025},
+    publisher = {GitHub},
+    journal = {GitHub repository},
+    howpublished = {\url{https://github.com/qoco-org/qoco}},
+ }
+```
+
+## License
+QOCO is licensed under the BSD-3-Clause license.
