@@ -27,13 +27,6 @@ jobs:
           cd docs
           make html
 
-      - name: Set current version
-        run: |
-          export CURRENT_VERSION=$(python -c "import cvxpy;__version__ = cvxpy.__version__;print('.'.join(__version__.split('.')[:2]))")
-          echo CURRENT_VERSION=$CURRENT_VERSION >> $GITHUB_ENV
-          echo VERSION_PATH=/version/$CURRENT_VERSION >> $GITHUB_ENV
-          echo DEPLOY_LATEST=$(python continuous_integration/doc_is_latest.py --c "$CURRENT_VERSION" --l "$LATEST_DEPLOYED_VERSION") >> $GITHUB_ENV
-
       - name: Deploy this version
         uses: JamesIves/github-pages-deploy-action@v4.7.2
         with:
