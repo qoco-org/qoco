@@ -21,7 +21,7 @@ extensions = ['breathe']
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-html_logo = '_static/img/logo.jpg'
+html_logo = '_static/img/qoco-logo-no-box.jpeg'
 html_favicon = "_static/img/favicon.ico"
 
 
