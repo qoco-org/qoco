@@ -1,5 +1,12 @@
 # Quadratic Objective Conic Optimizer (QOCO)
-![Unit Tests](https://github.com/qoco-org/qoco/actions/workflows/unit_tests.yml/badge.svg)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7bd44fa7-d198-4739-bb79-a5c15e04a8de" alt="drawing" width="500"/>
+</p>
+
+<p align="center">
+  <a href=https://github.com/qoco-org/qoco/actions/workflows/unit_tests.yml/badge.svg"><img src="https://github.com/qoco-org/qoco/actions/workflows/unit_tests.yml/badge.svg"/></a>
+</p>
+
 
 QOCO is a C implementation of a primal-dual interior point method to solve second-order cone programs with quadratic objectives of the following form
 
