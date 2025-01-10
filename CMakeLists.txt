@@ -36,6 +36,9 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     add_compile_definitions(IS_MACOS)
 endif()
 
+# Add -fPIC option explicity.
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 # Add qdldl.
 add_subdirectory(lib/qdldl)
 
