@@ -36,6 +36,28 @@ where :math:`l` is the dimension of the non-negative orthant, and :math:`\mathca
 
 Features
 --------------
+.. glossary::
+
+    Robust
+        Given that QOCO implements a primal-dual interior point method, it is very robust to ill-conditioning in problem data.
+
+    Fast
+        QOCO is faster than most commercial and open-source second-order cone solvers (benchmarks coming soon!)
+
+    Easy to use
+        QOCO can be called from C, C++, Python, and soon MATLAB, and from parsers such and CVXPY making it easy to use.
+
+    Tuning-free
+        QOCO does not require any hyperparameter tuning to achieve good performance.
+
+    Embeddable
+        Since QOCO is written in C, it can easily be run on any embedded system.
+
+    Library-free
+        It requires no external library to run.
+
+    Code Generation
+        :ref:`QOCOGEN <qocogen>` is a code-generator which generates extremely fast, library-free custom solvers for second-order cone programs.
 
 License
 --------------
@@ -47,10 +69,9 @@ If you are using QOCO please
 
 * :ref:`Cite the related paper <citing>`
 * Star the repository on `GitHub <https://github.com/qoco-org/qoco>`_
-
 Acknowledgements
 ----------------
-Thank you to `Srinidhi Chari <https://www.linkedin.com/in/srinidhi-chari>`_ for designing the QOCO logo.
+Thank you to `Srinidhi Chari <https://www.linkedin.com/in/srinidhi-chari>`_ for designing the QOCO logo, and to the creators of `OSQP <https://osqp.org/>`_ for writing `qdldl <https://github.com/osqp/qdldl>`_, which QOCO uses to solve the KKT system when computing search directions.
 
 .. Benchmarks
 .. --------------

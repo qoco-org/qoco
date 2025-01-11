@@ -104,6 +104,22 @@ is an inequality with respect to cone <span class="math notranslate nohighlight"
 </section>
 <section id="features">
 <h2>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h2>
+<dl class="simple glossary">
+<dt id="term-Robust">Robust<a class="headerlink" href="#term-Robust" title="Link to this term"></a></dt><dd><p>Given that QOCO implements a primal-dual interior point method, it is very robust to ill-conditioning in problem data.</p>
+</dd>
+<dt id="term-Fast">Fast<a class="headerlink" href="#term-Fast" title="Link to this term"></a></dt><dd><p>QOCO is faster than most commercial and open-source second-order cone solvers (benchmarks coming soon!)</p>
+</dd>
+<dt id="term-Easy-to-use">Easy to use<a class="headerlink" href="#term-Easy-to-use" title="Link to this term"></a></dt><dd><p>QOCO can be called from C, C++, Python, and soon MATLAB, and from parsers such and CVXPY making it easy to use.</p>
+</dd>
+<dt id="term-Tuning-free">Tuning-free<a class="headerlink" href="#term-Tuning-free" title="Link to this term"></a></dt><dd><p>QOCO does not require any hyperparameter tuning to achieve good performance.</p>
+</dd>
+<dt id="term-Embeddable">Embeddable<a class="headerlink" href="#term-Embeddable" title="Link to this term"></a></dt><dd><p>Since QOCO is written in C, it can easily be run on any embedded system.</p>
+</dd>
+<dt id="term-Library-free">Library-free<a class="headerlink" href="#term-Library-free" title="Link to this term"></a></dt><dd><p>It requires no external library to run.</p>
+</dd>
+<dt id="term-Code-Generation">Code Generation<a class="headerlink" href="#term-Code-Generation" title="Link to this term"></a></dt><dd><p><a class="reference internal" href="codegen/index.html#qocogen"><span class="std std-ref">QOCOGEN</span></a> is a code-generator which generates extremely fast, library-free custom solvers for second-order cone programs.</p>
+</dd>
+</dl>
 </section>
 <section id="license">
 <h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
@@ -119,7 +135,7 @@ is an inequality with respect to cone <span class="math notranslate nohighlight"
 </section>
 <section id="acknowledgements">
 <h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Link to this heading"></a></h2>
-<p>Thank you to <a class="reference external" href="https://www.linkedin.com/in/srinidhi-chari">Srinidhi Chari</a> for designing the QOCO logo.</p>
+<p>Thank you to <a class="reference external" href="https://www.linkedin.com/in/srinidhi-chari">Srinidhi Chari</a> for designing the QOCO logo, and to the creators of <a class="reference external" href="https://osqp.org/">OSQP</a> for writing <a class="reference external" href="https://github.com/osqp/qdldl">qdldl</a>, which QOCO uses to solve the KKT system when computing search directions.</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
