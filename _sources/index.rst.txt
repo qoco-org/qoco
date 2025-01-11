@@ -48,6 +48,9 @@ If you are using QOCO please
 * :ref:`Cite the related paper <citing>`
 * Star the repository on `GitHub <https://github.com/qoco-org/qoco>`_
 
+Acknowledgements
+----------------
+Thank you to `Srinidhi Chari <https://www.linkedin.com/in/srinidhi-chari>`_ for designing the QOCO logo.
 .. Benchmarks
 .. --------------
 .. Benchmarks against other solvers can be found `here https://github.com/qoco-org/qoco_benchmarks>`_
