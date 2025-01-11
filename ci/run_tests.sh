@@ -1,1 +1,0 @@
-export CXX=/usr/local/bin/clang++ && export CC=/usr/local/bin/clang && cd build && cmake -DQOCO_BUILD_TYPE:STR=Release -DENABLE_TESTING:BOOL=True .. && make && ctest --verbose && cd ..
