@@ -51,6 +51,7 @@ If you are using QOCO please
 Acknowledgements
 ----------------
 Thank you to `Srinidhi Chari <https://www.linkedin.com/in/srinidhi-chari>`_ for designing the QOCO logo.
+
 .. Benchmarks
 .. --------------
 .. Benchmarks against other solvers can be found `here https://github.com/qoco-org/qoco_benchmarks>`_
