@@ -39,7 +39,16 @@ Features
 .. glossary::
 
     Robust
-        Given that QOCO implements a primal-dual interior point method, it is very robust to ill conditioning in problem data and does not require and tuning.
+        Given that QOCO implements a primal-dual interior point method, it is very robust to ill-conditioning in problem data.
+
+    Fast
+        QOCO is faster than most commercial and open-source second-order cone solvers (benchmarks coming soon!)
+
+    Easy to use
+        QOCO can be called from C, C++, Python, and soon MATLAB, and from parsers such and CVXPY making it easy to use.
+
+    Tuning-free
+        QOCO does not require any hyperparameter tuning to achieve good performance.
 
     Embeddable
         Since QOCO is written in C, it can easily be run on any embedded system.
@@ -47,8 +56,8 @@ Features
     Library-free
         It requires no external library to run.
 
-    Interfaces
-        QOCO can be called from C, C++, Python, and soon MATLAB.
+    Code Generation
+        :ref:`QOCOGEN <qocogen>` is a code-generator which generates extremely fast, library-free custom solvers for second-order cone programs.
 
 License
 --------------
