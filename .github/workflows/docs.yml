@@ -35,7 +35,7 @@ jobs:
           target-folder: ${{ env.VERSION_PATH }}
 
       - name: Deploy to root if latest version
-        # if: ${{env.DEPLOY_LATEST == 'True'}}
+        if: ${{env.DEPLOY_LATEST == 'True'}}
         uses: JamesIves/github-pages-deploy-action@v4.7.2
         with:
           branch: gh-pages # The branch the action should deploy to.
