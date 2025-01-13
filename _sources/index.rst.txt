@@ -3,10 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-QOCO documentation
-================================
+.. image:: _static/img/qoco-logo.JPEG
+  :width: 400
+  :alt: QOCO
+  :align: center
+  :target: https://github.com/qoco-org/qoco
 
-This website documents the Quadratic Objective Conic Optimizer (QOCO) and its code generator :ref:`QOCOGEN <qocogen>`.
+This website documents the Quadratic Objective Conic Optimizer (QOCO) and its code generator :ref:`QOCOGEN <qocogen>`. The code is available on `GitHub <https://github.com/qoco-org/qoco>`_.
 
 Standard Form
 --------------
@@ -38,40 +41,31 @@ Features
 --------------
 .. glossary::
 
-    Robust
-        Given that QOCO implements a primal-dual interior point method, it is very robust to ill-conditioning in problem data.
+* **Robust**: Given that QOCO implements a primal-dual interior point method, it is very robust to ill-conditioning in problem data.
+* **Fast**: QOCO is faster than most commercial and open-source second-order cone solvers (benchmarks coming soon!).
+* **Easy to use**: QOCO can be called from C, C++, Python and with parsers such as CVXPY making it easy to use.
+* **Free and open source**: Distributed under the `BSD 3-Clause license <https://opensource.org/license/bsd-3-Clause>`_
+* **Embeddable**: Since QOCO is written in C, it can easily be run on any embedded system.
+* **Library-free**: QOCO requires no external library to run.
+* **Tuning-free**: QOCO does not require any hyperparameter tuning to achieve good performance.
+* **Code Generation**: :ref:`QOCOGEN <qocogen>` is a code-generator which generates extremely fast, library-free custom solvers for second-order cone programs.
 
-    Fast
-        QOCO is faster than most commercial and open-source second-order cone solvers (benchmarks coming soon!)
+Credits
+--------
+The main developer of QOCO is `Govind Chari <https://govindchari.com/>`_, who is advised by `Behçet Açikmeşe <https://www.aa.washington.edu/facultyfinder/behcet-acikmese>`_. Both are affiliated with the `Autonomous Controls Laboratory <https://uwacl.com/>`_ at the University of Washington.
 
-    Easy to use
-        QOCO can be called from C, C++, Python, and soon MATLAB, and from parsers such and CVXPY making it easy to use.
+QOCO is an adapted implementation of Lieven Vandenberghe's `coneqp <https://www.seas.ucla.edu/~vandenbe/publications/coneprog.pdf>`_ solver with various numerical enhancements for stable computation of search directions and is built on the following open-source libraries:
 
-    Tuning-free
-        QOCO does not require any hyperparameter tuning to achieve good performance.
+* `qdldl <https://github.com/osqp/qdldl>`_: Responsible for solving the KKT system to compute search directions.
+* `OSQP <https://osqp.org/>`_: The C and python interfaces were inspired by OSQP.
+* `pybind11 <https://github.com/pybind/pybind11>`_: Used to generate QOCO's python wrapper.
 
-    Embeddable
-        Since QOCO is written in C, it can easily be run on any embedded system.
-
-    Library-free
-        It requires no external library to run.
-
-    Code Generation
-        :ref:`QOCOGEN <qocogen>` is a code-generator which generates extremely fast, library-free custom solvers for second-order cone programs.
-
-License
---------------
-Our code is open-source and distrubuted under the `BSD 3-Clause license <https://opensource.org/license/bsd-3-Clause>`_, and can be found on `GitHub <https://github.com/qoco-org/qoco>`_.
+Thank you to `Srinidhi Chari <https://www.linkedin.com/in/srinidhi-chari>`_ for designing the QOCO logo.
 
 Citing
 --------------
-If you are using QOCO please
+If you find QOCO useful please :ref:`Cite the related paper <citing>` and star the repository on `GitHub <https://github.com/qoco-org/qoco>`_
 
-* :ref:`Cite the related paper <citing>`
-* Star the repository on `GitHub <https://github.com/qoco-org/qoco>`_
-Acknowledgements
-----------------
-Thank you to `Srinidhi Chari <https://www.linkedin.com/in/srinidhi-chari>`_ for designing the QOCO logo, and to the creators of `OSQP <https://osqp.org/>`_ for writing `qdldl <https://github.com/osqp/qdldl>`_, which QOCO uses to solve the KKT system when computing search directions.
 
 .. Benchmarks
 .. --------------
