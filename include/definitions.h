@@ -20,6 +20,10 @@
 typedef int QOCOInt;
 #define QOCOInt_MAX INT_MAX
 
+#ifdef MATLAB
+#define printf mexPrintf
+#endif
+
 typedef double QOCOFloat;
 #define QOCOFloat_MAX __DBL_MAX__
 

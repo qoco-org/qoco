@@ -55,10 +55,13 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->data->c = qoco_malloc(n * sizeof(QOCOFloat));
   solver->work->data->b = qoco_malloc(p * sizeof(QOCOFloat));
   solver->work->data->h = qoco_malloc(m * sizeof(QOCOFloat));
+  solver->work->data->q = qoco_malloc(nsoc * sizeof(QOCOInt));
+
   copy_arrayf(c, solver->work->data->c, n);
   copy_arrayf(b, solver->work->data->b, p);
   copy_arrayf(h, solver->work->data->h, m);
-  solver->work->data->q = q;
+  copy_arrayi(q, solver->work->data->q, nsoc);
+
   solver->work->data->l = l;
   solver->work->data->nsoc = nsoc;
 

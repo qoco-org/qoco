@@ -45,6 +45,11 @@ add_subdirectory(lib/qdldl)
 # Add amd
 add_subdirectory(lib/amd)
 
+# Are we building for matlab. If so we will define printf as mexPrintf to print into matlab terminal.
+if(${MATLAB})
+    add_compile_definitions(MATLAB)
+endif()
+
 # Build qoco shared library.
 add_library(qoco SHARED)
 target_link_libraries(qoco qdldl amd m)
