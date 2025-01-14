@@ -140,7 +140,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->WtW = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
   solver->work->lambda = qoco_malloc(m * sizeof(QOCOFloat));
   QOCOInt qmax = 0;
-  if (solver->work->data->q) {
+  if (solver->work->data->nsoc) {
     qmax = max_arrayi(solver->work->data->q, solver->work->data->nsoc);
   }
   solver->work->sbar = qoco_malloc(qmax * sizeof(QOCOFloat));
@@ -464,6 +464,7 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->data->b);
   qoco_free(solver->work->data->c);
   qoco_free(solver->work->data->h);
+  qoco_free(solver->work->data->q);
   qoco_free(solver->work->data);
 
   // Free primal and dual variables.
