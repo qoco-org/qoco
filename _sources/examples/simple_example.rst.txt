@@ -60,6 +60,36 @@ Python
     # Solve problem.
     res = prob.solve()
 
+Matlab
+-----------
+
+.. code:: Matlab
+
+  % Define problem data
+  P = [2 0 0 0;0 2 0 0;0 0 2 0;0 0 0 0];
+  c = [0;0;0;1];
+  G = -eye(4);
+  h = zeros(4, 1);
+  A = [1 1 0 0;0 1 1 0];
+  b = [1;1];
+
+  l = 1;
+  n = 4;
+  m = 4;
+  p = 2;
+  nsoc = 1;
+  q = [3];
+
+  % Create an QOCO object.
+  prob = qoco;
+
+  % Setup workspace.
+  settings.verbose = 1;
+  prob.setup(n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
+
+  % Solve problem.
+  res = prob.solve();
+
 C/C++
 -------------------------
 .. code:: c
