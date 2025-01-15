@@ -111,10 +111,10 @@
 </dl>
 </li>
 <li><dl>
-<dt>Compile sources.</dt><dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make
+<dt>Compile sources.</dt><dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-DENABLE_PRINTING:BOOL<span class="o">=</span>TRUE<span class="w"> </span>..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make
 </pre></div>
 </div>
-<p>You should now see two binaries: <code class="code docutils literal notranslate"><span class="pre">libqoco_custom.so</span></code> which is the custom solver library, and <code class="code docutils literal notranslate"><span class="pre">runtest</span></code> which solves a sample SOCP with the custom solver. Note that if you want to compile the custom solver and enable printing, you must invoke cmake as follows: <code class="code docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-DENABLE_PRINTING:BOOL=TRUE</span> <span class="pre">..</span></code>.</p>
+<p>You should now see two binaries: <code class="code docutils literal notranslate"><span class="pre">libqoco_custom.so</span></code> which is the custom solver library, and <code class="code docutils literal notranslate"><span class="pre">runtest</span></code> which solves a sample SOCP with the custom solver.</p>
 </dd>
 </dl>
 </li>
