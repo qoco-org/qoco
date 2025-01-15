@@ -16,6 +16,6 @@ Building Custom Solver
 #. Compile sources.
     .. code:: bash
 
-        cmake .. && make
+        cmake -DENABLE_PRINTING:BOOL=TRUE .. && make
     
-    You should now see two binaries: :code:`libqoco_custom.so` which is the custom solver library, and :code:`runtest` which solves a sample SOCP with the custom solver. Note that if you want to compile the custom solver and enable printing, you must invoke cmake as follows: :code:`cmake -DENABLE_PRINTING:BOOL=TRUE ..`.
+    You should now see two binaries: :code:`libqoco_custom.so` which is the custom solver library, and :code:`runtest` which solves a sample SOCP with the custom solver.
