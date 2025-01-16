@@ -9,7 +9,7 @@
   :align: center
   :target: https://github.com/qoco-org/qoco
 
-This website documents the Quadratic Objective Conic Optimizer (QOCO) and its code generator :ref:`QOCOGEN <qocogen>`. The code is available on `GitHub <https://github.com/qoco-org/qoco>`_.
+This website documents the Quadratic Objective Conic Optimizer (QOCO) and its code generator :ref:`QOCOGEN <qocogen>`, developed by the `Autonomous Controls Laboratory <https://uwacl.com/>`_ at the University of Washington. The code is available on `GitHub <https://github.com/qoco-org/qoco>`_.
 
 Standard Form
 --------------
