@@ -11,7 +11,7 @@ The Matlab mex wrapper for QOCO can be built from source as follows.
 #. Clone the repository
     .. code:: bash
 
-        git clone --recursive https://github.com/qoco-org/qoco-python
+        git clone --recursive https://github.com/qoco-org/qoco-matlab
 
 #. Open up Matlab in the :code:`qoco-matlab` directory and run the following in the Matlab terminal
     .. code:: bash
