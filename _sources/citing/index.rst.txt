@@ -11,7 +11,7 @@ The QOCO paper is in preparation. If you find QOCO useful in the meantime please
 .. code:: latex
 
    @misc{chari2025qoco,
-      author = {Chari, Govind M. and Acikmese, Behcet},
+      author = {Chari, Govind M. and Açikmeşe, Behçet},
       title = {QOCO},
       year = {2025},
       publisher = {GitHub},
