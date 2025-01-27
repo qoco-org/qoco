@@ -435,12 +435,8 @@ void predictor_corrector(QOCOSolver* solver)
               work->data->nsoc, work->data->q);
 
   // Compute step-size.
-  nt_multiply(work->Winvfull, work->Ds, work->ubuff3, work->data->l,
-              work->data->m, work->data->nsoc, work->data->q);
-  nt_multiply(work->Wfull, Dz, work->ubuff2, work->data->l, work->data->m,
-              work->data->nsoc, work->data->q);
-  QOCOFloat a = qoco_min(linesearch(work->lambda, work->ubuff3, 0.99, solver),
-                         linesearch(work->lambda, work->ubuff2, 0.99, solver));
+  QOCOFloat a = qoco_min(linesearch(work->s, work->Ds, 0.99, solver),
+                         linesearch(work->z, Dz, 0.99, solver));
 
   // Save step-size.
   work->a = a;
