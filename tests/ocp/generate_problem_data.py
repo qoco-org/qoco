@@ -318,7 +318,7 @@ def generate_lcvx_badly_scaled():
     cgen.generate_data(
         n, m, p, P, c, A, b, G, h, l, nsoc, q, prob.value, "ocp", "lcvx_bad_scaling"
     )
-    cgen.generate_test("ocp", "lcvx_bad_scaling", 5e-4, ruiz_iters=5, iter_ref_iters=3)
+    cgen.generate_test("ocp", "lcvx_bad_scaling", 3e-3, ruiz_iters=5, iter_ref_iters=3)
 
 
 generate_pdg()

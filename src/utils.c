@@ -161,12 +161,13 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat Gtzinf = data->m > 0 ? inf_norm(work->xbuff, data->n) : 0;
 
   // Compute ||P * x||_\infty
-  SpMv(data->P, work->x, work->xbuff);
+  USpMv(data->P, work->x, work->xbuff);
   for (QOCOInt i = 0; i < data->n; ++i) {
     work->xbuff[i] -= solver->settings->kkt_static_reg * work->x[i];
   }
   ew_product(work->xbuff, work->kkt->Dinvruiz, work->xbuff, data->n);
   QOCOFloat Pxinf = inf_norm(work->xbuff, data->n);
+  QOCOFloat xPx = dot(work->x, work->xbuff, work->data->n);
 
   // Compute ||A * x||_\infty
   SpMv(data->A, work->x, work->ybuff);
@@ -197,9 +198,10 @@ unsigned char check_stopping(QOCOSolver* solver)
   solver->sol->dres = dres;
 
   // Compute duality gap.
-  ew_product(work->s, work->kkt->Fruiz, work->ubuff1, data->m);
-  ew_product(work->z, work->kkt->Fruiz, work->ubuff2, data->m);
-  QOCOFloat gap = dot(work->ubuff1, work->ubuff2, data->m);
+  QOCOFloat ctx = dot(work->data->c, work->x, work->data->n);
+  QOCOFloat bty = dot(work->data->b, work->y, work->data->p);
+  QOCOFloat htz = dot(work->data->h, work->z, work->data->m);
+  QOCOFloat gap = qoco_abs(xPx + ctx + bty + htz);
   gap *= work->kkt->kinv;
   solver->sol->gap = gap;
 
@@ -215,14 +217,15 @@ unsigned char check_stopping(QOCOSolver* solver)
   dres_rel = qoco_max(pres_rel, cinf);
   dres_rel *= work->kkt->kinv;
 
-  // Compute max{sinf, zinf}.
-  QOCOFloat gap_rel = qoco_max(sinf, zinf);
+  // Compute max{abs(xPx), abs(ctx), abs(bty), abs(htz)}.
+  QOCOFloat gap_rel = qoco_max(qoco_abs(xPx), qoco_abs(ctx));
+  gap_rel = qoco_max(gap_rel, qoco_abs(bty));
+  gap_rel = qoco_max(gap_rel, qoco_abs(htz));
 
   // If the solver stalled (stepsize = 0) check if low tolerance stopping
   // criteria is met.
   if (solver->work->a < 1e-8) {
-    if (solver->work->mu < eabsinacc &&
-        pres < eabsinacc + erelinacc * pres_rel &&
+    if (pres < eabsinacc + erelinacc * pres_rel &&
         dres < eabsinacc + erelinacc * dres_rel &&
         solver->sol->gap < eabsinacc + erelinacc * gap_rel) {
       solver->sol->status = QOCO_SOLVED_INACCURATE;
@@ -234,8 +237,7 @@ unsigned char check_stopping(QOCOSolver* solver)
     }
   }
 
-  if (solver->work->mu < eabs && pres < eabs + erel * pres_rel &&
-      dres < eabs + erel * dres_rel &&
+  if (pres < eabs + erel * pres_rel && dres < eabs + erel * dres_rel &&
       solver->sol->gap < eabs + erel * gap_rel) {
     solver->sol->status = QOCO_SOLVED;
     return 1;

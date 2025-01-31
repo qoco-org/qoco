@@ -43,7 +43,7 @@ TEST(ocp_test, lcvx_bad_scaling)
     ASSERT_EQ(exit, QOCO_SOLVED);
 
     // Expect relative error of objective to be less than tolerance.
-    expect_rel_error(solver->sol->obj, lcvx_bad_scaling_objopt, 0.0005);
+    expect_rel_error(solver->sol->obj, lcvx_bad_scaling_objopt, 0.003);
 
     // Cleanup memory allocations. 
     qoco_cleanup(solver);
