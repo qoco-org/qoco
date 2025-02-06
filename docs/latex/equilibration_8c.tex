@@ -1,0 +1,59 @@
+\hypertarget{equilibration_8c}{}\doxysection{/home/govind/\+Desktop/git/qoco/src/equilibration.c File Reference}
+\label{equilibration_8c}\index{/home/govind/Desktop/git/qoco/src/equilibration.c@{/home/govind/Desktop/git/qoco/src/equilibration.c}}
+{\ttfamily \#include \char`\"{}equilibration.\+h\char`\"{}}\newline
+Include dependency graph for equilibration.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{equilibration_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{equilibration_8c_a69d5dd1945452c99c240d541c9348e79}{ruiz\+\_\+equilibration}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Applies modified ruiz equilibration to scale data matrices. Computes D, E, F, and k as shown below to make the row and column infinity norms equal for the scaled KKT matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{equilibration_8c_a1d17dc429269fbe1f3ed4d91d65283f5}{unscale\+\_\+variables}} (\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Undo variable transformation induced by ruiz equilibration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{equilibration_8c_a69d5dd1945452c99c240d541c9348e79}\label{equilibration_8c_a69d5dd1945452c99c240d541c9348e79}} 
+\index{equilibration.c@{equilibration.c}!ruiz\_equilibration@{ruiz\_equilibration}}
+\index{ruiz\_equilibration@{ruiz\_equilibration}!equilibration.c@{equilibration.c}}
+\doxysubsubsection{\texorpdfstring{ruiz\_equilibration()}{ruiz\_equilibration()}}
+{\footnotesize\ttfamily void ruiz\+\_\+equilibration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Applies modified ruiz equilibration to scale data matrices. Computes D, E, F, and k as shown below to make the row and column infinity norms equal for the scaled KKT matrix. 
+
+
+\begin{DoxyItemize}
+\item clang-\/format off
+\end{DoxyItemize}
+
+\mbox{[} D \mbox{]} \mbox{[} kP A$^\wedge$T G$^\wedge$T \mbox{]} \mbox{[} D \mbox{]} $\vert$ E $\vert$ $\vert$ A 0 0 $\vert$ $\vert$ E $\vert$ \mbox{[} F \mbox{]} \mbox{[} G 0 0 \mbox{]} \mbox{[} F \mbox{]}
+
+clang-\/format on
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{equilibration_8c_a1d17dc429269fbe1f3ed4d91d65283f5}\label{equilibration_8c_a1d17dc429269fbe1f3ed4d91d65283f5}} 
+\index{equilibration.c@{equilibration.c}!unscale\_variables@{unscale\_variables}}
+\index{unscale\_variables@{unscale\_variables}!equilibration.c@{equilibration.c}}
+\doxysubsubsection{\texorpdfstring{unscale\_variables()}{unscale\_variables()}}
+{\footnotesize\ttfamily void unscale\+\_\+variables (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Undo variable transformation induced by ruiz equilibration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}

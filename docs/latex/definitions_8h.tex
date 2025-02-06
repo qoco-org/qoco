@@ -1,0 +1,149 @@
+\hypertarget{definitions_8h}{}\doxysection{/home/govind/\+Desktop/git/qoco/include/definitions.h File Reference}
+\label{definitions_8h}\index{/home/govind/Desktop/git/qoco/include/definitions.h@{/home/govind/Desktop/git/qoco/include/definitions.h}}
+{\ttfamily \#include $<$limits.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+Include dependency graph for definitions.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{definitions_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{definitions_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{definitions_8h_a43f14128f35157a26dd29378d7d51544}{QOCOInt\+\_\+\+MAX}}~INT\+\_\+\+MAX
+\item 
+\#define \mbox{\hyperlink{definitions_8h_a70b544b16d53ef50a7443774466449e7}{QOCOFloat\+\_\+\+MAX}}~\+\_\+\+\_\+\+DBL\+\_\+\+MAX\+\_\+\+\_\+
+\item 
+\#define \mbox{\hyperlink{definitions_8h_aef7019cb0e7922c31100c20048252108}{qoco\+\_\+max}}(a,  b)~(((a) $>$ (b)) ? (a) \+: (b))
+\item 
+\#define \mbox{\hyperlink{definitions_8h_a428961e6b5fcdacdfee91ea6be5cc0ca}{qoco\+\_\+min}}(a,  b)~(((a) $<$ (b)) ? (a) \+: (b))
+\item 
+\#define \mbox{\hyperlink{definitions_8h_ac4f16c2e8de46f259db17adff54309ed}{qoco\+\_\+abs}}(a)~(((a) $>$ 0) ? (a) \+: (-\/a))
+\item 
+\#define \mbox{\hyperlink{definitions_8h_ab65fb67e9a764fbda260b2b867c0be3a}{safe\+\_\+div}}(a,  b)~(\mbox{\hyperlink{definitions_8h_ac4f16c2e8de46f259db17adff54309ed}{qoco\+\_\+abs}}(b) $>$ 1e-\/15) ? (a / b) \+: \mbox{\hyperlink{definitions_8h_a70b544b16d53ef50a7443774466449e7}{QOCOFloat\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{definitions_8h_af75ea74bed39dc159c8d3c34d635658a}{qoco\+\_\+sqrt}}(a)~sqrt(a)
+\item 
+\#define \mbox{\hyperlink{definitions_8h_aa543bca1d1ce32c19086397f611075fe}{qoco\+\_\+assert}}(a)
+\item 
+\#define \mbox{\hyperlink{definitions_8h_a152b57b6c087787118c75653da56d76b}{qoco\+\_\+malloc}}~malloc
+\item 
+\#define \mbox{\hyperlink{definitions_8h_a44ae01b192007f6085a5097b15752094}{qoco\+\_\+calloc}}~calloc
+\item 
+\#define \mbox{\hyperlink{definitions_8h_a1796cf4b640966b437f6f89369303dd7}{qoco\+\_\+free}}~free
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef int \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}
+\item 
+typedef double \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{utils_8c_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8c_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
+Defines various macros used in qoco. 
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{definitions_8h_ac4f16c2e8de46f259db17adff54309ed}\label{definitions_8h_ac4f16c2e8de46f259db17adff54309ed}} 
+\index{definitions.h@{definitions.h}!qoco\_abs@{qoco\_abs}}
+\index{qoco\_abs@{qoco\_abs}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_abs}{qoco\_abs}}
+{\footnotesize\ttfamily \#define qoco\+\_\+abs(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})~(((a) $>$ 0) ? (a) \+: (-\/a))}
+
+\mbox{\Hypertarget{definitions_8h_aa543bca1d1ce32c19086397f611075fe}\label{definitions_8h_aa543bca1d1ce32c19086397f611075fe}} 
+\index{definitions.h@{definitions.h}!qoco\_assert@{qoco\_assert}}
+\index{qoco\_assert@{qoco\_assert}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_assert}{qoco\_assert}}
+{\footnotesize\ttfamily \#define qoco\+\_\+assert(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{  \textcolor{keywordflow}{do} \{                                                                         \(\backslash\)}
+\DoxyCodeLine{  \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{definitions_8h_a44ae01b192007f6085a5097b15752094}\label{definitions_8h_a44ae01b192007f6085a5097b15752094}} 
+\index{definitions.h@{definitions.h}!qoco\_calloc@{qoco\_calloc}}
+\index{qoco\_calloc@{qoco\_calloc}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_calloc}{qoco\_calloc}}
+{\footnotesize\ttfamily \#define qoco\+\_\+calloc~calloc}
+
+\mbox{\Hypertarget{definitions_8h_a1796cf4b640966b437f6f89369303dd7}\label{definitions_8h_a1796cf4b640966b437f6f89369303dd7}} 
+\index{definitions.h@{definitions.h}!qoco\_free@{qoco\_free}}
+\index{qoco\_free@{qoco\_free}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_free}{qoco\_free}}
+{\footnotesize\ttfamily \#define qoco\+\_\+free~free}
+
+\mbox{\Hypertarget{definitions_8h_a152b57b6c087787118c75653da56d76b}\label{definitions_8h_a152b57b6c087787118c75653da56d76b}} 
+\index{definitions.h@{definitions.h}!qoco\_malloc@{qoco\_malloc}}
+\index{qoco\_malloc@{qoco\_malloc}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_malloc}{qoco\_malloc}}
+{\footnotesize\ttfamily \#define qoco\+\_\+malloc~malloc}
+
+\mbox{\Hypertarget{definitions_8h_aef7019cb0e7922c31100c20048252108}\label{definitions_8h_aef7019cb0e7922c31100c20048252108}} 
+\index{definitions.h@{definitions.h}!qoco\_max@{qoco\_max}}
+\index{qoco\_max@{qoco\_max}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_max}{qoco\_max}}
+{\footnotesize\ttfamily \#define qoco\+\_\+max(\begin{DoxyParamCaption}\item[{}]{a,  }\item[{}]{b }\end{DoxyParamCaption})~(((a) $>$ (b)) ? (a) \+: (b))}
+
+\mbox{\Hypertarget{definitions_8h_a428961e6b5fcdacdfee91ea6be5cc0ca}\label{definitions_8h_a428961e6b5fcdacdfee91ea6be5cc0ca}} 
+\index{definitions.h@{definitions.h}!qoco\_min@{qoco\_min}}
+\index{qoco\_min@{qoco\_min}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_min}{qoco\_min}}
+{\footnotesize\ttfamily \#define qoco\+\_\+min(\begin{DoxyParamCaption}\item[{}]{a,  }\item[{}]{b }\end{DoxyParamCaption})~(((a) $<$ (b)) ? (a) \+: (b))}
+
+\mbox{\Hypertarget{definitions_8h_af75ea74bed39dc159c8d3c34d635658a}\label{definitions_8h_af75ea74bed39dc159c8d3c34d635658a}} 
+\index{definitions.h@{definitions.h}!qoco\_sqrt@{qoco\_sqrt}}
+\index{qoco\_sqrt@{qoco\_sqrt}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_sqrt}{qoco\_sqrt}}
+{\footnotesize\ttfamily \#define qoco\+\_\+sqrt(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})~sqrt(a)}
+
+\mbox{\Hypertarget{definitions_8h_a70b544b16d53ef50a7443774466449e7}\label{definitions_8h_a70b544b16d53ef50a7443774466449e7}} 
+\index{definitions.h@{definitions.h}!QOCOFloat\_MAX@{QOCOFloat\_MAX}}
+\index{QOCOFloat\_MAX@{QOCOFloat\_MAX}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{QOCOFloat\_MAX}{QOCOFloat\_MAX}}
+{\footnotesize\ttfamily \#define QOCOFloat\+\_\+\+MAX~\+\_\+\+\_\+\+DBL\+\_\+\+MAX\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{definitions_8h_a43f14128f35157a26dd29378d7d51544}\label{definitions_8h_a43f14128f35157a26dd29378d7d51544}} 
+\index{definitions.h@{definitions.h}!QOCOInt\_MAX@{QOCOInt\_MAX}}
+\index{QOCOInt\_MAX@{QOCOInt\_MAX}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{QOCOInt\_MAX}{QOCOInt\_MAX}}
+{\footnotesize\ttfamily \#define QOCOInt\+\_\+\+MAX~INT\+\_\+\+MAX}
+
+\mbox{\Hypertarget{definitions_8h_ab65fb67e9a764fbda260b2b867c0be3a}\label{definitions_8h_ab65fb67e9a764fbda260b2b867c0be3a}} 
+\index{definitions.h@{definitions.h}!safe\_div@{safe\_div}}
+\index{safe\_div@{safe\_div}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{safe\_div}{safe\_div}}
+{\footnotesize\ttfamily \#define safe\+\_\+div(\begin{DoxyParamCaption}\item[{}]{a,  }\item[{}]{b }\end{DoxyParamCaption})~(\mbox{\hyperlink{definitions_8h_ac4f16c2e8de46f259db17adff54309ed}{qoco\+\_\+abs}}(b) $>$ 1e-\/15) ? (a / b) \+: \mbox{\hyperlink{definitions_8h_a70b544b16d53ef50a7443774466449e7}{QOCOFloat\+\_\+\+MAX}}}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}\label{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}} 
+\index{definitions.h@{definitions.h}!QOCOFloat@{QOCOFloat}}
+\index{QOCOFloat@{QOCOFloat}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{QOCOFloat}{QOCOFloat}}
+{\footnotesize\ttfamily typedef double \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}}
+
+\mbox{\Hypertarget{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}\label{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}} 
+\index{definitions.h@{definitions.h}!QOCOInt@{QOCOInt}}
+\index{QOCOInt@{QOCOInt}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{QOCOInt}{QOCOInt}}
+{\footnotesize\ttfamily typedef int \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}
+

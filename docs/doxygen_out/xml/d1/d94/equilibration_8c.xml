@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="d1/d94/equilibration_8c" kind="file" language="C++">
+    <compoundname>equilibration.c</compoundname>
+    <includes local="yes">equilibration.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>equilibration.h</label>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/src/equilibration.c</label>
+        <link refid="d1/d94/equilibration_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="d1/d94/equilibration_8c_1a69d5dd1945452c99c240d541c9348e79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ruiz_equilibration</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>ruiz_equilibration</name>
+        <param>
+          <type>QOCOSolver *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/equilibration.c" line="3" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/equilibration.c" bodystart="3" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="d1/d94/equilibration_8c_1a1d17dc429269fbe1f3ed4d91d65283f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void unscale_variables</definition>
+        <argsstring>(QOCOWorkspace *work)</argsstring>
+        <name>unscale_variables</name>
+        <param>
+          <type>QOCOWorkspace *</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/equilibration.c" line="154" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/equilibration.c" bodystart="154" bodyend="164"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;equilibration.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="d1/d94/equilibration_8c_1a69d5dd1945452c99c240d541c9348e79" kindref="member">ruiz_equilibration</ref>(QOCOSolver*<sp/>solver)</highlight></codeline>
+<codeline lineno="4"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/>QOCOWorkspace*<sp/>work<sp/>=<sp/>solver-&gt;work;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/>QOCOProblemData*<sp/>data<sp/>=<sp/>solver-&gt;work-&gt;data;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>ruiz<sp/>data.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data-&gt;n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;Druiz[i]<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;Dinvruiz[i]<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data-&gt;p;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;Eruiz[i]<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;Einvruiz[i]<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data-&gt;m;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;Fruiz[i]<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;Finvruiz[i]<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>g<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/>work-&gt;kkt-&gt;k<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/>work-&gt;kkt-&gt;kinv<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>solver-&gt;settings-&gt;ruiz_iters;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>infinity<sp/>norm<sp/>of<sp/>rows<sp/>of<sp/>[P<sp/>A&apos;<sp/>G&apos;]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>data-&gt;n;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;delta[j]<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>g<sp/>=<sp/><ref refid="d8/d14/linalg_8c_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(data-&gt;c,<sp/>data-&gt;n);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOFloat<sp/>Pinf_mean<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data-&gt;P)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1a824536c623fa28c6bbe4b820ab6ba65a" kindref="member">col_inf_norm_USymm</ref>(data-&gt;P,<sp/>work-&gt;kkt-&gt;delta);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>data-&gt;P-&gt;n;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Pinf_mean<sp/>+=<sp/>work-&gt;kkt-&gt;delta[j];</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>Pinf_mean<sp/>/=<sp/>data-&gt;n;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>g<sp/>=<sp/>1<sp/>/<sp/>max(mean(Pinf),<sp/>norm(c,<sp/>&quot;inf&quot;));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>g<sp/>=<sp/>qoco_max(Pinf_mean,<sp/>g);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>g<sp/>=<sp/>safe_div(1.0,<sp/>g);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;k<sp/>*=<sp/>g;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data-&gt;A-&gt;nnz<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>data-&gt;A-&gt;n;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOFloat<sp/>nrm<sp/>=<sp/><ref refid="d8/d14/linalg_8c_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(&amp;data-&gt;A-&gt;x[data-&gt;A-&gt;p[j]],</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data-&gt;A-&gt;p[j<sp/>+<sp/>1]<sp/>-<sp/>data-&gt;A-&gt;p[j]);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;delta[j]<sp/>=<sp/>qoco_max(work-&gt;kkt-&gt;delta[j],<sp/>nrm);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data-&gt;G-&gt;nnz<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>data-&gt;G-&gt;n;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOFloat<sp/>nrm<sp/>=<sp/><ref refid="d8/d14/linalg_8c_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(&amp;data-&gt;G-&gt;x[data-&gt;G-&gt;p[j]],</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data-&gt;G-&gt;p[j<sp/>+<sp/>1]<sp/>-<sp/>data-&gt;G-&gt;p[j]);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;delta[j]<sp/>=<sp/>qoco_max(work-&gt;kkt-&gt;delta[j],<sp/>nrm);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>d(i)<sp/>=<sp/>1<sp/>/<sp/>sqrt(max([Pinf(i),<sp/>Atinf(i),<sp/>Gtinf(i)]));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>data-&gt;n;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>QOCOFloat<sp/>temp<sp/>=<sp/>qoco_sqrt(work-&gt;kkt-&gt;delta[j]);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>temp<sp/>=<sp/>safe_div(1.0,<sp/>temp);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;delta[j]<sp/>=<sp/>temp;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>infinity<sp/>norm<sp/>of<sp/>rows<sp/>of<sp/>[A<sp/>0<sp/>0].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data-&gt;A-&gt;nnz<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>solver-&gt;work-&gt;data-&gt;At-&gt;n;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOFloat<sp/>nrm<sp/>=<sp/><ref refid="d8/d14/linalg_8c_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;solver-&gt;work-&gt;data-&gt;At-&gt;x[solver-&gt;work-&gt;data-&gt;At-&gt;p[j]],</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>solver-&gt;work-&gt;data-&gt;At-&gt;p[j<sp/>+<sp/>1]<sp/>-<sp/>solver-&gt;work-&gt;data-&gt;At-&gt;p[j]);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;delta[data-&gt;n<sp/>+<sp/>j]<sp/>=<sp/>nrm;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>d(i)<sp/>=<sp/>1<sp/>/<sp/>sqrt(Ainf(i));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/>data-&gt;p;<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOFloat<sp/>temp<sp/>=<sp/>qoco_sqrt(work-&gt;kkt-&gt;delta[data-&gt;n<sp/>+<sp/>k]);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp<sp/>=<sp/>safe_div(1.0,<sp/>temp);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;delta[data-&gt;n<sp/>+<sp/>k]<sp/>=<sp/>temp;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>infinity<sp/>norm<sp/>of<sp/>rows<sp/>of<sp/>[G<sp/>0<sp/>0].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data-&gt;G-&gt;nnz<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>solver-&gt;work-&gt;data-&gt;Gt-&gt;n;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOFloat<sp/>nrm<sp/>=<sp/><ref refid="d8/d14/linalg_8c_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;solver-&gt;work-&gt;data-&gt;Gt-&gt;x[solver-&gt;work-&gt;data-&gt;Gt-&gt;p[j]],</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>solver-&gt;work-&gt;data-&gt;Gt-&gt;p[j<sp/>+<sp/>1]<sp/>-<sp/>solver-&gt;work-&gt;data-&gt;Gt-&gt;p[j]);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;delta[data-&gt;n<sp/>+<sp/>data-&gt;p<sp/>+<sp/>j]<sp/>=<sp/>nrm;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>d(i)<sp/>=<sp/>1<sp/>/<sp/>sqrt(Ginf(i));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/>data-&gt;m;<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOFloat<sp/>temp<sp/>=<sp/>qoco_sqrt(work-&gt;kkt-&gt;delta[data-&gt;n<sp/>+<sp/>data-&gt;p<sp/>+<sp/>k]);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp<sp/>=<sp/>safe_div(1.0,<sp/>temp);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;delta[data-&gt;n<sp/>+<sp/>data-&gt;p<sp/>+<sp/>k]<sp/>=<sp/>temp;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOFloat*<sp/>D<sp/>=<sp/>work-&gt;kkt-&gt;delta;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOFloat*<sp/>E<sp/>=<sp/>&amp;work-&gt;kkt-&gt;delta[data-&gt;n];</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOFloat*<sp/>F<sp/>=<sp/>&amp;work-&gt;kkt-&gt;delta[data-&gt;n<sp/>+<sp/>data-&gt;p];</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Make<sp/>scalings<sp/>for<sp/>all<sp/>variables<sp/>in<sp/>a<sp/>second-order<sp/>cone<sp/>equal.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOInt<sp/>idx<sp/>=<sp/>data-&gt;l;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>data-&gt;nsoc;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>k<sp/>=<sp/>idx<sp/>+<sp/>1;<sp/>k<sp/>&lt;<sp/>idx<sp/>+<sp/>data-&gt;q[j];<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>F[k]<sp/>=<sp/>F[idx];</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>idx<sp/>+=<sp/>data-&gt;q[j];</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scale<sp/>P.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data-&gt;P)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1aed2caeb493cbf251a8d9e446a3d19fc6" kindref="member">scale_arrayf</ref>(data-&gt;P-&gt;x,<sp/>data-&gt;P-&gt;x,<sp/>g,<sp/>data-&gt;P-&gt;nnz);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1a2fae5e0df1f9fb3d70115f91a74c9e99" kindref="member">row_col_scale</ref>(data-&gt;P,<sp/>D,<sp/>D);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scale<sp/>c.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1aed2caeb493cbf251a8d9e446a3d19fc6" kindref="member">scale_arrayf</ref>(data-&gt;c,<sp/>data-&gt;c,<sp/>g,<sp/>data-&gt;n);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(data-&gt;c,<sp/>D,<sp/>data-&gt;c,<sp/>data-&gt;n);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scale<sp/>A<sp/>and<sp/>G.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1a2fae5e0df1f9fb3d70115f91a74c9e99" kindref="member">row_col_scale</ref>(data-&gt;A,<sp/>E,<sp/>D);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1a2fae5e0df1f9fb3d70115f91a74c9e99" kindref="member">row_col_scale</ref>(data-&gt;G,<sp/>F,<sp/>D);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1a2fae5e0df1f9fb3d70115f91a74c9e99" kindref="member">row_col_scale</ref>(solver-&gt;work-&gt;data-&gt;At,<sp/>D,<sp/>E);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1a2fae5e0df1f9fb3d70115f91a74c9e99" kindref="member">row_col_scale</ref>(solver-&gt;work-&gt;data-&gt;Gt,<sp/>D,<sp/>F);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>scaling<sp/>matrices<sp/>with<sp/>delta.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;kkt-&gt;Druiz,<sp/>D,<sp/>work-&gt;kkt-&gt;Druiz,<sp/>data-&gt;n);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;kkt-&gt;Eruiz,<sp/>E,<sp/>work-&gt;kkt-&gt;Eruiz,<sp/>data-&gt;p);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;kkt-&gt;Fruiz,<sp/>F,<sp/>work-&gt;kkt-&gt;Fruiz,<sp/>data-&gt;m);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Scale<sp/>b.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><ref refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(data-&gt;b,<sp/>work-&gt;kkt-&gt;Eruiz,<sp/>data-&gt;b,<sp/>data-&gt;p);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Scale<sp/>h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><ref refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(data-&gt;h,<sp/>work-&gt;kkt-&gt;Fruiz,<sp/>data-&gt;h,<sp/>data-&gt;m);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>Dinv,<sp/>Einv,<sp/>Finv.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data-&gt;n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;Dinvruiz[i]<sp/>=<sp/>safe_div(1.0,<sp/>work-&gt;kkt-&gt;Druiz[i]);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data-&gt;p;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;Einvruiz[i]<sp/>=<sp/>safe_div(1.0,<sp/>work-&gt;kkt-&gt;Eruiz[i]);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data-&gt;m;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;kkt-&gt;Finvruiz[i]<sp/>=<sp/>safe_div(1.0,<sp/>work-&gt;kkt-&gt;Fruiz[i]);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/>work-&gt;kkt-&gt;kinv<sp/>=<sp/>safe_div(1.0,<sp/>work-&gt;kkt-&gt;k);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="d1/d94/equilibration_8c_1a1d17dc429269fbe1f3ed4d91d65283f5" kindref="member">unscale_variables</ref>(QOCOWorkspace*<sp/>work)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><ref refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;x,<sp/>work-&gt;kkt-&gt;Druiz,<sp/>work-&gt;x,<sp/>work-&gt;data-&gt;n);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><ref refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;s,<sp/>work-&gt;kkt-&gt;Finvruiz,<sp/>work-&gt;s,<sp/>work-&gt;data-&gt;m);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><ref refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;y,<sp/>work-&gt;kkt-&gt;Eruiz,<sp/>work-&gt;y,<sp/>work-&gt;data-&gt;p);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><ref refid="d8/d14/linalg_8c_1aed2caeb493cbf251a8d9e446a3d19fc6" kindref="member">scale_arrayf</ref>(work-&gt;y,<sp/>work-&gt;y,<sp/>work-&gt;kkt-&gt;kinv,<sp/>work-&gt;data-&gt;p);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><ref refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;z,<sp/>work-&gt;kkt-&gt;Fruiz,<sp/>work-&gt;z,<sp/>work-&gt;data-&gt;m);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><ref refid="d8/d14/linalg_8c_1aed2caeb493cbf251a8d9e446a3d19fc6" kindref="member">scale_arrayf</ref>(work-&gt;z,<sp/>work-&gt;z,<sp/>work-&gt;kkt-&gt;kinv,<sp/>work-&gt;data-&gt;m);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/src/equilibration.c"/>
+  </compounddef>
+</doxygen>

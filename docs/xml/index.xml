@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.1" xml:lang="en-US">
+  <compound refid="structQOCOCscMatrix" kind="struct"><name>QOCOCscMatrix</name>
+    <member refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kind="variable"><name>m</name></member>
+    <member refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kind="variable"><name>n</name></member>
+    <member refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kind="variable"><name>nnz</name></member>
+    <member refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kind="variable"><name>i</name></member>
+    <member refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kind="variable"><name>p</name></member>
+    <member refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kind="variable"><name>x</name></member>
+  </compound>
+  <compound refid="structQOCOKKT" kind="struct"><name>QOCOKKT</name>
+    <member refid="structQOCOKKT_1a42dca8a44ef230ae857c0ed1902a1e6e" kind="variable"><name>K</name></member>
+    <member refid="structQOCOKKT_1a161652b18272e8ad4b4ef2498b64f06e" kind="variable"><name>delta</name></member>
+    <member refid="structQOCOKKT_1afd535d2eb4f588cb097c9961f11f8cee" kind="variable"><name>Druiz</name></member>
+    <member refid="structQOCOKKT_1a02dcddeb25f2e5faa1a28167c2bde732" kind="variable"><name>Eruiz</name></member>
+    <member refid="structQOCOKKT_1adb853bd2760ba9c0af0d9b6d5738f9ae" kind="variable"><name>Fruiz</name></member>
+    <member refid="structQOCOKKT_1a11ee7c721bfe5fdede3fa518946a766a" kind="variable"><name>Dinvruiz</name></member>
+    <member refid="structQOCOKKT_1aae616bb46f059dc575ca1bb2d5f4fa27" kind="variable"><name>Einvruiz</name></member>
+    <member refid="structQOCOKKT_1a9f2b26ac858146f3571c071a55aa7be2" kind="variable"><name>Finvruiz</name></member>
+    <member refid="structQOCOKKT_1a0370a2e9d69025a4b53aeb27429f33dd" kind="variable"><name>k</name></member>
+    <member refid="structQOCOKKT_1ac992970a5113c5ff3d60e0c64532aa0a" kind="variable"><name>kinv</name></member>
+    <member refid="structQOCOKKT_1a449decfbee7d2a4c43d9c651dd51769c" kind="variable"><name>p</name></member>
+    <member refid="structQOCOKKT_1a3a44f4ab1182b63af361b7bae1d29498" kind="variable"><name>pinv</name></member>
+    <member refid="structQOCOKKT_1acf1f241dff0d6bda8ae0c54319eb5e9e" kind="variable"><name>etree</name></member>
+    <member refid="structQOCOKKT_1aa016e2bbc0d2441b347501fd1bae4c05" kind="variable"><name>Lnz</name></member>
+    <member refid="structQOCOKKT_1acc39b62e0df813274b5ef6cea77c7879" kind="variable"><name>Lx</name></member>
+    <member refid="structQOCOKKT_1a681940985da5106985036b2aa5ee9084" kind="variable"><name>Lp</name></member>
+    <member refid="structQOCOKKT_1af6b8e85423d8b6ffdc57fa20eefaaf5d" kind="variable"><name>Li</name></member>
+    <member refid="structQOCOKKT_1ab39972aa84945bcdad126a612dbcd036" kind="variable"><name>D</name></member>
+    <member refid="structQOCOKKT_1a6885d626168a163bb5221796aa878aee" kind="variable"><name>Dinv</name></member>
+    <member refid="structQOCOKKT_1a20507578b547327068bafb3902266612" kind="variable"><name>iwork</name></member>
+    <member refid="structQOCOKKT_1a16a43a93af6629be0dcd53d2e3b14dc4" kind="variable"><name>bwork</name></member>
+    <member refid="structQOCOKKT_1a4b7208b5657c7306580065b6e046c41b" kind="variable"><name>fwork</name></member>
+    <member refid="structQOCOKKT_1a350c03f2665d19dde24b74b556d91a59" kind="variable"><name>rhs</name></member>
+    <member refid="structQOCOKKT_1adbc8ffce9207cfc89d657f46fd6959ab" kind="variable"><name>xyz</name></member>
+    <member refid="structQOCOKKT_1a37864381633654817dc0fcd3b34ce981" kind="variable"><name>xyzbuff1</name></member>
+    <member refid="structQOCOKKT_1aa3928f751b6f70a295f6b39bac199a4b" kind="variable"><name>xyzbuff2</name></member>
+    <member refid="structQOCOKKT_1a09b19f406c70817daf7dc41ead83c975" kind="variable"><name>kktres</name></member>
+    <member refid="structQOCOKKT_1a14f8a761326da48445b45f9a19f0e504" kind="variable"><name>nt2kkt</name></member>
+    <member refid="structQOCOKKT_1aa0f0fe3ae4f7d6db557fc2dcea2309eb" kind="variable"><name>ntdiag2kkt</name></member>
+    <member refid="structQOCOKKT_1a7cb73048831966481cdf1bbe0cc0ca07" kind="variable"><name>PregtoKKT</name></member>
+    <member refid="structQOCOKKT_1aef2409d8e6dad5214eec21b362a12f68" kind="variable"><name>Pnzadded_idx</name></member>
+    <member refid="structQOCOKKT_1a533086695da2b3b918014831c0a8d6d8" kind="variable"><name>Pnum_nzadded</name></member>
+    <member refid="structQOCOKKT_1abf6e6214c517d4bc4623d86caedac76d" kind="variable"><name>AtoKKT</name></member>
+    <member refid="structQOCOKKT_1a85a50ddc6e8893a0f2d85761220f3837" kind="variable"><name>GtoKKT</name></member>
+  </compound>
+  <compound refid="structQOCOProblemData" kind="struct"><name>QOCOProblemData</name>
+    <member refid="structQOCOProblemData_1abdb31a4bf94ade82b694d2635456a6e6" kind="variable"><name>P</name></member>
+    <member refid="structQOCOProblemData_1a7865ab92c05a9b0d4dbf85798f33b002" kind="variable"><name>c</name></member>
+    <member refid="structQOCOProblemData_1aa9cbb95a483b65f3e1155596cb3eab5d" kind="variable"><name>A</name></member>
+    <member refid="structQOCOProblemData_1a57cf5c3774dadfb733a2bc1e51e424e8" kind="variable"><name>At</name></member>
+    <member refid="structQOCOProblemData_1aaee73365c1f1cbe460f1bb8720c3c123" kind="variable"><name>b</name></member>
+    <member refid="structQOCOProblemData_1a83d3b83ad1361869c5676fe157b5e116" kind="variable"><name>G</name></member>
+    <member refid="structQOCOProblemData_1a2eec01f8d201d7f7bf40520a73253ba3" kind="variable"><name>Gt</name></member>
+    <member refid="structQOCOProblemData_1ac5b72e0466328072d1a45b0cbe155967" kind="variable"><name>h</name></member>
+    <member refid="structQOCOProblemData_1a9d6633850372ce5c5e852aca470138ae" kind="variable"><name>l</name></member>
+    <member refid="structQOCOProblemData_1a980efff44ee3906ba6d866df9067e9d6" kind="variable"><name>nsoc</name></member>
+    <member refid="structQOCOProblemData_1a9585eed3044567a25b6a3d8608a298bc" kind="variable"><name>q</name></member>
+    <member refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kind="variable"><name>n</name></member>
+    <member refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kind="variable"><name>m</name></member>
+    <member refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kind="variable"><name>p</name></member>
+  </compound>
+  <compound refid="structQOCOSettings" kind="struct"><name>QOCOSettings</name>
+    <member refid="structQOCOSettings_1ad024407378c8232511ffc8775e6d92a7" kind="variable"><name>max_iters</name></member>
+    <member refid="structQOCOSettings_1a13065594e57d4091033243b12c5bfd5c" kind="variable"><name>bisect_iters</name></member>
+    <member refid="structQOCOSettings_1af252771d1771c37f794a6d5c385ce66d" kind="variable"><name>ruiz_iters</name></member>
+    <member refid="structQOCOSettings_1afd5bc6a556931668265c2e47270e8278" kind="variable"><name>iter_ref_iters</name></member>
+    <member refid="structQOCOSettings_1a11f48d67a5626431c077ad30c84433df" kind="variable"><name>kkt_static_reg</name></member>
+    <member refid="structQOCOSettings_1ad635ca462b97c3f0978b755ce2ce763c" kind="variable"><name>kkt_dynamic_reg</name></member>
+    <member refid="structQOCOSettings_1a7d62b01403b7572ee0d1ebaaab45c9d0" kind="variable"><name>abstol</name></member>
+    <member refid="structQOCOSettings_1a9924681488237bcc446854964f3b5012" kind="variable"><name>reltol</name></member>
+    <member refid="structQOCOSettings_1a92cdec007c0b9a4392d3036e97012492" kind="variable"><name>abstol_inacc</name></member>
+    <member refid="structQOCOSettings_1a13d27ddfaba9c83983090fba602ab2b4" kind="variable"><name>reltol_inacc</name></member>
+    <member refid="structQOCOSettings_1a1a566c8aa840eaaf69e3070060a0ab5a" kind="variable"><name>verbose</name></member>
+  </compound>
+  <compound refid="structQOCOSolution" kind="struct"><name>QOCOSolution</name>
+    <member refid="structQOCOSolution_1a989c1156c8a3019bfd101141d067b27f" kind="variable"><name>x</name></member>
+    <member refid="structQOCOSolution_1a79f89645c7b39a9c4d4c8380e7129213" kind="variable"><name>s</name></member>
+    <member refid="structQOCOSolution_1a27cf10ad9a7474d9fd6b418110fc904f" kind="variable"><name>y</name></member>
+    <member refid="structQOCOSolution_1a44f6e311adc9af5956dc65c9b6722957" kind="variable"><name>z</name></member>
+    <member refid="structQOCOSolution_1af22ee3af705035ac8049c32ba6445975" kind="variable"><name>iters</name></member>
+    <member refid="structQOCOSolution_1a75eacd22010e7a6c349fad37d8a1a768" kind="variable"><name>setup_time_sec</name></member>
+    <member refid="structQOCOSolution_1afc8c9f62bffbf4557635d69bfc2f2188" kind="variable"><name>solve_time_sec</name></member>
+    <member refid="structQOCOSolution_1a382db943a6d77679838a47df7d1591f9" kind="variable"><name>obj</name></member>
+    <member refid="structQOCOSolution_1a0885d2735b7586aed3ccc8a81acda625" kind="variable"><name>pres</name></member>
+    <member refid="structQOCOSolution_1a5e063df676903dfe0f5b26411824263c" kind="variable"><name>dres</name></member>
+    <member refid="structQOCOSolution_1aa96bc0b7bc5ccaf1e40f36fdb5bd0638" kind="variable"><name>gap</name></member>
+    <member refid="structQOCOSolution_1ace095bf7a10b6e36e707583772499f3b" kind="variable"><name>status</name></member>
+  </compound>
+  <compound refid="structQOCOSolver" kind="struct"><name>QOCOSolver</name>
+    <member refid="structQOCOSolver_1a74a794b01773f869a491cacdb6fc21b3" kind="variable"><name>settings</name></member>
+    <member refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kind="variable"><name>work</name></member>
+    <member refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kind="variable"><name>sol</name></member>
+  </compound>
+  <compound refid="structQOCOWorkspace" kind="struct"><name>QOCOWorkspace</name>
+    <member refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kind="variable"><name>data</name></member>
+    <member refid="structQOCOWorkspace_1a1e42af4dbb27330568497c58e92cfea2" kind="variable"><name>solve_timer</name></member>
+    <member refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kind="variable"><name>kkt</name></member>
+    <member refid="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" kind="variable"><name>x</name></member>
+    <member refid="structQOCOWorkspace_1a002ae166cc6aecae4752707d5d363b4f" kind="variable"><name>s</name></member>
+    <member refid="structQOCOWorkspace_1ac41c22bfe9821570218e52e527b90b9e" kind="variable"><name>y</name></member>
+    <member refid="structQOCOWorkspace_1a6ebb2d02f31c2a1866076b4165f07a54" kind="variable"><name>z</name></member>
+    <member refid="structQOCOWorkspace_1a24869d9e9aa5cbcfd7451ab6219a011f" kind="variable"><name>mu</name></member>
+    <member refid="structQOCOWorkspace_1a04dfe46d9df29667a1241255569456d0" kind="variable"><name>a</name></member>
+    <member refid="structQOCOWorkspace_1aec13ff096706e16f9458c354dede1dab" kind="variable"><name>sigma</name></member>
+    <member refid="structQOCOWorkspace_1aa43b26d800f4371c0ddf16d22978b94c" kind="variable"><name>Wnnz</name></member>
+    <member refid="structQOCOWorkspace_1a266fcd28cf2cfd16369a1f3e7f55bc38" kind="variable"><name>Wnnzfull</name></member>
+    <member refid="structQOCOWorkspace_1a090e9a2bda01d9afaeb6d723012c0c0b" kind="variable"><name>W</name></member>
+    <member refid="structQOCOWorkspace_1ac6167675f75b92721d71e26f7438a29e" kind="variable"><name>Wfull</name></member>
+    <member refid="structQOCOWorkspace_1a6967ce11381cadffa62570866eee2c09" kind="variable"><name>Winv</name></member>
+    <member refid="structQOCOWorkspace_1a29bea851e0fff76a4173b777eb263d41" kind="variable"><name>Winvfull</name></member>
+    <member refid="structQOCOWorkspace_1a058dfbd7bf8f83c61e81d9985ec1a0ff" kind="variable"><name>WtW</name></member>
+    <member refid="structQOCOWorkspace_1ae51fe619a4326ae51b2058838e1aa2ae" kind="variable"><name>lambda</name></member>
+    <member refid="structQOCOWorkspace_1a48685f3f6a25e3f6f9d052a04ecad1dc" kind="variable"><name>sbar</name></member>
+    <member refid="structQOCOWorkspace_1a2f5ae5af745301de6b8bcaa455279e80" kind="variable"><name>zbar</name></member>
+    <member refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kind="variable"><name>xbuff</name></member>
+    <member refid="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" kind="variable"><name>ybuff</name></member>
+    <member refid="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" kind="variable"><name>ubuff1</name></member>
+    <member refid="structQOCOWorkspace_1a69686f6f9be8831adc15b675c9a8901b" kind="variable"><name>ubuff2</name></member>
+    <member refid="structQOCOWorkspace_1ac6d7f378e50078c8df22229a64f63335" kind="variable"><name>ubuff3</name></member>
+    <member refid="structQOCOWorkspace_1a2152c26a211c0054631fcfdc22c84bc2" kind="variable"><name>Ds</name></member>
+  </compound>
+  <compound refid="cone_8h" kind="file"><name>cone.h</name>
+    <member refid="cone_8h_1a396272c3f1a04457de00aa516147ec6a" kind="function"><name>soc_product</name></member>
+    <member refid="cone_8h_1a7c6db1103785fcede2c141c737b9f913" kind="function"><name>soc_division</name></member>
+    <member refid="cone_8h_1a161b9519d51c603846c9da5817926c29" kind="function"><name>soc_residual</name></member>
+    <member refid="cone_8h_1a71714e2c5333a4f2e8e99115b3feb982" kind="function"><name>soc_residual2</name></member>
+    <member refid="cone_8h_1a57e0e0d0fdd1480cc3bb709583b072be" kind="function"><name>cone_product</name></member>
+    <member refid="cone_8h_1a1c065eb1b5b34efd85f46198b69f5b66" kind="function"><name>cone_division</name></member>
+    <member refid="cone_8h_1a9a6ff41fae0530f91b12b75dd58c9564" kind="function"><name>cone_residual</name></member>
+    <member refid="cone_8h_1aeeaf7177391c69104dff81ff350a6fd4" kind="function"><name>bring2cone</name></member>
+    <member refid="cone_8h_1aa75cb85b5b77d1831a982da450db3292" kind="function"><name>nt_multiply</name></member>
+    <member refid="cone_8h_1a9304a88a4e884ebbcf53a2259104307d" kind="function"><name>compute_mu</name></member>
+    <member refid="cone_8h_1ae7fbd04120780584a4a4b06f2afe3fb5" kind="function"><name>compute_nt_scaling</name></member>
+    <member refid="cone_8h_1abbe51c5b9eef797bc36d53df54cb7090" kind="function"><name>compute_centering</name></member>
+    <member refid="cone_8h_1ad15543fafb4fedbd8c13a2eaef0e6425" kind="function"><name>linesearch</name></member>
+    <member refid="cone_8h_1ac90e9e955d185003e55bdc63bf25b3a1" kind="function"><name>bisection_search</name></member>
+    <member refid="cone_8h_1a89ae3d348aafeaea9d7792c984cd46ef" kind="function"><name>exact_linesearch</name></member>
+  </compound>
+  <compound refid="definitions_8h" kind="file"><name>definitions.h</name>
+    <member refid="definitions_8h_1a43f14128f35157a26dd29378d7d51544" kind="define"><name>QOCOInt_MAX</name></member>
+    <member refid="definitions_8h_1a70b544b16d53ef50a7443774466449e7" kind="define"><name>QOCOFloat_MAX</name></member>
+    <member refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kind="define"><name>qoco_max</name></member>
+    <member refid="definitions_8h_1a428961e6b5fcdacdfee91ea6be5cc0ca" kind="define"><name>qoco_min</name></member>
+    <member refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" kind="define"><name>qoco_abs</name></member>
+    <member refid="definitions_8h_1ab65fb67e9a764fbda260b2b867c0be3a" kind="define"><name>safe_div</name></member>
+    <member refid="definitions_8h_1af75ea74bed39dc159c8d3c34d635658a" kind="define"><name>qoco_sqrt</name></member>
+    <member refid="definitions_8h_1aa543bca1d1ce32c19086397f611075fe" kind="define"><name>qoco_assert</name></member>
+    <member refid="definitions_8h_1a152b57b6c087787118c75653da56d76b" kind="define"><name>qoco_malloc</name></member>
+    <member refid="definitions_8h_1a44ae01b192007f6085a5097b15752094" kind="define"><name>qoco_calloc</name></member>
+    <member refid="definitions_8h_1a1796cf4b640966b437f6f89369303dd7" kind="define"><name>qoco_free</name></member>
+    <member refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kind="typedef"><name>QOCOInt</name></member>
+    <member refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kind="typedef"><name>QOCOFloat</name></member>
+  </compound>
+  <compound refid="enums_8h" kind="file"><name>enums.h</name>
+    <member refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5" kind="enum"><name>qoco_error_code</name></member>
+    <member refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a0269eec742bc0e16495df7d802951cfe" kind="enumvalue"><name>QOCO_NO_ERROR</name></member>
+    <member refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kind="enumvalue"><name>QOCO_DATA_VALIDATION_ERROR</name></member>
+    <member refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a78d4fee5dd67175423df0073094795d2" kind="enumvalue"><name>QOCO_SETTINGS_VALIDATION_ERROR</name></member>
+    <member refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a5817c67d2ed90377858324dc5575f377" kind="enumvalue"><name>QOCO_SETUP_ERROR</name></member>
+    <member refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5ae18e0ec66d27aa5d7fdd831621f1c2a6" kind="enumvalue"><name>QOCO_AMD_ERROR</name></member>
+    <member refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5ab387be0b08efd1a5ccaab761faad1595" kind="enumvalue"><name>QOCO_MALLOC_ERROR</name></member>
+    <member refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844" kind="enum"><name>qoco_solve_status</name></member>
+    <member refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844a99b6f05e9fc8f1eb75a536415a5cc298" kind="enumvalue"><name>QOCO_UNSOLVED</name></member>
+    <member refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844aacc960e5ff4f349e32a7045512acc208" kind="enumvalue"><name>QOCO_SOLVED</name></member>
+    <member refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844ab049366a0c59b1c0f724e05ad7a17cda" kind="enumvalue"><name>QOCO_SOLVED_INACCURATE</name></member>
+    <member refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844a174e773944ccc4d276c517724eefb468" kind="enumvalue"><name>QOCO_NUMERICAL_ERROR</name></member>
+    <member refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844afde4613894c23ff4f17b54030dd4b3a2" kind="enumvalue"><name>QOCO_MAX_ITER</name></member>
+    <member refid="enums_8h_1a37259e919d1dac6865b8ee674e8b7568" kind="variable"><name>QOCO_ERROR_MESSAGE</name></member>
+    <member refid="enums_8h_1aaba44f3a663e3fdffab51406a5f9f85f" kind="variable"><name>QOCO_SOLVE_STATUS_MESSAGE</name></member>
+  </compound>
+  <compound refid="equilibration_8h" kind="file"><name>equilibration.h</name>
+    <member refid="equilibration_8h_1a69d5dd1945452c99c240d541c9348e79" kind="function"><name>ruiz_equilibration</name></member>
+    <member refid="equilibration_8h_1a1d17dc429269fbe1f3ed4d91d65283f5" kind="function"><name>unscale_variables</name></member>
+  </compound>
+  <compound refid="input__validation_8h" kind="file"><name>input_validation.h</name>
+    <member refid="input__validation_8h_1a1bfb924cde6bff6810d49cea5e0a2e4f" kind="function"><name>qoco_validate_settings</name></member>
+    <member refid="input__validation_8h_1a26e99d040f1360a2c17d86709fe0302f" kind="function"><name>qoco_validate_data</name></member>
+  </compound>
+  <compound refid="kkt_8h" kind="file"><name>kkt.h</name>
+    <member refid="kkt_8h_1a32e6ba8ee8266d6576a302fd28485668" kind="function"><name>allocate_kkt</name></member>
+    <member refid="kkt_8h_1a6a5c96c5e3bbcc45591011475c567faa" kind="function"><name>construct_kkt</name></member>
+    <member refid="kkt_8h_1af0e88edff1a77bc07b379c2e194d3bff" kind="function"><name>initialize_ipm</name></member>
+    <member refid="kkt_8h_1a33ecaacd1b0105dea5269c4bbdded39c" kind="function"><name>set_nt_block_zeros</name></member>
+    <member refid="kkt_8h_1a1e4a0eefd9fb08996fc1c34b5092d53a" kind="function"><name>update_nt_block</name></member>
+    <member refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kind="function"><name>compute_kkt_residual</name></member>
+    <member refid="kkt_8h_1ac1d386c6e2cd69a234372d46ec72dfe9" kind="function"><name>construct_kkt_aff_rhs</name></member>
+    <member refid="kkt_8h_1af490c914ea3af23705d62cbde72d8755" kind="function"><name>construct_kkt_comb_rhs</name></member>
+    <member refid="kkt_8h_1a997c4579bd059099f397623479d0cd47" kind="function"><name>predictor_corrector</name></member>
+    <member refid="kkt_8h_1a0fa673e36adc2fe84350627543fe58d4" kind="function"><name>kkt_solve</name></member>
+    <member refid="kkt_8h_1a112a3955fd72740bb6e5dd032ad34e8c" kind="function"><name>kkt_multiply</name></member>
+  </compound>
+  <compound refid="linalg_8h" kind="file"><name>linalg.h</name>
+    <member refid="linalg_8h_1acc38bacc4387241a20e9db0ba2f931e4" kind="function"><name>new_qoco_csc_matrix</name></member>
+    <member refid="linalg_8h_1a38098152892b127e986ebc2994b7dcce" kind="function"><name>construct_identity</name></member>
+    <member refid="linalg_8h_1a4e4c7c1df7c224d28c9ee82553cfda94" kind="function"><name>free_qoco_csc_matrix</name></member>
+    <member refid="linalg_8h_1a298815cf49d7a35894fd063fb3f59d07" kind="function"><name>copy_arrayf</name></member>
+    <member refid="linalg_8h_1a01e27f9edf9e2cae2032501a56a0b5f9" kind="function"><name>copy_and_negate_arrayf</name></member>
+    <member refid="linalg_8h_1a2ce684c84dfdc8c000a2aaa88487c4cf" kind="function"><name>copy_arrayi</name></member>
+    <member refid="linalg_8h_1af6aa23417cb2b6b034862e9c268876fb" kind="function"><name>dot</name></member>
+    <member refid="linalg_8h_1ab5f0f37d238fd5f833e790474d6429be" kind="function"><name>max_arrayi</name></member>
+    <member refid="linalg_8h_1aed2caeb493cbf251a8d9e446a3d19fc6" kind="function"><name>scale_arrayf</name></member>
+    <member refid="linalg_8h_1a83d0613ee15321b01a503789bab214dc" kind="function"><name>axpy</name></member>
+    <member refid="linalg_8h_1afc3ad5be9a59c74f4883ef3994c50328" kind="function"><name>USpMv</name></member>
+    <member refid="linalg_8h_1af8b487d55e70aa8c15faa8095c92d41c" kind="function"><name>SpMv</name></member>
+    <member refid="linalg_8h_1acf4b7a681a7930df3ea240a3c87d5737" kind="function"><name>SpMtv</name></member>
+    <member refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kind="function"><name>inf_norm</name></member>
+    <member refid="linalg_8h_1acec2b6c1dc707854f23d505b1fc42ab1" kind="function"><name>regularize</name></member>
+    <member refid="linalg_8h_1ad6f0a241171053d252ef5ff6c7cdf53a" kind="function"><name>unregularize</name></member>
+    <member refid="linalg_8h_1a824536c623fa28c6bbe4b820ab6ba65a" kind="function"><name>col_inf_norm_USymm</name></member>
+    <member refid="linalg_8h_1a0b420ad549447d77bf28bf2732108203" kind="function"><name>row_inf_norm</name></member>
+    <member refid="linalg_8h_1a1937734d9bd6962c5ff493f74d867e8e" kind="function"><name>create_transposed_matrix</name></member>
+    <member refid="linalg_8h_1a2fae5e0df1f9fb3d70115f91a74c9e99" kind="function"><name>row_col_scale</name></member>
+    <member refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kind="function"><name>ew_product</name></member>
+    <member refid="linalg_8h_1a9399c635b5b4fb0e61f186adfc1d0df2" kind="function"><name>invert_permutation</name></member>
+    <member refid="linalg_8h_1a26c94e421ef7f9b5895f6b040069c631" kind="function"><name>cumsum</name></member>
+    <member refid="linalg_8h_1a9b96a76f1698803fd7cb386fcdfcda57" kind="function"><name>csc_symperm</name></member>
+  </compound>
+  <compound refid="qoco_8h" kind="file"><name>qoco.h</name>
+  </compound>
+  <compound refid="qoco__api_8h" kind="file"><name>qoco_api.h</name>
+    <member refid="qoco__api_8h_1ace38c86b1bc257945fe160f54b354b23" kind="function"><name>qoco_setup</name></member>
+    <member refid="qoco__api_8h_1a4924aaa44b38370e774f3754f404145a" kind="function"><name>qoco_set_csc</name></member>
+    <member refid="qoco__api_8h_1a3b5424d92406d0dbdbecf126b8970625" kind="function"><name>set_default_settings</name></member>
+    <member refid="qoco__api_8h_1ae907f556c8bd418aa91069c064229675" kind="function"><name>qoco_update_settings</name></member>
+    <member refid="qoco__api_8h_1a525738f05532dce21ec82ee7c3cf4138" kind="function"><name>update_vector_data</name></member>
+    <member refid="qoco__api_8h_1ae144e269bd46cb81ae3e1eab33a69915" kind="function"><name>update_matrix_data</name></member>
+    <member refid="qoco__api_8h_1a12ff54d8eb71178436b015cd3a485815" kind="function"><name>qoco_solve</name></member>
+    <member refid="qoco__api_8h_1adf388119bb41bbc683e099321879eebd" kind="function"><name>qoco_cleanup</name></member>
+  </compound>
+  <compound refid="qoco__error_8h" kind="file"><name>qoco_error.h</name>
+    <member refid="qoco__error_8h_1ad7b3a55bfa4f5de621ac7fb6bccf1732" kind="function"><name>qoco_error</name></member>
+  </compound>
+  <compound refid="structs_8h" kind="file"><name>structs.h</name>
+  </compound>
+  <compound refid="timer_8h" kind="file"><name>timer.h</name>
+    <member refid="timer_8h_1a7469e0d577f6670cfd46b636d47a6e82" kind="function"><name>start_timer</name></member>
+    <member refid="timer_8h_1acfd10eed45b36f806cb9f6da35044e8e" kind="function"><name>stop_timer</name></member>
+    <member refid="timer_8h_1a4ea3627b111cae5ddb7b1bc76a113eb5" kind="function"><name>get_elapsed_time_sec</name></member>
+  </compound>
+  <compound refid="utils_8h" kind="file"><name>utils.h</name>
+    <member refid="utils_8h_1a837650bd12d2cfb6fe551245bb5a655e" kind="function"><name>print_qoco_csc_matrix</name></member>
+    <member refid="utils_8h_1a9dfc9bbbac97f5c76af6348534314dc2" kind="function"><name>print_arrayf</name></member>
+    <member refid="utils_8h_1a68a25040684c59d3d9e7f0f84ffe230d" kind="function"><name>print_arrayi</name></member>
+    <member refid="utils_8h_1a79b078c095c4c7b6003826775ac18b64" kind="function"><name>print_header</name></member>
+    <member refid="utils_8h_1aed998408252b44161ed1ac30c2467deb" kind="function"><name>log_iter</name></member>
+    <member refid="utils_8h_1acb3b30d2ed7b184cc0c180d8e2661e00" kind="function"><name>print_footer</name></member>
+    <member refid="utils_8h_1a7681340f414acd7335887bcf17e9a1cf" kind="function"><name>check_stopping</name></member>
+    <member refid="utils_8h_1a59db88344ea8162c2ffef33781b9a735" kind="function"><name>copy_solution</name></member>
+    <member refid="utils_8h_1a5275dad2b3474f32c7efda823e983ba3" kind="function"><name>copy_settings</name></member>
+  </compound>
+  <compound refid="cone_8c" kind="file"><name>cone.c</name>
+    <member refid="cone_8c_1a396272c3f1a04457de00aa516147ec6a" kind="function"><name>soc_product</name></member>
+    <member refid="cone_8c_1a7c6db1103785fcede2c141c737b9f913" kind="function"><name>soc_division</name></member>
+    <member refid="cone_8c_1a161b9519d51c603846c9da5817926c29" kind="function"><name>soc_residual</name></member>
+    <member refid="cone_8c_1a71714e2c5333a4f2e8e99115b3feb982" kind="function"><name>soc_residual2</name></member>
+    <member refid="cone_8c_1a57e0e0d0fdd1480cc3bb709583b072be" kind="function"><name>cone_product</name></member>
+    <member refid="cone_8c_1a1c065eb1b5b34efd85f46198b69f5b66" kind="function"><name>cone_division</name></member>
+    <member refid="cone_8c_1a9a6ff41fae0530f91b12b75dd58c9564" kind="function"><name>cone_residual</name></member>
+    <member refid="cone_8c_1aeeaf7177391c69104dff81ff350a6fd4" kind="function"><name>bring2cone</name></member>
+    <member refid="cone_8c_1aa75cb85b5b77d1831a982da450db3292" kind="function"><name>nt_multiply</name></member>
+    <member refid="cone_8c_1a9304a88a4e884ebbcf53a2259104307d" kind="function"><name>compute_mu</name></member>
+    <member refid="cone_8c_1ae7fbd04120780584a4a4b06f2afe3fb5" kind="function"><name>compute_nt_scaling</name></member>
+    <member refid="cone_8c_1abbe51c5b9eef797bc36d53df54cb7090" kind="function"><name>compute_centering</name></member>
+    <member refid="cone_8c_1ad15543fafb4fedbd8c13a2eaef0e6425" kind="function"><name>linesearch</name></member>
+    <member refid="cone_8c_1ac90e9e955d185003e55bdc63bf25b3a1" kind="function"><name>bisection_search</name></member>
+    <member refid="cone_8c_1a89ae3d348aafeaea9d7792c984cd46ef" kind="function"><name>exact_linesearch</name></member>
+  </compound>
+  <compound refid="equilibration_8c" kind="file"><name>equilibration.c</name>
+    <member refid="equilibration_8c_1a69d5dd1945452c99c240d541c9348e79" kind="function"><name>ruiz_equilibration</name></member>
+    <member refid="equilibration_8c_1a1d17dc429269fbe1f3ed4d91d65283f5" kind="function"><name>unscale_variables</name></member>
+  </compound>
+  <compound refid="input__validation_8c" kind="file"><name>input_validation.c</name>
+    <member refid="input__validation_8c_1a1bfb924cde6bff6810d49cea5e0a2e4f" kind="function"><name>qoco_validate_settings</name></member>
+    <member refid="input__validation_8c_1a26e99d040f1360a2c17d86709fe0302f" kind="function"><name>qoco_validate_data</name></member>
+  </compound>
+  <compound refid="kkt_8c" kind="file"><name>kkt.c</name>
+    <member refid="kkt_8c_1a32e6ba8ee8266d6576a302fd28485668" kind="function"><name>allocate_kkt</name></member>
+    <member refid="kkt_8c_1a6a5c96c5e3bbcc45591011475c567faa" kind="function"><name>construct_kkt</name></member>
+    <member refid="kkt_8c_1af0e88edff1a77bc07b379c2e194d3bff" kind="function"><name>initialize_ipm</name></member>
+    <member refid="kkt_8c_1a33ecaacd1b0105dea5269c4bbdded39c" kind="function"><name>set_nt_block_zeros</name></member>
+    <member refid="kkt_8c_1a1e4a0eefd9fb08996fc1c34b5092d53a" kind="function"><name>update_nt_block</name></member>
+    <member refid="kkt_8c_1ab2c91aac19366d8fe1da940f9ab51cde" kind="function"><name>compute_kkt_residual</name></member>
+    <member refid="kkt_8c_1ac1d386c6e2cd69a234372d46ec72dfe9" kind="function"><name>construct_kkt_aff_rhs</name></member>
+    <member refid="kkt_8c_1af490c914ea3af23705d62cbde72d8755" kind="function"><name>construct_kkt_comb_rhs</name></member>
+    <member refid="kkt_8c_1a997c4579bd059099f397623479d0cd47" kind="function"><name>predictor_corrector</name></member>
+    <member refid="kkt_8c_1a0fa673e36adc2fe84350627543fe58d4" kind="function"><name>kkt_solve</name></member>
+    <member refid="kkt_8c_1a112a3955fd72740bb6e5dd032ad34e8c" kind="function"><name>kkt_multiply</name></member>
+  </compound>
+  <compound refid="linalg_8c" kind="file"><name>linalg.c</name>
+    <member refid="linalg_8c_1acc38bacc4387241a20e9db0ba2f931e4" kind="function"><name>new_qoco_csc_matrix</name></member>
+    <member refid="linalg_8c_1a38098152892b127e986ebc2994b7dcce" kind="function"><name>construct_identity</name></member>
+    <member refid="linalg_8c_1a4e4c7c1df7c224d28c9ee82553cfda94" kind="function"><name>free_qoco_csc_matrix</name></member>
+    <member refid="linalg_8c_1a298815cf49d7a35894fd063fb3f59d07" kind="function"><name>copy_arrayf</name></member>
+    <member refid="linalg_8c_1a01e27f9edf9e2cae2032501a56a0b5f9" kind="function"><name>copy_and_negate_arrayf</name></member>
+    <member refid="linalg_8c_1a2ce684c84dfdc8c000a2aaa88487c4cf" kind="function"><name>copy_arrayi</name></member>
+    <member refid="linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kind="function"><name>dot</name></member>
+    <member refid="linalg_8c_1ab5f0f37d238fd5f833e790474d6429be" kind="function"><name>max_arrayi</name></member>
+    <member refid="linalg_8c_1aed2caeb493cbf251a8d9e446a3d19fc6" kind="function"><name>scale_arrayf</name></member>
+    <member refid="linalg_8c_1a83d0613ee15321b01a503789bab214dc" kind="function"><name>axpy</name></member>
+    <member refid="linalg_8c_1afc3ad5be9a59c74f4883ef3994c50328" kind="function"><name>USpMv</name></member>
+    <member refid="linalg_8c_1af8b487d55e70aa8c15faa8095c92d41c" kind="function"><name>SpMv</name></member>
+    <member refid="linalg_8c_1acf4b7a681a7930df3ea240a3c87d5737" kind="function"><name>SpMtv</name></member>
+    <member refid="linalg_8c_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kind="function"><name>inf_norm</name></member>
+    <member refid="linalg_8c_1acec2b6c1dc707854f23d505b1fc42ab1" kind="function"><name>regularize</name></member>
+    <member refid="linalg_8c_1ad6f0a241171053d252ef5ff6c7cdf53a" kind="function"><name>unregularize</name></member>
+    <member refid="linalg_8c_1a824536c623fa28c6bbe4b820ab6ba65a" kind="function"><name>col_inf_norm_USymm</name></member>
+    <member refid="linalg_8c_1a0b420ad549447d77bf28bf2732108203" kind="function"><name>row_inf_norm</name></member>
+    <member refid="linalg_8c_1a1937734d9bd6962c5ff493f74d867e8e" kind="function"><name>create_transposed_matrix</name></member>
+    <member refid="linalg_8c_1a2fae5e0df1f9fb3d70115f91a74c9e99" kind="function"><name>row_col_scale</name></member>
+    <member refid="linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kind="function"><name>ew_product</name></member>
+    <member refid="linalg_8c_1a9399c635b5b4fb0e61f186adfc1d0df2" kind="function"><name>invert_permutation</name></member>
+    <member refid="linalg_8c_1a26c94e421ef7f9b5895f6b040069c631" kind="function"><name>cumsum</name></member>
+    <member refid="linalg_8c_1a9b96a76f1698803fd7cb386fcdfcda57" kind="function"><name>csc_symperm</name></member>
+  </compound>
+  <compound refid="qoco__api_8c" kind="file"><name>qoco_api.c</name>
+    <member refid="qoco__api_8c_1ace38c86b1bc257945fe160f54b354b23" kind="function"><name>qoco_setup</name></member>
+    <member refid="qoco__api_8c_1a4924aaa44b38370e774f3754f404145a" kind="function"><name>qoco_set_csc</name></member>
+    <member refid="qoco__api_8c_1a3b5424d92406d0dbdbecf126b8970625" kind="function"><name>set_default_settings</name></member>
+    <member refid="qoco__api_8c_1ae907f556c8bd418aa91069c064229675" kind="function"><name>qoco_update_settings</name></member>
+    <member refid="qoco__api_8c_1a525738f05532dce21ec82ee7c3cf4138" kind="function"><name>update_vector_data</name></member>
+    <member refid="qoco__api_8c_1ae144e269bd46cb81ae3e1eab33a69915" kind="function"><name>update_matrix_data</name></member>
+    <member refid="qoco__api_8c_1a12ff54d8eb71178436b015cd3a485815" kind="function"><name>qoco_solve</name></member>
+    <member refid="qoco__api_8c_1adf388119bb41bbc683e099321879eebd" kind="function"><name>qoco_cleanup</name></member>
+  </compound>
+  <compound refid="qoco__error_8c" kind="file"><name>qoco_error.c</name>
+    <member refid="qoco__error_8c_1ad7b3a55bfa4f5de621ac7fb6bccf1732" kind="function"><name>qoco_error</name></member>
+  </compound>
+  <compound refid="timer__linux_8c" kind="file"><name>timer_linux.c</name>
+    <member refid="timer__linux_8c_1a7469e0d577f6670cfd46b636d47a6e82" kind="function"><name>start_timer</name></member>
+    <member refid="timer__linux_8c_1acfd10eed45b36f806cb9f6da35044e8e" kind="function"><name>stop_timer</name></member>
+    <member refid="timer__linux_8c_1a4ea3627b111cae5ddb7b1bc76a113eb5" kind="function"><name>get_elapsed_time_sec</name></member>
+  </compound>
+  <compound refid="timer__macos_8c" kind="file"><name>timer_macos.c</name>
+    <member refid="timer__macos_8c_1a7469e0d577f6670cfd46b636d47a6e82" kind="function"><name>start_timer</name></member>
+    <member refid="timer__macos_8c_1acfd10eed45b36f806cb9f6da35044e8e" kind="function"><name>stop_timer</name></member>
+    <member refid="timer__macos_8c_1a4ea3627b111cae5ddb7b1bc76a113eb5" kind="function"><name>get_elapsed_time_sec</name></member>
+  </compound>
+  <compound refid="utils_8c" kind="file"><name>utils.c</name>
+    <member refid="utils_8c_1a837650bd12d2cfb6fe551245bb5a655e" kind="function"><name>print_qoco_csc_matrix</name></member>
+    <member refid="utils_8c_1a9dfc9bbbac97f5c76af6348534314dc2" kind="function"><name>print_arrayf</name></member>
+    <member refid="utils_8c_1a68a25040684c59d3d9e7f0f84ffe230d" kind="function"><name>print_arrayi</name></member>
+    <member refid="utils_8c_1a79b078c095c4c7b6003826775ac18b64" kind="function"><name>print_header</name></member>
+    <member refid="utils_8c_1aed998408252b44161ed1ac30c2467deb" kind="function"><name>log_iter</name></member>
+    <member refid="utils_8c_1acb3b30d2ed7b184cc0c180d8e2661e00" kind="function"><name>print_footer</name></member>
+    <member refid="utils_8c_1a7681340f414acd7335887bcf17e9a1cf" kind="function"><name>check_stopping</name></member>
+    <member refid="utils_8c_1a59db88344ea8162c2ffef33781b9a735" kind="function"><name>copy_solution</name></member>
+    <member refid="utils_8c_1a5275dad2b3474f32c7efda823e983ba3" kind="function"><name>copy_settings</name></member>
+  </compound>
+  <compound refid="todo" kind="page"><name>todo</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>/home/govind/Desktop/git/qoco/include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>/home/govind/Desktop/git/qoco/src</name>
+  </compound>
+</doxygenindex>

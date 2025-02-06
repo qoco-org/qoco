@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dd/d08/input__validation_8c" kind="file" language="C++">
+    <compoundname>input_validation.c</compoundname>
+    <includes local="yes">input_validation.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/src/input_validation.c</label>
+        <link refid="dd/d08/input__validation_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>input_validation.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="dd/d08/input__validation_8c_1a1bfb924cde6bff6810d49cea5e0a2e4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QOCOInt</type>
+        <definition>QOCOInt qoco_validate_settings</definition>
+        <argsstring>(const QOCOSettings *settings)</argsstring>
+        <name>qoco_validate_settings</name>
+        <param>
+          <type>const QOCOSettings *</type>
+          <declname>settings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/input_validation.c" line="13" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/input_validation.c" bodystart="13" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="dd/d08/input__validation_8c_1a26e99d040f1360a2c17d86709fe0302f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QOCOInt</type>
+        <definition>QOCOInt qoco_validate_data</definition>
+        <argsstring>(const QOCOCscMatrix *P, const QOCOFloat *c, const QOCOCscMatrix *A, const QOCOFloat *b, const QOCOCscMatrix *G, const QOCOFloat *h, const QOCOInt l, const QOCOInt nsoc, const QOCOInt *q)</argsstring>
+        <name>qoco_validate_data</name>
+        <param>
+          <type>const QOCOCscMatrix *</type>
+          <declname>P</declname>
+        </param>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const QOCOCscMatrix *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>const QOCOCscMatrix *</type>
+          <declname>G</declname>
+        </param>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>const QOCOInt</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>const QOCOInt</type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type>const QOCOInt *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/input_validation.c" line="72" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/input_validation.c" bodystart="72" bodyend="153"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="d3/d91/utils_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-Clause License </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;input_validation.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal">QOCOInt<sp/><ref refid="dd/d08/input__validation_8c_1a1bfb924cde6bff6810d49cea5e0a2e4f" kindref="member">qoco_validate_settings</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOSettings*<sp/>settings)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>max_iters<sp/>must<sp/>be<sp/>positive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;max_iters<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;max_iters<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_SETTINGS_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>ruiz_iters<sp/>must<sp/>be<sp/>positive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;ruiz_iters<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;ruiz_iters<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_SETTINGS_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>bisection_iters<sp/>must<sp/>be<sp/>positive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;bisect_iters<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;bisect_iters<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_SETTINGS_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>abstol<sp/>must<sp/>be<sp/>positive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;abstol<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;abstol<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_SETTINGS_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>reltol<sp/>must<sp/>be<sp/>non-negative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;reltol<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;reltol<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_SETTINGS_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>abstol_inaccurate<sp/>must<sp/>be<sp/>positive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;abstol_inacc<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;abstol_inacc<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_SETTINGS_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>reltol_inaccurate<sp/>must<sp/>be<sp/>non-negative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;reltol_inacc<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;reltol_inacc<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_SETTINGS_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>static_reg<sp/>must<sp/>be<sp/>less<sp/>than<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;kkt_static_reg<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;kkt_static_reg<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_SETTINGS_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>dyn_reg<sp/>must<sp/>be<sp/>less<sp/>than<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;kkt_dynamic_reg<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;kkt_dynamic_reg<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_SETTINGS_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_NO_ERROR;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">QOCOInt<sp/><ref refid="dd/d08/input__validation_8c_1a26e99d040f1360a2c17d86709fe0302f" kindref="member">qoco_validate_data</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOCscMatrix*<sp/>P,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>c,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOCscMatrix*<sp/>A,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>b,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOCscMatrix*<sp/>G,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>h,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOInt<sp/>l,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOInt<sp/>nsoc,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOInt*<sp/>q)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>there<sp/>are<sp/>second-order<sp/>cones,<sp/>then<sp/>the<sp/>cone<sp/>dimensions<sp/>must<sp/>be<sp/>provided.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!q<sp/>&amp;&amp;<sp/>nsoc<sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>Provide<sp/>second-order<sp/>cone<sp/>dimensions.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>P<sp/>must<sp/>be<sp/>a<sp/>square<sp/>matrix.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(P<sp/>&amp;&amp;<sp/>P-&gt;m<sp/>!=<sp/>P-&gt;n)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>P<sp/>must<sp/>be<sp/>a<sp/>square<sp/>matrix.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>columns<sp/>for<sp/>A<sp/>and<sp/>G<sp/>must<sp/>be<sp/>equal.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(G<sp/>&amp;&amp;<sp/>A<sp/>&amp;&amp;<sp/>(G-&gt;n<sp/>!=<sp/>A-&gt;n))<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>The<sp/>number<sp/>of<sp/>columns<sp/>for<sp/>A<sp/>and<sp/>G<sp/>must<sp/>be<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;equal<sp/>to<sp/>n.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>columns<sp/>for<sp/>A<sp/>must<sp/>be<sp/>equal<sp/>to<sp/>n.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(A<sp/>&amp;&amp;<sp/>P<sp/>&amp;&amp;<sp/>(P-&gt;n<sp/>!=<sp/>A-&gt;n))<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>The<sp/>number<sp/>of<sp/>columns<sp/>for<sp/>A<sp/>must<sp/>be<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;equal<sp/>to<sp/>n.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>columns<sp/>for<sp/>G<sp/>must<sp/>be<sp/>equal<sp/>to<sp/>n.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(G<sp/>&amp;&amp;<sp/>P<sp/>&amp;&amp;<sp/>(P-&gt;n<sp/>!=<sp/>G-&gt;n))<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>The<sp/>number<sp/>of<sp/>columns<sp/>for<sp/>G<sp/>must<sp/>be<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;equal<sp/>to<sp/>n.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>c<sp/>cannot<sp/>be<sp/>null.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!c)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>linear<sp/>cost<sp/>term,<sp/>c,<sp/>must<sp/>be<sp/>provided.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>l<sp/>+<sp/>sum(q)<sp/>should<sp/>be<sp/>equal<sp/>to<sp/>m.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/>QOCOInt<sp/>sum<sp/>=<sp/>l;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>nsoc;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>q[i];</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(G<sp/>&amp;&amp;<sp/>sum<sp/>!=<sp/>G-&gt;m)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>l<sp/>+<sp/>sum(q)<sp/>must<sp/>be<sp/>equal<sp/>to<sp/>m.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>l<sp/>must<sp/>be<sp/>non-negative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(l<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>l<sp/>must<sp/>be<sp/>non-negative.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>nsoc<sp/>must<sp/>be<sp/>non-negative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(nsoc<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>nsoc<sp/>must<sp/>be<sp/>non-negative.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((A<sp/>&amp;&amp;<sp/>!b)<sp/>||<sp/>(b<sp/>&amp;&amp;<sp/>!A))<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>If<sp/>there<sp/>are<sp/>equality<sp/>constraints,<sp/>A<sp/>and<sp/>b<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;must<sp/>be<sp/>provided.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((G<sp/>&amp;&amp;<sp/>!h)<sp/>||<sp/>(h<sp/>&amp;&amp;<sp/>!G))<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>If<sp/>there<sp/>are<sp/>conic<sp/>constraints,<sp/>G<sp/>and<sp/>h<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;must<sp/>be<sp/>provided.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_DATA_VALIDATION_ERROR;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>QOCO_NO_ERROR;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/src/input_validation.c"/>
+  </compounddef>
+</doxygen>

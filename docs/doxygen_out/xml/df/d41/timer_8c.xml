@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="df/d41/timer_8c" kind="file" language="C++">
+    <compoundname>timer.c</compoundname>
+    <includes local="yes">timer.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>timer.h</label>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/src/timer.c</label>
+        <link refid="df/d41/timer_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="df/d41/timer_8c_1a7469e0d577f6670cfd46b636d47a6e82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void start_timer</definition>
+        <argsstring>(QOCOTimer *timer)</argsstring>
+        <name>start_timer</name>
+        <param>
+          <type>QOCOTimer *</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/timer.c" line="3" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/timer.c" bodystart="3" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d41/timer_8c_1acfd10eed45b36f806cb9f6da35044e8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void stop_timer</definition>
+        <argsstring>(QOCOTimer *timer)</argsstring>
+        <name>stop_timer</name>
+        <param>
+          <type>QOCOTimer *</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/timer.c" line="8" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/timer.c" bodystart="8" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d41/timer_8c_1a4ea3627b111cae5ddb7b1bc76a113eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QOCOFloat</type>
+        <definition>QOCOFloat get_elapsed_time_sec</definition>
+        <argsstring>(QOCOTimer *timer)</argsstring>
+        <name>get_elapsed_time_sec</name>
+        <param>
+          <type>QOCOTimer *</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/timer.c" line="13" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/timer.c" bodystart="13" bodyend="26"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;timer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d41/timer_8c_1a7469e0d577f6670cfd46b636d47a6e82" kindref="member">start_timer</ref>(QOCOTimer*<sp/>timer)</highlight></codeline>
+<codeline lineno="4"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/>clock_gettime(CLOCK_MONOTONIC,<sp/>&amp;timer-&gt;tic);</highlight></codeline>
+<codeline lineno="6"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d41/timer_8c_1acfd10eed45b36f806cb9f6da35044e8e" kindref="member">stop_timer</ref>(QOCOTimer*<sp/>timer)</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/>clock_gettime(CLOCK_MONOTONIC,<sp/>&amp;timer-&gt;toc);</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal">QOCOFloat<sp/><ref refid="df/d41/timer_8c_1a4ea3627b111cae5ddb7b1bc76a113eb5" kindref="member">get_elapsed_time_sec</ref>(QOCOTimer*<sp/>timer)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">timespec<sp/>temp;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((timer-&gt;toc.tv_nsec<sp/>-<sp/>timer-&gt;tic.tv_nsec)<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_sec<sp/>=<sp/>timer-&gt;toc.tv_sec<sp/>-<sp/>timer-&gt;tic.tv_sec<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_nsec<sp/>=<sp/>1e9<sp/>+<sp/>timer-&gt;toc.tv_nsec<sp/>-<sp/>timer-&gt;tic.tv_nsec;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_sec<sp/>=<sp/>timer-&gt;toc.tv_sec<sp/>-<sp/>timer-&gt;tic.tv_sec;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_nsec<sp/>=<sp/>timer-&gt;toc.tv_nsec<sp/>-<sp/>timer-&gt;tic.tv_nsec;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(QOCOFloat)temp.tv_sec<sp/>+<sp/>(QOCOFloat)temp.tv_nsec<sp/>/<sp/>1e9;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/src/timer.c"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,199 @@
+\hypertarget{utils_8h}{}\doxysection{/home/govind/\+Desktop/git/qoco/include/utils.h File Reference}
+\label{utils_8h}\index{/home/govind/Desktop/git/qoco/include/utils.h@{/home/govind/Desktop/git/qoco/include/utils.h}}
+{\ttfamily \#include \char`\"{}enums.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linalg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}structs.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+Include dependency graph for utils.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=317pt]{utils_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{utils_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{utils_8h_a837650bd12d2cfb6fe551245bb5a655e}{print\+\_\+qoco\+\_\+csc\+\_\+matrix}} (\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$M)
+\begin{DoxyCompactList}\small\item\em Prints dimensions, number of nonzero elements, data, column pointers and row indices for a sparse matrix in CSC form. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_a9dfc9bbbac97f5c76af6348534314dc2}{print\+\_\+arrayf}} (\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Prints array of QOCOFloats. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_a68a25040684c59d3d9e7f0f84ffe230d}{print\+\_\+arrayi}} (\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Prints array of QOCOInts. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_a79b078c095c4c7b6003826775ac18b64}{print\+\_\+header}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Prints QOCO header. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_aed998408252b44161ed1ac30c2467deb}{log\+\_\+iter}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Print solver progress. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_acb3b30d2ed7b184cc0c180d8e2661e00}{print\+\_\+footer}} (\mbox{\hyperlink{structQOCOSolution}{QOCOSolution}} $\ast$solution, enum \mbox{\hyperlink{enums_8h_aa172e8d3d8d92e128f1bcca12f536844}{qoco\+\_\+solve\+\_\+status}} status)
+\begin{DoxyCompactList}\small\item\em Prints QOCO footer. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{utils_8h_a7681340f414acd7335887bcf17e9a1cf}{check\+\_\+stopping}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Checks stopping criteria. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}{compute\+\_\+kkt\+\_\+residual()}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{utils_8h_a59db88344ea8162c2ffef33781b9a735}{copy\+\_\+solution}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Copies data to \mbox{\hyperlink{structQOCOSolution}{QOCOSolution}} struct when solver terminates. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$ \mbox{\hyperlink{utils_8h_a5275dad2b3474f32c7efda823e983ba3}{copy\+\_\+settings}} (\mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$settings)
+\begin{DoxyCompactList}\small\item\em Allocates and returns a copy of the input settings struct. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{utils_8c_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8c_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
+Provides various utility functions. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{utils_8h_a7681340f414acd7335887bcf17e9a1cf}\label{utils_8h_a7681340f414acd7335887bcf17e9a1cf}} 
+\index{utils.h@{utils.h}!check\_stopping@{check\_stopping}}
+\index{check\_stopping@{check\_stopping}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{check\_stopping()}{check\_stopping()}}
+{\footnotesize\ttfamily unsigned char check\+\_\+stopping (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Checks stopping criteria. Before calling this function, work-\/$>$kkt-\/$>$rhs must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}{compute\+\_\+kkt\+\_\+residual()}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if stopping criteria met and 0 otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{utils_8h_a5275dad2b3474f32c7efda823e983ba3}\label{utils_8h_a5275dad2b3474f32c7efda823e983ba3}} 
+\index{utils.h@{utils.h}!copy\_settings@{copy\_settings}}
+\index{copy\_settings@{copy\_settings}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{copy\_settings()}{copy\_settings()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}}$\ast$ copy\+\_\+settings (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$}]{settings }\end{DoxyParamCaption})}
+
+
+
+Allocates and returns a copy of the input settings struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em settings} & Input struct. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to constructed and copies settings struct. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{utils_8h_a59db88344ea8162c2ffef33781b9a735}\label{utils_8h_a59db88344ea8162c2ffef33781b9a735}} 
+\index{utils.h@{utils.h}!copy\_solution@{copy\_solution}}
+\index{copy\_solution@{copy\_solution}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{copy\_solution()}{copy\_solution()}}
+{\footnotesize\ttfamily void copy\+\_\+solution (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Copies data to \mbox{\hyperlink{structQOCOSolution}{QOCOSolution}} struct when solver terminates. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utils_8h_aed998408252b44161ed1ac30c2467deb}\label{utils_8h_aed998408252b44161ed1ac30c2467deb}} 
+\index{utils.h@{utils.h}!log\_iter@{log\_iter}}
+\index{log\_iter@{log\_iter}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{log\_iter()}{log\_iter()}}
+{\footnotesize\ttfamily void log\+\_\+iter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Print solver progress. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utils_8h_a9dfc9bbbac97f5c76af6348534314dc2}\label{utils_8h_a9dfc9bbbac97f5c76af6348534314dc2}} 
+\index{utils.h@{utils.h}!print\_arrayf@{print\_arrayf}}
+\index{print\_arrayf@{print\_arrayf}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{print\_arrayf()}{print\_arrayf()}}
+{\footnotesize\ttfamily void print\+\_\+arrayf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Prints array of QOCOFloats. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Pointer to array. \\
+\hline
+{\em n} & Number of elements in array. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utils_8h_a68a25040684c59d3d9e7f0f84ffe230d}\label{utils_8h_a68a25040684c59d3d9e7f0f84ffe230d}} 
+\index{utils.h@{utils.h}!print\_arrayi@{print\_arrayi}}
+\index{print\_arrayi@{print\_arrayi}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{print\_arrayi()}{print\_arrayi()}}
+{\footnotesize\ttfamily void print\+\_\+arrayi (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Prints array of QOCOInts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Pointer to array. \\
+\hline
+{\em n} & Number of elements in array. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utils_8h_acb3b30d2ed7b184cc0c180d8e2661e00}\label{utils_8h_acb3b30d2ed7b184cc0c180d8e2661e00}} 
+\index{utils.h@{utils.h}!print\_footer@{print\_footer}}
+\index{print\_footer@{print\_footer}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{print\_footer()}{print\_footer()}}
+{\footnotesize\ttfamily void print\+\_\+footer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolution}{QOCOSolution}} $\ast$}]{solution,  }\item[{enum \mbox{\hyperlink{enums_8h_aa172e8d3d8d92e128f1bcca12f536844}{qoco\+\_\+solve\+\_\+status}}}]{status }\end{DoxyParamCaption})}
+
+
+
+Prints QOCO footer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solution} & Pointer to solution struct. \\
+\hline
+{\em status} & Solve status. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utils_8h_a79b078c095c4c7b6003826775ac18b64}\label{utils_8h_a79b078c095c4c7b6003826775ac18b64}} 
+\index{utils.h@{utils.h}!print\_header@{print\_header}}
+\index{print\_header@{print\_header}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{print\_header()}{print\_header()}}
+{\footnotesize\ttfamily void print\+\_\+header (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Prints QOCO header. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{utils_8h_a837650bd12d2cfb6fe551245bb5a655e}\label{utils_8h_a837650bd12d2cfb6fe551245bb5a655e}} 
+\index{utils.h@{utils.h}!print\_qoco\_csc\_matrix@{print\_qoco\_csc\_matrix}}
+\index{print\_qoco\_csc\_matrix@{print\_qoco\_csc\_matrix}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{print\_qoco\_csc\_matrix()}{print\_qoco\_csc\_matrix()}}
+{\footnotesize\ttfamily void print\+\_\+qoco\+\_\+csc\+\_\+matrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$}]{M }\end{DoxyParamCaption})}
+
+
+
+Prints dimensions, number of nonzero elements, data, column pointers and row indices for a sparse matrix in CSC form. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Pointer to \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} that will be printed. \\
+\hline
+\end{DoxyParams}

@@ -1,0 +1,911 @@
+\begin{theindex}
+
+  \item {/home/govind/Desktop/git/qoco/include/cone.h}, \hyperpage{29}
+  \item {/home/govind/Desktop/git/qoco/include/definitions.h}, 
+		\hyperpage{37}
+  \item {/home/govind/Desktop/git/qoco/include/enums.h}, \hyperpage{41}
+  \item {/home/govind/Desktop/git/qoco/include/equilibration.h}, 
+		\hyperpage{42}
+  \item {/home/govind/Desktop/git/qoco/include/input\_validation.h}, 
+		\hyperpage{45}
+  \item {/home/govind/Desktop/git/qoco/include/kkt.h}, \hyperpage{48}
+  \item {/home/govind/Desktop/git/qoco/include/linalg.h}, 
+		\hyperpage{53}
+  \item {/home/govind/Desktop/git/qoco/include/qoco.h}, \hyperpage{66}
+  \item {/home/govind/Desktop/git/qoco/include/qoco\_api.h}, 
+		\hyperpage{67}
+  \item {/home/govind/Desktop/git/qoco/include/qoco\_error.h}, 
+		\hyperpage{72}
+  \item {/home/govind/Desktop/git/qoco/include/structs.h}, 
+		\hyperpage{73}
+  \item {/home/govind/Desktop/git/qoco/include/timer.h}, \hyperpage{75}
+  \item {/home/govind/Desktop/git/qoco/include/utils.h}, \hyperpage{77}
+  \item {/home/govind/Desktop/git/qoco/src/cone.c}, \hyperpage{82}
+  \item {/home/govind/Desktop/git/qoco/src/equilibration.c}, 
+		\hyperpage{90}
+  \item {/home/govind/Desktop/git/qoco/src/input\_validation.c}, 
+		\hyperpage{92}
+  \item {/home/govind/Desktop/git/qoco/src/kkt.c}, \hyperpage{95}
+  \item {/home/govind/Desktop/git/qoco/src/linalg.c}, \hyperpage{100}
+  \item {/home/govind/Desktop/git/qoco/src/qoco\_api.c}, 
+		\hyperpage{110}
+  \item {/home/govind/Desktop/git/qoco/src/qoco\_error.c}, 
+		\hyperpage{115}
+  \item {/home/govind/Desktop/git/qoco/src/timer\_linux.c}, 
+		\hyperpage{117}
+  \item {/home/govind/Desktop/git/qoco/src/timer\_macos.c}, 
+		\hyperpage{118}
+  \item {/home/govind/Desktop/git/qoco/src/utils.c}, \hyperpage{120}
+
+  \indexspace
+
+  \item {A}
+    \subitem {QOCOProblemData}, \hyperpage{15}
+  \item {a}
+    \subitem {QOCOWorkspace}, \hyperpage{24}
+  \item {abstol}
+    \subitem {QOCOSettings}, \hyperpage{17}
+  \item {abstol\_inacc}
+    \subitem {QOCOSettings}, \hyperpage{17}
+  \item {allocate\_kkt}
+    \subitem {kkt.c}, \hyperpage{96}
+    \subitem {kkt.h}, \hyperpage{50}
+  \item {At}
+    \subitem {QOCOProblemData}, \hyperpage{15}
+  \item {AtoKKT}
+    \subitem {QOCOKKT}, \hyperpage{9}
+  \item {axpy}
+    \subitem {linalg.c}, \hyperpage{102}
+    \subitem {linalg.h}, \hyperpage{56}
+
+  \indexspace
+
+  \item {b}
+    \subitem {QOCOProblemData}, \hyperpage{15}
+  \item {bisect\_iters}
+    \subitem {QOCOSettings}, \hyperpage{18}
+  \item {bisection\_search}
+    \subitem {cone.c}, \hyperpage{84}
+    \subitem {cone.h}, \hyperpage{31}
+  \item {bring2cone}
+    \subitem {cone.c}, \hyperpage{85}
+    \subitem {cone.h}, \hyperpage{32}
+  \item {bwork}
+    \subitem {QOCOKKT}, \hyperpage{9}
+
+  \indexspace
+
+  \item {c}
+    \subitem {QOCOProblemData}, \hyperpage{15}
+  \item {check\_stopping}
+    \subitem {utils.c}, \hyperpage{122}
+    \subitem {utils.h}, \hyperpage{79}
+  \item {col\_inf\_norm\_USymm}
+    \subitem {linalg.c}, \hyperpage{102}
+    \subitem {linalg.h}, \hyperpage{56}
+  \item {compute\_centering}
+    \subitem {cone.c}, \hyperpage{85}
+    \subitem {cone.h}, \hyperpage{32}
+  \item {compute\_kkt\_residual}
+    \subitem {kkt.c}, \hyperpage{96}
+    \subitem {kkt.h}, \hyperpage{50}
+  \item {compute\_mu}
+    \subitem {cone.c}, \hyperpage{85}
+    \subitem {cone.h}, \hyperpage{32}
+  \item {compute\_nt\_scaling}
+    \subitem {cone.c}, \hyperpage{86}
+    \subitem {cone.h}, \hyperpage{32}
+  \item {cone.c}
+    \subitem {bisection\_search}, \hyperpage{84}
+    \subitem {bring2cone}, \hyperpage{85}
+    \subitem {compute\_centering}, \hyperpage{85}
+    \subitem {compute\_mu}, \hyperpage{85}
+    \subitem {compute\_nt\_scaling}, \hyperpage{86}
+    \subitem {cone\_division}, \hyperpage{86}
+    \subitem {cone\_product}, \hyperpage{86}
+    \subitem {cone\_residual}, \hyperpage{87}
+    \subitem {exact\_linesearch}, \hyperpage{87}
+    \subitem {linesearch}, \hyperpage{88}
+    \subitem {nt\_multiply}, \hyperpage{88}
+    \subitem {soc\_division}, \hyperpage{89}
+    \subitem {soc\_product}, \hyperpage{89}
+    \subitem {soc\_residual}, \hyperpage{89}
+    \subitem {soc\_residual2}, \hyperpage{90}
+  \item {cone.h}
+    \subitem {bisection\_search}, \hyperpage{31}
+    \subitem {bring2cone}, \hyperpage{32}
+    \subitem {compute\_centering}, \hyperpage{32}
+    \subitem {compute\_mu}, \hyperpage{32}
+    \subitem {compute\_nt\_scaling}, \hyperpage{32}
+    \subitem {cone\_division}, \hyperpage{33}
+    \subitem {cone\_product}, \hyperpage{33}
+    \subitem {cone\_residual}, \hyperpage{34}
+    \subitem {exact\_linesearch}, \hyperpage{34}
+    \subitem {linesearch}, \hyperpage{35}
+    \subitem {nt\_multiply}, \hyperpage{35}
+    \subitem {soc\_division}, \hyperpage{36}
+    \subitem {soc\_product}, \hyperpage{36}
+    \subitem {soc\_residual}, \hyperpage{36}
+    \subitem {soc\_residual2}, \hyperpage{37}
+  \item {cone\_division}
+    \subitem {cone.c}, \hyperpage{86}
+    \subitem {cone.h}, \hyperpage{33}
+  \item {cone\_product}
+    \subitem {cone.c}, \hyperpage{86}
+    \subitem {cone.h}, \hyperpage{33}
+  \item {cone\_residual}
+    \subitem {cone.c}, \hyperpage{87}
+    \subitem {cone.h}, \hyperpage{34}
+  \item {construct\_identity}
+    \subitem {linalg.c}, \hyperpage{103}
+    \subitem {linalg.h}, \hyperpage{57}
+  \item {construct\_kkt}
+    \subitem {kkt.c}, \hyperpage{97}
+    \subitem {kkt.h}, \hyperpage{50}
+  \item {construct\_kkt\_aff\_rhs}
+    \subitem {kkt.c}, \hyperpage{97}
+    \subitem {kkt.h}, \hyperpage{51}
+  \item {construct\_kkt\_comb\_rhs}
+    \subitem {kkt.c}, \hyperpage{98}
+    \subitem {kkt.h}, \hyperpage{51}
+  \item {copy\_and\_negate\_arrayf}
+    \subitem {linalg.c}, \hyperpage{103}
+    \subitem {linalg.h}, \hyperpage{57}
+  \item {copy\_arrayf}
+    \subitem {linalg.c}, \hyperpage{103}
+    \subitem {linalg.h}, \hyperpage{57}
+  \item {copy\_arrayi}
+    \subitem {linalg.c}, \hyperpage{104}
+    \subitem {linalg.h}, \hyperpage{58}
+  \item {copy\_settings}
+    \subitem {utils.c}, \hyperpage{122}
+    \subitem {utils.h}, \hyperpage{80}
+  \item {copy\_solution}
+    \subitem {utils.c}, \hyperpage{123}
+    \subitem {utils.h}, \hyperpage{80}
+  \item {create\_transposed\_matrix}
+    \subitem {linalg.c}, \hyperpage{104}
+    \subitem {linalg.h}, \hyperpage{58}
+  \item {csc\_symperm}
+    \subitem {linalg.c}, \hyperpage{104}
+    \subitem {linalg.h}, \hyperpage{58}
+  \item {cumsum}
+    \subitem {linalg.c}, \hyperpage{105}
+    \subitem {linalg.h}, \hyperpage{59}
+
+  \indexspace
+
+  \item {D}
+    \subitem {QOCOKKT}, \hyperpage{10}
+  \item {data}
+    \subitem {QOCOWorkspace}, \hyperpage{24}
+  \item {definitions.h}
+    \subitem {qoco\_abs}, \hyperpage{39}
+    \subitem {qoco\_assert}, \hyperpage{39}
+    \subitem {qoco\_calloc}, \hyperpage{39}
+    \subitem {qoco\_free}, \hyperpage{39}
+    \subitem {qoco\_malloc}, \hyperpage{39}
+    \subitem {qoco\_max}, \hyperpage{40}
+    \subitem {qoco\_min}, \hyperpage{40}
+    \subitem {qoco\_sqrt}, \hyperpage{40}
+    \subitem {QOCOFloat}, \hyperpage{41}
+    \subitem {QOCOFloat\_MAX}, \hyperpage{40}
+    \subitem {QOCOInt}, \hyperpage{41}
+    \subitem {QOCOInt\_MAX}, \hyperpage{40}
+    \subitem {safe\_div}, \hyperpage{40}
+  \item {delta}
+    \subitem {QOCOKKT}, \hyperpage{10}
+  \item {Dinv}
+    \subitem {QOCOKKT}, \hyperpage{10}
+  \item {Dinvruiz}
+    \subitem {QOCOKKT}, \hyperpage{10}
+  \item {dot}
+    \subitem {linalg.c}, \hyperpage{105}
+    \subitem {linalg.h}, \hyperpage{59}
+  \item {dres}
+    \subitem {QOCOSolution}, \hyperpage{19}
+  \item {Druiz}
+    \subitem {QOCOKKT}, \hyperpage{10}
+  \item {Ds}
+    \subitem {QOCOWorkspace}, \hyperpage{24}
+
+  \indexspace
+
+  \item {Einvruiz}
+    \subitem {QOCOKKT}, \hyperpage{10}
+  \item {enums.h}
+    \subitem {QOCO\_AMD\_ERROR}, \hyperpage{42}
+    \subitem {QOCO\_DATA\_VALIDATION\_ERROR}, \hyperpage{42}
+    \subitem {qoco\_error\_code}, \hyperpage{41}
+    \subitem {QOCO\_MALLOC\_ERROR}, \hyperpage{42}
+    \subitem {QOCO\_MAX\_ITER}, \hyperpage{42}
+    \subitem {QOCO\_NO\_ERROR}, \hyperpage{42}
+    \subitem {QOCO\_NUMERICAL\_ERROR}, \hyperpage{42}
+    \subitem {QOCO\_SETTINGS\_VALIDATION\_ERROR}, \hyperpage{42}
+    \subitem {QOCO\_SETUP\_ERROR}, \hyperpage{42}
+    \subitem {qoco\_solve\_status}, \hyperpage{42}
+    \subitem {QOCO\_SOLVED}, \hyperpage{42}
+    \subitem {QOCO\_SOLVED\_INACCURATE}, \hyperpage{42}
+    \subitem {QOCO\_UNSOLVED}, \hyperpage{42}
+  \item {equilibration.c}
+    \subitem {ruiz\_equilibration}, \hyperpage{91}
+    \subitem {unscale\_variables}, \hyperpage{92}
+  \item {equilibration.h}
+    \subitem {ruiz\_equilibration}, \hyperpage{44}
+    \subitem {unscale\_variables}, \hyperpage{44}
+  \item {Eruiz}
+    \subitem {QOCOKKT}, \hyperpage{10}
+  \item {etree}
+    \subitem {QOCOKKT}, \hyperpage{10}
+  \item {ew\_product}
+    \subitem {linalg.c}, \hyperpage{105}
+    \subitem {linalg.h}, \hyperpage{60}
+  \item {exact\_linesearch}
+    \subitem {cone.c}, \hyperpage{87}
+    \subitem {cone.h}, \hyperpage{34}
+
+  \indexspace
+
+  \item {Finvruiz}
+    \subitem {QOCOKKT}, \hyperpage{11}
+  \item {free\_qoco\_csc\_matrix}
+    \subitem {linalg.c}, \hyperpage{106}
+    \subitem {linalg.h}, \hyperpage{60}
+  \item {Fruiz}
+    \subitem {QOCOKKT}, \hyperpage{11}
+  \item {fwork}
+    \subitem {QOCOKKT}, \hyperpage{11}
+
+  \indexspace
+
+  \item {G}
+    \subitem {QOCOProblemData}, \hyperpage{15}
+  \item {gap}
+    \subitem {QOCOSolution}, \hyperpage{19}
+  \item {get\_elapsed\_time\_sec}
+    \subitem {timer.h}, \hyperpage{76}
+    \subitem {timer\_linux.c}, \hyperpage{117}
+    \subitem {timer\_macos.c}, \hyperpage{119}
+  \item {Gt}
+    \subitem {QOCOProblemData}, \hyperpage{15}
+  \item {GtoKKT}
+    \subitem {QOCOKKT}, \hyperpage{11}
+
+  \indexspace
+
+  \item {h}
+    \subitem {QOCOProblemData}, \hyperpage{15}
+
+  \indexspace
+
+  \item {i}
+    \subitem {QOCOCscMatrix}, \hyperpage{7}
+  \item {inf\_norm}
+    \subitem {linalg.c}, \hyperpage{106}
+    \subitem {linalg.h}, \hyperpage{60}
+  \item {initialize\_ipm}
+    \subitem {kkt.c}, \hyperpage{98}
+    \subitem {kkt.h}, \hyperpage{51}
+  \item {input\_validation.c}
+    \subitem {qoco\_validate\_data}, \hyperpage{94}
+    \subitem {qoco\_validate\_settings}, \hyperpage{94}
+  \item {input\_validation.h}
+    \subitem {qoco\_validate\_data}, \hyperpage{46}
+    \subitem {qoco\_validate\_settings}, \hyperpage{47}
+  \item {invert\_permutation}
+    \subitem {linalg.c}, \hyperpage{107}
+    \subitem {linalg.h}, \hyperpage{61}
+  \item {iter\_ref\_iters}
+    \subitem {QOCOSettings}, \hyperpage{18}
+  \item {iters}
+    \subitem {QOCOSolution}, \hyperpage{20}
+  \item {iwork}
+    \subitem {QOCOKKT}, \hyperpage{11}
+
+  \indexspace
+
+  \item {K}
+    \subitem {QOCOKKT}, \hyperpage{11}
+  \item {k}
+    \subitem {QOCOKKT}, \hyperpage{11}
+  \item {kinv}
+    \subitem {QOCOKKT}, \hyperpage{11}
+  \item {kkt}
+    \subitem {QOCOWorkspace}, \hyperpage{24}
+  \item {kkt.c}
+    \subitem {allocate\_kkt}, \hyperpage{96}
+    \subitem {compute\_kkt\_residual}, \hyperpage{96}
+    \subitem {construct\_kkt}, \hyperpage{97}
+    \subitem {construct\_kkt\_aff\_rhs}, \hyperpage{97}
+    \subitem {construct\_kkt\_comb\_rhs}, \hyperpage{98}
+    \subitem {initialize\_ipm}, \hyperpage{98}
+    \subitem {kkt\_multiply}, \hyperpage{98}
+    \subitem {kkt\_solve}, \hyperpage{98}
+    \subitem {predictor\_corrector}, \hyperpage{99}
+    \subitem {set\_nt\_block\_zeros}, \hyperpage{99}
+    \subitem {update\_nt\_block}, \hyperpage{99}
+  \item {kkt.h}
+    \subitem {allocate\_kkt}, \hyperpage{50}
+    \subitem {compute\_kkt\_residual}, \hyperpage{50}
+    \subitem {construct\_kkt}, \hyperpage{50}
+    \subitem {construct\_kkt\_aff\_rhs}, \hyperpage{51}
+    \subitem {construct\_kkt\_comb\_rhs}, \hyperpage{51}
+    \subitem {initialize\_ipm}, \hyperpage{51}
+    \subitem {kkt\_multiply}, \hyperpage{52}
+    \subitem {kkt\_solve}, \hyperpage{52}
+    \subitem {predictor\_corrector}, \hyperpage{52}
+    \subitem {set\_nt\_block\_zeros}, \hyperpage{53}
+    \subitem {update\_nt\_block}, \hyperpage{53}
+  \item {kkt\_dynamic\_reg}
+    \subitem {QOCOSettings}, \hyperpage{18}
+  \item {kkt\_multiply}
+    \subitem {kkt.c}, \hyperpage{98}
+    \subitem {kkt.h}, \hyperpage{52}
+  \item {kkt\_solve}
+    \subitem {kkt.c}, \hyperpage{98}
+    \subitem {kkt.h}, \hyperpage{52}
+  \item {kkt\_static\_reg}
+    \subitem {QOCOSettings}, \hyperpage{18}
+  \item {kktres}
+    \subitem {QOCOKKT}, \hyperpage{12}
+
+  \indexspace
+
+  \item {l}
+    \subitem {QOCOProblemData}, \hyperpage{16}
+  \item {lambda}
+    \subitem {QOCOWorkspace}, \hyperpage{24}
+  \item {Li}
+    \subitem {QOCOKKT}, \hyperpage{12}
+  \item {linalg.c}
+    \subitem {axpy}, \hyperpage{102}
+    \subitem {col\_inf\_norm\_USymm}, \hyperpage{102}
+    \subitem {construct\_identity}, \hyperpage{103}
+    \subitem {copy\_and\_negate\_arrayf}, \hyperpage{103}
+    \subitem {copy\_arrayf}, \hyperpage{103}
+    \subitem {copy\_arrayi}, \hyperpage{104}
+    \subitem {create\_transposed\_matrix}, \hyperpage{104}
+    \subitem {csc\_symperm}, \hyperpage{104}
+    \subitem {cumsum}, \hyperpage{105}
+    \subitem {dot}, \hyperpage{105}
+    \subitem {ew\_product}, \hyperpage{105}
+    \subitem {free\_qoco\_csc\_matrix}, \hyperpage{106}
+    \subitem {inf\_norm}, \hyperpage{106}
+    \subitem {invert\_permutation}, \hyperpage{107}
+    \subitem {max\_arrayi}, \hyperpage{107}
+    \subitem {new\_qoco\_csc\_matrix}, \hyperpage{107}
+    \subitem {regularize}, \hyperpage{108}
+    \subitem {row\_col\_scale}, \hyperpage{108}
+    \subitem {row\_inf\_norm}, \hyperpage{108}
+    \subitem {scale\_arrayf}, \hyperpage{109}
+    \subitem {SpMtv}, \hyperpage{109}
+    \subitem {SpMv}, \hyperpage{109}
+    \subitem {unregularize}, \hyperpage{110}
+    \subitem {USpMv}, \hyperpage{110}
+  \item {linalg.h}
+    \subitem {axpy}, \hyperpage{56}
+    \subitem {col\_inf\_norm\_USymm}, \hyperpage{56}
+    \subitem {construct\_identity}, \hyperpage{57}
+    \subitem {copy\_and\_negate\_arrayf}, \hyperpage{57}
+    \subitem {copy\_arrayf}, \hyperpage{57}
+    \subitem {copy\_arrayi}, \hyperpage{58}
+    \subitem {create\_transposed\_matrix}, \hyperpage{58}
+    \subitem {csc\_symperm}, \hyperpage{58}
+    \subitem {cumsum}, \hyperpage{59}
+    \subitem {dot}, \hyperpage{59}
+    \subitem {ew\_product}, \hyperpage{60}
+    \subitem {free\_qoco\_csc\_matrix}, \hyperpage{60}
+    \subitem {inf\_norm}, \hyperpage{60}
+    \subitem {invert\_permutation}, \hyperpage{61}
+    \subitem {max\_arrayi}, \hyperpage{61}
+    \subitem {new\_qoco\_csc\_matrix}, \hyperpage{61}
+    \subitem {regularize}, \hyperpage{62}
+    \subitem {row\_col\_scale}, \hyperpage{62}
+    \subitem {row\_inf\_norm}, \hyperpage{63}
+    \subitem {scale\_arrayf}, \hyperpage{63}
+    \subitem {SpMtv}, \hyperpage{63}
+    \subitem {SpMv}, \hyperpage{65}
+    \subitem {unregularize}, \hyperpage{65}
+    \subitem {USpMv}, \hyperpage{65}
+  \item {linesearch}
+    \subitem {cone.c}, \hyperpage{88}
+    \subitem {cone.h}, \hyperpage{35}
+  \item {Lnz}
+    \subitem {QOCOKKT}, \hyperpage{12}
+  \item {log\_iter}
+    \subitem {utils.c}, \hyperpage{123}
+    \subitem {utils.h}, \hyperpage{80}
+  \item {Lp}
+    \subitem {QOCOKKT}, \hyperpage{12}
+  \item {Lx}
+    \subitem {QOCOKKT}, \hyperpage{12}
+
+  \indexspace
+
+  \item {m}
+    \subitem {QOCOCscMatrix}, \hyperpage{7}
+    \subitem {QOCOProblemData}, \hyperpage{16}
+  \item {max\_arrayi}
+    \subitem {linalg.c}, \hyperpage{107}
+    \subitem {linalg.h}, \hyperpage{61}
+  \item {max\_iters}
+    \subitem {QOCOSettings}, \hyperpage{18}
+  \item {mu}
+    \subitem {QOCOWorkspace}, \hyperpage{24}
+
+  \indexspace
+
+  \item {n}
+    \subitem {QOCOCscMatrix}, \hyperpage{8}
+    \subitem {QOCOProblemData}, \hyperpage{16}
+  \item {new\_qoco\_csc\_matrix}
+    \subitem {linalg.c}, \hyperpage{107}
+    \subitem {linalg.h}, \hyperpage{61}
+  \item {nnz}
+    \subitem {QOCOCscMatrix}, \hyperpage{8}
+  \item {nsoc}
+    \subitem {QOCOProblemData}, \hyperpage{16}
+  \item {nt2kkt}
+    \subitem {QOCOKKT}, \hyperpage{12}
+  \item {nt\_multiply}
+    \subitem {cone.c}, \hyperpage{88}
+    \subitem {cone.h}, \hyperpage{35}
+  \item {ntdiag2kkt}
+    \subitem {QOCOKKT}, \hyperpage{12}
+
+  \indexspace
+
+  \item {obj}
+    \subitem {QOCOSolution}, \hyperpage{20}
+
+  \indexspace
+
+  \item {P}
+    \subitem {QOCOProblemData}, \hyperpage{16}
+  \item {p}
+    \subitem {QOCOCscMatrix}, \hyperpage{8}
+    \subitem {QOCOKKT}, \hyperpage{12}
+    \subitem {QOCOProblemData}, \hyperpage{16}
+  \item {pinv}
+    \subitem {QOCOKKT}, \hyperpage{13}
+  \item {Pnum\_nzadded}
+    \subitem {QOCOKKT}, \hyperpage{13}
+  \item {Pnzadded\_idx}
+    \subitem {QOCOKKT}, \hyperpage{13}
+  \item {predictor\_corrector}
+    \subitem {kkt.c}, \hyperpage{99}
+    \subitem {kkt.h}, \hyperpage{52}
+  \item {PregtoKKT}
+    \subitem {QOCOKKT}, \hyperpage{13}
+  \item {pres}
+    \subitem {QOCOSolution}, \hyperpage{20}
+  \item {print\_arrayf}
+    \subitem {utils.c}, \hyperpage{123}
+    \subitem {utils.h}, \hyperpage{80}
+  \item {print\_arrayi}
+    \subitem {utils.c}, \hyperpage{124}
+    \subitem {utils.h}, \hyperpage{81}
+  \item {print\_footer}
+    \subitem {utils.c}, \hyperpage{124}
+    \subitem {utils.h}, \hyperpage{81}
+  \item {print\_header}
+    \subitem {utils.c}, \hyperpage{124}
+    \subitem {utils.h}, \hyperpage{81}
+  \item {print\_qoco\_csc\_matrix}
+    \subitem {utils.c}, \hyperpage{124}
+    \subitem {utils.h}, \hyperpage{82}
+
+  \indexspace
+
+  \item {q}
+    \subitem {QOCOProblemData}, \hyperpage{16}
+  \item {qoco\_abs}
+    \subitem {definitions.h}, \hyperpage{39}
+  \item {QOCO\_AMD\_ERROR}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {qoco\_api.c}
+    \subitem {qoco\_cleanup}, \hyperpage{112}
+    \subitem {qoco\_set\_csc}, \hyperpage{112}
+    \subitem {qoco\_setup}, \hyperpage{113}
+    \subitem {qoco\_solve}, \hyperpage{113}
+    \subitem {qoco\_update\_settings}, \hyperpage{114}
+    \subitem {set\_default\_settings}, \hyperpage{114}
+    \subitem {update\_matrix\_data}, \hyperpage{114}
+    \subitem {update\_vector\_data}, \hyperpage{115}
+  \item {qoco\_api.h}
+    \subitem {qoco\_cleanup}, \hyperpage{68}
+    \subitem {qoco\_set\_csc}, \hyperpage{69}
+    \subitem {qoco\_setup}, \hyperpage{69}
+    \subitem {qoco\_solve}, \hyperpage{70}
+    \subitem {qoco\_update\_settings}, \hyperpage{70}
+    \subitem {set\_default\_settings}, \hyperpage{71}
+    \subitem {update\_matrix\_data}, \hyperpage{71}
+    \subitem {update\_vector\_data}, \hyperpage{71}
+  \item {qoco\_assert}
+    \subitem {definitions.h}, \hyperpage{39}
+  \item {qoco\_calloc}
+    \subitem {definitions.h}, \hyperpage{39}
+  \item {qoco\_cleanup}
+    \subitem {qoco\_api.c}, \hyperpage{112}
+    \subitem {qoco\_api.h}, \hyperpage{68}
+  \item {QOCO\_DATA\_VALIDATION\_ERROR}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {qoco\_error}
+    \subitem {qoco\_error.c}, \hyperpage{116}
+    \subitem {qoco\_error.h}, \hyperpage{73}
+  \item {qoco\_error.c}
+    \subitem {qoco\_error}, \hyperpage{116}
+  \item {qoco\_error.h}
+    \subitem {qoco\_error}, \hyperpage{73}
+  \item {qoco\_error\_code}
+    \subitem {enums.h}, \hyperpage{41}
+  \item {qoco\_free}
+    \subitem {definitions.h}, \hyperpage{39}
+  \item {qoco\_malloc}
+    \subitem {definitions.h}, \hyperpage{39}
+  \item {QOCO\_MALLOC\_ERROR}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {qoco\_max}
+    \subitem {definitions.h}, \hyperpage{40}
+  \item {QOCO\_MAX\_ITER}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {qoco\_min}
+    \subitem {definitions.h}, \hyperpage{40}
+  \item {QOCO\_NO\_ERROR}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {QOCO\_NUMERICAL\_ERROR}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {qoco\_set\_csc}
+    \subitem {qoco\_api.c}, \hyperpage{112}
+    \subitem {qoco\_api.h}, \hyperpage{69}
+  \item {QOCO\_SETTINGS\_VALIDATION\_ERROR}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {qoco\_setup}
+    \subitem {qoco\_api.c}, \hyperpage{113}
+    \subitem {qoco\_api.h}, \hyperpage{69}
+  \item {QOCO\_SETUP\_ERROR}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {qoco\_solve}
+    \subitem {qoco\_api.c}, \hyperpage{113}
+    \subitem {qoco\_api.h}, \hyperpage{70}
+  \item {qoco\_solve\_status}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {QOCO\_SOLVED}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {QOCO\_SOLVED\_INACCURATE}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {qoco\_sqrt}
+    \subitem {definitions.h}, \hyperpage{40}
+  \item {QOCO\_UNSOLVED}
+    \subitem {enums.h}, \hyperpage{42}
+  \item {qoco\_update\_settings}
+    \subitem {qoco\_api.c}, \hyperpage{114}
+    \subitem {qoco\_api.h}, \hyperpage{70}
+  \item {qoco\_validate\_data}
+    \subitem {input\_validation.c}, \hyperpage{94}
+    \subitem {input\_validation.h}, \hyperpage{46}
+  \item {qoco\_validate\_settings}
+    \subitem {input\_validation.c}, \hyperpage{94}
+    \subitem {input\_validation.h}, \hyperpage{47}
+  \item {QOCOCscMatrix}, \hyperpage{7}
+    \subitem {i}, \hyperpage{7}
+    \subitem {m}, \hyperpage{7}
+    \subitem {n}, \hyperpage{8}
+    \subitem {nnz}, \hyperpage{8}
+    \subitem {p}, \hyperpage{8}
+    \subitem {x}, \hyperpage{8}
+  \item {QOCOFloat}
+    \subitem {definitions.h}, \hyperpage{41}
+  \item {QOCOFloat\_MAX}
+    \subitem {definitions.h}, \hyperpage{40}
+  \item {QOCOInt}
+    \subitem {definitions.h}, \hyperpage{41}
+  \item {QOCOInt\_MAX}
+    \subitem {definitions.h}, \hyperpage{40}
+  \item {QOCOKKT}, \hyperpage{8}
+    \subitem {AtoKKT}, \hyperpage{9}
+    \subitem {bwork}, \hyperpage{9}
+    \subitem {D}, \hyperpage{10}
+    \subitem {delta}, \hyperpage{10}
+    \subitem {Dinv}, \hyperpage{10}
+    \subitem {Dinvruiz}, \hyperpage{10}
+    \subitem {Druiz}, \hyperpage{10}
+    \subitem {Einvruiz}, \hyperpage{10}
+    \subitem {Eruiz}, \hyperpage{10}
+    \subitem {etree}, \hyperpage{10}
+    \subitem {Finvruiz}, \hyperpage{11}
+    \subitem {Fruiz}, \hyperpage{11}
+    \subitem {fwork}, \hyperpage{11}
+    \subitem {GtoKKT}, \hyperpage{11}
+    \subitem {iwork}, \hyperpage{11}
+    \subitem {K}, \hyperpage{11}
+    \subitem {k}, \hyperpage{11}
+    \subitem {kinv}, \hyperpage{11}
+    \subitem {kktres}, \hyperpage{12}
+    \subitem {Li}, \hyperpage{12}
+    \subitem {Lnz}, \hyperpage{12}
+    \subitem {Lp}, \hyperpage{12}
+    \subitem {Lx}, \hyperpage{12}
+    \subitem {nt2kkt}, \hyperpage{12}
+    \subitem {ntdiag2kkt}, \hyperpage{12}
+    \subitem {p}, \hyperpage{12}
+    \subitem {pinv}, \hyperpage{13}
+    \subitem {Pnum\_nzadded}, \hyperpage{13}
+    \subitem {Pnzadded\_idx}, \hyperpage{13}
+    \subitem {PregtoKKT}, \hyperpage{13}
+    \subitem {rhs}, \hyperpage{13}
+    \subitem {xyz}, \hyperpage{13}
+    \subitem {xyzbuff1}, \hyperpage{13}
+    \subitem {xyzbuff2}, \hyperpage{13}
+  \item {QOCOProblemData}, \hyperpage{14}
+    \subitem {A}, \hyperpage{15}
+    \subitem {At}, \hyperpage{15}
+    \subitem {b}, \hyperpage{15}
+    \subitem {c}, \hyperpage{15}
+    \subitem {G}, \hyperpage{15}
+    \subitem {Gt}, \hyperpage{15}
+    \subitem {h}, \hyperpage{15}
+    \subitem {l}, \hyperpage{16}
+    \subitem {m}, \hyperpage{16}
+    \subitem {n}, \hyperpage{16}
+    \subitem {nsoc}, \hyperpage{16}
+    \subitem {P}, \hyperpage{16}
+    \subitem {p}, \hyperpage{16}
+    \subitem {q}, \hyperpage{16}
+  \item {QOCOSettings}, \hyperpage{17}
+    \subitem {abstol}, \hyperpage{17}
+    \subitem {abstol\_inacc}, \hyperpage{17}
+    \subitem {bisect\_iters}, \hyperpage{18}
+    \subitem {iter\_ref\_iters}, \hyperpage{18}
+    \subitem {kkt\_dynamic\_reg}, \hyperpage{18}
+    \subitem {kkt\_static\_reg}, \hyperpage{18}
+    \subitem {max\_iters}, \hyperpage{18}
+    \subitem {reltol}, \hyperpage{18}
+    \subitem {reltol\_inacc}, \hyperpage{18}
+    \subitem {ruiz\_iters}, \hyperpage{18}
+    \subitem {verbose}, \hyperpage{19}
+  \item {QOCOSolution}, \hyperpage{19}
+    \subitem {dres}, \hyperpage{19}
+    \subitem {gap}, \hyperpage{19}
+    \subitem {iters}, \hyperpage{20}
+    \subitem {obj}, \hyperpage{20}
+    \subitem {pres}, \hyperpage{20}
+    \subitem {s}, \hyperpage{20}
+    \subitem {setup\_time\_sec}, \hyperpage{20}
+    \subitem {solve\_time\_sec}, \hyperpage{20}
+    \subitem {status}, \hyperpage{20}
+    \subitem {x}, \hyperpage{20}
+    \subitem {y}, \hyperpage{21}
+    \subitem {z}, \hyperpage{21}
+  \item {QOCOSolver}, \hyperpage{21}
+    \subitem {settings}, \hyperpage{22}
+    \subitem {sol}, \hyperpage{22}
+    \subitem {work}, \hyperpage{22}
+  \item {QOCOWorkspace}, \hyperpage{23}
+    \subitem {a}, \hyperpage{24}
+    \subitem {data}, \hyperpage{24}
+    \subitem {Ds}, \hyperpage{24}
+    \subitem {kkt}, \hyperpage{24}
+    \subitem {lambda}, \hyperpage{24}
+    \subitem {mu}, \hyperpage{24}
+    \subitem {s}, \hyperpage{25}
+    \subitem {sbar}, \hyperpage{25}
+    \subitem {sigma}, \hyperpage{25}
+    \subitem {solve\_timer}, \hyperpage{25}
+    \subitem {ubuff1}, \hyperpage{25}
+    \subitem {ubuff2}, \hyperpage{25}
+    \subitem {ubuff3}, \hyperpage{25}
+    \subitem {W}, \hyperpage{25}
+    \subitem {Wfull}, \hyperpage{26}
+    \subitem {Winv}, \hyperpage{26}
+    \subitem {Winvfull}, \hyperpage{26}
+    \subitem {Wnnz}, \hyperpage{26}
+    \subitem {Wnnzfull}, \hyperpage{26}
+    \subitem {WtW}, \hyperpage{26}
+    \subitem {x}, \hyperpage{26}
+    \subitem {xbuff}, \hyperpage{26}
+    \subitem {y}, \hyperpage{27}
+    \subitem {ybuff}, \hyperpage{27}
+    \subitem {z}, \hyperpage{27}
+    \subitem {zbar}, \hyperpage{27}
+
+  \indexspace
+
+  \item {regularize}
+    \subitem {linalg.c}, \hyperpage{108}
+    \subitem {linalg.h}, \hyperpage{62}
+  \item {reltol}
+    \subitem {QOCOSettings}, \hyperpage{18}
+  \item {reltol\_inacc}
+    \subitem {QOCOSettings}, \hyperpage{18}
+  \item {rhs}
+    \subitem {QOCOKKT}, \hyperpage{13}
+  \item {row\_col\_scale}
+    \subitem {linalg.c}, \hyperpage{108}
+    \subitem {linalg.h}, \hyperpage{62}
+  \item {row\_inf\_norm}
+    \subitem {linalg.c}, \hyperpage{108}
+    \subitem {linalg.h}, \hyperpage{63}
+  \item {ruiz\_equilibration}
+    \subitem {equilibration.c}, \hyperpage{91}
+    \subitem {equilibration.h}, \hyperpage{44}
+  \item {ruiz\_iters}
+    \subitem {QOCOSettings}, \hyperpage{18}
+
+  \indexspace
+
+  \item {s}
+    \subitem {QOCOSolution}, \hyperpage{20}
+    \subitem {QOCOWorkspace}, \hyperpage{25}
+  \item {safe\_div}
+    \subitem {definitions.h}, \hyperpage{40}
+  \item {sbar}
+    \subitem {QOCOWorkspace}, \hyperpage{25}
+  \item {scale\_arrayf}
+    \subitem {linalg.c}, \hyperpage{109}
+    \subitem {linalg.h}, \hyperpage{63}
+  \item {set\_default\_settings}
+    \subitem {qoco\_api.c}, \hyperpage{114}
+    \subitem {qoco\_api.h}, \hyperpage{71}
+  \item {set\_nt\_block\_zeros}
+    \subitem {kkt.c}, \hyperpage{99}
+    \subitem {kkt.h}, \hyperpage{53}
+  \item {settings}
+    \subitem {QOCOSolver}, \hyperpage{22}
+  \item {setup\_time\_sec}
+    \subitem {QOCOSolution}, \hyperpage{20}
+  \item {sigma}
+    \subitem {QOCOWorkspace}, \hyperpage{25}
+  \item {soc\_division}
+    \subitem {cone.c}, \hyperpage{89}
+    \subitem {cone.h}, \hyperpage{36}
+  \item {soc\_product}
+    \subitem {cone.c}, \hyperpage{89}
+    \subitem {cone.h}, \hyperpage{36}
+  \item {soc\_residual}
+    \subitem {cone.c}, \hyperpage{89}
+    \subitem {cone.h}, \hyperpage{36}
+  \item {soc\_residual2}
+    \subitem {cone.c}, \hyperpage{90}
+    \subitem {cone.h}, \hyperpage{37}
+  \item {sol}
+    \subitem {QOCOSolver}, \hyperpage{22}
+  \item {solve\_time\_sec}
+    \subitem {QOCOSolution}, \hyperpage{20}
+  \item {solve\_timer}
+    \subitem {QOCOWorkspace}, \hyperpage{25}
+  \item {SpMtv}
+    \subitem {linalg.c}, \hyperpage{109}
+    \subitem {linalg.h}, \hyperpage{63}
+  \item {SpMv}
+    \subitem {linalg.c}, \hyperpage{109}
+    \subitem {linalg.h}, \hyperpage{65}
+  \item {start\_timer}
+    \subitem {timer.h}, \hyperpage{77}
+    \subitem {timer\_linux.c}, \hyperpage{118}
+    \subitem {timer\_macos.c}, \hyperpage{120}
+  \item {status}
+    \subitem {QOCOSolution}, \hyperpage{20}
+  \item {stop\_timer}
+    \subitem {timer.h}, \hyperpage{77}
+    \subitem {timer\_linux.c}, \hyperpage{118}
+    \subitem {timer\_macos.c}, \hyperpage{120}
+
+  \indexspace
+
+  \item {timer.h}
+    \subitem {get\_elapsed\_time\_sec}, \hyperpage{76}
+    \subitem {start\_timer}, \hyperpage{77}
+    \subitem {stop\_timer}, \hyperpage{77}
+  \item {timer\_linux.c}
+    \subitem {get\_elapsed\_time\_sec}, \hyperpage{117}
+    \subitem {start\_timer}, \hyperpage{118}
+    \subitem {stop\_timer}, \hyperpage{118}
+  \item {timer\_macos.c}
+    \subitem {get\_elapsed\_time\_sec}, \hyperpage{119}
+    \subitem {start\_timer}, \hyperpage{120}
+    \subitem {stop\_timer}, \hyperpage{120}
+
+  \indexspace
+
+  \item {ubuff1}
+    \subitem {QOCOWorkspace}, \hyperpage{25}
+  \item {ubuff2}
+    \subitem {QOCOWorkspace}, \hyperpage{25}
+  \item {ubuff3}
+    \subitem {QOCOWorkspace}, \hyperpage{25}
+  \item {unregularize}
+    \subitem {linalg.c}, \hyperpage{110}
+    \subitem {linalg.h}, \hyperpage{65}
+  \item {unscale\_variables}
+    \subitem {equilibration.c}, \hyperpage{92}
+    \subitem {equilibration.h}, \hyperpage{44}
+  \item {update\_matrix\_data}
+    \subitem {qoco\_api.c}, \hyperpage{114}
+    \subitem {qoco\_api.h}, \hyperpage{71}
+  \item {update\_nt\_block}
+    \subitem {kkt.c}, \hyperpage{99}
+    \subitem {kkt.h}, \hyperpage{53}
+  \item {update\_vector\_data}
+    \subitem {qoco\_api.c}, \hyperpage{115}
+    \subitem {qoco\_api.h}, \hyperpage{71}
+  \item {USpMv}
+    \subitem {linalg.c}, \hyperpage{110}
+    \subitem {linalg.h}, \hyperpage{65}
+  \item {utils.c}
+    \subitem {check\_stopping}, \hyperpage{122}
+    \subitem {copy\_settings}, \hyperpage{122}
+    \subitem {copy\_solution}, \hyperpage{123}
+    \subitem {log\_iter}, \hyperpage{123}
+    \subitem {print\_arrayf}, \hyperpage{123}
+    \subitem {print\_arrayi}, \hyperpage{124}
+    \subitem {print\_footer}, \hyperpage{124}
+    \subitem {print\_header}, \hyperpage{124}
+    \subitem {print\_qoco\_csc\_matrix}, \hyperpage{124}
+  \item {utils.h}
+    \subitem {check\_stopping}, \hyperpage{79}
+    \subitem {copy\_settings}, \hyperpage{80}
+    \subitem {copy\_solution}, \hyperpage{80}
+    \subitem {log\_iter}, \hyperpage{80}
+    \subitem {print\_arrayf}, \hyperpage{80}
+    \subitem {print\_arrayi}, \hyperpage{81}
+    \subitem {print\_footer}, \hyperpage{81}
+    \subitem {print\_header}, \hyperpage{81}
+    \subitem {print\_qoco\_csc\_matrix}, \hyperpage{82}
+
+  \indexspace
+
+  \item {verbose}
+    \subitem {QOCOSettings}, \hyperpage{19}
+
+  \indexspace
+
+  \item {W}
+    \subitem {QOCOWorkspace}, \hyperpage{25}
+  \item {Wfull}
+    \subitem {QOCOWorkspace}, \hyperpage{26}
+  \item {Winv}
+    \subitem {QOCOWorkspace}, \hyperpage{26}
+  \item {Winvfull}
+    \subitem {QOCOWorkspace}, \hyperpage{26}
+  \item {Wnnz}
+    \subitem {QOCOWorkspace}, \hyperpage{26}
+  \item {Wnnzfull}
+    \subitem {QOCOWorkspace}, \hyperpage{26}
+  \item {work}
+    \subitem {QOCOSolver}, \hyperpage{22}
+  \item {WtW}
+    \subitem {QOCOWorkspace}, \hyperpage{26}
+
+  \indexspace
+
+  \item {x}
+    \subitem {QOCOCscMatrix}, \hyperpage{8}
+    \subitem {QOCOSolution}, \hyperpage{20}
+    \subitem {QOCOWorkspace}, \hyperpage{26}
+  \item {xbuff}
+    \subitem {QOCOWorkspace}, \hyperpage{26}
+  \item {xyz}
+    \subitem {QOCOKKT}, \hyperpage{13}
+  \item {xyzbuff1}
+    \subitem {QOCOKKT}, \hyperpage{13}
+  \item {xyzbuff2}
+    \subitem {QOCOKKT}, \hyperpage{13}
+
+  \indexspace
+
+  \item {y}
+    \subitem {QOCOSolution}, \hyperpage{21}
+    \subitem {QOCOWorkspace}, \hyperpage{27}
+  \item {ybuff}
+    \subitem {QOCOWorkspace}, \hyperpage{27}
+
+  \indexspace
+
+  \item {z}
+    \subitem {QOCOSolution}, \hyperpage{21}
+    \subitem {QOCOWorkspace}, \hyperpage{27}
+  \item {zbar}
+    \subitem {QOCOWorkspace}, \hyperpage{27}
+
+\end{theindex}

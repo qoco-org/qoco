@@ -1,0 +1,1047 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="cone_8h" kind="file" language="C++">
+    <compoundname>cone.h</compoundname>
+    <includes refid="linalg_8h" local="yes">linalg.h</includes>
+    <includedby refid="kkt_8h" local="yes">/home/govind/Desktop/git/qoco/include/kkt.h</includedby>
+    <includedby refid="qoco_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco.h</includedby>
+    <includedby refid="cone_8c" local="yes">/home/govind/Desktop/git/qoco/src/cone.c</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>stdlib.h</label>
+      </node>
+      <node id="7">
+        <label>structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/cone.h</label>
+        <link refid="cone_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>limits.h</label>
+      </node>
+      <node id="3">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>linalg.h</label>
+        <link refid="linalg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>math.h</label>
+      </node>
+      <node id="8">
+        <label>timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
+        <link refid="qoco_8h"/>
+      </node>
+      <node id="2">
+        <label>/home/govind/Desktop/git/qoco/include/kkt.h</label>
+        <link refid="kkt_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/cone.h</label>
+        <link refid="cone_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
+        <link refid="qoco__api_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>/home/govind/Desktop/git/qoco/src/cone.c</label>
+        <link refid="cone_8c"/>
+      </node>
+      <node id="6">
+        <label>/home/govind/Desktop/git/qoco/src/kkt.c</label>
+        <link refid="kkt_8c"/>
+      </node>
+      <node id="5">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_api.c</label>
+        <link refid="qoco__api_8c"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="cone_8h_1a396272c3f1a04457de00aa516147ec6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void soc_product</definition>
+        <argsstring>(const QOCOFloat *u, const QOCOFloat *v, QOCOFloat *p, QOCOInt n)</argsstring>
+        <name>soc_product</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Computes second-order cone product u * v = p. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>u = (u0, u1) is a vector in second-order cone of dimension n. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>v = (v0, v1) is a vector in second-order cone of dimension n. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cone product of u and v. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of second-order cone. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="28" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="14" bodyend="21" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="28" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1a7c6db1103785fcede2c141c737b9f913" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void soc_division</definition>
+        <argsstring>(const QOCOFloat *lam, const QOCOFloat *v, QOCOFloat *d, QOCOInt n)</argsstring>
+        <name>soc_division</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>lam</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Commpues second-order cone division lambda # v = d. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lam</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>lam = (lam0, lam1) is a vector in second-order cone of dimension n. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>v = (v0, v1) is a vector in second-order cone of dimension n. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cone divisin of lam and v. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of second-order cone. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="40" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="23" bodyend="36" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="40" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1a161b9519d51c603846c9da5817926c29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat soc_residual</definition>
+        <argsstring>(const QOCOFloat *u, QOCOInt n)</argsstring>
+        <name>soc_residual</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Computes residual of vector u with respect to the second order cone of dimension n. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>u = (u0, u1) is a vector in second-order cone of dimension n. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of second order cone. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Residual: norm(u1) - u0. Negative if the vector is in the cone and positive otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="52" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="38" bodyend="46" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="52" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1a71714e2c5333a4f2e8e99115b3feb982" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat soc_residual2</definition>
+        <argsstring>(const QOCOFloat *u, QOCOInt n)</argsstring>
+        <name>soc_residual2</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Computes u0^2 - u1&apos;*u1 of vector u with respect to the second order cone of dimension n. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>u = (u0, u1) is a vector in second order cone of dimension n. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of second order cone. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Residual: u0^2 - u1&apos;*u1. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="62" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="48" bodyend="55" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="62" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1a57e0e0d0fdd1480cc3bb709583b072be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cone_product</definition>
+        <argsstring>(const QOCOFloat *u, const QOCOFloat *v, QOCOFloat *p, QOCOInt l, QOCOInt nsoc, const QOCOInt *q)</argsstring>
+        <name>cone_product</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+<para>Computes cone product u * v = p with respect to C. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cone product of u and v. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of LP cone. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nsoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of second-order cones. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of each second-order cone. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="74" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="57" bodyend="71" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="74" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1a1c065eb1b5b34efd85f46198b69f5b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cone_division</definition>
+        <argsstring>(const QOCOFloat *lambda, const QOCOFloat *v, QOCOFloat *d, QOCOInt l, QOCOInt nsoc, const QOCOInt *q)</argsstring>
+        <name>cone_division</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>lambda</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+<para>Computed cone division lambda # v = d. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lambda</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cone quotient of lambda and v. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of LP cone. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nsoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of second-order cones. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of each second-order cone. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="87" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="73" bodyend="87" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="87" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1a9a6ff41fae0530f91b12b75dd58c9564" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat cone_residual</definition>
+        <argsstring>(const QOCOFloat *u, QOCOInt l, QOCOInt nsoc, const QOCOInt *q)</argsstring>
+        <name>cone_residual</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+<para>Computes residual of vector u with respect to cone C. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector to be tested. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of LP cone. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nsoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of second-order cones. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of each second-order cone. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Residual: Negative if the vector is in the cone and positive otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="100" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="89" bodyend="108" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="100" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1aeeaf7177391c69104dff81ff350a6fd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bring2cone</definition>
+        <argsstring>(QOCOFloat *u, QOCOProblemData *data)</argsstring>
+        <name>bring2cone</name>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type><ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref> *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Performs u = u + (1 + a) * e where e is the cannonical vector for each cone LP Cone: e = ones(n), second-order cone: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) * e is in cone C. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector to bring to cone. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to problem data. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="111" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="110" bodyend="142" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="111" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1aa75cb85b5b77d1831a982da450db3292" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nt_multiply</definition>
+        <argsstring>(QOCOFloat *W, QOCOFloat *x, QOCOFloat *z, QOCOInt l, QOCOInt m, QOCOInt nsoc, QOCOInt *q)</argsstring>
+        <name>nt_multiply</name>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>W</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+<para>Computes z = W * x where W is a full Nesterov-Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-order cones are stored in column major order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>W</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Nesterov Todd scaling matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of LP cone. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of x. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nsoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of second-order cones in C. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of second-order cone dimensions. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="126" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="144" bodyend="170" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="126" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1a9304a88a4e884ebbcf53a2259104307d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void compute_mu</definition>
+        <argsstring>(QOCOWorkspace *work)</argsstring>
+        <name>compute_mu</name>
+        <param>
+          <type><ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref> *</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Computes gap (z&apos;*s / m) and stores in work-&gt;mu. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to workspace. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="134" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="172" bodyend="177" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="134" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1ae7fbd04120780584a4a4b06f2afe3fb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void compute_nt_scaling</definition>
+        <argsstring>(QOCOWorkspace *work)</argsstring>
+        <name>compute_nt_scaling</name>
+        <param>
+          <type><ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref> *</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Compute Nesterov-Todd scalings and scaled variables. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to workspace. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="141" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="179" bodyend="276" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="141" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1abbe51c5b9eef797bc36d53df54cb7090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void compute_centering</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>compute_centering</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Computes centering parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="148" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="278" bodyend="296" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="148" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1ad15543fafb4fedbd8c13a2eaef0e6425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat linesearch</definition>
+        <argsstring>(QOCOFloat *u, QOCOFloat *Du, QOCOFloat f, QOCOSolver *solver)</argsstring>
+        <name>linesearch</name>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>Du</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Conducts linesearch to compute a \in (0, 1] such that u + (a / f) * Du \in C. For QPs this calls <ref refid="cone_8h_1a89ae3d348aafeaea9d7792c984cd46ef" kindref="member">exact_linesearch()</ref> and for SOCPs this calls <ref refid="cone_8h_1ac90e9e955d185003e55bdc63bf25b3a1" kindref="member">bisection_search()</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Du</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search direction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conservatism factor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Step-size. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="161" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="298" bodyend="307" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="161" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1ac90e9e955d185003e55bdc63bf25b3a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat bisection_search</definition>
+        <argsstring>(QOCOFloat *u, QOCOFloat *Du, QOCOFloat f, QOCOSolver *solver)</argsstring>
+        <name>bisection_search</name>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>Du</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Conducts linesearch by bisection to compute a \in (0, 1] such that u + (a / f) * Du \in C Warning: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du. Consider a dedicated buffer for linesearch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Du</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search direction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conservatism factor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Step-size. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="177" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="309" bodyend="329" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="177" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="cone_8h_1a89ae3d348aafeaea9d7792c984cd46ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat exact_linesearch</definition>
+        <argsstring>(QOCOFloat *u, QOCOFloat *Du, QOCOFloat f, QOCOSolver *solver)</argsstring>
+        <name>exact_linesearch</name>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>Du</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Conducts exact linesearch to compute the largest a \in (0, 1] such that u + (a / f) * Du \in C. Currently only works for LP cone. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="todo_1_todo000001"><xreftitle>Todo</xreftitle><xrefdescription><para>get exact_linesearch working for SOCs.</para>
+</xrefdescription></xrefsect></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Du</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search direction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>f</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conservatism factor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Step-size. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/cone.h" line="191" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="331" bodyend="352" declfile="/home/govind/Desktop/git/qoco/include/cone.h" declline="191" declcolumn="11"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="utils_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License</para>
+</sect1>
+<sect1 id="utils_8h_1DESCRIPTION">
+<title>DESCRIPTION</title>
+<para>Includes various functions necessary for cone operations. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>CONE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CONE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="linalg_8h" kindref="compound">linalg.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="cone_8h_1a396272c3f1a04457de00aa516147ec6a" kindref="member">soc_product</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>u,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>v,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>p,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="cone_8h_1a7c6db1103785fcede2c141c737b9f913" kindref="member">soc_division</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>lam,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>v,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>d,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="cone_8h_1a161b9519d51c603846c9da5817926c29" kindref="member">soc_residual</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>u,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="cone_8h_1a71714e2c5333a4f2e8e99115b3feb982" kindref="member">soc_residual2</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>u,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="cone_8h_1a57e0e0d0fdd1480cc3bb709583b072be" kindref="member">cone_product</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>u,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>v,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>p,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>l,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>nsoc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>q);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="cone_8h_1a1c065eb1b5b34efd85f46198b69f5b66" kindref="member">cone_division</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>lambda,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>v,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>d,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>l,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>nsoc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>q);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="cone_8h_1a9a6ff41fae0530f91b12b75dd58c9564" kindref="member">cone_residual</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>u,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>l,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>nsoc,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>q);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="cone_8h_1aeeaf7177391c69104dff81ff350a6fd4" kindref="member">bring2cone</ref>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>u,<sp/><ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref>*<sp/>data);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="cone_8h_1aa75cb85b5b77d1831a982da450db3292" kindref="member">nt_multiply</ref>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>W,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>z,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>l,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>m,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>nsoc,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>q);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="cone_8h_1a9304a88a4e884ebbcf53a2259104307d" kindref="member">compute_mu</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="cone_8h_1ae7fbd04120780584a4a4b06f2afe3fb5" kindref="member">compute_nt_scaling</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="cone_8h_1abbe51c5b9eef797bc36d53df54cb7090" kindref="member">compute_centering</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="cone_8h_1ad15543fafb4fedbd8c13a2eaef0e6425" kindref="member">linesearch</ref>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>u,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Du,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>f,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="cone_8h_1ac90e9e955d185003e55bdc63bf25b3a1" kindref="member">bisection_search</ref>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>u,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Du,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>f,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="cone_8h_1a89ae3d348aafeaea9d7792c984cd46ef" kindref="member">exact_linesearch</ref>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>u,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Du,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>f,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/include/cone.h"/>
+  </compounddef>
+</doxygen>

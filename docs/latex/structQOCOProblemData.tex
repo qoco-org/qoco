@@ -1,0 +1,146 @@
+\hypertarget{structQOCOProblemData}{}\doxysection{QOCOProblem\+Data Struct Reference}
+\label{structQOCOProblemData}\index{QOCOProblemData@{QOCOProblemData}}
+
+
+SOCP problem data.  
+
+
+
+
+{\ttfamily \#include $<$structs.\+h$>$}
+
+
+
+Collaboration diagram for QOCOProblem\+Data\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{structQOCOProblemData__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$ \mbox{\hyperlink{structQOCOProblemData_abdb31a4bf94ade82b694d2635456a6e6}{P}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOProblemData_a7865ab92c05a9b0d4dbf85798f33b002}{c}}
+\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$ \mbox{\hyperlink{structQOCOProblemData_aa9cbb95a483b65f3e1155596cb3eab5d}{A}}
+\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$ \mbox{\hyperlink{structQOCOProblemData_a57cf5c3774dadfb733a2bc1e51e424e8}{At}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOProblemData_aaee73365c1f1cbe460f1bb8720c3c123}{b}}
+\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$ \mbox{\hyperlink{structQOCOProblemData_a83d3b83ad1361869c5676fe157b5e116}{G}}
+\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$ \mbox{\hyperlink{structQOCOProblemData_a2eec01f8d201d7f7bf40520a73253ba3}{Gt}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOProblemData_ac5b72e0466328072d1a45b0cbe155967}{h}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOProblemData_a9d6633850372ce5c5e852aca470138ae}{l}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOProblemData_a980efff44ee3906ba6d866df9067e9d6}{nsoc}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOProblemData_a9585eed3044567a25b6a3d8608a298bc}{q}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOProblemData_aa0cf719a1ff80e6f1851e03a04ac454d}{n}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOProblemData_a05c227cb935c10b07ddb8c2a1fd56bdc}{m}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOProblemData_ac8ab25686747edb154cab71cacb08517}{p}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+SOCP problem data. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structQOCOProblemData_aa9cbb95a483b65f3e1155596cb3eab5d}\label{structQOCOProblemData_aa9cbb95a483b65f3e1155596cb3eab5d}} 
+\index{QOCOProblemData@{QOCOProblemData}!A@{A}}
+\index{A@{A}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{A}{A}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}}$\ast$ QOCOProblem\+Data\+::A}
+
+Affine equality constraint matrix. \mbox{\Hypertarget{structQOCOProblemData_a57cf5c3774dadfb733a2bc1e51e424e8}\label{structQOCOProblemData_a57cf5c3774dadfb733a2bc1e51e424e8}} 
+\index{QOCOProblemData@{QOCOProblemData}!At@{At}}
+\index{At@{At}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{At}{At}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}}$\ast$ QOCOProblem\+Data\+::\+At}
+
+Transpose of A (used in Ruiz for fast row norm calculations of A). \mbox{\Hypertarget{structQOCOProblemData_aaee73365c1f1cbe460f1bb8720c3c123}\label{structQOCOProblemData_aaee73365c1f1cbe460f1bb8720c3c123}} 
+\index{QOCOProblemData@{QOCOProblemData}!b@{b}}
+\index{b@{b}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{b}{b}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOProblem\+Data\+::b}
+
+Affine equality constraint offset. \mbox{\Hypertarget{structQOCOProblemData_a7865ab92c05a9b0d4dbf85798f33b002}\label{structQOCOProblemData_a7865ab92c05a9b0d4dbf85798f33b002}} 
+\index{QOCOProblemData@{QOCOProblemData}!c@{c}}
+\index{c@{c}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{c}{c}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOProblem\+Data\+::c}
+
+Linear cost term. \mbox{\Hypertarget{structQOCOProblemData_a83d3b83ad1361869c5676fe157b5e116}\label{structQOCOProblemData_a83d3b83ad1361869c5676fe157b5e116}} 
+\index{QOCOProblemData@{QOCOProblemData}!G@{G}}
+\index{G@{G}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{G}{G}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}}$\ast$ QOCOProblem\+Data\+::G}
+
+Conic constraint matrix. \mbox{\Hypertarget{structQOCOProblemData_a2eec01f8d201d7f7bf40520a73253ba3}\label{structQOCOProblemData_a2eec01f8d201d7f7bf40520a73253ba3}} 
+\index{QOCOProblemData@{QOCOProblemData}!Gt@{Gt}}
+\index{Gt@{Gt}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{Gt}{Gt}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}}$\ast$ QOCOProblem\+Data\+::\+Gt}
+
+Transpose of G (used in Ruiz for fast row norm calculations of G). \mbox{\Hypertarget{structQOCOProblemData_ac5b72e0466328072d1a45b0cbe155967}\label{structQOCOProblemData_ac5b72e0466328072d1a45b0cbe155967}} 
+\index{QOCOProblemData@{QOCOProblemData}!h@{h}}
+\index{h@{h}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{h}{h}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOProblem\+Data\+::h}
+
+Conic constraint offset. \mbox{\Hypertarget{structQOCOProblemData_a9d6633850372ce5c5e852aca470138ae}\label{structQOCOProblemData_a9d6633850372ce5c5e852aca470138ae}} 
+\index{QOCOProblemData@{QOCOProblemData}!l@{l}}
+\index{l@{l}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{l}{l}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOProblem\+Data\+::l}
+
+Dimension of non-\/negative orthant in cone C. \mbox{\Hypertarget{structQOCOProblemData_a05c227cb935c10b07ddb8c2a1fd56bdc}\label{structQOCOProblemData_a05c227cb935c10b07ddb8c2a1fd56bdc}} 
+\index{QOCOProblemData@{QOCOProblemData}!m@{m}}
+\index{m@{m}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{m}{m}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOProblem\+Data\+::m}
+
+Number of conic constraints. \mbox{\Hypertarget{structQOCOProblemData_aa0cf719a1ff80e6f1851e03a04ac454d}\label{structQOCOProblemData_aa0cf719a1ff80e6f1851e03a04ac454d}} 
+\index{QOCOProblemData@{QOCOProblemData}!n@{n}}
+\index{n@{n}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{n}{n}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOProblem\+Data\+::n}
+
+Number of primal variables. \mbox{\Hypertarget{structQOCOProblemData_a980efff44ee3906ba6d866df9067e9d6}\label{structQOCOProblemData_a980efff44ee3906ba6d866df9067e9d6}} 
+\index{QOCOProblemData@{QOCOProblemData}!nsoc@{nsoc}}
+\index{nsoc@{nsoc}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{nsoc}{nsoc}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOProblem\+Data\+::nsoc}
+
+Number of second-\/order cones in C \mbox{\Hypertarget{structQOCOProblemData_abdb31a4bf94ade82b694d2635456a6e6}\label{structQOCOProblemData_abdb31a4bf94ade82b694d2635456a6e6}} 
+\index{QOCOProblemData@{QOCOProblemData}!P@{P}}
+\index{P@{P}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{P}{P}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}}$\ast$ QOCOProblem\+Data\+::P}
+
+Quadratic cost term. \mbox{\Hypertarget{structQOCOProblemData_ac8ab25686747edb154cab71cacb08517}\label{structQOCOProblemData_ac8ab25686747edb154cab71cacb08517}} 
+\index{QOCOProblemData@{QOCOProblemData}!p@{p}}
+\index{p@{p}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{p}{p}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOProblem\+Data\+::p}
+
+Number of affine equality constraints. \mbox{\Hypertarget{structQOCOProblemData_a9585eed3044567a25b6a3d8608a298bc}\label{structQOCOProblemData_a9585eed3044567a25b6a3d8608a298bc}} 
+\index{QOCOProblemData@{QOCOProblemData}!q@{q}}
+\index{q@{q}!QOCOProblemData@{QOCOProblemData}}
+\doxysubsubsection{\texorpdfstring{q}{q}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOProblem\+Data\+::q}
+
+Dimension of each second-\/order cone (length of nsoc) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/govind/\+Desktop/git/qoco/include/\mbox{\hyperlink{structs_8h}{structs.\+h}}\end{DoxyCompactItemize}

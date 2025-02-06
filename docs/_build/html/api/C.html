@@ -1,0 +1,856 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C/C++ &mdash; QOCO  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=139e30ab" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Python" href="python.html" />
+    <link rel="prev" title="Interfaces" href="interfaces.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            QOCO
+              <img src="../_static/qoco-logo-no-box.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Solver Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="interfaces.html">Interfaces</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">C/C++</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#main-solver-api">Main solver API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#helper-functions">Helper functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qoco-data-types">QOCO data types</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="python.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matlab.html">Matlab</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exit.html">Exit flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../parsers/index.html">Parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../codegen/index.html">QOCOGEN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing/index.html">Citing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QOCO</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API</a></li>
+          <li class="breadcrumb-item"><a href="interfaces.html">Interfaces</a></li>
+      <li class="breadcrumb-item active">C/C++</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/C.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="toctree-wrapper compound" id="c-interface">
+</div>
+<section id="c-c">
+<h1>C/C++<a class="headerlink" href="#c-c" title="Link to this heading"></a></h1>
+<section id="main-solver-api">
+<span id="c-main-api"></span><h2>Main solver API<a class="headerlink" href="#main-solver-api" title="Link to this heading"></a></h2>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv410qoco_setupP10QOCOSolver7QOCOInt7QOCOInt7QOCOIntP13QOCOCscMatrixP9QOCOFloatP13QOCOCscMatrixP9QOCOFloatP13QOCOCscMatrixP9QOCOFloat7QOCOInt7QOCOIntP7QOCOIntP12QOCOSettings">
+<span id="_CPPv310qoco_setupP10QOCOSolver7QOCOInt7QOCOInt7QOCOIntP13QOCOCscMatrixP9QOCOFloatP13QOCOCscMatrixP9QOCOFloatP13QOCOCscMatrixP9QOCOFloat7QOCOInt7QOCOIntP7QOCOIntP12QOCOSettings"></span><span id="_CPPv210qoco_setupP10QOCOSolver7QOCOInt7QOCOInt7QOCOIntP13QOCOCscMatrixP9QOCOFloatP13QOCOCscMatrixP9QOCOFloatP13QOCOCscMatrixP9QOCOFloat7QOCOInt7QOCOIntP7QOCOIntP12QOCOSettings"></span><span id="qoco_setup__QOCOSolverP.QOCOInt.QOCOInt.QOCOInt.QOCOCscMatrixP.QOCOFloatP.QOCOCscMatrixP.QOCOFloatP.QOCOCscMatrixP.QOCOFloatP.QOCOInt.QOCOInt.QOCOIntP.QOCOSettingsP"></span><span class="target" id="qoco__api_8h_1ace38c86b1bc257945fe160f54b354b23"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qoco_setup</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410QOCOSolver" title="QOCOSolver"><span class="n"><span class="pre">QOCOSolver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">solver</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">n</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">m</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">p</span></span>, <a class="reference internal" href="#_CPPv413QOCOCscMatrix" title="QOCOCscMatrix"><span class="n"><span class="pre">QOCOCscMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">P</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">c</span></span>, <a class="reference internal" href="#_CPPv413QOCOCscMatrix" title="QOCOCscMatrix"><span class="n"><span class="pre">QOCOCscMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">A</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">b</span></span>, <a class="reference internal" href="#_CPPv413QOCOCscMatrix" title="QOCOCscMatrix"><span class="n"><span class="pre">QOCOCscMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">G</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">h</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nsoc</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">q</span></span>, <a class="reference internal" href="#_CPPv412QOCOSettings" title="QOCOSettings"><span class="n"><span class="pre">QOCOSettings</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">settings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv410qoco_setupP10QOCOSolver7QOCOInt7QOCOInt7QOCOIntP13QOCOCscMatrixP9QOCOFloatP13QOCOCscMatrixP9QOCOFloatP13QOCOCscMatrixP9QOCOFloat7QOCOInt7QOCOIntP7QOCOIntP12QOCOSettings" title="Link to this definition"></a><br /></dt>
+<dd><p>Allocates all memory needed for QOCO to solve the SOCP. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solver</strong> – Pointer to solver. </p></li>
+<li><p><strong>n</strong> – Number of optimization variables. </p></li>
+<li><p><strong>m</strong> – Number of conic constraints. </p></li>
+<li><p><strong>p</strong> – Number of affine equality constraints. </p></li>
+<li><p><strong>P</strong> – Upper triangular part of quadratic cost Hessian in CSC form. </p></li>
+<li><p><strong>c</strong> – Linear cost vector. </p></li>
+<li><p><strong>A</strong> – Affine equality constraint matrix in CSC form. </p></li>
+<li><p><strong>b</strong> – Affine equality constraint offset vector. </p></li>
+<li><p><strong>G</strong> – Conic constraint matrix in CSC form. </p></li>
+<li><p><strong>h</strong> – Conic constraint offset vector. </p></li>
+<li><p><strong>l</strong> – Dimension of non-negative orthant. </p></li>
+<li><p><strong>nsoc</strong> – Number of second-order cones. </p></li>
+<li><p><strong>q</strong> – Dimension of each second-order cone. </p></li>
+<li><p><strong>settings</strong> – Settings struct. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 if no error or flag containing error code. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv410qoco_solveP10QOCOSolver">
+<span id="_CPPv310qoco_solveP10QOCOSolver"></span><span id="_CPPv210qoco_solveP10QOCOSolver"></span><span id="qoco_solve__QOCOSolverP"></span><span class="target" id="qoco__api_8h_1a12ff54d8eb71178436b015cd3a485815"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qoco_solve</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410QOCOSolver" title="QOCOSolver"><span class="n"><span class="pre">QOCOSolver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">solver</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv410qoco_solveP10QOCOSolver" title="Link to this definition"></a><br /></dt>
+<dd><p>Solves SOCP. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>solver</strong> – Pointer to solver. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Exitflag to check (0 for success, failure otherwise) </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv412qoco_cleanupP10QOCOSolver">
+<span id="_CPPv312qoco_cleanupP10QOCOSolver"></span><span id="_CPPv212qoco_cleanupP10QOCOSolver"></span><span id="qoco_cleanup__QOCOSolverP"></span><span class="target" id="qoco__api_8h_1adf388119bb41bbc683e099321879eebd"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qoco_cleanup</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410QOCOSolver" title="QOCOSolver"><span class="n"><span class="pre">QOCOSolver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">solver</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412qoco_cleanupP10QOCOSolver" title="Link to this definition"></a><br /></dt>
+<dd><p>Frees all memory allocated by qoco_setup. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>solver</strong> – Pointer to solver. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Exitflag to check (0 for success, failure otherwise) </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="helper-functions">
+<h2>Helper functions<a class="headerlink" href="#helper-functions" title="Link to this heading"></a></h2>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv412qoco_set_cscP13QOCOCscMatrix7QOCOInt7QOCOInt7QOCOIntP9QOCOFloatP7QOCOIntP7QOCOInt">
+<span id="_CPPv312qoco_set_cscP13QOCOCscMatrix7QOCOInt7QOCOInt7QOCOIntP9QOCOFloatP7QOCOIntP7QOCOInt"></span><span id="_CPPv212qoco_set_cscP13QOCOCscMatrix7QOCOInt7QOCOInt7QOCOIntP9QOCOFloatP7QOCOIntP7QOCOInt"></span><span id="qoco_set_csc__QOCOCscMatrixP.QOCOInt.QOCOInt.QOCOInt.QOCOFloatP.QOCOIntP.QOCOIntP"></span><span class="target" id="qoco__api_8h_1a4924aaa44b38370e774f3754f404145a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qoco_set_csc</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413QOCOCscMatrix" title="QOCOCscMatrix"><span class="n"><span class="pre">QOCOCscMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">A</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">m</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">n</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">Annz</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Ax</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Ap</span></span>, <span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Ai</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412qoco_set_cscP13QOCOCscMatrix7QOCOInt7QOCOInt7QOCOIntP9QOCOFloatP7QOCOIntP7QOCOInt" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the data for a compressed sparse column matrix. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> – Pointer to the CSC matrix. </p></li>
+<li><p><strong>m</strong> – Number of rows in the matrix. </p></li>
+<li><p><strong>n</strong> – Number of columns in the matrix. </p></li>
+<li><p><strong>Annz</strong> – Number of nonzero elements in the matrix. </p></li>
+<li><p><strong>Ax</strong> – Array of data for the matrix. </p></li>
+<li><p><strong>Ap</strong> – Array of column pointers for the data. </p></li>
+<li><p><strong>Ai</strong> – Array of row indices for data. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv420set_default_settingsP12QOCOSettings">
+<span id="_CPPv320set_default_settingsP12QOCOSettings"></span><span id="_CPPv220set_default_settingsP12QOCOSettings"></span><span id="set_default_settings__QOCOSettingsP"></span><span class="target" id="qoco__api_8h_1a3b5424d92406d0dbdbecf126b8970625"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_default_settings</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412QOCOSettings" title="QOCOSettings"><span class="n"><span class="pre">QOCOSettings</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">settings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420set_default_settingsP12QOCOSettings" title="Link to this definition"></a><br /></dt>
+<dd><p>Set the default settings struct. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>settings</strong> – Pointer to settings struct. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv420qoco_update_settingsP10QOCOSolverPK12QOCOSettings">
+<span id="_CPPv320qoco_update_settingsP10QOCOSolverPK12QOCOSettings"></span><span id="_CPPv220qoco_update_settingsP10QOCOSolverPK12QOCOSettings"></span><span id="qoco_update_settings__QOCOSolverP.QOCOSettingsCP"></span><span class="target" id="qoco__api_8h_1ae907f556c8bd418aa91069c064229675"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qoco_update_settings</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410QOCOSolver" title="QOCOSolver"><span class="n"><span class="pre">QOCOSolver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">solver</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv412QOCOSettings" title="QOCOSettings"><span class="n"><span class="pre">QOCOSettings</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">new_settings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420qoco_update_settingsP10QOCOSolverPK12QOCOSettings" title="Link to this definition"></a><br /></dt>
+<dd><p>Updates settings struct. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solver</strong> – Pointer to solver. </p></li>
+<li><p><strong>new_settings</strong> – New settings struct. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 if update is successful. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv418update_vector_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat">
+<span id="_CPPv318update_vector_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat"></span><span id="_CPPv218update_vector_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat"></span><span id="update_vector_data__QOCOSolverP.QOCOFloatP.QOCOFloatP.QOCOFloatP"></span><span class="target" id="qoco__api_8h_1a525738f05532dce21ec82ee7c3cf4138"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_vector_data</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410QOCOSolver" title="QOCOSolver"><span class="n"><span class="pre">QOCOSolver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">solver</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">cnew</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">bnew</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">hnew</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418update_vector_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat" title="Link to this definition"></a><br /></dt>
+<dd><p>Updates data vectors. NULL can be passed in for any vector if that data will not be updated. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solver</strong> – Pointer to solver. </p></li>
+<li><p><strong>cnew</strong> – New c vector. </p></li>
+<li><p><strong>bnew</strong> – New b vector. </p></li>
+<li><p><strong>hnew</strong> – New h vector. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv418update_matrix_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat">
+<span id="_CPPv318update_matrix_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat"></span><span id="_CPPv218update_matrix_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat"></span><span id="update_matrix_data__QOCOSolverP.QOCOFloatP.QOCOFloatP.QOCOFloatP"></span><span class="target" id="qoco__api_8h_1ae144e269bd46cb81ae3e1eab33a69915"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_matrix_data</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410QOCOSolver" title="QOCOSolver"><span class="n"><span class="pre">QOCOSolver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">solver</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pxnew</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Axnew</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Gxnew</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418update_matrix_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat" title="Link to this definition"></a><br /></dt>
+<dd><p>Updates data matrices. NULL can be passed in for any matrix data pointers if that matrix will not be updated. It is assumed that the new matrix will have the same sparsity structure as the existing matrix. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solver</strong> – Pointer to solver. </p></li>
+<li><p><strong>Pxnew</strong> – New data for P-&gt;x. </p></li>
+<li><p><strong>Axnew</strong> – New data for A-&gt;x. </p></li>
+<li><p><strong>Gxnew</strong> – New data for G-&gt;x. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="qoco-data-types">
+<h2>QOCO data types<a class="headerlink" href="#qoco-data-types" title="Link to this heading"></a></h2>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv410QOCOSolver">
+<span id="_CPPv310QOCOSolver"></span><span id="_CPPv210QOCOSolver"></span><span id="QOCOSolver"></span><span class="target" id="structQOCOSolver"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QOCOSolver</span></span></span><a class="headerlink" href="#_CPPv410QOCOSolver" title="Link to this definition"></a><br /></dt>
+<dd><p>QOCO Solver struct. Contains all information about the state of the solver. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10QOCOSolver8settingsE">
+<span id="_CPPv3N10QOCOSolver8settingsE"></span><span id="_CPPv2N10QOCOSolver8settingsE"></span><span id="QOCOSolver::settings__QOCOSettingsP"></span><span class="target" id="structQOCOSolver_1a74a794b01773f869a491cacdb6fc21b3"></span><a class="reference internal" href="#_CPPv412QOCOSettings" title="QOCOSettings"><span class="n"><span class="pre">QOCOSettings</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">settings</span></span></span><a class="headerlink" href="#_CPPv4N10QOCOSolver8settingsE" title="Link to this definition"></a><br /></dt>
+<dd><p>Solver settings. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10QOCOSolver4workE">
+<span id="_CPPv3N10QOCOSolver4workE"></span><span id="_CPPv2N10QOCOSolver4workE"></span><span id="QOCOSolver::work__QOCOWorkspaceP"></span><span class="target" id="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3"></span><a class="reference internal" href="#_CPPv413QOCOWorkspace" title="QOCOWorkspace"><span class="n"><span class="pre">QOCOWorkspace</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">work</span></span></span><a class="headerlink" href="#_CPPv4N10QOCOSolver4workE" title="Link to this definition"></a><br /></dt>
+<dd><p>Solver workspace. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N10QOCOSolver3solE">
+<span id="_CPPv3N10QOCOSolver3solE"></span><span id="_CPPv2N10QOCOSolver3solE"></span><span id="QOCOSolver::sol__QOCOSolutionP"></span><span class="target" id="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702"></span><a class="reference internal" href="#_CPPv412QOCOSolution" title="QOCOSolution"><span class="n"><span class="pre">QOCOSolution</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">sol</span></span></span><a class="headerlink" href="#_CPPv4N10QOCOSolver3solE" title="Link to this definition"></a><br /></dt>
+<dd><p>Solution struct. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv412QOCOSettings">
+<span id="_CPPv312QOCOSettings"></span><span id="_CPPv212QOCOSettings"></span><span id="QOCOSettings"></span><span class="target" id="structQOCOSettings"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QOCOSettings</span></span></span><a class="headerlink" href="#_CPPv412QOCOSettings" title="Link to this definition"></a><br /></dt>
+<dd><p>QOCO solver settings. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings9max_itersE">
+<span id="_CPPv3N12QOCOSettings9max_itersE"></span><span id="_CPPv2N12QOCOSettings9max_itersE"></span><span id="QOCOSettings::max_iters__QOCOInt"></span><span class="target" id="structQOCOSettings_1ad024407378c8232511ffc8775e6d92a7"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_iters</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings9max_itersE" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum number of IPM iterations. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings12bisect_itersE">
+<span id="_CPPv3N12QOCOSettings12bisect_itersE"></span><span id="_CPPv2N12QOCOSettings12bisect_itersE"></span><span id="QOCOSettings::bisect_iters__QOCOInt"></span><span class="target" id="structQOCOSettings_1a13065594e57d4091033243b12c5bfd5c"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bisect_iters</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings12bisect_itersE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of bisection iterations for linesearch. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings10ruiz_itersE">
+<span id="_CPPv3N12QOCOSettings10ruiz_itersE"></span><span id="_CPPv2N12QOCOSettings10ruiz_itersE"></span><span id="QOCOSettings::ruiz_iters__QOCOInt"></span><span class="target" id="structQOCOSettings_1af252771d1771c37f794a6d5c385ce66d"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ruiz_iters</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings10ruiz_itersE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of Ruiz equilibration iterations. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings14iter_ref_itersE">
+<span id="_CPPv3N12QOCOSettings14iter_ref_itersE"></span><span id="_CPPv2N12QOCOSettings14iter_ref_itersE"></span><span id="QOCOSettings::iter_ref_iters__QOCOInt"></span><span class="target" id="structQOCOSettings_1afd5bc6a556931668265c2e47270e8278"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">iter_ref_iters</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings14iter_ref_itersE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of iterative refinement iterations performed. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings14kkt_static_regE">
+<span id="_CPPv3N12QOCOSettings14kkt_static_regE"></span><span id="_CPPv2N12QOCOSettings14kkt_static_regE"></span><span id="QOCOSettings::kkt_static_reg__QOCOFloat"></span><span class="target" id="structQOCOSettings_1a11f48d67a5626431c077ad30c84433df"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kkt_static_reg</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings14kkt_static_regE" title="Link to this definition"></a><br /></dt>
+<dd><p>Static regularization parameter for KKT system. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings15kkt_dynamic_regE">
+<span id="_CPPv3N12QOCOSettings15kkt_dynamic_regE"></span><span id="_CPPv2N12QOCOSettings15kkt_dynamic_regE"></span><span id="QOCOSettings::kkt_dynamic_reg__QOCOFloat"></span><span class="target" id="structQOCOSettings_1ad635ca462b97c3f0978b755ce2ce763c"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kkt_dynamic_reg</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings15kkt_dynamic_regE" title="Link to this definition"></a><br /></dt>
+<dd><p>Dynamic regularization parameter for KKT system. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings6abstolE">
+<span id="_CPPv3N12QOCOSettings6abstolE"></span><span id="_CPPv2N12QOCOSettings6abstolE"></span><span id="QOCOSettings::abstol__QOCOFloat"></span><span class="target" id="structQOCOSettings_1a7d62b01403b7572ee0d1ebaaab45c9d0"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">abstol</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings6abstolE" title="Link to this definition"></a><br /></dt>
+<dd><p>Absolute tolerance. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings6reltolE">
+<span id="_CPPv3N12QOCOSettings6reltolE"></span><span id="_CPPv2N12QOCOSettings6reltolE"></span><span id="QOCOSettings::reltol__QOCOFloat"></span><span class="target" id="structQOCOSettings_1a9924681488237bcc446854964f3b5012"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reltol</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings6reltolE" title="Link to this definition"></a><br /></dt>
+<dd><p>Relative tolerance. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings12abstol_inaccE">
+<span id="_CPPv3N12QOCOSettings12abstol_inaccE"></span><span id="_CPPv2N12QOCOSettings12abstol_inaccE"></span><span id="QOCOSettings::abstol_inacc__QOCOFloat"></span><span class="target" id="structQOCOSettings_1a92cdec007c0b9a4392d3036e97012492"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">abstol_inacc</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings12abstol_inaccE" title="Link to this definition"></a><br /></dt>
+<dd><p>Low tolerance stopping criteria. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings12reltol_inaccE">
+<span id="_CPPv3N12QOCOSettings12reltol_inaccE"></span><span id="_CPPv2N12QOCOSettings12reltol_inaccE"></span><span id="QOCOSettings::reltol_inacc__QOCOFloat"></span><span class="target" id="structQOCOSettings_1a13d27ddfaba9c83983090fba602ab2b4"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reltol_inacc</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings12reltol_inaccE" title="Link to this definition"></a><br /></dt>
+<dd><p>Low tolerance stopping criteria. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings7verboseE">
+<span id="_CPPv3N12QOCOSettings7verboseE"></span><span id="_CPPv2N12QOCOSettings7verboseE"></span><span id="QOCOSettings::verbose__unsigned-c"></span><span class="target" id="structQOCOSettings_1a1a566c8aa840eaaf69e3070060a0ab5a"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">verbose</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings7verboseE" title="Link to this definition"></a><br /></dt>
+<dd><p>0 for quiet anything else for verbose. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv413QOCOWorkspace">
+<span id="_CPPv313QOCOWorkspace"></span><span id="_CPPv213QOCOWorkspace"></span><span id="QOCOWorkspace"></span><span class="target" id="structQOCOWorkspace"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QOCOWorkspace</span></span></span><a class="headerlink" href="#_CPPv413QOCOWorkspace" title="Link to this definition"></a><br /></dt>
+<dd><p>QOCO Workspace. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace4dataE">
+<span id="_CPPv3N13QOCOWorkspace4dataE"></span><span id="_CPPv2N13QOCOWorkspace4dataE"></span><span id="QOCOWorkspace::data__QOCOProblemDataP"></span><span class="target" id="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2"></span><span class="n"><span class="pre">QOCOProblemData</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace4dataE" title="Link to this definition"></a><br /></dt>
+<dd><p>Contains SOCP problem data. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace11solve_timerE">
+<span id="_CPPv3N13QOCOWorkspace11solve_timerE"></span><span id="_CPPv2N13QOCOWorkspace11solve_timerE"></span><span id="QOCOWorkspace::solve_timer__QOCOTimer"></span><span class="target" id="structQOCOWorkspace_1a1e42af4dbb27330568497c58e92cfea2"></span><span class="n"><span class="pre">QOCOTimer</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">solve_timer</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace11solve_timerE" title="Link to this definition"></a><br /></dt>
+<dd><p>Solve timer. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace3kktE">
+<span id="_CPPv3N13QOCOWorkspace3kktE"></span><span id="_CPPv2N13QOCOWorkspace3kktE"></span><span id="QOCOWorkspace::kkt__QOCOKKTP"></span><span class="target" id="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce"></span><a class="reference internal" href="#_CPPv47QOCOKKT" title="QOCOKKT"><span class="n"><span class="pre">QOCOKKT</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">kkt</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace3kktE" title="Link to this definition"></a><br /></dt>
+<dd><p>Contains all data related to KKT system. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace1xE">
+<span id="_CPPv3N13QOCOWorkspace1xE"></span><span id="_CPPv2N13QOCOWorkspace1xE"></span><span id="QOCOWorkspace::x__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">x</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace1xE" title="Link to this definition"></a><br /></dt>
+<dd><p>Iterate of primal variables. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace1sE">
+<span id="_CPPv3N13QOCOWorkspace1sE"></span><span id="_CPPv2N13QOCOWorkspace1sE"></span><span id="QOCOWorkspace::s__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a002ae166cc6aecae4752707d5d363b4f"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">s</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace1sE" title="Link to this definition"></a><br /></dt>
+<dd><p>Iterate of slack variables associated with conic constraint. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace1yE">
+<span id="_CPPv3N13QOCOWorkspace1yE"></span><span id="_CPPv2N13QOCOWorkspace1yE"></span><span id="QOCOWorkspace::y__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1ac41c22bfe9821570218e52e527b90b9e"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">y</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace1yE" title="Link to this definition"></a><br /></dt>
+<dd><p>Iterate of dual variables associated with affine equality constraint. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace1zE">
+<span id="_CPPv3N13QOCOWorkspace1zE"></span><span id="_CPPv2N13QOCOWorkspace1zE"></span><span id="QOCOWorkspace::z__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a6ebb2d02f31c2a1866076b4165f07a54"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">z</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace1zE" title="Link to this definition"></a><br /></dt>
+<dd><p>Iterate of dual variables associated with conic constraint. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace2muE">
+<span id="_CPPv3N13QOCOWorkspace2muE"></span><span id="_CPPv2N13QOCOWorkspace2muE"></span><span id="QOCOWorkspace::mu__QOCOFloat"></span><span class="target" id="structQOCOWorkspace_1a24869d9e9aa5cbcfd7451ab6219a011f"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mu</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace2muE" title="Link to this definition"></a><br /></dt>
+<dd><p>Gap (s’*z / m) </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace1aE">
+<span id="_CPPv3N13QOCOWorkspace1aE"></span><span id="_CPPv2N13QOCOWorkspace1aE"></span><span id="QOCOWorkspace::a__QOCOFloat"></span><span class="target" id="structQOCOWorkspace_1a04dfe46d9df29667a1241255569456d0"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">a</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace1aE" title="Link to this definition"></a><br /></dt>
+<dd><p>Newton Step-size </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace5sigmaE">
+<span id="_CPPv3N13QOCOWorkspace5sigmaE"></span><span id="_CPPv2N13QOCOWorkspace5sigmaE"></span><span id="QOCOWorkspace::sigma__QOCOFloat"></span><span class="target" id="structQOCOWorkspace_1aec13ff096706e16f9458c354dede1dab"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sigma</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace5sigmaE" title="Link to this definition"></a><br /></dt>
+<dd><p>Centering parameter </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace4WnnzE">
+<span id="_CPPv3N13QOCOWorkspace4WnnzE"></span><span id="_CPPv2N13QOCOWorkspace4WnnzE"></span><span id="QOCOWorkspace::Wnnz__QOCOInt"></span><span class="target" id="structQOCOWorkspace_1aa43b26d800f4371c0ddf16d22978b94c"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Wnnz</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace4WnnzE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of nonzeros in upper triangular part of Nesterov-Todd Scaling. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace8WnnzfullE">
+<span id="_CPPv3N13QOCOWorkspace8WnnzfullE"></span><span id="_CPPv2N13QOCOWorkspace8WnnzfullE"></span><span id="QOCOWorkspace::Wnnzfull__QOCOInt"></span><span class="target" id="structQOCOWorkspace_1a266fcd28cf2cfd16369a1f3e7f55bc38"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Wnnzfull</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace8WnnzfullE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of nonzeros in full Nesterov-Todd Scaling. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace1WE">
+<span id="_CPPv3N13QOCOWorkspace1WE"></span><span id="_CPPv2N13QOCOWorkspace1WE"></span><span id="QOCOWorkspace::W__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a090e9a2bda01d9afaeb6d723012c0c0b"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">W</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace1WE" title="Link to this definition"></a><br /></dt>
+<dd><p>Upper triangular part of Nesterov-Todd Scaling </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace5WfullE">
+<span id="_CPPv3N13QOCOWorkspace5WfullE"></span><span id="_CPPv2N13QOCOWorkspace5WfullE"></span><span id="QOCOWorkspace::Wfull__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1ac6167675f75b92721d71e26f7438a29e"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Wfull</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace5WfullE" title="Link to this definition"></a><br /></dt>
+<dd><p>Full Nesterov-Todd Scaling </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace4WinvE">
+<span id="_CPPv3N13QOCOWorkspace4WinvE"></span><span id="_CPPv2N13QOCOWorkspace4WinvE"></span><span id="QOCOWorkspace::Winv__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a6967ce11381cadffa62570866eee2c09"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Winv</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace4WinvE" title="Link to this definition"></a><br /></dt>
+<dd><p>Upper triangular part of inverse of Nesterov-Todd Scaling </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace8WinvfullE">
+<span id="_CPPv3N13QOCOWorkspace8WinvfullE"></span><span id="_CPPv2N13QOCOWorkspace8WinvfullE"></span><span id="QOCOWorkspace::Winvfull__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a29bea851e0fff76a4173b777eb263d41"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Winvfull</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace8WinvfullE" title="Link to this definition"></a><br /></dt>
+<dd><p>Full inverse of Nesterov-Todd Scaling </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace3WtWE">
+<span id="_CPPv3N13QOCOWorkspace3WtWE"></span><span id="_CPPv2N13QOCOWorkspace3WtWE"></span><span id="QOCOWorkspace::WtW__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a058dfbd7bf8f83c61e81d9985ec1a0ff"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">WtW</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace3WtWE" title="Link to this definition"></a><br /></dt>
+<dd><p>Nesterov-Todd Scaling squared </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace6lambdaE">
+<span id="_CPPv3N13QOCOWorkspace6lambdaE"></span><span id="_CPPv2N13QOCOWorkspace6lambdaE"></span><span id="QOCOWorkspace::lambda__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1ae51fe619a4326ae51b2058838e1aa2ae"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">lambda</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace6lambdaE" title="Link to this definition"></a><br /></dt>
+<dd><p>Scaled variables. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace4sbarE">
+<span id="_CPPv3N13QOCOWorkspace4sbarE"></span><span id="_CPPv2N13QOCOWorkspace4sbarE"></span><span id="QOCOWorkspace::sbar__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a48685f3f6a25e3f6f9d052a04ecad1dc"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">sbar</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace4sbarE" title="Link to this definition"></a><br /></dt>
+<dd><p>Temporary array needed in Nesterov-Todd scaling calculations. Length of max(q). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace4zbarE">
+<span id="_CPPv3N13QOCOWorkspace4zbarE"></span><span id="_CPPv2N13QOCOWorkspace4zbarE"></span><span id="QOCOWorkspace::zbar__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a2f5ae5af745301de6b8bcaa455279e80"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">zbar</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace4zbarE" title="Link to this definition"></a><br /></dt>
+<dd><p>Temporary array needed in Nesterov-Todd scaling calculations. Length of max(q). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace5xbuffE">
+<span id="_CPPv3N13QOCOWorkspace5xbuffE"></span><span id="_CPPv2N13QOCOWorkspace5xbuffE"></span><span id="QOCOWorkspace::xbuff__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">xbuff</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace5xbuffE" title="Link to this definition"></a><br /></dt>
+<dd><p>Temporary variable of length n. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace5ybuffE">
+<span id="_CPPv3N13QOCOWorkspace5ybuffE"></span><span id="_CPPv2N13QOCOWorkspace5ybuffE"></span><span id="QOCOWorkspace::ybuff__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ybuff</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace5ybuffE" title="Link to this definition"></a><br /></dt>
+<dd><p>Temporary variable of length p. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace6ubuff1E">
+<span id="_CPPv3N13QOCOWorkspace6ubuff1E"></span><span id="_CPPv2N13QOCOWorkspace6ubuff1E"></span><span id="QOCOWorkspace::ubuff1__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ubuff1</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace6ubuff1E" title="Link to this definition"></a><br /></dt>
+<dd><p>Temporary variable of length m. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace6ubuff2E">
+<span id="_CPPv3N13QOCOWorkspace6ubuff2E"></span><span id="_CPPv2N13QOCOWorkspace6ubuff2E"></span><span id="QOCOWorkspace::ubuff2__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a69686f6f9be8831adc15b675c9a8901b"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ubuff2</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace6ubuff2E" title="Link to this definition"></a><br /></dt>
+<dd><p>Temporary variable of length m. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace6ubuff3E">
+<span id="_CPPv3N13QOCOWorkspace6ubuff3E"></span><span id="_CPPv2N13QOCOWorkspace6ubuff3E"></span><span id="QOCOWorkspace::ubuff3__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1ac6d7f378e50078c8df22229a64f63335"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ubuff3</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace6ubuff3E" title="Link to this definition"></a><br /></dt>
+<dd><p>Temporary variable of length m. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace2DsE">
+<span id="_CPPv3N13QOCOWorkspace2DsE"></span><span id="_CPPv2N13QOCOWorkspace2DsE"></span><span id="QOCOWorkspace::Ds__QOCOFloatP"></span><span class="target" id="structQOCOWorkspace_1a2152c26a211c0054631fcfdc22c84bc2"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Ds</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace2DsE" title="Link to this definition"></a><br /></dt>
+<dd><p>Search direction for slack variables. Length of m. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv47QOCOKKT">
+<span id="_CPPv37QOCOKKT"></span><span id="_CPPv27QOCOKKT"></span><span id="QOCOKKT"></span><span class="target" id="structQOCOKKT"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QOCOKKT</span></span></span><a class="headerlink" href="#_CPPv47QOCOKKT" title="Link to this definition"></a><br /></dt>
+<dd><p>Contains all data needed for constructing and modifying KKT matrix and performing predictor-corrector step. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT1KE">
+<span id="_CPPv3N7QOCOKKT1KE"></span><span id="_CPPv2N7QOCOKKT1KE"></span><span id="QOCOKKT::K__QOCOCscMatrixP"></span><span class="target" id="structQOCOKKT_1a42dca8a44ef230ae857c0ed1902a1e6e"></span><a class="reference internal" href="#_CPPv413QOCOCscMatrix" title="QOCOCscMatrix"><span class="n"><span class="pre">QOCOCscMatrix</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">K</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT1KE" title="Link to this definition"></a><br /></dt>
+<dd><p>KKT matrix in CSC form. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT5deltaE">
+<span id="_CPPv3N7QOCOKKT5deltaE"></span><span id="_CPPv2N7QOCOKKT5deltaE"></span><span id="QOCOKKT::delta__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1a161652b18272e8ad4b4ef2498b64f06e"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">delta</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT5deltaE" title="Link to this definition"></a><br /></dt>
+<dd><p>Diagonal of scaling matrix. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT5DruizE">
+<span id="_CPPv3N7QOCOKKT5DruizE"></span><span id="_CPPv2N7QOCOKKT5DruizE"></span><span id="QOCOKKT::Druiz__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1afd535d2eb4f588cb097c9961f11f8cee"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Druiz</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT5DruizE" title="Link to this definition"></a><br /></dt>
+<dd><p>Diagonal of scaling matrix. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT5EruizE">
+<span id="_CPPv3N7QOCOKKT5EruizE"></span><span id="_CPPv2N7QOCOKKT5EruizE"></span><span id="QOCOKKT::Eruiz__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1a02dcddeb25f2e5faa1a28167c2bde732"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Eruiz</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT5EruizE" title="Link to this definition"></a><br /></dt>
+<dd><p>Diagonal of scaling matrix. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT5FruizE">
+<span id="_CPPv3N7QOCOKKT5FruizE"></span><span id="_CPPv2N7QOCOKKT5FruizE"></span><span id="QOCOKKT::Fruiz__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1adb853bd2760ba9c0af0d9b6d5738f9ae"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Fruiz</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT5FruizE" title="Link to this definition"></a><br /></dt>
+<dd><p>Diagonal of scaling matrix. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT8DinvruizE">
+<span id="_CPPv3N7QOCOKKT8DinvruizE"></span><span id="_CPPv2N7QOCOKKT8DinvruizE"></span><span id="QOCOKKT::Dinvruiz__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1a11ee7c721bfe5fdede3fa518946a766a"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Dinvruiz</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT8DinvruizE" title="Link to this definition"></a><br /></dt>
+<dd><p>Inverse of Druiz. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT8EinvruizE">
+<span id="_CPPv3N7QOCOKKT8EinvruizE"></span><span id="_CPPv2N7QOCOKKT8EinvruizE"></span><span id="QOCOKKT::Einvruiz__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1aae616bb46f059dc575ca1bb2d5f4fa27"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Einvruiz</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT8EinvruizE" title="Link to this definition"></a><br /></dt>
+<dd><p>Inverse of Eruiz. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT8FinvruizE">
+<span id="_CPPv3N7QOCOKKT8FinvruizE"></span><span id="_CPPv2N7QOCOKKT8FinvruizE"></span><span id="QOCOKKT::Finvruiz__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1a9f2b26ac858146f3571c071a55aa7be2"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Finvruiz</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT8FinvruizE" title="Link to this definition"></a><br /></dt>
+<dd><p>Inverse of Fruiz. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT1kE">
+<span id="_CPPv3N7QOCOKKT1kE"></span><span id="_CPPv2N7QOCOKKT1kE"></span><span id="QOCOKKT::k__QOCOFloat"></span><span class="target" id="structQOCOKKT_1a0370a2e9d69025a4b53aeb27429f33dd"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">k</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT1kE" title="Link to this definition"></a><br /></dt>
+<dd><p>Cost scaling factor. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT4kinvE">
+<span id="_CPPv3N7QOCOKKT4kinvE"></span><span id="_CPPv2N7QOCOKKT4kinvE"></span><span id="QOCOKKT::kinv__QOCOFloat"></span><span class="target" id="structQOCOKKT_1ac992970a5113c5ff3d60e0c64532aa0a"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kinv</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT4kinvE" title="Link to this definition"></a><br /></dt>
+<dd><p>Inverse of cost scaling factor. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT1pE">
+<span id="_CPPv3N7QOCOKKT1pE"></span><span id="_CPPv2N7QOCOKKT1pE"></span><span id="QOCOKKT::p__QOCOIntP"></span><span class="target" id="structQOCOKKT_1a449decfbee7d2a4c43d9c651dd51769c"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">p</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT1pE" title="Link to this definition"></a><br /></dt>
+<dd><p>Permutation vector. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT4pinvE">
+<span id="_CPPv3N7QOCOKKT4pinvE"></span><span id="_CPPv2N7QOCOKKT4pinvE"></span><span id="QOCOKKT::pinv__QOCOIntP"></span><span class="target" id="structQOCOKKT_1a3a44f4ab1182b63af361b7bae1d29498"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pinv</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT4pinvE" title="Link to this definition"></a><br /></dt>
+<dd><p>Inverse of permutation vector. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT5etreeE">
+<span id="_CPPv3N7QOCOKKT5etreeE"></span><span id="_CPPv2N7QOCOKKT5etreeE"></span><span id="QOCOKKT::etree__QOCOIntP"></span><span class="target" id="structQOCOKKT_1acf1f241dff0d6bda8ae0c54319eb5e9e"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">etree</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT5etreeE" title="Link to this definition"></a><br /></dt>
+<dd><p>Elimination tree for LDL factorization of K. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT3rhsE">
+<span id="_CPPv3N7QOCOKKT3rhsE"></span><span id="_CPPv2N7QOCOKKT3rhsE"></span><span id="QOCOKKT::rhs__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1a350c03f2665d19dde24b74b556d91a59"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">rhs</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT3rhsE" title="Link to this definition"></a><br /></dt>
+<dd><p>RHS of KKT system. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT3xyzE">
+<span id="_CPPv3N7QOCOKKT3xyzE"></span><span id="_CPPv2N7QOCOKKT3xyzE"></span><span id="QOCOKKT::xyz__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1adbc8ffce9207cfc89d657f46fd6959ab"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">xyz</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT3xyzE" title="Link to this definition"></a><br /></dt>
+<dd><p>Solution of KKT system. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT8xyzbuff1E">
+<span id="_CPPv3N7QOCOKKT8xyzbuff1E"></span><span id="_CPPv2N7QOCOKKT8xyzbuff1E"></span><span id="QOCOKKT::xyzbuff1__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1a37864381633654817dc0fcd3b34ce981"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">xyzbuff1</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT8xyzbuff1E" title="Link to this definition"></a><br /></dt>
+<dd><p>Buffer of size n + m + p. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT8xyzbuff2E">
+<span id="_CPPv3N7QOCOKKT8xyzbuff2E"></span><span id="_CPPv2N7QOCOKKT8xyzbuff2E"></span><span id="QOCOKKT::xyzbuff2__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1aa3928f751b6f70a295f6b39bac199a4b"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">xyzbuff2</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT8xyzbuff2E" title="Link to this definition"></a><br /></dt>
+<dd><p>Buffer of size n + m + p. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT6kktresE">
+<span id="_CPPv3N7QOCOKKT6kktresE"></span><span id="_CPPv2N7QOCOKKT6kktresE"></span><span id="QOCOKKT::kktres__QOCOFloatP"></span><span class="target" id="structQOCOKKT_1a09b19f406c70817daf7dc41ead83c975"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">kktres</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT6kktresE" title="Link to this definition"></a><br /></dt>
+<dd><p>Residual of KKT condition. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT6nt2kktE">
+<span id="_CPPv3N7QOCOKKT6nt2kktE"></span><span id="_CPPv2N7QOCOKKT6nt2kktE"></span><span id="QOCOKKT::nt2kkt__QOCOIntP"></span><span class="target" id="structQOCOKKT_1a14f8a761326da48445b45f9a19f0e504"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">nt2kkt</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT6nt2kktE" title="Link to this definition"></a><br /></dt>
+<dd><p>Mapping from elements in the Nesterov-Todd scaling matrix to elements in the KKT matrix. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT10ntdiag2kktE">
+<span id="_CPPv3N7QOCOKKT10ntdiag2kktE"></span><span id="_CPPv2N7QOCOKKT10ntdiag2kktE"></span><span id="QOCOKKT::ntdiag2kkt__QOCOIntP"></span><span class="target" id="structQOCOKKT_1aa0f0fe3ae4f7d6db557fc2dcea2309eb"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">ntdiag2kkt</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT10ntdiag2kktE" title="Link to this definition"></a><br /></dt>
+<dd><p>Mapping from elements on the main diagonal of the Nesterov-Todd scaling matrices to elements in the KKT matrix. Used for regularization. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT9PregtoKKTE">
+<span id="_CPPv3N7QOCOKKT9PregtoKKTE"></span><span id="_CPPv2N7QOCOKKT9PregtoKKTE"></span><span id="QOCOKKT::PregtoKKT__QOCOIntP"></span><span class="target" id="structQOCOKKT_1a7cb73048831966481cdf1bbe0cc0ca07"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PregtoKKT</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT9PregtoKKTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Mapping from elements in regularized P to elements in the KKT matrix. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT12Pnzadded_idxE">
+<span id="_CPPv3N7QOCOKKT12Pnzadded_idxE"></span><span id="_CPPv2N7QOCOKKT12Pnzadded_idxE"></span><span id="QOCOKKT::Pnzadded_idx__QOCOIntP"></span><span class="target" id="structQOCOKKT_1aef2409d8e6dad5214eec21b362a12f68"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Pnzadded_idx</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT12Pnzadded_idxE" title="Link to this definition"></a><br /></dt>
+<dd><p>Indices of P-&gt;x that were added due to regularization. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT12Pnum_nzaddedE">
+<span id="_CPPv3N7QOCOKKT12Pnum_nzaddedE"></span><span id="_CPPv2N7QOCOKKT12Pnum_nzaddedE"></span><span id="QOCOKKT::Pnum_nzadded__QOCOInt"></span><span class="target" id="structQOCOKKT_1a533086695da2b3b918014831c0a8d6d8"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Pnum_nzadded</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT12Pnum_nzaddedE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of elements of P-&gt;x that were added due to regularization. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT6AtoKKTE">
+<span id="_CPPv3N7QOCOKKT6AtoKKTE"></span><span id="_CPPv2N7QOCOKKT6AtoKKTE"></span><span id="QOCOKKT::AtoKKT__QOCOIntP"></span><span class="target" id="structQOCOKKT_1abf6e6214c517d4bc4623d86caedac76d"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">AtoKKT</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT6AtoKKTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Mapping from elements in A to elements in the KKT matrix. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7QOCOKKT6GtoKKTE">
+<span id="_CPPv3N7QOCOKKT6GtoKKTE"></span><span id="_CPPv2N7QOCOKKT6GtoKKTE"></span><span id="QOCOKKT::GtoKKT__QOCOIntP"></span><span class="target" id="structQOCOKKT_1a85a50ddc6e8893a0f2d85761220f3837"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">GtoKKT</span></span></span><a class="headerlink" href="#_CPPv4N7QOCOKKT6GtoKKTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Mapping from elements in G to elements in the KKT matrix. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv413QOCOCscMatrix">
+<span id="_CPPv313QOCOCscMatrix"></span><span id="_CPPv213QOCOCscMatrix"></span><span id="QOCOCscMatrix"></span><span class="target" id="structQOCOCscMatrix"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QOCOCscMatrix</span></span></span><a class="headerlink" href="#_CPPv413QOCOCscMatrix" title="Link to this definition"></a><br /></dt>
+<dd><p>Compressed sparse column format matrices. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOCscMatrix1mE">
+<span id="_CPPv3N13QOCOCscMatrix1mE"></span><span id="_CPPv2N13QOCOCscMatrix1mE"></span><span id="QOCOCscMatrix::m__QOCOInt"></span><span class="target" id="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOCscMatrix1mE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of rows. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOCscMatrix1nE">
+<span id="_CPPv3N13QOCOCscMatrix1nE"></span><span id="_CPPv2N13QOCOCscMatrix1nE"></span><span id="QOCOCscMatrix::n__QOCOInt"></span><span class="target" id="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">n</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOCscMatrix1nE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of columns. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOCscMatrix3nnzE">
+<span id="_CPPv3N13QOCOCscMatrix3nnzE"></span><span id="_CPPv2N13QOCOCscMatrix3nnzE"></span><span id="QOCOCscMatrix::nnz__QOCOInt"></span><span class="target" id="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nnz</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOCscMatrix3nnzE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of nonzero elements. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOCscMatrix1iE">
+<span id="_CPPv3N13QOCOCscMatrix1iE"></span><span id="_CPPv2N13QOCOCscMatrix1iE"></span><span id="QOCOCscMatrix::i__QOCOIntP"></span><span class="target" id="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">i</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOCscMatrix1iE" title="Link to this definition"></a><br /></dt>
+<dd><p>Row indices (length: nnz). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOCscMatrix1pE">
+<span id="_CPPv3N13QOCOCscMatrix1pE"></span><span id="_CPPv2N13QOCOCscMatrix1pE"></span><span id="QOCOCscMatrix::p__QOCOIntP"></span><span class="target" id="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">p</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOCscMatrix1pE" title="Link to this definition"></a><br /></dt>
+<dd><p>Column pointers (length: n+1). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOCscMatrix1xE">
+<span id="_CPPv3N13QOCOCscMatrix1xE"></span><span id="_CPPv2N13QOCOCscMatrix1xE"></span><span id="QOCOCscMatrix::x__QOCOFloatP"></span><span class="target" id="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">x</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOCscMatrix1xE" title="Link to this definition"></a><br /></dt>
+<dd><p>Data (length: nnz). </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv412QOCOSolution">
+<span id="_CPPv312QOCOSolution"></span><span id="_CPPv212QOCOSolution"></span><span id="QOCOSolution"></span><span class="target" id="structQOCOSolution"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QOCOSolution</span></span></span><a class="headerlink" href="#_CPPv412QOCOSolution" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution1xE">
+<span id="_CPPv3N12QOCOSolution1xE"></span><span id="_CPPv2N12QOCOSolution1xE"></span><span id="QOCOSolution::x__QOCOFloatP"></span><span class="target" id="structQOCOSolution_1a989c1156c8a3019bfd101141d067b27f"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">x</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution1xE" title="Link to this definition"></a><br /></dt>
+<dd><p>Primal solution. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution1sE">
+<span id="_CPPv3N12QOCOSolution1sE"></span><span id="_CPPv2N12QOCOSolution1sE"></span><span id="QOCOSolution::s__QOCOFloatP"></span><span class="target" id="structQOCOSolution_1a79f89645c7b39a9c4d4c8380e7129213"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">s</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution1sE" title="Link to this definition"></a><br /></dt>
+<dd><p>Slack variable for conic constraints. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution1yE">
+<span id="_CPPv3N12QOCOSolution1yE"></span><span id="_CPPv2N12QOCOSolution1yE"></span><span id="QOCOSolution::y__QOCOFloatP"></span><span class="target" id="structQOCOSolution_1a27cf10ad9a7474d9fd6b418110fc904f"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">y</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution1yE" title="Link to this definition"></a><br /></dt>
+<dd><p>Dual variables for affine equality constraints. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution1zE">
+<span id="_CPPv3N12QOCOSolution1zE"></span><span id="_CPPv2N12QOCOSolution1zE"></span><span id="QOCOSolution::z__QOCOFloatP"></span><span class="target" id="structQOCOSolution_1a44f6e311adc9af5956dc65c9b6722957"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">z</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution1zE" title="Link to this definition"></a><br /></dt>
+<dd><p>Dual variables for conic constraints. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution5itersE">
+<span id="_CPPv3N12QOCOSolution5itersE"></span><span id="_CPPv2N12QOCOSolution5itersE"></span><span id="QOCOSolution::iters__QOCOInt"></span><span class="target" id="structQOCOSolution_1af22ee3af705035ac8049c32ba6445975"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">iters</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution5itersE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of iterations. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution14setup_time_secE">
+<span id="_CPPv3N12QOCOSolution14setup_time_secE"></span><span id="_CPPv2N12QOCOSolution14setup_time_secE"></span><span id="QOCOSolution::setup_time_sec__QOCOFloat"></span><span class="target" id="structQOCOSolution_1a75eacd22010e7a6c349fad37d8a1a768"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setup_time_sec</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution14setup_time_secE" title="Link to this definition"></a><br /></dt>
+<dd><p>Setup time. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution14solve_time_secE">
+<span id="_CPPv3N12QOCOSolution14solve_time_secE"></span><span id="_CPPv2N12QOCOSolution14solve_time_secE"></span><span id="QOCOSolution::solve_time_sec__QOCOFloat"></span><span class="target" id="structQOCOSolution_1afc8c9f62bffbf4557635d69bfc2f2188"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">solve_time_sec</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution14solve_time_secE" title="Link to this definition"></a><br /></dt>
+<dd><p>Solve time. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution3objE">
+<span id="_CPPv3N12QOCOSolution3objE"></span><span id="_CPPv2N12QOCOSolution3objE"></span><span id="QOCOSolution::obj__QOCOFloat"></span><span class="target" id="structQOCOSolution_1a382db943a6d77679838a47df7d1591f9"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obj</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution3objE" title="Link to this definition"></a><br /></dt>
+<dd><p>Optimal objective value. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution4presE">
+<span id="_CPPv3N12QOCOSolution4presE"></span><span id="_CPPv2N12QOCOSolution4presE"></span><span id="QOCOSolution::pres__QOCOFloat"></span><span class="target" id="structQOCOSolution_1a0885d2735b7586aed3ccc8a81acda625"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pres</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution4presE" title="Link to this definition"></a><br /></dt>
+<dd><p>Primal residual. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution4dresE">
+<span id="_CPPv3N12QOCOSolution4dresE"></span><span id="_CPPv2N12QOCOSolution4dresE"></span><span id="QOCOSolution::dres__QOCOFloat"></span><span class="target" id="structQOCOSolution_1a5e063df676903dfe0f5b26411824263c"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dres</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution4dresE" title="Link to this definition"></a><br /></dt>
+<dd><p>Dual residual. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution3gapE">
+<span id="_CPPv3N12QOCOSolution3gapE"></span><span id="_CPPv2N12QOCOSolution3gapE"></span><span id="QOCOSolution::gap__QOCOFloat"></span><span class="target" id="structQOCOSolution_1aa96bc0b7bc5ccaf1e40f36fdb5bd0638"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gap</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution3gapE" title="Link to this definition"></a><br /></dt>
+<dd><p>Duality gap. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution6statusE">
+<span id="_CPPv3N12QOCOSolution6statusE"></span><span id="_CPPv2N12QOCOSolution6statusE"></span><span id="QOCOSolution::status__QOCOInt"></span><span class="target" id="structQOCOSolution_1ace095bf7a10b6e36e707583772499f3b"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">status</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution6statusE" title="Link to this definition"></a><br /></dt>
+<dd><p>Solve status. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="interfaces.html" class="btn btn-neutral float-left" title="Interfaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="python.html" class="btn btn-neutral float-right" title="Python" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Govind M. Chari.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script>  
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #00ff00;
+    }
+    /* Sidebar */
+    .wy-nav-side {
+      background: #4b2e83;
+    }
+  </style>
+
+
+</body>
+</html>

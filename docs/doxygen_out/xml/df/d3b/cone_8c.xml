@@ -1,0 +1,786 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="df/d3b/cone_8c" kind="file" language="C++">
+    <compoundname>cone.c</compoundname>
+    <includes local="yes">cone.h</includes>
+    <includes local="yes">utils.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>utils.h</label>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/src/cone.c</label>
+        <link refid="df/d3b/cone_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cone.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="df/d3b/cone_8c_1a396272c3f1a04457de00aa516147ec6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void soc_product</definition>
+        <argsstring>(const QOCOFloat *u, const QOCOFloat *v, QOCOFloat *p, QOCOInt n)</argsstring>
+        <name>soc_product</name>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="14" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="14" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1a7c6db1103785fcede2c141c737b9f913" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void soc_division</definition>
+        <argsstring>(const QOCOFloat *lam, const QOCOFloat *v, QOCOFloat *d, QOCOInt n)</argsstring>
+        <name>soc_division</name>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>lam</declname>
+        </param>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="23" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="23" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1a161b9519d51c603846c9da5817926c29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QOCOFloat</type>
+        <definition>QOCOFloat soc_residual</definition>
+        <argsstring>(const QOCOFloat *u, QOCOInt n)</argsstring>
+        <name>soc_residual</name>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="38" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="38" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1a71714e2c5333a4f2e8e99115b3feb982" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QOCOFloat</type>
+        <definition>QOCOFloat soc_residual2</definition>
+        <argsstring>(const QOCOFloat *u, QOCOInt n)</argsstring>
+        <name>soc_residual2</name>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="48" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="48" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1a57e0e0d0fdd1480cc3bb709583b072be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cone_product</definition>
+        <argsstring>(const QOCOFloat *u, const QOCOFloat *v, QOCOFloat *p, QOCOInt l, QOCOInt nsoc, const QOCOInt *q)</argsstring>
+        <name>cone_product</name>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type>const QOCOInt *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="57" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="57" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1a1c065eb1b5b34efd85f46198b69f5b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cone_division</definition>
+        <argsstring>(const QOCOFloat *lambda, const QOCOFloat *v, QOCOFloat *d, QOCOInt l, QOCOInt nsoc, const QOCOInt *q)</argsstring>
+        <name>cone_division</name>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>lambda</declname>
+        </param>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type>const QOCOInt *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="73" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="73" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1a9a6ff41fae0530f91b12b75dd58c9564" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QOCOFloat</type>
+        <definition>QOCOFloat cone_residual</definition>
+        <argsstring>(const QOCOFloat *u, QOCOInt l, QOCOInt nsoc, const QOCOInt *q)</argsstring>
+        <name>cone_residual</name>
+        <param>
+          <type>const QOCOFloat *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type>const QOCOInt *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="89" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="89" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1aeeaf7177391c69104dff81ff350a6fd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void bring2cone</definition>
+        <argsstring>(QOCOFloat *u, QOCOProblemData *data)</argsstring>
+        <name>bring2cone</name>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>QOCOProblemData *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="110" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="110" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1aa75cb85b5b77d1831a982da450db3292" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nt_multiply</definition>
+        <argsstring>(QOCOFloat *W, QOCOFloat *x, QOCOFloat *z, QOCOInt l, QOCOInt m, QOCOInt nsoc, QOCOInt *q)</argsstring>
+        <name>nt_multiply</name>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>W</declname>
+        </param>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>QOCOInt</type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type>QOCOInt *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="144" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="144" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1a9304a88a4e884ebbcf53a2259104307d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void compute_mu</definition>
+        <argsstring>(QOCOWorkspace *work)</argsstring>
+        <name>compute_mu</name>
+        <param>
+          <type>QOCOWorkspace *</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="172" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="172" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1ae7fbd04120780584a4a4b06f2afe3fb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void compute_nt_scaling</definition>
+        <argsstring>(QOCOWorkspace *work)</argsstring>
+        <name>compute_nt_scaling</name>
+        <param>
+          <type>QOCOWorkspace *</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="179" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="179" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1abbe51c5b9eef797bc36d53df54cb7090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void compute_centering</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>compute_centering</name>
+        <param>
+          <type>QOCOSolver *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="278" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="278" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1ad15543fafb4fedbd8c13a2eaef0e6425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QOCOFloat</type>
+        <definition>QOCOFloat linesearch</definition>
+        <argsstring>(QOCOFloat *u, QOCOFloat *Du, QOCOFloat f, QOCOSolver *solver)</argsstring>
+        <name>linesearch</name>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>Du</declname>
+        </param>
+        <param>
+          <type>QOCOFloat</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>QOCOSolver *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="298" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="298" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1ac90e9e955d185003e55bdc63bf25b3a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QOCOFloat</type>
+        <definition>QOCOFloat bisection_search</definition>
+        <argsstring>(QOCOFloat *u, QOCOFloat *Du, QOCOFloat f, QOCOSolver *solver)</argsstring>
+        <name>bisection_search</name>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>Du</declname>
+        </param>
+        <param>
+          <type>QOCOFloat</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>QOCOSolver *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="309" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="309" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d3b/cone_8c_1a89ae3d348aafeaea9d7792c984cd46ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QOCOFloat</type>
+        <definition>QOCOFloat exact_linesearch</definition>
+        <argsstring>(QOCOFloat *u, QOCOFloat *Du, QOCOFloat f, QOCOSolver *solver)</argsstring>
+        <name>exact_linesearch</name>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>QOCOFloat *</type>
+          <declname>Du</declname>
+        </param>
+        <param>
+          <type>QOCOFloat</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>QOCOSolver *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/cone.c" line="331" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/cone.c" bodystart="331" bodyend="352"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="d3/d91/utils_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 2-Clause License </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cone.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1a396272c3f1a04457de00aa516147ec6a" kindref="member">soc_product</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>u,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>v,<sp/>QOCOFloat*<sp/>p,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOInt<sp/>n)</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/>p[0]<sp/>=<sp/><ref refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(u,<sp/>v,<sp/>n);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>p[i]<sp/>=<sp/>u[0]<sp/>*<sp/>v[i]<sp/>+<sp/>v[0]<sp/>*<sp/>u[i];</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1a7c6db1103785fcede2c141c737b9f913" kindref="member">soc_division</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>lam,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>v,<sp/>QOCOFloat*<sp/>d,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOInt<sp/>n)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>f<sp/>=<sp/>lam[0]<sp/>*<sp/>lam[0]<sp/>-<sp/><ref refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(&amp;lam[1],<sp/>&amp;lam[1],<sp/>n<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>finv<sp/>=<sp/>safe_div(1.0,<sp/>f);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>lam0inv<sp/>=<sp/>safe_div(1.0,<sp/>lam[0]);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>lam1dv1<sp/>=<sp/><ref refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(&amp;lam[1],<sp/>&amp;v[1],<sp/>n<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/>d[0]<sp/>=<sp/>finv<sp/>*<sp/>(lam[0]<sp/>*<sp/>v[0]<sp/>-<sp/><ref refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(&amp;lam[1],<sp/>&amp;v[1],<sp/>n<sp/>-<sp/>1));</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>d[i]<sp/>=<sp/>finv<sp/>*</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(-lam[i]<sp/>*<sp/>v[0]<sp/>+<sp/>lam0inv<sp/>*<sp/>f<sp/>*<sp/>v[i]<sp/>+<sp/>lam0inv<sp/>*<sp/>lam1dv1<sp/>*<sp/>lam[i]);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">QOCOFloat<sp/><ref refid="df/d3b/cone_8c_1a161b9519d51c603846c9da5817926c29" kindref="member">soc_residual</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>u,<sp/>QOCOInt<sp/>n)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>res<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>res<sp/>+=<sp/>u[i]<sp/>*<sp/>u[i];</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/>res<sp/>=<sp/>qoco_sqrt(res)<sp/>-<sp/>u[0];</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">QOCOFloat<sp/><ref refid="df/d3b/cone_8c_1a71714e2c5333a4f2e8e99115b3feb982" kindref="member">soc_residual2</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>u,<sp/>QOCOInt<sp/>n)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>res<sp/>=<sp/>u[0]<sp/>*<sp/>u[0];</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>res<sp/>-=<sp/>u[i]<sp/>*<sp/>u[i];</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1a57e0e0d0fdd1480cc3bb709583b072be" kindref="member">cone_product</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>u,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>v,<sp/>QOCOFloat*<sp/>p,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOInt<sp/>l,<sp/>QOCOInt<sp/>nsoc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOInt*<sp/>q)</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/>QOCOInt<sp/>idx;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>LP<sp/>cone<sp/>product.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(idx<sp/>=<sp/>0;<sp/>idx<sp/>&lt;<sp/>l;<sp/>++idx)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>p[idx]<sp/>=<sp/>u[idx]<sp/>*<sp/>v[idx];</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>second-order<sp/>cone<sp/>product.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>nsoc;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="df/d3b/cone_8c_1a396272c3f1a04457de00aa516147ec6a" kindref="member">soc_product</ref>(&amp;u[idx],<sp/>&amp;v[idx],<sp/>&amp;p[idx],<sp/>q[i]);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>idx<sp/>+=<sp/>q[i];</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1a1c065eb1b5b34efd85f46198b69f5b66" kindref="member">cone_division</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>lambda,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>v,<sp/>QOCOFloat*<sp/>d,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOInt<sp/>l,<sp/>QOCOInt<sp/>nsoc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOInt*<sp/>q)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/>QOCOInt<sp/>idx;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>LP<sp/>cone<sp/>division.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(idx<sp/>=<sp/>0;<sp/>idx<sp/>&lt;<sp/>l;<sp/>++idx)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>d[idx]<sp/>=<sp/>safe_div(v[idx],<sp/>lambda[idx]);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>second-order<sp/>cone<sp/>division.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>nsoc;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="df/d3b/cone_8c_1a7c6db1103785fcede2c141c737b9f913" kindref="member">soc_division</ref>(&amp;lambda[idx],<sp/>&amp;v[idx],<sp/>&amp;d[idx],<sp/>q[i]);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>idx<sp/>+=<sp/>q[i];</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal">QOCOFloat<sp/><ref refid="df/d3b/cone_8c_1a9a6ff41fae0530f91b12b75dd58c9564" kindref="member">cone_residual</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOFloat*<sp/>u,<sp/>QOCOInt<sp/>l,<sp/>QOCOInt<sp/>nsoc,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>QOCOInt*<sp/>q)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>res<sp/>=<sp/>-1e7;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>LP<sp/>cone<sp/>residuals.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/>QOCOInt<sp/>idx;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(idx<sp/>=<sp/>0;<sp/>idx<sp/>&lt;<sp/>l;<sp/>++idx)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>res<sp/>=<sp/>qoco_max(-u[idx],<sp/>res);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>res<sp/>is<sp/>positive<sp/>can<sp/>just<sp/>return<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>second-order<sp/>cone<sp/>residual.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>nsoc;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>res<sp/>=<sp/>qoco_max(res,<sp/><ref refid="df/d3b/cone_8c_1a161b9519d51c603846c9da5817926c29" kindref="member">soc_residual</ref>(&amp;u[idx],<sp/>q[i]));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>idx<sp/>+=<sp/>q[i];</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1aeeaf7177391c69104dff81ff350a6fd4" kindref="member">bring2cone</ref>(QOCOFloat*<sp/>u,<sp/>QOCOProblemData*<sp/>data)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="df/d3b/cone_8c_1a9a6ff41fae0530f91b12b75dd58c9564" kindref="member">cone_residual</ref>(u,<sp/>data-&gt;l,<sp/>data-&gt;nsoc,<sp/>data-&gt;q)<sp/>&gt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOFloat<sp/>a<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>a<sp/>for<sp/>for<sp/>LP<sp/>cone.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOInt<sp/>idx;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(idx<sp/>=<sp/>0;<sp/>idx<sp/>&lt;<sp/>data-&gt;l;<sp/>++idx)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>a<sp/>=<sp/>qoco_max(a,<sp/>-u[idx]);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>a<sp/>=<sp/>qoco_max(a,<sp/>0.0);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>a<sp/>for<sp/>second-order<sp/>cone.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data-&gt;nsoc;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>QOCOFloat<sp/>soc_res<sp/>=<sp/><ref refid="df/d3b/cone_8c_1a161b9519d51c603846c9da5817926c29" kindref="member">soc_residual</ref>(&amp;u[idx],<sp/>data-&gt;q[i]);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(soc_res<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>soc_res<sp/>&gt;<sp/>a)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a<sp/>=<sp/>soc_res;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>idx<sp/>+=<sp/>data-&gt;q[i];</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>u<sp/>+<sp/>(1<sp/>+<sp/>a)<sp/>*<sp/>e<sp/>for<sp/>LP<sp/>cone.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(idx<sp/>=<sp/>0;<sp/>idx<sp/>&lt;<sp/>data-&gt;l;<sp/>++idx)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>u[idx]<sp/>+=<sp/>(1<sp/>+<sp/>a);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>u<sp/>+<sp/>(1<sp/>+<sp/>a)<sp/>*<sp/>e<sp/>for<sp/>second-order<sp/>cones.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data-&gt;nsoc;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>u[idx]<sp/>+=<sp/>(1<sp/>+<sp/>a);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>idx<sp/>+=<sp/>data-&gt;q[i];</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1aa75cb85b5b77d1831a982da450db3292" kindref="member">nt_multiply</ref>(QOCOFloat*<sp/>W,<sp/>QOCOFloat*<sp/>x,<sp/>QOCOFloat*<sp/>z,<sp/>QOCOInt<sp/>l,<sp/>QOCOInt<sp/>m,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOInt<sp/>nsoc,<sp/>QOCOInt*<sp/>q)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>product<sp/>for<sp/>LP<sp/>cone<sp/>part<sp/>of<sp/>W.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>l;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>z[i]<sp/>=<sp/>(W[i]<sp/>*<sp/>x[i]);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>product<sp/>for<sp/>second-order<sp/>cones.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/>QOCOInt<sp/>nt_idx<sp/>=<sp/>l;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/>QOCOInt<sp/>idx<sp/>=<sp/>l;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Zero<sp/>out<sp/>second-order<sp/>cone<sp/>block<sp/>of<sp/>result<sp/>z.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>l;<sp/>i<sp/>&lt;<sp/>m;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>z[i]<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Loop<sp/>over<sp/>all<sp/>second-order<sp/>cones.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>nsoc;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Loop<sp/>over<sp/>elements<sp/>within<sp/>a<sp/>second-order<sp/>cone.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>q[i];<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>z[idx<sp/>+<sp/>j]<sp/>+=<sp/><ref refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(&amp;W[nt_idx<sp/>+<sp/>j<sp/>*<sp/>q[i]],<sp/>&amp;x[idx],<sp/>q[i]);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>idx<sp/>+=<sp/>q[i];</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>nt_idx<sp/>+=<sp/>q[i]<sp/>*<sp/>q[i];</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1a9304a88a4e884ebbcf53a2259104307d" kindref="member">compute_mu</ref>(QOCOWorkspace*<sp/>work)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/>work-&gt;mu<sp/>=<sp/>(work-&gt;data-&gt;m<sp/>&gt;<sp/>0)</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>safe_div(<ref refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(work-&gt;s,<sp/>work-&gt;z,<sp/>work-&gt;data-&gt;m),<sp/>work-&gt;data-&gt;m)</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1ae7fbd04120780584a4a4b06f2afe3fb5" kindref="member">compute_nt_scaling</ref>(QOCOWorkspace*<sp/>work)</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>Nesterov-Todd<sp/>scaling<sp/>for<sp/>LP<sp/>cone.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/>QOCOInt<sp/>idx;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(idx<sp/>=<sp/>0;<sp/>idx<sp/>&lt;<sp/>work-&gt;data-&gt;l;<sp/>++idx)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;WtW[idx]<sp/>=<sp/>safe_div(work-&gt;s[idx],<sp/>work-&gt;z[idx]);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;W[idx]<sp/>=<sp/>qoco_sqrt(work-&gt;WtW[idx]);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;Wfull[idx]<sp/>=<sp/>work-&gt;W[idx];</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;Winv[idx]<sp/>=<sp/>safe_div(1.0,<sp/>work-&gt;W[idx]);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;Winvfull[idx]<sp/>=<sp/>work-&gt;Winv[idx];</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>Nesterov-Todd<sp/>scaling<sp/>for<sp/>second-order<sp/>cones.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/>QOCOInt<sp/>nt_idx<sp/>=<sp/>idx;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/>QOCOInt<sp/>nt_idx_full<sp/>=<sp/>idx;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>work-&gt;data-&gt;nsoc;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>normalized<sp/>vectors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOFloat<sp/>s_scal<sp/>=<sp/><ref refid="df/d3b/cone_8c_1a71714e2c5333a4f2e8e99115b3feb982" kindref="member">soc_residual2</ref>(&amp;work-&gt;s[idx],<sp/>work-&gt;data-&gt;q[i]);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>s_scal<sp/>=<sp/>qoco_sqrt(s_scal);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOFloat<sp/>f<sp/>=<sp/>safe_div(1.0,<sp/>s_scal);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1aed2caeb493cbf251a8d9e446a3d19fc6" kindref="member">scale_arrayf</ref>(&amp;work-&gt;s[idx],<sp/>work-&gt;sbar,<sp/>f,<sp/>work-&gt;data-&gt;q[i]);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOFloat<sp/>z_scal<sp/>=<sp/><ref refid="df/d3b/cone_8c_1a71714e2c5333a4f2e8e99115b3feb982" kindref="member">soc_residual2</ref>(&amp;work-&gt;z[idx],<sp/>work-&gt;data-&gt;q[i]);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>z_scal<sp/>=<sp/>qoco_sqrt(z_scal);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>f<sp/>=<sp/>safe_div(1.0,<sp/>z_scal);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1aed2caeb493cbf251a8d9e446a3d19fc6" kindref="member">scale_arrayf</ref>(&amp;work-&gt;z[idx],<sp/>work-&gt;zbar,<sp/>f,<sp/>work-&gt;data-&gt;q[i]);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOFloat<sp/>gamma<sp/>=</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>qoco_sqrt(0.5<sp/>*<sp/>(1<sp/>+<sp/><ref refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(work-&gt;sbar,<sp/>work-&gt;zbar,<sp/>work-&gt;data-&gt;q[i])));</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>f<sp/>=<sp/>safe_div(1.0,<sp/>(2<sp/>*<sp/>gamma));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overwrite<sp/>sbar<sp/>with<sp/>wbar.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;sbar[0]<sp/>=<sp/>f<sp/>*<sp/>(work-&gt;sbar[0]<sp/>+<sp/>work-&gt;zbar[0]);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>1;<sp/>j<sp/>&lt;<sp/>work-&gt;data-&gt;q[i];<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;sbar[j]<sp/>=<sp/>f<sp/>*<sp/>(work-&gt;sbar[j]<sp/>-<sp/>work-&gt;zbar[j]);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overwrite<sp/>zbar<sp/>with<sp/>v.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>f<sp/>=<sp/>safe_div(1.0,<sp/>qoco_sqrt(2<sp/>*<sp/>(work-&gt;sbar[0]<sp/>+<sp/>1)));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;zbar[0]<sp/>=<sp/>f<sp/>*<sp/>(work-&gt;sbar[0]<sp/>+<sp/>1.0);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>1;<sp/>j<sp/>&lt;<sp/>work-&gt;data-&gt;q[i];<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;zbar[j]<sp/>=<sp/>f<sp/>*<sp/>work-&gt;sbar[j];</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>W<sp/>for<sp/>second-order<sp/>cones.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOInt<sp/>shift<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>f<sp/>=<sp/>qoco_sqrt(safe_div(s_scal,<sp/>z_scal));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>QOCOFloat<sp/>finv<sp/>=<sp/>safe_div(1.0,<sp/>f);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>work-&gt;data-&gt;q[i];<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;=<sp/>j;<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOInt<sp/>full_idx1<sp/>=<sp/>nt_idx_full<sp/>+<sp/>j<sp/>*<sp/>work-&gt;data-&gt;q[i]<sp/>+<sp/>k;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOInt<sp/>full_idx2<sp/>=<sp/>nt_idx_full<sp/>+<sp/>k<sp/>*<sp/>work-&gt;data-&gt;q[i]<sp/>+<sp/>j;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;W[nt_idx<sp/>+<sp/>shift]<sp/>=<sp/>2<sp/>*<sp/>(work-&gt;zbar[k]<sp/>*<sp/>work-&gt;zbar[j]);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j<sp/>!=<sp/>0<sp/>&amp;&amp;<sp/>k<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;Winv[nt_idx<sp/>+<sp/>shift]<sp/>=<sp/>-work-&gt;W[nt_idx<sp/>+<sp/>shift];</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;Winv[nt_idx<sp/>+<sp/>shift]<sp/>=<sp/>work-&gt;W[nt_idx<sp/>+<sp/>shift];</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j<sp/>==<sp/>k<sp/>&amp;&amp;<sp/>j<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;W[nt_idx<sp/>+<sp/>shift]<sp/>-=<sp/>1;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;Winv[nt_idx<sp/>+<sp/>shift]<sp/>-=<sp/>1;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j<sp/>==<sp/>k)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;W[nt_idx<sp/>+<sp/>shift]<sp/>+=<sp/>1;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;Winv[nt_idx<sp/>+<sp/>shift]<sp/>+=<sp/>1;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;W[nt_idx<sp/>+<sp/>shift]<sp/>*=<sp/>f;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;Winv[nt_idx<sp/>+<sp/>shift]<sp/>*=<sp/>finv;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;Wfull[full_idx1]<sp/>=<sp/>work-&gt;W[nt_idx<sp/>+<sp/>shift];</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;Wfull[full_idx2]<sp/>=<sp/>work-&gt;W[nt_idx<sp/>+<sp/>shift];</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;Winvfull[full_idx1]<sp/>=<sp/>work-&gt;Winv[nt_idx<sp/>+<sp/>shift];</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;Winvfull[full_idx2]<sp/>=<sp/>work-&gt;Winv[nt_idx<sp/>+<sp/>shift];</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shift<sp/>+=<sp/>1;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>WtW<sp/>for<sp/>second-order<sp/>cones.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>shift<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>work-&gt;data-&gt;q[i];<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;=<sp/>j;<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;WtW[nt_idx<sp/>+<sp/>shift]<sp/>=<sp/><ref refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;work-&gt;Wfull[nt_idx_full<sp/>+<sp/>j<sp/>*<sp/>work-&gt;data-&gt;q[i]],</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;work-&gt;Wfull[nt_idx_full<sp/>+<sp/>k<sp/>*<sp/>work-&gt;data-&gt;q[i]],<sp/>work-&gt;data-&gt;q[i]);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shift<sp/>+=<sp/>1;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>idx<sp/>+=<sp/>work-&gt;data-&gt;q[i];</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>nt_idx<sp/>+=<sp/>(work-&gt;data-&gt;q[i]<sp/>*<sp/>work-&gt;data-&gt;q[i]<sp/>+<sp/>work-&gt;data-&gt;q[i])<sp/>/<sp/>2;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>nt_idx_full<sp/>+=<sp/>work-&gt;data-&gt;q[i]<sp/>*<sp/>work-&gt;data-&gt;q[i];</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>scaled<sp/>variable<sp/>lambda.<sp/>lambda<sp/>=<sp/>W<sp/>*<sp/>z.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><ref refid="df/d3b/cone_8c_1aa75cb85b5b77d1831a982da450db3292" kindref="member">nt_multiply</ref>(work-&gt;Wfull,<sp/>work-&gt;z,<sp/>work-&gt;lambda,<sp/>work-&gt;data-&gt;l,<sp/>work-&gt;data-&gt;m,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;data-&gt;nsoc,<sp/>work-&gt;data-&gt;q);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1abbe51c5b9eef797bc36d53df54cb7090" kindref="member">compute_centering</ref>(QOCOSolver*<sp/>solver)</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/>QOCOWorkspace*<sp/>work<sp/>=<sp/>solver-&gt;work;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/>QOCOFloat*<sp/>Dzaff<sp/>=<sp/>&amp;work-&gt;kkt-&gt;xyz[work-&gt;data-&gt;n<sp/>+<sp/>work-&gt;data-&gt;p];</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>a<sp/>=<sp/>qoco_min(<ref refid="df/d3b/cone_8c_1ad15543fafb4fedbd8c13a2eaef0e6425" kindref="member">linesearch</ref>(work-&gt;z,<sp/>Dzaff,<sp/>1.0,<sp/>solver),</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="df/d3b/cone_8c_1ad15543fafb4fedbd8c13a2eaef0e6425" kindref="member">linesearch</ref>(work-&gt;s,<sp/>work-&gt;Ds,<sp/>1.0,<sp/>solver));</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>rho.<sp/>rho<sp/>=<sp/>((s<sp/>+<sp/>a<sp/>*<sp/>Ds)&apos;*(z<sp/>+<sp/>a<sp/>*<sp/>Dz))<sp/>/<sp/>(s&apos;*z).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><ref refid="d8/d14/linalg_8c_1a83d0613ee15321b01a503789bab214dc" kindref="member">axpy</ref>(Dzaff,<sp/>work-&gt;z,<sp/>work-&gt;ubuff1,<sp/>a,<sp/>work-&gt;data-&gt;m);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><ref refid="d8/d14/linalg_8c_1a83d0613ee15321b01a503789bab214dc" kindref="member">axpy</ref>(work-&gt;Ds,<sp/>work-&gt;s,<sp/>work-&gt;ubuff2,<sp/>a,<sp/>work-&gt;data-&gt;m);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>rho<sp/>=<sp/><ref refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(work-&gt;ubuff1,<sp/>work-&gt;ubuff2,<sp/>work-&gt;data-&gt;m)<sp/>/</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(work-&gt;z,<sp/>work-&gt;s,<sp/>work-&gt;data-&gt;m);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>sigma.<sp/>sigma<sp/>=<sp/>max(0,<sp/>min(1,<sp/>rho))^3.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>sigma<sp/>=<sp/>qoco_min(1.0,<sp/>rho);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/>sigma<sp/>=<sp/>qoco_max(0.0,<sp/>sigma);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/>sigma<sp/>=<sp/>sigma<sp/>*<sp/>sigma<sp/>*<sp/>sigma;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/>solver-&gt;work-&gt;sigma<sp/>=<sp/>sigma;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal">QOCOFloat<sp/><ref refid="df/d3b/cone_8c_1ad15543fafb4fedbd8c13a2eaef0e6425" kindref="member">linesearch</ref>(QOCOFloat*<sp/>u,<sp/>QOCOFloat*<sp/>Du,<sp/>QOCOFloat<sp/>f,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOSolver*<sp/>solver)</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(solver-&gt;work-&gt;data-&gt;nsoc<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1a89ae3d348aafeaea9d7792c984cd46ef" kindref="member">exact_linesearch</ref>(u,<sp/>Du,<sp/>f,<sp/>solver);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="df/d3b/cone_8c_1ac90e9e955d185003e55bdc63bf25b3a1" kindref="member">bisection_search</ref>(u,<sp/>Du,<sp/>f,<sp/>solver);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal">QOCOFloat<sp/><ref refid="df/d3b/cone_8c_1ac90e9e955d185003e55bdc63bf25b3a1" kindref="member">bisection_search</ref>(QOCOFloat*<sp/>u,<sp/>QOCOFloat*<sp/>Du,<sp/>QOCOFloat<sp/>f,</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOSolver*<sp/>solver)</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/>QOCOWorkspace*<sp/>work<sp/>=<sp/>solver-&gt;work;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>al<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>au<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>a<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>solver-&gt;settings-&gt;bisect_iters;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>a<sp/>=<sp/>0.5<sp/>*<sp/>(al<sp/>+<sp/>au);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="d8/d14/linalg_8c_1a83d0613ee15321b01a503789bab214dc" kindref="member">axpy</ref>(Du,<sp/>u,<sp/>work-&gt;ubuff1,<sp/>safe_div(a,<sp/>f),<sp/>work-&gt;data-&gt;m);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="df/d3b/cone_8c_1a9a6ff41fae0530f91b12b75dd58c9564" kindref="member">cone_residual</ref>(work-&gt;ubuff1,<sp/>work-&gt;data-&gt;l,<sp/>work-&gt;data-&gt;nsoc,</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;data-&gt;q)<sp/>&gt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>au<sp/>=<sp/>a;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>al<sp/>=<sp/>a;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>al;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal">QOCOFloat<sp/><ref refid="df/d3b/cone_8c_1a89ae3d348aafeaea9d7792c984cd46ef" kindref="member">exact_linesearch</ref>(QOCOFloat*<sp/>u,<sp/>QOCOFloat*<sp/>Du,<sp/>QOCOFloat<sp/>f,</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>QOCOSolver*<sp/>solver)</highlight></codeline>
+<codeline lineno="333"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/>QOCOWorkspace*<sp/>work<sp/>=<sp/>solver-&gt;work;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/>QOCOProblemData*<sp/>data<sp/>=<sp/>solver-&gt;work-&gt;data;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>a<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/>QOCOFloat<sp/>minval<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>a<sp/>for<sp/>LP<sp/>cones.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(QOCOInt<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>work-&gt;data-&gt;l;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(Du[i]<sp/>&lt;<sp/>minval<sp/>*<sp/>u[i])</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>minval<sp/>=<sp/>Du[i]<sp/>/<sp/>u[i];</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(-f<sp/>&lt;<sp/>minval)</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>a<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>a<sp/>=<sp/>-f<sp/>/<sp/>minval;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/src/cone.c"/>
+  </compounddef>
+</doxygen>

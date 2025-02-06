@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="qoco__error_8h" kind="file" language="C++">
+    <compoundname>qoco_error.h</compoundname>
+    <includes refid="definitions_8h" local="yes">definitions.h</includes>
+    <includes refid="enums_8h" local="yes">enums.h</includes>
+    <includes local="no">stdio.h</includes>
+    <includedby refid="input__validation_8h" local="yes">/home/govind/Desktop/git/qoco/include/input_validation.h</includedby>
+    <includedby refid="qoco__api_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_api.h</includedby>
+    <includedby refid="qoco__error_8c" local="yes">/home/govind/Desktop/git/qoco/src/qoco_error.c</includedby>
+    <incdepgraph>
+      <node id="5">
+        <label>stdlib.h</label>
+      </node>
+      <node id="3">
+        <label>limits.h</label>
+      </node>
+      <node id="2">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_error.h</label>
+        <link refid="qoco__error_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>math.h</label>
+      </node>
+      <node id="6">
+        <label>enums.h</label>
+        <link refid="enums_8h"/>
+      </node>
+      <node id="7">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
+        <link refid="qoco_8h"/>
+      </node>
+      <node id="3">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
+        <link refid="qoco__api_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_error.c</label>
+        <link refid="qoco__error_8c"/>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_error.h</label>
+        <link refid="qoco__error_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/govind/Desktop/git/qoco/include/input_validation.h</label>
+        <link refid="input__validation_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>/home/govind/Desktop/git/qoco/src/input_validation.c</label>
+        <link refid="input__validation_8c"/>
+      </node>
+      <node id="5">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_api.c</label>
+        <link refid="qoco__api_8c"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="qoco__error_8h_1ad7b3a55bfa4f5de621ac7fb6bccf1732" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt qoco_error</definition>
+        <argsstring>(enum qoco_error_code error_code)</argsstring>
+        <name>qoco_error</name>
+        <param>
+          <type>enum <ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5" kindref="member">qoco_error_code</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Function to print error messages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error code as an QOCOInt. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_error.h" line="14" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/qoco_error.c" bodystart="3" bodyend="7" declfile="/home/govind/Desktop/git/qoco/include/qoco_error.h" declline="14" declcolumn="9"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>QOCO_ERROR_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QOCO_ERROR_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="definitions_8h" kindref="compound">definitions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="enums_8h" kindref="compound">enums.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="qoco__error_8h_1ad7b3a55bfa4f5de621ac7fb6bccf1732" kindref="member">qoco_error</ref>(</highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5" kindref="member">qoco_error_code</ref><sp/>error_code);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>ERROR_H*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/include/qoco_error.h"/>
+  </compounddef>
+</doxygen>

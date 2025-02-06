@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="timer__windows_8c" kind="file" language="C++">
+    <compoundname>timer_windows.c</compoundname>
+    <includes refid="timer_8h" local="yes">timer.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>stdlib.h</label>
+      </node>
+      <node id="4">
+        <label>limits.h</label>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/src/timer_windows.c</label>
+        <link refid="timer__windows_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>math.h</label>
+      </node>
+      <node id="2">
+        <label>timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="timer__windows_8c_1a7469e0d577f6670cfd46b636d47a6e82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void start_timer</definition>
+        <argsstring>(QOCOTimer *timer)</argsstring>
+        <name>start_timer</name>
+        <param>
+          <type>QOCOTimer *</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+<para>Starts timer and sets tic field of struct to the current time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to timer struct. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/timer_windows.c" line="3" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/timer_windows.c" bodystart="3" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="timer__windows_8c_1acfd10eed45b36f806cb9f6da35044e8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void stop_timer</definition>
+        <argsstring>(QOCOTimer *timer)</argsstring>
+        <name>stop_timer</name>
+        <param>
+          <type>QOCOTimer *</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+<para>Stops timer and sets toc field of struct to the current time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to timer struct. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/timer_windows.c" line="9" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/timer_windows.c" bodystart="9" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="timer__windows_8c_1a4ea3627b111cae5ddb7b1bc76a113eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat get_elapsed_time_sec</definition>
+        <argsstring>(QOCOTimer *timer)</argsstring>
+        <name>get_elapsed_time_sec</name>
+        <param>
+          <type>QOCOTimer *</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+<para>Gets time in seconds recorded by timer. Must be called after <ref refid="timer_8h_1a7469e0d577f6670cfd46b636d47a6e82" kindref="member">start_timer()</ref> and <ref refid="timer_8h_1acfd10eed45b36f806cb9f6da35044e8e" kindref="member">stop_timer()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to timer struct. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/timer_windows.c" line="11" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/timer_windows.c" bodystart="11" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="timer_8h" kindref="compound">timer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timer__windows_8c_1a7469e0d577f6670cfd46b636d47a6e82" kindref="member">start_timer</ref>(QOCOTimer*<sp/>timer)</highlight></codeline>
+<codeline lineno="4"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/>QueryPerformanceFrequency(&amp;timer-&gt;freq);</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/>QueryPerformanceCounter(&amp;timer-&gt;tic);</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timer__windows_8c_1acfd10eed45b36f806cb9f6da35044e8e" kindref="member">stop_timer</ref>(QOCOTimer*<sp/>timer)<sp/>{<sp/>QueryPerformanceCounter(&amp;timer-&gt;toc);<sp/>}</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="timer__windows_8c_1a4ea3627b111cae5ddb7b1bc76a113eb5" kindref="member">get_elapsed_time_sec</ref>(QOCOTimer*<sp/>timer)</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(timer-&gt;toc.QuadPart<sp/>-<sp/>timer-&gt;tic.QuadPart)<sp/>/</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>)timer-&gt;freq.QuadPart;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/src/timer_windows.c"/>
+  </compounddef>
+</doxygen>

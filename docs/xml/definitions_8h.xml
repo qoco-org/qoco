@@ -1,0 +1,432 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="definitions_8h" kind="file" language="C++">
+    <compoundname>definitions.h</compoundname>
+    <includes local="no">limits.h</includes>
+    <includes local="no">math.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includedby refid="linalg_8h" local="yes">/home/govind/Desktop/git/qoco/include/linalg.h</includedby>
+    <includedby refid="qoco_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco.h</includedby>
+    <includedby refid="qoco__api_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_api.h</includedby>
+    <includedby refid="qoco__error_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_error.h</includedby>
+    <includedby refid="structs_8h" local="yes">/home/govind/Desktop/git/qoco/include/structs.h</includedby>
+    <includedby refid="timer_8h" local="yes">/home/govind/Desktop/git/qoco/include/timer.h</includedby>
+    <incdepgraph>
+      <node id="4">
+        <label>stdlib.h</label>
+      </node>
+      <node id="2">
+        <label>limits.h</label>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>math.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="14">
+        <label>/home/govind/Desktop/git/qoco/src/linalg.c</label>
+        <link refid="linalg_8c"/>
+      </node>
+      <node id="19">
+        <label>/home/govind/Desktop/git/qoco/include/structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
+        <link refid="qoco_8h"/>
+      </node>
+      <node id="22">
+        <label>/home/govind/Desktop/git/qoco/src/timer_macos.c</label>
+        <link refid="timer__macos_8c"/>
+      </node>
+      <node id="4">
+        <label>/home/govind/Desktop/git/qoco/include/kkt.h</label>
+        <link refid="kkt_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/home/govind/Desktop/git/qoco/include/cone.h</label>
+        <link refid="cone_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>/home/govind/Desktop/git/qoco/include/equilibration.h</label>
+        <link refid="equilibration_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>/home/govind/Desktop/git/qoco/include/utils.h</label>
+        <link refid="utils_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>/home/govind/Desktop/git/qoco/src/equilibration.c</label>
+        <link refid="equilibration_8c"/>
+      </node>
+      <node id="5">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
+        <link refid="qoco__api_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>/home/govind/Desktop/git/qoco/src/cone.c</label>
+        <link refid="cone_8c"/>
+      </node>
+      <node id="18">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_error.c</label>
+        <link refid="qoco__error_8c"/>
+      </node>
+      <node id="15">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_error.h</label>
+        <link refid="qoco__error_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/govind/Desktop/git/qoco/include/linalg.h</label>
+        <link refid="linalg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>/home/govind/Desktop/git/qoco/include/input_validation.h</label>
+        <link refid="input__validation_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>/home/govind/Desktop/git/qoco/src/kkt.c</label>
+        <link refid="kkt_8c"/>
+      </node>
+      <node id="17">
+        <label>/home/govind/Desktop/git/qoco/src/input_validation.c</label>
+        <link refid="input__validation_8c"/>
+      </node>
+      <node id="13">
+        <label>/home/govind/Desktop/git/qoco/src/utils.c</label>
+        <link refid="utils_8c"/>
+      </node>
+      <node id="21">
+        <label>/home/govind/Desktop/git/qoco/src/timer_linux.c</label>
+        <link refid="timer__linux_8c"/>
+      </node>
+      <node id="20">
+        <label>/home/govind/Desktop/git/qoco/include/timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_api.c</label>
+        <link refid="qoco__api_8c"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="definitions_8h_1a43f14128f35157a26dd29378d7d51544" prot="public" static="no">
+        <name>QOCOInt_MAX</name>
+        <initializer>INT_MAX</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="21" column="9" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="definitions_8h_1a70b544b16d53ef50a7443774466449e7" prot="public" static="no">
+        <name>QOCOFloat_MAX</name>
+        <initializer>__DBL_MAX__</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="28" column="9" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="definitions_8h_1aef7019cb0e7922c31100c20048252108" prot="public" static="no">
+        <name>qoco_max</name>
+        <param><defname>a</defname></param>
+        <param><defname>b</defname></param>
+        <initializer>(((a) &gt; (b)) ? (a) : (b))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="30" column="9" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="definitions_8h_1a428961e6b5fcdacdfee91ea6be5cc0ca" prot="public" static="no">
+        <name>qoco_min</name>
+        <param><defname>a</defname></param>
+        <param><defname>b</defname></param>
+        <initializer>(((a) &lt; (b)) ? (a) : (b))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="31" column="9" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" prot="public" static="no">
+        <name>qoco_abs</name>
+        <param><defname>a</defname></param>
+        <initializer>(((a) &gt; 0) ? (a) : (-a))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="32" column="9" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="definitions_8h_1ab65fb67e9a764fbda260b2b867c0be3a" prot="public" static="no">
+        <name>safe_div</name>
+        <param><defname>a</defname></param>
+        <param><defname>b</defname></param>
+        <initializer>(<ref refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" kindref="member">qoco_abs</ref>(b) &gt; 1e-15) ? (a / b) : <ref refid="definitions_8h_1a70b544b16d53ef50a7443774466449e7" kindref="member">QOCOFloat_MAX</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="33" column="9" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="definitions_8h_1af75ea74bed39dc159c8d3c34d635658a" prot="public" static="no">
+        <name>qoco_sqrt</name>
+        <param><defname>a</defname></param>
+        <initializer>sqrt(a)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="35" column="10" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="definitions_8h_1aa543bca1d1ce32c19086397f611075fe" prot="public" static="no">
+        <name>qoco_assert</name>
+        <param><defname>a</defname></param>
+        <initializer>  do {                                                                         \
+  } while (0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="48" column="10" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="definitions_8h_1a152b57b6c087787118c75653da56d76b" prot="public" static="no">
+        <name>qoco_malloc</name>
+        <initializer>malloc</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="55" column="10" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="definitions_8h_1a44ae01b192007f6085a5097b15752094" prot="public" static="no">
+        <name>qoco_calloc</name>
+        <initializer>calloc</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="56" column="9" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="definitions_8h_1a1796cf4b640966b437f6f89369303dd7" prot="public" static="no">
+        <name>qoco_free</name>
+        <initializer>free</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="57" column="9" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" prot="public" static="no">
+        <type>int</type>
+        <definition>typedef int QOCOInt</definition>
+        <argsstring></argsstring>
+        <name>QOCOInt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="20" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" prot="public" static="no">
+        <type>double</type>
+        <definition>typedef double QOCOFloat</definition>
+        <argsstring></argsstring>
+        <name>QOCOFloat</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/definitions.h" line="27" column="16" bodyfile="/home/govind/Desktop/git/qoco/include/definitions.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="utils_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License</para>
+</sect1>
+<sect1 id="utils_8h_1DESCRIPTION">
+<title>DESCRIPTION</title>
+<para>Defines various macros used in qoco. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>DEFINITIONS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DEFINITIONS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Define<sp/>QOCOInt<sp/>and<sp/>QOCOFloat.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>;</highlight></codeline>
+<codeline lineno="21" refid="definitions_8h_1a43f14128f35157a26dd29378d7d51544" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QOCOInt_MAX<sp/>INT_MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>MATLAB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>printf<sp/>mexPrintf</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>;</highlight></codeline>
+<codeline lineno="28" refid="definitions_8h_1a70b544b16d53ef50a7443774466449e7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QOCOFloat_MAX<sp/>__DBL_MAX__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>qoco_max(a,<sp/>b)<sp/>(((a)<sp/>&gt;<sp/>(b))<sp/>?<sp/>(a)<sp/>:<sp/>(b))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="definitions_8h_1a428961e6b5fcdacdfee91ea6be5cc0ca" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>qoco_min(a,<sp/>b)<sp/>(((a)<sp/>&lt;<sp/>(b))<sp/>?<sp/>(a)<sp/>:<sp/>(b))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>qoco_abs(a)<sp/>(((a)<sp/>&gt;<sp/>0)<sp/>?<sp/>(a)<sp/>:<sp/>(-a))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="definitions_8h_1ab65fb67e9a764fbda260b2b867c0be3a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>safe_div(a,<sp/>b)<sp/>(qoco_abs(b)<sp/>&gt;<sp/>1e-15)<sp/>?<sp/>(a<sp/>/<sp/>b)<sp/>:<sp/>QOCOFloat_MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;math.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="definitions_8h_1af75ea74bed39dc159c8d3c34d635658a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>qoco_sqrt(a)<sp/>sqrt(a)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>QOCO_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;assert.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>qoco_assert(a)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="41"><highlight class="preprocessor"><sp/><sp/>do<sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="42"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>if<sp/>(!(a))<sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="43"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/>printf(&quot;Assertion<sp/>Failed:<sp/>%s\n&quot;</highlight><highlight class="normal">,<sp/>#a);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>__asm__<sp/>volatile(&quot;int<sp/>$0x03&quot;);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/>}<sp/>while<sp/>(0)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="definitions_8h_1aa543bca1d1ce32c19086397f611075fe" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>qoco_assert(a)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="49"><highlight class="preprocessor"><sp/><sp/>do<sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="50"><highlight class="preprocessor"><sp/><sp/>}<sp/>while<sp/>(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Need<sp/>for<sp/>malloc,<sp/>calloc,<sp/>and<sp/>free.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="definitions_8h_1a152b57b6c087787118c75653da56d76b" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>qoco_malloc<sp/>malloc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="definitions_8h_1a44ae01b192007f6085a5097b15752094" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>qoco_calloc<sp/>calloc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="definitions_8h_1a1796cf4b640966b437f6f89369303dd7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>qoco_free<sp/>free</highlight></codeline>
+<codeline lineno="58"><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>ifndef<sp/>DEFINITIONS_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/include/definitions.h"/>
+  </compounddef>
+</doxygen>

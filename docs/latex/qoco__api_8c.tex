@@ -1,0 +1,224 @@
+\hypertarget{qoco__api_8c}{}\doxysection{/home/govind/\+Desktop/git/qoco/src/qoco\+\_\+api.c File Reference}
+\label{qoco__api_8c}\index{/home/govind/Desktop/git/qoco/src/qoco\_api.c@{/home/govind/Desktop/git/qoco/src/qoco\_api.c}}
+{\ttfamily \#include \char`\"{}qoco\+\_\+api.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}amd.\+h\char`\"{}}\newline
+Include dependency graph for qoco\+\_\+api.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{qoco__api_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{qoco__api_8c_ace38c86b1bc257945fe160f54b354b23}{qoco\+\_\+setup}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} m, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} p, \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$P, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$c, \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$A, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$b, \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$G, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$h, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} l, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} nsoc, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$q, \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$settings)
+\begin{DoxyCompactList}\small\item\em Allocates all memory needed for QOCO to solve the SOCP. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__api_8c_a4924aaa44b38370e774f3754f404145a}{qoco\+\_\+set\+\_\+csc}} (\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$A, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} m, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} Annz, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$Ax, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$Ap, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$Ai)
+\begin{DoxyCompactList}\small\item\em Sets the data for a compressed sparse column matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__api_8c_a3b5424d92406d0dbdbecf126b8970625}{set\+\_\+default\+\_\+settings}} (\mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$settings)
+\begin{DoxyCompactList}\small\item\em Set the default settings struct. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{qoco__api_8c_ae907f556c8bd418aa91069c064229675}{qoco\+\_\+update\+\_\+settings}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver, const \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$new\+\_\+settings)
+\begin{DoxyCompactList}\small\item\em Updates settings struct. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__api_8c_a525738f05532dce21ec82ee7c3cf4138}{update\+\_\+vector\+\_\+data}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$cnew, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$bnew, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$hnew)
+\begin{DoxyCompactList}\small\item\em Updates data vectors. NULL can be passed in for any vector if that data will not be updated. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__api_8c_ae144e269bd46cb81ae3e1eab33a69915}{update\+\_\+matrix\+\_\+data}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$Pxnew, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$Axnew, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$Gxnew)
+\begin{DoxyCompactList}\small\item\em Updates data matrices. NULL can be passed in for any matrix data pointers if that matrix will not be updated. It is assumed that the new matrix will have the same sparsity structure as the existing matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{qoco__api_8c_a12ff54d8eb71178436b015cd3a485815}{qoco\+\_\+solve}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Solves SOCP. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{qoco__api_8c_adf388119bb41bbc683e099321879eebd}{qoco\+\_\+cleanup}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Frees all memory allocated by qoco\+\_\+setup. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{utils_8c_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8c_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-\/Clause License 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{qoco__api_8c_adf388119bb41bbc683e099321879eebd}\label{qoco__api_8c_adf388119bb41bbc683e099321879eebd}} 
+\index{qoco\_api.c@{qoco\_api.c}!qoco\_cleanup@{qoco\_cleanup}}
+\index{qoco\_cleanup@{qoco\_cleanup}!qoco\_api.c@{qoco\_api.c}}
+\doxysubsubsection{\texorpdfstring{qoco\_cleanup()}{qoco\_cleanup()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} qoco\+\_\+cleanup (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Frees all memory allocated by qoco\+\_\+setup. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Exitflag to check (0 for success, failure otherwise) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{qoco__api_8c_a4924aaa44b38370e774f3754f404145a}\label{qoco__api_8c_a4924aaa44b38370e774f3754f404145a}} 
+\index{qoco\_api.c@{qoco\_api.c}!qoco\_set\_csc@{qoco\_set\_csc}}
+\index{qoco\_set\_csc@{qoco\_set\_csc}!qoco\_api.c@{qoco\_api.c}}
+\doxysubsubsection{\texorpdfstring{qoco\_set\_csc()}{qoco\_set\_csc()}}
+{\footnotesize\ttfamily void qoco\+\_\+set\+\_\+csc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$}]{A,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{m,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{Annz,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{Ax,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$}]{Ap,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$}]{Ai }\end{DoxyParamCaption})}
+
+
+
+Sets the data for a compressed sparse column matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Pointer to the CSC matrix. \\
+\hline
+{\em m} & Number of rows in the matrix. \\
+\hline
+{\em n} & Number of columns in the matrix. \\
+\hline
+{\em Annz} & Number of nonzero elements in the matrix. \\
+\hline
+{\em Ax} & Array of data for the matrix. \\
+\hline
+{\em Ap} & Array of column pointers for the data. \\
+\hline
+{\em Ai} & Array of row indices for data. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{qoco__api_8c_ace38c86b1bc257945fe160f54b354b23}\label{qoco__api_8c_ace38c86b1bc257945fe160f54b354b23}} 
+\index{qoco\_api.c@{qoco\_api.c}!qoco\_setup@{qoco\_setup}}
+\index{qoco\_setup@{qoco\_setup}!qoco\_api.c@{qoco\_api.c}}
+\doxysubsubsection{\texorpdfstring{qoco\_setup()}{qoco\_setup()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} qoco\+\_\+setup (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{m,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{p,  }\item[{\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$}]{P,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{c,  }\item[{\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$}]{A,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{b,  }\item[{\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$}]{G,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{h,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{l,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{nsoc,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$}]{q,  }\item[{\mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$}]{settings }\end{DoxyParamCaption})}
+
+
+
+Allocates all memory needed for QOCO to solve the SOCP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+{\em n} & Number of optimization variables. \\
+\hline
+{\em m} & Number of conic constraints. \\
+\hline
+{\em p} & Number of affine equality constraints. \\
+\hline
+{\em P} & Upper triangular part of quadratic cost Hessian in CSC form. \\
+\hline
+{\em c} & Linear cost vector. \\
+\hline
+{\em A} & Affine equality constraint matrix in CSC form. \\
+\hline
+{\em b} & Affine equality constraint offset vector. \\
+\hline
+{\em G} & Conic constraint matrix in CSC form. \\
+\hline
+{\em h} & Conic constraint offset vector. \\
+\hline
+{\em l} & Dimension of non-\/negative orthant. \\
+\hline
+{\em nsoc} & Number of second-\/order cones. \\
+\hline
+{\em q} & Dimension of each second-\/order cone. \\
+\hline
+{\em settings} & Settings struct. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if no error or flag containing error code. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{qoco__api_8c_a12ff54d8eb71178436b015cd3a485815}\label{qoco__api_8c_a12ff54d8eb71178436b015cd3a485815}} 
+\index{qoco\_api.c@{qoco\_api.c}!qoco\_solve@{qoco\_solve}}
+\index{qoco\_solve@{qoco\_solve}!qoco\_api.c@{qoco\_api.c}}
+\doxysubsubsection{\texorpdfstring{qoco\_solve()}{qoco\_solve()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} qoco\+\_\+solve (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Solves SOCP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Exitflag to check (0 for success, failure otherwise) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{qoco__api_8c_ae907f556c8bd418aa91069c064229675}\label{qoco__api_8c_ae907f556c8bd418aa91069c064229675}} 
+\index{qoco\_api.c@{qoco\_api.c}!qoco\_update\_settings@{qoco\_update\_settings}}
+\index{qoco\_update\_settings@{qoco\_update\_settings}!qoco\_api.c@{qoco\_api.c}}
+\doxysubsubsection{\texorpdfstring{qoco\_update\_settings()}{qoco\_update\_settings()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} qoco\+\_\+update\+\_\+settings (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver,  }\item[{const \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$}]{new\+\_\+settings }\end{DoxyParamCaption})}
+
+
+
+Updates settings struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+{\em new\+\_\+settings} & New settings struct. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if update is successful. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{qoco__api_8c_a3b5424d92406d0dbdbecf126b8970625}\label{qoco__api_8c_a3b5424d92406d0dbdbecf126b8970625}} 
+\index{qoco\_api.c@{qoco\_api.c}!set\_default\_settings@{set\_default\_settings}}
+\index{set\_default\_settings@{set\_default\_settings}!qoco\_api.c@{qoco\_api.c}}
+\doxysubsubsection{\texorpdfstring{set\_default\_settings()}{set\_default\_settings()}}
+{\footnotesize\ttfamily void set\+\_\+default\+\_\+settings (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$}]{settings }\end{DoxyParamCaption})}
+
+
+
+Set the default settings struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em settings} & Pointer to settings struct. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{qoco__api_8c_ae144e269bd46cb81ae3e1eab33a69915}\label{qoco__api_8c_ae144e269bd46cb81ae3e1eab33a69915}} 
+\index{qoco\_api.c@{qoco\_api.c}!update\_matrix\_data@{update\_matrix\_data}}
+\index{update\_matrix\_data@{update\_matrix\_data}!qoco\_api.c@{qoco\_api.c}}
+\doxysubsubsection{\texorpdfstring{update\_matrix\_data()}{update\_matrix\_data()}}
+{\footnotesize\ttfamily void update\+\_\+matrix\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{Pxnew,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{Axnew,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{Gxnew }\end{DoxyParamCaption})}
+
+
+
+Updates data matrices. NULL can be passed in for any matrix data pointers if that matrix will not be updated. It is assumed that the new matrix will have the same sparsity structure as the existing matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+{\em Pxnew} & New data for P-\/$>$x. \\
+\hline
+{\em Axnew} & New data for A-\/$>$x. \\
+\hline
+{\em Gxnew} & New data for G-\/$>$x. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{qoco__api_8c_a525738f05532dce21ec82ee7c3cf4138}\label{qoco__api_8c_a525738f05532dce21ec82ee7c3cf4138}} 
+\index{qoco\_api.c@{qoco\_api.c}!update\_vector\_data@{update\_vector\_data}}
+\index{update\_vector\_data@{update\_vector\_data}!qoco\_api.c@{qoco\_api.c}}
+\doxysubsubsection{\texorpdfstring{update\_vector\_data()}{update\_vector\_data()}}
+{\footnotesize\ttfamily void update\+\_\+vector\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{cnew,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{bnew,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{hnew }\end{DoxyParamCaption})}
+
+
+
+Updates data vectors. NULL can be passed in for any vector if that data will not be updated. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+{\em cnew} & New c vector. \\
+\hline
+{\em bnew} & New b vector. \\
+\hline
+{\em hnew} & New h vector. \\
+\hline
+\end{DoxyParams}

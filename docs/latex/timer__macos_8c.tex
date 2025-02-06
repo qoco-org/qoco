@@ -1,0 +1,67 @@
+\hypertarget{timer__macos_8c}{}\doxysection{/home/govind/\+Desktop/git/qoco/src/timer\+\_\+macos.c File Reference}
+\label{timer__macos_8c}\index{/home/govind/Desktop/git/qoco/src/timer\_macos.c@{/home/govind/Desktop/git/qoco/src/timer\_macos.c}}
+{\ttfamily \#include \char`\"{}timer.\+h\char`\"{}}\newline
+Include dependency graph for timer\+\_\+macos.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{timer__macos_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{timer__macos_8c_a7469e0d577f6670cfd46b636d47a6e82}{start\+\_\+timer}} (QOCOTimer $\ast$timer)
+\begin{DoxyCompactList}\small\item\em Starts timer and sets tic field of struct to the current time. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{timer__macos_8c_acfd10eed45b36f806cb9f6da35044e8e}{stop\+\_\+timer}} (QOCOTimer $\ast$timer)
+\begin{DoxyCompactList}\small\item\em Stops timer and sets toc field of struct to the current time. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{timer__macos_8c_a4ea3627b111cae5ddb7b1bc76a113eb5}{get\+\_\+elapsed\+\_\+time\+\_\+sec}} (QOCOTimer $\ast$timer)
+\begin{DoxyCompactList}\small\item\em Gets time in seconds recorded by timer. Must be called after \mbox{\hyperlink{timer_8h_a7469e0d577f6670cfd46b636d47a6e82}{start\+\_\+timer()}} and \mbox{\hyperlink{timer_8h_acfd10eed45b36f806cb9f6da35044e8e}{stop\+\_\+timer()}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{timer__macos_8c_a4ea3627b111cae5ddb7b1bc76a113eb5}\label{timer__macos_8c_a4ea3627b111cae5ddb7b1bc76a113eb5}} 
+\index{timer\_macos.c@{timer\_macos.c}!get\_elapsed\_time\_sec@{get\_elapsed\_time\_sec}}
+\index{get\_elapsed\_time\_sec@{get\_elapsed\_time\_sec}!timer\_macos.c@{timer\_macos.c}}
+\doxysubsubsection{\texorpdfstring{get\_elapsed\_time\_sec()}{get\_elapsed\_time\_sec()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} get\+\_\+elapsed\+\_\+time\+\_\+sec (\begin{DoxyParamCaption}\item[{QOCOTimer $\ast$}]{timer }\end{DoxyParamCaption})}
+
+
+
+Gets time in seconds recorded by timer. Must be called after \mbox{\hyperlink{timer_8h_a7469e0d577f6670cfd46b636d47a6e82}{start\+\_\+timer()}} and \mbox{\hyperlink{timer_8h_acfd10eed45b36f806cb9f6da35044e8e}{stop\+\_\+timer()}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to timer struct. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{timer__macos_8c_a7469e0d577f6670cfd46b636d47a6e82}\label{timer__macos_8c_a7469e0d577f6670cfd46b636d47a6e82}} 
+\index{timer\_macos.c@{timer\_macos.c}!start\_timer@{start\_timer}}
+\index{start\_timer@{start\_timer}!timer\_macos.c@{timer\_macos.c}}
+\doxysubsubsection{\texorpdfstring{start\_timer()}{start\_timer()}}
+{\footnotesize\ttfamily void start\+\_\+timer (\begin{DoxyParamCaption}\item[{QOCOTimer $\ast$}]{timer }\end{DoxyParamCaption})}
+
+
+
+Starts timer and sets tic field of struct to the current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to timer struct. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{timer__macos_8c_acfd10eed45b36f806cb9f6da35044e8e}\label{timer__macos_8c_acfd10eed45b36f806cb9f6da35044e8e}} 
+\index{timer\_macos.c@{timer\_macos.c}!stop\_timer@{stop\_timer}}
+\index{stop\_timer@{stop\_timer}!timer\_macos.c@{timer\_macos.c}}
+\doxysubsubsection{\texorpdfstring{stop\_timer()}{stop\_timer()}}
+{\footnotesize\ttfamily void stop\+\_\+timer (\begin{DoxyParamCaption}\item[{QOCOTimer $\ast$}]{timer }\end{DoxyParamCaption})}
+
+
+
+Stops timer and sets toc field of struct to the current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to timer struct. \\
+\hline
+\end{DoxyParams}

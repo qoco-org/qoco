@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structQOCOSolution" kind="struct" language="C++" prot="public">
+    <compoundname>QOCOSolution</compoundname>
+    <includes refid="structs_8h" local="no">structs.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structQOCOSolution_1a989c1156c8a3019bfd101141d067b27f" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+        <definition>QOCOFloat* QOCOSolution::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Primal solution. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="325" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1a79f89645c7b39a9c4d4c8380e7129213" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+        <definition>QOCOFloat* QOCOSolution::s</definition>
+        <argsstring></argsstring>
+        <name>s</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Slack variable for conic constraints. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="328" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1a27cf10ad9a7474d9fd6b418110fc904f" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+        <definition>QOCOFloat* QOCOSolution::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dual variables for affine equality constraints. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="331" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1a44f6e311adc9af5956dc65c9b6722957" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+        <definition>QOCOFloat* QOCOSolution::z</definition>
+        <argsstring></argsstring>
+        <name>z</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dual variables for conic constraints. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="334" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1af22ee3af705035ac8049c32ba6445975" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOSolution::iters</definition>
+        <argsstring></argsstring>
+        <name>iters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of iterations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="337" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1a75eacd22010e7a6c349fad37d8a1a768" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSolution::setup_time_sec</definition>
+        <argsstring></argsstring>
+        <name>setup_time_sec</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Setup time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="340" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1afc8c9f62bffbf4557635d69bfc2f2188" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSolution::solve_time_sec</definition>
+        <argsstring></argsstring>
+        <name>solve_time_sec</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Solve time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="343" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="343" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1a382db943a6d77679838a47df7d1591f9" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSolution::obj</definition>
+        <argsstring></argsstring>
+        <name>obj</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimal objective value. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="346" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1a0885d2735b7586aed3ccc8a81acda625" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSolution::pres</definition>
+        <argsstring></argsstring>
+        <name>pres</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Primal residual. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="349" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1a5e063df676903dfe0f5b26411824263c" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSolution::dres</definition>
+        <argsstring></argsstring>
+        <name>dres</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dual residual. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="352" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1aa96bc0b7bc5ccaf1e40f36fdb5bd0638" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSolution::gap</definition>
+        <argsstring></argsstring>
+        <name>gap</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Duality gap. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="355" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolution_1ace095bf7a10b6e36e707583772499f3b" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOSolution::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Solve status. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="358" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="323" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="323" bodyend="360"/>
+    <listofallmembers>
+      <member refid="structQOCOSolution_1a5e063df676903dfe0f5b26411824263c" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>dres</name></member>
+      <member refid="structQOCOSolution_1aa96bc0b7bc5ccaf1e40f36fdb5bd0638" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>gap</name></member>
+      <member refid="structQOCOSolution_1af22ee3af705035ac8049c32ba6445975" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>iters</name></member>
+      <member refid="structQOCOSolution_1a382db943a6d77679838a47df7d1591f9" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>obj</name></member>
+      <member refid="structQOCOSolution_1a0885d2735b7586aed3ccc8a81acda625" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>pres</name></member>
+      <member refid="structQOCOSolution_1a79f89645c7b39a9c4d4c8380e7129213" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>s</name></member>
+      <member refid="structQOCOSolution_1a75eacd22010e7a6c349fad37d8a1a768" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>setup_time_sec</name></member>
+      <member refid="structQOCOSolution_1afc8c9f62bffbf4557635d69bfc2f2188" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>solve_time_sec</name></member>
+      <member refid="structQOCOSolution_1ace095bf7a10b6e36e707583772499f3b" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>status</name></member>
+      <member refid="structQOCOSolution_1a989c1156c8a3019bfd101141d067b27f" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>x</name></member>
+      <member refid="structQOCOSolution_1a27cf10ad9a7474d9fd6b418110fc904f" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>y</name></member>
+      <member refid="structQOCOSolution_1a44f6e311adc9af5956dc65c9b6722957" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>z</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,6 @@
+<map id="QOCOWorkspace" name="QOCOWorkspace">
+<area shape="rect" id="node1" title="QOCO Workspace." alt="" coords="83,243,215,269"/>
+<area shape="rect" id="node2" href="$structQOCOProblemData.html" title="SOCP problem data." alt="" coords="5,153,152,180"/>
+<area shape="rect" id="node3" href="$structQOCOCscMatrix.html" title="Compressed sparse column format matrices." alt="" coords="85,5,211,32"/>
+<area shape="rect" id="node4" href="$structQOCOKKT.html" title="Contains all data needed for constructing and modifying KKT matrix and performing predictor&#45;corrector..." alt="" coords="177,153,263,180"/>
+</map>

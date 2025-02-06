@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="d8/de6/qoco__error_8c" kind="file" language="C++">
+    <compoundname>qoco_error.c</compoundname>
+    <includes local="yes">qoco_error.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>qoco_error.h</label>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_error.c</label>
+        <link refid="d8/de6/qoco__error_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="d8/de6/qoco__error_8c_1ad7b3a55bfa4f5de621ac7fb6bccf1732" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QOCOInt</type>
+        <definition>QOCOInt qoco_error</definition>
+        <argsstring>(enum qoco_error_code error_code)</argsstring>
+        <name>qoco_error</name>
+        <param>
+          <type>enum qoco_error_code</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/qoco_error.c" line="3" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/qoco_error.c" bodystart="3" bodyend="7"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;qoco_error.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal">QOCOInt<sp/><ref refid="d8/de6/qoco__error_8c_1ad7b3a55bfa4f5de621ac7fb6bccf1732" kindref="member">qoco_error</ref>(</highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>qoco_error_code<sp/>error_code)</highlight></codeline>
+<codeline lineno="4"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;ERROR:<sp/>%s\n&quot;</highlight><highlight class="normal">,<sp/>QOCO_ERROR_MESSAGE[error_code]);</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(QOCOInt)error_code;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/src/qoco_error.c"/>
+  </compounddef>
+</doxygen>

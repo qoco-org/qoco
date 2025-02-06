@@ -1,0 +1,375 @@
+\hypertarget{cone_8c}{}\doxysection{/home/govind/\+Desktop/git/qoco/src/cone.c File Reference}
+\label{cone_8c}\index{/home/govind/Desktop/git/qoco/src/cone.c@{/home/govind/Desktop/git/qoco/src/cone.c}}
+{\ttfamily \#include \char`\"{}cone.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\newline
+Include dependency graph for cone.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cone_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{cone_8c_a396272c3f1a04457de00aa516147ec6a}{soc\+\_\+product}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$u, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$v, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$p, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Computes second-\/order cone product u $\ast$ v = p. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8c_a7c6db1103785fcede2c141c737b9f913}{soc\+\_\+division}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$lam, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$v, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$d, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Commpues second-\/order cone division lambda \# v = d. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{cone_8c_a161b9519d51c603846c9da5817926c29}{soc\+\_\+residual}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$u, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Computes residual of vector u with respect to the second order cone of dimension n. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{cone_8c_a71714e2c5333a4f2e8e99115b3feb982}{soc\+\_\+residual2}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$u, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Computes u0$^\wedge$2 -\/ u1\textquotesingle{}$\ast$u1 of vector u with respect to the second order cone of dimension n. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8c_a57e0e0d0fdd1480cc3bb709583b072be}{cone\+\_\+product}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$u, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$v, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$p, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} l, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} nsoc, const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$q)
+\begin{DoxyCompactList}\small\item\em Computes cone product u $\ast$ v = p with respect to C. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8c_a1c065eb1b5b34efd85f46198b69f5b66}{cone\+\_\+division}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$lambda, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$v, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$d, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} l, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} nsoc, const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$q)
+\begin{DoxyCompactList}\small\item\em Computed cone division lambda \# v = d. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{cone_8c_a9a6ff41fae0530f91b12b75dd58c9564}{cone\+\_\+residual}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$u, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} l, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} nsoc, const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$q)
+\begin{DoxyCompactList}\small\item\em Computes residual of vector u with respect to cone C. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8c_aeeaf7177391c69104dff81ff350a6fd4}{bring2cone}} (\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$u, \mbox{\hyperlink{structQOCOProblemData}{QOCOProblem\+Data}} $\ast$data)
+\begin{DoxyCompactList}\small\item\em Performs u = u + (1 + a) $\ast$ e where e is the cannonical vector for each cone LP Cone\+: e = ones(n), second-\/order cone\+: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) $\ast$ e is in cone C. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8c_aa75cb85b5b77d1831a982da450db3292}{nt\+\_\+multiply}} (\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$W, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$x, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$z, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} l, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} m, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} nsoc, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$q)
+\begin{DoxyCompactList}\small\item\em Computes z = W $\ast$ x where W is a full Nesterov-\/\+Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-\/order cones are stored in column major order. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8c_a9304a88a4e884ebbcf53a2259104307d}{compute\+\_\+mu}} (\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Computes gap (z\textquotesingle{}$\ast$s / m) and stores in work-\/$>$mu. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8c_ae7fbd04120780584a4a4b06f2afe3fb5}{compute\+\_\+nt\+\_\+scaling}} (\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Compute Nesterov-\/\+Todd scalings and scaled variables. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{cone_8c_abbe51c5b9eef797bc36d53df54cb7090}{compute\+\_\+centering}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Computes centering parameter. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{cone_8c_ad15543fafb4fedbd8c13a2eaef0e6425}{linesearch}} (\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$u, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$Du, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} f, \mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Conducts linesearch to compute a \textbackslash{}in (0, 1\mbox{]} such that u + (a / f) $\ast$ Du \textbackslash{}in C. For QPs this calls \mbox{\hyperlink{cone_8h_a89ae3d348aafeaea9d7792c984cd46ef}{exact\+\_\+linesearch()}} and for SOCPs this calls \mbox{\hyperlink{cone_8h_ac90e9e955d185003e55bdc63bf25b3a1}{bisection\+\_\+search()}} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{cone_8c_ac90e9e955d185003e55bdc63bf25b3a1}{bisection\+\_\+search}} (\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$u, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$Du, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} f, \mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Conducts linesearch by bisection to compute a \textbackslash{}in (0, 1\mbox{]} such that u + (a / f) $\ast$ Du \textbackslash{}in C Warning\+: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du. Consider a dedicated buffer for linesearch. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{cone_8c_a89ae3d348aafeaea9d7792c984cd46ef}{exact\+\_\+linesearch}} (\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$u, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$Du, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} f, \mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Conducts exact linesearch to compute the largest a \textbackslash{}in (0, 1\mbox{]} such that u + (a / f) $\ast$ Du \textbackslash{}in C. Currently only works for LP cone. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{utils_8c_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8c_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-\/Clause License 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{cone_8c_ac90e9e955d185003e55bdc63bf25b3a1}\label{cone_8c_ac90e9e955d185003e55bdc63bf25b3a1}} 
+\index{cone.c@{cone.c}!bisection\_search@{bisection\_search}}
+\index{bisection\_search@{bisection\_search}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{bisection\_search()}{bisection\_search()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} bisection\+\_\+search (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{u,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{Du,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}}]{f,  }\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Conducts linesearch by bisection to compute a \textbackslash{}in (0, 1\mbox{]} such that u + (a / f) $\ast$ Du \textbackslash{}in C Warning\+: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du. Consider a dedicated buffer for linesearch. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Initial vector. \\
+\hline
+{\em Du} & Search direction. \\
+\hline
+{\em f} & Conservatism factor. \\
+\hline
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Step-\/size. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cone_8c_aeeaf7177391c69104dff81ff350a6fd4}\label{cone_8c_aeeaf7177391c69104dff81ff350a6fd4}} 
+\index{cone.c@{cone.c}!bring2cone@{bring2cone}}
+\index{bring2cone@{bring2cone}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{bring2cone()}{bring2cone()}}
+{\footnotesize\ttfamily void bring2cone (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{u,  }\item[{\mbox{\hyperlink{structQOCOProblemData}{QOCOProblem\+Data}} $\ast$}]{data }\end{DoxyParamCaption})}
+
+
+
+Performs u = u + (1 + a) $\ast$ e where e is the cannonical vector for each cone LP Cone\+: e = ones(n), second-\/order cone\+: e = (1,0,0,...) and a is the minimum scalar value such that u + (1 + a) $\ast$ e is in cone C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Vector to bring to cone. \\
+\hline
+{\em data} & Pointer to problem data. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8c_abbe51c5b9eef797bc36d53df54cb7090}\label{cone_8c_abbe51c5b9eef797bc36d53df54cb7090}} 
+\index{cone.c@{cone.c}!compute\_centering@{compute\_centering}}
+\index{compute\_centering@{compute\_centering}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{compute\_centering()}{compute\_centering()}}
+{\footnotesize\ttfamily void compute\+\_\+centering (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Computes centering parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8c_a9304a88a4e884ebbcf53a2259104307d}\label{cone_8c_a9304a88a4e884ebbcf53a2259104307d}} 
+\index{cone.c@{cone.c}!compute\_mu@{compute\_mu}}
+\index{compute\_mu@{compute\_mu}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{compute\_mu()}{compute\_mu()}}
+{\footnotesize\ttfamily void compute\+\_\+mu (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Computes gap (z\textquotesingle{}$\ast$s / m) and stores in work-\/$>$mu. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8c_ae7fbd04120780584a4a4b06f2afe3fb5}\label{cone_8c_ae7fbd04120780584a4a4b06f2afe3fb5}} 
+\index{cone.c@{cone.c}!compute\_nt\_scaling@{compute\_nt\_scaling}}
+\index{compute\_nt\_scaling@{compute\_nt\_scaling}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{compute\_nt\_scaling()}{compute\_nt\_scaling()}}
+{\footnotesize\ttfamily void compute\+\_\+nt\+\_\+scaling (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Compute Nesterov-\/\+Todd scalings and scaled variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8c_a1c065eb1b5b34efd85f46198b69f5b66}\label{cone_8c_a1c065eb1b5b34efd85f46198b69f5b66}} 
+\index{cone.c@{cone.c}!cone\_division@{cone\_division}}
+\index{cone\_division@{cone\_division}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{cone\_division()}{cone\_division()}}
+{\footnotesize\ttfamily void cone\+\_\+division (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{lambda,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{d,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{l,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{nsoc,  }\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$}]{q }\end{DoxyParamCaption})}
+
+
+
+Computed cone division lambda \# v = d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lambda} & Input vector. \\
+\hline
+{\em v} & Input vector. \\
+\hline
+{\em d} & Cone quotient of lambda and v. \\
+\hline
+{\em l} & Dimension of LP cone. \\
+\hline
+{\em nsoc} & Number of second-\/order cones. \\
+\hline
+{\em q} & Dimension of each second-\/order cone. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8c_a57e0e0d0fdd1480cc3bb709583b072be}\label{cone_8c_a57e0e0d0fdd1480cc3bb709583b072be}} 
+\index{cone.c@{cone.c}!cone\_product@{cone\_product}}
+\index{cone\_product@{cone\_product}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{cone\_product()}{cone\_product()}}
+{\footnotesize\ttfamily void cone\+\_\+product (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{u,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{p,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{l,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{nsoc,  }\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$}]{q }\end{DoxyParamCaption})}
+
+
+
+Computes cone product u $\ast$ v = p with respect to C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Input vector. \\
+\hline
+{\em v} & Input vector. \\
+\hline
+{\em p} & Cone product of u and v. \\
+\hline
+{\em l} & Dimension of LP cone. \\
+\hline
+{\em nsoc} & Number of second-\/order cones. \\
+\hline
+{\em q} & Dimension of each second-\/order cone. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8c_a9a6ff41fae0530f91b12b75dd58c9564}\label{cone_8c_a9a6ff41fae0530f91b12b75dd58c9564}} 
+\index{cone.c@{cone.c}!cone\_residual@{cone\_residual}}
+\index{cone\_residual@{cone\_residual}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{cone\_residual()}{cone\_residual()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} cone\+\_\+residual (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{u,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{l,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{nsoc,  }\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$}]{q }\end{DoxyParamCaption})}
+
+
+
+Computes residual of vector u with respect to cone C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Vector to be tested. \\
+\hline
+{\em l} & Dimension of LP cone. \\
+\hline
+{\em nsoc} & Number of second-\/order cones. \\
+\hline
+{\em q} & Dimension of each second-\/order cone. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Residual\+: Negative if the vector is in the cone and positive otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cone_8c_a89ae3d348aafeaea9d7792c984cd46ef}\label{cone_8c_a89ae3d348aafeaea9d7792c984cd46ef}} 
+\index{cone.c@{cone.c}!exact\_linesearch@{exact\_linesearch}}
+\index{exact\_linesearch@{exact\_linesearch}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{exact\_linesearch()}{exact\_linesearch()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} exact\+\_\+linesearch (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{u,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{Du,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}}]{f,  }\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Conducts exact linesearch to compute the largest a \textbackslash{}in (0, 1\mbox{]} such that u + (a / f) $\ast$ Du \textbackslash{}in C. Currently only works for LP cone. 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]get exact\+\_\+linesearch working for SOCs.\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Initial vector. \\
+\hline
+{\em Du} & Search direction. \\
+\hline
+{\em f} & Conservatism factor. \\
+\hline
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Step-\/size. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cone_8c_ad15543fafb4fedbd8c13a2eaef0e6425}\label{cone_8c_ad15543fafb4fedbd8c13a2eaef0e6425}} 
+\index{cone.c@{cone.c}!linesearch@{linesearch}}
+\index{linesearch@{linesearch}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{linesearch()}{linesearch()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} linesearch (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{u,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{Du,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}}]{f,  }\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Conducts linesearch to compute a \textbackslash{}in (0, 1\mbox{]} such that u + (a / f) $\ast$ Du \textbackslash{}in C. For QPs this calls \mbox{\hyperlink{cone_8h_a89ae3d348aafeaea9d7792c984cd46ef}{exact\+\_\+linesearch()}} and for SOCPs this calls \mbox{\hyperlink{cone_8h_ac90e9e955d185003e55bdc63bf25b3a1}{bisection\+\_\+search()}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Initial vector. \\
+\hline
+{\em Du} & Search direction. \\
+\hline
+{\em f} & Conservatism factor. \\
+\hline
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Step-\/size. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cone_8c_aa75cb85b5b77d1831a982da450db3292}\label{cone_8c_aa75cb85b5b77d1831a982da450db3292}} 
+\index{cone.c@{cone.c}!nt\_multiply@{nt\_multiply}}
+\index{nt\_multiply@{nt\_multiply}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{nt\_multiply()}{nt\_multiply()}}
+{\footnotesize\ttfamily void nt\+\_\+multiply (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{W,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{z,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{l,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{m,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{nsoc,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$}]{q }\end{DoxyParamCaption})}
+
+
+
+Computes z = W $\ast$ x where W is a full Nesterov-\/\+Todd scaling matrix. The NT scaling array for the LP cones are stored first, then the NT scalings for the second-\/order cones are stored in column major order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em W} & Nesterov Todd scaling matrix. \\
+\hline
+{\em x} & Input vector. \\
+\hline
+{\em z} & Output vector. \\
+\hline
+{\em l} & Dimension of LP cone. \\
+\hline
+{\em m} & Length of x. \\
+\hline
+{\em nsoc} & Number of second-\/order cones in C. \\
+\hline
+{\em q} & Array of second-\/order cone dimensions. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8c_a7c6db1103785fcede2c141c737b9f913}\label{cone_8c_a7c6db1103785fcede2c141c737b9f913}} 
+\index{cone.c@{cone.c}!soc\_division@{soc\_division}}
+\index{soc\_division@{soc\_division}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{soc\_division()}{soc\_division()}}
+{\footnotesize\ttfamily void soc\+\_\+division (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{lam,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{d,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Commpues second-\/order cone division lambda \# v = d. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lam} & lam = (lam0, lam1) is a vector in second-\/order cone of dimension n. \\
+\hline
+{\em v} & v = (v0, v1) is a vector in second-\/order cone of dimension n. \\
+\hline
+{\em d} & Cone divisin of lam and v. \\
+\hline
+{\em n} & Dimension of second-\/order cone. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8c_a396272c3f1a04457de00aa516147ec6a}\label{cone_8c_a396272c3f1a04457de00aa516147ec6a}} 
+\index{cone.c@{cone.c}!soc\_product@{soc\_product}}
+\index{soc\_product@{soc\_product}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{soc\_product()}{soc\_product()}}
+{\footnotesize\ttfamily void soc\+\_\+product (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{u,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{p,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes second-\/order cone product u $\ast$ v = p. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & u = (u0, u1) is a vector in second-\/order cone of dimension n. \\
+\hline
+{\em v} & v = (v0, v1) is a vector in second-\/order cone of dimension n. \\
+\hline
+{\em p} & Cone product of u and v. \\
+\hline
+{\em n} & Dimension of second-\/order cone. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{cone_8c_a161b9519d51c603846c9da5817926c29}\label{cone_8c_a161b9519d51c603846c9da5817926c29}} 
+\index{cone.c@{cone.c}!soc\_residual@{soc\_residual}}
+\index{soc\_residual@{soc\_residual}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{soc\_residual()}{soc\_residual()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} soc\+\_\+residual (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{u,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes residual of vector u with respect to the second order cone of dimension n. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & u = (u0, u1) is a vector in second-\/order cone of dimension n. \\
+\hline
+{\em n} & Dimension of second order cone. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Residual\+: norm(u1) -\/ u0. Negative if the vector is in the cone and positive otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cone_8c_a71714e2c5333a4f2e8e99115b3feb982}\label{cone_8c_a71714e2c5333a4f2e8e99115b3feb982}} 
+\index{cone.c@{cone.c}!soc\_residual2@{soc\_residual2}}
+\index{soc\_residual2@{soc\_residual2}!cone.c@{cone.c}}
+\doxysubsubsection{\texorpdfstring{soc\_residual2()}{soc\_residual2()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} soc\+\_\+residual2 (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{u,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes u0$^\wedge$2 -\/ u1\textquotesingle{}$\ast$u1 of vector u with respect to the second order cone of dimension n. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & u = (u0, u1) is a vector in second order cone of dimension n. \\
+\hline
+{\em n} & Dimension of second order cone. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Residual\+: u0$^\wedge$2 -\/ u1\textquotesingle{}$\ast$u1. 
+\end{DoxyReturn}

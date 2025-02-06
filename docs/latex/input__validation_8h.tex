@@ -1,0 +1,90 @@
+\hypertarget{input__validation_8h}{}\doxysection{/home/govind/\+Desktop/git/qoco/include/input\+\_\+validation.h File Reference}
+\label{input__validation_8h}\index{/home/govind/Desktop/git/qoco/include/input\_validation.h@{/home/govind/Desktop/git/qoco/include/input\_validation.h}}
+{\ttfamily \#include \char`\"{}enums.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}qoco\+\_\+error.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}structs.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+Include dependency graph for input\+\_\+validation.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{input__validation_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{input__validation_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{input__validation_8h_a1bfb924cde6bff6810d49cea5e0a2e4f}{qoco\+\_\+validate\+\_\+settings}} (const \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$settings)
+\begin{DoxyCompactList}\small\item\em Validates solver settings. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{input__validation_8h_a26e99d040f1360a2c17d86709fe0302f}{qoco\+\_\+validate\+\_\+data}} (const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$P, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$c, const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$A, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$b, const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$G, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$h, const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} l, const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} nsoc, const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$q)
+\begin{DoxyCompactList}\small\item\em Validate problem data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{utils_8c_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8c_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
+Includes functions that validate any user-\/provided data. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{input__validation_8h_a26e99d040f1360a2c17d86709fe0302f}\label{input__validation_8h_a26e99d040f1360a2c17d86709fe0302f}} 
+\index{input\_validation.h@{input\_validation.h}!qoco\_validate\_data@{qoco\_validate\_data}}
+\index{qoco\_validate\_data@{qoco\_validate\_data}!input\_validation.h@{input\_validation.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_validate\_data()}{qoco\_validate\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} qoco\+\_\+validate\+\_\+data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$}]{P,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{c,  }\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$}]{A,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{b,  }\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$}]{G,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{h,  }\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{l,  }\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{nsoc,  }\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$}]{q }\end{DoxyParamCaption})}
+
+
+
+Validate problem data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P} & Upper triangular part of quadratic cost Hessian in CSC form \\
+\hline
+{\em c} & Linear cost vector \\
+\hline
+{\em A} & Affine equality constraint matrix in CSC form \\
+\hline
+{\em b} & Affine equality constraint offset vector \\
+\hline
+{\em G} & Conic constraint matrix in CSC form \\
+\hline
+{\em h} & Conic constraint offset vector \\
+\hline
+{\em l} & Dimension of non-\/negative orthant \\
+\hline
+{\em nsoc} & Number of second-\/order cones \\
+\hline
+{\em q} & Dimension of each second-\/order cone \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Exitflag to check (0 for success, failure otherwise) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{input__validation_8h_a1bfb924cde6bff6810d49cea5e0a2e4f}\label{input__validation_8h_a1bfb924cde6bff6810d49cea5e0a2e4f}} 
+\index{input\_validation.h@{input\_validation.h}!qoco\_validate\_settings@{qoco\_validate\_settings}}
+\index{qoco\_validate\_settings@{qoco\_validate\_settings}!input\_validation.h@{input\_validation.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_validate\_settings()}{qoco\_validate\_settings()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} qoco\+\_\+validate\+\_\+settings (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$}]{settings }\end{DoxyParamCaption})}
+
+
+
+Validates solver settings. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em settings} & Pointer to settings struct \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Exitflag to check (0 for success, failure otherwise) 
+\end{DoxyReturn}

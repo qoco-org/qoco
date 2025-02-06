@@ -1,0 +1,82 @@
+\hypertarget{timer_8h}{}\doxysection{/home/govind/\+Desktop/git/qoco/include/timer.h File Reference}
+\label{timer_8h}\index{/home/govind/Desktop/git/qoco/include/timer.h@{/home/govind/Desktop/git/qoco/include/timer.h}}
+{\ttfamily \#include \char`\"{}definitions.\+h\char`\"{}}\newline
+Include dependency graph for timer.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{timer_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{timer_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{timer_8h_a7469e0d577f6670cfd46b636d47a6e82}{start\+\_\+timer}} (QOCOTimer $\ast$timer)
+\begin{DoxyCompactList}\small\item\em Starts timer and sets tic field of struct to the current time. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{timer_8h_acfd10eed45b36f806cb9f6da35044e8e}{stop\+\_\+timer}} (QOCOTimer $\ast$timer)
+\begin{DoxyCompactList}\small\item\em Stops timer and sets toc field of struct to the current time. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{timer_8h_a4ea3627b111cae5ddb7b1bc76a113eb5}{get\+\_\+elapsed\+\_\+time\+\_\+sec}} (QOCOTimer $\ast$timer)
+\begin{DoxyCompactList}\small\item\em Gets time in seconds recorded by timer. Must be called after \mbox{\hyperlink{timer_8h_a7469e0d577f6670cfd46b636d47a6e82}{start\+\_\+timer()}} and \mbox{\hyperlink{timer_8h_acfd10eed45b36f806cb9f6da35044e8e}{stop\+\_\+timer()}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{utils_8c_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8c_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
+Provides timing functions. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{timer_8h_a4ea3627b111cae5ddb7b1bc76a113eb5}\label{timer_8h_a4ea3627b111cae5ddb7b1bc76a113eb5}} 
+\index{timer.h@{timer.h}!get\_elapsed\_time\_sec@{get\_elapsed\_time\_sec}}
+\index{get\_elapsed\_time\_sec@{get\_elapsed\_time\_sec}!timer.h@{timer.h}}
+\doxysubsubsection{\texorpdfstring{get\_elapsed\_time\_sec()}{get\_elapsed\_time\_sec()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} get\+\_\+elapsed\+\_\+time\+\_\+sec (\begin{DoxyParamCaption}\item[{QOCOTimer $\ast$}]{timer }\end{DoxyParamCaption})}
+
+
+
+Gets time in seconds recorded by timer. Must be called after \mbox{\hyperlink{timer_8h_a7469e0d577f6670cfd46b636d47a6e82}{start\+\_\+timer()}} and \mbox{\hyperlink{timer_8h_acfd10eed45b36f806cb9f6da35044e8e}{stop\+\_\+timer()}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to timer struct. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{timer_8h_a7469e0d577f6670cfd46b636d47a6e82}\label{timer_8h_a7469e0d577f6670cfd46b636d47a6e82}} 
+\index{timer.h@{timer.h}!start\_timer@{start\_timer}}
+\index{start\_timer@{start\_timer}!timer.h@{timer.h}}
+\doxysubsubsection{\texorpdfstring{start\_timer()}{start\_timer()}}
+{\footnotesize\ttfamily void start\+\_\+timer (\begin{DoxyParamCaption}\item[{QOCOTimer $\ast$}]{timer }\end{DoxyParamCaption})}
+
+
+
+Starts timer and sets tic field of struct to the current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to timer struct. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{timer_8h_acfd10eed45b36f806cb9f6da35044e8e}\label{timer_8h_acfd10eed45b36f806cb9f6da35044e8e}} 
+\index{timer.h@{timer.h}!stop\_timer@{stop\_timer}}
+\index{stop\_timer@{stop\_timer}!timer.h@{timer.h}}
+\doxysubsubsection{\texorpdfstring{stop\_timer()}{stop\_timer()}}
+{\footnotesize\ttfamily void stop\+\_\+timer (\begin{DoxyParamCaption}\item[{QOCOTimer $\ast$}]{timer }\end{DoxyParamCaption})}
+
+
+
+Stops timer and sets toc field of struct to the current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to timer struct. \\
+\hline
+\end{DoxyParams}

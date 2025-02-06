@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structQOCOCscMatrix" kind="struct" language="C++" prot="public">
+    <compoundname>QOCOCscMatrix</compoundname>
+    <includes refid="structs_8h" local="no">structs.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOCscMatrix::m</definition>
+        <argsstring></argsstring>
+        <name>m</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of rows. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="27" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOCscMatrix::n</definition>
+        <argsstring></argsstring>
+        <name>n</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of columns. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="30" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOCscMatrix::nnz</definition>
+        <argsstring></argsstring>
+        <name>nnz</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of nonzero elements. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="33" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+        <definition>QOCOInt* QOCOCscMatrix::i</definition>
+        <argsstring></argsstring>
+        <name>i</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Row indices (length: nnz). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="36" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+        <definition>QOCOInt* QOCOCscMatrix::p</definition>
+        <argsstring></argsstring>
+        <name>p</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Column pointers (length: n+1). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="39" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+        <definition>QOCOFloat* QOCOCscMatrix::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Data (length: nnz). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="42" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Compressed sparse column format matrices. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="25" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="25" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" prot="public" virt="non-virtual"><scope>QOCOCscMatrix</scope><name>i</name></member>
+      <member refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" prot="public" virt="non-virtual"><scope>QOCOCscMatrix</scope><name>m</name></member>
+      <member refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" prot="public" virt="non-virtual"><scope>QOCOCscMatrix</scope><name>n</name></member>
+      <member refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" prot="public" virt="non-virtual"><scope>QOCOCscMatrix</scope><name>nnz</name></member>
+      <member refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" prot="public" virt="non-virtual"><scope>QOCOCscMatrix</scope><name>p</name></member>
+      <member refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" prot="public" virt="non-virtual"><scope>QOCOCscMatrix</scope><name>x</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

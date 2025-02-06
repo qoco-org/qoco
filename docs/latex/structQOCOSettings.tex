@@ -1,0 +1,113 @@
+\hypertarget{structQOCOSettings}{}\doxysection{QOCOSettings Struct Reference}
+\label{structQOCOSettings}\index{QOCOSettings@{QOCOSettings}}
+
+
+QOCO solver settings.  
+
+
+
+
+{\ttfamily \#include $<$structs.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOSettings_ad024407378c8232511ffc8775e6d92a7}{max\+\_\+iters}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOSettings_a13065594e57d4091033243b12c5bfd5c}{bisect\+\_\+iters}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOSettings_af252771d1771c37f794a6d5c385ce66d}{ruiz\+\_\+iters}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOSettings_afd5bc6a556931668265c2e47270e8278}{iter\+\_\+ref\+\_\+iters}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{structQOCOSettings_a11f48d67a5626431c077ad30c84433df}{kkt\+\_\+static\+\_\+reg}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{structQOCOSettings_ad635ca462b97c3f0978b755ce2ce763c}{kkt\+\_\+dynamic\+\_\+reg}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{structQOCOSettings_a7d62b01403b7572ee0d1ebaaab45c9d0}{abstol}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{structQOCOSettings_a9924681488237bcc446854964f3b5012}{reltol}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{structQOCOSettings_a92cdec007c0b9a4392d3036e97012492}{abstol\+\_\+inacc}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{structQOCOSettings_a13d27ddfaba9c83983090fba602ab2b4}{reltol\+\_\+inacc}}
+\item 
+unsigned char \mbox{\hyperlink{structQOCOSettings_a1a566c8aa840eaaf69e3070060a0ab5a}{verbose}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+QOCO solver settings. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structQOCOSettings_a7d62b01403b7572ee0d1ebaaab45c9d0}\label{structQOCOSettings_a7d62b01403b7572ee0d1ebaaab45c9d0}} 
+\index{QOCOSettings@{QOCOSettings}!abstol@{abstol}}
+\index{abstol@{abstol}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{abstol}{abstol}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} QOCOSettings\+::abstol}
+
+Absolute tolerance. \mbox{\Hypertarget{structQOCOSettings_a92cdec007c0b9a4392d3036e97012492}\label{structQOCOSettings_a92cdec007c0b9a4392d3036e97012492}} 
+\index{QOCOSettings@{QOCOSettings}!abstol\_inacc@{abstol\_inacc}}
+\index{abstol\_inacc@{abstol\_inacc}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{abstol\_inacc}{abstol\_inacc}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} QOCOSettings\+::abstol\+\_\+inacc}
+
+Low tolerance stopping criteria. \mbox{\Hypertarget{structQOCOSettings_a13065594e57d4091033243b12c5bfd5c}\label{structQOCOSettings_a13065594e57d4091033243b12c5bfd5c}} 
+\index{QOCOSettings@{QOCOSettings}!bisect\_iters@{bisect\_iters}}
+\index{bisect\_iters@{bisect\_iters}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{bisect\_iters}{bisect\_iters}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOSettings\+::bisect\+\_\+iters}
+
+Number of bisection iterations for linesearch. \mbox{\Hypertarget{structQOCOSettings_afd5bc6a556931668265c2e47270e8278}\label{structQOCOSettings_afd5bc6a556931668265c2e47270e8278}} 
+\index{QOCOSettings@{QOCOSettings}!iter\_ref\_iters@{iter\_ref\_iters}}
+\index{iter\_ref\_iters@{iter\_ref\_iters}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{iter\_ref\_iters}{iter\_ref\_iters}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOSettings\+::iter\+\_\+ref\+\_\+iters}
+
+Number of iterative refinement iterations performed. \mbox{\Hypertarget{structQOCOSettings_ad635ca462b97c3f0978b755ce2ce763c}\label{structQOCOSettings_ad635ca462b97c3f0978b755ce2ce763c}} 
+\index{QOCOSettings@{QOCOSettings}!kkt\_dynamic\_reg@{kkt\_dynamic\_reg}}
+\index{kkt\_dynamic\_reg@{kkt\_dynamic\_reg}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{kkt\_dynamic\_reg}{kkt\_dynamic\_reg}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} QOCOSettings\+::kkt\+\_\+dynamic\+\_\+reg}
+
+Dynamic regularization parameter for KKT system. \mbox{\Hypertarget{structQOCOSettings_a11f48d67a5626431c077ad30c84433df}\label{structQOCOSettings_a11f48d67a5626431c077ad30c84433df}} 
+\index{QOCOSettings@{QOCOSettings}!kkt\_static\_reg@{kkt\_static\_reg}}
+\index{kkt\_static\_reg@{kkt\_static\_reg}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{kkt\_static\_reg}{kkt\_static\_reg}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} QOCOSettings\+::kkt\+\_\+static\+\_\+reg}
+
+Static regularization parameter for KKT system. \mbox{\Hypertarget{structQOCOSettings_ad024407378c8232511ffc8775e6d92a7}\label{structQOCOSettings_ad024407378c8232511ffc8775e6d92a7}} 
+\index{QOCOSettings@{QOCOSettings}!max\_iters@{max\_iters}}
+\index{max\_iters@{max\_iters}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{max\_iters}{max\_iters}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOSettings\+::max\+\_\+iters}
+
+Maximum number of IPM iterations. \mbox{\Hypertarget{structQOCOSettings_a9924681488237bcc446854964f3b5012}\label{structQOCOSettings_a9924681488237bcc446854964f3b5012}} 
+\index{QOCOSettings@{QOCOSettings}!reltol@{reltol}}
+\index{reltol@{reltol}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{reltol}{reltol}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} QOCOSettings\+::reltol}
+
+Relative tolerance. \mbox{\Hypertarget{structQOCOSettings_a13d27ddfaba9c83983090fba602ab2b4}\label{structQOCOSettings_a13d27ddfaba9c83983090fba602ab2b4}} 
+\index{QOCOSettings@{QOCOSettings}!reltol\_inacc@{reltol\_inacc}}
+\index{reltol\_inacc@{reltol\_inacc}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{reltol\_inacc}{reltol\_inacc}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} QOCOSettings\+::reltol\+\_\+inacc}
+
+Low tolerance stopping criteria. \mbox{\Hypertarget{structQOCOSettings_af252771d1771c37f794a6d5c385ce66d}\label{structQOCOSettings_af252771d1771c37f794a6d5c385ce66d}} 
+\index{QOCOSettings@{QOCOSettings}!ruiz\_iters@{ruiz\_iters}}
+\index{ruiz\_iters@{ruiz\_iters}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{ruiz\_iters}{ruiz\_iters}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOSettings\+::ruiz\+\_\+iters}
+
+Number of Ruiz equilibration iterations. \mbox{\Hypertarget{structQOCOSettings_a1a566c8aa840eaaf69e3070060a0ab5a}\label{structQOCOSettings_a1a566c8aa840eaaf69e3070060a0ab5a}} 
+\index{QOCOSettings@{QOCOSettings}!verbose@{verbose}}
+\index{verbose@{verbose}!QOCOSettings@{QOCOSettings}}
+\doxysubsubsection{\texorpdfstring{verbose}{verbose}}
+{\footnotesize\ttfamily unsigned char QOCOSettings\+::verbose}
+
+0 for quiet anything else for verbose. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/govind/\+Desktop/git/qoco/include/\mbox{\hyperlink{structs_8h}{structs.\+h}}\end{DoxyCompactItemize}

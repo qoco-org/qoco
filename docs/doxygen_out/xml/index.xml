@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.1" xml:lang="en-US">
+  <compound refid="df/d3b/cone_8c" kind="file"><name>cone.c</name>
+    <member refid="df/d3b/cone_8c_1a396272c3f1a04457de00aa516147ec6a" kind="function"><name>soc_product</name></member>
+    <member refid="df/d3b/cone_8c_1a7c6db1103785fcede2c141c737b9f913" kind="function"><name>soc_division</name></member>
+    <member refid="df/d3b/cone_8c_1a161b9519d51c603846c9da5817926c29" kind="function"><name>soc_residual</name></member>
+    <member refid="df/d3b/cone_8c_1a71714e2c5333a4f2e8e99115b3feb982" kind="function"><name>soc_residual2</name></member>
+    <member refid="df/d3b/cone_8c_1a57e0e0d0fdd1480cc3bb709583b072be" kind="function"><name>cone_product</name></member>
+    <member refid="df/d3b/cone_8c_1a1c065eb1b5b34efd85f46198b69f5b66" kind="function"><name>cone_division</name></member>
+    <member refid="df/d3b/cone_8c_1a9a6ff41fae0530f91b12b75dd58c9564" kind="function"><name>cone_residual</name></member>
+    <member refid="df/d3b/cone_8c_1aeeaf7177391c69104dff81ff350a6fd4" kind="function"><name>bring2cone</name></member>
+    <member refid="df/d3b/cone_8c_1aa75cb85b5b77d1831a982da450db3292" kind="function"><name>nt_multiply</name></member>
+    <member refid="df/d3b/cone_8c_1a9304a88a4e884ebbcf53a2259104307d" kind="function"><name>compute_mu</name></member>
+    <member refid="df/d3b/cone_8c_1ae7fbd04120780584a4a4b06f2afe3fb5" kind="function"><name>compute_nt_scaling</name></member>
+    <member refid="df/d3b/cone_8c_1abbe51c5b9eef797bc36d53df54cb7090" kind="function"><name>compute_centering</name></member>
+    <member refid="df/d3b/cone_8c_1ad15543fafb4fedbd8c13a2eaef0e6425" kind="function"><name>linesearch</name></member>
+    <member refid="df/d3b/cone_8c_1ac90e9e955d185003e55bdc63bf25b3a1" kind="function"><name>bisection_search</name></member>
+    <member refid="df/d3b/cone_8c_1a89ae3d348aafeaea9d7792c984cd46ef" kind="function"><name>exact_linesearch</name></member>
+  </compound>
+  <compound refid="d1/d94/equilibration_8c" kind="file"><name>equilibration.c</name>
+    <member refid="d1/d94/equilibration_8c_1a69d5dd1945452c99c240d541c9348e79" kind="function"><name>ruiz_equilibration</name></member>
+    <member refid="d1/d94/equilibration_8c_1a1d17dc429269fbe1f3ed4d91d65283f5" kind="function"><name>unscale_variables</name></member>
+  </compound>
+  <compound refid="dd/d08/input__validation_8c" kind="file"><name>input_validation.c</name>
+    <member refid="dd/d08/input__validation_8c_1a1bfb924cde6bff6810d49cea5e0a2e4f" kind="function"><name>qoco_validate_settings</name></member>
+    <member refid="dd/d08/input__validation_8c_1a26e99d040f1360a2c17d86709fe0302f" kind="function"><name>qoco_validate_data</name></member>
+  </compound>
+  <compound refid="db/d03/kkt_8c" kind="file"><name>kkt.c</name>
+    <member refid="db/d03/kkt_8c_1a32e6ba8ee8266d6576a302fd28485668" kind="function"><name>allocate_kkt</name></member>
+    <member refid="db/d03/kkt_8c_1a6a5c96c5e3bbcc45591011475c567faa" kind="function"><name>construct_kkt</name></member>
+    <member refid="db/d03/kkt_8c_1af0e88edff1a77bc07b379c2e194d3bff" kind="function"><name>initialize_ipm</name></member>
+    <member refid="db/d03/kkt_8c_1a33ecaacd1b0105dea5269c4bbdded39c" kind="function"><name>set_nt_block_zeros</name></member>
+    <member refid="db/d03/kkt_8c_1a1e4a0eefd9fb08996fc1c34b5092d53a" kind="function"><name>update_nt_block</name></member>
+    <member refid="db/d03/kkt_8c_1ab2c91aac19366d8fe1da940f9ab51cde" kind="function"><name>compute_kkt_residual</name></member>
+    <member refid="db/d03/kkt_8c_1ac1d386c6e2cd69a234372d46ec72dfe9" kind="function"><name>construct_kkt_aff_rhs</name></member>
+    <member refid="db/d03/kkt_8c_1af490c914ea3af23705d62cbde72d8755" kind="function"><name>construct_kkt_comb_rhs</name></member>
+    <member refid="db/d03/kkt_8c_1a997c4579bd059099f397623479d0cd47" kind="function"><name>predictor_corrector</name></member>
+    <member refid="db/d03/kkt_8c_1a0fa673e36adc2fe84350627543fe58d4" kind="function"><name>kkt_solve</name></member>
+    <member refid="db/d03/kkt_8c_1a112a3955fd72740bb6e5dd032ad34e8c" kind="function"><name>kkt_multiply</name></member>
+  </compound>
+  <compound refid="d8/d14/linalg_8c" kind="file"><name>linalg.c</name>
+    <member refid="d8/d14/linalg_8c_1acc38bacc4387241a20e9db0ba2f931e4" kind="function"><name>new_qoco_csc_matrix</name></member>
+    <member refid="d8/d14/linalg_8c_1a38098152892b127e986ebc2994b7dcce" kind="function"><name>construct_identity</name></member>
+    <member refid="d8/d14/linalg_8c_1a4e4c7c1df7c224d28c9ee82553cfda94" kind="function"><name>free_qoco_csc_matrix</name></member>
+    <member refid="d8/d14/linalg_8c_1a298815cf49d7a35894fd063fb3f59d07" kind="function"><name>copy_arrayf</name></member>
+    <member refid="d8/d14/linalg_8c_1a01e27f9edf9e2cae2032501a56a0b5f9" kind="function"><name>copy_and_negate_arrayf</name></member>
+    <member refid="d8/d14/linalg_8c_1a2ce684c84dfdc8c000a2aaa88487c4cf" kind="function"><name>copy_arrayi</name></member>
+    <member refid="d8/d14/linalg_8c_1af6aa23417cb2b6b034862e9c268876fb" kind="function"><name>dot</name></member>
+    <member refid="d8/d14/linalg_8c_1ab5f0f37d238fd5f833e790474d6429be" kind="function"><name>max_arrayi</name></member>
+    <member refid="d8/d14/linalg_8c_1aed2caeb493cbf251a8d9e446a3d19fc6" kind="function"><name>scale_arrayf</name></member>
+    <member refid="d8/d14/linalg_8c_1a83d0613ee15321b01a503789bab214dc" kind="function"><name>axpy</name></member>
+    <member refid="d8/d14/linalg_8c_1afc3ad5be9a59c74f4883ef3994c50328" kind="function"><name>USpMv</name></member>
+    <member refid="d8/d14/linalg_8c_1af8b487d55e70aa8c15faa8095c92d41c" kind="function"><name>SpMv</name></member>
+    <member refid="d8/d14/linalg_8c_1acf4b7a681a7930df3ea240a3c87d5737" kind="function"><name>SpMtv</name></member>
+    <member refid="d8/d14/linalg_8c_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kind="function"><name>inf_norm</name></member>
+    <member refid="d8/d14/linalg_8c_1acec2b6c1dc707854f23d505b1fc42ab1" kind="function"><name>regularize</name></member>
+    <member refid="d8/d14/linalg_8c_1ad6f0a241171053d252ef5ff6c7cdf53a" kind="function"><name>unregularize</name></member>
+    <member refid="d8/d14/linalg_8c_1a824536c623fa28c6bbe4b820ab6ba65a" kind="function"><name>col_inf_norm_USymm</name></member>
+    <member refid="d8/d14/linalg_8c_1a0b420ad549447d77bf28bf2732108203" kind="function"><name>row_inf_norm</name></member>
+    <member refid="d8/d14/linalg_8c_1a1937734d9bd6962c5ff493f74d867e8e" kind="function"><name>create_transposed_matrix</name></member>
+    <member refid="d8/d14/linalg_8c_1a2fae5e0df1f9fb3d70115f91a74c9e99" kind="function"><name>row_col_scale</name></member>
+    <member refid="d8/d14/linalg_8c_1ada738414c28d331a24f6095fafebe1c9" kind="function"><name>ew_product</name></member>
+    <member refid="d8/d14/linalg_8c_1a9399c635b5b4fb0e61f186adfc1d0df2" kind="function"><name>invert_permutation</name></member>
+    <member refid="d8/d14/linalg_8c_1a26c94e421ef7f9b5895f6b040069c631" kind="function"><name>cumsum</name></member>
+    <member refid="d8/d14/linalg_8c_1a9b96a76f1698803fd7cb386fcdfcda57" kind="function"><name>csc_symperm</name></member>
+  </compound>
+  <compound refid="d4/d9d/qoco__api_8c" kind="file"><name>qoco_api.c</name>
+    <member refid="d4/d9d/qoco__api_8c_1ace38c86b1bc257945fe160f54b354b23" kind="function"><name>qoco_setup</name></member>
+    <member refid="d4/d9d/qoco__api_8c_1a4924aaa44b38370e774f3754f404145a" kind="function"><name>qoco_set_csc</name></member>
+    <member refid="d4/d9d/qoco__api_8c_1a3b5424d92406d0dbdbecf126b8970625" kind="function"><name>set_default_settings</name></member>
+    <member refid="d4/d9d/qoco__api_8c_1ae907f556c8bd418aa91069c064229675" kind="function"><name>qoco_update_settings</name></member>
+    <member refid="d4/d9d/qoco__api_8c_1a525738f05532dce21ec82ee7c3cf4138" kind="function"><name>update_vector_data</name></member>
+    <member refid="d4/d9d/qoco__api_8c_1ae144e269bd46cb81ae3e1eab33a69915" kind="function"><name>update_matrix_data</name></member>
+    <member refid="d4/d9d/qoco__api_8c_1a12ff54d8eb71178436b015cd3a485815" kind="function"><name>qoco_solve</name></member>
+    <member refid="d4/d9d/qoco__api_8c_1adf388119bb41bbc683e099321879eebd" kind="function"><name>qoco_cleanup</name></member>
+  </compound>
+  <compound refid="d8/de6/qoco__error_8c" kind="file"><name>qoco_error.c</name>
+    <member refid="d8/de6/qoco__error_8c_1ad7b3a55bfa4f5de621ac7fb6bccf1732" kind="function"><name>qoco_error</name></member>
+  </compound>
+  <compound refid="df/d41/timer_8c" kind="file"><name>timer.c</name>
+    <member refid="df/d41/timer_8c_1a7469e0d577f6670cfd46b636d47a6e82" kind="function"><name>start_timer</name></member>
+    <member refid="df/d41/timer_8c_1acfd10eed45b36f806cb9f6da35044e8e" kind="function"><name>stop_timer</name></member>
+    <member refid="df/d41/timer_8c_1a4ea3627b111cae5ddb7b1bc76a113eb5" kind="function"><name>get_elapsed_time_sec</name></member>
+  </compound>
+  <compound refid="d3/d91/utils_8c" kind="file"><name>utils.c</name>
+    <member refid="d3/d91/utils_8c_1a837650bd12d2cfb6fe551245bb5a655e" kind="function"><name>print_qoco_csc_matrix</name></member>
+    <member refid="d3/d91/utils_8c_1a9dfc9bbbac97f5c76af6348534314dc2" kind="function"><name>print_arrayf</name></member>
+    <member refid="d3/d91/utils_8c_1a68a25040684c59d3d9e7f0f84ffe230d" kind="function"><name>print_arrayi</name></member>
+    <member refid="d3/d91/utils_8c_1a79b078c095c4c7b6003826775ac18b64" kind="function"><name>print_header</name></member>
+    <member refid="d3/d91/utils_8c_1aed998408252b44161ed1ac30c2467deb" kind="function"><name>log_iter</name></member>
+    <member refid="d3/d91/utils_8c_1acb3b30d2ed7b184cc0c180d8e2661e00" kind="function"><name>print_footer</name></member>
+    <member refid="d3/d91/utils_8c_1a7681340f414acd7335887bcf17e9a1cf" kind="function"><name>check_stopping</name></member>
+    <member refid="d3/d91/utils_8c_1a59db88344ea8162c2ffef33781b9a735" kind="function"><name>copy_solution</name></member>
+    <member refid="d3/d91/utils_8c_1a5275dad2b3474f32c7efda823e983ba3" kind="function"><name>copy_settings</name></member>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>/home/govind/Desktop/git/qoco/src</name>
+  </compound>
+</doxygenindex>

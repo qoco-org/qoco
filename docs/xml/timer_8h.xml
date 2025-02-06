@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="timer_8h" kind="file" language="C++">
+    <compoundname>timer.h</compoundname>
+    <includes refid="definitions_8h" local="yes">definitions.h</includes>
+    <includedby refid="structs_8h" local="yes">/home/govind/Desktop/git/qoco/include/structs.h</includedby>
+    <includedby refid="timer__linux_8c" local="yes">/home/govind/Desktop/git/qoco/src/timer_linux.c</includedby>
+    <includedby refid="timer__macos_8c" local="yes">/home/govind/Desktop/git/qoco/src/timer_macos.c</includedby>
+    <incdepgraph>
+      <node id="5">
+        <label>stdlib.h</label>
+      </node>
+      <node id="3">
+        <label>limits.h</label>
+      </node>
+      <node id="2">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>math.h</label>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="17">
+        <label>/home/govind/Desktop/git/qoco/src/linalg.c</label>
+        <link refid="linalg_8c"/>
+      </node>
+      <node id="2">
+        <label>/home/govind/Desktop/git/qoco/include/structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
+        <link refid="qoco_8h"/>
+      </node>
+      <node id="19">
+        <label>/home/govind/Desktop/git/qoco/src/timer_macos.c</label>
+        <link refid="timer__macos_8c"/>
+      </node>
+      <node id="10">
+        <label>/home/govind/Desktop/git/qoco/include/kkt.h</label>
+        <link refid="kkt_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>/home/govind/Desktop/git/qoco/include/cone.h</label>
+        <link refid="cone_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/home/govind/Desktop/git/qoco/include/equilibration.h</label>
+        <link refid="equilibration_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>/home/govind/Desktop/git/qoco/include/utils.h</label>
+        <link refid="utils_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>/home/govind/Desktop/git/qoco/src/equilibration.c</label>
+        <link refid="equilibration_8c"/>
+      </node>
+      <node id="4">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
+        <link refid="qoco__api_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>/home/govind/Desktop/git/qoco/src/cone.c</label>
+        <link refid="cone_8c"/>
+      </node>
+      <node id="12">
+        <label>/home/govind/Desktop/git/qoco/include/linalg.h</label>
+        <link refid="linalg_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>/home/govind/Desktop/git/qoco/include/input_validation.h</label>
+        <link refid="input__validation_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>/home/govind/Desktop/git/qoco/src/kkt.c</label>
+        <link refid="kkt_8c"/>
+      </node>
+      <node id="9">
+        <label>/home/govind/Desktop/git/qoco/src/input_validation.c</label>
+        <link refid="input__validation_8c"/>
+      </node>
+      <node id="16">
+        <label>/home/govind/Desktop/git/qoco/src/utils.c</label>
+        <link refid="utils_8c"/>
+      </node>
+      <node id="18">
+        <label>/home/govind/Desktop/git/qoco/src/timer_linux.c</label>
+        <link refid="timer__linux_8c"/>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_api.c</label>
+        <link refid="qoco__api_8c"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="timer_8h_1a7469e0d577f6670cfd46b636d47a6e82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void start_timer</definition>
+        <argsstring>(QOCOTimer *timer)</argsstring>
+        <name>start_timer</name>
+        <param>
+          <type>QOCOTimer *</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+<para>Starts timer and sets tic field of struct to the current time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to timer struct. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/timer.h" line="42" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/timer_linux.c" bodystart="3" bodyend="6" declfile="/home/govind/Desktop/git/qoco/include/timer.h" declline="42" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="timer_8h_1acfd10eed45b36f806cb9f6da35044e8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void stop_timer</definition>
+        <argsstring>(QOCOTimer *timer)</argsstring>
+        <name>stop_timer</name>
+        <param>
+          <type>QOCOTimer *</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+<para>Stops timer and sets toc field of struct to the current time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to timer struct. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/timer.h" line="49" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/timer_linux.c" bodystart="8" bodyend="11" declfile="/home/govind/Desktop/git/qoco/include/timer.h" declline="49" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="timer_8h_1a4ea3627b111cae5ddb7b1bc76a113eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat get_elapsed_time_sec</definition>
+        <argsstring>(QOCOTimer *timer)</argsstring>
+        <name>get_elapsed_time_sec</name>
+        <param>
+          <type>QOCOTimer *</type>
+          <declname>timer</declname>
+        </param>
+        <briefdescription>
+<para>Gets time in seconds recorded by timer. Must be called after <ref refid="timer_8h_1a7469e0d577f6670cfd46b636d47a6e82" kindref="member">start_timer()</ref> and <ref refid="timer_8h_1acfd10eed45b36f806cb9f6da35044e8e" kindref="member">stop_timer()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to timer struct. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/timer.h" line="57" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/timer_linux.c" bodystart="13" bodyend="26" declfile="/home/govind/Desktop/git/qoco/include/timer.h" declline="57" declcolumn="11"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="utils_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License</para>
+</sect1>
+<sect1 id="utils_8h_1DESCRIPTION">
+<title>DESCRIPTION</title>
+<para>Provides timing functions. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>TIMER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TIMER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="definitions_8h" kindref="compound">definitions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>IS_LINUX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">timespec<sp/>tic;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">timespec<sp/>toc;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}<sp/>QOCOTimer;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>IS_MACOS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mach/mach_time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/>uint64_t<sp/>tic;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/>uint64_t<sp/>toc;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/>mach_timebase_info_data_t<sp/>tinfo;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}<sp/>QOCOTimer;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timer_8h_1a7469e0d577f6670cfd46b636d47a6e82" kindref="member">start_timer</ref>(QOCOTimer*<sp/>timer);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timer_8h_1acfd10eed45b36f806cb9f6da35044e8e" kindref="member">stop_timer</ref>(QOCOTimer*<sp/>timer);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="timer_8h_1a4ea3627b111cae5ddb7b1bc76a113eb5" kindref="member">get_elapsed_time_sec</ref>(QOCOTimer*<sp/>timer);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>TIMER_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/include/timer.h"/>
+  </compounddef>
+</doxygen>

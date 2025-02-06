@@ -1,0 +1,245 @@
+\hypertarget{kkt_8h}{}\doxysection{/home/govind/\+Desktop/git/qoco/include/kkt.h File Reference}
+\label{kkt_8h}\index{/home/govind/Desktop/git/qoco/include/kkt.h@{/home/govind/Desktop/git/qoco/include/kkt.h}}
+{\ttfamily \#include \char`\"{}cone.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linalg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}qdldl.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}structs.\+h\char`\"{}}\newline
+Include dependency graph for kkt.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=275pt]{kkt_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{kkt_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{kkt_8h_a32e6ba8ee8266d6576a302fd28485668}{allocate\+\_\+kkt}} (\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Allocate memory for KKT matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_a6a5c96c5e3bbcc45591011475c567faa}{construct\+\_\+kkt}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Constructs upper triangular part of KKT matrix with -\/I for Nestrov-\/\+Todd scaling matrix (the (3,3) block) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_af0e88edff1a77bc07b379c2e194d3bff}{initialize\+\_\+ipm}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Gets initial values for primal and dual variables such that (s,z) \textbackslash{}in C. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_a33ecaacd1b0105dea5269c4bbdded39c}{set\+\_\+nt\+\_\+block\+\_\+zeros}} (\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Set the Nesterov-\/\+Todd block to be zeros. Used prior to \mbox{\hyperlink{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}{compute\+\_\+kkt\+\_\+residual()}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_a1e4a0eefd9fb08996fc1c34b5092d53a}{update\+\_\+nt\+\_\+block}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Updates and regularizes Nesterov-\/\+Todd scaling block of KKT matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}{compute\+\_\+kkt\+\_\+residual}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Computes residual of KKT conditions and stores in work-\/$>$kkt-\/$>$rhs. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_ac1d386c6e2cd69a234372d46ec72dfe9}{construct\+\_\+kkt\+\_\+aff\+\_\+rhs}} (\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Constructs rhs for the affine scaling KKT system. Before calling this function, work-\/$>$kkt-\/$>$kktres must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}{compute\+\_\+kkt\+\_\+residual()}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_af490c914ea3af23705d62cbde72d8755}{construct\+\_\+kkt\+\_\+comb\+\_\+rhs}} (\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Constructs rhs for the combined direction KKT system. Before calling this function, work-\/$>$kkt-\/$>$kktres must contain the negative residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}{compute\+\_\+kkt\+\_\+residual()}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_a997c4579bd059099f397623479d0cd47}{predictor\+\_\+corrector}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Performs Mehrotra predictor-\/corrector step. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_a0fa673e36adc2fe84350627543fe58d4}{kkt\+\_\+solve}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$b, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} iters)
+\begin{DoxyCompactList}\small\item\em Solves Kx = b once K has been factored. Solves via triangular solves and applies iterative refinement afterwards. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kkt_8h_a112a3955fd72740bb6e5dd032ad34e8c}{kkt\+\_\+multiply}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$x, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$y)
+\begin{DoxyCompactList}\small\item\em Computes y = Kx where \mbox{[} P A$^\wedge$T G$^\wedge$T \mbox{]} K = $\vert$ A 0 0 $\vert$ \mbox{[} G 0 -\/W\textquotesingle{}W -\/ e $\ast$ I \mbox{]}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{utils_8c_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8c_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
+Provides various functions for solving, constructing and updating KKT systems. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{kkt_8h_a32e6ba8ee8266d6576a302fd28485668}\label{kkt_8h_a32e6ba8ee8266d6576a302fd28485668}} 
+\index{kkt.h@{kkt.h}!allocate\_kkt@{allocate\_kkt}}
+\index{allocate\_kkt@{allocate\_kkt}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{allocate\_kkt()}{allocate\_kkt()}}
+{\footnotesize\ttfamily void allocate\+\_\+kkt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Allocate memory for KKT matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}\label{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}} 
+\index{kkt.h@{kkt.h}!compute\_kkt\_residual@{compute\_kkt\_residual}}
+\index{compute\_kkt\_residual@{compute\_kkt\_residual}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{compute\_kkt\_residual()}{compute\_kkt\_residual()}}
+{\footnotesize\ttfamily void compute\+\_\+kkt\+\_\+residual (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Computes residual of KKT conditions and stores in work-\/$>$kkt-\/$>$rhs. 
+
+clang-\/format off \begin{DoxyVerb}  [ P   A^T   G^T ] [ x ]   [    c   ]
+\end{DoxyVerb}
+ res = $\vert$ A 0 0 $\vert$ $\vert$ y \mbox{]} + $\vert$ -\/b $\vert$ \mbox{[} G 0 0 \mbox{]} \mbox{[} z \mbox{]} \mbox{[} -\/h + s \mbox{]}
+
+clang-\/format on
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_a6a5c96c5e3bbcc45591011475c567faa}\label{kkt_8h_a6a5c96c5e3bbcc45591011475c567faa}} 
+\index{kkt.h@{kkt.h}!construct\_kkt@{construct\_kkt}}
+\index{construct\_kkt@{construct\_kkt}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{construct\_kkt()}{construct\_kkt()}}
+{\footnotesize\ttfamily void construct\+\_\+kkt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Constructs upper triangular part of KKT matrix with -\/I for Nestrov-\/\+Todd scaling matrix (the (3,3) block) 
+
+clang-\/format off \begin{DoxyVerb}[ P   A^T   G^T ]
+\end{DoxyVerb}
+ K = $\vert$ A 0 0 $\vert$ \mbox{[} G 0 -\/I \mbox{]}
+
+clang-\/format on
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_ac1d386c6e2cd69a234372d46ec72dfe9}\label{kkt_8h_ac1d386c6e2cd69a234372d46ec72dfe9}} 
+\index{kkt.h@{kkt.h}!construct\_kkt\_aff\_rhs@{construct\_kkt\_aff\_rhs}}
+\index{construct\_kkt\_aff\_rhs@{construct\_kkt\_aff\_rhs}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{construct\_kkt\_aff\_rhs()}{construct\_kkt\_aff\_rhs()}}
+{\footnotesize\ttfamily void construct\+\_\+kkt\+\_\+aff\+\_\+rhs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Constructs rhs for the affine scaling KKT system. Before calling this function, work-\/$>$kkt-\/$>$kktres must contain the residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}{compute\+\_\+kkt\+\_\+residual()}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_af490c914ea3af23705d62cbde72d8755}\label{kkt_8h_af490c914ea3af23705d62cbde72d8755}} 
+\index{kkt.h@{kkt.h}!construct\_kkt\_comb\_rhs@{construct\_kkt\_comb\_rhs}}
+\index{construct\_kkt\_comb\_rhs@{construct\_kkt\_comb\_rhs}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{construct\_kkt\_comb\_rhs()}{construct\_kkt\_comb\_rhs()}}
+{\footnotesize\ttfamily void construct\+\_\+kkt\+\_\+comb\+\_\+rhs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Constructs rhs for the combined direction KKT system. Before calling this function, work-\/$>$kkt-\/$>$kktres must contain the negative residual of the KKT conditions as computed by \mbox{\hyperlink{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}{compute\+\_\+kkt\+\_\+residual()}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
+ds = -\/cone\+\_\+product(lambda, lambda) -\/ settings.\+mehrotra $\ast$ cone\+\_\+product((W\textquotesingle{} \textbackslash{} Dsaff), (W $\ast$ Dzaff), pdata) + sigma $\ast$ mu $\ast$ e.\mbox{\Hypertarget{kkt_8h_af0e88edff1a77bc07b379c2e194d3bff}\label{kkt_8h_af0e88edff1a77bc07b379c2e194d3bff}} 
+\index{kkt.h@{kkt.h}!initialize\_ipm@{initialize\_ipm}}
+\index{initialize\_ipm@{initialize\_ipm}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{initialize\_ipm()}{initialize\_ipm()}}
+{\footnotesize\ttfamily void initialize\+\_\+ipm (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Gets initial values for primal and dual variables such that (s,z) \textbackslash{}in C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_a112a3955fd72740bb6e5dd032ad34e8c}\label{kkt_8h_a112a3955fd72740bb6e5dd032ad34e8c}} 
+\index{kkt.h@{kkt.h}!kkt\_multiply@{kkt\_multiply}}
+\index{kkt\_multiply@{kkt\_multiply}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{kkt\_multiply()}{kkt\_multiply()}}
+{\footnotesize\ttfamily void kkt\+\_\+multiply (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{y }\end{DoxyParamCaption})}
+
+
+
+Computes y = Kx where \mbox{[} P A$^\wedge$T G$^\wedge$T \mbox{]} K = $\vert$ A 0 0 $\vert$ \mbox{[} G 0 -\/W\textquotesingle{}W -\/ e $\ast$ I \mbox{]}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+{\em x} & Pointer to input vector. \\
+\hline
+{\em y} & Pointer to output vector. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_a0fa673e36adc2fe84350627543fe58d4}\label{kkt_8h_a0fa673e36adc2fe84350627543fe58d4}} 
+\index{kkt.h@{kkt.h}!kkt\_solve@{kkt\_solve}}
+\index{kkt\_solve@{kkt\_solve}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{kkt\_solve()}{kkt\_solve()}}
+{\footnotesize\ttfamily void kkt\+\_\+solve (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$}]{b,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{iters }\end{DoxyParamCaption})}
+
+
+
+Solves Kx = b once K has been factored. Solves via triangular solves and applies iterative refinement afterwards. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+{\em b} & Pointer to rhs of kkt system. \\
+\hline
+{\em iters} & Number of iterations of iterative refinement performed. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_a997c4579bd059099f397623479d0cd47}\label{kkt_8h_a997c4579bd059099f397623479d0cd47}} 
+\index{kkt.h@{kkt.h}!predictor\_corrector@{predictor\_corrector}}
+\index{predictor\_corrector@{predictor\_corrector}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{predictor\_corrector()}{predictor\_corrector()}}
+{\footnotesize\ttfamily void predictor\+\_\+corrector (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Performs Mehrotra predictor-\/corrector step. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_a33ecaacd1b0105dea5269c4bbdded39c}\label{kkt_8h_a33ecaacd1b0105dea5269c4bbdded39c}} 
+\index{kkt.h@{kkt.h}!set\_nt\_block\_zeros@{set\_nt\_block\_zeros}}
+\index{set\_nt\_block\_zeros@{set\_nt\_block\_zeros}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{set\_nt\_block\_zeros()}{set\_nt\_block\_zeros()}}
+{\footnotesize\ttfamily void set\+\_\+nt\+\_\+block\+\_\+zeros (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Set the Nesterov-\/\+Todd block to be zeros. Used prior to \mbox{\hyperlink{kkt_8h_ab2c91aac19366d8fe1da940f9ab51cde}{compute\+\_\+kkt\+\_\+residual()}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{kkt_8h_a1e4a0eefd9fb08996fc1c34b5092d53a}\label{kkt_8h_a1e4a0eefd9fb08996fc1c34b5092d53a}} 
+\index{kkt.h@{kkt.h}!update\_nt\_block@{update\_nt\_block}}
+\index{update\_nt\_block@{update\_nt\_block}!kkt.h@{kkt.h}}
+\doxysubsubsection{\texorpdfstring{update\_nt\_block()}{update\_nt\_block()}}
+{\footnotesize\ttfamily void update\+\_\+nt\+\_\+block (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Updates and regularizes Nesterov-\/\+Todd scaling block of KKT matrix. 
+
+\begin{DoxyVerb}[ P   A^T       G^T      ]
+\end{DoxyVerb}
+ K = $\vert$ A 0 0 $\vert$ \mbox{[} G 0 -\/W\textquotesingle{}W -\/ e $\ast$ I \mbox{]}
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}

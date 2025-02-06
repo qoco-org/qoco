@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structQOCOTimer" kind="struct" language="C++" prot="public">
+    <compoundname>QOCOTimer</compoundname>
+    <includes refid="timer_8h" local="no">timer.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structQOCOTimer_1ab6fdd04f3b936bb1515937c26f69ef6f" prot="public" static="no" mutable="no">
+        <type>struct timespec</type>
+        <definition>struct timespec QOCOTimer::tic</definition>
+        <argsstring></argsstring>
+        <name>tic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/timer.h" line="32" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/timer.h" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOTimer_1a6fb9e99cff37aa620c0ec0a63311f1c1" prot="public" static="no" mutable="no">
+        <type>struct timespec</type>
+        <definition>struct timespec QOCOTimer::toc</definition>
+        <argsstring></argsstring>
+        <name>toc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/timer.h" line="32" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/timer.h" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/govind/Desktop/git/qoco/include/timer.h" line="7" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/timer.h" bodystart="7" bodyend="10"/>
+    <listofallmembers>
+      <member refid="structQOCOTimer_1ab6fdd04f3b936bb1515937c26f69ef6f" prot="public" virt="non-virtual"><scope>QOCOTimer</scope><name>tic</name></member>
+      <member refid="structQOCOTimer_1a6fb9e99cff37aa620c0ec0a63311f1c1" prot="public" virt="non-virtual"><scope>QOCOTimer</scope><name>toc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="todo" kind="page">
+    <compoundname>todo</compoundname>
+    <title>Todo List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="cone_8c_1a89ae3d348aafeaea9d7792c984cd46ef" kindref="member">exact_linesearch</ref>  (QOCOFloat *u, QOCOFloat *Du, QOCOFloat f, <ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *solver)</term></varlistentry>
+<listitem><para><anchor id="todo_1_todo000001"/>get exact_linesearch working for SOCs.</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="todo"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,523 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="kkt_8h" kind="file" language="C++">
+    <compoundname>kkt.h</compoundname>
+    <includes refid="cone_8h" local="yes">cone.h</includes>
+    <includes refid="linalg_8h" local="yes">linalg.h</includes>
+    <includes local="yes">qdldl.h</includes>
+    <includes refid="structs_8h" local="yes">structs.h</includes>
+    <includedby refid="qoco__api_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_api.h</includedby>
+    <includedby refid="kkt_8c" local="yes">/home/govind/Desktop/git/qoco/src/kkt.c</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>stdlib.h</label>
+      </node>
+      <node id="8">
+        <label>structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/kkt.h</label>
+        <link refid="kkt_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cone.h</label>
+        <link refid="cone_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>limits.h</label>
+      </node>
+      <node id="4">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>linalg.h</label>
+        <link refid="linalg_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>math.h</label>
+      </node>
+      <node id="10">
+        <label>qdldl.h</label>
+      </node>
+      <node id="9">
+        <label>timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
+        <link refid="qoco_8h"/>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/kkt.h</label>
+        <link refid="kkt_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
+        <link refid="qoco__api_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>/home/govind/Desktop/git/qoco/src/kkt.c</label>
+        <link refid="kkt_8c"/>
+      </node>
+      <node id="4">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_api.c</label>
+        <link refid="qoco__api_8c"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="kkt_8h_1a32e6ba8ee8266d6576a302fd28485668" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void allocate_kkt</definition>
+        <argsstring>(QOCOWorkspace *work)</argsstring>
+        <name>allocate_kkt</name>
+        <param>
+          <type><ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref> *</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Allocate memory for KKT matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to workspace. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="29" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="14" bodyend="34" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="29" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1a6a5c96c5e3bbcc45591011475c567faa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void construct_kkt</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>construct_kkt</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Constructs upper triangular part of KKT matrix with -I for Nestrov-Todd scaling matrix (the (3,3) block) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>clang-format off <verbatim>[ P   A^T   G^T ]
+</verbatim> K = | A 0 0 | [ G 0 -I ]</para>
+<para>clang-format on</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="45" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="36" bodyend="150" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="45" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1af0e88edff1a77bc07b379c2e194d3bff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void initialize_ipm</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>initialize_ipm</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Gets initial values for primal and dual variables such that (s,z) \in C. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="53" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="152" bodyend="225" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="53" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1a33ecaacd1b0105dea5269c4bbdded39c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void set_nt_block_zeros</definition>
+        <argsstring>(QOCOWorkspace *work)</argsstring>
+        <name>set_nt_block_zeros</name>
+        <param>
+          <type><ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref> *</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Set the Nesterov-Todd block to be zeros. Used prior to <ref refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kindref="member">compute_kkt_residual()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to workspace. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="61" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="227" bodyend="232" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="61" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1a1e4a0eefd9fb08996fc1c34b5092d53a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void update_nt_block</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>update_nt_block</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Updates and regularizes Nesterov-Todd scaling block of KKT matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>[ P   A^T       G^T      ]
+</verbatim> K = | A 0 0 | [ G 0 -W&apos;W - e * I ]</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="72" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="234" bodyend="246" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="72" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void compute_kkt_residual</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>compute_kkt_residual</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Computes residual of KKT conditions and stores in work-&gt;kkt-&gt;rhs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>clang-format off <verbatim>  [ P   A^T   G^T ] [ x ]   [    c   ]
+</verbatim> res = | A 0 0 | | y ] + | -b | [ G 0 0 ] [ z ] [ -h + s ]</para>
+<para>clang-format on</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="87" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="248" bodyend="302" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="87" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1ac1d386c6e2cd69a234372d46ec72dfe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void construct_kkt_aff_rhs</definition>
+        <argsstring>(QOCOWorkspace *work)</argsstring>
+        <name>construct_kkt_aff_rhs</name>
+        <param>
+          <type><ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref> *</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs rhs for the affine scaling KKT system. Before calling this function, work-&gt;kkt-&gt;kktres must contain the residual of the KKT conditions as computed by <ref refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kindref="member">compute_kkt_residual()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to workspace. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="96" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="304" bodyend="318" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="96" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1af490c914ea3af23705d62cbde72d8755" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void construct_kkt_comb_rhs</definition>
+        <argsstring>(QOCOWorkspace *work)</argsstring>
+        <name>construct_kkt_comb_rhs</name>
+        <param>
+          <type><ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref> *</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+<para>Constructs rhs for the combined direction KKT system. Before calling this function, work-&gt;kkt-&gt;kktres must contain the negative residual of the KKT conditions as computed by <ref refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kindref="member">compute_kkt_residual()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>work</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to workspace. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>ds = -cone_product(lambda, lambda) - settings.mehrotra * cone_product((W&apos; \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.</para>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="106" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="320" bodyend="376" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="106" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1a997c4579bd059099f397623479d0cd47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void predictor_corrector</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>predictor_corrector</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Performs Mehrotra predictor-corrector step. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="113" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="378" bodyend="460" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="113" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1a0fa673e36adc2fe84350627543fe58d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void kkt_solve</definition>
+        <argsstring>(QOCOSolver *solver, QOCOFloat *b, QOCOInt iters)</argsstring>
+        <name>kkt_solve</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>iters</declname>
+        </param>
+        <briefdescription>
+<para>Solves Kx = b once K has been factored. Solves via triangular solves and applies iterative refinement afterwards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to rhs of kkt system. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of iterations of iterative refinement performed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="123" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="462" bodyend="507" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="123" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1a112a3955fd72740bb6e5dd032ad34e8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void kkt_multiply</definition>
+        <argsstring>(QOCOSolver *solver, QOCOFloat *x, QOCOFloat *y)</argsstring>
+        <name>kkt_multiply</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Computes y = Kx where [ P A^T G^T ] K = | A 0 0 | [ G 0 -W&apos;W - e * I ]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to output vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="135" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="509" bodyend="535" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="135" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="utils_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License</para>
+</sect1>
+<sect1 id="utils_8h_1DESCRIPTION">
+<title>DESCRIPTION</title>
+<para>Provides various functions for solving, constructing and updating KKT systems. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>KKT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>KKT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cone_8h" kindref="compound">cone.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="linalg_8h" kindref="compound">linalg.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;qdldl.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="structs_8h" kindref="compound">structs.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a32e6ba8ee8266d6576a302fd28485668" kindref="member">allocate_kkt</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a6a5c96c5e3bbcc45591011475c567faa" kindref="member">construct_kkt</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1af0e88edff1a77bc07b379c2e194d3bff" kindref="member">initialize_ipm</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a33ecaacd1b0105dea5269c4bbdded39c" kindref="member">set_nt_block_zeros</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a1e4a0eefd9fb08996fc1c34b5092d53a" kindref="member">update_nt_block</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kindref="member">compute_kkt_residual</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1ac1d386c6e2cd69a234372d46ec72dfe9" kindref="member">construct_kkt_aff_rhs</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1af490c914ea3af23705d62cbde72d8755" kindref="member">construct_kkt_comb_rhs</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a997c4579bd059099f397623479d0cd47" kindref="member">predictor_corrector</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a0fa673e36adc2fe84350627543fe58d4" kindref="member">kkt_solve</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>b,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>iters);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a112a3955fd72740bb6e5dd032ad34e8c" kindref="member">kkt_multiply</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>y);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>KKT_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/include/kkt.h"/>
+  </compounddef>
+</doxygen>

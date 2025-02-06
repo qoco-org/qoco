@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Standard Form &mdash; QOCO  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=139e30ab" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Get Started" href="install/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            QOCO
+              <img src="_static/qoco-logo-no-box.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Solver Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/index.html">Parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="codegen/index.html">QOCOGEN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing/index.html">Citing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">QOCO</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Standard Form</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <a class="reference external image-reference" href="https://github.com/qoco-org"><img alt="QOCO" class="align-center" src="_images/qoco-logo.JPEG" style="width: 400px;" />
+</a>
+<p>This website documents the Quadratic Objective Conic Optimizer (QOCO) and the code generator <a class="reference internal" href="codegen/index.html#qocogen"><span class="std std-ref">QOCOGEN</span></a>, developed by the <a class="reference external" href="https://uwacl.com/">Autonomous Controls Laboratory</a> at the University of Washington. The code for both is available on <a class="reference external" href="https://github.com/qoco-org">GitHub</a>.</p>
+<section id="standard-form">
+<h1>Standard Form<a class="headerlink" href="#standard-form" title="Link to this heading"></a></h1>
+<p>QOCO (pronounced co-co) is an software package to solve second-order cone programs with quadratic objectives of the following form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{split}
+    \underset{x}{\text{minimize}}
+    \quad &amp; \frac{1}{2}x^\top P x + c^\top x \\
+    \text{subject to}
+    \quad &amp; Gx \preceq_\mathcal{C} h \\
+    \quad &amp; Ax = b
+\end{split}\end{split}\]</div>
+<p>with optimization variable <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span> and problem data <span class="math notranslate nohighlight">\(P = P^\top \succeq 0\)</span>, <span class="math notranslate nohighlight">\(c \in \mathbb{R}^n\)</span>, <span class="math notranslate nohighlight">\(G \in \mathbb{R}^{m \times n}\)</span>, <span class="math notranslate nohighlight">\(h \in \mathbb{R}^m\)</span>, <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{p \times n}\)</span>, <span class="math notranslate nohighlight">\(b \in \mathbb{R}^p\)</span>, and <span class="math notranslate nohighlight">\(\preceq_\mathcal{C}\)</span>
+is an inequality with respect to cone <span class="math notranslate nohighlight">\(\mathcal{C}\)</span>, i.e. <span class="math notranslate nohighlight">\(h - Gx \in \mathcal{C}\)</span>. Cone <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> is the Cartesian product of the non-negative orthant and second-order cones, which can be expressed as</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{C} =  \mathbb{R}^l_+ \times \mathcal{Q}^{q_1}_1 \times \ldots \times \mathcal{Q}^{q_N}_N\]</div>
+<p>where <span class="math notranslate nohighlight">\(l\)</span> is the dimension of the non-negative orthant, and <span class="math notranslate nohighlight">\(\mathcal{Q}^{q_i}_i\)</span> is the <span class="math notranslate nohighlight">\(i^{th}\)</span> second-order cone with dimension <span class="math notranslate nohighlight">\(q_i\)</span> defined by</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{Q}^{q_i}_i = \{(t,x)  \in \mathbb{R} \times \mathbb{R}^{q_i - 1} \; : \; \|x\|_2 \leq t \}\]</div>
+</section>
+<section id="features">
+<h1>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h1>
+<dl class="simple glossary">
+</dl>
+<ul class="simple">
+<li><p><strong>Robust</strong>: Given that QOCO implements a primal-dual interior point method, it is very robust to ill-conditioning in problem data.</p></li>
+<li><p><strong>Fast</strong>: Faster than most commercial and open-source second-order cone solvers (benchmarks coming soon!).</p></li>
+<li><p><strong>Easy to use</strong>: Can be called from C, C++, Python and with parsers such as CVXPY making it easy to use.</p></li>
+<li><p><strong>Free and open source</strong>: Distributed under the <a class="reference external" href="https://opensource.org/license/bsd-3-Clause">BSD 3-Clause license</a></p></li>
+<li><p><strong>Embeddable</strong>: Written in C, so it can be easily run on any embedded system.</p></li>
+<li><p><strong>Library-free</strong>: Does not require any external libraries.</p></li>
+<li><p><strong>Tuning-free</strong>: Does not require any hyperparameter tuning to achieve good performance.</p></li>
+<li><p><strong>Code Generation</strong>: <a class="reference internal" href="codegen/index.html#qocogen"><span class="std std-ref">QOCOGEN</span></a> is a code-generator which generates extremely fast, library-free custom solvers for second-order cone programs.</p></li>
+</ul>
+</section>
+<section id="credits">
+<h1>Credits<a class="headerlink" href="#credits" title="Link to this heading"></a></h1>
+<p>The main developer of QOCO is <a class="reference external" href="https://govindchari.com/">Govind Chari</a>, who is advised by <a class="reference external" href="https://www.aa.washington.edu/facultyfinder/behcet-acikmese">Behçet Açikmeşe</a>. Both are affiliated with the <a class="reference external" href="https://uwacl.com/">Autonomous Controls Laboratory</a> at the University of Washington.</p>
+<p>QOCO is an adapted implementation of Lieven Vandenberghe’s <a class="reference external" href="https://www.seas.ucla.edu/~vandenbe/publications/coneprog.pdf">coneqp</a> solver with various numerical enhancements for stable computation of search directions and is built on the following open-source libraries:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/osqp/qdldl">qdldl</a>: Responsible for solving the KKT system to compute search directions.</p></li>
+<li><p><a class="reference external" href="https://osqp.org/">OSQP</a>: The C and python interfaces were inspired by OSQP.</p></li>
+<li><p><a class="reference external" href="https://github.com/pybind/pybind11">pybind11</a>: Used to generate QOCO’s python wrapper.</p></li>
+</ul>
+<p>Thank you to <a class="reference external" href="https://www.linkedin.com/in/srinidhi-chari">Srinidhi Chari</a> for designing the QOCO logo.</p>
+</section>
+<section id="citing">
+<h1>Citing<a class="headerlink" href="#citing" title="Link to this heading"></a></h1>
+<p>If you find QOCO useful please <a class="reference internal" href="citing/index.html#id1"><span class="std std-ref">Cite the related paper</span></a> and star the repository on <a class="reference external" href="https://github.com/qoco-org/qoco">GitHub</a></p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="install/index.html" class="btn btn-neutral float-right" title="Get Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Govind M. Chari.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script>  
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #00ff00;
+    }
+    /* Sidebar */
+    .wy-nav-side {
+      background: #4b2e83;
+    }
+  </style>
+
+
+</body>
+</html>

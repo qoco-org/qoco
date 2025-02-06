@@ -1,0 +1,650 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="utils_8c" kind="file" language="C++">
+    <compoundname>utils.c</compoundname>
+    <includes refid="utils_8h" local="yes">utils.h</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>stdlib.h</label>
+      </node>
+      <node id="9">
+        <label>structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>limits.h</label>
+      </node>
+      <node id="2">
+        <label>utils.h</label>
+        <link refid="utils_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>linalg.h</label>
+        <link refid="linalg_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>math.h</label>
+      </node>
+      <node id="3">
+        <label>enums.h</label>
+        <link refid="enums_8h"/>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/src/utils.c</label>
+        <link refid="utils_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="utils_8c_1a837650bd12d2cfb6fe551245bb5a655e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void print_qoco_csc_matrix</definition>
+        <argsstring>(QOCOCscMatrix *M)</argsstring>
+        <name>print_qoco_csc_matrix</name>
+        <param>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <briefdescription>
+<para>Prints dimensions, number of nonzero elements, data, column pointers and row indices for a sparse matrix in CSC form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> that will be printed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/utils.c" line="13" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="13" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8c_1a9dfc9bbbac97f5c76af6348534314dc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void print_arrayf</definition>
+        <argsstring>(QOCOFloat *x, QOCOInt n)</argsstring>
+        <name>print_arrayf</name>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Prints array of QOCOFloats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements in array. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/utils.c" line="47" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="47" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8c_1a68a25040684c59d3d9e7f0f84ffe230d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void print_arrayi</definition>
+        <argsstring>(QOCOInt *x, QOCOInt n)</argsstring>
+        <name>print_arrayi</name>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Prints array of QOCOInts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements in array. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/utils.c" line="59" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="59" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8c_1a79b078c095c4c7b6003826775ac18b64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void print_header</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>print_header</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Prints QOCO header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/utils.c" line="71" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="71" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8c_1aed998408252b44161ed1ac30c2467deb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void log_iter</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>log_iter</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Print solver progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/utils.c" line="107" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="107" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8c_1acb3b30d2ed7b184cc0c180d8e2661e00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void print_footer</definition>
+        <argsstring>(QOCOSolution *solution, enum qoco_solve_status status)</argsstring>
+        <name>print_footer</name>
+        <param>
+          <type><ref refid="structQOCOSolution" kindref="compound">QOCOSolution</ref> *</type>
+          <declname>solution</declname>
+        </param>
+        <param>
+          <type>enum <ref refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844" kindref="member">qoco_solve_status</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Prints QOCO footer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solution struct. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Solve status. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/utils.c" line="116" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="116" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8c_1a7681340f414acd7335887bcf17e9a1cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned char</type>
+        <definition>unsigned char check_stopping</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>check_stopping</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Checks stopping criteria. Before calling this function, work-&gt;kkt-&gt;rhs must contain the residual of the KKT conditions as computed by <ref refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kindref="member">compute_kkt_residual()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>1 if stopping criteria met and 0 otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/utils.c" line="127" column="15" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="127" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8c_1a59db88344ea8162c2ffef33781b9a735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void copy_solution</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>copy_solution</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Copies data to <ref refid="structQOCOSolution" kindref="compound">QOCOSolution</ref> struct when solver terminates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/utils.c" line="248" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="248" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8c_1a5275dad2b3474f32c7efda823e983ba3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref> *</type>
+        <definition>QOCOSettings* copy_settings</definition>
+        <argsstring>(QOCOSettings *settings)</argsstring>
+        <name>copy_settings</name>
+        <param>
+          <type><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref> *</type>
+          <declname>settings</declname>
+        </param>
+        <briefdescription>
+<para>Allocates and returns a copy of the input settings struct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>settings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input struct. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to constructed and copies settings struct. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/utils.c" line="260" column="14" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="260" bodyend="276"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="utils_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="utils_8h" kindref="compound">utils.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8c_1a837650bd12d2cfb6fe551245bb5a655e" kindref="member">print_qoco_csc_matrix</ref>(<ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>M)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;\nPrinting<sp/>CSC<sp/>Matrix:\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;m:<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref>);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;n:<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;nnz:<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref>);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data:<sp/>{&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref>;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;%.17g&quot;</highlight><highlight class="normal">,<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>[i]);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>!=<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref><sp/>-<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;}\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Row<sp/>Indices:<sp/>{&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref>;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;%d&quot;</highlight><highlight class="normal">,<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[i]);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>!=<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref><sp/>-<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;}\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Column<sp/>Pointers:<sp/>{&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref><sp/>+<sp/>1;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;%d&quot;</highlight><highlight class="normal">,<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[i]);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>!=<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;}\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8c_1a9dfc9bbbac97f5c76af6348534314dc2" kindref="member">print_arrayf</ref>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;{&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;%.17g&quot;</highlight><highlight class="normal">,<sp/>x[i]);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>!=<sp/>n<sp/>-<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;,<sp/>&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;}\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8c_1a68a25040684c59d3d9e7f0f84ffe230d" kindref="member">print_arrayi</ref>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;{&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;%d&quot;</highlight><highlight class="normal">,<sp/>x[i]);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>!=<sp/>n<sp/>-<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;,<sp/>&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;}\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8c_1a79b078c095c4c7b6003826775ac18b64" kindref="member">print_header</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref>*<sp/>data<sp/>=<sp/>solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref>*<sp/>settings<sp/>=<sp/>solver-&gt;<ref refid="structQOCOSolver_1a74a794b01773f869a491cacdb6fc21b3" kindref="member">settings</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>clang-format<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;+-------------------------------------------------------+\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>QOCO<sp/>-<sp/>Quadratic<sp/>Objective<sp/>Conic<sp/>Optimizer<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v%i.%i.%i<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>QOCO_VERSION_MAJOR,<sp/>QOCO_VERSION_MINOR,<sp/>QOCO_VERSION_PATCH);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(c)<sp/>Govind<sp/>M.<sp/>Chari,<sp/>2024<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/>University<sp/>of<sp/>Washington<sp/>Autonomous<sp/>Controls<sp/>Lab<sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;+-------------------------------------------------------+\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/>Problem<sp/>Data:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>variables:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%-9d<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>constraints:<sp/><sp/><sp/><sp/><sp/><sp/>%-9d<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a9d6633850372ce5c5e852aca470138ae" kindref="member">l</ref><sp/>+<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref><sp/>+<sp/>data-&gt;<ref refid="structQOCOProblemData_1a980efff44ee3906ba6d866df9067e9d6" kindref="member">nsoc</ref>);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>eq<sp/>constraints:<sp/><sp/><sp/>%-9d<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>ineq<sp/>constraints:<sp/>%-9d<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a9d6633850372ce5c5e852aca470138ae" kindref="member">l</ref>);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>soc<sp/>constraints:<sp/><sp/>%-9d<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a980efff44ee3906ba6d866df9067e9d6" kindref="member">nsoc</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>nnz(P):<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%-9d<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>data-&gt;<ref refid="structQOCOProblemData_1abdb31a4bf94ade82b694d2635456a6e6" kindref="member">P</ref>-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref><sp/>-<sp/>solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a533086695da2b3b918014831c0a8d6d8" kindref="member">Pnum_nzadded</ref>);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>nnz(A):<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%-9d<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa9cbb95a483b65f3e1155596cb3eab5d" kindref="member">A</ref>-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>nnz(G):<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%-9d<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a83d3b83ad1361869c5676fe157b5e116" kindref="member">G</ref>-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref>);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/>Solver<sp/>Settings:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>max_iters:<sp/>%-3d<sp/>abstol:<sp/>%3.2e<sp/>reltol:<sp/>%3.2e<sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>settings-&gt;<ref refid="structQOCOSettings_1ad024407378c8232511ffc8775e6d92a7" kindref="member">max_iters</ref>,<sp/>settings-&gt;<ref refid="structQOCOSettings_1a7d62b01403b7572ee0d1ebaaab45c9d0" kindref="member">abstol</ref>,<sp/>settings-&gt;<ref refid="structQOCOSettings_1a9924681488237bcc446854964f3b5012" kindref="member">reltol</ref>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>abstol_inacc:<sp/>%3.2e<sp/>reltol_inacc:<sp/>%3.2e<sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>settings-&gt;<ref refid="structQOCOSettings_1a92cdec007c0b9a4392d3036e97012492" kindref="member">abstol_inacc</ref>,<sp/>settings-&gt;<ref refid="structQOCOSettings_1a13d27ddfaba9c83983090fba602ab2b4" kindref="member">reltol_inacc</ref>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>bisect_iters:<sp/>%-2d<sp/>iter_ref_iters:<sp/>%-2d<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>settings-&gt;<ref refid="structQOCOSettings_1a13065594e57d4091033243b12c5bfd5c" kindref="member">bisect_iters</ref>,<sp/>settings-&gt;<ref refid="structQOCOSettings_1afd5bc6a556931668265c2e47270e8278" kindref="member">iter_ref_iters</ref>);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>ruiz_iters:<sp/>%-2d<sp/>kkt_static_reg:<sp/>%3.2e<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>settings-&gt;<ref refid="structQOCOSettings_1af252771d1771c37f794a6d5c385ce66d" kindref="member">ruiz_iters</ref>,<sp/>settings-&gt;<ref refid="structQOCOSettings_1a11f48d67a5626431c077ad30c84433df" kindref="member">kkt_static_reg</ref>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/><sp/><sp/>kkt_dynamic_reg:<sp/>%3.2e<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,<sp/>settings-&gt;<ref refid="structQOCOSettings_1ad635ca462b97c3f0978b755ce2ce763c" kindref="member">kkt_dynamic_reg</ref>);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;+-------------------------------------------------------+\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;+--------+-----------+------------+------------+------------+-----------+-----------+\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/>Iter<sp/><sp/>|<sp/><sp/><sp/>Pcost<sp/><sp/><sp/>|<sp/><sp/><sp/><sp/>Pres<sp/><sp/><sp/><sp/>|<sp/><sp/><sp/><sp/>Dres<sp/><sp/><sp/><sp/>|<sp/><sp/><sp/><sp/><sp/>Gap<sp/><sp/><sp/><sp/>|<sp/><sp/><sp/><sp/><sp/>Mu<sp/><sp/><sp/><sp/>|<sp/><sp/><sp/><sp/>Step<sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;+--------+-----------+------------+------------+------------+-----------+-----------+\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>clang-format<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8c_1aed998408252b44161ed1ac30c2467deb" kindref="member">log_iter</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>clang-format<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;|<sp/><sp/><sp/>%2d<sp/><sp/><sp/>|<sp/>%+.2e<sp/>|<sp/>%+.3e<sp/>|<sp/>%+.3e<sp/>|<sp/>%+.3e<sp/>|<sp/>%+.2e<sp/>|<sp/><sp/><sp/>%.3f<sp/><sp/><sp/>|\n&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1af22ee3af705035ac8049c32ba6445975" kindref="member">iters</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1a382db943a6d77679838a47df7d1591f9" kindref="member">obj</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1a0885d2735b7586aed3ccc8a81acda625" kindref="member">pres</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1a5e063df676903dfe0f5b26411824263c" kindref="member">dres</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1aa96bc0b7bc5ccaf1e40f36fdb5bd0638" kindref="member">gap</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1a24869d9e9aa5cbcfd7451ab6219a011f" kindref="member">mu</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1a04dfe46d9df29667a1241255569456d0" kindref="member">a</ref>);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;+--------+-----------+------------+------------+------------+-----------+-----------+\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>clang-format<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8c_1acb3b30d2ed7b184cc0c180d8e2661e00" kindref="member">print_footer</ref>(<ref refid="structQOCOSolution" kindref="compound">QOCOSolution</ref>*<sp/>solution,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844" kindref="member">qoco_solve_status</ref><sp/>status)</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;status:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%s\n&quot;</highlight><highlight class="normal">,<sp/>QOCO_SOLVE_STATUS_MESSAGE[status]);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;number<sp/>of<sp/>iterations:<sp/><sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>solution-&gt;<ref refid="structQOCOSolution_1af22ee3af705035ac8049c32ba6445975" kindref="member">iters</ref>);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;objective:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%+.3f\n&quot;</highlight><highlight class="normal">,<sp/>solution-&gt;<ref refid="structQOCOSolution_1a382db943a6d77679838a47df7d1591f9" kindref="member">obj</ref>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;setup<sp/>time:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%.2e<sp/>sec\n&quot;</highlight><highlight class="normal">,<sp/>solution-&gt;<ref refid="structQOCOSolution_1a75eacd22010e7a6c349fad37d8a1a768" kindref="member">setup_time_sec</ref>);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;solve<sp/>time:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>%.2e<sp/>sec\n&quot;</highlight><highlight class="normal">,<sp/>solution-&gt;<ref refid="structQOCOSolution_1afc8c9f62bffbf4557635d69bfc2f2188" kindref="member">solve_time_sec</ref>);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="utils_8c_1a7681340f414acd7335887bcf17e9a1cf" kindref="member">check_stopping</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver)</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work<sp/>=<sp/>solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref>*<sp/>data<sp/>=<sp/>solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>eabs<sp/>=<sp/>solver-&gt;<ref refid="structQOCOSolver_1a74a794b01773f869a491cacdb6fc21b3" kindref="member">settings</ref>-&gt;<ref refid="structQOCOSettings_1a7d62b01403b7572ee0d1ebaaab45c9d0" kindref="member">abstol</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>erel<sp/>=<sp/>solver-&gt;<ref refid="structQOCOSolver_1a74a794b01773f869a491cacdb6fc21b3" kindref="member">settings</ref>-&gt;<ref refid="structQOCOSettings_1a9924681488237bcc446854964f3b5012" kindref="member">reltol</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>eabsinacc<sp/>=<sp/>solver-&gt;<ref refid="structQOCOSolver_1a74a794b01773f869a491cacdb6fc21b3" kindref="member">settings</ref>-&gt;<ref refid="structQOCOSettings_1a92cdec007c0b9a4392d3036e97012492" kindref="member">abstol_inacc</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>erelinacc<sp/>=<sp/>solver-&gt;<ref refid="structQOCOSolver_1a74a794b01773f869a491cacdb6fc21b3" kindref="member">settings</ref>-&gt;<ref refid="structQOCOSettings_1a13d27ddfaba9c83983090fba602ab2b4" kindref="member">reltol_inacc</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1aae616bb46f059dc575ca1bb2d5f4fa27" kindref="member">Einvruiz</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aaee73365c1f1cbe460f1bb8720c3c123" kindref="member">b</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" kindref="member">ybuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref>);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>binf<sp/>=<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref><sp/>&gt;<sp/>0<sp/>?<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" kindref="member">ybuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref>)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1adb853bd2760ba9c0af0d9b6d5738f9ae" kindref="member">Fruiz</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a002ae166cc6aecae4752707d5d363b4f" kindref="member">s</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" kindref="member">ubuff1</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>sinf<sp/>=<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref><sp/>&gt;<sp/>0<sp/>?<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" kindref="member">ubuff1</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1adb853bd2760ba9c0af0d9b6d5738f9ae" kindref="member">Fruiz</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a6ebb2d02f31c2a1866076b4165f07a54" kindref="member">z</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a69686f6f9be8831adc15b675c9a8901b" kindref="member">ubuff2</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>zinf<sp/>=<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref><sp/>&gt;<sp/>0<sp/>?<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1a69686f6f9be8831adc15b675c9a8901b" kindref="member">ubuff2</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a11ee7c721bfe5fdede3fa518946a766a" kindref="member">Dinvruiz</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" kindref="member">x</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>cinf<sp/>=<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a9f2b26ac858146f3571c071a55aa7be2" kindref="member">Finvruiz</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac5b72e0466328072d1a45b0cbe155967" kindref="member">h</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac6d7f378e50078c8df22229a64f63335" kindref="member">ubuff3</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>hinf<sp/>=<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref><sp/>&gt;<sp/>0<sp/>?<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1ac6d7f378e50078c8df22229a64f63335" kindref="member">ubuff3</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>||A^T<sp/>*<sp/>y||_\infty.<sp/>If<sp/>equality<sp/>constraints<sp/>aren&apos;t<sp/>present,<sp/>A-&gt;m<sp/>=</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>A-&gt;n<sp/>=<sp/>0<sp/>and<sp/>SpMtv<sp/>is<sp/>a<sp/>nullop.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1acf4b7a681a7930df3ea240a3c87d5737" kindref="member">SpMtv</ref>(data-&gt;<ref refid="structQOCOProblemData_1aa9cbb95a483b65f3e1155596cb3eab5d" kindref="member">A</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac41c22bfe9821570218e52e527b90b9e" kindref="member">y</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a11ee7c721bfe5fdede3fa518946a766a" kindref="member">Dinvruiz</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>Atyinf<sp/>=<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref><sp/>?<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>||G^T<sp/>*<sp/>z||_\infty.<sp/>If<sp/>inequality<sp/>constraints<sp/>aren&apos;t<sp/>present,<sp/>G-&gt;m</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>=<sp/>G-&gt;n<sp/>=<sp/>0<sp/>and<sp/>SpMtv<sp/>is<sp/>a<sp/>nullop.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1acf4b7a681a7930df3ea240a3c87d5737" kindref="member">SpMtv</ref>(data-&gt;<ref refid="structQOCOProblemData_1a83d3b83ad1361869c5676fe157b5e116" kindref="member">G</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a6ebb2d02f31c2a1866076b4165f07a54" kindref="member">z</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a11ee7c721bfe5fdede3fa518946a766a" kindref="member">Dinvruiz</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>Gtzinf<sp/>=<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref><sp/>&gt;<sp/>0<sp/>?<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>||P<sp/>*<sp/>x||_\infty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1afc3ad5be9a59c74f4883ef3994c50328" kindref="member">USpMv</ref>(data-&gt;<ref refid="structQOCOProblemData_1abdb31a4bf94ade82b694d2635456a6e6" kindref="member">P</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" kindref="member">x</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>[i]<sp/>-=<sp/>solver-&gt;<ref refid="structQOCOSolver_1a74a794b01773f869a491cacdb6fc21b3" kindref="member">settings</ref>-&gt;<ref refid="structQOCOSettings_1a11f48d67a5626431c077ad30c84433df" kindref="member">kkt_static_reg</ref><sp/>*<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" kindref="member">x</ref>[i];</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a11ee7c721bfe5fdede3fa518946a766a" kindref="member">Dinvruiz</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>Pxinf<sp/>=<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>xPx<sp/>=<sp/><ref refid="linalg_8h_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(work-&gt;<ref refid="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" kindref="member">x</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>||A<sp/>*<sp/>x||_\infty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1af8b487d55e70aa8c15faa8095c92d41c" kindref="member">SpMv</ref>(data-&gt;<ref refid="structQOCOProblemData_1aa9cbb95a483b65f3e1155596cb3eab5d" kindref="member">A</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" kindref="member">x</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" kindref="member">ybuff</ref>);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" kindref="member">ybuff</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1aae616bb46f059dc575ca1bb2d5f4fa27" kindref="member">Einvruiz</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" kindref="member">ybuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref>);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>Axinf<sp/>=<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref><sp/>?<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" kindref="member">ybuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref>)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>||G<sp/>*<sp/>x||_\infty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1af8b487d55e70aa8c15faa8095c92d41c" kindref="member">SpMv</ref>(data-&gt;<ref refid="structQOCOProblemData_1a83d3b83ad1361869c5676fe157b5e116" kindref="member">G</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" kindref="member">x</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" kindref="member">ubuff1</ref>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" kindref="member">ubuff1</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a9f2b26ac858146f3571c071a55aa7be2" kindref="member">Finvruiz</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" kindref="member">ubuff1</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>Gxinf<sp/>=<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref><sp/>?<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" kindref="member">ubuff1</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>)<sp/>:<sp/>0;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>primal<sp/>residual.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(&amp;work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a09b19f406c70817daf7dc41ead83c975" kindref="member">kktres</ref>[data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>],<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1aae616bb46f059dc575ca1bb2d5f4fa27" kindref="member">Einvruiz</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" kindref="member">ybuff</ref>,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref>);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>eq_res<sp/>=<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" kindref="member">ybuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref>);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(&amp;work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a09b19f406c70817daf7dc41ead83c975" kindref="member">kktres</ref>[data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref><sp/>+<sp/>data-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref>],<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a9f2b26ac858146f3571c071a55aa7be2" kindref="member">Finvruiz</ref>,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>work-&gt;<ref refid="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" kindref="member">ubuff1</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>conic_res<sp/>=<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" kindref="member">ubuff1</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>pres<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(eq_res,<sp/>conic_res);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1a0885d2735b7586aed3ccc8a81acda625" kindref="member">pres</ref><sp/>=<sp/>pres;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>dual<sp/>residual.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a09b19f406c70817daf7dc41ead83c975" kindref="member">kktres</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1a11ee7c721bfe5fdede3fa518946a766a" kindref="member">Dinvruiz</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1aed2caeb493cbf251a8d9e446a3d19fc6" kindref="member">scale_arrayf</ref>(work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1ac992970a5113c5ff3d60e0c64532aa0a" kindref="member">kinv</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>dres<sp/>=<sp/><ref refid="linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(work-&gt;<ref refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" kindref="member">xbuff</ref>,<sp/>data-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1a5e063df676903dfe0f5b26411824263c" kindref="member">dres</ref><sp/>=<sp/>dres;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>duality<sp/>gap.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>ctx<sp/>=<sp/><ref refid="linalg_8h_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(work-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1a7865ab92c05a9b0d4dbf85798f33b002" kindref="member">c</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" kindref="member">x</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>bty<sp/>=<sp/><ref refid="linalg_8h_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(work-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1aaee73365c1f1cbe460f1bb8720c3c123" kindref="member">b</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac41c22bfe9821570218e52e527b90b9e" kindref="member">y</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref>);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>htz<sp/>=<sp/><ref refid="linalg_8h_1af6aa23417cb2b6b034862e9c268876fb" kindref="member">dot</ref>(work-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1ac5b72e0466328072d1a45b0cbe155967" kindref="member">h</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1a6ebb2d02f31c2a1866076b4165f07a54" kindref="member">z</ref>,<sp/>work-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>gap<sp/>=<sp/><ref refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" kindref="member">qoco_abs</ref>(xPx<sp/>+<sp/>ctx<sp/>+<sp/>bty<sp/>+<sp/>htz);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/>gap<sp/>*=<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1ac992970a5113c5ff3d60e0c64532aa0a" kindref="member">kinv</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1aa96bc0b7bc5ccaf1e40f36fdb5bd0638" kindref="member">gap</ref><sp/>=<sp/>gap;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>max{Axinf,<sp/>binf,<sp/>Gxinf,<sp/>hinf,<sp/>sinf}.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>pres_rel<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(Axinf,<sp/>binf);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/>pres_rel<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(pres_rel,<sp/>Gxinf);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/>pres_rel<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(pres_rel,<sp/>hinf);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/>pres_rel<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(pres_rel,<sp/>sinf);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>max{Pxinf,<sp/>Atyinf,<sp/>Gtzinf,<sp/>cinf}.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>dres_rel<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(Pxinf,<sp/>Atyinf);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/>dres_rel<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(pres_rel,<sp/>Gtzinf);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/>dres_rel<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(pres_rel,<sp/>cinf);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/>dres_rel<sp/>*=<sp/>work-&gt;<ref refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" kindref="member">kkt</ref>-&gt;<ref refid="structQOCOKKT_1ac992970a5113c5ff3d60e0c64532aa0a" kindref="member">kinv</ref>;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>max{abs(xPx),<sp/>abs(ctx),<sp/>abs(bty),<sp/>abs(htz)}.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>gap_rel<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(<ref refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" kindref="member">qoco_abs</ref>(xPx),<sp/><ref refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" kindref="member">qoco_abs</ref>(ctx));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/>gap_rel<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(gap_rel,<sp/><ref refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" kindref="member">qoco_abs</ref>(bty));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/>gap_rel<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(gap_rel,<sp/><ref refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" kindref="member">qoco_abs</ref>(htz));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>solver<sp/>stalled<sp/>(stepsize<sp/>=<sp/>0)<sp/>check<sp/>if<sp/>low<sp/>tolerance<sp/>stopping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>criteria<sp/>is<sp/>met.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1a04dfe46d9df29667a1241255569456d0" kindref="member">a</ref><sp/>&lt;<sp/>1e-8)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pres<sp/>&lt;<sp/>eabsinacc<sp/>+<sp/>erelinacc<sp/>*<sp/>pres_rel<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dres<sp/>&lt;<sp/>eabsinacc<sp/>+<sp/>erelinacc<sp/>*<sp/>dres_rel<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1aa96bc0b7bc5ccaf1e40f36fdb5bd0638" kindref="member">gap</ref><sp/>&lt;<sp/>eabsinacc<sp/>+<sp/>erelinacc<sp/>*<sp/>gap_rel)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1ace095bf7a10b6e36e707583772499f3b" kindref="member">status</ref><sp/>=<sp/><ref refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844ab049366a0c59b1c0f724e05ad7a17cda" kindref="member">QOCO_SOLVED_INACCURATE</ref>;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1ace095bf7a10b6e36e707583772499f3b" kindref="member">status</ref><sp/>=<sp/><ref refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844a174e773944ccc4d276c517724eefb468" kindref="member">QOCO_NUMERICAL_ERROR</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pres<sp/>&lt;<sp/>eabs<sp/>+<sp/>erel<sp/>*<sp/>pres_rel<sp/>&amp;&amp;<sp/>dres<sp/>&lt;<sp/>eabs<sp/>+<sp/>erel<sp/>*<sp/>dres_rel<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1aa96bc0b7bc5ccaf1e40f36fdb5bd0638" kindref="member">gap</ref><sp/>&lt;<sp/>eabs<sp/>+<sp/>erel<sp/>*<sp/>gap_rel)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1ace095bf7a10b6e36e707583772499f3b" kindref="member">status</ref><sp/>=<sp/><ref refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844aacc960e5ff4f349e32a7045512acc208" kindref="member">QOCO_SOLVED</ref>;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8c_1a59db88344ea8162c2ffef33781b9a735" kindref="member">copy_solution</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver)</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Copy<sp/>optimization<sp/>variables.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1a298815cf49d7a35894fd063fb3f59d07" kindref="member">copy_arrayf</ref>(solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" kindref="member">x</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1a989c1156c8a3019bfd101141d067b27f" kindref="member">x</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" kindref="member">n</ref>);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1a298815cf49d7a35894fd063fb3f59d07" kindref="member">copy_arrayf</ref>(solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1a002ae166cc6aecae4752707d5d363b4f" kindref="member">s</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1a79f89645c7b39a9c4d4c8380e7129213" kindref="member">s</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1a298815cf49d7a35894fd063fb3f59d07" kindref="member">copy_arrayf</ref>(solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1ac41c22bfe9821570218e52e527b90b9e" kindref="member">y</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1a27cf10ad9a7474d9fd6b418110fc904f" kindref="member">y</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" kindref="member">p</ref>);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><ref refid="linalg_8h_1a298815cf49d7a35894fd063fb3f59d07" kindref="member">copy_arrayf</ref>(solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1a6ebb2d02f31c2a1866076b4165f07a54" kindref="member">z</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1a44f6e311adc9af5956dc65c9b6722957" kindref="member">z</ref>,<sp/>solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" kindref="member">data</ref>-&gt;<ref refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" kindref="member">m</ref>);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/>solver-&gt;<ref refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" kindref="member">sol</ref>-&gt;<ref refid="structQOCOSolution_1afc8c9f62bffbf4557635d69bfc2f2188" kindref="member">solve_time_sec</ref><sp/>=</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="timer_8h_1a4ea3627b111cae5ddb7b1bc76a113eb5" kindref="member">get_elapsed_time_sec</ref>(&amp;(solver-&gt;<ref refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" kindref="member">work</ref>-&gt;<ref refid="structQOCOWorkspace_1a1e42af4dbb27330568497c58e92cfea2" kindref="member">solve_timer</ref>));</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref>*<sp/><ref refid="utils_8c_1a5275dad2b3474f32c7efda823e983ba3" kindref="member">copy_settings</ref>(<ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref>*<sp/>settings)</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref>*<sp/>new_settings<sp/>=<sp/>malloc(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref>));</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1a7d62b01403b7572ee0d1ebaaab45c9d0" kindref="member">abstol</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1a7d62b01403b7572ee0d1ebaaab45c9d0" kindref="member">abstol</ref>;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1a92cdec007c0b9a4392d3036e97012492" kindref="member">abstol_inacc</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1a92cdec007c0b9a4392d3036e97012492" kindref="member">abstol_inacc</ref>;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1a13065594e57d4091033243b12c5bfd5c" kindref="member">bisect_iters</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1a13065594e57d4091033243b12c5bfd5c" kindref="member">bisect_iters</ref>;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1afd5bc6a556931668265c2e47270e8278" kindref="member">iter_ref_iters</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1afd5bc6a556931668265c2e47270e8278" kindref="member">iter_ref_iters</ref>;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1ad024407378c8232511ffc8775e6d92a7" kindref="member">max_iters</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1ad024407378c8232511ffc8775e6d92a7" kindref="member">max_iters</ref>;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1a11f48d67a5626431c077ad30c84433df" kindref="member">kkt_static_reg</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1a11f48d67a5626431c077ad30c84433df" kindref="member">kkt_static_reg</ref>;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1ad635ca462b97c3f0978b755ce2ce763c" kindref="member">kkt_dynamic_reg</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1ad635ca462b97c3f0978b755ce2ce763c" kindref="member">kkt_dynamic_reg</ref>;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1a9924681488237bcc446854964f3b5012" kindref="member">reltol</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1a9924681488237bcc446854964f3b5012" kindref="member">reltol</ref>;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1a13d27ddfaba9c83983090fba602ab2b4" kindref="member">reltol_inacc</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1a13d27ddfaba9c83983090fba602ab2b4" kindref="member">reltol_inacc</ref>;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1af252771d1771c37f794a6d5c385ce66d" kindref="member">ruiz_iters</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1af252771d1771c37f794a6d5c385ce66d" kindref="member">ruiz_iters</ref>;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/>new_settings-&gt;<ref refid="structQOCOSettings_1a1a566c8aa840eaaf69e3070060a0ab5a" kindref="member">verbose</ref><sp/>=<sp/>settings-&gt;<ref refid="structQOCOSettings_1a1a566c8aa840eaaf69e3070060a0ab5a" kindref="member">verbose</ref>;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>new_settings;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/src/utils.c"/>
+  </compounddef>
+</doxygen>

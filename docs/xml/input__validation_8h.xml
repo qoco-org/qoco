@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="input__validation_8h" kind="file" language="C++">
+    <compoundname>input_validation.h</compoundname>
+    <includes refid="enums_8h" local="yes">enums.h</includes>
+    <includes refid="qoco__error_8h" local="yes">qoco_error.h</includes>
+    <includes refid="structs_8h" local="yes">structs.h</includes>
+    <includes local="no">stdio.h</includes>
+    <includedby refid="qoco__api_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_api.h</includedby>
+    <includedby refid="input__validation_8c" local="yes">/home/govind/Desktop/git/qoco/src/input_validation.c</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>stdlib.h</label>
+      </node>
+      <node id="9">
+        <label>structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>limits.h</label>
+      </node>
+      <node id="4">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>qoco_error.h</label>
+        <link refid="qoco__error_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/input_validation.h</label>
+        <link refid="input__validation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>math.h</label>
+      </node>
+      <node id="2">
+        <label>enums.h</label>
+        <link refid="enums_8h"/>
+      </node>
+      <node id="10">
+        <label>timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
+        <link refid="qoco_8h"/>
+      </node>
+      <node id="2">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
+        <link refid="qoco__api_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/input_validation.h</label>
+        <link refid="input__validation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>/home/govind/Desktop/git/qoco/src/input_validation.c</label>
+        <link refid="input__validation_8c"/>
+      </node>
+      <node id="4">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_api.c</label>
+        <link refid="qoco__api_8c"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="input__validation_8h_1a1bfb924cde6bff6810d49cea5e0a2e4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt qoco_validate_settings</definition>
+        <argsstring>(const QOCOSettings *settings)</argsstring>
+        <name>qoco_validate_settings</name>
+        <param>
+          <type>const <ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref> *</type>
+          <declname>settings</declname>
+        </param>
+        <briefdescription>
+<para>Validates solver settings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>settings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to settings struct </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Exitflag to check (0 for success, failure otherwise) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/input_validation.h" line="29" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/input_validation.c" bodystart="13" bodyend="70" declfile="/home/govind/Desktop/git/qoco/include/input_validation.h" declline="29" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="input__validation_8h_1a26e99d040f1360a2c17d86709fe0302f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt qoco_validate_data</definition>
+        <argsstring>(const QOCOCscMatrix *P, const QOCOFloat *c, const QOCOCscMatrix *A, const QOCOFloat *b, const QOCOCscMatrix *G, const QOCOFloat *h, const QOCOInt l, const QOCOInt nsoc, const QOCOInt *q)</argsstring>
+        <name>qoco_validate_data</name>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>P</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>G</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+<para>Validate problem data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>P</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper triangular part of quadratic cost Hessian in CSC form </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Linear cost vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Affine equality constraint matrix in CSC form </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Affine equality constraint offset vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>G</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conic constraint matrix in CSC form </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conic constraint offset vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of non-negative orthant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nsoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of second-order cones </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of each second-order cone </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Exitflag to check (0 for success, failure otherwise) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/input_validation.h" line="45" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/input_validation.c" bodystart="72" bodyend="153" declfile="/home/govind/Desktop/git/qoco/include/input_validation.h" declline="45" declcolumn="9"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="utils_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License</para>
+</sect1>
+<sect1 id="utils_8h_1DESCRIPTION">
+<title>DESCRIPTION</title>
+<para>Includes functions that validate any user-provided data. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>INPUT_VALIDATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INPUT_VALIDATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="enums_8h" kindref="compound">enums.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="qoco__error_8h" kindref="compound">qoco_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="structs_8h" kindref="compound">structs.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="input__validation_8h_1a1bfb924cde6bff6810d49cea5e0a2e4f" kindref="member">qoco_validate_settings</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref>*<sp/>settings);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="input__validation_8h_1a26e99d040f1360a2c17d86709fe0302f" kindref="member">qoco_validate_data</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>P,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>c,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>A,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>b,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>G,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>h,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>l,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>nsoc,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>q);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>INPUT_VALIDATION_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/include/input_validation.h"/>
+  </compounddef>
+</doxygen>

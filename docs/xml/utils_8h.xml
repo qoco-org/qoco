@@ -1,0 +1,461 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="utils_8h" kind="file" language="C++">
+    <compoundname>utils.h</compoundname>
+    <includes refid="enums_8h" local="yes">enums.h</includes>
+    <includes refid="linalg_8h" local="yes">linalg.h</includes>
+    <includes refid="structs_8h" local="yes">structs.h</includes>
+    <includes local="no">stdio.h</includes>
+    <includedby refid="qoco_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco.h</includedby>
+    <includedby refid="qoco__api_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_api.h</includedby>
+    <includedby refid="cone_8c" local="yes">/home/govind/Desktop/git/qoco/src/cone.c</includedby>
+    <includedby refid="kkt_8c" local="yes">/home/govind/Desktop/git/qoco/src/kkt.c</includedby>
+    <includedby refid="utils_8c" local="yes">/home/govind/Desktop/git/qoco/src/utils.c</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>stdlib.h</label>
+      </node>
+      <node id="8">
+        <label>structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>limits.h</label>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/utils.h</label>
+        <link refid="utils_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>linalg.h</label>
+        <link refid="linalg_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>math.h</label>
+      </node>
+      <node id="2">
+        <label>enums.h</label>
+        <link refid="enums_8h"/>
+      </node>
+      <node id="9">
+        <label>timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
+        <link refid="qoco_8h"/>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/utils.h</label>
+        <link refid="utils_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
+        <link refid="qoco__api_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>/home/govind/Desktop/git/qoco/src/cone.c</label>
+        <link refid="cone_8c"/>
+      </node>
+      <node id="6">
+        <label>/home/govind/Desktop/git/qoco/src/kkt.c</label>
+        <link refid="kkt_8c"/>
+      </node>
+      <node id="7">
+        <label>/home/govind/Desktop/git/qoco/src/utils.c</label>
+        <link refid="utils_8c"/>
+      </node>
+      <node id="4">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_api.c</label>
+        <link refid="qoco__api_8c"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="utils_8h_1a837650bd12d2cfb6fe551245bb5a655e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void print_qoco_csc_matrix</definition>
+        <argsstring>(QOCOCscMatrix *M)</argsstring>
+        <name>print_qoco_csc_matrix</name>
+        <param>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <briefdescription>
+<para>Prints dimensions, number of nonzero elements, data, column pointers and row indices for a sparse matrix in CSC form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> that will be printed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="29" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="13" bodyend="45" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="29" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8h_1a9dfc9bbbac97f5c76af6348534314dc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void print_arrayf</definition>
+        <argsstring>(QOCOFloat *x, QOCOInt n)</argsstring>
+        <name>print_arrayf</name>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Prints array of QOCOFloats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements in array. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="37" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="47" bodyend="57" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="37" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8h_1a68a25040684c59d3d9e7f0f84ffe230d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void print_arrayi</definition>
+        <argsstring>(QOCOInt *x, QOCOInt n)</argsstring>
+        <name>print_arrayi</name>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Prints array of QOCOInts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements in array. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="45" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="59" bodyend="69" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="45" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8h_1a79b078c095c4c7b6003826775ac18b64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void print_header</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>print_header</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Prints QOCO header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="52" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="71" bodyend="105" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="52" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8h_1aed998408252b44161ed1ac30c2467deb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void log_iter</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>log_iter</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Print solver progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="59" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="107" bodyend="114" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="59" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8h_1acb3b30d2ed7b184cc0c180d8e2661e00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void print_footer</definition>
+        <argsstring>(QOCOSolution *solution, enum qoco_solve_status status)</argsstring>
+        <name>print_footer</name>
+        <param>
+          <type><ref refid="structQOCOSolution" kindref="compound">QOCOSolution</ref> *</type>
+          <declname>solution</declname>
+        </param>
+        <param>
+          <type>enum <ref refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844" kindref="member">qoco_solve_status</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Prints QOCO footer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solution</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solution struct. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Solve status. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="67" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="116" bodyend="125" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="67" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8h_1a7681340f414acd7335887bcf17e9a1cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned char</type>
+        <definition>unsigned char check_stopping</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>check_stopping</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Checks stopping criteria. Before calling this function, work-&gt;kkt-&gt;rhs must contain the residual of the KKT conditions as computed by <ref refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kindref="member">compute_kkt_residual()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>1 if stopping criteria met and 0 otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="76" column="15" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="127" bodyend="246" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="76" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8h_1a59db88344ea8162c2ffef33781b9a735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void copy_solution</definition>
+        <argsstring>(QOCOSolver *solver)</argsstring>
+        <name>copy_solution</name>
+        <param>
+          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
+          <declname>solver</declname>
+        </param>
+        <briefdescription>
+<para>Copies data to <ref refid="structQOCOSolution" kindref="compound">QOCOSolution</ref> struct when solver terminates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>solver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to solver. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="83" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="248" bodyend="258" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="83" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="utils_8h_1a5275dad2b3474f32c7efda823e983ba3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref> *</type>
+        <definition>QOCOSettings* copy_settings</definition>
+        <argsstring>(QOCOSettings *settings)</argsstring>
+        <name>copy_settings</name>
+        <param>
+          <type><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref> *</type>
+          <declname>settings</declname>
+        </param>
+        <briefdescription>
+<para>Allocates and returns a copy of the input settings struct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>settings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input struct. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to constructed and copies settings struct. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="91" column="14" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="260" bodyend="276" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="91" declcolumn="14"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="utils_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License</para>
+</sect1>
+<sect1 id="utils_8h_1DESCRIPTION">
+<title>DESCRIPTION</title>
+<para>Provides various utility functions. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>UTILS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>UTILS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="enums_8h" kindref="compound">enums.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="linalg_8h" kindref="compound">linalg.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="structs_8h" kindref="compound">structs.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8h_1a837650bd12d2cfb6fe551245bb5a655e" kindref="member">print_qoco_csc_matrix</ref>(<ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>M);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8h_1a9dfc9bbbac97f5c76af6348534314dc2" kindref="member">print_arrayf</ref>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8h_1a68a25040684c59d3d9e7f0f84ffe230d" kindref="member">print_arrayi</ref>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8h_1a79b078c095c4c7b6003826775ac18b64" kindref="member">print_header</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8h_1aed998408252b44161ed1ac30c2467deb" kindref="member">log_iter</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8h_1acb3b30d2ed7b184cc0c180d8e2661e00" kindref="member">print_footer</ref>(<ref refid="structQOCOSolution" kindref="compound">QOCOSolution</ref>*<sp/>solution,<sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844" kindref="member">qoco_solve_status</ref><sp/>status);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="utils_8h_1a7681340f414acd7335887bcf17e9a1cf" kindref="member">check_stopping</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="utils_8h_1a59db88344ea8162c2ffef33781b9a735" kindref="member">copy_solution</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref>*<sp/><ref refid="utils_8h_1a5275dad2b3474f32c7efda823e983ba3" kindref="member">copy_settings</ref>(<ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref>*<sp/>settings);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>UTILS_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/include/utils.h"/>
+  </compounddef>
+</doxygen>

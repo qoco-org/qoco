@@ -1,0 +1,75 @@
+\hypertarget{equilibration_8h}{}\doxysection{/home/govind/\+Desktop/git/qoco/include/equilibration.h File Reference}
+\label{equilibration_8h}\index{/home/govind/Desktop/git/qoco/include/equilibration.h@{/home/govind/Desktop/git/qoco/include/equilibration.h}}
+{\ttfamily \#include \char`\"{}linalg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}structs.\+h\char`\"{}}\newline
+Include dependency graph for equilibration.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{equilibration_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{equilibration_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{equilibration_8h_a69d5dd1945452c99c240d541c9348e79}{ruiz\+\_\+equilibration}} (\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$solver)
+\begin{DoxyCompactList}\small\item\em Applies modified ruiz equilibration to scale data matrices. Computes D, E, F, and k as shown below to make the row and column infinity norms equal for the scaled KKT matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{equilibration_8h_a1d17dc429269fbe1f3ed4d91d65283f5}{unscale\+\_\+variables}} (\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$work)
+\begin{DoxyCompactList}\small\item\em Undo variable transformation induced by ruiz equilibration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{utils_8c_LICENSE}{}\doxysubsection{LICENSE}\label{utils_8c_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-\/Clause License\hypertarget{utils_8h_DESCRIPTION}{}\doxysubsection{DESCRIPTION}\label{utils_8h_DESCRIPTION}
+Provides functions to equilibrate problem data and scale variables. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{equilibration_8h_a69d5dd1945452c99c240d541c9348e79}\label{equilibration_8h_a69d5dd1945452c99c240d541c9348e79}} 
+\index{equilibration.h@{equilibration.h}!ruiz\_equilibration@{ruiz\_equilibration}}
+\index{ruiz\_equilibration@{ruiz\_equilibration}!equilibration.h@{equilibration.h}}
+\doxysubsubsection{\texorpdfstring{ruiz\_equilibration()}{ruiz\_equilibration()}}
+{\footnotesize\ttfamily void ruiz\+\_\+equilibration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}} $\ast$}]{solver }\end{DoxyParamCaption})}
+
+
+
+Applies modified ruiz equilibration to scale data matrices. Computes D, E, F, and k as shown below to make the row and column infinity norms equal for the scaled KKT matrix. 
+
+
+\begin{DoxyItemize}
+\item clang-\/format off
+\end{DoxyItemize}
+
+\mbox{[} D \mbox{]} \mbox{[} kP A$^\wedge$T G$^\wedge$T \mbox{]} \mbox{[} D \mbox{]} $\vert$ E $\vert$ $\vert$ A 0 0 $\vert$ $\vert$ E $\vert$ \mbox{[} F \mbox{]} \mbox{[} G 0 0 \mbox{]} \mbox{[} F \mbox{]}
+
+clang-\/format on
+
+
+\begin{DoxyParams}{Parameters}
+{\em solver} & Pointer to solver. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{equilibration_8h_a1d17dc429269fbe1f3ed4d91d65283f5}\label{equilibration_8h_a1d17dc429269fbe1f3ed4d91d65283f5}} 
+\index{equilibration.h@{equilibration.h}!unscale\_variables@{unscale\_variables}}
+\index{unscale\_variables@{unscale\_variables}!equilibration.h@{equilibration.h}}
+\doxysubsubsection{\texorpdfstring{unscale\_variables()}{unscale\_variables()}}
+{\footnotesize\ttfamily void unscale\+\_\+variables (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$}]{work }\end{DoxyParamCaption})}
+
+
+
+Undo variable transformation induced by ruiz equilibration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em work} & Pointer to workspace. \\
+\hline
+\end{DoxyParams}

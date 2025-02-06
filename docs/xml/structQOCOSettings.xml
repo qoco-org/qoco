@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structQOCOSettings" kind="struct" language="C++" prot="public">
+    <compoundname>QOCOSettings</compoundname>
+    <includes refid="structs_8h" local="no">structs.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structQOCOSettings_1ad024407378c8232511ffc8775e6d92a7" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOSettings::max_iters</definition>
+        <argsstring></argsstring>
+        <name>max_iters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of IPM iterations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="101" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSettings_1a13065594e57d4091033243b12c5bfd5c" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOSettings::bisect_iters</definition>
+        <argsstring></argsstring>
+        <name>bisect_iters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of bisection iterations for linesearch. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="104" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSettings_1af252771d1771c37f794a6d5c385ce66d" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOSettings::ruiz_iters</definition>
+        <argsstring></argsstring>
+        <name>ruiz_iters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of Ruiz equilibration iterations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="107" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSettings_1afd5bc6a556931668265c2e47270e8278" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOSettings::iter_ref_iters</definition>
+        <argsstring></argsstring>
+        <name>iter_ref_iters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of iterative refinement iterations performed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="110" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSettings_1a11f48d67a5626431c077ad30c84433df" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSettings::kkt_static_reg</definition>
+        <argsstring></argsstring>
+        <name>kkt_static_reg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Static regularization parameter for KKT system. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="113" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSettings_1ad635ca462b97c3f0978b755ce2ce763c" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSettings::kkt_dynamic_reg</definition>
+        <argsstring></argsstring>
+        <name>kkt_dynamic_reg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dynamic regularization parameter for KKT system. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="116" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSettings_1a7d62b01403b7572ee0d1ebaaab45c9d0" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSettings::abstol</definition>
+        <argsstring></argsstring>
+        <name>abstol</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Absolute tolerance. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="119" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSettings_1a9924681488237bcc446854964f3b5012" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSettings::reltol</definition>
+        <argsstring></argsstring>
+        <name>reltol</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Relative tolerance. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="122" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSettings_1a92cdec007c0b9a4392d3036e97012492" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSettings::abstol_inacc</definition>
+        <argsstring></argsstring>
+        <name>abstol_inacc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Low tolerance stopping criteria. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="125" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSettings_1a13d27ddfaba9c83983090fba602ab2b4" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOSettings::reltol_inacc</definition>
+        <argsstring></argsstring>
+        <name>reltol_inacc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Low tolerance stopping criteria. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="128" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSettings_1a1a566c8aa840eaaf69e3070060a0ab5a" prot="public" static="no" mutable="no">
+        <type>unsigned char</type>
+        <definition>unsigned char QOCOSettings::verbose</definition>
+        <argsstring></argsstring>
+        <name>verbose</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>0 for quiet anything else for verbose. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="131" column="17" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>QOCO solver settings. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="99" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="99" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structQOCOSettings_1a7d62b01403b7572ee0d1ebaaab45c9d0" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>abstol</name></member>
+      <member refid="structQOCOSettings_1a92cdec007c0b9a4392d3036e97012492" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>abstol_inacc</name></member>
+      <member refid="structQOCOSettings_1a13065594e57d4091033243b12c5bfd5c" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>bisect_iters</name></member>
+      <member refid="structQOCOSettings_1afd5bc6a556931668265c2e47270e8278" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>iter_ref_iters</name></member>
+      <member refid="structQOCOSettings_1ad635ca462b97c3f0978b755ce2ce763c" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>kkt_dynamic_reg</name></member>
+      <member refid="structQOCOSettings_1a11f48d67a5626431c077ad30c84433df" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>kkt_static_reg</name></member>
+      <member refid="structQOCOSettings_1ad024407378c8232511ffc8775e6d92a7" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>max_iters</name></member>
+      <member refid="structQOCOSettings_1a9924681488237bcc446854964f3b5012" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>reltol</name></member>
+      <member refid="structQOCOSettings_1a13d27ddfaba9c83983090fba602ab2b4" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>reltol_inacc</name></member>
+      <member refid="structQOCOSettings_1af252771d1771c37f794a6d5c385ce66d" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>ruiz_iters</name></member>
+      <member refid="structQOCOSettings_1a1a566c8aa840eaaf69e3070060a0ab5a" prot="public" virt="non-virtual"><scope>QOCOSettings</scope><name>verbose</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -3,7 +3,3 @@ build/
 hide/
 __pycache__/
 *_data.h
-doxygen_out/
-html/
-latex/
-xml/

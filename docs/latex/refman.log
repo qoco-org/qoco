@@ -1,0 +1,1693 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.15)  31 DEC 2024 10:54
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/home/govind/Desktop/git/qoco/docs/latex/refman.tex
+(/home/govind/Desktop/git/qoco/docs/latex/refman.tex
+LaTeX2e <2021-11-15> patch level 1
+L3 programming layer <2022-01-21> (/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2021/10/04 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/bk10.clo
+File: bk10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count185
+\c@chapter=\count186
+\c@section=\count187
+\c@subsection=\count188
+\c@subsubsection=\count189
+\c@paragraph=\count190
+\c@subparagraph=\count191
+\c@figure=\count192
+\c@table=\count193
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen138
+) (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Rollback for package 'array' requested -> date 2016-10-06.
+         Best approximation is the release introduced on 2016-10-06.
+ (/usr/share/texlive/texmf-dist/tex/latex/tools/array-2016-10-06.sty
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen139
+\extrarowheight=\dimen140
+\NC@list=\toks16
+\extratabsurround=\skip49
+\backup@length=\skip50
+)) (/usr/share/texlive/texmf-dist/tex/latex/base/fixltx2e.sty
+Package: fixltx2e 2016/12/29 v2.1a fixes to LaTeX (obsolete)
+Applying: [2015/01/01] Old fixltx2e package on input line 46.
+
+
+Package fixltx2e Warning: fixltx2e is not required with releases after 2015
+(fixltx2e)                All fixes are now in the LaTeX kernel.
+(fixltx2e)                See the latexrelease package for details.
+
+Already applied: [0000/00/00] Old fixltx2e package on input line 53.
+) (./doxygen.sty
+Package: doxygen 
+ (/usr/share/texlive/texmf-dist/tex/latex/base/alltt.sty
+Package: alltt 2021/01/29 v2.0g defines alltt environment
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count194
+\calc@Bcount=\count195
+\calc@Adimen=\dimen141
+\calc@Bdimen=\dimen142
+\calc@Askip=\skip51
+\calc@Bskip=\skip52
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count196
+\calc@Cskip=\skip53
+) (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count197
+\float@exts=\toks17
+\float@box=\box50
+\@float@everytoks=\toks18
+\@floatcapt=\box51
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2020-07-07 v1.5u LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks19
+\verbatim@line=\toks20
+\verbatim@in@stream=\read2
+) (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2021/10/31 v2.13 LaTeX color extensions (UK)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 227.
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+) (/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+\everycr=\toks21
+\minrowclearance=\skip54
+)
+\rownum=\count198
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1352.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1356.
+Package xcolor Info: Model `RGB' extended on input line 1368.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1370.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1371.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1374.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1375.
+) (./longtable_doxygen.sty
+Package: longtable_doxygen 2014/10/28 v4.11 Multi-page Table package (DPC) - frozen version for doxygen
+\LTleft=\skip55
+\LTright=\skip56
+\LTpre=\skip57
+\LTpost=\skip58
+\LTchunksize=\count199
+\LTcapwidth=\dimen143
+\LT@head=\box52
+\LT@firsthead=\box53
+\LT@foot=\box54
+\LT@lastfoot=\box55
+\LT@cols=\count266
+\LT@rows=\count267
+\c@LT@tables=\count268
+\c@LT@chunks=\count269
+\LT@p@ftn=\toks22
+) (./tabu_doxygen.sty
+Package: tabu_doxygen 2011/02/26 v2.8 - flexible LaTeX tabulars (FC), frozen version for doxygen
+ (/usr/share/texlive/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box56
+\sift@deathcycles=\count270
+\@vwid@loff=\dimen144
+\@vwid@roff=\dimen145
+)
+\c@taburow=\count271
+\tabu@nbcols=\count272
+\tabu@cnt=\count273
+\tabu@Xcol=\count274
+\tabu@alloc=\count275
+\tabu@nested=\count276
+\tabu@target=\dimen146
+\tabu@spreadtarget=\dimen147
+\tabu@naturalX=\dimen148
+\tabucolX=\dimen149
+\tabu@Xsum=\dimen150
+\extrarowdepth=\dimen151
+\abovetabulinesep=\dimen152
+\belowtabulinesep=\dimen153
+\tabustrutrule=\dimen154
+\tabu@thebody=\toks23
+\tabu@footnotes=\toks24
+\tabu@box=\box57
+\tabu@arstrutbox=\box58
+\tabu@hleads=\box59
+\tabu@vleads=\box60
+\tabu@cellskip=\skip59
+) (/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2021/12/21 4.1b verbatim text (tvz,hv)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks25
+)
+\FV@CodeLineNo=\count277
+\FV@InFile=\read3
+\FV@TabBox=\box61
+\c@FancyVerbLine=\count278
+\FV@StepNumber=\count279
+\FV@OutFile=\write3
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
+\TX@col@width=\dimen155
+\TX@old@table=\dimen156
+\TX@old@col=\dimen157
+\TX@target=\dimen158
+\TX@delta=\dimen159
+\TX@cols=\count280
+\TX@ftn=\toks26
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2021/10/28 v1.9b multicolumn formatting (FMi)
+\c@tracingmulticols=\count281
+\mult@box=\box62
+\multicol@leftmargin=\dimen160
+\c@unbalance=\count282
+\c@collectmore=\count283
+\doublecol@number=\count284
+\multicoltolerance=\count285
+\multicolpretolerance=\count286
+\full@width=\dimen161
+\page@free=\dimen162
+\premulticols=\dimen163
+\postmulticols=\dimen164
+\multicolsep=\skip60
+\multicolbaselineskip=\skip61
+\partial@page=\box63
+\last@line=\box64
+\maxbalancingoverflow=\dimen165
+\mult@rightbox=\box65
+\mult@grightbox=\box66
+\mult@firstbox=\box67
+\mult@gfirstbox=\box68
+\@tempa=\box69
+\@tempa=\box70
+\@tempa=\box71
+\@tempa=\box72
+\@tempa=\box73
+\@tempa=\box74
+\@tempa=\box75
+\@tempa=\box76
+\@tempa=\box77
+\@tempa=\box78
+\@tempa=\box79
+\@tempa=\box80
+\@tempa=\box81
+\@tempa=\box82
+\@tempa=\box83
+\@tempa=\box84
+\@tempa=\box85
+\@tempa=\box86
+\@tempa=\box87
+\@tempa=\box88
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\@tempa=\box94
+\@tempa=\box95
+\@tempa=\box96
+\@tempa=\box97
+\@tempa=\box98
+\@tempa=\box99
+\@tempa=\box100
+\@tempa=\box101
+\@tempa=\box102
+\@tempa=\box103
+\@tempa=\box104
+\c@minrows=\count287
+\c@columnbadness=\count288
+\c@finalcolumnbadness=\count289
+\last@try=\dimen166
+\multicolovershoot=\dimen167
+\multicolundershoot=\dimen168
+\mult@nat@firstbox=\box105
+\colbreak@box=\box106
+\mc@col@check@num=\count290
+) (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip62
+\multirow@cntb=\count291
+\multirow@dima=\skip63
+\bigstrutjot=\dimen169
+) (/usr/share/texlive/texmf-dist/tex/latex/hanging/hanging.sty
+Package: hanging 2009/09/02 v1.2b hanging paragraphs and punctuation
+\h@ngcommawd=\skip64
+\h@ngfstopwd=\skip65
+\h@ngquotewd=\skip66
+\h@ngdquotewd=\skip67
+\h@ngquerywd=\skip68
+\h@ngexclwd=\skip69
+\h@ngcolonwd=\skip70
+\h@ngscolonwd=\skip71
+) (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifpdf.sty
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+ (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+)) (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2020/08/19 v1.3 Adjusting TeX boxes (trim, clip, ...)
+ (/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2020/11/20 v2.8 package option processing (HA)
+ (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks27
+\XKV@tempa@toks=\toks28
+)
+\XKV@depth=\count292
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+)) (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)
+) (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+)
+\Gin@req@height=\dimen170
+\Gin@req@width=\dimen171
+) (/usr/share/texlive/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box107
+)
+\tc@llx=\dimen172
+\tc@lly=\dimen173
+\tc@urx=\dimen174
+\tc@ury=\dimen175
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+ (/usr/share/texlive/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen176
+\adjbox@Height=\dimen177
+\adjbox@Depth=\dimen178
+\adjbox@Totalheight=\dimen179
+\adjbox@pwidth=\dimen180
+\adjbox@pheight=\dimen181
+\adjbox@pdepth=\dimen182
+\adjbox@ptotalheight=\dimen183
+ (/usr/share/texlive/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count293
+)) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks29
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/usr/share/texlive/texmf-dist/tex/latex/stackengine/stackengine.sty
+Package: stackengine 2021/07/22 v4.11\ Stacking text and objects in convenient ways
+ (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count294
+) (/usr/share/texlive/texmf-dist/tex/generic/listofitems/listofitems.sty (/usr/share/texlive/texmf-dist/tex/generic/listofitems/listofitems.tex
+\loi_cnt_foreach_nest=\count295
+\loi_nestcnt=\count296
+)
+Package: listofitems 2019/08/21 v1.63 Grab items in lists using user-specified sep char (CT)
+)
+\c@@stackindex=\count297
+\@boxshift=\skip72
+\stack@tmplength=\skip73
+\temp@stkl=\skip74
+\@stackedboxwidth=\skip75
+\@addedbox=\box108
+\@anchorbox=\box109
+\@insetbox=\box110
+\se@backgroundbox=\box111
+\stackedbox=\box112
+\@centerbox=\box113
+\c@ROWcellindex@=\count298
+) (/usr/share/texlive/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box114
+\UL@hyphenbox=\box115
+\UL@skip=\skip76
+\UL@hook=\toks30
+\UL@height=\dimen184
+\UL@pe=\count299
+\UL@pixel=\dimen185
+\ULC@box=\box116
+Package: ulem 2019/11/18
+\ULdepth=\dimen186
+)
+\xrefbox=\box117
+\xreflength=\skip77
+\CodeWidthChar=\skip78
+\CodeHeightChar=\skip79
+\DoxyCodeWidth=\skip80
+) (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2021/02/14 v1.3d Input encoding file
+\inpenc@prehook=\toks31
+\inpenc@posthook=\toks32
+) (/usr/share/texlive/texmf-dist/tex/latex/base/makeidx.sty
+Package: makeidx 2021/10/04 v1.0m Standard LaTeX package
+) (/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+) (/usr/share/texlive/texmf-dist/tex/latex/wasysym/wasysym.sty
+Package: wasysym 2020/01/19 v2.4 Wasy-2 symbol support package
+\symwasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `wasy' in version `bold'
+(Font)                  U/wasy/m/n --> U/wasy/b/n on input line 93.
+) (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifxetex.sty
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+) (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty
+Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS) 
+) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/courier.sty
+Package: courier 2020/03/25 PSNFSS-v9.3 (WaS) 
+) (/usr/share/texlive/texmf-dist/tex/latex/sectsty/sectsty.sty
+Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading styles
+
+
+LaTeX Warning: Command \underbar  has changed.
+               Check if current package is valid.
+
+
+LaTeX Warning: Command \underline  has changed.
+               Check if current package is valid.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count300
+\Gm@cntv=\count301
+\c@Gm@tempcnt=\count302
+\Gm@bindingoffset=\dimen187
+\Gm@wd@mp=\dimen188
+\Gm@odd@mp=\dimen189
+\Gm@even@mp=\dimen190
+\Gm@layoutwidth=\dimen191
+\Gm@layoutheight=\dimen192
+\Gm@layouthoffset=\dimen193
+\Gm@layoutvoffset=\dimen194
+\Gm@dimlist=\toks33
+) (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2021/01/28 v4.0.1 Extensive control of page headers and footers
+\f@nch@headwidth=\skip81
+\f@nch@O@elh=\skip82
+\f@nch@O@erh=\skip83
+\f@nch@O@olh=\skip84
+\f@nch@O@orh=\skip85
+\f@nch@O@elf=\skip86
+\f@nch@O@erf=\skip87
+\f@nch@O@olf=\skip88
+\f@nch@O@orf=\skip89
+) (/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip90
+\bibsep=\skip91
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count303
+) (/usr/share/texlive/texmf-dist/tex/latex/tocloft/tocloft.sty
+Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
+Package tocloft Info: The document has chapter divisions on input line 51.
+\cftparskip=\skip92
+\cftbeforetoctitleskip=\skip93
+\cftaftertoctitleskip=\skip94
+\cftbeforepartskip=\skip95
+\cftpartnumwidth=\skip96
+\cftpartindent=\skip97
+\cftbeforechapskip=\skip98
+\cftchapindent=\skip99
+\cftchapnumwidth=\skip100
+\cftbeforesecskip=\skip101
+\cftsecindent=\skip102
+\cftsecnumwidth=\skip103
+\cftbeforesubsecskip=\skip104
+\cftsubsecindent=\skip105
+\cftsubsecnumwidth=\skip106
+\cftbeforesubsubsecskip=\skip107
+\cftsubsubsecindent=\skip108
+\cftsubsubsecnumwidth=\skip109
+\cftbeforeparaskip=\skip110
+\cftparaindent=\skip111
+\cftparanumwidth=\skip112
+\cftbeforesubparaskip=\skip113
+\cftsubparaindent=\skip114
+\cftsubparanumwidth=\skip115
+\cftbeforeloftitleskip=\skip116
+\cftafterloftitleskip=\skip117
+\cftbeforefigskip=\skip118
+\cftfigindent=\skip119
+\cftfignumwidth=\skip120
+\c@lofdepth=\count304
+\c@lotdepth=\count305
+\cftbeforelottitleskip=\skip121
+\cftafterlottitleskip=\skip122
+\cftbeforetabskip=\skip123
+\cfttabindent=\skip124
+\cfttabnumwidth=\skip125
+)
+\@indexfile=\write4
+\openout4 = `refman.idx'.
+
+
+Writing index file refman.idx
+(/usr/share/texlive/texmf-dist/tex/latex/newunicodechar/newunicodechar.sty
+Package: newunicodechar 2018/04/08 v1.2 Defining Unicode characters
+)
+
+Package newunicodechar Warning: Redefining Unicode character on input line 115.
+
+
+Package newunicodechar Warning: Redefining Unicode character on input line 116.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2021-06-07 v7.00m Hypertext links for LaTeX
+ (/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+) (/usr/share/texlive/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
+)
+\@linkdim=\dimen195
+\Hy@linkcounter=\count306
+\Hy@pagecounter=\count307
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
+File: hyperref-langpatches.def 2021-06-07 v7.00m Hyperref: patches for babel languages
+) (/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count308
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4192.
+Package hyperref Info: Link nesting OFF on input line 4197.
+Package hyperref Info: Hyper index ON on input line 4200.
+Package hyperref Info: Plain pages OFF on input line 4207.
+Package hyperref Info: Backreferencing ON on input line 4210.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4445.
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/backref.sty
+Package: backref 2021/02/04 v1.41 Bibliographical back referencing
+ (/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+ (/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
+with kernel methods
+) (/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+))
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 286.
+))
+\c@Hy@tempcnt=\count309
+ (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip16
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4804.
+\XeTeXLinkMargin=\dimen196
+ (/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+)
+\Fld@menulength=\count310
+\Field@Width=\dimen197
+\Fld@charsize=\dimen198
+Package hyperref Info: Hyper figures OFF on input line 6076.
+Package hyperref Info: Link nesting OFF on input line 6081.
+Package hyperref Info: Hyper index ON on input line 6084.
+Package hyperref Info: backreferencing ON on input line 6089.
+Package hyperref Info: Link coloring OFF on input line 6096.
+Package hyperref Info: Link coloring with OCG OFF on input line 6101.
+Package hyperref Info: PDF/A mode OFF on input line 6106.
+LaTeX Info: Redefining \ref on input line 6146.
+LaTeX Info: Redefining \pageref on input line 6150.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count311
+\c@Item=\count312
+\c@Hfootnote=\count313
+
+
+LaTeX Warning: Command \LT@p@ftntext  has changed.
+               Check if current package is valid.
+
+)
+Package hyperref Info: Driver: hpdftex.
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2021-06-07 v7.00m Hyperref driver for pdfTeX
+\Fld@listcount=\count314
+\c@bookmark@seq@number=\count315
+\Hy@SectionHShift=\skip126
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 134.
+Package hyperref Info: Option `unicode' set `true' on input line 134.
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/10/26 v3.5g Customizing captions (AR)
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
+\captionmargin=\dimen199
+\captionmargin@=\dimen256
+\captionwidth=\dimen257
+\caption@tempdima=\dimen258
+\caption@indent=\dimen259
+\caption@parindent=\dimen260
+\caption@hangindent=\dimen261
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count316
+\c@continuedfloat=\count317
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
+)) (/usr/share/texlive/texmf-dist/tex/latex/etoc/etoc.sty
+Package: etoc 2021/09/23 v1.09e Completely customisable TOCs (JFB)
+\Etoc@toctoks=\toks34
+\c@etoc@tocid=\count318
+\c@etoc@tocdepth=\count319
+\etoc@framed@titlebox=\box118
+\etoc@framed@contentsbox=\box119
+)
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 149.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 149.
+ (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count320
+\l__pdf_internal_box=\box120
+) (./refman.aux
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8h_DESCRIPTION' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+
+LaTeX Warning: Label `utils_8c_LICENSE' multiply defined.
+
+)
+\openout1 = `refman.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 149.
+LaTeX Font Info:    ... okay on input line 149.
+ (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count321
+\scratchdimen=\dimen262
+\scratchbox=\box121
+\nofMPsegments=\count322
+\nofMParguments=\count323
+\everyMPshowfont=\toks35
+\MPscratchCnt=\count324
+\MPscratchDim=\dimen263
+\MPnumerator=\count325
+\makeMPintoPDFobject=\count326
+\everyMPtoPDFconversion=\toks36
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=702.78308pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-31.2056pt
+* \headheight=12.0pt
+* \headsep=18.06749pt
+* \topskip=10.0pt
+* \footskip=25.29494pt
+* \marginparwidth=125.0pt
+* \marginparsep=7.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package hyperref Info: Link coloring ON on input line 149.
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
+ (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count327
+)
+LaTeX Info: Redefining \ref on input line 149.
+LaTeX Info: Redefining \pageref on input line 149.
+LaTeX Info: Redefining \nameref on input line 149.
+ (./refman.out) (./refman.out)
+\@outlinefile=\write5
+\openout5 = `refman.out'.
+
+Package backref Info: ** backref set up for natbib ** on input line 149.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+\Etoc@tf=\read4
+Package hyperref Info: Option `pageanchor' set `false' on input line 156.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 156.
+Package hyperref Info: Option `unicode' set `true' on input line 156.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 12.9599pt on input line 161.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 10.79993pt on input line 163.
+ [1
+
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
+
+]
+\tf@toc=\write6
+\openout6 = `refman.toc'.
+
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 8.99994pt on input line 169.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 169.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 169.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+wasy on input line 169.
+ (/usr/share/texlive/texmf-dist/tex/latex/wasysym/uwasy.fd
+File: uwasy.fd 2020/01/19 v2.4 Wasy-2 symbol font definitions
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 6.29996pt on input line 169.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 6.29996pt on input line 169.
+ [1] [2] [3] [4] [5] [6] [7] [8] [9] [10]
+Package hyperref Info: Option `pageanchor' set `true' on input line 171.
+
+Chapter 1.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 18.66588pt on input line 174.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 18.66588pt on input line 174.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 18.66588pt on input line 174.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 22.39185pt on input line 174.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 22.39185pt on input line 174.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 22.39185pt on input line 174.
+(./todo.tex) [1
+
+
+] [2
+
+]
+Chapter 2.
+(./annotated.tex
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 12.9599pt on input line 1.
+) [3] [4
+
+]
+Chapter 3.
+(./files.tex) [5] [6
+
+]
+Chapter 4.
+(./structQOCOCscMatrix.tex
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 10.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 10.79993pt on input line 12.
+LaTeX Font Info:    Trying to load font information for TS1+phv on input line 15.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd
+File: ts1phv.fd 2020/03/25 scalable font definitions for TS1/phv.
+)
+LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 15.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 7.19995pt on input line 37.
+ [7]) (./structQOCOKKT.tex <./structQOCOKKT__coll__graph.pdf
+
+pdfTeX warning: pdflatex (file ./structQOCOKKT__coll__graph.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<structQOCOKKT__coll__graph.pdf, id=2178, 175.65625pt x 167.62625pt>
+File: structQOCOKKT__coll__graph.pdf Graphic file (type pdf)
+<use structQOCOKKT__coll__graph.pdf>
+Package pdftex.def Info: structQOCOKKT__coll__graph.pdf  used on input line 18.
+(pdftex.def)             Requested size: 175.0pt x 167.01195pt.
+ [8] [9] [10] [11] [12]) (./structQOCOProblemData.tex [13] <./structQOCOProblemData__coll__graph.pdf
+
+pdfTeX warning: pdflatex (file ./structQOCOProblemData__coll__graph.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<structQOCOProblemData__coll__graph.pdf, id=2351, 190.7125pt x 211.79124pt>
+File: structQOCOProblemData__coll__graph.pdf Graphic file (type pdf)
+<use structQOCOProblemData__coll__graph.pdf>
+Package pdftex.def Info: structQOCOProblemData__coll__graph.pdf  used on input line 18.
+(pdftex.def)             Requested size: 190.0pt x 211.00865pt.
+ [14] [15]) (./structQOCOSettings.tex [16] [17] [18]) (./structQOCOSolution.tex [19] [20]) (./structQOCOSolver.tex <./structQOCOSolver__coll__graph.pdf
+
+pdfTeX warning: pdflatex (file ./structQOCOSolver__coll__graph.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<structQOCOSolver__coll__graph.pdf, id=2544, 447.6725pt x 346.29375pt>
+File: structQOCOSolver__coll__graph.pdf Graphic file (type pdf)
+<use structQOCOSolver__coll__graph.pdf>
+Package pdftex.def Info: structQOCOSolver__coll__graph.pdf  used on input line 18.
+(pdftex.def)             Requested size: 350.0pt x 270.74739pt.
+ [21]) (./structQOCOWorkspace.tex <./structQOCOWorkspace__coll__graph.pdf>
+<structQOCOWorkspace__coll__graph.pdf, id=2568, 275.0275pt x 279.0425pt>
+File: structQOCOWorkspace__coll__graph.pdf Graphic file (type pdf)
+<use structQOCOWorkspace__coll__graph.pdf>
+Package pdftex.def Info: structQOCOWorkspace__coll__graph.pdf  used on input line 18.
+(pdftex.def)             Requested size: 274.0pt x 278.02419pt.
+ [22] [23] [24] [25] [26]) [27] [28
+
+]
+Chapter 5.
+(./cone_8h.tex <./cone_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./cone_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<cone_8h__incl.pdf, id=2717, 274.02374pt x 392.46625pt>
+File: cone_8h__incl.pdf Graphic file (type pdf)
+<use cone_8h__incl.pdf>
+Package pdftex.def Info: cone_8h__incl.pdf  used on input line 8.
+(pdftex.def)             Requested size: 273.0pt x 391.02802pt.
+ <./cone_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./cone_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<cone_8h__dep__incl.pdf, id=2732, 564.1075pt x 313.17pt>
+File: cone_8h__dep__incl.pdf Graphic file (type pdf)
+<use cone_8h__dep__incl.pdf>
+Package pdftex.def Info: cone_8h__dep__incl.pdf  used on input line 15.
+(pdftex.def)             Requested size: 350.0pt x 194.30673pt.
+ [29]
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.09995pt on input line 22.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 22.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 22.
+LaTeX Font Info:    Font shape `TS1/phv/m/it' in size <9> not available
+(Font)              Font shape `TS1/phv/m/sl' tried instead on input line 28.
+LaTeX Font Info:    Font shape `TS1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 28.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <7> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 36.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 6.29996pt on input line 36.
+ [30]
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 8.99994pt on input line 54.
+
+Underfull \hbox (badness 10000) detected at line 54
+[][][]
+ []
+
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 66.
+[31]
+Underfull \hbox (badness 10000) detected at line 83
+[][][]
+ []
+
+[32] [33]
+Underfull \hbox (badness 10000) detected at line 219
+[][][]
+ []
+
+[34]
+Underfull \hbox (badness 10000) detected at line 247
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 271
+[][][]
+ []
+
+[35] [36]
+Underfull \hbox (badness 10000) detected at line 360
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 380
+[][][]
+ []
+
+) (./definitions_8h.tex <./definitions_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./definitions_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<definitions_8h__incl.pdf, id=2952, 274.02374pt x 167.62625pt>
+File: definitions_8h__incl.pdf Graphic file (type pdf)
+<use definitions_8h__incl.pdf>
+Package pdftex.def Info: definitions_8h__incl.pdf  used on input line 10.
+(pdftex.def)             Requested size: 273.0pt x 167.01195pt.
+ [37] <./definitions_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./definitions_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<definitions_8h__dep__incl.pdf, id=2975, 1546.77875pt x 604.2575pt>
+File: definitions_8h__dep__incl.pdf Graphic file (type pdf)
+<use definitions_8h__dep__incl.pdf>
+Package pdftex.def Info: definitions_8h__dep__incl.pdf  used on input line 17.
+(pdftex.def)             Requested size: 350.0pt x 136.72656pt.
+ [38]
+Underfull \hbox (badness 10000) detected at line 55
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.58 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.59 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [39]) (./enums_8h.tex [40] <./enums_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./enums_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<enums_8h__dep__incl.pdf, id=3040, 894.34125pt x 402.50375pt>
+File: enums_8h__dep__incl.pdf Graphic file (type pdf)
+<use enums_8h__dep__incl.pdf>
+Package pdftex.def Info: enums_8h__dep__incl.pdf  used on input line 7.
+(pdftex.def)             Requested size: 350.0pt x 157.52243pt.
+
+Overfull \hbox (19.28574pt too wide) in paragraph at lines 23--31
+[] \T1/phv/m/n/10 = 0 , [] = 1 , [] , []
+ []
+
+[41]) (./equilibration_8h.tex <./equilibration_8h__incl.pdf>
+<equilibration_8h__incl.pdf, id=3083, 274.02374pt x 392.46625pt>
+File: equilibration_8h__incl.pdf Graphic file (type pdf)
+<use equilibration_8h__incl.pdf>
+Package pdftex.def Info: equilibration_8h__incl.pdf  used on input line 9.
+(pdftex.def)             Requested size: 273.0pt x 391.02802pt.
+ [42] <./equilibration_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./equilibration_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<equilibration_8h__dep__incl.pdf, id=3105, 466.74374pt x 245.91875pt>
+File: equilibration_8h__dep__incl.pdf Graphic file (type pdf)
+<use equilibration_8h__dep__incl.pdf>
+Package pdftex.def Info: equilibration_8h__dep__incl.pdf  used on input line 16.
+(pdftex.def)             Requested size: 350.0pt x 184.41608pt.
+ [43]
+Underfull \hbox (badness 10000) detected at line 29
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.32 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.33 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [44]) (./input__validation_8h.tex <./input__validation_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./input__validation_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<input__validation_8h__incl.pdf, id=3136, 375.4025pt x 347.2975pt>
+File: input__validation_8h__incl.pdf Graphic file (type pdf)
+<use input__validation_8h__incl.pdf>
+Package pdftex.def Info: input__validation_8h__incl.pdf  used on input line 11.
+(pdftex.def)             Requested size: 350.0pt x 323.81532pt.
+ <./input__validation_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./input__validation_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<input__validation_8h__dep__incl.pdf, id=3151, 482.80376pt x 256.96pt>
+File: input__validation_8h__dep__incl.pdf Graphic file (type pdf)
+<use input__validation_8h__dep__incl.pdf>
+Package pdftex.def Info: input__validation_8h__dep__incl.pdf  used on input line 18.
+(pdftex.def)             Requested size: 350.0pt x 186.28534pt.
+ [45]
+Underfull \hbox (badness 10000) detected at line 31
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.34 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.35 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [46]
+Underfull \hbox (badness 10000) detected at line 70
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 88
+[][][]
+ []
+
+) (./kkt_8h.tex <./kkt_8h__incl.pdf>
+<kkt_8h__incl.pdf, id=3203, 276.03125pt x 448.67625pt>
+File: kkt_8h__incl.pdf Graphic file (type pdf)
+<use kkt_8h__incl.pdf>
+Package pdftex.def Info: kkt_8h__incl.pdf  used on input line 11.
+(pdftex.def)             Requested size: 275.0pt x 447.04575pt.
+ [47] <./kkt_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./kkt_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<kkt_8h__dep__incl.pdf, id=3224, 444.66125pt x 245.91875pt>
+File: kkt_8h__dep__incl.pdf Graphic file (type pdf)
+<use kkt_8h__dep__incl.pdf>
+Package pdftex.def Info: kkt_8h__dep__incl.pdf  used on input line 18.
+(pdftex.def)             Requested size: 350.0pt x 193.56822pt.
+ [48]
+Underfull \hbox (badness 10000) detected at line 49
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.52 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.53 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [49] [50] [51] [52]) (./linalg_8h.tex <./linalg_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./linalg_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<linalg_8h__incl.pdf, id=3326, 274.02374pt x 336.25626pt>
+File: linalg_8h__incl.pdf Graphic file (type pdf)
+<use linalg_8h__incl.pdf>
+Package pdftex.def Info: linalg_8h__incl.pdf  used on input line 9.
+(pdftex.def)             Requested size: 273.0pt x 335.02402pt.
+ [53] <./linalg_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./linalg_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<linalg_8h__dep__incl.pdf, id=3348, 931.48pt x 380.42125pt>
+File: linalg_8h__dep__incl.pdf Graphic file (type pdf)
+<use linalg_8h__dep__incl.pdf>
+Package pdftex.def Info: linalg_8h__dep__incl.pdf  used on input line 16.
+(pdftex.def)             Requested size: 350.0pt x 142.94203pt.
+ [54]
+Underfull \hbox (badness 10000) detected at line 73
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.76 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.77 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [55] [56]
+Underfull \hbox (badness 10000) detected at line 138
+[][][]
+ []
+
+[57] [58]
+Underfull \hbox (badness 10000) detected at line 232
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 245
+[][][]
+ []
+
+[59]
+Underfull \hbox (badness 10000) detected at line 267
+[][][]
+ []
+
+[60]
+Underfull \hbox (badness 10000) detected at line 323
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 362
+[][][]
+ []
+
+[61]
+Underfull \hbox (badness 10000) detected at line 380
+[][][]
+ []
+
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 387.
+
+Underfull \hbox (badness 10000) detected at line 402
+[][][]
+ []
+
+[62] [63] [64] [65]) (./qoco_8h.tex <./qoco_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./qoco_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<qoco_8h__incl.pdf, id=3643, 866.23625pt x 561.09625pt>
+File: qoco_8h__incl.pdf Graphic file (type pdf)
+<use qoco_8h__incl.pdf>
+Package pdftex.def Info: qoco_8h__incl.pdf  used on input line 12.
+(pdftex.def)             Requested size: 350.0pt x 226.71191pt.
+
+Underfull \hbox (badness 10000) detected at line 18
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.21 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.22 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO...) (./qoco__api_8h.tex <./qoco__api_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./qoco__api_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<qoco__api_8h__incl.pdf, id=3659, 800.9925pt x 504.88625pt>
+File: qoco__api_8h__incl.pdf Graphic file (type pdf)
+<use qoco__api_8h__incl.pdf>
+Package pdftex.def Info: qoco__api_8h__incl.pdf  used on input line 16.
+(pdftex.def)             Requested size: 350.0pt x 220.61754pt.
+ [66] <./qoco__api_8h__dep__incl.pdf>
+<qoco__api_8h__dep__incl.pdf, id=3681, 363.3575pt x 178.6675pt>
+File: qoco__api_8h__dep__incl.pdf Graphic file (type pdf)
+<use qoco__api_8h__dep__incl.pdf>
+Package pdftex.def Info: qoco__api_8h__dep__incl.pdf  used on input line 23.
+(pdftex.def)             Requested size: 350.0pt x 172.10498pt.
+ [67]
+Underfull \hbox (badness 10000) detected at line 48
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.51 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.52 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO...
+Overfull \vbox (4.85144pt too high) has occurred while \output is active []
+
+ [68]
+Underfull \hbox (badness 10000) detected at line 71
+[][][]
+ []
+
+[69]
+Underfull \hbox (badness 10000) detected at line 142
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 160
+[][][]
+ []
+
+[70]
+Underfull \hbox (badness 10000) detected at line 180
+[][][]
+ []
+
+[71]) (./qoco__error_8h.tex <./qoco__error_8h__incl.pdf
+
+pdfTeX warning: pdflatex (file ./qoco__error_8h__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<qoco__error_8h__incl.pdf, id=3814, 362.35374pt x 234.8775pt>
+File: qoco__error_8h__incl.pdf Graphic file (type pdf)
+<use qoco__error_8h__incl.pdf>
+Package pdftex.def Info: qoco__error_8h__incl.pdf  used on input line 10.
+(pdftex.def)             Requested size: 350.0pt x 226.87398pt.
+ <./qoco__error_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./qoco__error_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<qoco__error_8h__dep__incl.pdf, id=3829, 534.99875pt x 335.2525pt>
+File: qoco__error_8h__dep__incl.pdf Graphic file (type pdf)
+<use qoco__error_8h__dep__incl.pdf>
+Package pdftex.def Info: qoco__error_8h__dep__incl.pdf  used on input line 17.
+(pdftex.def)             Requested size: 350.0pt x 219.33365pt.
+ [72]
+Underfull \hbox (badness 10000) detected at line 43
+[][][]
+ []
+
+) (./structs_8h.tex <./structs_8h__incl.pdf>
+<structs_8h__incl.pdf, id=3849, 274.02374pt x 280.04625pt>
+File: structs_8h__incl.pdf Graphic file (type pdf)
+<use structs_8h__incl.pdf>
+Package pdftex.def Info: structs_8h__incl.pdf  used on input line 9.
+(pdftex.def)             Requested size: 273.0pt x 279.01999pt.
+ [73] <./structs_8h__dep__incl.pdf>
+<structs_8h__dep__incl.pdf, id=3874, 1188.44pt x 458.71375pt>
+File: structs_8h__dep__incl.pdf Graphic file (type pdf)
+<use structs_8h__dep__incl.pdf>
+Package pdftex.def Info: structs_8h__dep__incl.pdf  used on input line 16.
+(pdftex.def)             Requested size: 350.0pt x 135.0954pt.
+ [74]
+Underfull \hbox (badness 10000) detected at line 39
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.42 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.43 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO...) (./timer_8h.tex <./timer_8h__incl.pdf>
+<timer_8h__incl.pdf, id=3898, 274.02374pt x 223.83624pt>
+File: timer_8h__incl.pdf Graphic file (type pdf)
+<use timer_8h__incl.pdf>
+Package pdftex.def Info: timer_8h__incl.pdf  used on input line 8.
+(pdftex.def)             Requested size: 273.0pt x 223.01598pt.
+ <./timer_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./timer_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<timer_8h__dep__incl.pdf, id=3914, 1188.44pt x 525.965pt>
+File: timer_8h__dep__incl.pdf Graphic file (type pdf)
+<use timer_8h__dep__incl.pdf>
+Package pdftex.def Info: timer_8h__dep__incl.pdf  used on input line 15.
+(pdftex.def)             Requested size: 350.0pt x 154.9015pt.
+ [75]
+Underfull \hbox (badness 10000) detected at line 30
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.33 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.34 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [76]) (./utils_8h.tex <./utils_8h__incl.pdf>
+<utils_8h__incl.pdf, id=3948, 318.18875pt x 392.46625pt>
+File: utils_8h__incl.pdf Graphic file (type pdf)
+<use utils_8h__incl.pdf>
+Package pdftex.def Info: utils_8h__incl.pdf  used on input line 11.
+(pdftex.def)             Requested size: 317.0pt x 390.99808pt.
+ [77] <./utils_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./utils_8h__dep__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<utils_8h__dep__incl.pdf, id=3970, 764.8575pt x 245.91875pt>
+File: utils_8h__dep__incl.pdf Graphic file (type pdf)
+<use utils_8h__dep__incl.pdf>
+Package pdftex.def Info: utils_8h__dep__incl.pdf  used on input line 18.
+(pdftex.def)             Requested size: 350.0pt x 112.5311pt.
+ [78]
+Underfull \hbox (badness 10000) detected at line 45
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.48 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...pdfTeX warning (ext4): destination with the same identifier (name{utils_8h_DESCRIPTION}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.49 ...icense\hypertarget{utils_8h_DESCRIPTION}{}
+                                                  \doxysubsection{DESCRIPTIO... [79]
+Underfull \hbox (badness 10000) detected at line 68
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 86
+[][][]
+ []
+
+[80] [81]) (./cone_8c.tex <./cone_8c__incl.pdf
+
+pdfTeX warning: pdflatex (file ./cone_8c__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<cone_8c__incl.pdf, id=4059, 354.32375pt x 448.67625pt>
+File: cone_8c__incl.pdf Graphic file (type pdf)
+<use cone_8c__incl.pdf>
+Package pdftex.def Info: cone_8c__incl.pdf  used on input line 9.
+(pdftex.def)             Requested size: 350.0pt x 443.21185pt.
+ [82] [83]
+Underfull \hbox (badness 10000) detected at line 48
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.51 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c... [84]
+Underfull \hbox (badness 10000) detected at line 76
+[][][]
+ []
+
+[85] [86]
+Underfull \hbox (badness 10000) detected at line 212
+[][][]
+ []
+
+[87]
+Underfull \hbox (badness 10000) detected at line 240
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 264
+[][][]
+ []
+
+[88] [89]
+Underfull \hbox (badness 10000) detected at line 353
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 373
+[][][]
+ []
+
+) (./equilibration_8c.tex <./equilibration_8c__incl.pdf
+
+pdfTeX warning: pdflatex (file ./equilibration_8c__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<equilibration_8c__incl.pdf, id=4278, 274.02374pt x 448.67625pt>
+File: equilibration_8c__incl.pdf Graphic file (type pdf)
+<use equilibration_8c__incl.pdf>
+Package pdftex.def Info: equilibration_8c__incl.pdf  used on input line 8.
+(pdftex.def)             Requested size: 273.0pt x 447.03204pt.
+ [90] [91]) (./input__validation_8c.tex <./input__validation_8c__incl.pdf>
+<input__validation_8c__incl.pdf, id=4316, 375.4025pt x 392.46625pt>
+File: input__validation_8c__incl.pdf Graphic file (type pdf)
+<use input__validation_8c__incl.pdf>
+Package pdftex.def Info: input__validation_8c__incl.pdf  used on input line 8.
+(pdftex.def)             Requested size: 350.0pt x 365.93002pt.
+ [92]
+Underfull \hbox (badness 10000) detected at line 21
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.24 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c... [93]
+Underfull \hbox (badness 10000) detected at line 59
+[][][]
+ []
+
+[94]
+Underfull \hbox (badness 10000) detected at line 77
+[][][]
+ []
+
+) (./kkt_8c.tex <./kkt_8c__incl.pdf
+
+pdfTeX warning: pdflatex (file ./kkt_8c__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<kkt_8c__incl.pdf, id=4379, 459.7175pt x 504.88625pt>
+File: kkt_8c__incl.pdf Graphic file (type pdf)
+<use kkt_8c__incl.pdf>
+Package pdftex.def Info: kkt_8c__incl.pdf  used on input line 9.
+(pdftex.def)             Requested size: 350.0pt x 384.41087pt.
+ [95]
+Underfull \hbox (badness 10000) detected at line 40
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.43 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c... [96]
+Overfull \vbox (6.04698pt too high) has occurred while \output is active []
+
+ [97] [98] [99]) (./linalg_8c.tex <./linalg_8c__incl.pdf
+
+pdfTeX warning: pdflatex (file ./linalg_8c__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<linalg_8c__incl.pdf, id=4488, 274.02374pt x 392.46625pt>
+File: linalg_8c__incl.pdf Graphic file (type pdf)
+<use linalg_8c__incl.pdf>
+Package pdftex.def Info: linalg_8c__incl.pdf  used on input line 8.
+(pdftex.def)             Requested size: 273.0pt x 391.02802pt.
+ [100] [101]
+Underfull \hbox (badness 10000) detected at line 65
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.68 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...
+Overfull \vbox (1.03825pt too high) has occurred while \output is active []
+
+ [102]
+Underfull \hbox (badness 10000) detected at line 129
+[][][]
+ []
+
+[103] [104]
+Underfull \hbox (badness 10000) detected at line 223
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 236
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 258
+[][][]
+ []
+
+[105]
+Underfull \hbox (badness 10000) detected at line 314
+[][][]
+ []
+
+[106]
+Underfull \hbox (badness 10000) detected at line 353
+[][][]
+ []
+
+[107]
+Underfull \hbox (badness 10000) detected at line 371
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 393
+[][][]
+ []
+
+[108] [109]) (./qoco__api_8c.tex <./qoco__api_8c__incl.pdf
+
+pdfTeX warning: pdflatex (file ./qoco__api_8c__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<qoco__api_8c__incl.pdf, id=4778, 800.9925pt x 561.09625pt>
+File: qoco__api_8c__incl.pdf Graphic file (type pdf)
+<use qoco__api_8c__incl.pdf>
+Package pdftex.def Info: qoco__api_8c__incl.pdf  used on input line 9.
+(pdftex.def)             Requested size: 350.0pt x 245.17935pt.
+ [110]
+Underfull \hbox (badness 10000) detected at line 34
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.37 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c... [111]
+Underfull \hbox (badness 10000) detected at line 56
+[][][]
+ []
+
+[112]
+Underfull \hbox (badness 10000) detected at line 127
+[][][]
+ []
+
+[113]
+Underfull \hbox (badness 10000) detected at line 145
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 165
+[][][]
+ []
+
+[114]) (./qoco__error_8c.tex <./qoco__error_8c__incl.pdf
+
+pdfTeX warning: pdflatex (file ./qoco__error_8c__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<qoco__error_8c__incl.pdf, id=4920, 362.35374pt x 280.04625pt>
+File: qoco__error_8c__incl.pdf Graphic file (type pdf)
+<use qoco__error_8c__incl.pdf>
+Package pdftex.def Info: qoco__error_8c__incl.pdf  used on input line 8.
+(pdftex.def)             Requested size: 350.0pt x 270.50359pt.
+ [115]
+Underfull \hbox (badness 10000) detected at line 34
+[][][]
+ []
+
+) (./timer__linux_8c.tex <./timer__linux_8c__incl.pdf
+
+pdfTeX warning: pdflatex (file ./timer__linux_8c__incl.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>
+<timer__linux_8c__incl.pdf, id=4947, 274.02374pt x 280.04625pt>
+File: timer__linux_8c__incl.pdf Graphic file (type pdf)
+<use timer__linux_8c__incl.pdf>
+Package pdftex.def Info: timer__linux_8c__incl.pdf  used on input line 8.
+(pdftex.def)             Requested size: 273.0pt x 279.01999pt.
+ [116] [117]) (./timer__macos_8c.tex <./timer__macos_8c__incl.pdf>
+<timer__macos_8c__incl.pdf, id=4990, 274.02374pt x 280.04625pt>
+File: timer__macos_8c__incl.pdf Graphic file (type pdf)
+<use timer__macos_8c__incl.pdf>
+Package pdftex.def Info: timer__macos_8c__incl.pdf  used on input line 8.
+(pdftex.def)             Requested size: 273.0pt x 279.01999pt.
+ [118] [119]) (./utils_8c.tex <./utils_8c__incl.pdf>
+<utils_8c__incl.pdf, id=5033, 318.18875pt x 448.67625pt>
+File: utils_8c__incl.pdf Graphic file (type pdf)
+<use utils_8c__incl.pdf>
+Package pdftex.def Info: utils_8c__incl.pdf  used on input line 8.
+(pdftex.def)             Requested size: 317.0pt x 446.99782pt.
+ [120] [121]
+Underfull \hbox (badness 10000) detected at line 35
+[][][]
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{utils_8c_LICENSE}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.38 \hypertarget{utils_8c_LICENSE}{}
+                                     \doxysubsection{LICENSE}\label{utils_8c...
+Underfull \hbox (badness 10000) detected at line 57
+[][][]
+ []
+
+[122]
+Underfull \hbox (badness 10000) detected at line 75
+[][][]
+ []
+
+
+Overfull \vbox (7.16104pt too high) has occurred while \output is active []
+
+ [123] [124]) [125] [126
+
+] (./refman.ind
+Underfull \hbox (badness 10000) in paragraph at lines 7--9
+[]\T1/phv/m/n/10 /home/govind/Desktop/git/qoco/include/equilibration.h,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--28
+[]\T1/phv/m/n/10 /home/govind/Desktop/git/qoco/src/input_validation.c,
+ []
+
+[127
+
+
+] [128] [129] [130] [131] [132] [133] [134
+
+]) (./refman.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package rerunfilecheck Info: File `refman.out' has not changed.
+(rerunfilecheck)             Checksum: 5D89F39C213E7F84C82B67B192BCCE72;76366.
+ ) 
+Here is how much of TeX's memory you used:
+ 19643 strings out of 480247
+ 337462 string characters out of 5896151
+ 691334 words of memory out of 5000000
+ 36126 multiletter control sequences out of 15000+600000
+ 528986 words of font info for 105 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 99i,16n,117p,1523b,643s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on refman.pdf (146 pages, 808239 bytes).
+PDF statistics:
+ 6072 PDF objects out of 6186 (max. 8388607)
+ 5648 compressed objects within 57 object streams
+ 1068 named destinations out of 1200 (max. 500000)
+ 3327 words of extra memory for PDF output out of 10000 (max. 10000000)
+

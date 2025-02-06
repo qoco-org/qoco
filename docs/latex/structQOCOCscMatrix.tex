@@ -1,0 +1,73 @@
+\hypertarget{structQOCOCscMatrix}{}\doxysection{QOCOCsc\+Matrix Struct Reference}
+\label{structQOCOCscMatrix}\index{QOCOCscMatrix@{QOCOCscMatrix}}
+
+
+Compressed sparse column format matrices.  
+
+
+
+
+{\ttfamily \#include $<$structs.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOCscMatrix_a327e8b9e4295284efb5652d25a1e9bbd}{m}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOCscMatrix_acd4820c353d8a89cdb6539e7e10d0d21}{n}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOCscMatrix_ac9fc0f50af06e588ef4431b77044342d}{nnz}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOCscMatrix_a02dde3f329f8f44bdb592a6715f8e8f1}{i}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOCscMatrix_aec1440d28be057713cfa7a8655d28a71}{p}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOCscMatrix_a4ea542f0db4ad47d3a66b544df108f10}{x}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Compressed sparse column format matrices. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structQOCOCscMatrix_a02dde3f329f8f44bdb592a6715f8e8f1}\label{structQOCOCscMatrix_a02dde3f329f8f44bdb592a6715f8e8f1}} 
+\index{QOCOCscMatrix@{QOCOCscMatrix}!i@{i}}
+\index{i@{i}!QOCOCscMatrix@{QOCOCscMatrix}}
+\doxysubsubsection{\texorpdfstring{i}{i}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOCsc\+Matrix\+::i}
+
+Row indices (length\+: nnz). \mbox{\Hypertarget{structQOCOCscMatrix_a327e8b9e4295284efb5652d25a1e9bbd}\label{structQOCOCscMatrix_a327e8b9e4295284efb5652d25a1e9bbd}} 
+\index{QOCOCscMatrix@{QOCOCscMatrix}!m@{m}}
+\index{m@{m}!QOCOCscMatrix@{QOCOCscMatrix}}
+\doxysubsubsection{\texorpdfstring{m}{m}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOCsc\+Matrix\+::m}
+
+Number of rows. \mbox{\Hypertarget{structQOCOCscMatrix_acd4820c353d8a89cdb6539e7e10d0d21}\label{structQOCOCscMatrix_acd4820c353d8a89cdb6539e7e10d0d21}} 
+\index{QOCOCscMatrix@{QOCOCscMatrix}!n@{n}}
+\index{n@{n}!QOCOCscMatrix@{QOCOCscMatrix}}
+\doxysubsubsection{\texorpdfstring{n}{n}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOCsc\+Matrix\+::n}
+
+Number of columns. \mbox{\Hypertarget{structQOCOCscMatrix_ac9fc0f50af06e588ef4431b77044342d}\label{structQOCOCscMatrix_ac9fc0f50af06e588ef4431b77044342d}} 
+\index{QOCOCscMatrix@{QOCOCscMatrix}!nnz@{nnz}}
+\index{nnz@{nnz}!QOCOCscMatrix@{QOCOCscMatrix}}
+\doxysubsubsection{\texorpdfstring{nnz}{nnz}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOCsc\+Matrix\+::nnz}
+
+Number of nonzero elements. \mbox{\Hypertarget{structQOCOCscMatrix_aec1440d28be057713cfa7a8655d28a71}\label{structQOCOCscMatrix_aec1440d28be057713cfa7a8655d28a71}} 
+\index{QOCOCscMatrix@{QOCOCscMatrix}!p@{p}}
+\index{p@{p}!QOCOCscMatrix@{QOCOCscMatrix}}
+\doxysubsubsection{\texorpdfstring{p}{p}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOCsc\+Matrix\+::p}
+
+Column pointers (length\+: n+1). \mbox{\Hypertarget{structQOCOCscMatrix_a4ea542f0db4ad47d3a66b544df108f10}\label{structQOCOCscMatrix_a4ea542f0db4ad47d3a66b544df108f10}} 
+\index{QOCOCscMatrix@{QOCOCscMatrix}!x@{x}}
+\index{x@{x}!QOCOCscMatrix@{QOCOCscMatrix}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOCsc\+Matrix\+::x}
+
+Data (length\+: nnz). 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/govind/\+Desktop/git/qoco/include/\mbox{\hyperlink{structs_8h}{structs.\+h}}\end{DoxyCompactItemize}

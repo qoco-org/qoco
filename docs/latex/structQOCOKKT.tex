@@ -1,0 +1,306 @@
+\hypertarget{structQOCOKKT}{}\doxysection{QOCOKKT Struct Reference}
+\label{structQOCOKKT}\index{QOCOKKT@{QOCOKKT}}
+
+
+Contains all data needed for constructing and modifying KKT matrix and performing predictor-\/corrector step.  
+
+
+
+
+{\ttfamily \#include $<$structs.\+h$>$}
+
+
+
+Collaboration diagram for QOCOKKT\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{structQOCOKKT__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a42dca8a44ef230ae857c0ed1902a1e6e}{K}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a161652b18272e8ad4b4ef2498b64f06e}{delta}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_afd535d2eb4f588cb097c9961f11f8cee}{Druiz}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a02dcddeb25f2e5faa1a28167c2bde732}{Eruiz}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_adb853bd2760ba9c0af0d9b6d5738f9ae}{Fruiz}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a11ee7c721bfe5fdede3fa518946a766a}{Dinvruiz}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_aae616bb46f059dc575ca1bb2d5f4fa27}{Einvruiz}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a9f2b26ac858146f3571c071a55aa7be2}{Finvruiz}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{structQOCOKKT_a0370a2e9d69025a4b53aeb27429f33dd}{k}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{structQOCOKKT_ac992970a5113c5ff3d60e0c64532aa0a}{kinv}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a449decfbee7d2a4c43d9c651dd51769c}{p}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a3a44f4ab1182b63af361b7bae1d29498}{pinv}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_acf1f241dff0d6bda8ae0c54319eb5e9e}{etree}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_aa016e2bbc0d2441b347501fd1bae4c05}{Lnz}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_acc39b62e0df813274b5ef6cea77c7879}{Lx}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a681940985da5106985036b2aa5ee9084}{Lp}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_af6b8e85423d8b6ffdc57fa20eefaaf5d}{Li}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_ab39972aa84945bcdad126a612dbcd036}{D}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a6885d626168a163bb5221796aa878aee}{Dinv}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a20507578b547327068bafb3902266612}{iwork}}
+\item 
+unsigned char $\ast$ \mbox{\hyperlink{structQOCOKKT_a16a43a93af6629be0dcd53d2e3b14dc4}{bwork}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a4b7208b5657c7306580065b6e046c41b}{fwork}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a350c03f2665d19dde24b74b556d91a59}{rhs}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_adbc8ffce9207cfc89d657f46fd6959ab}{xyz}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a37864381633654817dc0fcd3b34ce981}{xyzbuff1}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_aa3928f751b6f70a295f6b39bac199a4b}{xyzbuff2}}
+\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a09b19f406c70817daf7dc41ead83c975}{kktres}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a14f8a761326da48445b45f9a19f0e504}{nt2kkt}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_aa0f0fe3ae4f7d6db557fc2dcea2309eb}{ntdiag2kkt}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a7cb73048831966481cdf1bbe0cc0ca07}{Pregto\+KKT}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_aef2409d8e6dad5214eec21b362a12f68}{Pnzadded\+\_\+idx}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{structQOCOKKT_a533086695da2b3b918014831c0a8d6d8}{Pnum\+\_\+nzadded}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_abf6e6214c517d4bc4623d86caedac76d}{Ato\+KKT}}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} $\ast$ \mbox{\hyperlink{structQOCOKKT_a85a50ddc6e8893a0f2d85761220f3837}{Gto\+KKT}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Contains all data needed for constructing and modifying KKT matrix and performing predictor-\/corrector step. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structQOCOKKT_abf6e6214c517d4bc4623d86caedac76d}\label{structQOCOKKT_abf6e6214c517d4bc4623d86caedac76d}} 
+\index{QOCOKKT@{QOCOKKT}!AtoKKT@{AtoKKT}}
+\index{AtoKKT@{AtoKKT}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{AtoKKT}{AtoKKT}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::\+Ato\+KKT}
+
+Mapping from elements in A to elements in the KKT matrix. \mbox{\Hypertarget{structQOCOKKT_a16a43a93af6629be0dcd53d2e3b14dc4}\label{structQOCOKKT_a16a43a93af6629be0dcd53d2e3b14dc4}} 
+\index{QOCOKKT@{QOCOKKT}!bwork@{bwork}}
+\index{bwork@{bwork}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{bwork}{bwork}}
+{\footnotesize\ttfamily unsigned char$\ast$ QOCOKKT\+::bwork}
+
+\mbox{\Hypertarget{structQOCOKKT_ab39972aa84945bcdad126a612dbcd036}\label{structQOCOKKT_ab39972aa84945bcdad126a612dbcd036}} 
+\index{QOCOKKT@{QOCOKKT}!D@{D}}
+\index{D@{D}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{D}{D}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::D}
+
+\mbox{\Hypertarget{structQOCOKKT_a161652b18272e8ad4b4ef2498b64f06e}\label{structQOCOKKT_a161652b18272e8ad4b4ef2498b64f06e}} 
+\index{QOCOKKT@{QOCOKKT}!delta@{delta}}
+\index{delta@{delta}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{delta}{delta}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::delta}
+
+Diagonal of scaling matrix. \mbox{\Hypertarget{structQOCOKKT_a6885d626168a163bb5221796aa878aee}\label{structQOCOKKT_a6885d626168a163bb5221796aa878aee}} 
+\index{QOCOKKT@{QOCOKKT}!Dinv@{Dinv}}
+\index{Dinv@{Dinv}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Dinv}{Dinv}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::\+Dinv}
+
+\mbox{\Hypertarget{structQOCOKKT_a11ee7c721bfe5fdede3fa518946a766a}\label{structQOCOKKT_a11ee7c721bfe5fdede3fa518946a766a}} 
+\index{QOCOKKT@{QOCOKKT}!Dinvruiz@{Dinvruiz}}
+\index{Dinvruiz@{Dinvruiz}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Dinvruiz}{Dinvruiz}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::\+Dinvruiz}
+
+Inverse of Druiz. \mbox{\Hypertarget{structQOCOKKT_afd535d2eb4f588cb097c9961f11f8cee}\label{structQOCOKKT_afd535d2eb4f588cb097c9961f11f8cee}} 
+\index{QOCOKKT@{QOCOKKT}!Druiz@{Druiz}}
+\index{Druiz@{Druiz}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Druiz}{Druiz}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::\+Druiz}
+
+Diagonal of scaling matrix. \mbox{\Hypertarget{structQOCOKKT_aae616bb46f059dc575ca1bb2d5f4fa27}\label{structQOCOKKT_aae616bb46f059dc575ca1bb2d5f4fa27}} 
+\index{QOCOKKT@{QOCOKKT}!Einvruiz@{Einvruiz}}
+\index{Einvruiz@{Einvruiz}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Einvruiz}{Einvruiz}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::\+Einvruiz}
+
+Inverse of Eruiz. \mbox{\Hypertarget{structQOCOKKT_a02dcddeb25f2e5faa1a28167c2bde732}\label{structQOCOKKT_a02dcddeb25f2e5faa1a28167c2bde732}} 
+\index{QOCOKKT@{QOCOKKT}!Eruiz@{Eruiz}}
+\index{Eruiz@{Eruiz}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Eruiz}{Eruiz}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::\+Eruiz}
+
+Diagonal of scaling matrix. \mbox{\Hypertarget{structQOCOKKT_acf1f241dff0d6bda8ae0c54319eb5e9e}\label{structQOCOKKT_acf1f241dff0d6bda8ae0c54319eb5e9e}} 
+\index{QOCOKKT@{QOCOKKT}!etree@{etree}}
+\index{etree@{etree}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{etree}{etree}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::etree}
+
+Elimination tree for LDL factorization of K. \mbox{\Hypertarget{structQOCOKKT_a9f2b26ac858146f3571c071a55aa7be2}\label{structQOCOKKT_a9f2b26ac858146f3571c071a55aa7be2}} 
+\index{QOCOKKT@{QOCOKKT}!Finvruiz@{Finvruiz}}
+\index{Finvruiz@{Finvruiz}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Finvruiz}{Finvruiz}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::\+Finvruiz}
+
+Inverse of Fruiz. \mbox{\Hypertarget{structQOCOKKT_adb853bd2760ba9c0af0d9b6d5738f9ae}\label{structQOCOKKT_adb853bd2760ba9c0af0d9b6d5738f9ae}} 
+\index{QOCOKKT@{QOCOKKT}!Fruiz@{Fruiz}}
+\index{Fruiz@{Fruiz}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Fruiz}{Fruiz}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::\+Fruiz}
+
+Diagonal of scaling matrix. \mbox{\Hypertarget{structQOCOKKT_a4b7208b5657c7306580065b6e046c41b}\label{structQOCOKKT_a4b7208b5657c7306580065b6e046c41b}} 
+\index{QOCOKKT@{QOCOKKT}!fwork@{fwork}}
+\index{fwork@{fwork}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{fwork}{fwork}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::fwork}
+
+\mbox{\Hypertarget{structQOCOKKT_a85a50ddc6e8893a0f2d85761220f3837}\label{structQOCOKKT_a85a50ddc6e8893a0f2d85761220f3837}} 
+\index{QOCOKKT@{QOCOKKT}!GtoKKT@{GtoKKT}}
+\index{GtoKKT@{GtoKKT}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{GtoKKT}{GtoKKT}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::\+Gto\+KKT}
+
+Mapping from elements in G to elements in the KKT matrix. \mbox{\Hypertarget{structQOCOKKT_a20507578b547327068bafb3902266612}\label{structQOCOKKT_a20507578b547327068bafb3902266612}} 
+\index{QOCOKKT@{QOCOKKT}!iwork@{iwork}}
+\index{iwork@{iwork}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{iwork}{iwork}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::iwork}
+
+\mbox{\Hypertarget{structQOCOKKT_a42dca8a44ef230ae857c0ed1902a1e6e}\label{structQOCOKKT_a42dca8a44ef230ae857c0ed1902a1e6e}} 
+\index{QOCOKKT@{QOCOKKT}!K@{K}}
+\index{K@{K}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{K}{K}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}}$\ast$ QOCOKKT\+::K}
+
+KKT matrix in CSC form. \mbox{\Hypertarget{structQOCOKKT_a0370a2e9d69025a4b53aeb27429f33dd}\label{structQOCOKKT_a0370a2e9d69025a4b53aeb27429f33dd}} 
+\index{QOCOKKT@{QOCOKKT}!k@{k}}
+\index{k@{k}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{k}{k}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} QOCOKKT\+::k}
+
+Cost scaling factor. \mbox{\Hypertarget{structQOCOKKT_ac992970a5113c5ff3d60e0c64532aa0a}\label{structQOCOKKT_ac992970a5113c5ff3d60e0c64532aa0a}} 
+\index{QOCOKKT@{QOCOKKT}!kinv@{kinv}}
+\index{kinv@{kinv}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{kinv}{kinv}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} QOCOKKT\+::kinv}
+
+Inverse of cost scaling factor. \mbox{\Hypertarget{structQOCOKKT_a09b19f406c70817daf7dc41ead83c975}\label{structQOCOKKT_a09b19f406c70817daf7dc41ead83c975}} 
+\index{QOCOKKT@{QOCOKKT}!kktres@{kktres}}
+\index{kktres@{kktres}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{kktres}{kktres}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::kktres}
+
+Residual of KKT condition. \mbox{\Hypertarget{structQOCOKKT_af6b8e85423d8b6ffdc57fa20eefaaf5d}\label{structQOCOKKT_af6b8e85423d8b6ffdc57fa20eefaaf5d}} 
+\index{QOCOKKT@{QOCOKKT}!Li@{Li}}
+\index{Li@{Li}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Li}{Li}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::\+Li}
+
+\mbox{\Hypertarget{structQOCOKKT_aa016e2bbc0d2441b347501fd1bae4c05}\label{structQOCOKKT_aa016e2bbc0d2441b347501fd1bae4c05}} 
+\index{QOCOKKT@{QOCOKKT}!Lnz@{Lnz}}
+\index{Lnz@{Lnz}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Lnz}{Lnz}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::\+Lnz}
+
+\mbox{\Hypertarget{structQOCOKKT_a681940985da5106985036b2aa5ee9084}\label{structQOCOKKT_a681940985da5106985036b2aa5ee9084}} 
+\index{QOCOKKT@{QOCOKKT}!Lp@{Lp}}
+\index{Lp@{Lp}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Lp}{Lp}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::\+Lp}
+
+\mbox{\Hypertarget{structQOCOKKT_acc39b62e0df813274b5ef6cea77c7879}\label{structQOCOKKT_acc39b62e0df813274b5ef6cea77c7879}} 
+\index{QOCOKKT@{QOCOKKT}!Lx@{Lx}}
+\index{Lx@{Lx}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Lx}{Lx}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::\+Lx}
+
+\mbox{\Hypertarget{structQOCOKKT_a14f8a761326da48445b45f9a19f0e504}\label{structQOCOKKT_a14f8a761326da48445b45f9a19f0e504}} 
+\index{QOCOKKT@{QOCOKKT}!nt2kkt@{nt2kkt}}
+\index{nt2kkt@{nt2kkt}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{nt2kkt}{nt2kkt}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::nt2kkt}
+
+Mapping from elements in the Nesterov-\/\+Todd scaling matrix to elements in the KKT matrix. \mbox{\Hypertarget{structQOCOKKT_aa0f0fe3ae4f7d6db557fc2dcea2309eb}\label{structQOCOKKT_aa0f0fe3ae4f7d6db557fc2dcea2309eb}} 
+\index{QOCOKKT@{QOCOKKT}!ntdiag2kkt@{ntdiag2kkt}}
+\index{ntdiag2kkt@{ntdiag2kkt}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{ntdiag2kkt}{ntdiag2kkt}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::ntdiag2kkt}
+
+Mapping from elements on the main diagonal of the Nesterov-\/\+Todd scaling matrices to elements in the KKT matrix. Used for regularization. \mbox{\Hypertarget{structQOCOKKT_a449decfbee7d2a4c43d9c651dd51769c}\label{structQOCOKKT_a449decfbee7d2a4c43d9c651dd51769c}} 
+\index{QOCOKKT@{QOCOKKT}!p@{p}}
+\index{p@{p}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{p}{p}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::p}
+
+Permutation vector. \mbox{\Hypertarget{structQOCOKKT_a3a44f4ab1182b63af361b7bae1d29498}\label{structQOCOKKT_a3a44f4ab1182b63af361b7bae1d29498}} 
+\index{QOCOKKT@{QOCOKKT}!pinv@{pinv}}
+\index{pinv@{pinv}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{pinv}{pinv}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::pinv}
+
+Inverse of permutation vector. \mbox{\Hypertarget{structQOCOKKT_a533086695da2b3b918014831c0a8d6d8}\label{structQOCOKKT_a533086695da2b3b918014831c0a8d6d8}} 
+\index{QOCOKKT@{QOCOKKT}!Pnum\_nzadded@{Pnum\_nzadded}}
+\index{Pnum\_nzadded@{Pnum\_nzadded}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Pnum\_nzadded}{Pnum\_nzadded}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} QOCOKKT\+::\+Pnum\+\_\+nzadded}
+
+Number of elements of P-\/$>$x that were added due to regularization. \mbox{\Hypertarget{structQOCOKKT_aef2409d8e6dad5214eec21b362a12f68}\label{structQOCOKKT_aef2409d8e6dad5214eec21b362a12f68}} 
+\index{QOCOKKT@{QOCOKKT}!Pnzadded\_idx@{Pnzadded\_idx}}
+\index{Pnzadded\_idx@{Pnzadded\_idx}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{Pnzadded\_idx}{Pnzadded\_idx}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::\+Pnzadded\+\_\+idx}
+
+Indices of P-\/$>$x that were added due to regularization. \mbox{\Hypertarget{structQOCOKKT_a7cb73048831966481cdf1bbe0cc0ca07}\label{structQOCOKKT_a7cb73048831966481cdf1bbe0cc0ca07}} 
+\index{QOCOKKT@{QOCOKKT}!PregtoKKT@{PregtoKKT}}
+\index{PregtoKKT@{PregtoKKT}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{PregtoKKT}{PregtoKKT}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}$\ast$ QOCOKKT\+::\+Pregto\+KKT}
+
+Mapping from elements in regularized P to elements in the KKT matrix. \mbox{\Hypertarget{structQOCOKKT_a350c03f2665d19dde24b74b556d91a59}\label{structQOCOKKT_a350c03f2665d19dde24b74b556d91a59}} 
+\index{QOCOKKT@{QOCOKKT}!rhs@{rhs}}
+\index{rhs@{rhs}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{rhs}{rhs}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::rhs}
+
+RHS of KKT system. \mbox{\Hypertarget{structQOCOKKT_adbc8ffce9207cfc89d657f46fd6959ab}\label{structQOCOKKT_adbc8ffce9207cfc89d657f46fd6959ab}} 
+\index{QOCOKKT@{QOCOKKT}!xyz@{xyz}}
+\index{xyz@{xyz}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{xyz}{xyz}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::xyz}
+
+Solution of KKT system. \mbox{\Hypertarget{structQOCOKKT_a37864381633654817dc0fcd3b34ce981}\label{structQOCOKKT_a37864381633654817dc0fcd3b34ce981}} 
+\index{QOCOKKT@{QOCOKKT}!xyzbuff1@{xyzbuff1}}
+\index{xyzbuff1@{xyzbuff1}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{xyzbuff1}{xyzbuff1}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::xyzbuff1}
+
+Buffer of size n + m + p. \mbox{\Hypertarget{structQOCOKKT_aa3928f751b6f70a295f6b39bac199a4b}\label{structQOCOKKT_aa3928f751b6f70a295f6b39bac199a4b}} 
+\index{QOCOKKT@{QOCOKKT}!xyzbuff2@{xyzbuff2}}
+\index{xyzbuff2@{xyzbuff2}!QOCOKKT@{QOCOKKT}}
+\doxysubsubsection{\texorpdfstring{xyzbuff2}{xyzbuff2}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}$\ast$ QOCOKKT\+::xyzbuff2}
+
+Buffer of size n + m + p. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/govind/\+Desktop/git/qoco/include/\mbox{\hyperlink{structs_8h}{structs.\+h}}\end{DoxyCompactItemize}

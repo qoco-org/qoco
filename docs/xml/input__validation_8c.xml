@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="input__validation_8c" kind="file" language="C++">
+    <compoundname>input_validation.c</compoundname>
+    <includes refid="input__validation_8h" local="yes">input_validation.h</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>stdlib.h</label>
+      </node>
+      <node id="10">
+        <label>structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>limits.h</label>
+      </node>
+      <node id="5">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>qoco_error.h</label>
+        <link refid="qoco__error_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>input_validation.h</label>
+        <link refid="input__validation_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>math.h</label>
+      </node>
+      <node id="3">
+        <label>enums.h</label>
+        <link refid="enums_8h"/>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/src/input_validation.c</label>
+        <link refid="input__validation_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="input__validation_8c_1a1bfb924cde6bff6810d49cea5e0a2e4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt qoco_validate_settings</definition>
+        <argsstring>(const QOCOSettings *settings)</argsstring>
+        <name>qoco_validate_settings</name>
+        <param>
+          <type>const <ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref> *</type>
+          <declname>settings</declname>
+        </param>
+        <briefdescription>
+<para>Validates solver settings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>settings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to settings struct </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Exitflag to check (0 for success, failure otherwise) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/input_validation.c" line="13" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/input_validation.c" bodystart="13" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="input__validation_8c_1a26e99d040f1360a2c17d86709fe0302f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt qoco_validate_data</definition>
+        <argsstring>(const QOCOCscMatrix *P, const QOCOFloat *c, const QOCOCscMatrix *A, const QOCOFloat *b, const QOCOCscMatrix *G, const QOCOFloat *h, const QOCOInt l, const QOCOInt nsoc, const QOCOInt *q)</argsstring>
+        <name>qoco_validate_data</name>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>P</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>G</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+<para>Validate problem data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>P</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper triangular part of quadratic cost Hessian in CSC form </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Linear cost vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Affine equality constraint matrix in CSC form </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Affine equality constraint offset vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>G</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conic constraint matrix in CSC form </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conic constraint offset vector </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of non-negative orthant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nsoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of second-order cones </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of each second-order cone </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Exitflag to check (0 for success, failure otherwise) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/input_validation.c" line="72" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/input_validation.c" bodystart="72" bodyend="153"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="utils_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="input__validation_8h" kindref="compound">input_validation.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="input__validation_8c_1a1bfb924cde6bff6810d49cea5e0a2e4f" kindref="member">qoco_validate_settings</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref>*<sp/>settings)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>max_iters<sp/>must<sp/>be<sp/>positive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;<ref refid="structQOCOSettings_1ad024407378c8232511ffc8775e6d92a7" kindref="member">max_iters</ref><sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;max_iters<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a78d4fee5dd67175423df0073094795d2" kindref="member">QOCO_SETTINGS_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>ruiz_iters<sp/>must<sp/>be<sp/>positive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;<ref refid="structQOCOSettings_1af252771d1771c37f794a6d5c385ce66d" kindref="member">ruiz_iters</ref><sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;ruiz_iters<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a78d4fee5dd67175423df0073094795d2" kindref="member">QOCO_SETTINGS_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>bisection_iters<sp/>must<sp/>be<sp/>positive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;<ref refid="structQOCOSettings_1a13065594e57d4091033243b12c5bfd5c" kindref="member">bisect_iters</ref><sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;bisect_iters<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a78d4fee5dd67175423df0073094795d2" kindref="member">QOCO_SETTINGS_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>abstol<sp/>must<sp/>be<sp/>positive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;<ref refid="structQOCOSettings_1a7d62b01403b7572ee0d1ebaaab45c9d0" kindref="member">abstol</ref><sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;abstol<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a78d4fee5dd67175423df0073094795d2" kindref="member">QOCO_SETTINGS_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>reltol<sp/>must<sp/>be<sp/>non-negative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;<ref refid="structQOCOSettings_1a9924681488237bcc446854964f3b5012" kindref="member">reltol</ref><sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;reltol<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a78d4fee5dd67175423df0073094795d2" kindref="member">QOCO_SETTINGS_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>abstol_inaccurate<sp/>must<sp/>be<sp/>positive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;<ref refid="structQOCOSettings_1a92cdec007c0b9a4392d3036e97012492" kindref="member">abstol_inacc</ref><sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;abstol_inacc<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a78d4fee5dd67175423df0073094795d2" kindref="member">QOCO_SETTINGS_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>reltol_inaccurate<sp/>must<sp/>be<sp/>non-negative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;<ref refid="structQOCOSettings_1a13d27ddfaba9c83983090fba602ab2b4" kindref="member">reltol_inacc</ref><sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;reltol_inacc<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a78d4fee5dd67175423df0073094795d2" kindref="member">QOCO_SETTINGS_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>static_reg<sp/>must<sp/>be<sp/>less<sp/>than<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;<ref refid="structQOCOSettings_1a11f48d67a5626431c077ad30c84433df" kindref="member">kkt_static_reg</ref><sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;kkt_static_reg<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a78d4fee5dd67175423df0073094795d2" kindref="member">QOCO_SETTINGS_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>dyn_reg<sp/>must<sp/>be<sp/>less<sp/>than<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(settings-&gt;<ref refid="structQOCOSettings_1ad635ca462b97c3f0978b755ce2ce763c" kindref="member">kkt_dynamic_reg</ref><sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;kkt_dynamic_reg<sp/>must<sp/>be<sp/>positive.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a78d4fee5dd67175423df0073094795d2" kindref="member">QOCO_SETTINGS_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a0269eec742bc0e16495df7d802951cfe" kindref="member">QOCO_NO_ERROR</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="input__validation_8c_1a26e99d040f1360a2c17d86709fe0302f" kindref="member">qoco_validate_data</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>P,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>c,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>A,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>b,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>G,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>h,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>l,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>nsoc,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>q)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>there<sp/>are<sp/>second-order<sp/>cones,<sp/>then<sp/>the<sp/>cone<sp/>dimensions<sp/>must<sp/>be<sp/>provided.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!q<sp/>&amp;&amp;<sp/>nsoc<sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>Provide<sp/>second-order<sp/>cone<sp/>dimensions.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>P<sp/>must<sp/>be<sp/>a<sp/>square<sp/>matrix.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(P<sp/>&amp;&amp;<sp/>P-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref><sp/>!=<sp/>P-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>P<sp/>must<sp/>be<sp/>a<sp/>square<sp/>matrix.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>columns<sp/>for<sp/>A<sp/>and<sp/>G<sp/>must<sp/>be<sp/>equal.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(G<sp/>&amp;&amp;<sp/>A<sp/>&amp;&amp;<sp/>(G-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref><sp/>!=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>The<sp/>number<sp/>of<sp/>columns<sp/>for<sp/>A<sp/>and<sp/>G<sp/>must<sp/>be<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;equal<sp/>to<sp/>n.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>columns<sp/>for<sp/>A<sp/>must<sp/>be<sp/>equal<sp/>to<sp/>n.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(A<sp/>&amp;&amp;<sp/>P<sp/>&amp;&amp;<sp/>(P-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref><sp/>!=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>The<sp/>number<sp/>of<sp/>columns<sp/>for<sp/>A<sp/>must<sp/>be<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;equal<sp/>to<sp/>n.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>columns<sp/>for<sp/>G<sp/>must<sp/>be<sp/>equal<sp/>to<sp/>n.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(G<sp/>&amp;&amp;<sp/>P<sp/>&amp;&amp;<sp/>(P-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref><sp/>!=<sp/>G-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>The<sp/>number<sp/>of<sp/>columns<sp/>for<sp/>G<sp/>must<sp/>be<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;equal<sp/>to<sp/>n.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>c<sp/>cannot<sp/>be<sp/>null.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!c)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>linear<sp/>cost<sp/>term,<sp/>c,<sp/>must<sp/>be<sp/>provided.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>l<sp/>+<sp/>sum(q)<sp/>should<sp/>be<sp/>equal<sp/>to<sp/>m.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>sum<sp/>=<sp/>l;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>nsoc;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>q[i];</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(G<sp/>&amp;&amp;<sp/>sum<sp/>!=<sp/>G-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>l<sp/>+<sp/>sum(q)<sp/>must<sp/>be<sp/>equal<sp/>to<sp/>m.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>l<sp/>must<sp/>be<sp/>non-negative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(l<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>l<sp/>must<sp/>be<sp/>non-negative.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>nsoc<sp/>must<sp/>be<sp/>non-negative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(nsoc<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>nsoc<sp/>must<sp/>be<sp/>non-negative.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((A<sp/>&amp;&amp;<sp/>!b)<sp/>||<sp/>(b<sp/>&amp;&amp;<sp/>!A))<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>If<sp/>there<sp/>are<sp/>equality<sp/>constraints,<sp/>A<sp/>and<sp/>b<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;must<sp/>be<sp/>provided.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((G<sp/>&amp;&amp;<sp/>!h)<sp/>||<sp/>(h<sp/>&amp;&amp;<sp/>!G))<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;Data<sp/>validation<sp/>error:<sp/>If<sp/>there<sp/>are<sp/>conic<sp/>constraints,<sp/>G<sp/>and<sp/>h<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;must<sp/>be<sp/>provided.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a4ebc638d4ec607ce4f97da670c0ad6bf" kindref="member">QOCO_DATA_VALIDATION_ERROR</ref>;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a0269eec742bc0e16495df7d802951cfe" kindref="member">QOCO_NO_ERROR</ref>;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/src/input_validation.c"/>
+  </compounddef>
+</doxygen>

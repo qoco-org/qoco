@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir">
+    <compoundname>/home/govind/Desktop/git/qoco/src</compoundname>
+    <innerfile refid="cone_8c">cone.c</innerfile>
+    <innerfile refid="equilibration_8c">equilibration.c</innerfile>
+    <innerfile refid="input__validation_8c">input_validation.c</innerfile>
+    <innerfile refid="kkt_8c">kkt.c</innerfile>
+    <innerfile refid="linalg_8c">linalg.c</innerfile>
+    <innerfile refid="qoco__api_8c">qoco_api.c</innerfile>
+    <innerfile refid="qoco__error_8c">qoco_error.c</innerfile>
+    <innerfile refid="timer__linux_8c">timer_linux.c</innerfile>
+    <innerfile refid="timer__macos_8c">timer_macos.c</innerfile>
+    <innerfile refid="utils_8c">utils.c</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/govind/Desktop/git/qoco/src/"/>
+  </compounddef>
+</doxygen>

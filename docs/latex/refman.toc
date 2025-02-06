@@ -1,0 +1,393 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Todo List}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Class Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Class List}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}File Index}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}File List}{5}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Class Documentation}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}QOCOCsc\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Matrix Struct Reference}{7}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Detailed Description}{7}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Member Data Documentation}{7}{subsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.1}i}{7}{subsubsection.4.1.2.1}%
+\contentsline {subsubsection}{\numberline {4.1.2.2}m}{8}{subsubsection.4.1.2.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.3}n}{8}{subsubsection.4.1.2.3}%
+\contentsline {subsubsection}{\numberline {4.1.2.4}nnz}{8}{subsubsection.4.1.2.4}%
+\contentsline {subsubsection}{\numberline {4.1.2.5}p}{8}{subsubsection.4.1.2.5}%
+\contentsline {subsubsection}{\numberline {4.1.2.6}x}{8}{subsubsection.4.1.2.6}%
+\contentsline {section}{\numberline {4.2}QOCOKKT Struct Reference}{8}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Detailed Description}{9}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Member Data Documentation}{9}{subsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2.1}AtoKKT}{9}{subsubsection.4.2.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2.2}bwork}{10}{subsubsection.4.2.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2.3}D}{10}{subsubsection.4.2.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.2.4}delta}{10}{subsubsection.4.2.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.2.5}Dinv}{10}{subsubsection.4.2.2.5}%
+\contentsline {subsubsection}{\numberline {4.2.2.6}Dinvruiz}{10}{subsubsection.4.2.2.6}%
+\contentsline {subsubsection}{\numberline {4.2.2.7}Druiz}{10}{subsubsection.4.2.2.7}%
+\contentsline {subsubsection}{\numberline {4.2.2.8}Einvruiz}{10}{subsubsection.4.2.2.8}%
+\contentsline {subsubsection}{\numberline {4.2.2.9}Eruiz}{10}{subsubsection.4.2.2.9}%
+\contentsline {subsubsection}{\numberline {4.2.2.10}etree}{11}{subsubsection.4.2.2.10}%
+\contentsline {subsubsection}{\numberline {4.2.2.11}Finvruiz}{11}{subsubsection.4.2.2.11}%
+\contentsline {subsubsection}{\numberline {4.2.2.12}Fruiz}{11}{subsubsection.4.2.2.12}%
+\contentsline {subsubsection}{\numberline {4.2.2.13}fwork}{11}{subsubsection.4.2.2.13}%
+\contentsline {subsubsection}{\numberline {4.2.2.14}GtoKKT}{11}{subsubsection.4.2.2.14}%
+\contentsline {subsubsection}{\numberline {4.2.2.15}iwork}{11}{subsubsection.4.2.2.15}%
+\contentsline {subsubsection}{\numberline {4.2.2.16}K}{11}{subsubsection.4.2.2.16}%
+\contentsline {subsubsection}{\numberline {4.2.2.17}k}{11}{subsubsection.4.2.2.17}%
+\contentsline {subsubsection}{\numberline {4.2.2.18}kinv}{12}{subsubsection.4.2.2.18}%
+\contentsline {subsubsection}{\numberline {4.2.2.19}kktres}{12}{subsubsection.4.2.2.19}%
+\contentsline {subsubsection}{\numberline {4.2.2.20}Li}{12}{subsubsection.4.2.2.20}%
+\contentsline {subsubsection}{\numberline {4.2.2.21}Lnz}{12}{subsubsection.4.2.2.21}%
+\contentsline {subsubsection}{\numberline {4.2.2.22}Lp}{12}{subsubsection.4.2.2.22}%
+\contentsline {subsubsection}{\numberline {4.2.2.23}Lx}{12}{subsubsection.4.2.2.23}%
+\contentsline {subsubsection}{\numberline {4.2.2.24}nt2kkt}{12}{subsubsection.4.2.2.24}%
+\contentsline {subsubsection}{\numberline {4.2.2.25}ntdiag2kkt}{12}{subsubsection.4.2.2.25}%
+\contentsline {subsubsection}{\numberline {4.2.2.26}p}{13}{subsubsection.4.2.2.26}%
+\contentsline {subsubsection}{\numberline {4.2.2.27}pinv}{13}{subsubsection.4.2.2.27}%
+\contentsline {subsubsection}{\numberline {4.2.2.28}Pnum\_nzadded}{13}{subsubsection.4.2.2.28}%
+\contentsline {subsubsection}{\numberline {4.2.2.29}Pnzadded\_idx}{13}{subsubsection.4.2.2.29}%
+\contentsline {subsubsection}{\numberline {4.2.2.30}PregtoKKT}{13}{subsubsection.4.2.2.30}%
+\contentsline {subsubsection}{\numberline {4.2.2.31}rhs}{13}{subsubsection.4.2.2.31}%
+\contentsline {subsubsection}{\numberline {4.2.2.32}xyz}{13}{subsubsection.4.2.2.32}%
+\contentsline {subsubsection}{\numberline {4.2.2.33}xyzbuff1}{13}{subsubsection.4.2.2.33}%
+\contentsline {subsubsection}{\numberline {4.2.2.34}xyzbuff2}{14}{subsubsection.4.2.2.34}%
+\contentsline {section}{\numberline {4.3}QOCOProblem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Data Struct Reference}{14}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Detailed Description}{15}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Member Data Documentation}{15}{subsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.2.1}A}{15}{subsubsection.4.3.2.1}%
+\contentsline {subsubsection}{\numberline {4.3.2.2}At}{15}{subsubsection.4.3.2.2}%
+\contentsline {subsubsection}{\numberline {4.3.2.3}b}{15}{subsubsection.4.3.2.3}%
+\contentsline {subsubsection}{\numberline {4.3.2.4}c}{15}{subsubsection.4.3.2.4}%
+\contentsline {subsubsection}{\numberline {4.3.2.5}G}{15}{subsubsection.4.3.2.5}%
+\contentsline {subsubsection}{\numberline {4.3.2.6}Gt}{15}{subsubsection.4.3.2.6}%
+\contentsline {subsubsection}{\numberline {4.3.2.7}h}{16}{subsubsection.4.3.2.7}%
+\contentsline {subsubsection}{\numberline {4.3.2.8}l}{16}{subsubsection.4.3.2.8}%
+\contentsline {subsubsection}{\numberline {4.3.2.9}m}{16}{subsubsection.4.3.2.9}%
+\contentsline {subsubsection}{\numberline {4.3.2.10}n}{16}{subsubsection.4.3.2.10}%
+\contentsline {subsubsection}{\numberline {4.3.2.11}nsoc}{16}{subsubsection.4.3.2.11}%
+\contentsline {subsubsection}{\numberline {4.3.2.12}P}{16}{subsubsection.4.3.2.12}%
+\contentsline {subsubsection}{\numberline {4.3.2.13}p}{16}{subsubsection.4.3.2.13}%
+\contentsline {subsubsection}{\numberline {4.3.2.14}q}{17}{subsubsection.4.3.2.14}%
+\contentsline {section}{\numberline {4.4}QOCOSettings Struct Reference}{17}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Detailed Description}{17}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Member Data Documentation}{17}{subsection.4.4.2}%
+\contentsline {subsubsection}{\numberline {4.4.2.1}abstol}{17}{subsubsection.4.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.4.2.2}abstol\_inacc}{18}{subsubsection.4.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.4.2.3}bisect\_iters}{18}{subsubsection.4.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.4.2.4}iter\_ref\_iters}{18}{subsubsection.4.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.4.2.5}kkt\_dynamic\_reg}{18}{subsubsection.4.4.2.5}%
+\contentsline {subsubsection}{\numberline {4.4.2.6}kkt\_static\_reg}{18}{subsubsection.4.4.2.6}%
+\contentsline {subsubsection}{\numberline {4.4.2.7}max\_iters}{18}{subsubsection.4.4.2.7}%
+\contentsline {subsubsection}{\numberline {4.4.2.8}reltol}{18}{subsubsection.4.4.2.8}%
+\contentsline {subsubsection}{\numberline {4.4.2.9}reltol\_inacc}{18}{subsubsection.4.4.2.9}%
+\contentsline {subsubsection}{\numberline {4.4.2.10}ruiz\_iters}{19}{subsubsection.4.4.2.10}%
+\contentsline {subsubsection}{\numberline {4.4.2.11}verbose}{19}{subsubsection.4.4.2.11}%
+\contentsline {section}{\numberline {4.5}QOCOSolution Struct Reference}{19}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Member Data Documentation}{19}{subsection.4.5.1}%
+\contentsline {subsubsection}{\numberline {4.5.1.1}dres}{19}{subsubsection.4.5.1.1}%
+\contentsline {subsubsection}{\numberline {4.5.1.2}gap}{20}{subsubsection.4.5.1.2}%
+\contentsline {subsubsection}{\numberline {4.5.1.3}iters}{20}{subsubsection.4.5.1.3}%
+\contentsline {subsubsection}{\numberline {4.5.1.4}obj}{20}{subsubsection.4.5.1.4}%
+\contentsline {subsubsection}{\numberline {4.5.1.5}pres}{20}{subsubsection.4.5.1.5}%
+\contentsline {subsubsection}{\numberline {4.5.1.6}s}{20}{subsubsection.4.5.1.6}%
+\contentsline {subsubsection}{\numberline {4.5.1.7}setup\_time\_sec}{20}{subsubsection.4.5.1.7}%
+\contentsline {subsubsection}{\numberline {4.5.1.8}solve\_time\_sec}{20}{subsubsection.4.5.1.8}%
+\contentsline {subsubsection}{\numberline {4.5.1.9}status}{20}{subsubsection.4.5.1.9}%
+\contentsline {subsubsection}{\numberline {4.5.1.10}x}{21}{subsubsection.4.5.1.10}%
+\contentsline {subsubsection}{\numberline {4.5.1.11}y}{21}{subsubsection.4.5.1.11}%
+\contentsline {subsubsection}{\numberline {4.5.1.12}z}{21}{subsubsection.4.5.1.12}%
+\contentsline {section}{\numberline {4.6}QOCOSolver Struct Reference}{21}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Detailed Description}{22}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Member Data Documentation}{22}{subsection.4.6.2}%
+\contentsline {subsubsection}{\numberline {4.6.2.1}settings}{22}{subsubsection.4.6.2.1}%
+\contentsline {subsubsection}{\numberline {4.6.2.2}sol}{22}{subsubsection.4.6.2.2}%
+\contentsline {subsubsection}{\numberline {4.6.2.3}work}{22}{subsubsection.4.6.2.3}%
+\contentsline {section}{\numberline {4.7}QOCOWorkspace Struct Reference}{23}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Detailed Description}{24}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.2}Member Data Documentation}{24}{subsection.4.7.2}%
+\contentsline {subsubsection}{\numberline {4.7.2.1}a}{24}{subsubsection.4.7.2.1}%
+\contentsline {subsubsection}{\numberline {4.7.2.2}data}{24}{subsubsection.4.7.2.2}%
+\contentsline {subsubsection}{\numberline {4.7.2.3}Ds}{24}{subsubsection.4.7.2.3}%
+\contentsline {subsubsection}{\numberline {4.7.2.4}kkt}{24}{subsubsection.4.7.2.4}%
+\contentsline {subsubsection}{\numberline {4.7.2.5}lambda}{24}{subsubsection.4.7.2.5}%
+\contentsline {subsubsection}{\numberline {4.7.2.6}mu}{25}{subsubsection.4.7.2.6}%
+\contentsline {subsubsection}{\numberline {4.7.2.7}s}{25}{subsubsection.4.7.2.7}%
+\contentsline {subsubsection}{\numberline {4.7.2.8}sbar}{25}{subsubsection.4.7.2.8}%
+\contentsline {subsubsection}{\numberline {4.7.2.9}sigma}{25}{subsubsection.4.7.2.9}%
+\contentsline {subsubsection}{\numberline {4.7.2.10}solve\_timer}{25}{subsubsection.4.7.2.10}%
+\contentsline {subsubsection}{\numberline {4.7.2.11}ubuff1}{25}{subsubsection.4.7.2.11}%
+\contentsline {subsubsection}{\numberline {4.7.2.12}ubuff2}{25}{subsubsection.4.7.2.12}%
+\contentsline {subsubsection}{\numberline {4.7.2.13}ubuff3}{25}{subsubsection.4.7.2.13}%
+\contentsline {subsubsection}{\numberline {4.7.2.14}W}{26}{subsubsection.4.7.2.14}%
+\contentsline {subsubsection}{\numberline {4.7.2.15}Wfull}{26}{subsubsection.4.7.2.15}%
+\contentsline {subsubsection}{\numberline {4.7.2.16}Winv}{26}{subsubsection.4.7.2.16}%
+\contentsline {subsubsection}{\numberline {4.7.2.17}Winvfull}{26}{subsubsection.4.7.2.17}%
+\contentsline {subsubsection}{\numberline {4.7.2.18}Wnnz}{26}{subsubsection.4.7.2.18}%
+\contentsline {subsubsection}{\numberline {4.7.2.19}Wnnzfull}{26}{subsubsection.4.7.2.19}%
+\contentsline {subsubsection}{\numberline {4.7.2.20}WtW}{26}{subsubsection.4.7.2.20}%
+\contentsline {subsubsection}{\numberline {4.7.2.21}x}{26}{subsubsection.4.7.2.21}%
+\contentsline {subsubsection}{\numberline {4.7.2.22}xbuff}{27}{subsubsection.4.7.2.22}%
+\contentsline {subsubsection}{\numberline {4.7.2.23}y}{27}{subsubsection.4.7.2.23}%
+\contentsline {subsubsection}{\numberline {4.7.2.24}ybuff}{27}{subsubsection.4.7.2.24}%
+\contentsline {subsubsection}{\numberline {4.7.2.25}z}{27}{subsubsection.4.7.2.25}%
+\contentsline {subsubsection}{\numberline {4.7.2.26}zbar}{27}{subsubsection.4.7.2.26}%
+\contentsline {chapter}{\numberline {5}File Documentation}{29}{chapter.5}%
+\contentsline {section}{\numberline {5.1}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/cone.h File Reference}{29}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Detailed Description}{31}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}LICENSE}{31}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}DESCRIPTION}{31}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}Function Documentation}{31}{subsection.5.1.4}%
+\contentsline {subsubsection}{\numberline {5.1.4.1}bisection\_search()}{31}{subsubsection.5.1.4.1}%
+\contentsline {subsubsection}{\numberline {5.1.4.2}bring2cone()}{32}{subsubsection.5.1.4.2}%
+\contentsline {subsubsection}{\numberline {5.1.4.3}compute\_centering()}{32}{subsubsection.5.1.4.3}%
+\contentsline {subsubsection}{\numberline {5.1.4.4}compute\_mu()}{32}{subsubsection.5.1.4.4}%
+\contentsline {subsubsection}{\numberline {5.1.4.5}compute\_nt\_scaling()}{33}{subsubsection.5.1.4.5}%
+\contentsline {subsubsection}{\numberline {5.1.4.6}cone\_division()}{33}{subsubsection.5.1.4.6}%
+\contentsline {subsubsection}{\numberline {5.1.4.7}cone\_product()}{33}{subsubsection.5.1.4.7}%
+\contentsline {subsubsection}{\numberline {5.1.4.8}cone\_residual()}{34}{subsubsection.5.1.4.8}%
+\contentsline {subsubsection}{\numberline {5.1.4.9}exact\_linesearch()}{34}{subsubsection.5.1.4.9}%
+\contentsline {subsubsection}{\numberline {5.1.4.10}linesearch()}{35}{subsubsection.5.1.4.10}%
+\contentsline {subsubsection}{\numberline {5.1.4.11}nt\_multiply()}{35}{subsubsection.5.1.4.11}%
+\contentsline {subsubsection}{\numberline {5.1.4.12}soc\_division()}{36}{subsubsection.5.1.4.12}%
+\contentsline {subsubsection}{\numberline {5.1.4.13}soc\_product()}{36}{subsubsection.5.1.4.13}%
+\contentsline {subsubsection}{\numberline {5.1.4.14}soc\_residual()}{37}{subsubsection.5.1.4.14}%
+\contentsline {subsubsection}{\numberline {5.1.4.15}soc\_residual2()}{37}{subsubsection.5.1.4.15}%
+\contentsline {section}{\numberline {5.2}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/definitions.h File Reference}{37}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Detailed Description}{39}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}LICENSE}{39}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}DESCRIPTION}{39}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Macro Definition Documentation}{39}{subsection.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.2.4.1}qoco\_abs}{39}{subsubsection.5.2.4.1}%
+\contentsline {subsubsection}{\numberline {5.2.4.2}qoco\_assert}{39}{subsubsection.5.2.4.2}%
+\contentsline {subsubsection}{\numberline {5.2.4.3}qoco\_calloc}{39}{subsubsection.5.2.4.3}%
+\contentsline {subsubsection}{\numberline {5.2.4.4}qoco\_free}{39}{subsubsection.5.2.4.4}%
+\contentsline {subsubsection}{\numberline {5.2.4.5}qoco\_malloc}{40}{subsubsection.5.2.4.5}%
+\contentsline {subsubsection}{\numberline {5.2.4.6}qoco\_max}{40}{subsubsection.5.2.4.6}%
+\contentsline {subsubsection}{\numberline {5.2.4.7}qoco\_min}{40}{subsubsection.5.2.4.7}%
+\contentsline {subsubsection}{\numberline {5.2.4.8}qoco\_sqrt}{40}{subsubsection.5.2.4.8}%
+\contentsline {subsubsection}{\numberline {5.2.4.9}QOCOFloat\_MAX}{40}{subsubsection.5.2.4.9}%
+\contentsline {subsubsection}{\numberline {5.2.4.10}QOCOInt\_MAX}{40}{subsubsection.5.2.4.10}%
+\contentsline {subsubsection}{\numberline {5.2.4.11}safe\_div}{40}{subsubsection.5.2.4.11}%
+\contentsline {subsection}{\numberline {5.2.5}Typedef Documentation}{41}{subsection.5.2.5}%
+\contentsline {subsubsection}{\numberline {5.2.5.1}QOCOFloat}{41}{subsubsection.5.2.5.1}%
+\contentsline {subsubsection}{\numberline {5.2.5.2}QOCOInt}{41}{subsubsection.5.2.5.2}%
+\contentsline {section}{\numberline {5.3}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/enums.h File Reference}{41}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Enumeration Type Documentation}{41}{subsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.1.1}qoco\_error\_code}{41}{subsubsection.5.3.1.1}%
+\contentsline {subsubsection}{\numberline {5.3.1.2}qoco\_solve\_status}{42}{subsubsection.5.3.1.2}%
+\contentsline {section}{\numberline {5.4}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/equilibration.h File Reference}{42}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Detailed Description}{44}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}LICENSE}{44}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}DESCRIPTION}{44}{subsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.4.4}Function Documentation}{44}{subsection.5.4.4}%
+\contentsline {subsubsection}{\numberline {5.4.4.1}ruiz\_equilibration()}{44}{subsubsection.5.4.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.4.2}unscale\_variables()}{45}{subsubsection.5.4.4.2}%
+\contentsline {section}{\numberline {5.5}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/input\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}validation.h File Reference}{45}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Detailed Description}{46}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}LICENSE}{46}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.3}DESCRIPTION}{46}{subsection.5.5.3}%
+\contentsline {subsection}{\numberline {5.5.4}Function Documentation}{46}{subsection.5.5.4}%
+\contentsline {subsubsection}{\numberline {5.5.4.1}qoco\_validate\_data()}{47}{subsubsection.5.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.5.4.2}qoco\_validate\_settings()}{47}{subsubsection.5.5.4.2}%
+\contentsline {section}{\numberline {5.6}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/kkt.h File Reference}{48}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Detailed Description}{49}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}LICENSE}{50}{subsection.5.6.2}%
+\contentsline {subsection}{\numberline {5.6.3}DESCRIPTION}{50}{subsection.5.6.3}%
+\contentsline {subsection}{\numberline {5.6.4}Function Documentation}{50}{subsection.5.6.4}%
+\contentsline {subsubsection}{\numberline {5.6.4.1}allocate\_kkt()}{50}{subsubsection.5.6.4.1}%
+\contentsline {subsubsection}{\numberline {5.6.4.2}compute\_kkt\_residual()}{50}{subsubsection.5.6.4.2}%
+\contentsline {subsubsection}{\numberline {5.6.4.3}construct\_kkt()}{51}{subsubsection.5.6.4.3}%
+\contentsline {subsubsection}{\numberline {5.6.4.4}construct\_kkt\_aff\_rhs()}{51}{subsubsection.5.6.4.4}%
+\contentsline {subsubsection}{\numberline {5.6.4.5}construct\_kkt\_comb\_rhs()}{51}{subsubsection.5.6.4.5}%
+\contentsline {subsubsection}{\numberline {5.6.4.6}initialize\_ipm()}{52}{subsubsection.5.6.4.6}%
+\contentsline {subsubsection}{\numberline {5.6.4.7}kkt\_multiply()}{52}{subsubsection.5.6.4.7}%
+\contentsline {subsubsection}{\numberline {5.6.4.8}kkt\_solve()}{52}{subsubsection.5.6.4.8}%
+\contentsline {subsubsection}{\numberline {5.6.4.9}predictor\_corrector()}{53}{subsubsection.5.6.4.9}%
+\contentsline {subsubsection}{\numberline {5.6.4.10}set\_nt\_block\_zeros()}{53}{subsubsection.5.6.4.10}%
+\contentsline {subsubsection}{\numberline {5.6.4.11}update\_nt\_block()}{53}{subsubsection.5.6.4.11}%
+\contentsline {section}{\numberline {5.7}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/linalg.h File Reference}{53}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Detailed Description}{56}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}LICENSE}{56}{subsection.5.7.2}%
+\contentsline {subsection}{\numberline {5.7.3}DESCRIPTION}{56}{subsection.5.7.3}%
+\contentsline {subsection}{\numberline {5.7.4}Function Documentation}{56}{subsection.5.7.4}%
+\contentsline {subsubsection}{\numberline {5.7.4.1}axpy()}{56}{subsubsection.5.7.4.1}%
+\contentsline {subsubsection}{\numberline {5.7.4.2}col\_inf\_norm\_USymm()}{56}{subsubsection.5.7.4.2}%
+\contentsline {subsubsection}{\numberline {5.7.4.3}construct\_identity()}{57}{subsubsection.5.7.4.3}%
+\contentsline {subsubsection}{\numberline {5.7.4.4}copy\_and\_negate\_arrayf()}{57}{subsubsection.5.7.4.4}%
+\contentsline {subsubsection}{\numberline {5.7.4.5}copy\_arrayf()}{57}{subsubsection.5.7.4.5}%
+\contentsline {subsubsection}{\numberline {5.7.4.6}copy\_arrayi()}{58}{subsubsection.5.7.4.6}%
+\contentsline {subsubsection}{\numberline {5.7.4.7}create\_transposed\_matrix()}{58}{subsubsection.5.7.4.7}%
+\contentsline {subsubsection}{\numberline {5.7.4.8}csc\_symperm()}{58}{subsubsection.5.7.4.8}%
+\contentsline {subsubsection}{\numberline {5.7.4.9}cumsum()}{59}{subsubsection.5.7.4.9}%
+\contentsline {subsubsection}{\numberline {5.7.4.10}dot()}{59}{subsubsection.5.7.4.10}%
+\contentsline {subsubsection}{\numberline {5.7.4.11}ew\_product()}{60}{subsubsection.5.7.4.11}%
+\contentsline {subsubsection}{\numberline {5.7.4.12}free\_qoco\_csc\_matrix()}{60}{subsubsection.5.7.4.12}%
+\contentsline {subsubsection}{\numberline {5.7.4.13}inf\_norm()}{60}{subsubsection.5.7.4.13}%
+\contentsline {subsubsection}{\numberline {5.7.4.14}invert\_permutation()}{61}{subsubsection.5.7.4.14}%
+\contentsline {subsubsection}{\numberline {5.7.4.15}max\_arrayi()}{61}{subsubsection.5.7.4.15}%
+\contentsline {subsubsection}{\numberline {5.7.4.16}new\_qoco\_csc\_matrix()}{62}{subsubsection.5.7.4.16}%
+\contentsline {subsubsection}{\numberline {5.7.4.17}regularize()}{62}{subsubsection.5.7.4.17}%
+\contentsline {subsubsection}{\numberline {5.7.4.18}row\_col\_scale()}{62}{subsubsection.5.7.4.18}%
+\contentsline {subsubsection}{\numberline {5.7.4.19}row\_inf\_norm()}{63}{subsubsection.5.7.4.19}%
+\contentsline {subsubsection}{\numberline {5.7.4.20}scale\_arrayf()}{63}{subsubsection.5.7.4.20}%
+\contentsline {subsubsection}{\numberline {5.7.4.21}SpMtv()}{63}{subsubsection.5.7.4.21}%
+\contentsline {subsubsection}{\numberline {5.7.4.22}SpMv()}{65}{subsubsection.5.7.4.22}%
+\contentsline {subsubsection}{\numberline {5.7.4.23}unregularize()}{65}{subsubsection.5.7.4.23}%
+\contentsline {subsubsection}{\numberline {5.7.4.24}USpMv()}{65}{subsubsection.5.7.4.24}%
+\contentsline {section}{\numberline {5.8}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/qoco.h File Reference}{66}{section.5.8}%
+\contentsline {subsection}{\numberline {5.8.1}Detailed Description}{66}{subsection.5.8.1}%
+\contentsline {subsection}{\numberline {5.8.2}LICENSE}{66}{subsection.5.8.2}%
+\contentsline {subsection}{\numberline {5.8.3}DESCRIPTION}{66}{subsection.5.8.3}%
+\contentsline {section}{\numberline {5.9}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/qoco\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}api.h File Reference}{67}{section.5.9}%
+\contentsline {subsection}{\numberline {5.9.1}Detailed Description}{68}{subsection.5.9.1}%
+\contentsline {subsection}{\numberline {5.9.2}LICENSE}{68}{subsection.5.9.2}%
+\contentsline {subsection}{\numberline {5.9.3}DESCRIPTION}{68}{subsection.5.9.3}%
+\contentsline {subsection}{\numberline {5.9.4}Function Documentation}{68}{subsection.5.9.4}%
+\contentsline {subsubsection}{\numberline {5.9.4.1}qoco\_cleanup()}{68}{subsubsection.5.9.4.1}%
+\contentsline {subsubsection}{\numberline {5.9.4.2}qoco\_set\_csc()}{69}{subsubsection.5.9.4.2}%
+\contentsline {subsubsection}{\numberline {5.9.4.3}qoco\_setup()}{69}{subsubsection.5.9.4.3}%
+\contentsline {subsubsection}{\numberline {5.9.4.4}qoco\_solve()}{70}{subsubsection.5.9.4.4}%
+\contentsline {subsubsection}{\numberline {5.9.4.5}qoco\_update\_settings()}{70}{subsubsection.5.9.4.5}%
+\contentsline {subsubsection}{\numberline {5.9.4.6}set\_default\_settings()}{71}{subsubsection.5.9.4.6}%
+\contentsline {subsubsection}{\numberline {5.9.4.7}update\_matrix\_data()}{71}{subsubsection.5.9.4.7}%
+\contentsline {subsubsection}{\numberline {5.9.4.8}update\_vector\_data()}{71}{subsubsection.5.9.4.8}%
+\contentsline {section}{\numberline {5.10}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/qoco\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}error.h File Reference}{72}{section.5.10}%
+\contentsline {subsection}{\numberline {5.10.1}Function Documentation}{73}{subsection.5.10.1}%
+\contentsline {subsubsection}{\numberline {5.10.1.1}qoco\_error()}{73}{subsubsection.5.10.1.1}%
+\contentsline {section}{\numberline {5.11}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/structs.h File Reference}{73}{section.5.11}%
+\contentsline {subsection}{\numberline {5.11.1}Detailed Description}{75}{subsection.5.11.1}%
+\contentsline {subsection}{\numberline {5.11.2}LICENSE}{75}{subsection.5.11.2}%
+\contentsline {subsection}{\numberline {5.11.3}DESCRIPTION}{75}{subsection.5.11.3}%
+\contentsline {section}{\numberline {5.12}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/timer.h File Reference}{75}{section.5.12}%
+\contentsline {subsection}{\numberline {5.12.1}Detailed Description}{76}{subsection.5.12.1}%
+\contentsline {subsection}{\numberline {5.12.2}LICENSE}{76}{subsection.5.12.2}%
+\contentsline {subsection}{\numberline {5.12.3}DESCRIPTION}{76}{subsection.5.12.3}%
+\contentsline {subsection}{\numberline {5.12.4}Function Documentation}{76}{subsection.5.12.4}%
+\contentsline {subsubsection}{\numberline {5.12.4.1}get\_elapsed\_time\_sec()}{76}{subsubsection.5.12.4.1}%
+\contentsline {subsubsection}{\numberline {5.12.4.2}start\_timer()}{77}{subsubsection.5.12.4.2}%
+\contentsline {subsubsection}{\numberline {5.12.4.3}stop\_timer()}{77}{subsubsection.5.12.4.3}%
+\contentsline {section}{\numberline {5.13}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/include/utils.h File Reference}{77}{section.5.13}%
+\contentsline {subsection}{\numberline {5.13.1}Detailed Description}{79}{subsection.5.13.1}%
+\contentsline {subsection}{\numberline {5.13.2}LICENSE}{79}{subsection.5.13.2}%
+\contentsline {subsection}{\numberline {5.13.3}DESCRIPTION}{79}{subsection.5.13.3}%
+\contentsline {subsection}{\numberline {5.13.4}Function Documentation}{79}{subsection.5.13.4}%
+\contentsline {subsubsection}{\numberline {5.13.4.1}check\_stopping()}{79}{subsubsection.5.13.4.1}%
+\contentsline {subsubsection}{\numberline {5.13.4.2}copy\_settings()}{80}{subsubsection.5.13.4.2}%
+\contentsline {subsubsection}{\numberline {5.13.4.3}copy\_solution()}{80}{subsubsection.5.13.4.3}%
+\contentsline {subsubsection}{\numberline {5.13.4.4}log\_iter()}{80}{subsubsection.5.13.4.4}%
+\contentsline {subsubsection}{\numberline {5.13.4.5}print\_arrayf()}{81}{subsubsection.5.13.4.5}%
+\contentsline {subsubsection}{\numberline {5.13.4.6}print\_arrayi()}{81}{subsubsection.5.13.4.6}%
+\contentsline {subsubsection}{\numberline {5.13.4.7}print\_footer()}{81}{subsubsection.5.13.4.7}%
+\contentsline {subsubsection}{\numberline {5.13.4.8}print\_header()}{81}{subsubsection.5.13.4.8}%
+\contentsline {subsubsection}{\numberline {5.13.4.9}print\_qoco\_csc\_matrix()}{82}{subsubsection.5.13.4.9}%
+\contentsline {section}{\numberline {5.14}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/src/cone.c File Reference}{82}{section.5.14}%
+\contentsline {subsection}{\numberline {5.14.1}Detailed Description}{84}{subsection.5.14.1}%
+\contentsline {subsection}{\numberline {5.14.2}LICENSE}{84}{subsection.5.14.2}%
+\contentsline {subsection}{\numberline {5.14.3}Function Documentation}{84}{subsection.5.14.3}%
+\contentsline {subsubsection}{\numberline {5.14.3.1}bisection\_search()}{84}{subsubsection.5.14.3.1}%
+\contentsline {subsubsection}{\numberline {5.14.3.2}bring2cone()}{85}{subsubsection.5.14.3.2}%
+\contentsline {subsubsection}{\numberline {5.14.3.3}compute\_centering()}{85}{subsubsection.5.14.3.3}%
+\contentsline {subsubsection}{\numberline {5.14.3.4}compute\_mu()}{85}{subsubsection.5.14.3.4}%
+\contentsline {subsubsection}{\numberline {5.14.3.5}compute\_nt\_scaling()}{86}{subsubsection.5.14.3.5}%
+\contentsline {subsubsection}{\numberline {5.14.3.6}cone\_division()}{86}{subsubsection.5.14.3.6}%
+\contentsline {subsubsection}{\numberline {5.14.3.7}cone\_product()}{86}{subsubsection.5.14.3.7}%
+\contentsline {subsubsection}{\numberline {5.14.3.8}cone\_residual()}{87}{subsubsection.5.14.3.8}%
+\contentsline {subsubsection}{\numberline {5.14.3.9}exact\_linesearch()}{87}{subsubsection.5.14.3.9}%
+\contentsline {subsubsection}{\numberline {5.14.3.10}linesearch()}{88}{subsubsection.5.14.3.10}%
+\contentsline {subsubsection}{\numberline {5.14.3.11}nt\_multiply()}{88}{subsubsection.5.14.3.11}%
+\contentsline {subsubsection}{\numberline {5.14.3.12}soc\_division()}{89}{subsubsection.5.14.3.12}%
+\contentsline {subsubsection}{\numberline {5.14.3.13}soc\_product()}{89}{subsubsection.5.14.3.13}%
+\contentsline {subsubsection}{\numberline {5.14.3.14}soc\_residual()}{90}{subsubsection.5.14.3.14}%
+\contentsline {subsubsection}{\numberline {5.14.3.15}soc\_residual2()}{90}{subsubsection.5.14.3.15}%
+\contentsline {section}{\numberline {5.15}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/src/equilibration.c File Reference}{90}{section.5.15}%
+\contentsline {subsection}{\numberline {5.15.1}Function Documentation}{91}{subsection.5.15.1}%
+\contentsline {subsubsection}{\numberline {5.15.1.1}ruiz\_equilibration()}{92}{subsubsection.5.15.1.1}%
+\contentsline {subsubsection}{\numberline {5.15.1.2}unscale\_variables()}{92}{subsubsection.5.15.1.2}%
+\contentsline {section}{\numberline {5.16}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/src/input\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}validation.c File Reference}{92}{section.5.16}%
+\contentsline {subsection}{\numberline {5.16.1}Detailed Description}{93}{subsection.5.16.1}%
+\contentsline {subsection}{\numberline {5.16.2}LICENSE}{93}{subsection.5.16.2}%
+\contentsline {subsection}{\numberline {5.16.3}Function Documentation}{94}{subsection.5.16.3}%
+\contentsline {subsubsection}{\numberline {5.16.3.1}qoco\_validate\_data()}{94}{subsubsection.5.16.3.1}%
+\contentsline {subsubsection}{\numberline {5.16.3.2}qoco\_validate\_settings()}{94}{subsubsection.5.16.3.2}%
+\contentsline {section}{\numberline {5.17}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/src/kkt.c File Reference}{95}{section.5.17}%
+\contentsline {subsection}{\numberline {5.17.1}Detailed Description}{96}{subsection.5.17.1}%
+\contentsline {subsection}{\numberline {5.17.2}LICENSE}{96}{subsection.5.17.2}%
+\contentsline {subsection}{\numberline {5.17.3}Function Documentation}{96}{subsection.5.17.3}%
+\contentsline {subsubsection}{\numberline {5.17.3.1}allocate\_kkt()}{96}{subsubsection.5.17.3.1}%
+\contentsline {subsubsection}{\numberline {5.17.3.2}compute\_kkt\_residual()}{96}{subsubsection.5.17.3.2}%
+\contentsline {subsubsection}{\numberline {5.17.3.3}construct\_kkt()}{97}{subsubsection.5.17.3.3}%
+\contentsline {subsubsection}{\numberline {5.17.3.4}construct\_kkt\_aff\_rhs()}{97}{subsubsection.5.17.3.4}%
+\contentsline {subsubsection}{\numberline {5.17.3.5}construct\_kkt\_comb\_rhs()}{98}{subsubsection.5.17.3.5}%
+\contentsline {subsubsection}{\numberline {5.17.3.6}initialize\_ipm()}{98}{subsubsection.5.17.3.6}%
+\contentsline {subsubsection}{\numberline {5.17.3.7}kkt\_multiply()}{98}{subsubsection.5.17.3.7}%
+\contentsline {subsubsection}{\numberline {5.17.3.8}kkt\_solve()}{99}{subsubsection.5.17.3.8}%
+\contentsline {subsubsection}{\numberline {5.17.3.9}predictor\_corrector()}{99}{subsubsection.5.17.3.9}%
+\contentsline {subsubsection}{\numberline {5.17.3.10}set\_nt\_block\_zeros()}{99}{subsubsection.5.17.3.10}%
+\contentsline {subsubsection}{\numberline {5.17.3.11}update\_nt\_block()}{99}{subsubsection.5.17.3.11}%
+\contentsline {section}{\numberline {5.18}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/src/linalg.c File Reference}{100}{section.5.18}%
+\contentsline {subsection}{\numberline {5.18.1}Detailed Description}{102}{subsection.5.18.1}%
+\contentsline {subsection}{\numberline {5.18.2}LICENSE}{102}{subsection.5.18.2}%
+\contentsline {subsection}{\numberline {5.18.3}Function Documentation}{102}{subsection.5.18.3}%
+\contentsline {subsubsection}{\numberline {5.18.3.1}axpy()}{102}{subsubsection.5.18.3.1}%
+\contentsline {subsubsection}{\numberline {5.18.3.2}col\_inf\_norm\_USymm()}{102}{subsubsection.5.18.3.2}%
+\contentsline {subsubsection}{\numberline {5.18.3.3}construct\_identity()}{103}{subsubsection.5.18.3.3}%
+\contentsline {subsubsection}{\numberline {5.18.3.4}copy\_and\_negate\_arrayf()}{103}{subsubsection.5.18.3.4}%
+\contentsline {subsubsection}{\numberline {5.18.3.5}copy\_arrayf()}{103}{subsubsection.5.18.3.5}%
+\contentsline {subsubsection}{\numberline {5.18.3.6}copy\_arrayi()}{104}{subsubsection.5.18.3.6}%
+\contentsline {subsubsection}{\numberline {5.18.3.7}create\_transposed\_matrix()}{104}{subsubsection.5.18.3.7}%
+\contentsline {subsubsection}{\numberline {5.18.3.8}csc\_symperm()}{104}{subsubsection.5.18.3.8}%
+\contentsline {subsubsection}{\numberline {5.18.3.9}cumsum()}{105}{subsubsection.5.18.3.9}%
+\contentsline {subsubsection}{\numberline {5.18.3.10}dot()}{105}{subsubsection.5.18.3.10}%
+\contentsline {subsubsection}{\numberline {5.18.3.11}ew\_product()}{106}{subsubsection.5.18.3.11}%
+\contentsline {subsubsection}{\numberline {5.18.3.12}free\_qoco\_csc\_matrix()}{106}{subsubsection.5.18.3.12}%
+\contentsline {subsubsection}{\numberline {5.18.3.13}inf\_norm()}{106}{subsubsection.5.18.3.13}%
+\contentsline {subsubsection}{\numberline {5.18.3.14}invert\_permutation()}{107}{subsubsection.5.18.3.14}%
+\contentsline {subsubsection}{\numberline {5.18.3.15}max\_arrayi()}{107}{subsubsection.5.18.3.15}%
+\contentsline {subsubsection}{\numberline {5.18.3.16}new\_qoco\_csc\_matrix()}{107}{subsubsection.5.18.3.16}%
+\contentsline {subsubsection}{\numberline {5.18.3.17}regularize()}{108}{subsubsection.5.18.3.17}%
+\contentsline {subsubsection}{\numberline {5.18.3.18}row\_col\_scale()}{108}{subsubsection.5.18.3.18}%
+\contentsline {subsubsection}{\numberline {5.18.3.19}row\_inf\_norm()}{108}{subsubsection.5.18.3.19}%
+\contentsline {subsubsection}{\numberline {5.18.3.20}scale\_arrayf()}{109}{subsubsection.5.18.3.20}%
+\contentsline {subsubsection}{\numberline {5.18.3.21}SpMtv()}{109}{subsubsection.5.18.3.21}%
+\contentsline {subsubsection}{\numberline {5.18.3.22}SpMv()}{109}{subsubsection.5.18.3.22}%
+\contentsline {subsubsection}{\numberline {5.18.3.23}unregularize()}{110}{subsubsection.5.18.3.23}%
+\contentsline {subsubsection}{\numberline {5.18.3.24}USpMv()}{110}{subsubsection.5.18.3.24}%
+\contentsline {section}{\numberline {5.19}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/src/qoco\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}api.c File Reference}{110}{section.5.19}%
+\contentsline {subsection}{\numberline {5.19.1}Detailed Description}{111}{subsection.5.19.1}%
+\contentsline {subsection}{\numberline {5.19.2}LICENSE}{112}{subsection.5.19.2}%
+\contentsline {subsection}{\numberline {5.19.3}Function Documentation}{112}{subsection.5.19.3}%
+\contentsline {subsubsection}{\numberline {5.19.3.1}qoco\_cleanup()}{112}{subsubsection.5.19.3.1}%
+\contentsline {subsubsection}{\numberline {5.19.3.2}qoco\_set\_csc()}{112}{subsubsection.5.19.3.2}%
+\contentsline {subsubsection}{\numberline {5.19.3.3}qoco\_setup()}{113}{subsubsection.5.19.3.3}%
+\contentsline {subsubsection}{\numberline {5.19.3.4}qoco\_solve()}{113}{subsubsection.5.19.3.4}%
+\contentsline {subsubsection}{\numberline {5.19.3.5}qoco\_update\_settings()}{114}{subsubsection.5.19.3.5}%
+\contentsline {subsubsection}{\numberline {5.19.3.6}set\_default\_settings()}{114}{subsubsection.5.19.3.6}%
+\contentsline {subsubsection}{\numberline {5.19.3.7}update\_matrix\_data()}{114}{subsubsection.5.19.3.7}%
+\contentsline {subsubsection}{\numberline {5.19.3.8}update\_vector\_data()}{115}{subsubsection.5.19.3.8}%
+\contentsline {section}{\numberline {5.20}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/src/qoco\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}error.c File Reference}{115}{section.5.20}%
+\contentsline {subsection}{\numberline {5.20.1}Function Documentation}{116}{subsection.5.20.1}%
+\contentsline {subsubsection}{\numberline {5.20.1.1}qoco\_error()}{116}{subsubsection.5.20.1.1}%
+\contentsline {section}{\numberline {5.21}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/src/timer\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}linux.c File Reference}{117}{section.5.21}%
+\contentsline {subsection}{\numberline {5.21.1}Function Documentation}{117}{subsection.5.21.1}%
+\contentsline {subsubsection}{\numberline {5.21.1.1}get\_elapsed\_time\_sec()}{117}{subsubsection.5.21.1.1}%
+\contentsline {subsubsection}{\numberline {5.21.1.2}start\_timer()}{118}{subsubsection.5.21.1.2}%
+\contentsline {subsubsection}{\numberline {5.21.1.3}stop\_timer()}{118}{subsubsection.5.21.1.3}%
+\contentsline {section}{\numberline {5.22}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/src/timer\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}macos.c File Reference}{118}{section.5.22}%
+\contentsline {subsection}{\numberline {5.22.1}Function Documentation}{119}{subsection.5.22.1}%
+\contentsline {subsubsection}{\numberline {5.22.1.1}get\_elapsed\_time\_sec()}{119}{subsubsection.5.22.1.1}%
+\contentsline {subsubsection}{\numberline {5.22.1.2}start\_timer()}{120}{subsubsection.5.22.1.2}%
+\contentsline {subsubsection}{\numberline {5.22.1.3}stop\_timer()}{120}{subsubsection.5.22.1.3}%
+\contentsline {section}{\numberline {5.23}/home/govind/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Desktop/git/qoco/src/utils.c File Reference}{120}{section.5.23}%
+\contentsline {subsection}{\numberline {5.23.1}Detailed Description}{122}{subsection.5.23.1}%
+\contentsline {subsection}{\numberline {5.23.2}LICENSE}{122}{subsection.5.23.2}%
+\contentsline {subsection}{\numberline {5.23.3}Function Documentation}{122}{subsection.5.23.3}%
+\contentsline {subsubsection}{\numberline {5.23.3.1}check\_stopping()}{122}{subsubsection.5.23.3.1}%
+\contentsline {subsubsection}{\numberline {5.23.3.2}copy\_settings()}{122}{subsubsection.5.23.3.2}%
+\contentsline {subsubsection}{\numberline {5.23.3.3}copy\_solution()}{123}{subsubsection.5.23.3.3}%
+\contentsline {subsubsection}{\numberline {5.23.3.4}log\_iter()}{123}{subsubsection.5.23.3.4}%
+\contentsline {subsubsection}{\numberline {5.23.3.5}print\_arrayf()}{123}{subsubsection.5.23.3.5}%
+\contentsline {subsubsection}{\numberline {5.23.3.6}print\_arrayi()}{124}{subsubsection.5.23.3.6}%
+\contentsline {subsubsection}{\numberline {5.23.3.7}print\_footer()}{124}{subsubsection.5.23.3.7}%
+\contentsline {subsubsection}{\numberline {5.23.3.8}print\_header()}{124}{subsubsection.5.23.3.8}%
+\contentsline {subsubsection}{\numberline {5.23.3.9}print\_qoco\_csc\_matrix()}{124}{subsubsection.5.23.3.9}%
+\contentsline {chapter}{Index}{127}{section*.69}%

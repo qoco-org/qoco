@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structQOCOProblemData" kind="struct" language="C++" prot="public">
+    <compoundname>QOCOProblemData</compoundname>
+    <includes refid="structs_8h" local="no">structs.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structQOCOProblemData_1abdb31a4bf94ade82b694d2635456a6e6" prot="public" static="no" mutable="no">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix* QOCOProblemData::P</definition>
+        <argsstring></argsstring>
+        <name>P</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Quadratic cost term. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="52" column="17" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1a7865ab92c05a9b0d4dbf85798f33b002" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+        <definition>QOCOFloat* QOCOProblemData::c</definition>
+        <argsstring></argsstring>
+        <name>c</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Linear cost term. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="55" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1aa9cbb95a483b65f3e1155596cb3eab5d" prot="public" static="no" mutable="no">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix* QOCOProblemData::A</definition>
+        <argsstring></argsstring>
+        <name>A</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Affine equality constraint matrix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="58" column="17" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1a57cf5c3774dadfb733a2bc1e51e424e8" prot="public" static="no" mutable="no">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix* QOCOProblemData::At</definition>
+        <argsstring></argsstring>
+        <name>At</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transpose of A (used in Ruiz for fast row norm calculations of A). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="61" column="17" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1aaee73365c1f1cbe460f1bb8720c3c123" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+        <definition>QOCOFloat* QOCOProblemData::b</definition>
+        <argsstring></argsstring>
+        <name>b</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Affine equality constraint offset. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="64" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1a83d3b83ad1361869c5676fe157b5e116" prot="public" static="no" mutable="no">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix* QOCOProblemData::G</definition>
+        <argsstring></argsstring>
+        <name>G</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Conic constraint matrix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="67" column="17" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1a2eec01f8d201d7f7bf40520a73253ba3" prot="public" static="no" mutable="no">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix* QOCOProblemData::Gt</definition>
+        <argsstring></argsstring>
+        <name>Gt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transpose of G (used in Ruiz for fast row norm calculations of G). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="70" column="17" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1ac5b72e0466328072d1a45b0cbe155967" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+        <definition>QOCOFloat* QOCOProblemData::h</definition>
+        <argsstring></argsstring>
+        <name>h</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Conic constraint offset. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="73" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1a9d6633850372ce5c5e852aca470138ae" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOProblemData::l</definition>
+        <argsstring></argsstring>
+        <name>l</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dimension of non-negative orthant in cone C. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="76" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1a980efff44ee3906ba6d866df9067e9d6" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOProblemData::nsoc</definition>
+        <argsstring></argsstring>
+        <name>nsoc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of second-order cones in C </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="79" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1a9585eed3044567a25b6a3d8608a298bc" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+        <definition>QOCOInt* QOCOProblemData::q</definition>
+        <argsstring></argsstring>
+        <name>q</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dimension of each second-order cone (length of nsoc) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="82" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOProblemData::n</definition>
+        <argsstring></argsstring>
+        <name>n</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of primal variables. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="85" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOProblemData::m</definition>
+        <argsstring></argsstring>
+        <name>m</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of conic constraints. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="88" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt QOCOProblemData::p</definition>
+        <argsstring></argsstring>
+        <name>p</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of affine equality constraints. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="91" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>SOCP problem data. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>QOCOProblemData</label>
+        <link refid="structQOCOProblemData"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>A</edgelabel>
+          <edgelabel>At</edgelabel>
+          <edgelabel>G</edgelabel>
+          <edgelabel>Gt</edgelabel>
+          <edgelabel>P</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>QOCOCscMatrix</label>
+        <link refid="structQOCOCscMatrix"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="50" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="50" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structQOCOProblemData_1aa9cbb95a483b65f3e1155596cb3eab5d" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>A</name></member>
+      <member refid="structQOCOProblemData_1a57cf5c3774dadfb733a2bc1e51e424e8" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>At</name></member>
+      <member refid="structQOCOProblemData_1aaee73365c1f1cbe460f1bb8720c3c123" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>b</name></member>
+      <member refid="structQOCOProblemData_1a7865ab92c05a9b0d4dbf85798f33b002" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>c</name></member>
+      <member refid="structQOCOProblemData_1a83d3b83ad1361869c5676fe157b5e116" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>G</name></member>
+      <member refid="structQOCOProblemData_1a2eec01f8d201d7f7bf40520a73253ba3" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>Gt</name></member>
+      <member refid="structQOCOProblemData_1ac5b72e0466328072d1a45b0cbe155967" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>h</name></member>
+      <member refid="structQOCOProblemData_1a9d6633850372ce5c5e852aca470138ae" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>l</name></member>
+      <member refid="structQOCOProblemData_1a05c227cb935c10b07ddb8c2a1fd56bdc" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>m</name></member>
+      <member refid="structQOCOProblemData_1aa0cf719a1ff80e6f1851e03a04ac454d" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>n</name></member>
+      <member refid="structQOCOProblemData_1a980efff44ee3906ba6d866df9067e9d6" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>nsoc</name></member>
+      <member refid="structQOCOProblemData_1abdb31a4bf94ade82b694d2635456a6e6" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>P</name></member>
+      <member refid="structQOCOProblemData_1ac8ab25686747edb154cab71cacb08517" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>p</name></member>
+      <member refid="structQOCOProblemData_1a9585eed3044567a25b6a3d8608a298bc" prot="public" virt="non-virtual"><scope>QOCOProblemData</scope><name>q</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

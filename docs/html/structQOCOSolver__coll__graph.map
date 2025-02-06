@@ -1,0 +1,9 @@
+<map id="QOCOSolver" name="QOCOSolver">
+<area shape="rect" id="node1" title="QOCO Solver struct. Contains all information about the state of the solver." alt="" coords="246,332,349,359"/>
+<area shape="rect" id="node2" href="$structQOCOWorkspace.html" title="QOCO Workspace." alt="" coords="83,243,215,269"/>
+<area shape="rect" id="node3" href="$structQOCOProblemData.html" title="SOCP problem data." alt="" coords="5,153,152,180"/>
+<area shape="rect" id="node4" href="$structQOCOCscMatrix.html" title="Compressed sparse column format matrices." alt="" coords="85,5,211,32"/>
+<area shape="rect" id="node5" href="$structQOCOKKT.html" title="Contains all data needed for constructing and modifying KKT matrix and performing predictor&#45;corrector..." alt="" coords="177,153,263,180"/>
+<area shape="rect" id="node6" href="$structQOCOSolution.html" title=" " alt="" coords="240,243,355,269"/>
+<area shape="rect" id="node7" href="$structQOCOSettings.html" title="QOCO solver settings." alt="" coords="379,243,493,269"/>
+</map>
