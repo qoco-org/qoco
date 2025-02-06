@@ -197,11 +197,10 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat dres = inf_norm(work->xbuff, data->n);
   solver->sol->dres = dres;
 
-  // Compute duality gap.
-  QOCOFloat ctx = dot(work->data->c, work->x, work->data->n);
-  QOCOFloat bty = dot(work->data->b, work->y, work->data->p);
-  QOCOFloat htz = dot(work->data->h, work->z, work->data->m);
-  QOCOFloat gap = qoco_abs(xPx + ctx + bty + htz);
+  // Compute complementary slackness residual.
+  ew_product(work->s, work->kkt->Fruiz, work->ubuff1, data->m);
+  ew_product(work->z, work->kkt->Fruiz, work->ubuff2, data->m);
+  QOCOFloat gap = dot(work->ubuff1, work->ubuff2, data->m);
   gap *= work->kkt->kinv;
   solver->sol->gap = gap;
 
@@ -213,14 +212,12 @@ unsigned char check_stopping(QOCOSolver* solver)
 
   // Compute max{Pxinf, Atyinf, Gtzinf, cinf}.
   QOCOFloat dres_rel = qoco_max(Pxinf, Atyinf);
-  dres_rel = qoco_max(pres_rel, Gtzinf);
-  dres_rel = qoco_max(pres_rel, cinf);
+  dres_rel = qoco_max(dres_rel, Gtzinf);
+  dres_rel = qoco_max(dres_rel, cinf);
   dres_rel *= work->kkt->kinv;
 
-  // Compute max{abs(xPx), abs(ctx), abs(bty), abs(htz)}.
-  QOCOFloat gap_rel = qoco_max(qoco_abs(xPx), qoco_abs(ctx));
-  gap_rel = qoco_max(gap_rel, qoco_abs(bty));
-  gap_rel = qoco_max(gap_rel, qoco_abs(htz));
+  // Compute max{sinf, zinf}.
+  QOCOFloat gap_rel = qoco_max(sinf, zinf);
 
   // If the solver stalled (stepsize = 0) check if low tolerance stopping
   // criteria is met.
