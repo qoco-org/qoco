@@ -216,8 +216,18 @@ unsigned char check_stopping(QOCOSolver* solver)
   dres_rel = qoco_max(dres_rel, cinf);
   dres_rel *= work->kkt->kinv;
 
-  // Compute max{sinf, zinf}.
-  QOCOFloat gap_rel = qoco_max(sinf, zinf);
+  // Compute max{1, abs(pobj), abs(dobj)}.
+  QOCOFloat ctx = dot(work->data->c, work->x, work->data->n);
+  QOCOFloat bty = dot(work->data->b, work->y, work->data->p);
+  QOCOFloat htz = dot(work->data->h, work->z, work->data->m);
+  QOCOFloat pobj = 0.5 * xPx + ctx;
+  QOCOFloat dobj = -0.5 * xPx - bty - htz;
+
+  pobj = qoco_abs(pobj);
+  dobj = qoco_abs(dobj);
+
+  QOCOFloat gap_rel = qoco_max(1, pobj);
+  gap_rel = qoco_max(gap_rel, dobj);
 
   // If the solver stalled (stepsize = 0) check if low tolerance stopping
   // criteria is met.
