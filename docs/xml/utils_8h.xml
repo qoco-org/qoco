@@ -350,7 +350,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="76" column="15" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="127" bodyend="246" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="76" declcolumn="15"/>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="76" column="15" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="127" bodyend="253" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="76" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="utils_8h_1a59db88344ea8162c2ffef33781b9a735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -378,7 +378,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="83" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="248" bodyend="258" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="83" declcolumn="6"/>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="83" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="255" bodyend="265" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="83" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="utils_8h_1a5275dad2b3474f32c7efda823e983ba3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref> *</type>
@@ -408,7 +408,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="91" column="14" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="260" bodyend="276" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="91" declcolumn="14"/>
+        <location file="/home/govind/Desktop/git/qoco/include/utils.h" line="91" column="14" bodyfile="/home/govind/Desktop/git/qoco/src/utils.c" bodystart="267" bodyend="283" declfile="/home/govind/Desktop/git/qoco/include/utils.h" declline="91" declcolumn="14"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
