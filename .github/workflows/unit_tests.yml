@@ -31,10 +31,7 @@ jobs:
         os: [ubuntu-latest, macos-13]
         build_type: [Debug, Release]
         c_compiler: [clang]
-        include:
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
+        cpp_compiler: [clang++]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
