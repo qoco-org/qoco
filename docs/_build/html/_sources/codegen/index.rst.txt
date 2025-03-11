@@ -7,6 +7,8 @@ QOCOGEN is a custom code generator which takes in an SOCP problem family and gen
 
 All problems in the same problem family have identical sparsity patterns for matrices :code:`P`, :code:`A`, and :code:`G`, and have identical values for :code:`l`, :code:`m`, :code:`p`, :code:`nsoc`, and :code:`q`.
 
+The easiest way to use QOCOGEN is through CVXPYgen (see :ref:`Lossless Convexification <lcvx_example>`).
+
 Standard Form
 --------------
 QOCOGEN generates custom solvers to solve SOCPs with the same standard form that QOCO solves.

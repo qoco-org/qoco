@@ -16,7 +16,7 @@ Below is code that will generate a custom solver for the problem family defined 
     c = np.array([0, 0, 0, 1])
     G = -sparse.identity(4).tocsc()
     h = np.zeros(4)
-    A = sparse.csc_matrix([[1, 1, 0, 0], [0, 1, 1, 0]]).tocsc()
+    A = sparse.csc_matrix([[1, 1, 0, 0], [0, 1, 1, 0]])
     b = np.array([1, 1])
 
     l = 1

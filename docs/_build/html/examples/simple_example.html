@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simple Example &mdash; QOCO  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=139e30ab" />
 
@@ -22,7 +22,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="QOCOGEN" href="../codegen/index.html" />
+    <link rel="next" title="Lossless Convexification" href="lcvx.html" />
     <link rel="prev" title="Examples" href="index.html" /> 
 </head>
 
@@ -58,6 +58,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#c-c">C/C++</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="lcvx.html">Lossless Convexification</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../codegen/index.html">QOCOGEN</a></li>
@@ -111,9 +112,9 @@
 <p>where <span class="math notranslate nohighlight">\(\mathcal{C} = \mathbb{R} \times \mathcal{Q}^3\)</span>, so <code class="code docutils literal notranslate"><span class="pre">l</span> <span class="pre">=</span> <span class="pre">1</span></code>, <code class="code docutils literal notranslate"><span class="pre">nsoc</span> <span class="pre">=</span> <span class="pre">1</span></code>, and <code class="code docutils literal notranslate"><span class="pre">q</span> <span class="pre">=</span> <span class="pre">[3]</span></code>.</p>
 <section id="python">
 <h2>Python<a class="headerlink" href="#python" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qoco</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">sparse</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qoco</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">sparse</span>
 
 <span class="c1"># Define problem data</span>
 <span class="n">P</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">diags</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
@@ -248,7 +249,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../codegen/index.html" class="btn btn-neutral float-right" title="QOCOGEN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="lcvx.html" class="btn btn-neutral float-right" title="Lossless Convexification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
