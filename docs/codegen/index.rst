@@ -1,6 +1,6 @@
 .. _qocogen:
 
-QOCOGEN
+Custom Solver Generation
 ========================
 
 QOCOGEN is a custom code generator which takes in an SOCP problem family and generates a customized C solver (called qoco_custom) for this problem family which implements the same algorithm as QOCO. This customized solver is library-free, only uses static memory allocation, and can be a few times faster than QOCO.
