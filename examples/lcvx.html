@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lossless Convexification &mdash; QOCO  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=139e30ab" />
+
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="QOCOGEN" href="../codegen/index.html" />
+    <link rel="prev" title="Simple Example" href="simple_example.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            QOCO
+              <img src="../_static/qoco-logo-no-box.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Solver Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parsers/index.html">Parsers</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simple_example.html">Simple Example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Lossless Convexification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cvxpy-cvxpygen">CVXPY/CVXPYgen</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../codegen/index.html">QOCOGEN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing/index.html">Citing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QOCO</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Examples</a></li>
+      <li class="breadcrumb-item active">Lossless Convexification</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/lcvx.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lossless-convexification">
+<span id="lcvx-example"></span><h1>Lossless Convexification<a class="headerlink" href="#lossless-convexification" title="Link to this heading"></a></h1>
+<p>We will solve losslessly convexified powered descent guidance problem (given below) with QOCO (called through CVXPY) and qoco_custom (generated with QOCOGEN and CVXPYgen)</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{split}
+    \underset{x, z, u, \sigma}{\text{minimize}}
+    \quad &amp; -z_T  \\
+    \text{subject to}
+    \quad &amp; x_{k+1} = Ax_k + Bu_k + g \quad \forall k \in [0, T-1] \\
+    \quad &amp; z_{k+1} = z_k - \alpha \sigma_k \Delta t \quad \forall k \in [0, T-1] \\
+    \quad &amp; \|u_k\|_2 \leq \sigma_k \quad \forall k \in [0, T-1] \\
+    \quad &amp; \log(m_{\mathrm{wet}} - \alpha\rho_2 k \Delta t) \leq z_k \leq \log(m_{\mathrm{wet}} - \alpha\rho_1 k \Delta t) \quad \forall k \in [0, T-1] \\
+    \quad &amp; \mu_{1,k}\left[1-[z_k-z_{0,k}] + \frac{[z_k-z_{0,k}]^2}{2}\right] \leq \sigma_k \leq \mu_{2,k}[1-(z_k-z_{0,k})] \quad \forall k \in [0, T-1] \\
+    \quad &amp; e_3^\top u_k \geq \sigma_k \cos(\theta_{\mathrm{max}}) \quad \forall k \in [0, T-1] \\
+    \quad &amp; x_0 = x_{\mathrm{init}}, \; z_0 = \log(m_{\mathrm{wet}}), \; z_T \geq \log(m_{\mathrm{dry}})
+\end{split}\end{split}\]</div>
+<section id="cvxpy-cvxpygen">
+<h2>CVXPY/CVXPYgen<a class="headerlink" href="#cvxpy-cvxpygen" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cvxpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cvxpygen</span><span class="w"> </span><span class="kn">import</span> <span class="n">cpg</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">tspan</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">tspan</span> <span class="o">/</span> <span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="mf">9.807</span>
+<span class="n">tvc_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">45.0</span><span class="p">)</span>
+<span class="n">rho1</span> <span class="o">=</span> <span class="mf">100.0</span>
+<span class="n">rho2</span> <span class="o">=</span> <span class="mf">500.0</span>
+<span class="n">m_dry</span> <span class="o">=</span> <span class="mf">25.0</span>
+<span class="n">m_fuel</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="n">Isp</span> <span class="o">=</span> <span class="mf">100.0</span>
+
+<span class="n">g0</span> <span class="o">=</span> <span class="mf">9.807</span>
+<span class="n">m0</span> <span class="o">=</span> <span class="n">m_dry</span> <span class="o">+</span> <span class="n">m_fuel</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">Isp</span> <span class="o">*</span> <span class="n">g0</span><span class="p">)</span>
+<span class="n">nx</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">nu</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">dt</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">dt</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">dt</span><span class="p">],</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">g</span> <span class="o">*</span> <span class="n">dt</span><span class="p">])</span>
+<span class="n">xT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nx</span><span class="p">))</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Variable</span><span class="p">((</span><span class="n">nx</span><span class="p">,</span> <span class="n">T</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">T</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Variable</span><span class="p">((</span><span class="n">nu</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+
+<span class="c1"># Objective</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="o">-</span><span class="n">z</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+
+<span class="c1"># IC and TC</span>
+<span class="n">con</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">x0</span><span class="p">]</span>
+<span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span><span class="p">[:,</span> <span class="n">T</span><span class="p">]</span> <span class="o">==</span> <span class="n">xT</span><span class="p">]</span>
+<span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">m0</span><span class="p">)]</span>
+<span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">m_dry</span><span class="p">)]</span>
+
+<span class="c1"># Dynamics</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span><span class="p">[:,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">B</span> <span class="o">@</span> <span class="n">u</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">G</span><span class="p">]</span>
+    <span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">z</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span><span class="p">]</span>
+
+<span class="c1"># State and Input Constraints</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">z0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">m0</span> <span class="o">-</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">rho2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">dt</span><span class="p">))</span>
+    <span class="n">mu1</span> <span class="o">=</span> <span class="n">rho1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">z0</span><span class="p">)</span>
+    <span class="n">mu2</span> <span class="o">=</span> <span class="n">rho2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">z0</span><span class="p">)</span>
+    <span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">cp</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">u</span><span class="p">[:,</span> <span class="n">k</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+    <span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">mu1</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">z0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">z0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+    <span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">mu2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">z0</span><span class="p">))]</span>
+    <span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">m0</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">rho2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">z</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+    <span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">m0</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">rho1</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)]</span>
+    <span class="n">con</span> <span class="o">+=</span> <span class="p">[</span><span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">tvc_max</span><span class="p">)]</span>
+
+<span class="n">prob</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">Minimize</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span> <span class="n">con</span><span class="p">)</span>
+
+<span class="c1"># Set initial condition</span>
+<span class="n">x0</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+<span class="c1"># Generate code with CVXPYgen/QOCOGEN</span>
+<span class="n">cpg</span><span class="o">.</span><span class="n">generate_code</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">code_dir</span><span class="o">=</span><span class="s1">&#39;lcvx&#39;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;QOCO&#39;</span><span class="p">)</span>
+
+<span class="c1"># Solve problem with CVXPY/QOCO</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;QOCO&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Throwaway solve to parse the problem</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;QOCO&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;\QOCO</span><span class="se">\n</span><span class="s1">Solve time: </span><span class="si">%.3f</span><span class="s1"> ms</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="p">(</span><span class="n">t1</span><span class="o">-</span><span class="n">t0</span><span class="p">)))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Objective function value: </span><span class="si">%.6f</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="c1"># Solve problem with CVXPYgen/qoco_custom</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;CPG&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">qoco_custom </span><span class="se">\n</span><span class="s1">Solve time: </span><span class="si">%.3f</span><span class="s1"> ms</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Objective function value: </span><span class="si">%.6f</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">val</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="simple_example.html" class="btn btn-neutral float-left" title="Simple Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../codegen/index.html" class="btn btn-neutral float-right" title="QOCOGEN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Govind M. Chari.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX', {
+          'anonymize_ip': false,
+      });
+    </script>  
+
+  <style>
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #00ff00;
+    }
+    /* Sidebar */
+    .wy-nav-side {
+      background: #4b2e83;
+    }
+  </style>
+
+
+</body>
+</html>
