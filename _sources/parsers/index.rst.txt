@@ -6,3 +6,4 @@ Parsers
    :glob:
 
    cvxpy.rst
+   cvxpygen.rst
