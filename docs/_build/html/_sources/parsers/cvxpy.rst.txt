@@ -1,9 +1,9 @@
 CVXPY
 =====
 
-QOCO can be called from `CVXPY <http://www.cvxpy.org/>`_ starting in version 1.7.0. To use QOCO with CVXPY before version 1.7.0 of CVXPY is officially released, you must `build CVXPY from source <https://www.cvxpy.org/install/index.html>`_.
+QOCO can be called from `CVXPY <http://www.cvxpy.org/>`_ from version 1.6.4 onwards.
 
-After :ref:`installing QOCO <python_installation>` and defining your problem problem in CVXPY, QOCO can be called as follows
+After :ref:`installing QOCO <python_installation>` and defining your problem in CVXPY, QOCO can be called as follows
 
 .. code:: python
 
