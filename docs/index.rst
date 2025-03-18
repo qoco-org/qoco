@@ -62,14 +62,23 @@ QOCO is an adapted implementation of Lieven Vandenberghe's `coneqp <https://www.
 
 Thank you to `Srinidhi Chari <https://www.linkedin.com/in/srinidhi-chari>`_ for designing the QOCO logo.
 
+Benchmarks
+--------------
+Benchmarks against other solvers can be found `here <https://github.com/qoco-org/qoco_benchmarks>`_
+
 Citing
 --------------
-If you find QOCO useful please :ref:`Cite the related paper <citing>` and star the repository on `GitHub <https://github.com/qoco-org/qoco>`_
+If you find QOCO useful please star the repository on `GitHub <https://github.com/qoco-org/qoco>`_ and cite the paper as follows
 
+.. code:: latex
 
-.. Benchmarks
-.. --------------
-.. Benchmarks against other solvers can be found `here https://github.com/qoco-org/qoco_benchmarks>`_
+  @article{chari2025qoco,
+    author      = {Chari, Govind M and A{\c{c}}{\i}kme{\c{s}}e, Beh{\c{c}}et},
+    title       = {Custom Solver Generation for Quadratic Objective Second-Order Cone Programs},
+    journal     = {In Review},
+    year        = {2025},
+    url         = {https://arxiv.org/abs/2503.12658},
+  }
  
 .. toctree::
    :hidden:
@@ -82,4 +91,3 @@ If you find QOCO useful please :ref:`Cite the related paper <citing>` and star t
    examples/index
    codegen/index
    contributing/index
-   citing/index
