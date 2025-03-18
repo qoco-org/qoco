@@ -42,13 +42,17 @@ Features
 .. glossary::
 
 * **Robust**: Given that QOCO implements a primal-dual interior point method, it is very robust to ill-conditioning in problem data.
-* **Fast**: Faster than most commercial and open-source second-order cone solvers (benchmarks coming soon!).
+* **Fast**: Faster and more robust than many commercial and open-source second-order cone solvers.
 * **Easy to use**: Can be called from C, C++, Python and with parsers such as CVXPY making it easy to use.
 * **Free and open source**: Distributed under the `BSD 3-Clause license <https://opensource.org/license/bsd-3-Clause>`_
 * **Embeddable**: Written in C, so it can be easily run on any embedded system.
 * **Library-free**: Does not require any external libraries.
 * **Tuning-free**: Does not require any hyperparameter tuning to achieve good performance.
-* **Code Generation**: :ref:`QOCOGEN <qocogen>` is a code-generator which generates extremely fast, library-free custom solvers for second-order cone programs.
+* **Code Generation**: :ref:`QOCOGEN <qocogen>` is a custom solver generator which generates extremely fast, library-free custom solvers for second-order cone programs.
+
+Benchmarks
+--------------
+Benchmarks against other solvers can be found `here <https://github.com/qoco-org/qoco_benchmarks>`_.
 
 Credits
 --------
@@ -57,14 +61,10 @@ The main developer of QOCO is `Govind Chari <https://govindchari.com/>`_, who is
 QOCO is an adapted implementation of Lieven Vandenberghe's `coneqp <https://www.seas.ucla.edu/~vandenbe/publications/coneprog.pdf>`_ solver with various numerical enhancements for stable computation of search directions and is built on the following open-source libraries:
 
 * `qdldl <https://github.com/osqp/qdldl>`_: Responsible for solving the KKT system to compute search directions.
-* `OSQP <https://osqp.org/>`_: The C and python interfaces were inspired by OSQP.
+* `OSQP <https://osqp.org/>`_: The C, Matlab, and Python interfaces were inspired by OSQP.
 * `pybind11 <https://github.com/pybind/pybind11>`_: Used to generate QOCO's python wrapper.
 
 Thank you to `Srinidhi Chari <https://www.linkedin.com/in/srinidhi-chari>`_ for designing the QOCO logo.
-
-Benchmarks
---------------
-Benchmarks against other solvers can be found `here <https://github.com/qoco-org/qoco_benchmarks>`_
 
 Citing
 --------------
