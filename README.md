@@ -38,12 +38,14 @@ File any issues or bug reports using the [issue tracker](https://github.com/qoco
 
 ## Citing
 ```
-@article{chari2025qoco,
-  author      = {Chari, Govind M and A{\c{c}}{\i}kme{\c{s}}e, Beh{\c{c}}et},
-  title       = {Custom Solver Generation for Quadratic Objective Second-Order Cone Programs},
-  journal     = {In Review},
-  year        = {2025},
-  url         = {https://arxiv.org/abs/2503.12658},
+@misc{chari2025qoco,
+  title         = {Custom Solver Generation for Quadratic Objective Second-Order Cone Programs},
+  author        = {Chari, Govind M and A{\c{c}}{\i}kme{\c{s}}e, Beh{\c{c}}et},
+  year          = {2025},
+  eprint        = {2503.12658},
+  archiveprefix = {arXiv},
+  primaryclass  = {math.OC},
+  url           = {https://arxiv.org/abs/2503.12658}
 }
 ```
 
