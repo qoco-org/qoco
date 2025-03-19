@@ -25,7 +25,11 @@ typedef int QOCOInt;
 #endif
 
 typedef double QOCOFloat;
+#ifdef IS_WINDOWS
+#define QOCOFloat_MAX DBL_MAX
+#else
 #define QOCOFloat_MAX __DBL_MAX__
+#endif
 
 #define qoco_max(a, b) (((a) > (b)) ? (a) : (b))
 #define qoco_min(a, b) (((a) < (b)) ? (a) : (b))
