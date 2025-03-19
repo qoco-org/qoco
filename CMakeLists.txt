@@ -58,7 +58,10 @@ endif()
 
 # Build qoco shared library.
 add_library(qoco SHARED)
-target_link_libraries(qoco qdldl amd m)
+target_link_libraries(qoco qdldl amd)
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    target_link_libraries(qoco m)
+endif()
 target_include_directories(qoco PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qoco PUBLIC lib/amd)
 target_sources(qoco PRIVATE src/qoco_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qoco_error.c src/equilibration.c)
@@ -68,7 +71,11 @@ target_compile_definitions(qoco PUBLIC "QOCO_VERSION_PATCH=${QOCO_VERSION_PATCH}
 
 # Build qoco static library.
 add_library(qocostatic STATIC)
-target_link_libraries(qocostatic qdldlstatic amd m)
+target_link_libraries(qocostatic qdldlstatic amd)
+target_link_libraries(qocostatic qdldlstatic amd)
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    target_link_libraries(qocostatic m)
+endif()
 target_include_directories(qocostatic PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qocostatic PUBLIC lib/amd)
 target_sources(qocostatic PRIVATE src/qoco_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qoco_error.c src/equilibration.c)
