@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 
 set(QOCO_VERSION_MAJOR "0")
 set(QOCO_VERSION_MINOR "1")
-set(QOCO_VERSION_PATCH "3")
+set(QOCO_VERSION_PATCH "4")
 set(QOCO_VERSION "${QOCO_VERSION_MAJOR}.${QOCO_VERSION_MINOR}.${QOCO_VERSION_PATCH}")
 
 # Project name
@@ -13,11 +13,25 @@ message(STATUS "Building QOCO v${QOCO_VERSION}")
 if(QOCO_BUILD_TYPE STREQUAL Debug)
     set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
     add_compile_definitions(QOCO_DEBUG)
-    set(CMAKE_C_FLAGS "-g -Wall -Wextra -fsanitize=address,undefined")
+    set(CMAKE_C_FLAGS "-g -Wall -fsanitize=address,undefined")
 else()
     set(QOCO_BUILD_TYPE Release)
-    set(CMAKE_C_FLAGS "-O3 -Wall -Wextra")
+    set(CMAKE_C_FLAGS "-O3 -Wall")
 endif()
+
+# Detect operating system.
+message(STATUS "We are on a ${CMAKE_SYSTEM_NAME} system")
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    add_compile_definitions(IS_LINUX)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    add_compile_definitions(IS_MACOS)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    add_compile_definitions(IS_WINDOWS)
+endif()
+
+# Print build type and build flags.
 message(STATUS "Build Type: " ${QOCO_BUILD_TYPE})
 message(STATUS "Build Flags: " ${CMAKE_C_FLAGS})
 
@@ -27,14 +41,6 @@ set(QDLDL_LONG OFF)
 
 # Set floating points to double precision.
 message(STATUS "Using double precision floating point")
-
-# Detect operating system.
-message(STATUS "We are on a ${CMAKE_SYSTEM_NAME} system")
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-    add_compile_definitions(IS_LINUX)
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-    add_compile_definitions(IS_MACOS)
-endif()
 
 # Add -fPIC option explicity.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -77,6 +83,9 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     target_sources(qoco PRIVATE src/timer_macos.c)
     target_sources(qocostatic PRIVATE src/timer_macos.c)
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    target_sources(qoco PRIVATE src/timer_windows.c)
+    target_sources(qocostatic PRIVATE src/timer_windows.c)
 endif()
 
 # Build qoco demo.
