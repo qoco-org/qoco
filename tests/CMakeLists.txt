@@ -20,6 +20,11 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwi
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
 endif()
 
+# Enable exception handling on Windows.
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+endif()
+
 message(STATUS "Test Build Type: " ${QOCO_BUILD_TYPE})
 message(STATUS "Test Build Flags: " ${CMAKE_CXX_FLAGS})
 

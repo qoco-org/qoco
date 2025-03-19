@@ -38,8 +38,7 @@ typedef double QOCOFloat;
 #include <math.h>
 #define qoco_sqrt(a) sqrt(a)
 
-#ifdef QOCO_DEBUG
-#ifndef IS_WINDOWS
+#if defined(QOCO_DEBUG) && !defined(IS_WINDOWS)
 #include <assert.h>
 #include <stdio.h>
 #define qoco_assert(a)                                                         \
