@@ -82,8 +82,8 @@ jobs:
       - name: Build on Mac or Ubuntu
         if: matrix.os == 'macos-13' || matrix.os == 'ubuntu-latest'
         # Build your program with the given configuration.
-        run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
+        run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --rerun-failed --output-on-failure
 
       - name: Test
         working-directory: ${{ steps.strings.outputs.build-output-dir }}
-        run: ctest --test-dir ${{ steps.strings.outputs.build-output-dir }} --verbose -C ${{ matrix.build_type }}
+        run: ctest --test-dir ${{ steps.strings.outputs.build-output-dir }} --verbose -C ${{ matrix.build_type }} --rerun-failed --output-on-failure
