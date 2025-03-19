@@ -8,14 +8,31 @@ endif()
 
 if(QOCO_BUILD_TYPE STREQUAL Debug)
     set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
-    add_compile_definitions(qoco_DEBUG)
-    set(CMAKE_CXX_FLAGS "-g -march=native -Werror -Wall -Wextra -fsanitize=address,undefined")
+    add_compile_definitions(QOCO_DEBUG)
+    set(CMAKE_CXX_FLAGS "-g -march=native -Wall")
+    if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+        set(CMAKE_CXX_FLAGS "-fsanitize=address,undefined")
+    endif()
 else()
     set(QOCO_BUILD_TYPE Release)
-    set(CMAKE_CXX_FLAGS "-O3 -march=native -Werror -Wall -Wextra")
+    set(CMAKE_CXX_FLAGS "-O3 -march=native -Wall")
 endif()
+
+# Add -Wextra if not on Windows.
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
+endif()
+
+# Enable exception handling on Windows.
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+  if(QOCO_BUILD_TYPE STREQUAL Release)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Ox")
+  endif()
+endif()
+
 message(STATUS "Test Build Type: " ${QOCO_BUILD_TYPE})
-message(STATUS "Test Build Flags: " ${CMAKE_C_FLAGS})
+message(STATUS "Test Build Flags: " ${CMAKE_CXX_FLAGS})
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("${PROJECT_SOURCE_DIR}/tests")
@@ -31,7 +48,7 @@ foreach(file ${unit_tests})
     "unit_tests/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qoco gtest_main)
+  target_link_libraries("${name}" qocostatic gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -44,7 +61,7 @@ foreach(file ${simple_tests})
     "simple_tests/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qoco gtest_main)
+  target_link_libraries("${name}" qocostatic gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -60,7 +77,7 @@ foreach(file ${ocp})
     "ocp/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qoco gtest_main)
+  target_link_libraries("${name}" qocostatic gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -72,6 +89,6 @@ foreach(file ${portfolio})
     "portfolio/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qoco gtest_main)
+  target_link_libraries("${name}" qocostatic gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()

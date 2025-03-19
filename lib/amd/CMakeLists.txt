@@ -25,6 +25,8 @@ set(
     SuiteSparse_config.h
 	)
 
+# Disable timer to build on Windows.
+add_compile_definitions(NTIMER)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_library (amd OBJECT ${amd_src} ${amd_headers})
 target_include_directories(amd PRIVATE ${PROJECT_SOURCE_DIR}/include)

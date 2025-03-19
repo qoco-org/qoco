@@ -25,7 +25,11 @@ typedef int QOCOInt;
 #endif
 
 typedef double QOCOFloat;
+#ifdef IS_WINDOWS
+#define QOCOFloat_MAX 1e308
+#else
 #define QOCOFloat_MAX __DBL_MAX__
+#endif
 
 #define qoco_max(a, b) (((a) > (b)) ? (a) : (b))
 #define qoco_min(a, b) (((a) < (b)) ? (a) : (b))
@@ -34,7 +38,7 @@ typedef double QOCOFloat;
 #include <math.h>
 #define qoco_sqrt(a) sqrt(a)
 
-#ifdef QOCO_DEBUG
+#if defined(QOCO_DEBUG) && !defined(IS_WINDOWS)
 #include <assert.h>
 #include <stdio.h>
 #define qoco_assert(a)                                                         \

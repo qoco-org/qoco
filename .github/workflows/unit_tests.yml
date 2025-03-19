@@ -21,17 +21,25 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
       fail-fast: false
 
       matrix:
-        os: [ubuntu-latest, macos-13]
+        os: [ubuntu-latest, macos-13, windows-latest]
         build_type: [Debug, Release]
-        c_compiler: [clang]
-        cpp_compiler: [clang++]
+        include:
+          - os: ubuntu-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+          - os: macos-13
+            c_compiler: clang
+            cpp_compiler: clang++
+          - os: windows-latest
+            c_compiler: MSVC
+            cpp_compiler: MSVC
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -52,6 +60,10 @@ jobs:
         run: >
           pip install cvxpy
 
+      - name: Setup MSVC (Windows only)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
@@ -62,10 +74,16 @@ jobs:
           -DQOCO_BUILD_TYPE:STR=${{ matrix.build_type }}
           -S ${{ github.workspace }} -DENABLE_TESTING:BOOL=True
 
-      - name: Build
+      - name: Build on Windows
+        if: matrix.os == 'windows-latest'
+        # Build your program with the given configuration.
+        run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+
+      - name: Build on Mac or Ubuntu
+        if: matrix.os == 'macos-13' || matrix.os == 'ubuntu-latest'
         # Build your program with the given configuration.
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
 
       - name: Test
         working-directory: ${{ steps.strings.outputs.build-output-dir }}
-        run: ctest --test-dir ${{ steps.strings.outputs.build-output-dir }} --verbose
+        run: ctest --test-dir ${{ steps.strings.outputs.build-output-dir }} --verbose -C ${{ matrix.build_type }} --rerun-failed --output-on-failure
