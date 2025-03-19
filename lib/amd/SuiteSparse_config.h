@@ -332,16 +332,16 @@ void* SuiteSparse_free // always returns NULL
     (void* p           // block to free
     );
 
-void SuiteSparse_tic // start the timer
-    (double tic[2]   // output, contents undefined on input
-    );
+// void SuiteSparse_tic // start the timer
+//     (double tic[2]   // output, contents undefined on input
+//     );
 
-double SuiteSparse_toc // return time in seconds since last tic
-    (double tic[2]     // input: from last call to SuiteSparse_tic
-    );
+// double SuiteSparse_toc // return time in seconds since last tic
+//     (double tic[2]     // input: from last call to SuiteSparse_tic
+//     );
 
-double SuiteSparse_time // returns current wall clock time in seconds
-    (void);
+// double SuiteSparse_time // returns current wall clock time in seconds
+//     (void);
 
 // returns sqrt (x^2 + y^2), computed reliably
 double SuiteSparse_hypot(double x, double y);
