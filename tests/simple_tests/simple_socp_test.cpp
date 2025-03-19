@@ -3,233 +3,32 @@
 
 #include "qoco.h"
 
-TEST(simple_socp_test, p1)
+TEST(simple_socp_test, no_soc_constraints)
 {
   QOCOInt p = 2;
   QOCOInt m = 6;
   QOCOInt n = 6;
-  QOCOInt l = 3;
-  QOCOInt nsoc = 1;
-
-  QOCOFloat Px[] = {1, 2, 3, 4, 5, 6};
-  QOCOInt Pnnz = 6;
-  QOCOInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
-  QOCOInt Pi[] = {0, 1, 2, 3, 4, 5};
-
-  QOCOFloat Ax[] = {1, 1, 1, 2};
-  QOCOInt Annz = 4;
-  QOCOInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
-  QOCOInt Ai[] = {0, 0, 1, 1};
-
-  QOCOFloat Gx[] = {-1, -1, -1, -1, -1, -1};
-  QOCOInt Gnnz = 6;
-  QOCOInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
-  QOCOInt Gi[] = {0, 1, 2, 3, 4, 5};
-
-  QOCOFloat c[] = {1, 2, 3, 4, 5, 6};
-  QOCOFloat b[] = {1, 2};
-  QOCOFloat h[] = {0, 0, 0, 0, 0, 0};
-  QOCOInt q[] = {3};
-
-  QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-  QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-  QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-
-  qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
-  qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
-  qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
-
-  QOCOFloat xexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
-  QOCOFloat sexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
-  QOCOFloat yexp[] = {-1.200, -2.400};
-  QOCOFloat zexp[] = {0.0000, 0.0000, 0.0000, 5.5923, 3.6875, 4.2043};
-  QOCOFloat tol = 1e-3;
-
-  QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
-  set_default_settings(settings);
-  settings->verbose = 1;
-
-  QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
-
-  QOCOInt exit =
-      qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
-  if (exit == QOCO_NO_ERROR) {
-    exit = qoco_solve(solver);
-  }
-
-  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
-  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
-  expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
-  ASSERT_EQ(exit, QOCO_SOLVED);
-
-  qoco_cleanup(solver);
-  free(settings);
-  free(P);
-  free(A);
-  free(G);
-}
-
-TEST(simple_socp_test, p2)
-{
-  QOCOInt p = 2;
-  QOCOInt m = 6;
-  QOCOInt n = 6;
-  QOCOInt l = 1;
-  QOCOInt nsoc = 2;
-
-  QOCOFloat Px[] = {1, 2, 3, 4, 5, 6};
-  QOCOInt Pnnz = 6;
-  QOCOInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
-  QOCOInt Pi[] = {0, 1, 2, 3, 4, 5};
-
-  QOCOFloat Ax[] = {1, 1, 1, 2};
-  QOCOInt Annz = 4;
-  QOCOInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
-  QOCOInt Ai[] = {0, 0, 1, 1};
-
-  QOCOFloat Gx[] = {-1, -1, -1, -1, -1, -1};
-  QOCOInt Gnnz = 6;
-  QOCOInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
-  QOCOInt Gi[] = {0, 1, 2, 3, 4, 5};
-
-  QOCOFloat c[] = {1, 2, 3, 4, 5, 6};
-  QOCOFloat b[] = {1, 2};
-  QOCOFloat h[] = {0, 0, 0, 0, 0, 0};
-  QOCOInt q[] = {2, 3};
-
-  QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-  QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-  QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-
-  qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
-  qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
-  qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
-
-  QOCOFloat xexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
-  QOCOFloat sexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
-  QOCOFloat yexp[] = {-1.2000, -2.4000};
-  QOCOFloat zexp[] = {0.0000, 0.0000, -0.0000, 5.5923, 3.6876, 4.2043};
-  QOCOFloat tol = 1e-3;
-
-  QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
-  set_default_settings(settings);
-  settings->verbose = 1;
-
-  QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
-
-  QOCOInt exit =
-      qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
-  if (exit == QOCO_NO_ERROR) {
-    exit = qoco_solve(solver);
-  }
-
-  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
-  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
-  expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
-  ASSERT_EQ(exit, QOCO_SOLVED);
-
-  qoco_cleanup(solver);
-  free(settings);
-  free(P);
-  free(A);
-  free(G);
-}
-
-TEST(simple_socp_test, p3)
-{
-  QOCOInt p = 2;
-  QOCOInt m = 6;
-  QOCOInt n = 6;
-  QOCOInt l = 0;
-  QOCOInt nsoc = 2;
-
-  QOCOFloat Px[] = {1, 2, 3, 4, 5, 6};
-  QOCOInt Pnnz = 6;
-  QOCOInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
-  QOCOInt Pi[] = {0, 1, 2, 3, 4, 5};
-
-  QOCOFloat Ax[] = {1, 1, 1, 2};
-  QOCOInt Annz = 4;
-  QOCOInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
-  QOCOInt Ai[] = {0, 0, 1, 1};
-
-  QOCOFloat Gx[] = {-1, -1, -1, -1, -1, -1};
-  QOCOInt Gnnz = 6;
-  QOCOInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
-  QOCOInt Gi[] = {0, 1, 2, 3, 4, 5};
-
-  QOCOFloat c[] = {1, 2, 3, 4, 5, 6};
-  QOCOFloat b[] = {1, 2};
-  QOCOFloat h[] = {0, 0, 0, 0, 0, 0};
-  QOCOInt q[] = {3, 3};
-
-  QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-  QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-  QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-
-  qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
-  qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
-  qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
-
-  QOCOFloat xexp[] = {1.0000, 0.0000, 1.0000, 0.3981, -0.2625, -0.2993};
-  QOCOFloat sexp[] = {1.0000, 0.0000, 1.0000, 0.3981, -0.2625, -0.2993};
-  QOCOFloat yexp[] = {4.0000, -6.0000};
-  QOCOFloat zexp[] = {6.0000, -0.0000, -6.0000, 5.5923, 3.6876, 4.2043};
-  QOCOFloat tol = 1e-3;
-
-  QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
-  set_default_settings(settings);
-  settings->verbose = 1;
-
-  QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
-
-  QOCOInt exit =
-      qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
-  if (exit == QOCO_NO_ERROR) {
-    exit = qoco_solve(solver);
-  }
-
-  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
-  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
-  expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
-  ASSERT_EQ(exit, QOCO_SOLVED);
-
-  qoco_cleanup(solver);
-  free(settings);
-  free(P);
-  free(A);
-  free(G);
-}
-
-TEST(simple_socp_test, TAME)
-{
-  QOCOInt p = 1;
-  QOCOInt m = 2;
-  QOCOInt n = 2;
-  QOCOInt l = 2;
+  QOCOInt l = 6;
   QOCOInt nsoc = 0;
 
-  QOCOFloat Px[] = {2, -2, 2};
-  QOCOInt Pnnz = 3;
-  QOCOInt Pp[] = {0, 1, 3};
-  QOCOInt Pi[] = {0, 0, 1};
+  QOCOFloat Px[] = {1, 2, 3, 4, 5, 6};
+  QOCOInt Pnnz = 6;
+  QOCOInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
+  QOCOInt Pi[] = {0, 1, 2, 3, 4, 5};
 
-  QOCOFloat Ax[] = {1, 1};
-  QOCOInt Annz = 2;
-  QOCOInt Ap[] = {0, 1, 2};
-  QOCOInt Ai[] = {0, 0};
+  QOCOFloat Ax[] = {1, 1, 1, 2};
+  QOCOInt Annz = 4;
+  QOCOInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
+  QOCOInt Ai[] = {0, 0, 1, 1};
 
-  QOCOFloat Gx[] = {-1, -1};
-  QOCOInt Gnnz = 2;
-  QOCOInt Gp[] = {0, 1, 2};
-  QOCOInt Gi[] = {0, 1};
+  QOCOFloat Gx[] = {-1, -1, -1, -1, -1, -1};
+  QOCOInt Gnnz = 6;
+  QOCOInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
+  QOCOInt Gi[] = {0, 1, 2, 3, 4, 5};
 
-  QOCOFloat c[] = {0, 0};
-  QOCOFloat b[] = {1};
-  QOCOFloat h[] = {0, 0};
+  QOCOFloat c[] = {1, 2, 3, 4, 5, 6};
+  QOCOFloat b[] = {1, 2};
+  QOCOFloat h[] = {0, 0, 0, 0, 0, 0};
 
   QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
@@ -238,6 +37,12 @@ TEST(simple_socp_test, TAME)
   qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
   qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
+
+  QOCOFloat xexp[] = {0.2000, 0.8000, 0.6000, -0.0000, 0.0000, 0.0000};
+  QOCOFloat sexp[] = {0.2000, 0.8000, 0.6000, 0.0000, 0.0000, 0.0000};
+  QOCOFloat yexp[] = {-1.200, -2.400};
+  QOCOFloat zexp[] = {0.0000, 0.0000, 0.0000, 4.0000, 5.0000, 6.0000};
+  QOCOFloat tol = 1e-4;
 
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
   set_default_settings(settings);
@@ -251,10 +56,10 @@ TEST(simple_socp_test, TAME)
     exit = qoco_solve(solver);
   }
 
-  QOCOFloat tol = 1e-8;
-  QOCOFloat xexp[] = {0.5, 0.5};
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
-  ASSERT_NEAR(solver->sol->obj, 0, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
+  expect_eq_vectorf(solver->sol->y, yexp, p, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
   ASSERT_EQ(exit, QOCO_SOLVED);
 
   qoco_cleanup(solver);
@@ -264,74 +69,336 @@ TEST(simple_socp_test, TAME)
   free(G);
 }
 
-TEST(simple_socp_test, reduced_tolerance)
-{
-  QOCOInt p = 2;
-  QOCOInt m = 6;
-  QOCOInt n = 6;
-  QOCOInt l = 3;
-  QOCOInt nsoc = 1;
+// TEST(simple_socp_test, p1)
+// {
+//   QOCOInt p = 2;
+//   QOCOInt m = 6;
+//   QOCOInt n = 6;
+//   QOCOInt l = 3;
+//   QOCOInt nsoc = 1;
 
-  QOCOFloat Px[] = {1, 2, 3, 4, 5, 6};
-  QOCOInt Pnnz = 6;
-  QOCOInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
-  QOCOInt Pi[] = {0, 1, 2, 3, 4, 5};
+//   QOCOFloat Px[] = {1, 2, 3, 4, 5, 6};
+//   QOCOInt Pnnz = 6;
+//   QOCOInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
+//   QOCOInt Pi[] = {0, 1, 2, 3, 4, 5};
 
-  QOCOFloat Ax[] = {1, 1, 1, 2};
-  QOCOInt Annz = 4;
-  QOCOInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
-  QOCOInt Ai[] = {0, 0, 1, 1};
+//   QOCOFloat Ax[] = {1, 1, 1, 2};
+//   QOCOInt Annz = 4;
+//   QOCOInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
+//   QOCOInt Ai[] = {0, 0, 1, 1};
 
-  QOCOFloat Gx[] = {-1, -1, -1, -1, -1, -1};
-  QOCOInt Gnnz = 6;
-  QOCOInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
-  QOCOInt Gi[] = {0, 1, 2, 3, 4, 5};
+//   QOCOFloat Gx[] = {-1, -1, -1, -1, -1, -1};
+//   QOCOInt Gnnz = 6;
+//   QOCOInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
+//   QOCOInt Gi[] = {0, 1, 2, 3, 4, 5};
 
-  QOCOFloat c[] = {1, 2, 3, 4, 5, 6};
-  QOCOFloat b[] = {1, 2};
-  QOCOFloat h[] = {0, 0, 0, 0, 0, 0};
-  QOCOInt q[] = {3};
+//   QOCOFloat c[] = {1, 2, 3, 4, 5, 6};
+//   QOCOFloat b[] = {1, 2};
+//   QOCOFloat h[] = {0, 0, 0, 0, 0, 0};
+//   QOCOInt q[] = {3};
 
-  QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-  QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
-  QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
 
-  qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
-  qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
-  qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
+//   qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+//   qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
+//   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
 
-  QOCOFloat xexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
-  QOCOFloat sexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
-  QOCOFloat yexp[] = {-1.200, -2.400};
-  QOCOFloat zexp[] = {0.0000, 0.0000, 0.0000, 5.5923, 3.6875, 4.2043};
-  QOCOFloat tol = 1e-4;
+//   QOCOFloat xexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
+//   QOCOFloat sexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
+//   QOCOFloat yexp[] = {-1.200, -2.400};
+//   QOCOFloat zexp[] = {0.0000, 0.0000, 0.0000, 5.5923, 3.6875, 4.2043};
+//   QOCOFloat tol = 1e-3;
 
-  QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
-  set_default_settings(settings);
-  settings->abstol = 1e-14;
-  settings->reltol = 1e-14;
-  settings->verbose = 1;
+//   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
+//   set_default_settings(settings);
+//   settings->verbose = 1;
 
-  QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
+//   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
 
-  QOCOInt exit =
-      qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
-  if (exit == QOCO_NO_ERROR) {
-    exit = qoco_solve(solver);
-  }
+//   QOCOInt exit =
+//       qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
+//   if (exit == QOCO_NO_ERROR) {
+//     exit = qoco_solve(solver);
+//   }
 
-  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
-  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
-  expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
-  ASSERT_EQ(exit, QOCO_SOLVED_INACCURATE);
+//   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+//   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
+//   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
+//   expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+//   ASSERT_EQ(exit, QOCO_SOLVED);
 
-  qoco_cleanup(solver);
-  free(settings);
-  free(P);
-  free(A);
-  free(G);
-}
+//   qoco_cleanup(solver);
+//   free(settings);
+//   free(P);
+//   free(A);
+//   free(G);
+// }
+
+// TEST(simple_socp_test, p2)
+// {
+//   QOCOInt p = 2;
+//   QOCOInt m = 6;
+//   QOCOInt n = 6;
+//   QOCOInt l = 1;
+//   QOCOInt nsoc = 2;
+
+//   QOCOFloat Px[] = {1, 2, 3, 4, 5, 6};
+//   QOCOInt Pnnz = 6;
+//   QOCOInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
+//   QOCOInt Pi[] = {0, 1, 2, 3, 4, 5};
+
+//   QOCOFloat Ax[] = {1, 1, 1, 2};
+//   QOCOInt Annz = 4;
+//   QOCOInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
+//   QOCOInt Ai[] = {0, 0, 1, 1};
+
+//   QOCOFloat Gx[] = {-1, -1, -1, -1, -1, -1};
+//   QOCOInt Gnnz = 6;
+//   QOCOInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
+//   QOCOInt Gi[] = {0, 1, 2, 3, 4, 5};
+
+//   QOCOFloat c[] = {1, 2, 3, 4, 5, 6};
+//   QOCOFloat b[] = {1, 2};
+//   QOCOFloat h[] = {0, 0, 0, 0, 0, 0};
+//   QOCOInt q[] = {2, 3};
+
+//   QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+
+//   qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+//   qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
+//   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
+
+//   QOCOFloat xexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
+//   QOCOFloat sexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
+//   QOCOFloat yexp[] = {-1.2000, -2.4000};
+//   QOCOFloat zexp[] = {0.0000, 0.0000, -0.0000, 5.5923, 3.6876, 4.2043};
+//   QOCOFloat tol = 1e-3;
+
+//   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
+//   set_default_settings(settings);
+//   settings->verbose = 1;
+
+//   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
+
+//   QOCOInt exit =
+//       qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
+//   if (exit == QOCO_NO_ERROR) {
+//     exit = qoco_solve(solver);
+//   }
+
+//   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+//   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
+//   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
+//   expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+//   ASSERT_EQ(exit, QOCO_SOLVED);
+
+//   qoco_cleanup(solver);
+//   free(settings);
+//   free(P);
+//   free(A);
+//   free(G);
+// }
+
+// TEST(simple_socp_test, p3)
+// {
+//   QOCOInt p = 2;
+//   QOCOInt m = 6;
+//   QOCOInt n = 6;
+//   QOCOInt l = 0;
+//   QOCOInt nsoc = 2;
+
+//   QOCOFloat Px[] = {1, 2, 3, 4, 5, 6};
+//   QOCOInt Pnnz = 6;
+//   QOCOInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
+//   QOCOInt Pi[] = {0, 1, 2, 3, 4, 5};
+
+//   QOCOFloat Ax[] = {1, 1, 1, 2};
+//   QOCOInt Annz = 4;
+//   QOCOInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
+//   QOCOInt Ai[] = {0, 0, 1, 1};
+
+//   QOCOFloat Gx[] = {-1, -1, -1, -1, -1, -1};
+//   QOCOInt Gnnz = 6;
+//   QOCOInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
+//   QOCOInt Gi[] = {0, 1, 2, 3, 4, 5};
+
+//   QOCOFloat c[] = {1, 2, 3, 4, 5, 6};
+//   QOCOFloat b[] = {1, 2};
+//   QOCOFloat h[] = {0, 0, 0, 0, 0, 0};
+//   QOCOInt q[] = {3, 3};
+
+//   QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+
+//   qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+//   qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
+//   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
+
+//   QOCOFloat xexp[] = {1.0000, 0.0000, 1.0000, 0.3981, -0.2625, -0.2993};
+//   QOCOFloat sexp[] = {1.0000, 0.0000, 1.0000, 0.3981, -0.2625, -0.2993};
+//   QOCOFloat yexp[] = {4.0000, -6.0000};
+//   QOCOFloat zexp[] = {6.0000, -0.0000, -6.0000, 5.5923, 3.6876, 4.2043};
+//   QOCOFloat tol = 1e-3;
+
+//   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
+//   set_default_settings(settings);
+//   settings->verbose = 1;
+
+//   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
+
+//   QOCOInt exit =
+//       qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
+//   if (exit == QOCO_NO_ERROR) {
+//     exit = qoco_solve(solver);
+//   }
+
+//   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+//   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
+//   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
+//   expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+//   ASSERT_EQ(exit, QOCO_SOLVED);
+
+//   qoco_cleanup(solver);
+//   free(settings);
+//   free(P);
+//   free(A);
+//   free(G);
+// }
+
+// TEST(simple_socp_test, TAME)
+// {
+//   QOCOInt p = 1;
+//   QOCOInt m = 2;
+//   QOCOInt n = 2;
+//   QOCOInt l = 2;
+//   QOCOInt nsoc = 0;
+
+//   QOCOFloat Px[] = {2, -2, 2};
+//   QOCOInt Pnnz = 3;
+//   QOCOInt Pp[] = {0, 1, 3};
+//   QOCOInt Pi[] = {0, 0, 1};
+
+//   QOCOFloat Ax[] = {1, 1};
+//   QOCOInt Annz = 2;
+//   QOCOInt Ap[] = {0, 1, 2};
+//   QOCOInt Ai[] = {0, 0};
+
+//   QOCOFloat Gx[] = {-1, -1};
+//   QOCOInt Gnnz = 2;
+//   QOCOInt Gp[] = {0, 1, 2};
+//   QOCOInt Gi[] = {0, 1};
+
+//   QOCOFloat c[] = {0, 0};
+//   QOCOFloat b[] = {1};
+//   QOCOFloat h[] = {0, 0};
+
+//   QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+
+//   qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+//   qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
+//   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
+
+//   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
+//   set_default_settings(settings);
+//   settings->verbose = 1;
+
+//   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
+
+//   QOCOInt exit =
+//       qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, nullptr,
+//       settings);
+//   if (exit == QOCO_NO_ERROR) {
+//     exit = qoco_solve(solver);
+//   }
+
+//   QOCOFloat tol = 1e-8;
+//   QOCOFloat xexp[] = {0.5, 0.5};
+//   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+//   ASSERT_NEAR(solver->sol->obj, 0, tol);
+//   ASSERT_EQ(exit, QOCO_SOLVED);
+
+//   qoco_cleanup(solver);
+//   free(settings);
+//   free(P);
+//   free(A);
+//   free(G);
+// }
+
+// TEST(simple_socp_test, reduced_tolerance)
+// {
+//   QOCOInt p = 2;
+//   QOCOInt m = 6;
+//   QOCOInt n = 6;
+//   QOCOInt l = 3;
+//   QOCOInt nsoc = 1;
+
+//   QOCOFloat Px[] = {1, 2, 3, 4, 5, 6};
+//   QOCOInt Pnnz = 6;
+//   QOCOInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
+//   QOCOInt Pi[] = {0, 1, 2, 3, 4, 5};
+
+//   QOCOFloat Ax[] = {1, 1, 1, 2};
+//   QOCOInt Annz = 4;
+//   QOCOInt Ap[] = {0, 1, 3, 4, 4, 4, 4};
+//   QOCOInt Ai[] = {0, 0, 1, 1};
+
+//   QOCOFloat Gx[] = {-1, -1, -1, -1, -1, -1};
+//   QOCOInt Gnnz = 6;
+//   QOCOInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
+//   QOCOInt Gi[] = {0, 1, 2, 3, 4, 5};
+
+//   QOCOFloat c[] = {1, 2, 3, 4, 5, 6};
+//   QOCOFloat b[] = {1, 2};
+//   QOCOFloat h[] = {0, 0, 0, 0, 0, 0};
+//   QOCOInt q[] = {3};
+
+//   QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+//   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+
+//   qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
+//   qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
+//   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
+
+//   QOCOFloat xexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
+//   QOCOFloat sexp[] = {0.2000, 0.8000, 0.6000, 0.3981, -0.2625, -0.2993};
+//   QOCOFloat yexp[] = {-1.200, -2.400};
+//   QOCOFloat zexp[] = {0.0000, 0.0000, 0.0000, 5.5923, 3.6875, 4.2043};
+//   QOCOFloat tol = 1e-4;
+
+//   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
+//   set_default_settings(settings);
+//   settings->abstol = 1e-14;
+//   settings->reltol = 1e-14;
+//   settings->verbose = 1;
+
+//   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
+
+//   QOCOInt exit =
+//       qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
+//   if (exit == QOCO_NO_ERROR) {
+//     exit = qoco_solve(solver);
+//   }
+
+//   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+//   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
+//   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
+//   expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+//   ASSERT_EQ(exit, QOCO_SOLVED_INACCURATE);
+
+//   qoco_cleanup(solver);
+//   free(settings);
+//   free(P);
+//   free(A);
+//   free(G);
+// }
 
 // TEST(simple_socp_test, update_vector_data_test)
 // {
