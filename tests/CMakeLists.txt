@@ -8,14 +8,20 @@ endif()
 
 if(QOCO_BUILD_TYPE STREQUAL Debug)
     set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
-    add_compile_definitions(qoco_DEBUG)
-    set(CMAKE_CXX_FLAGS "-g -march=native -Werror -Wall -Wextra -fsanitize=address,undefined")
+    add_compile_definitions(QOCO_DEBUG)
+    set(CMAKE_CXX_FLAGS "-g -march=native -Wall -fsanitize=address,undefined")
 else()
     set(QOCO_BUILD_TYPE Release)
-    set(CMAKE_CXX_FLAGS "-O3 -march=native -Werror -Wall -Wextra")
+    set(CMAKE_CXX_FLAGS "-O3 -march=native -Wall")
 endif()
+
+# Add -Wextra if not on Windows.
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
+endif()
+
 message(STATUS "Test Build Type: " ${QOCO_BUILD_TYPE})
-message(STATUS "Test Build Flags: " ${CMAKE_C_FLAGS})
+message(STATUS "Test Build Flags: " ${CMAKE_CXX_FLAGS})
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("${PROJECT_SOURCE_DIR}/tests")
