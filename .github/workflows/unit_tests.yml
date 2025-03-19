@@ -80,4 +80,4 @@ jobs:
 
       - name: Test
         working-directory: ${{ steps.strings.outputs.build-output-dir }}
-        run: ctest --test-dir ${{ steps.strings.outputs.build-output-dir }} --verbose
+        run: ctest --test-dir ${{ steps.strings.outputs.build-output-dir }} --verbose -C ${{ matrix.build_type }}
