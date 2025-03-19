@@ -48,7 +48,6 @@ typedef double QOCOFloat;
       __asm__ volatile("int $0x03");                                           \
     }                                                                          \
   } while (0)
-#endif
 #else
 #define qoco_assert(a)                                                         \
   do {                                                                         \
