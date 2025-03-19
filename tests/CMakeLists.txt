@@ -37,7 +37,7 @@ foreach(file ${unit_tests})
     "unit_tests/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qoco gtest_main)
+  target_link_libraries("${name}" qocostatic gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -50,7 +50,7 @@ foreach(file ${simple_tests})
     "simple_tests/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qoco gtest_main)
+  target_link_libraries("${name}" qocostatic gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -66,7 +66,7 @@ foreach(file ${ocp})
     "ocp/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qoco gtest_main)
+  target_link_libraries("${name}" qocostatic gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -78,6 +78,6 @@ foreach(file ${portfolio})
     "portfolio/${name}.cpp"
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
-  target_link_libraries("${name}" qoco gtest_main)
+  target_link_libraries("${name}" qocostatic gtest_main)
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()

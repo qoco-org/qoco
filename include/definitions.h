@@ -39,6 +39,7 @@ typedef double QOCOFloat;
 #define qoco_sqrt(a) sqrt(a)
 
 #ifdef QOCO_DEBUG
+#ifndef IS_WINDOWS
 #include <assert.h>
 #include <stdio.h>
 #define qoco_assert(a)                                                         \
@@ -48,6 +49,7 @@ typedef double QOCOFloat;
       __asm__ volatile("int $0x03");                                           \
     }                                                                          \
   } while (0)
+#endif
 #else
 #define qoco_assert(a)                                                         \
   do {                                                                         \

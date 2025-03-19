@@ -72,7 +72,6 @@ target_compile_definitions(qoco PUBLIC "QOCO_VERSION_PATCH=${QOCO_VERSION_PATCH}
 # Build qoco static library.
 add_library(qocostatic STATIC)
 target_link_libraries(qocostatic qdldlstatic amd)
-target_link_libraries(qocostatic qdldlstatic amd)
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     target_link_libraries(qocostatic m)
 endif()
