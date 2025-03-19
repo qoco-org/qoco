@@ -479,52 +479,52 @@ void SuiteSparse_tic(double tic[2] /* output, contents undefined on input */
 /* POSIX timer */
 /* ---------------------------------------------------------------------- */
 
-// #include <time.h>
-// void SuiteSparse_tic(double tic[2] /* output, contents undefined on input */
-// )
-// {
-//   /* POSIX C 1993 timer, requires -lrt */
-//   struct timespec t;
-//   clock_gettime(CLOCK_MONOTONIC, &t);
-//   tic[0] = (double)(t.tv_sec);
-//   tic[1] = (double)(t.tv_nsec);
-// }
+#include <time.h>
+void SuiteSparse_tic(double tic[2] /* output, contents undefined on input */
+)
+{
+  /* POSIX C 1993 timer, requires -lrt */
+  struct timespec t;
+  clock_gettime(CLOCK_MONOTONIC, &t);
+  tic[0] = (double)(t.tv_sec);
+  tic[1] = (double)(t.tv_nsec);
+}
 
-// #endif
+#endif
 
-// /* -------------------------------------------------------------------------- */
-// /* SuiteSparse_toc: return time since last tic */
-// /* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/* SuiteSparse_toc: return time since last tic */
+/* -------------------------------------------------------------------------- */
 
-// /* Assuming SuiteSparse_tic is accurate to the nanosecond, this function is
-//  * accurate down to the nanosecond for 2^53 nanoseconds since the last call to
-//  * SuiteSparse_tic, which is sufficient for SuiteSparse (about 104 days).  If
-//  * additional accuracy is required, the caller can use two calls to
-//  * SuiteSparse_tic and do the calculations differently.
-//  */
+/* Assuming SuiteSparse_tic is accurate to the nanosecond, this function is
+ * accurate down to the nanosecond for 2^53 nanoseconds since the last call to
+ * SuiteSparse_tic, which is sufficient for SuiteSparse (about 104 days).  If
+ * additional accuracy is required, the caller can use two calls to
+ * SuiteSparse_tic and do the calculations differently.
+ */
 
-// double SuiteSparse_toc /* returns time in seconds since last tic */
-//     (double tic[2] /* input, not modified from last call to SuiteSparse_tic */
-//     )
-// {
-//   double toc[2];
-//   SuiteSparse_tic(toc);
-//   return ((toc[0] - tic[0]) + 1e-9 * (toc[1] - tic[1]));
-// }
+double SuiteSparse_toc /* returns time in seconds since last tic */
+    (double tic[2] /* input, not modified from last call to SuiteSparse_tic */
+    )
+{
+  double toc[2];
+  SuiteSparse_tic(toc);
+  return ((toc[0] - tic[0]) + 1e-9 * (toc[1] - tic[1]));
+}
 
-// /* -------------------------------------------------------------------------- */
-// /* SuiteSparse_time: return current wallclock time in seconds */
-// /* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/* SuiteSparse_time: return current wallclock time in seconds */
+/* -------------------------------------------------------------------------- */
 
-// /* This function might not be accurate down to the nanosecond. */
+/* This function might not be accurate down to the nanosecond. */
 
-// double SuiteSparse_time /* returns current wall clock time in seconds */
-//     (void)
-// {
-//   double toc[2];
-//   SuiteSparse_tic(toc);
-//   return (toc[0] + 1e-9 * toc[1]);
-// }
+double SuiteSparse_time /* returns current wall clock time in seconds */
+    (void)
+{
+  double toc[2];
+  SuiteSparse_tic(toc);
+  return (toc[0] + 1e-9 * toc[1]);
+}
 
 /* -------------------------------------------------------------------------- */
 /* SuiteSparse_version: return the current version of SuiteSparse */
