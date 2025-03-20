@@ -33,7 +33,7 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     add_compile_definitions(IS_WINDOWS)
     if(QOCO_BUILD_TYPE STREQUAL Release)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Ox")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /Ox")
     endif()
 endif()
 
