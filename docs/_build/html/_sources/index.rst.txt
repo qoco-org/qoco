@@ -68,7 +68,7 @@ Thank you to `Srinidhi Chari <https://www.linkedin.com/in/srinidhi-chari>`_ for 
 
 Citing
 --------------
-If you find QOCO useful please star the repository on `GitHub <https://github.com/qoco-org/qoco>`_ and cite the paper as follows
+If you find QOCO useful please star the repository on `GitHub <https://github.com/qoco-org/qoco>`_ and cite the `QOCO paper <https://arxiv.org/abs/2503.12658>`_ as follows
 
 .. code:: latex
 
