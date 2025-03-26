@@ -73,7 +73,7 @@ If you find QOCO useful please star the repository on `GitHub <https://github.co
 .. code:: latex
 
   @misc{chari2025qoco,
-    title         = {Custom Solver Generation for Quadratic Objective Second-Order Cone Programs},
+    title         = {QOCO: A Quadratic Objective Conic Optimizer with Custom Solver Generation},
     author        = {Chari, Govind M and A{\c{c}}{\i}kme{\c{s}}e, Beh{\c{c}}et},
     year          = {2025},
     eprint        = {2503.12658},
