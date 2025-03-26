@@ -1,7 +1,4 @@
 Installation
------------------
-
-Python
 ==============
 
 Pip
