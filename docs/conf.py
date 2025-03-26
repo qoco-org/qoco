@@ -11,7 +11,7 @@ import os
 import subprocess
 
 project = "QOCO"
-copyright = "2024, Govind M. Chari"
+copyright = "2025, Govind M. Chari"
 author = "Govind M. Chari"
 
 # -- General configuration ---------------------------------------------------
