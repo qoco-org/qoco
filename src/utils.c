@@ -139,9 +139,6 @@ unsigned char check_stopping(QOCOSolver* solver)
   ew_product(work->kkt->Fruiz, work->s, work->ubuff1, data->m);
   QOCOFloat sinf = data->m > 0 ? inf_norm(work->ubuff1, data->m) : 0;
 
-  ew_product(work->kkt->Fruiz, work->z, work->ubuff2, data->m);
-  QOCOFloat zinf = data->m > 0 ? inf_norm(work->ubuff2, data->m) : 0;
-
   ew_product(work->kkt->Dinvruiz, work->x, work->xbuff, data->n);
   QOCOFloat cinf = inf_norm(work->xbuff, data->n);
 

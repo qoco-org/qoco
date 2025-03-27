@@ -62,6 +62,40 @@ if(${MATLAB})
     add_compile_definitions(MATLAB)
 endif()
 
+set(qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_api.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/input_validation.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/linalg.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/kkt.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/cone.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_error.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/equilibration.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/utils.c"
+)
+
+set(qoco_headers "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_api.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/input_validation.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/linalg.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/kkt.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/cone.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_error.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/equilibration.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/enums.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/definitions.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/structs.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/timer.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/utils.h"
+)
+
+# Include timer file depending on OS.
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_linux.c")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_macos.c")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_windows.c")
+endif()
+
 # Build qoco shared library.
 add_library(qoco SHARED)
 target_link_libraries(qoco qdldl amd)
@@ -70,7 +104,7 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwi
 endif()
 target_include_directories(qoco PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qoco PUBLIC lib/amd)
-target_sources(qoco PRIVATE src/qoco_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qoco_error.c src/equilibration.c)
+target_sources(qoco PRIVATE ${qoco_sources})
 target_compile_definitions(qoco PUBLIC "QOCO_VERSION_MAJOR=${QOCO_VERSION_MAJOR}")
 target_compile_definitions(qoco PUBLIC "QOCO_VERSION_MINOR=${QOCO_VERSION_MINOR}")
 target_compile_definitions(qoco PUBLIC "QOCO_VERSION_PATCH=${QOCO_VERSION_PATCH}")
@@ -83,25 +117,14 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwi
 endif()
 target_include_directories(qocostatic PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qocostatic PUBLIC lib/amd)
-target_sources(qocostatic PRIVATE src/qoco_api.c src/input_validation.c src/linalg.c src/kkt.c src/utils.c src/cone.c src/qoco_error.c src/equilibration.c)
+target_sources(qocostatic PRIVATE ${qoco_sources})
 target_compile_definitions(qocostatic PUBLIC "QOCO_VERSION_MAJOR=${QOCO_VERSION_MAJOR}")
 target_compile_definitions(qocostatic PUBLIC "QOCO_VERSION_MINOR=${QOCO_VERSION_MINOR}")
 target_compile_definitions(qocostatic PUBLIC "QOCO_VERSION_PATCH=${QOCO_VERSION_PATCH}")
 
-# Include timer file depending on OS.
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-    target_sources(qoco PRIVATE src/timer_linux.c)
-    target_sources(qocostatic PRIVATE src/timer_linux.c)
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-    target_sources(qoco PRIVATE src/timer_macos.c)
-    target_sources(qocostatic PRIVATE src/timer_macos.c)
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-    target_sources(qoco PRIVATE src/timer_windows.c)
-    target_sources(qocostatic PRIVATE src/timer_windows.c)
-endif()
 
 # Build qoco demo.
-add_executable(qoco_demo examples/qoco_demo.c)
+add_executable(qoco_demo ${PROJECT_SOURCE_DIR}/examples/qoco_demo.c)
 target_include_directories(qoco_demo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(qoco_demo qocostatic)
 
