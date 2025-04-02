@@ -3,3 +3,4 @@ build/
 hide/
 __pycache__/
 *_data.h
+qoco_config.h

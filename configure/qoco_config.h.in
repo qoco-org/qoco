@@ -1,0 +1,15 @@
+#ifndef QOCO_CONFIG_H
+#define QOCO_CONFIG_H
+
+// Version Macros
+#define QOCO_VERSION_MAJOR @QOCO_VERSION_MAJOR@
+#define QOCO_VERSION_MINOR @QOCO_VERSION_MINOR@
+#define QOCO_VERSION_PATCH @QOCO_VERSION_PATCH@
+#define QOCO_VERSION "@QOCO_VERSION@"
+
+// OS Macros
+#cmakedefine IS_LINUX
+#cmakedefine IS_MACOS
+#cmakedefine IS_WINDOWS
+
+#endif // #ifndef QOCO_CONFIG_H

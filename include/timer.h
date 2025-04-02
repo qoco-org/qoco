@@ -16,6 +16,7 @@
 #define TIMER_H
 
 #include "definitions.h"
+#include "qoco_config.h"
 
 #ifdef IS_LINUX
 #include <time.h>
