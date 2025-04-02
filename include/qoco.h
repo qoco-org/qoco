@@ -22,7 +22,6 @@ extern "C" {
 #include "cone.h"
 #include "definitions.h"
 #include "qoco_api.h"
-#include "qoco_config.h"
 #include "structs.h"
 #include "utils.h"
 

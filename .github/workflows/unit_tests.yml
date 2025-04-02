@@ -79,7 +79,7 @@ jobs:
           -DQOCO_BUILD_TYPE:STR=${{ matrix.build_type }}
           -S ${{ github.workspace }} -DENABLE_TESTING:BOOL=True
 
-      - name: Check config
+      - name: Check Config
         run: >
           cat "${{ github.workspace }}/include/qoco_config.h"
 

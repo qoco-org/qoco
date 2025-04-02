@@ -15,6 +15,8 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
+#include "qoco_config.h"
+
 // Define QOCOInt and QOCOFloat.
 #include <limits.h>
 typedef int QOCOInt;
