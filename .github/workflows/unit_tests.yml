@@ -78,6 +78,9 @@ jobs:
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
           -DQOCO_BUILD_TYPE:STR=${{ matrix.build_type }}
           -S ${{ github.workspace }} -DENABLE_TESTING:BOOL=True
+
+      - name: Check config
+        run: >
           cat "${{ github.workspace }}/include/qoco_config.h"
 
       - name: Build on Windows
