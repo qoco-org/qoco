@@ -56,6 +56,11 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: "3.28.x"
+
       - name: Install cvxpy
         run: >
           pip install cvxpy
