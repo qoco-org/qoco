@@ -1,5 +1,6 @@
-set (CMAKE_CXX_STANDARD 14)
+cmake_minimum_required(VERSION 3.18)
 
+set (CMAKE_CXX_STANDARD 14)
 # Python requirement.
 find_package(Python COMPONENTS Interpreter)
 if (NOT Python_FOUND)
