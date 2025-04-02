@@ -332,7 +332,6 @@ QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                            QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
-  QOCOProblemData* data = solver->work->data;
 
   QOCOFloat a = 1.0;
   QOCOFloat minval = 0;
