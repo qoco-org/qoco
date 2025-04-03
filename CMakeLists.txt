@@ -107,9 +107,6 @@ endif()
 target_include_directories(qoco PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qoco PUBLIC lib/amd)
 target_sources(qoco PRIVATE ${qoco_sources})
-target_compile_definitions(qoco PUBLIC "QOCO_VERSION_MAJOR=${QOCO_VERSION_MAJOR}")
-target_compile_definitions(qoco PUBLIC "QOCO_VERSION_MINOR=${QOCO_VERSION_MINOR}")
-target_compile_definitions(qoco PUBLIC "QOCO_VERSION_PATCH=${QOCO_VERSION_PATCH}")
 
 # Build qoco static library.
 add_library(qocostatic STATIC)
@@ -120,9 +117,6 @@ endif()
 target_include_directories(qocostatic PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qocostatic PUBLIC lib/amd)
 target_sources(qocostatic PRIVATE ${qoco_sources})
-target_compile_definitions(qocostatic PUBLIC "QOCO_VERSION_MAJOR=${QOCO_VERSION_MAJOR}")
-target_compile_definitions(qocostatic PUBLIC "QOCO_VERSION_MINOR=${QOCO_VERSION_MINOR}")
-target_compile_definitions(qocostatic PUBLIC "QOCO_VERSION_PATCH=${QOCO_VERSION_PATCH}")
 
 
 # Build qoco demo.
