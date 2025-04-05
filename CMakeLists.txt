@@ -106,16 +106,18 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwi
 endif()
 target_include_directories(qoco PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qoco PUBLIC lib/amd)
+target_include_directories(qoco PUBLIC lib/qdldl/include)
 target_sources(qoco PRIVATE ${qoco_sources})
 
 # Build qoco static library.
 add_library(qocostatic STATIC)
-target_link_libraries(qocostatic qdldlstatic amd)
+target_link_libraries(qocostatic qdldlobject amd)
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     target_link_libraries(qocostatic m)
 endif()
 target_include_directories(qocostatic PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qocostatic PUBLIC lib/amd)
+target_include_directories(qocostatic PUBLIC lib/qdldl/include)
 target_sources(qocostatic PRIVATE ${qoco_sources})
 
 
