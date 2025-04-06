@@ -14,7 +14,7 @@
 void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
                  QOCOInt n)
 {
-  p[0] = dot(u, v, n);
+  p[0] = qoco_dot(u, v, n);
   for (QOCOInt i = 1; i < n; ++i) {
     p[i] = u[0] * v[i] + v[0] * u[i];
   }
@@ -23,12 +23,12 @@ void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
 void soc_division(const QOCOFloat* lam, const QOCOFloat* v, QOCOFloat* d,
                   QOCOInt n)
 {
-  QOCOFloat f = lam[0] * lam[0] - dot(&lam[1], &lam[1], n - 1);
+  QOCOFloat f = lam[0] * lam[0] - qoco_dot(&lam[1], &lam[1], n - 1);
   QOCOFloat finv = safe_div(1.0, f);
   QOCOFloat lam0inv = safe_div(1.0, lam[0]);
-  QOCOFloat lam1dv1 = dot(&lam[1], &v[1], n - 1);
+  QOCOFloat lam1dv1 = qoco_dot(&lam[1], &v[1], n - 1);
 
-  d[0] = finv * (lam[0] * v[0] - dot(&lam[1], &v[1], n - 1));
+  d[0] = finv * (lam[0] * v[0] - qoco_dot(&lam[1], &v[1], n - 1));
   for (QOCOInt i = 1; i < n; ++i) {
     d[i] = finv *
            (-lam[i] * v[0] + lam0inv * f * v[i] + lam0inv * lam1dv1 * lam[i]);
@@ -162,7 +162,7 @@ void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
   for (QOCOInt i = 0; i < nsoc; ++i) {
     // Loop over elements within a second-order cone.
     for (QOCOInt j = 0; j < q[i]; ++j) {
-      z[idx + j] += dot(&W[nt_idx + j * q[i]], &x[idx], q[i]);
+      z[idx + j] += qoco_dot(&W[nt_idx + j * q[i]], &x[idx], q[i]);
     }
     idx += q[i];
     nt_idx += q[i] * q[i];
@@ -171,9 +171,10 @@ void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
 
 void compute_mu(QOCOWorkspace* work)
 {
-  work->mu = (work->data->m > 0)
-                 ? safe_div(dot(work->s, work->z, work->data->m), work->data->m)
-                 : 0;
+  work->mu =
+      (work->data->m > 0)
+          ? safe_div(qoco_dot(work->s, work->z, work->data->m), work->data->m)
+          : 0;
 }
 
 void compute_nt_scaling(QOCOWorkspace* work)
@@ -203,8 +204,8 @@ void compute_nt_scaling(QOCOWorkspace* work)
     f = safe_div(1.0, z_scal);
     scale_arrayf(&work->z[idx], work->zbar, f, work->data->q[i]);
 
-    QOCOFloat gamma =
-        qoco_sqrt(0.5 * (1 + dot(work->sbar, work->zbar, work->data->q[i])));
+    QOCOFloat gamma = qoco_sqrt(
+        0.5 * (1 + qoco_dot(work->sbar, work->zbar, work->data->q[i])));
 
     f = safe_div(1.0, (2 * gamma));
 
@@ -258,7 +259,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
     shift = 0;
     for (QOCOInt j = 0; j < work->data->q[i]; ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
-        work->WtW[nt_idx + shift] = dot(
+        work->WtW[nt_idx + shift] = qoco_dot(
             &work->Wfull[nt_idx_full + j * work->data->q[i]],
             &work->Wfull[nt_idx_full + k * work->data->q[i]], work->data->q[i]);
         shift += 1;
@@ -283,10 +284,10 @@ void compute_centering(QOCOSolver* solver)
                          linesearch(work->s, work->Ds, 1.0, solver));
 
   // Compute rho. rho = ((s + a * Ds)'*(z + a * Dz)) / (s'*z).
-  axpy(Dzaff, work->z, work->ubuff1, a, work->data->m);
-  axpy(work->Ds, work->s, work->ubuff2, a, work->data->m);
-  QOCOFloat rho = dot(work->ubuff1, work->ubuff2, work->data->m) /
-                  dot(work->z, work->s, work->data->m);
+  qoco_axpy(Dzaff, work->z, work->ubuff1, a, work->data->m);
+  qoco_axpy(work->Ds, work->s, work->ubuff2, a, work->data->m);
+  QOCOFloat rho = qoco_dot(work->ubuff1, work->ubuff2, work->data->m) /
+                  qoco_dot(work->z, work->s, work->data->m);
 
   // Compute sigma. sigma = max(0, min(1, rho))^3.
   QOCOFloat sigma = qoco_min(1.0, rho);
@@ -316,7 +317,7 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   QOCOFloat a = 0.0;
   for (QOCOInt i = 0; i < solver->settings->bisect_iters; ++i) {
     a = 0.5 * (al + au);
-    axpy(Du, u, work->ubuff1, safe_div(a, f), work->data->m);
+    qoco_axpy(Du, u, work->ubuff1, safe_div(a, f), work->data->m);
     if (cone_residual(work->ubuff1, work->data->l, work->data->nsoc,
                       work->data->q) >= 0) {
       au = a;

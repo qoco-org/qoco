@@ -69,7 +69,7 @@ TEST(linalg, copy_arrayi_test)
   }
 }
 
-TEST(linalg, dot_test)
+TEST(linalg, qoco_dot_test)
 {
   constexpr QOCOInt n = 6;
   QOCOFloat x[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
@@ -77,7 +77,7 @@ TEST(linalg, dot_test)
   QOCOFloat tol = 1e-12;
   QOCOFloat expected_ans = 217.0;
 
-  EXPECT_NEAR(dot(x, y, n), expected_ans, tol);
+  EXPECT_NEAR(qoco_dot(x, y, n), expected_ans, tol);
 }
 
 TEST(linalg, max_arrayi_test)
@@ -114,7 +114,7 @@ TEST(linalg, scale_arrayf_inplace_test)
   expect_eq_vectorf(x, xexpected, n, tol);
 }
 
-TEST(linalg, axpy_test)
+TEST(linalg, qoco_axpy_test)
 {
   constexpr QOCOInt n = 6;
   QOCOFloat x[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
@@ -124,7 +124,7 @@ TEST(linalg, axpy_test)
   QOCOFloat a = 2.0;
   QOCOFloat tol = 1e-12;
 
-  axpy(x, y, z, a, n);
+  qoco_axpy(x, y, z, a, n);
   expect_eq_vectorf(z, zexpected, n, tol);
 }
 

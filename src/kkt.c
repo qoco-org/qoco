@@ -286,7 +286,7 @@ void compute_kkt_residual(QOCOSolver* solver)
   }
 
   // Compute objective.
-  QOCOFloat obj = dot(work->x, work->data->c, work->data->n);
+  QOCOFloat obj = qoco_dot(work->x, work->data->c, work->data->n);
   USpMv(work->data->P, work->x, work->xbuff);
 
   // Correct for regularization in P.
@@ -295,8 +295,8 @@ void compute_kkt_residual(QOCOSolver* solver)
     regularization_correction +=
         solver->settings->kkt_static_reg * work->x[i] * work->x[i];
   }
-  obj += 0.5 *
-         (dot(work->xbuff, work->x, work->data->n) - regularization_correction);
+  obj += 0.5 * (qoco_dot(work->xbuff, work->x, work->data->n) -
+                regularization_correction);
   obj = safe_div(obj, work->kkt->k);
   solver->sol->obj = obj;
 }
@@ -498,7 +498,7 @@ void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
     QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyz);
 
     // x = x + dx.
-    axpy(kkt->xyzbuff1, kkt->xyz, kkt->xyzbuff1, 1.0, kkt->K->n);
+    qoco_axpy(kkt->xyzbuff1, kkt->xyz, kkt->xyzbuff1, 1.0, kkt->K->n);
   }
 
   for (QOCOInt i = 0; i < kkt->K->n; ++i) {
@@ -516,13 +516,13 @@ void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
 
   if (data->p > 0) {
     SpMtv(data->A, &x[data->n], work->xbuff);
-    axpy(y, work->xbuff, y, 1.0, data->n);
+    qoco_axpy(y, work->xbuff, y, 1.0, data->n);
     SpMv(data->A, x, &y[data->n]);
   }
 
   if (data->m > 0) {
     SpMtv(data->G, &x[data->n + data->p], work->xbuff);
-    axpy(y, work->xbuff, y, 1.0, data->n);
+    qoco_axpy(y, work->xbuff, y, 1.0, data->n);
     SpMv(data->G, x, &y[data->n + data->p]);
   }
 
@@ -530,6 +530,6 @@ void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
               data->m, data->nsoc, data->q);
   nt_multiply(work->Wfull, work->ubuff1, work->ubuff2, data->l, data->m,
               data->nsoc, data->q);
-  axpy(work->ubuff2, &y[data->n + data->p], &y[data->n + data->p], -1.0,
-       data->m);
+  qoco_axpy(work->ubuff2, &y[data->n + data->p], &y[data->n + data->p], -1.0,
+            data->m);
 }

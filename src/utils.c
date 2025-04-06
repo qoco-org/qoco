@@ -164,7 +164,7 @@ unsigned char check_stopping(QOCOSolver* solver)
   }
   ew_product(work->xbuff, work->kkt->Dinvruiz, work->xbuff, data->n);
   QOCOFloat Pxinf = inf_norm(work->xbuff, data->n);
-  QOCOFloat xPx = dot(work->x, work->xbuff, work->data->n);
+  QOCOFloat xPx = qoco_dot(work->x, work->xbuff, work->data->n);
 
   // Compute ||A * x||_\infty
   SpMv(data->A, work->x, work->ybuff);
@@ -197,7 +197,7 @@ unsigned char check_stopping(QOCOSolver* solver)
   // Compute complementary slackness residual.
   ew_product(work->s, work->kkt->Fruiz, work->ubuff1, data->m);
   ew_product(work->z, work->kkt->Fruiz, work->ubuff2, data->m);
-  QOCOFloat gap = dot(work->ubuff1, work->ubuff2, data->m);
+  QOCOFloat gap = qoco_dot(work->ubuff1, work->ubuff2, data->m);
   gap *= work->kkt->kinv;
   solver->sol->gap = gap;
 
@@ -214,9 +214,9 @@ unsigned char check_stopping(QOCOSolver* solver)
   dres_rel *= work->kkt->kinv;
 
   // Compute max{1, abs(pobj), abs(dobj)}.
-  QOCOFloat ctx = dot(work->data->c, work->x, work->data->n);
-  QOCOFloat bty = dot(work->data->b, work->y, work->data->p);
-  QOCOFloat htz = dot(work->data->h, work->z, work->data->m);
+  QOCOFloat ctx = qoco_dot(work->data->c, work->x, work->data->n);
+  QOCOFloat bty = qoco_dot(work->data->b, work->y, work->data->p);
+  QOCOFloat htz = qoco_dot(work->data->h, work->z, work->data->m);
   QOCOFloat pobj = 0.5 * xPx + ctx;
   QOCOFloat dobj = -0.5 * xPx - bty - htz;
 

@@ -110,7 +110,7 @@ void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
   }
 }
 
-QOCOFloat dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
+QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
 {
   qoco_assert(u || n == 0);
   qoco_assert(v || n == 0);
@@ -143,8 +143,8 @@ void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n)
   }
 }
 
-void axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOFloat a,
-          QOCOInt n)
+void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
+               QOCOFloat a, QOCOInt n)
 {
   qoco_assert(x || n == 0);
   qoco_assert(y || n == 0);

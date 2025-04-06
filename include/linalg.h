@@ -77,7 +77,7 @@ void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n);
  * @param n Length of vectors.
  * @return Dot product of u and v.
  */
-QOCOFloat dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n);
+QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n);
 
 /**
  * @brief Computes maximum element of array of QOCOInts.
@@ -108,8 +108,8 @@ void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n);
  * @param a Scaling factor.
  * @param n Length of vectors.
  */
-void axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOFloat a,
-          QOCOInt n);
+void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
+               QOCOFloat a, QOCOInt n);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices where M is
