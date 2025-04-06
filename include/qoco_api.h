@@ -22,8 +22,8 @@
 #include "kkt.h"
 #include "linalg.h"
 #include "qoco_error.h"
+#include "qoco_utils.h"
 #include "structs.h"
-#include "utils.h"
 
 /*
  QOCO solves second-order cone problems of the following form

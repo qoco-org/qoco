@@ -9,7 +9,7 @@
  */
 
 #include "kkt.h"
-#include "utils.h"
+#include "qoco_utils.h"
 
 void allocate_kkt(QOCOWorkspace* work)
 {

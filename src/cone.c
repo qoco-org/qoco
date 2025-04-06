@@ -9,7 +9,7 @@
  */
 
 #include "cone.h"
-#include "utils.h"
+#include "qoco_utils.h"
 
 void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
                  QOCOInt n)

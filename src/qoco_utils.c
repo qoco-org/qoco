@@ -8,7 +8,7 @@
  * This source code is licensed under the BSD 3-Clause License
  */
 
-#include "utils.h"
+#include "qoco_utils.h"
 
 void print_qoco_csc_matrix(QOCOCscMatrix* M)
 {

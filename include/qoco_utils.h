@@ -1,5 +1,5 @@
 /**
- * @file utils.h
+ * @file qoco_utils.h
  * @author Govind M. Chari <govindchari1@gmail.com>
  *
  * @section LICENSE

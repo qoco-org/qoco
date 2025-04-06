@@ -71,7 +71,7 @@ set(qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_api.c"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/cone.c"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_error.c"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/equilibration.c"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/utils.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_utils.c"
 )
 
 set(qoco_headers "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco.h"
@@ -86,7 +86,7 @@ set(qoco_headers "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/definitions.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/structs.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/timer.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/utils.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_utils.h"
 )
 
 # Include timer file depending on OS.
