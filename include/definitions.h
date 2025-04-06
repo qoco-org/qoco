@@ -12,8 +12,8 @@
  * Defines various macros used in qoco.
  */
 
-#ifndef DEFINITIONS_H
-#define DEFINITIONS_H
+#ifndef QOCO_DEFINITIONS_H
+#define QOCO_DEFINITIONS_H
 
 #include "qoco_config.h"
 
@@ -61,4 +61,4 @@ typedef double QOCOFloat;
 #define qoco_malloc malloc
 #define qoco_calloc calloc
 #define qoco_free free
-#endif /* ifndef DEFINITIONS_H */
+#endif /* ifndef QOCO_DEFINITIONS_H */

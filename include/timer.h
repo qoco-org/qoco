@@ -12,8 +12,8 @@
  * Provides timing functions.
  */
 
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef QOCO_TIMER_H
+#define QOCO_TIMER_H
 
 #include "definitions.h"
 
@@ -66,4 +66,4 @@ void stop_timer(QOCOTimer* timer);
  */
 QOCOFloat get_elapsed_time_sec(QOCOTimer* timer);
 
-#endif /* #ifndef TIMER_H */
+#endif /* #ifndef QOCO_TIMER_H */

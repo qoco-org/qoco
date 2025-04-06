@@ -12,8 +12,8 @@
  * Provides various linear algebra operations.
  */
 
-#ifndef LINALG_H
-#define LINALG_H
+#ifndef QOCO_LINALG_H
+#define QOCO_LINALG_H
 #include "definitions.h"
 #include "structs.h"
 
@@ -245,4 +245,4 @@ QOCOInt cumsum(QOCOInt* p, QOCOInt* c, QOCOInt n);
 QOCOCscMatrix* csc_symperm(const QOCOCscMatrix* A, const QOCOInt* pinv,
                            QOCOInt* AtoC);
 
-#endif /* #ifndef LINALG_H*/
+#endif /* #ifndef QOCO_LINALG_H*/

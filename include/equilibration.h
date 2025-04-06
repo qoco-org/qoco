@@ -12,8 +12,8 @@
  * Provides functions to equilibrate problem data and scale variables.
  */
 
-#ifndef EQUILIBRATION_H
-#define EQUILIBRATION_H
+#ifndef QOCO_EQUILIBRATION_H
+#define QOCO_EQUILIBRATION_H
 
 #include "linalg.h"
 #include "structs.h"
@@ -43,4 +43,4 @@ void ruiz_equilibration(QOCOSolver* solver);
  */
 void unscale_variables(QOCOWorkspace* work);
 
-#endif /* #ifndef EQUILIBRATION_H */
+#endif /* #ifndef QOCO_EQUILIBRATION_H */

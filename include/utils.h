@@ -12,8 +12,8 @@
  * Provides various utility functions.
  */
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef QOCO_UTILS_H
+#define QOCO_UTILS_H
 
 #include "enums.h"
 #include "linalg.h"
@@ -90,4 +90,4 @@ void copy_solution(QOCOSolver* solver);
  */
 QOCOSettings* copy_settings(QOCOSettings* settings);
 
-#endif /* #ifndef UTILS_H */
+#endif /* #ifndef QOCO_UTILS_H */

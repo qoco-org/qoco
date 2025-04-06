@@ -12,8 +12,8 @@
  * Includes various functions necessary for cone operations.
  */
 
-#ifndef CONE_H
-#define CONE_H
+#ifndef QOCO_CONE_H
+#define QOCO_CONE_H
 
 #include "linalg.h"
 

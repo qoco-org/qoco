@@ -1,5 +1,5 @@
-#ifndef ENUMS_H
-#define ENUMS_H
+#ifndef QOCO_ENUMS_H
+#define QOCO_ENUMS_H
 
 /**
  * @brief Enum for error codes.
@@ -65,4 +65,4 @@ static const char *QOCO_SOLVE_STATUS_MESSAGE[] = {
 };
 // clang-format on
 
-#endif /* #ifndef ENUMS_H */
+#endif /* #ifndef QOCO_ENUMS_H */

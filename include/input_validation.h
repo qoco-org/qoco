@@ -12,8 +12,8 @@
  * Includes functions that validate any user-provided data.
  */
 
-#ifndef INPUT_VALIDATION_H
-#define INPUT_VALIDATION_H
+#ifndef QOCO_INPUT_VALIDATION_H
+#define QOCO_INPUT_VALIDATION_H
 
 #include "enums.h"
 #include "qoco_error.h"
@@ -48,4 +48,4 @@ QOCOInt qoco_validate_data(const QOCOCscMatrix* P, const QOCOFloat* c,
                            const QOCOInt l, const QOCOInt nsoc,
                            const QOCOInt* q);
 
-#endif /* #ifndef INPUT_VALIDATION_H */
+#endif /* #ifndef QOCO_INPUT_VALIDATION_H */

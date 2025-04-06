@@ -12,8 +12,8 @@
  * Defines all structs used by QOCO.
  */
 
-#ifndef STRUCTS_H
-#define STRUCTS_H
+#ifndef QOCO_STRUCTS_H
+#define QOCO_STRUCTS_H
 
 #include "definitions.h"
 #include "timer.h"
@@ -382,4 +382,4 @@ typedef struct {
 
 } QOCOSolver;
 
-#endif /* #ifndef STRUCTS_H */
+#endif /* #ifndef QOCO_STRUCTS_H */

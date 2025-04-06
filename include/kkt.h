@@ -13,8 +13,8 @@
  * systems.
  */
 
-#ifndef KKT_H
-#define KKT_H
+#ifndef QOCO_KKT_H
+#define QOCO_KKT_H
 
 #include "cone.h"
 #include "linalg.h"
@@ -134,4 +134,4 @@ void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
  */
 void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y);
 
-#endif /* #ifndef KKT_H */
+#endif /* #ifndef QOCO_KKT_H */
