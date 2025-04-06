@@ -56,7 +56,7 @@ void construct_kkt(QOCOSolver* solver)
     for (QOCOInt k = work->data->At->p[Atcol]; k < work->data->At->p[Atcol + 1];
          ++k) {
       // If the nonzero is in row i of A then add
-      work->kkt->AtoKKT[k] = nz;
+      work->kkt->AttoKKT[k] = nz;
       work->kkt->K->x[nz] = work->data->At->x[k];
       work->kkt->K->i[nz] = work->data->At->i[k];
       nz += 1;
@@ -81,7 +81,7 @@ void construct_kkt(QOCOSolver* solver)
     QOCOInt nzadded = 0;
     for (QOCOInt k = work->data->Gt->p[Gtcol]; k < work->data->Gt->p[Gtcol + 1];
          ++k) {
-      work->kkt->GtoKKT[k] = nz;
+      work->kkt->GttoKKT[k] = nz;
       work->kkt->K->x[nz] = work->data->Gt->x[k];
       work->kkt->K->i[nz] = work->data->Gt->i[k];
       nz += 1;
@@ -114,7 +114,7 @@ void construct_kkt(QOCOSolver* solver)
       QOCOInt nzadded = 0;
       for (QOCOInt k = work->data->Gt->p[Gtcol];
            k < work->data->Gt->p[Gtcol + 1]; ++k) {
-        work->kkt->GtoKKT[k] = nz;
+        work->kkt->GttoKKT[k] = nz;
         work->kkt->K->x[nz] = work->data->Gt->x[k];
         work->kkt->K->i[nz] = work->data->Gt->i[k];
         nz += 1;
