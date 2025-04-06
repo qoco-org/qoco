@@ -332,7 +332,7 @@ void row_inf_norm(const QOCOCscMatrix* M, QOCOFloat* norm)
   }
 }
 
-QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A)
+QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A, QOCOInt* AtoAt)
 {
   QOCOCscMatrix* B = qoco_malloc(sizeof(QOCOCscMatrix));
   B->m = A->n;
@@ -365,6 +365,7 @@ QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A)
       int dest_pos = B->p[row] + temp[row];
       B->i[dest_pos] = j;       // Column index becomes row index
       B->x[dest_pos] = A->x[i]; // Value remains the same
+      AtoAt[i] = dest_pos;
       temp[row]++;
     }
   }

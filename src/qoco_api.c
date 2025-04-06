@@ -82,8 +82,15 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->kkt->Dinvruiz = qoco_malloc(n * sizeof(QOCOFloat));
   solver->work->kkt->Einvruiz = qoco_malloc(p * sizeof(QOCOFloat));
   solver->work->kkt->Finvruiz = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->data->At = create_transposed_matrix(solver->work->data->A);
-  solver->work->data->Gt = create_transposed_matrix(solver->work->data->G);
+  solver->work->data->AtoAt =
+      qoco_malloc(solver->work->data->A->nnz * sizeof(QOCOInt));
+  solver->work->data->GtoGt =
+      qoco_malloc(solver->work->data->G->nnz * sizeof(QOCOInt));
+
+  solver->work->data->At = create_transposed_matrix(solver->work->data->A,
+                                                    solver->work->data->AtoAt);
+  solver->work->data->Gt = create_transposed_matrix(solver->work->data->G,
+                                                    solver->work->data->GtoGt);
   ruiz_equilibration(solver);
 
   // Regularize P.
@@ -380,12 +387,16 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
 
   // Update A in KKT matrix.
   for (QOCOInt i = 0; i < data->A->nnz; ++i) {
-    solver->work->kkt->K->x[solver->work->kkt->AtoKKT[i]] = data->A->x[i];
+    solver->work->kkt->K
+        ->x[solver->work->kkt->AtoKKT[solver->work->data->AtoAt[i]]] =
+        data->A->x[i];
   }
 
   // Update G in KKT matrix.
   for (QOCOInt i = 0; i < data->G->nnz; ++i) {
-    solver->work->kkt->K->x[solver->work->kkt->GtoKKT[i]] = data->G->x[i];
+    solver->work->kkt->K
+        ->x[solver->work->kkt->GtoKKT[solver->work->data->GtoGt[i]]] =
+        data->G->x[i];
   }
 }
 
@@ -461,6 +472,8 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   free_qoco_csc_matrix(solver->work->data->At);
   free_qoco_csc_matrix(solver->work->data->Gt);
 
+  qoco_free(solver->work->data->AtoAt);
+  qoco_free(solver->work->data->GtoGt);
   qoco_free(solver->work->data->b);
   qoco_free(solver->work->data->c);
   qoco_free(solver->work->data->h);

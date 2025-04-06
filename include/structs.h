@@ -69,6 +69,12 @@ typedef struct {
   /** Transpose of G (used in Ruiz for fast row norm calculations of G). */
   QOCOCscMatrix* Gt;
 
+  /** Mapping from A to At. */
+  QOCOInt* AtoAt;
+
+  /** Mapping from G to Gt. */
+  QOCOInt* GtoGt;
+
   /** Conic constraint offset. */
   QOCOFloat* h;
 

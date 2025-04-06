@@ -343,7 +343,7 @@ QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   }
 
   if (-f < minval)
-    a = 1;
+    a = f;
   else
     a = -f / minval;
 
