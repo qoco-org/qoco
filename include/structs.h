@@ -69,6 +69,12 @@ typedef struct {
   /** Transpose of G (used in Ruiz for fast row norm calculations of G). */
   QOCOCscMatrix* Gt;
 
+  /** Mapping from A to At. */
+  QOCOInt* AtoAt;
+
+  /** Mapping from G to Gt. */
+  QOCOInt* GtoGt;
+
   /** Conic constraint offset. */
   QOCOFloat* h;
 
@@ -226,11 +232,11 @@ typedef struct {
   /** Number of elements of P->x that were added due to regularization. */
   QOCOInt Pnum_nzadded;
 
-  /** Mapping from elements in A to elements in the KKT matrix. */
-  QOCOInt* AtoKKT;
+  /** Mapping from elements in At to elements in the KKT matrix. */
+  QOCOInt* AttoKKT;
 
-  /** Mapping from elements in G to elements in the KKT matrix. */
-  QOCOInt* GtoKKT;
+  /** Mapping from elements in Gt to elements in the KKT matrix. */
+  QOCOInt* GttoKKT;
 
 } QOCOKKT;
 

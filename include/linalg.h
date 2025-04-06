@@ -194,8 +194,9 @@ void row_inf_norm(const QOCOCscMatrix* M, QOCOFloat* norm);
  * @brief Allocates and computes A^T.
  *
  * @param A Input matrix.
+ * @param AtoAt Mapping from A to At.
  */
-QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A);
+QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A, QOCOInt* AtoAt);
 
 /**
  * @brief Scales the rows of M by E and columns of M by D.
