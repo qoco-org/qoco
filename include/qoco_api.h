@@ -20,8 +20,8 @@
 #include "equilibration.h"
 #include "input_validation.h"
 #include "kkt.h"
-#include "linalg.h"
 #include "qoco_error.h"
+#include "qoco_linalg.h"
 #include "qoco_utils.h"
 #include "structs.h"
 

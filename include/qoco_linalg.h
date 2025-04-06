@@ -1,5 +1,5 @@
 /**
- * @file linalg.h
+ * @file qoco_linalg.h
  * @author Govind M. Chari <govindchari1@gmail.com>
  *
  * @section LICENSE

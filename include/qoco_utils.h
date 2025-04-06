@@ -16,7 +16,7 @@
 #define QOCO_UTILS_H
 
 #include "enums.h"
-#include "linalg.h"
+#include "qoco_linalg.h"
 #include "structs.h"
 #include <stdio.h>
 

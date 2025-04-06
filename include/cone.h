@@ -15,7 +15,7 @@
 #ifndef QOCO_CONE_H
 #define QOCO_CONE_H
 
-#include "linalg.h"
+#include "qoco_linalg.h"
 
 /**
  * @brief Computes second-order cone product u * v = p.

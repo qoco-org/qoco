@@ -17,8 +17,8 @@
 #define QOCO_KKT_H
 
 #include "cone.h"
-#include "linalg.h"
 #include "qdldl.h"
+#include "qoco_linalg.h"
 #include "structs.h"
 
 /**

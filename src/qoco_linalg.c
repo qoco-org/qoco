@@ -8,7 +8,7 @@
  * This source code is licensed under the BSD 3-Clause License
  */
 
-#include "linalg.h"
+#include "qoco_linalg.h"
 
 QOCOCscMatrix* new_qoco_csc_matrix(const QOCOCscMatrix* A)
 {
