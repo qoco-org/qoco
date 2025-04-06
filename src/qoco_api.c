@@ -112,9 +112,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->kkt->ntdiag2kkt = qoco_calloc(m, sizeof(QOCOInt));
   solver->work->kkt->PregtoKKT =
       qoco_calloc(solver->work->data->P->nnz, sizeof(QOCOInt));
-  solver->work->kkt->AtoKKT =
+  solver->work->kkt->AttoKKT =
       qoco_calloc(solver->work->data->A->nnz, sizeof(QOCOInt));
-  solver->work->kkt->GtoKKT =
+  solver->work->kkt->GttoKKT =
       qoco_calloc(solver->work->data->G->nnz, sizeof(QOCOInt));
   solver->work->kkt->rhs = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->kktres = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
@@ -201,11 +201,11 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   }
 
   for (QOCOInt i = 0; i < solver->work->data->A->nnz; ++i) {
-    solver->work->kkt->AtoKKT[i] = KtoPKPt[solver->work->kkt->AtoKKT[i]];
+    solver->work->kkt->AttoKKT[i] = KtoPKPt[solver->work->kkt->AttoKKT[i]];
   }
 
   for (QOCOInt i = 0; i < solver->work->data->G->nnz; ++i) {
-    solver->work->kkt->GtoKKT[i] = KtoPKPt[solver->work->kkt->GtoKKT[i]];
+    solver->work->kkt->GttoKKT[i] = KtoPKPt[solver->work->kkt->GttoKKT[i]];
   }
 
   free_qoco_csc_matrix(solver->work->kkt->K);
@@ -388,14 +388,14 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   // Update A in KKT matrix.
   for (QOCOInt i = 0; i < data->A->nnz; ++i) {
     solver->work->kkt->K
-        ->x[solver->work->kkt->AtoKKT[solver->work->data->AtoAt[i]]] =
+        ->x[solver->work->kkt->AttoKKT[solver->work->data->AtoAt[i]]] =
         data->A->x[i];
   }
 
   // Update G in KKT matrix.
   for (QOCOInt i = 0; i < data->G->nnz; ++i) {
     solver->work->kkt->K
-        ->x[solver->work->kkt->GtoKKT[solver->work->data->GtoGt[i]]] =
+        ->x[solver->work->kkt->GttoKKT[solver->work->data->GtoGt[i]]] =
         data->G->x[i];
   }
 }
@@ -522,8 +522,8 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->kkt->ntdiag2kkt);
   qoco_free(solver->work->kkt->Pnzadded_idx);
   qoco_free(solver->work->kkt->PregtoKKT);
-  qoco_free(solver->work->kkt->AtoKKT);
-  qoco_free(solver->work->kkt->GtoKKT);
+  qoco_free(solver->work->kkt->AttoKKT);
+  qoco_free(solver->work->kkt->GttoKKT);
   qoco_free(solver->work->kkt->etree);
   qoco_free(solver->work->kkt->Lnz);
   qoco_free(solver->work->kkt->Lp);
