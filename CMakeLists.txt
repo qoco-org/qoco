@@ -100,6 +100,9 @@ endif()
 
 # Build qoco shared library.
 add_library(qoco SHARED)
+set_target_properties(qoco PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)
 target_link_libraries(qoco qdldl amd)
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     target_link_libraries(qoco m)
@@ -111,6 +114,9 @@ target_sources(qoco PRIVATE ${qoco_sources})
 
 # Build qoco static library.
 add_library(qocostatic STATIC)
+set_target_properties(qocostatic PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)
 target_link_libraries(qocostatic qdldlstatic amd)
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     target_link_libraries(qocostatic m)
