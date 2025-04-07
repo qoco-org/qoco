@@ -46,23 +46,4 @@ enum qoco_solve_status {
   QOCO_MAX_ITER,
 };
 
-// clang-format off
-static const char *QOCO_ERROR_MESSAGE[] = {
-    "", // Error codes start from 1.
-    "data validation error",
-    "settings validation error",
-    "amd error",
-    "memory allocation error"
-};
-
-
-static const char *QOCO_SOLVE_STATUS_MESSAGE[] = {
-    "unsolved", // Solver not run.
-    "solved",
-    "solved inaccurately",
-    "numerical error",
-    "maximum iterations reached",
-};
-// clang-format on
-
 #endif /* #ifndef QOCO_ENUMS_H */

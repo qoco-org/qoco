@@ -1,5 +1,5 @@
-#ifndef QOCO_ERROR_H
-#define QOCO_ERROR_H
+#ifndef QOCO_STATUS_H
+#define QOCO_STATUS_H
 
 #include "definitions.h"
 #include "enums.h"
@@ -13,4 +13,7 @@
  */
 QOCOInt qoco_error(enum qoco_error_code error_code);
 
-#endif /* #ifndef ERROR_H*/
+extern const char* QOCO_ERROR_MESSAGE[];
+extern const char* QOCO_SOLVE_STATUS_MESSAGE[];
+
+#endif /* #ifndef QOCO_STATUS_H*/

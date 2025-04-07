@@ -17,6 +17,7 @@
 
 #include "enums.h"
 #include "qoco_linalg.h"
+#include "qoco_status.h"
 #include "structs.h"
 #include <stdio.h>
 
