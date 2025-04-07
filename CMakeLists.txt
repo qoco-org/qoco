@@ -120,11 +120,12 @@ target_include_directories(qocostatic PUBLIC lib/amd)
 target_include_directories(qocostatic PUBLIC lib/qdldl/include)
 target_sources(qocostatic PRIVATE ${qoco_sources})
 
-
 # Build qoco demo.
-add_executable(qoco_demo ${PROJECT_SOURCE_DIR}/examples/qoco_demo.c)
-target_include_directories(qoco_demo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(qoco_demo qocostatic)
+if(BUILD_QOCO_DEMO)
+    add_executable(qoco_demo ${PROJECT_SOURCE_DIR}/examples/qoco_demo.c)
+    target_include_directories(qoco_demo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_link_libraries(qoco_demo qocostatic)
+endif()
 
 # Test definitions.
 if(ENABLE_TESTING)
