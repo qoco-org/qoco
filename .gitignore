@@ -4,3 +4,4 @@ hide/
 __pycache__/
 *_data.h
 qoco_config.h
+.DS_Store

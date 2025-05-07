@@ -9,12 +9,12 @@
   :align: center
   :target: https://github.com/qoco-org
 
-This website documents the Quadratic Objective Conic Optimizer (QOCO) and the code generator :ref:`QOCOGEN <qocogen>`, developed by the `Autonomous Controls Laboratory <https://uwacl.com/>`_ at the University of Washington. The code for both is available on `GitHub <https://github.com/qoco-org>`_.
+This website documents the Quadratic Objective Conic Optimizer (QOCO) and the code generator :ref:`QOCOGEN <qocogen_doc>`, developed by the `Autonomous Controls Laboratory <https://uwacl.com/>`_ at the University of Washington. The code for both is available on `GitHub <https://github.com/qoco-org>`_.
 
 Standard Form
 --------------
 
-QOCO (pronounced co-co) is an software package to solve second-order cone programs with quadratic objectives of the following form
+QOCO (pronounced co-co) is a software package to solve second-order cone programs with quadratic objectives of the following form
 
 .. math::
   \begin{split}
@@ -48,7 +48,7 @@ Features
 * **Embeddable**: Written in C, so it can be easily run on any embedded system.
 * **Library-free**: Does not require any external libraries.
 * **Tuning-free**: Does not require any hyperparameter tuning to achieve good performance.
-* **Code Generation**: :ref:`QOCOGEN <qocogen>` is a custom solver generator which generates extremely fast, library-free custom solvers for second-order cone programs.
+* **Code Generation**: :ref:`QOCOGEN <qocogen_doc>` is a custom solver generator which generates extremely fast, library-free custom solvers for second-order cone programs.
 
 Benchmarks
 --------------
@@ -84,12 +84,10 @@ If you find QOCO useful please star the repository on `GitHub <https://github.co
  
 .. toctree::
    :hidden:
-   :maxdepth: 3
    :caption: Solver Documentation:
+   :maxdepth: 2
 
-   install/index
-   api/index
-   parsers/index
+   qoco_doc/index
+   qocogen_doc/index
    examples/index
-   codegen/index
    contributing/index
