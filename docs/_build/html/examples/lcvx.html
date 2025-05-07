@@ -21,7 +21,9 @@
       <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributing" href="../contributing/index.html" />
+    <link rel="prev" title="Simple Example" href="simple_example.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,9 +47,75 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Solver Documentation:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../qoco_doc/index.html">QOCO</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../qocogen_doc/index.html">QOCOGEN</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../qoco_doc/index.html">QOCO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../qoco_doc/install/index.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../qoco_doc/install/C.html">C/C++</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../qoco_doc/install/C.html#build-binaries">Build binaries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../qoco_doc/install/C.html#use-with-cmake">Use with CMake</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../qoco_doc/install/python.html">Python</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../qoco_doc/install/python.html#pip">Pip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../qoco_doc/install/python.html#build-from-source">Build from Source</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../qoco_doc/install/matlab.html">Matlab</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../qoco_doc/install/matlab.html#build-from-source">Build from Source</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../qoco_doc/api/index.html">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../qoco_doc/api/interfaces.html">Interfaces</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../qoco_doc/api/C.html">C/C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../qoco_doc/api/python.html">Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../qoco_doc/api/matlab.html">Matlab</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../qoco_doc/api/settings.html">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../qoco_doc/api/exit.html">Exit flags</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../qoco_doc/cvxpy.html">CVXPY</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../qocogen_doc/index.html">QOCOGEN</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../qocogen_doc/installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../qocogen_doc/installation.html#pip">Pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../qocogen_doc/installation.html#build-from-source">Build from Source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../qocogen_doc/generate.html">Generating Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qocogen_doc/build.html">Building Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qocogen_doc/api.html">API for Custom Solver</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../qocogen_doc/api.html#main-solver-api">Main solver API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../qocogen_doc/api.html#settings">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../qocogen_doc/api.html#solution">Solution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../qocogen_doc/api.html#status-flags">Status Flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../qocogen_doc/api.html#changing-problem-instance">Changing problem instance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../qocogen_doc/calling.html">Calling Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qocogen_doc/cvxpygen.html">CVXPYgen</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simple_example.html">Simple Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="simple_example.html#python">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simple_example.html#matlab">Matlab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simple_example.html#c-c">C/C++</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Lossless Convexification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cvxpy-cvxpygen">CVXPY/CVXPYgen</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a><ul class="simple">
+</ul>
+</li>
 </ul>
 
         </div>
@@ -64,6 +132,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Examples</a></li>
       <li class="breadcrumb-item active">Lossless Convexification</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/examples/lcvx.rst.txt" rel="nofollow"> View page source</a>
@@ -208,7 +277,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="simple_example.html" class="btn btn-neutral float-left" title="Simple Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../contributing/index.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QOCO &mdash; QOCO  documentation</title>
+  <title>CVXPY &mdash; QOCO  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=139e30ab" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Installation" href="install/index.html" />
-    <link rel="prev" title="Standard Form" href="../index.html" /> 
+    <link rel="next" title="QOCOGEN" href="../qocogen_doc/index.html" />
+    <link rel="prev" title="Exit flags" href="api/exit.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,7 +47,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Solver Documentation:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">QOCO</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">QOCO</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="install/index.html">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="install/C.html">C/C++</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="install/C.html#build-binaries">Build binaries</a></li>
@@ -76,7 +76,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/exit.html">Exit flags</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="cvxpy.html">CVXPY</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CVXPY</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../qocogen_doc/index.html">QOCOGEN</a><ul>
@@ -131,9 +131,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">QOCO</li>
+          <li class="breadcrumb-item"><a href="index.html">QOCO</a></li>
+      <li class="breadcrumb-item active">CVXPY</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/qoco_doc/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/qoco_doc/cvxpy.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -141,23 +142,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="qoco">
-<span id="qoco-doc"></span><h1>QOCO<a class="headerlink" href="#qoco" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="install/index.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/index.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cvxpy.html">CVXPY</a></li>
-</ul>
+  <section id="cvxpy">
+<h1>CVXPY<a class="headerlink" href="#cvxpy" title="Link to this heading"></a></h1>
+<p>QOCO can be called from <a class="reference external" href="http://www.cvxpy.org/">CVXPY</a> from version 1.6.4 onwards.</p>
+<p>After <a class="reference internal" href="install/python.html#python-installation"><span class="std std-ref">installing QOCO</span></a> and defining your problem in CVXPY, QOCO can be called as follows</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">problem</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;QOCO&#39;</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
 </div>
+<p>where we set the <code class="code docutils literal notranslate"><span class="pre">max_iters</span></code> option to <code class="code docutils literal notranslate"><span class="pre">100</span></code>. For a full list of settings that can be changed, refer to <a class="reference internal" href="api/settings.html#settings"><span class="std std-ref">settings</span></a>.</p>
+<p>For some example problems that can be solved with CVXPY refer to <a class="reference external" href="https://www.cvxpy.org/examples/index.html">examples</a>. To solve these problems with QOCO, add the keyword argument <code class="code docutils literal notranslate"><span class="pre">solver='QOCO'</span></code> to the <code class="code docutils literal notranslate"><span class="pre">problem.solve()</span></code> function.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../index.html" class="btn btn-neutral float-left" title="Standard Form" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="install/index.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api/exit.html" class="btn btn-neutral float-left" title="Exit flags" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../qocogen_doc/index.html" class="btn btn-neutral float-right" title="QOCOGEN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

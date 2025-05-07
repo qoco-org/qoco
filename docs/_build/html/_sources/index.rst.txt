@@ -14,7 +14,7 @@ This website documents the Quadratic Objective Conic Optimizer (QOCO) and the co
 Standard Form
 --------------
 
-QOCO (pronounced co-co) is an software package to solve second-order cone programs with quadratic objectives of the following form
+QOCO (pronounced co-co) is a software package to solve second-order cone programs with quadratic objectives of the following form
 
 .. math::
   \begin{split}
@@ -84,8 +84,10 @@ If you find QOCO useful please star the repository on `GitHub <https://github.co
  
 .. toctree::
    :hidden:
-   :maxdepth: 3
    :caption: Solver Documentation:
+   :maxdepth: 2
 
    qoco_doc/index
    qocogen_doc/index
+   examples/index
+   contributing/index

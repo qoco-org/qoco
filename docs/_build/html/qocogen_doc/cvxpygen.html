@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Generating Custom Solver &mdash; QOCO  documentation</title>
+  <title>CVXPYgen &mdash; QOCO  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=139e30ab" />
@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Building Custom Solver" href="build.html" />
-    <link rel="prev" title="Installation" href="installation.html" /> 
+    <link rel="next" title="Examples" href="../examples/index.html" />
+    <link rel="prev" title="Calling Custom Solver" href="calling.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -85,7 +85,7 @@
 <li class="toctree-l3"><a class="reference internal" href="installation.html#build-from-source">Build from Source</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Generating Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generate.html">Generating Custom Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build.html">Building Custom Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html">API for Custom Solver</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api.html#main-solver-api">Main solver API</a></li>
@@ -96,7 +96,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="calling.html">Calling Custom Solver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cvxpygen.html">CVXPYgen</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CVXPYgen</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
@@ -132,9 +132,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">QOCOGEN</a></li>
-      <li class="breadcrumb-item active">Generating Custom Solver</li>
+      <li class="breadcrumb-item active">CVXPYgen</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/qocogen_doc/generate.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/qocogen_doc/cvxpygen.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -142,42 +142,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="generating-custom-solver">
-<h1>Generating Custom Solver<a class="headerlink" href="#generating-custom-solver" title="Link to this heading"></a></h1>
-<p id="generate">Below is code that will generate a custom solver for the problem family defined in <a class="reference internal" href="../examples/simple_example.html#simple-example"><span class="std std-ref">simple example</span></a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qocogen</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">sparse</span>
+  <section id="cvxpygen">
+<h1>CVXPYgen<a class="headerlink" href="#cvxpygen" title="Link to this heading"></a></h1>
+<p>QOCOGEN can be called from <a class="reference external" href="https://github.com/cvxgrp/cvxpygen/">CVXPYgen</a> from version 0.5.0 onwards to generate a custom solver and then to call the custom solver from Python.</p>
+<p>After <a class="reference internal" href="../qoco_doc/install/python.html#python-installation"><span class="std std-ref">installing QOCO</span></a> and defining your problem in CVXPY, QOCOGEN can be called to generate a custom solver using CVXPYgen as follows</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cvxpygen</span><span class="w"> </span><span class="kn">import</span> <span class="n">cpg</span>
 
-<span class="c1"># Define problem data</span>
-<span class="n">P</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">diags</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
-
-<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">G</span> <span class="o">=</span> <span class="o">-</span><span class="n">sparse</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
-<span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">A</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">csc_matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-
-<span class="n">l</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">m</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">p</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">nsoc</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">])</span>
-
-<span class="c1"># Generate custom solver in this directory with name qoco_custom.</span>
-<span class="n">qocogen</span><span class="o">.</span><span class="n">generate_solver</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">nsoc</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;qoco_custom&quot;</span><span class="p">)</span>
+<span class="c1"># problem is a CVXPY problem</span>
+<span class="n">cpg</span><span class="o">.</span><span class="n">generate_code</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">code_dir</span><span class="o">=</span><span class="s1">&#39;solver_directory&#39;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;QOCO&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You should now find your custom solver in the <code class="code docutils literal notranslate"><span class="pre">qoco_custom</span></code> directory within the current directory along with a file titled <code class="code docutils literal notranslate"><span class="pre">runtest.c</span></code> which demonstrates how to call <code class="code docutils literal notranslate"><span class="pre">qoco_custom</span></code> to solve the problem instance specified when generating the solver.</p>
+<p>To call the custom solver through CVXPYgen, run</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">solver_directory.cpg_solver</span><span class="w"> </span><span class="kn">import</span> <span class="n">cpg_solve</span>
+<span class="n">problem</span><span class="o">.</span><span class="n">register_solve</span><span class="p">(</span><span class="s1">&#39;CPG&#39;</span><span class="p">,</span> <span class="n">cpg_solve</span><span class="p">)</span>
+<span class="n">problem</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;CPG&#39;</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where we set the <code class="code docutils literal notranslate"><span class="pre">max_iters</span></code> option to <code class="code docutils literal notranslate"><span class="pre">100</span></code>. For a full list of settings that can be changed, refer to <a class="reference internal" href="../qoco_doc/api/settings.html#settings"><span class="std std-ref">settings</span></a>.</p>
+<p>For an example of setting up and solving a problem using QOCO through CVXPY and QOCOGEN through CVXPYgen, see <a class="reference internal" href="../examples/lcvx.html#lcvx-example"><span class="std std-ref">settings</span></a>.</p>
+<p>To see how to call the custom solver directly from C, see <a class="reference internal" href="calling.html#calling"><span class="std std-ref">calling</span></a>.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="build.html" class="btn btn-neutral float-right" title="Building Custom Solver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="calling.html" class="btn btn-neutral float-left" title="Calling Custom Solver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../examples/index.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
