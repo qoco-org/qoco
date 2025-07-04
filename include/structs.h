@@ -245,9 +245,9 @@ typedef struct {
     void* cudss_matrix; // cuDSS sparse matrix object
     void* cudss_rhs_matrix; // cuDSS dense matrix for RHS
     void* cudss_solution_matrix; // cuDSS dense matrix for solution
-    void* cudss_d_csc_values; // Device pointer for CSC values (A->x)
-    void* cudss_d_csc_row_indices; // Device pointer for CSC row indices (A->i)
-    void* cudss_d_csc_col_ptrs; // Device pointer for CSC col pointers (A->p)
+    void* d_csr_values; // Device pointer for CSR values (A->x)
+    void* d_csr_col_indices; // Device pointer for CSR col indices (A->i)
+    void* d_csr_row_pointers; // Device pointer for CSR row pointers (A->p)
     void* cudss_d_rhs; // Device pointer for right-hand side
     void* cudss_d_solution; // Device pointer for solution
     int cudss_initialized; // Flag to indicate if cuDSS is initialized for this KKT

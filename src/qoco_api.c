@@ -14,6 +14,19 @@
 #ifdef QOCO_USE_CUDSS
 #include <cuda_runtime.h>
 #include <cudss.h>
+
+// Macro to check cuDSS function calls
+#define CUDSS_CHECK(call, fname)                                          \
+  do                                                                      \
+  {                                                                       \
+    cudssStatus_t status = call;                                          \
+    if (status != CUDSS_STATUS_SUCCESS)                                   \
+    {                                                                     \
+      printf("CUDSS call " #fname " returned status = %d\n", status);     \
+      return QOCO_SETUP_ERROR;                                            \
+    }                                                                     \
+  } while (0)
+
 #endif
 
 QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
@@ -134,9 +147,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->kkt->cudss_matrix = NULL;
   solver->work->kkt->cudss_rhs_matrix = NULL;
   solver->work->kkt->cudss_solution_matrix = NULL;
-  solver->work->kkt->cudss_d_csc_values = NULL;
-  solver->work->kkt->cudss_d_csc_row_indices = NULL;
-  solver->work->kkt->cudss_d_csc_col_ptrs = NULL;
+  solver->work->kkt->d_csr_values = NULL;
+  solver->work->kkt->d_csr_col_indices = NULL;
+  solver->work->kkt->d_csr_row_pointers = NULL;
   solver->work->kkt->cudss_d_rhs = NULL;
   solver->work->kkt->cudss_d_solution = NULL;
   solver->work->kkt->cudss_initialized = 0;
@@ -238,47 +251,44 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   QOCOKKT* kkt = solver->work->kkt;
   
   // Allocate device memory for CSC matrix data (using permuted matrix)
-  cudaMalloc(&kkt->cudss_d_csc_values, PKPt->nnz * sizeof(QOCOFloat));
-  cudaMalloc(&kkt->cudss_d_csc_row_indices, PKPt->nnz * sizeof(QOCOInt));
-  cudaMalloc(&kkt->cudss_d_csc_col_ptrs, (PKPt->n + 1) * sizeof(QOCOInt));
+  cudaMalloc(&kkt->d_csr_values, PKPt->nnz * sizeof(QOCOFloat));
+  cudaMalloc(&kkt->d_csr_col_indices, PKPt->nnz * sizeof(QOCOInt));
+  cudaMalloc(&kkt->d_csr_row_pointers, (PKPt->n + 1) * sizeof(QOCOInt));
   cudaMalloc(&kkt->cudss_d_rhs, PKPt->n * sizeof(QOCOFloat));
   cudaMalloc(&kkt->cudss_d_solution, PKPt->n * sizeof(QOCOFloat));
   
   // Transfer permuted CSC matrix data to GPU
-  cudaMemcpy(kkt->cudss_d_csc_values, PKPt->x, 
-             PKPt->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
-  cudaMemcpy(kkt->cudss_d_csc_row_indices, PKPt->i, 
-             PKPt->nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice);
-  cudaMemcpy(kkt->cudss_d_csc_col_ptrs, PKPt->p, 
-             (PKPt->n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice);
+  cudaMemcpy(kkt->d_csr_values, PKPt->x, PKPt->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+  cudaMemcpy(kkt->d_csr_col_indices, PKPt->i, PKPt->nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice);
+  cudaMemcpy(kkt->d_csr_row_pointers, PKPt->p, (PKPt->n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice);
   
   // Create cuDSS objects
-  cudssCreate(&kkt->cudss_handle);
-  cudssConfigCreate(&kkt->cudss_config);
-  cudssDataCreate(kkt->cudss_handle, &kkt->cudss_data);
+  CUDSS_CHECK(cudssCreate((cudssHandle_t*)&kkt->cudss_handle), cudssCreate);
+  CUDSS_CHECK(cudssConfigCreate((cudssConfig_t*)&kkt->cudss_config), cudssConfigCreate);
+  CUDSS_CHECK(cudssDataCreate((cudssHandle_t)kkt->cudss_handle, (cudssData_t*)&kkt->cudss_data), cudssDataCreate);
   
   // Disable cuDSS reordering since we're providing a pre-permuted matrix
   cudssAlgType_t alg = CUDSS_ALG_DEFAULT;
-  cudssConfigSet(kkt->cudss_config, CUDSS_CONFIG_REORDERING_ALG, &alg, sizeof(alg));
+  CUDSS_CHECK(cudssConfigSet((cudssConfig_t)kkt->cudss_config, CUDSS_CONFIG_REORDERING_ALG, &alg, sizeof(alg)), cudssConfigSet);
   
   // Provide the AMD permutation to cuDSS
-  cudssDataSet(kkt->cudss_handle, kkt->cudss_data, CUDSS_DATA_USER_PERM, solver->work->kkt->p, sizeof(QOCOInt) * PKPt->n);
+  CUDSS_CHECK(cudssDataSet((cudssHandle_t)kkt->cudss_handle, (cudssData_t)kkt->cudss_data, CUDSS_DATA_USER_PERM, solver->work->kkt->p, sizeof(QOCOInt) * PKPt->n), cudssDataSet);
   
   // Create cuDSS matrix objects - swap row/col pointers for CSC->CSR conversion
   // and use lower triangular view since KKT matrix is symmetric
-  cudssMatrixCreateCsr(&kkt->cudss_matrix, PKPt->n, PKPt->n, PKPt->nnz,
-                       kkt->cudss_d_csc_col_ptrs, NULL, kkt->cudss_d_csc_row_indices,
-                       kkt->cudss_d_csc_values, CUDA_R_32I, CUDA_R_64F,
-                       CUDSS_MTYPE_GENERAL, CUDSS_MVIEW_LOWER, CUDSS_BASE_ZERO);
-  cudssMatrixCreateDn(&kkt->cudss_rhs_matrix, PKPt->n, 1, PKPt->n,
-                      kkt->cudss_d_rhs, CUDA_R_64F, CUDSS_LAYOUT_COL_MAJOR);
-  cudssMatrixCreateDn(&kkt->cudss_solution_matrix, PKPt->n, 1, PKPt->n,
-                      kkt->cudss_d_solution, CUDA_R_64F, CUDSS_LAYOUT_COL_MAJOR);
+  CUDSS_CHECK(cudssMatrixCreateCsr((cudssMatrix_t*)&kkt->cudss_matrix, PKPt->n, PKPt->n, PKPt->nnz,
+                                   kkt->d_csr_row_pointers, NULL, kkt->d_csr_col_indices,
+                                   kkt->d_csr_values, CUDA_R_32I, CUDA_R_64F,
+                                   CUDSS_MTYPE_SYMMETRIC, CUDSS_MVIEW_LOWER, CUDSS_BASE_ZERO), cudssMatrixCreateCsr);
+  CUDSS_CHECK(cudssMatrixCreateDn((cudssMatrix_t*)&kkt->cudss_rhs_matrix, PKPt->n, 1, PKPt->n,
+                                  kkt->cudss_d_rhs, CUDA_R_64F, CUDSS_LAYOUT_COL_MAJOR), cudssMatrixCreateDn);
+  CUDSS_CHECK(cudssMatrixCreateDn((cudssMatrix_t*)&kkt->cudss_solution_matrix, PKPt->n, 1, PKPt->n,
+                                  kkt->cudss_d_solution, CUDA_R_64F, CUDSS_LAYOUT_COL_MAJOR), cudssMatrixCreateDn);
   
   // Perform analysis phase only (factorization will be done separately)
-  cudssExecute(kkt->cudss_handle, CUDSS_PHASE_SYMBOLIC_FACTORIZATION, kkt->cudss_config,
-               kkt->cudss_data, kkt->cudss_matrix, kkt->cudss_solution_matrix,
-               kkt->cudss_rhs_matrix);
+  CUDSS_CHECK(cudssExecute((cudssHandle_t)kkt->cudss_handle, CUDSS_PHASE_ANALYSIS, (cudssConfig_t)kkt->cudss_config,
+                           (cudssData_t)kkt->cudss_data, (cudssMatrix_t)kkt->cudss_matrix, (cudssMatrix_t)kkt->cudss_solution_matrix,
+                           (cudssMatrix_t)kkt->cudss_rhs_matrix), cudssExecute);
   
   kkt->cudss_initialized = 1;
 #endif
@@ -633,14 +643,14 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
     }
     
     // Free cuDSS device memory
-    if (solver->work->kkt->cudss_d_csc_values) {
-      cudaFree(solver->work->kkt->cudss_d_csc_values);
+    if (solver->work->kkt->d_csr_values) {
+      cudaFree(solver->work->kkt->d_csr_values);
     }
-    if (solver->work->kkt->cudss_d_csc_row_indices) {
-      cudaFree(solver->work->kkt->cudss_d_csc_row_indices);
+    if (solver->work->kkt->d_csr_col_indices) {
+      cudaFree(solver->work->kkt->d_csr_col_indices);
     }
-    if (solver->work->kkt->cudss_d_csc_col_ptrs) {
-      cudaFree(solver->work->kkt->cudss_d_csc_col_ptrs);
+    if (solver->work->kkt->d_csr_row_pointers) {
+      cudaFree(solver->work->kkt->d_csr_row_pointers);
     }
     if (solver->work->kkt->cudss_d_rhs) {
       cudaFree(solver->work->kkt->cudss_d_rhs);

@@ -14,6 +14,19 @@
 #ifdef QOCO_USE_CUDSS
 #include <cuda_runtime.h>
 #include <cudss.h>
+
+// Macro to check cuDSS function calls
+#define CUDSS_CHECK(call, fname)                                          \
+  do                                                                      \
+  {                                                                       \
+    cudssStatus_t status = call;                                          \
+    if (status != CUDSS_STATUS_SUCCESS)                                   \
+    {                                                                     \
+      printf("CUDSS call " #fname " returned status = %d\n", status);     \
+      return (int)status;                                                 \
+    }                                                                     \
+  } while (0)
+
 #endif
 
 void allocate_kkt(QOCOWorkspace* work)
@@ -503,10 +516,12 @@ static void kkt_solve_qdldl(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
 #ifdef QOCO_USE_CUDSS
-  // Use cuDSS when available
-  kkt_solve_cudss(solver, b, iters);
+  int status = kkt_solve_cudss(solver, b, iters);
+  if (status != 0) { // CUDSS_STATUS_SUCCESS is 0
+    printf("cuDSS solve failed with status %d\n", status);
+    return;
+  }
 #else
-  // cuDSS not compiled in - use CPU
   kkt_solve_qdldl(solver, b, iters);
 #endif
 }
@@ -541,25 +556,26 @@ void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
 
 #ifdef QOCO_USE_CUDSS
 // Factor the KKT matrix using cuDSS (equivalent to QDLDL_factor)
-void cudss_factor(QOCOSolver* solver)
+int cudss_factor(QOCOSolver* solver)
 {
     QOCOKKT* kkt = solver->work->kkt;
     
     // Update the matrix values on GPU with current KKT matrix
-    cudaMemcpy(kkt->cudss_d_csc_values, kkt->K->x, 
-               kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    cudaMemcpy(kkt->d_csr_values, kkt->K->x, kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
     
     // Update the cuDSS matrix with new values
-    cudssMatrixSetValues(kkt->cudss_matrix, kkt->cudss_d_csc_values);
+    CUDSS_CHECK(cudssMatrixSetValues((cudssMatrix_t)kkt->cudss_matrix, kkt->d_csr_values), cudssMatrixSetValues);
     
     // Perform factorization phase
-    cudssExecute(kkt->cudss_handle, CUDSS_PHASE_FACTORIZATION, kkt->cudss_config,
-                 kkt->cudss_data, kkt->cudss_matrix, kkt->cudss_solution_matrix,
-                 kkt->cudss_rhs_matrix);
+    CUDSS_CHECK(cudssExecute((cudssHandle_t)kkt->cudss_handle, CUDSS_PHASE_FACTORIZATION, (cudssConfig_t)kkt->cudss_config,
+                             (cudssData_t)kkt->cudss_data, (cudssMatrix_t)kkt->cudss_matrix, (cudssMatrix_t)kkt->cudss_solution_matrix,
+                             (cudssMatrix_t)kkt->cudss_rhs_matrix), cudssExecute);
+    
+    return 0; // CUDSS_STATUS_SUCCESS
 }
 
 // Solve Kx = b using cuDSS (equivalent to kkt_solve)
-void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
+int kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
     (void)iters; // Suppress unused parameter warning - cuDSS doesn't use iterative refinement
     QOCOKKT* kkt = solver->work->kkt;
@@ -568,31 +584,45 @@ void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
     cudaMemcpy(kkt->cudss_d_rhs, b, 
                kkt->K->n * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
     
+    // Update the RHS matrix with new values
+    CUDSS_CHECK(cudssMatrixSetValues((cudssMatrix_t)kkt->cudss_rhs_matrix, kkt->cudss_d_rhs), cudssMatrixSetValues);
+    
     // Call cuDSS solve
-    cudssExecute(kkt->cudss_handle, CUDSS_PHASE_SOLVE, kkt->cudss_config,
-                 kkt->cudss_data, kkt->cudss_matrix, kkt->cudss_solution_matrix,
-                 kkt->cudss_rhs_matrix);
+    CUDSS_CHECK(cudssExecute((cudssHandle_t)kkt->cudss_handle, CUDSS_PHASE_SOLVE, (cudssConfig_t)kkt->cudss_config,
+                             (cudssData_t)kkt->cudss_data, (cudssMatrix_t)kkt->cudss_matrix, (cudssMatrix_t)kkt->cudss_solution_matrix,
+                             (cudssMatrix_t)kkt->cudss_rhs_matrix), cudssExecute);
+    
+    // Get solution from the solution matrix
+    void* solution_values;
+    cudssMatrixGetDn((cudssMatrix_t)kkt->cudss_solution_matrix, NULL, NULL, NULL, 
+                     &solution_values, NULL, NULL);
     
     // Transfer solution back to host
-    cudaMemcpy(kkt->xyz, kkt->cudss_d_solution, 
+    cudaMemcpy(kkt->xyz, solution_values, 
                kkt->K->n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
-    
+
     // Apply permutation (similar to QDLDL version)
     for (QOCOInt i = 0; i < kkt->K->n; ++i) {
         kkt->xyz[kkt->p[i]] = kkt->xyz[i];
     }
+    
+    return 0; // CUDSS_STATUS_SUCCESS
 }
 #endif
 
 void factor(QOCOSolver* solver) {
 #ifdef QOCO_USE_CUDSS
-    cudss_factor(solver);
+  int status = cudss_factor(solver);
+  if (status != 0) { // CUDSS_STATUS_SUCCESS is 0
+    printf("cuDSS factorization failed with status %d\n", status);
+    return;
+  }
 #else
-    QOCOKKT* kkt = solver->work->kkt;
-    QDLDL_factor(
-        kkt->K->n, kkt->K->p, kkt->K->i,
-        kkt->K->x, kkt->Lp, kkt->Li, kkt->Lx, kkt->D, kkt->Dinv,
-        kkt->Lnz, kkt->etree, kkt->bwork, kkt->iwork, kkt->fwork,
-        kkt->p, solver->work->data->n, solver->settings->kkt_dynamic_reg);
+  QOCOKKT* kkt = solver->work->kkt;
+  QDLDL_factor(
+      kkt->K->n, kkt->K->p, kkt->K->i,
+      kkt->K->x, kkt->Lp, kkt->Li, kkt->Lx, kkt->D, kkt->Dinv,
+      kkt->Lnz, kkt->etree, kkt->bwork, kkt->iwork, kkt->fwork,
+      kkt->p, solver->work->data->n, solver->settings->kkt_dynamic_reg);
 #endif
 }

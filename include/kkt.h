@@ -126,10 +126,10 @@ void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
 
 #ifdef QOCO_USE_CUDSS
 // Factor the KKT matrix using cuDSS (equivalent to QDLDL_factor)
-void cudss_factor(QOCOSolver* solver);
+int cudss_factor(QOCOSolver* solver);
 
 // Solve Kx = b using cuDSS (GPU-accelerated direct sparse solver)
-void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
+int kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
 #endif
 
 /**
