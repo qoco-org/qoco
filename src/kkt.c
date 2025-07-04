@@ -11,6 +11,11 @@
 #include "kkt.h"
 #include "qoco_utils.h"
 
+#ifdef QOCO_USE_CUDSS
+#include <cuda_runtime.h>
+#include <cudss.h>
+#endif
+
 void allocate_kkt(QOCOWorkspace* work)
 {
   work->kkt->K = qoco_malloc(sizeof(QOCOCscMatrix));
@@ -459,13 +464,9 @@ void predictor_corrector(QOCOSolver* solver)
   }
 }
 
-void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
+// Helper function for QDLDL-based solve (used as fallback)
+static void kkt_solve_qdldl(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
-#ifdef QOCO_USE_CUDSS
-  // Use cuDSS for GPU-accelerated linear system solve
-  kkt_solve_cudss(solver, b, iters);
-#else
-  // Use QDLDL for CPU-based linear system solve
   QOCOKKT* kkt = solver->work->kkt;
 
   // Permute b and store in xyzbuff.
@@ -509,6 +510,16 @@ void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
   for (QOCOInt i = 0; i < kkt->K->n; ++i) {
     kkt->xyz[kkt->p[i]] = kkt->xyzbuff1[i];
   }
+}
+
+void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
+{
+#ifdef QOCO_USE_CUDSS
+  // Use cuDSS for GPU-accelerated linear system solve
+  kkt_solve_cudss(solver, b, iters);
+#else
+  // Use QDLDL for CPU-based linear system solve
+  kkt_solve_qdldl(solver, b, iters);
 #endif
 }
 
@@ -540,6 +551,7 @@ void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
             data->m);
 }
 
+#ifdef QOCO_USE_CUDSS
 // Solve Kx = b using cuDSS (GPU-accelerated direct sparse solver)
 void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
@@ -547,29 +559,143 @@ void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
     
     // Initialize cuDSS if not already done
     if (!kkt->cudss_initialized) {
-        // TODO: Initialize cuDSS solver
-        // - Create cuDSS handle
-        // - Allocate device memory for CSC matrix (values, row_indices, col_ptrs)
-        // - Allocate device memory for rhs and solution
-        // - Transfer CSC matrix data to GPU
-        // - Set up cuDSS solver with matrix structure
+        // Allocate device memory for CSC matrix data
+        cudaError_t cuda_status;
+        cuda_status = cudaMalloc(&kkt->cudss_d_csc_values, kkt->K->nnz * sizeof(QOCOFloat));
+        if (cuda_status != cudaSuccess) {
+            // Fall back to CPU solver if GPU allocation fails
+            kkt_solve_qdldl(solver, b, iters);
+            return;
+        }
+        
+        cuda_status = cudaMalloc(&kkt->cudss_d_csc_row_indices, kkt->K->nnz * sizeof(QOCOInt));
+        if (cuda_status != cudaSuccess) {
+            cudaFree(kkt->cudss_d_csc_values);
+            kkt_solve_qdldl(solver, b, iters);
+            return;
+        }
+        
+        cuda_status = cudaMalloc(&kkt->cudss_d_csc_col_ptrs, (kkt->K->n + 1) * sizeof(QOCOInt));
+        if (cuda_status != cudaSuccess) {
+            cudaFree(kkt->cudss_d_csc_values);
+            cudaFree(kkt->cudss_d_csc_row_indices);
+            kkt_solve_qdldl(solver, b, iters);
+            return;
+        }
+        
+        // Allocate device memory for rhs and solution
+        cuda_status = cudaMalloc(&kkt->cudss_d_rhs, kkt->K->n * sizeof(QOCOFloat));
+        if (cuda_status != cudaSuccess) {
+            cudaFree(kkt->cudss_d_csc_values);
+            cudaFree(kkt->cudss_d_csc_row_indices);
+            cudaFree(kkt->cudss_d_csc_col_ptrs);
+            kkt_solve_qdldl(solver, b, iters);
+            return;
+        }
+        
+        cuda_status = cudaMalloc(&kkt->cudss_d_solution, kkt->K->n * sizeof(QOCOFloat));
+        if (cuda_status != cudaSuccess) {
+            cudaFree(kkt->cudss_d_csc_values);
+            cudaFree(kkt->cudss_d_csc_row_indices);
+            cudaFree(kkt->cudss_d_csc_col_ptrs);
+            cudaFree(kkt->cudss_d_rhs);
+            kkt_solve_qdldl(solver, b, iters);
+            return;
+        }
+        
+        // Transfer CSC matrix data to GPU
+        cuda_status = cudaMemcpy(kkt->cudss_d_csc_values, kkt->K->x, 
+                                kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+        if (cuda_status != cudaSuccess) {
+            cudaFree(kkt->cudss_d_csc_values);
+            cudaFree(kkt->cudss_d_csc_row_indices);
+            cudaFree(kkt->cudss_d_csc_col_ptrs);
+            cudaFree(kkt->cudss_d_rhs);
+            cudaFree(kkt->cudss_d_solution);
+            kkt_solve_qdldl(solver, b, iters);
+            return;
+        }
+        
+        cuda_status = cudaMemcpy(kkt->cudss_d_csc_row_indices, kkt->K->i, 
+                                kkt->K->nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice);
+        if (cuda_status != cudaSuccess) {
+            cudaFree(kkt->cudss_d_csc_values);
+            cudaFree(kkt->cudss_d_csc_row_indices);
+            cudaFree(kkt->cudss_d_csc_col_ptrs);
+            cudaFree(kkt->cudss_d_rhs);
+            cudaFree(kkt->cudss_d_solution);
+            kkt_solve_qdldl(solver, b, iters);
+            return;
+        }
+        
+        cuda_status = cudaMemcpy(kkt->cudss_d_csc_col_ptrs, kkt->K->p, 
+                                (kkt->K->n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice);
+        if (cuda_status != cudaSuccess) {
+            cudaFree(kkt->cudss_d_csc_values);
+            cudaFree(kkt->cudss_d_csc_row_indices);
+            cudaFree(kkt->cudss_d_csc_col_ptrs);
+            cudaFree(kkt->cudss_d_rhs);
+            cudaFree(kkt->cudss_d_solution);
+            kkt_solve_qdldl(solver, b, iters);
+            return;
+        }
+        
+        // Create cuDSS handle and set up solver
+        cudssStatus_t cudss_status = cudssCreate(&kkt->cudss_handle);
+        if (cudss_status != CUDSS_STATUS_SUCCESS) {
+            cudaFree(kkt->cudss_d_csc_values);
+            cudaFree(kkt->cudss_d_csc_row_indices);
+            cudaFree(kkt->cudss_d_csc_col_ptrs);
+            cudaFree(kkt->cudss_d_rhs);
+            cudaFree(kkt->cudss_d_solution);
+            kkt_solve_qdldl(solver, b, iters);
+            return;
+        }
+        
+        // Set up cuDSS solver with matrix structure
+        cudss_status = cudssSetup(kkt->cudss_handle, kkt->K->n, kkt->K->nnz,
+                                 kkt->cudss_d_csc_col_ptrs, kkt->cudss_d_csc_row_indices,
+                                 kkt->cudss_d_csc_values, CUDSS_MATRIX_TYPE_GENERAL);
+        if (cudss_status != CUDSS_STATUS_SUCCESS) {
+            cudssDestroy(kkt->cudss_handle);
+            cudaFree(kkt->cudss_d_csc_values);
+            cudaFree(kkt->cudss_d_csc_row_indices);
+            cudaFree(kkt->cudss_d_csc_col_ptrs);
+            cudaFree(kkt->cudss_d_rhs);
+            cudaFree(kkt->cudss_d_solution);
+            kkt_solve_qdldl(solver, b, iters);
+            return;
+        }
         
         kkt->cudss_initialized = 1;
     }
     
-    // TODO: Transfer right-hand side to GPU
-    // cudaMemcpy(kkt->cudss_d_rhs, b, kkt->K->n * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    // Transfer right-hand side to GPU
+    cudaError_t cuda_status = cudaMemcpy(kkt->cudss_d_rhs, b, 
+                                        kkt->K->n * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    if (cuda_status != cudaSuccess) {
+        kkt_solve_qdldl(solver, b, iters);
+        return;
+    }
     
-    // TODO: Call cuDSS solve
-    // cudss_solve(kkt->cudss_handle, kkt->cudss_d_rhs, kkt->cudss_d_solution);
+    // Call cuDSS solve
+    cudssStatus_t cudss_status = cudssSolve(kkt->cudss_handle, kkt->cudss_d_rhs, kkt->cudss_d_solution);
+    if (cudss_status != CUDSS_STATUS_SUCCESS) {
+        kkt_solve_qdldl(solver, b, iters);
+        return;
+    }
     
-    // TODO: Transfer solution back to host
-    // cudaMemcpy(kkt->xyz, kkt->cudss_d_solution, kkt->K->n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
+    // Transfer solution back to host
+    cuda_status = cudaMemcpy(kkt->xyz, kkt->cudss_d_solution, 
+                            kkt->K->n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
+    if (cuda_status != cudaSuccess) {
+        kkt_solve_qdldl(solver, b, iters);
+        return;
+    }
     
-    // TODO: Apply permutation if needed (similar to QDLDL version)
-    
-    // For now, just copy b to xyz as a placeholder
+    // Apply permutation (similar to QDLDL version)
     for (QOCOInt i = 0; i < kkt->K->n; ++i) {
-        kkt->xyz[i] = b[i];
+        kkt->xyz[kkt->p[i]] = kkt->xyz[i];
     }
 }
+#endif

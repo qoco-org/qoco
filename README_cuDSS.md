@@ -97,7 +97,7 @@ cuDSS resources are automatically cleaned up when `qoco_cleanup()` is called.
 
 ## Future Work
 
-- [ ] Implement actual cuDSS API calls in `kkt_solve_cudss()`
+- [x] Implement actual cuDSS API calls in `kkt_solve_cudss()`
 - [ ] Add runtime backend selection
 - [ ] Optimize memory transfer patterns
 - [ ] Add performance benchmarking

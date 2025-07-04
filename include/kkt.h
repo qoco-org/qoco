@@ -124,8 +124,10 @@ void predictor_corrector(QOCOSolver* solver);
  */
 void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
 
+#ifdef QOCO_USE_CUDSS
 // Solve Kx = b using cuDSS (GPU-accelerated direct sparse solver)
 void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
+#endif
 
 /**
  * @brief Computes y = Kx where

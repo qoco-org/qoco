@@ -11,6 +11,11 @@
 #include "qoco_api.h"
 #include "amd.h"
 
+#ifdef QOCO_USE_CUDSS
+#include <cuda_runtime.h>
+#include <cudss.h>
+#endif
+
 QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
                    QOCOCscMatrix* P, QOCOFloat* c, QOCOCscMatrix* A,
                    QOCOFloat* b, QOCOCscMatrix* G, QOCOFloat* h, QOCOInt l,
@@ -548,14 +553,15 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   // Clean up cuDSS resources
 #ifdef QOCO_USE_CUDSS
   if (solver->work->kkt->cudss_initialized) {
-    // TODO: Free cuDSS device memory
-    // cudaFree(solver->work->kkt->cudss_d_csc_values);
-    // cudaFree(solver->work->kkt->cudss_d_csc_row_indices);
-    // cudaFree(solver->work->kkt->cudss_d_csc_col_ptrs);
-    // cudaFree(solver->work->kkt->cudss_d_rhs);
-    // cudaFree(solver->work->kkt->cudss_d_solution);
-    // TODO: Destroy cuDSS handle
-    // cudss_destroy(solver->work->kkt->cudss_handle);
+    // Destroy cuDSS handle
+    cudssDestroy(solver->work->kkt->cudss_handle);
+    
+    // Free cuDSS device memory
+    cudaFree(solver->work->kkt->cudss_d_csc_values);
+    cudaFree(solver->work->kkt->cudss_d_csc_row_indices);
+    cudaFree(solver->work->kkt->cudss_d_csc_col_ptrs);
+    cudaFree(solver->work->kkt->cudss_d_rhs);
+    cudaFree(solver->work->kkt->cudss_d_solution);
   }
 #endif
   
