@@ -307,7 +307,7 @@ def generate_lcvx_badly_scaled():
         con += [u[2, k] >= cp.norm(u[:, k]) * np.cos(tvc_max)]
 
     prob = cp.Problem(cp.Minimize(obj), con)
-    prob.solve(verbose=True)
+    prob.solve(verbose=True, solver=cp.CLARABEL)
 
     n, m, p, P, c, A, b, G, h, l, nsoc, q = c2q.convert(prob)
 

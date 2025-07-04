@@ -144,8 +144,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   construct_kkt(solver);
 
 #ifdef QOCO_USE_CUDSS
-  // Initialize cuDSS if GPU is preferred or required
-  if (solver->settings->gpu_preference > 0) {
+  // Initialize cuDSS when available
     QOCOKKT* kkt = solver->work->kkt;
     
     // Allocate device memory for CSC matrix data
@@ -187,7 +186,6 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
                  kkt->cudss_rhs_matrix);
     
     kkt->cudss_initialized = 1;
-  }
 #endif
 
   // Allocate primal and dual variables.
@@ -330,7 +328,6 @@ void set_default_settings(QOCOSettings* settings)
   settings->abstol_inacc = 1e-5;
   settings->reltol_inacc = 1e-5;
   settings->verbose = 0;
-  settings->gpu_preference = 2; // Default to GPU-preferred with fallback
 }
 
 QOCOInt qoco_update_settings(QOCOSolver* solver,
@@ -351,7 +348,6 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
   solver->settings->abstol_inacc = new_settings->abstol_inacc;
   solver->settings->abstol_inacc = new_settings->abstol_inacc;
   solver->settings->verbose = new_settings->verbose;
-  solver->settings->gpu_preference = new_settings->gpu_preference;
 
   return 0;
 }

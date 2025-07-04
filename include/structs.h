@@ -135,9 +135,6 @@ typedef struct {
 
   /** 0 for quiet anything else for verbose. */
   unsigned char verbose;
-  
-  /** 0 for CPU-only, 1 for GPU-only (fail if not available), 2 for GPU-preferred (fallback to CPU). */
-  unsigned char gpu_preference;
 } QOCOSettings;
 
 /**

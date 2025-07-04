@@ -515,14 +515,8 @@ static void kkt_solve_qdldl(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
 #ifdef QOCO_USE_CUDSS
-  // Check GPU preference setting
-  if (solver->settings->gpu_preference == 0) {
-    // CPU-only mode
-    kkt_solve_qdldl(solver, b, iters);
-  } else {
-    // GPU mode (preferred or required)
-    kkt_solve_cudss(solver, b, iters);
-  }
+  // Use cuDSS when available
+  kkt_solve_cudss(solver, b, iters);
 #else
   // cuDSS not compiled in - use CPU
   kkt_solve_qdldl(solver, b, iters);
@@ -562,13 +556,6 @@ void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
 void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
     QOCOKKT* kkt = solver->work->kkt;
-    
-    // Check if cuDSS is initialized
-    if (!kkt->cudss_initialized) {
-        // Fallback to CPU
-        kkt_solve_qdldl(solver, b, iters);
-        return;
-    }
     
     // Transfer right-hand side to GPU
     cudaMemcpy(kkt->cudss_d_rhs, b, 
