@@ -167,11 +167,12 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
     cudssConfigCreate(&kkt->cudss_config);
     cudssDataCreate(kkt->cudss_handle, &kkt->cudss_data);
     
-    // Create cuDSS matrix objects
+    // Create cuDSS matrix objects - swap row/col pointers for CSC->CSR conversion
+    // and use lower triangular view since KKT matrix is symmetric
     cudssMatrixCreateCsr(&kkt->cudss_matrix, kkt->K->n, kkt->K->n, kkt->K->nnz,
                          kkt->cudss_d_csc_col_ptrs, NULL, kkt->cudss_d_csc_row_indices,
                          kkt->cudss_d_csc_values, CUDA_R_32I, CUDA_R_64F,
-                         CUDSS_MTYPE_GENERAL, CUDSS_MVIEW_FULL, CUDSS_BASE_ZERO);
+                         CUDSS_MTYPE_GENERAL, CUDSS_MVIEW_LOWER, CUDSS_BASE_ZERO);
     cudssMatrixCreateDn(&kkt->cudss_rhs_matrix, kkt->K->n, 1, kkt->K->n,
                         kkt->cudss_d_rhs, CUDA_R_64F, CUDSS_LAYOUT_COL_MAJOR);
     cudssMatrixCreateDn(&kkt->cudss_solution_matrix, kkt->K->n, 1, kkt->K->n,
