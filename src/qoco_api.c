@@ -143,6 +143,53 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   construct_kkt(solver);
 
+#ifdef QOCO_USE_CUDSS
+  // Initialize cuDSS if GPU is preferred or required
+  if (solver->settings->gpu_preference > 0) {
+    QOCOKKT* kkt = solver->work->kkt;
+    
+    // Allocate device memory for CSC matrix data
+    cudaMalloc(&kkt->cudss_d_csc_values, kkt->K->nnz * sizeof(QOCOFloat));
+    cudaMalloc(&kkt->cudss_d_csc_row_indices, kkt->K->nnz * sizeof(QOCOInt));
+    cudaMalloc(&kkt->cudss_d_csc_col_ptrs, (kkt->K->n + 1) * sizeof(QOCOInt));
+    cudaMalloc(&kkt->cudss_d_rhs, kkt->K->n * sizeof(QOCOFloat));
+    cudaMalloc(&kkt->cudss_d_solution, kkt->K->n * sizeof(QOCOFloat));
+    
+    // Transfer CSC matrix data to GPU
+    cudaMemcpy(kkt->cudss_d_csc_values, kkt->K->x, 
+               kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    cudaMemcpy(kkt->cudss_d_csc_row_indices, kkt->K->i, 
+               kkt->K->nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice);
+    cudaMemcpy(kkt->cudss_d_csc_col_ptrs, kkt->K->p, 
+               (kkt->K->n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice);
+    
+    // Create cuDSS objects
+    cudssCreate(&kkt->cudss_handle);
+    cudssConfigCreate(&kkt->cudss_config);
+    cudssDataCreate(kkt->cudss_handle, &kkt->cudss_data);
+    
+    // Create cuDSS matrix objects
+    cudssMatrixCreateCsr(&kkt->cudss_matrix, kkt->K->n, kkt->K->n, kkt->K->nnz,
+                         kkt->cudss_d_csc_col_ptrs, NULL, kkt->cudss_d_csc_row_indices,
+                         kkt->cudss_d_csc_values, CUDA_R_32I, CUDA_R_64F,
+                         CUDSS_MTYPE_GENERAL, CUDSS_MVIEW_FULL, CUDSS_BASE_ZERO);
+    cudssMatrixCreateDn(&kkt->cudss_rhs_matrix, kkt->K->n, 1, kkt->K->n,
+                        kkt->cudss_d_rhs, CUDA_R_64F, CUDSS_LAYOUT_COL_MAJOR);
+    cudssMatrixCreateDn(&kkt->cudss_solution_matrix, kkt->K->n, 1, kkt->K->n,
+                        kkt->cudss_d_solution, CUDA_R_64F, CUDSS_LAYOUT_COL_MAJOR);
+    
+    // Perform analysis and factorization phases
+    cudssExecute(kkt->cudss_handle, CUDSS_PHASE_ANALYSIS, kkt->cudss_config,
+                 kkt->cudss_data, kkt->cudss_matrix, kkt->cudss_solution_matrix,
+                 kkt->cudss_rhs_matrix);
+    cudssExecute(kkt->cudss_handle, CUDSS_PHASE_FACTORIZATION, kkt->cudss_config,
+                 kkt->cudss_data, kkt->cudss_matrix, kkt->cudss_solution_matrix,
+                 kkt->cudss_rhs_matrix);
+    
+    kkt->cudss_initialized = 1;
+  }
+#endif
+
   // Allocate primal and dual variables.
   solver->work->x = qoco_malloc(n * sizeof(QOCOFloat));
   solver->work->s = qoco_malloc(m * sizeof(QOCOFloat));
@@ -283,6 +330,7 @@ void set_default_settings(QOCOSettings* settings)
   settings->abstol_inacc = 1e-5;
   settings->reltol_inacc = 1e-5;
   settings->verbose = 0;
+  settings->gpu_preference = 2; // Default to GPU-preferred with fallback
 }
 
 QOCOInt qoco_update_settings(QOCOSolver* solver,
@@ -303,6 +351,7 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
   solver->settings->abstol_inacc = new_settings->abstol_inacc;
   solver->settings->abstol_inacc = new_settings->abstol_inacc;
   solver->settings->verbose = new_settings->verbose;
+  solver->settings->gpu_preference = new_settings->gpu_preference;
 
   return 0;
 }

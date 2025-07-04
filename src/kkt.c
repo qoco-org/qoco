@@ -515,10 +515,16 @@ static void kkt_solve_qdldl(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
 #ifdef QOCO_USE_CUDSS
-  // Use cuDSS for GPU-accelerated linear system solve
-  kkt_solve_cudss(solver, b, iters);
+  // Check GPU preference setting
+  if (solver->settings->gpu_preference == 0) {
+    // CPU-only mode
+    kkt_solve_qdldl(solver, b, iters);
+  } else {
+    // GPU mode (preferred or required)
+    kkt_solve_cudss(solver, b, iters);
+  }
 #else
-  // Use QDLDL for CPU-based linear system solve
+  // cuDSS not compiled in - use CPU
   kkt_solve_qdldl(solver, b, iters);
 #endif
 }
@@ -557,242 +563,25 @@ void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
     QOCOKKT* kkt = solver->work->kkt;
     
-    // Initialize cuDSS if not already done
+    // Check if cuDSS is initialized
     if (!kkt->cudss_initialized) {
-        // Allocate device memory for CSC matrix data
-        cudaError_t cuda_status;
-        cuda_status = cudaMalloc(&kkt->cudss_d_csc_values, kkt->K->nnz * sizeof(QOCOFloat));
-        if (cuda_status != cudaSuccess) {
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        cuda_status = cudaMalloc(&kkt->cudss_d_csc_row_indices, kkt->K->nnz * sizeof(QOCOInt));
-        if (cuda_status != cudaSuccess) {
-            cudaFree(kkt->cudss_d_csc_values);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        cuda_status = cudaMalloc(&kkt->cudss_d_csc_col_ptrs, (kkt->K->n + 1) * sizeof(QOCOInt));
-        if (cuda_status != cudaSuccess) {
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        // Allocate device memory for rhs and solution
-        cuda_status = cudaMalloc(&kkt->cudss_d_rhs, kkt->K->n * sizeof(QOCOFloat));
-        if (cuda_status != cudaSuccess) {
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        cuda_status = cudaMalloc(&kkt->cudss_d_solution, kkt->K->n * sizeof(QOCOFloat));
-        if (cuda_status != cudaSuccess) {
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        // Transfer CSC matrix data to GPU
-        cuda_status = cudaMemcpy(kkt->cudss_d_csc_values, kkt->K->x, 
-                                kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
-        if (cuda_status != cudaSuccess) {
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        cuda_status = cudaMemcpy(kkt->cudss_d_csc_row_indices, kkt->K->i, 
-                                kkt->K->nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice);
-        if (cuda_status != cudaSuccess) {
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        cuda_status = cudaMemcpy(kkt->cudss_d_csc_col_ptrs, kkt->K->p, 
-                                (kkt->K->n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice);
-        if (cuda_status != cudaSuccess) {
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        // Create cuDSS objects
-        cudssStatus_t cudss_status = cudssCreate(&kkt->cudss_handle);
-        if (cudss_status != CUDSS_STATUS_SUCCESS) {
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        cudss_status = cudssConfigCreate(&kkt->cudss_config);
-        if (cudss_status != CUDSS_STATUS_SUCCESS) {
-            cudssDestroy(kkt->cudss_handle);
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        cudss_status = cudssDataCreate(kkt->cudss_handle, &kkt->cudss_data);
-        if (cudss_status != CUDSS_STATUS_SUCCESS) {
-            cudssConfigDestroy(kkt->cudss_config);
-            cudssDestroy(kkt->cudss_handle);
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        // Create cuDSS matrix objects
-        cudss_status = cudssMatrixCreateCsr(&kkt->cudss_matrix, kkt->K->n, kkt->K->n, kkt->K->nnz,
-                                           kkt->cudss_d_csc_col_ptrs, NULL, kkt->cudss_d_csc_row_indices,
-                                           kkt->cudss_d_csc_values, CUDA_R_32I, CUDA_R_64F,
-                                           CUDSS_MTYPE_GENERAL, CUDSS_MVIEW_FULL, CUDSS_BASE_ZERO);
-        if (cudss_status != CUDSS_STATUS_SUCCESS) {
-            cudssDataDestroy(kkt->cudss_handle, kkt->cudss_data);
-            cudssConfigDestroy(kkt->cudss_config);
-            cudssDestroy(kkt->cudss_handle);
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        cudss_status = cudssMatrixCreateDn(&kkt->cudss_rhs_matrix, kkt->K->n, 1, kkt->K->n,
-                                          kkt->cudss_d_rhs, CUDA_R_64F, CUDSS_LAYOUT_COL_MAJOR);
-        if (cudss_status != CUDSS_STATUS_SUCCESS) {
-            cudssMatrixDestroy(kkt->cudss_matrix);
-            cudssDataDestroy(kkt->cudss_handle, kkt->cudss_data);
-            cudssConfigDestroy(kkt->cudss_config);
-            cudssDestroy(kkt->cudss_handle);
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        cudss_status = cudssMatrixCreateDn(&kkt->cudss_solution_matrix, kkt->K->n, 1, kkt->K->n,
-                                          kkt->cudss_d_solution, CUDA_R_64F, CUDSS_LAYOUT_COL_MAJOR);
-        if (cudss_status != CUDSS_STATUS_SUCCESS) {
-            cudssMatrixDestroy(kkt->cudss_rhs_matrix);
-            cudssMatrixDestroy(kkt->cudss_matrix);
-            cudssDataDestroy(kkt->cudss_handle, kkt->cudss_data);
-            cudssConfigDestroy(kkt->cudss_config);
-            cudssDestroy(kkt->cudss_handle);
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        // Perform analysis and factorization phases
-        cudss_status = cudssExecute(kkt->cudss_handle, CUDSS_PHASE_ANALYSIS, kkt->cudss_config,
-                                   kkt->cudss_data, kkt->cudss_matrix, kkt->cudss_solution_matrix,
-                                   kkt->cudss_rhs_matrix);
-        if (cudss_status != CUDSS_STATUS_SUCCESS) {
-            cudssMatrixDestroy(kkt->cudss_solution_matrix);
-            cudssMatrixDestroy(kkt->cudss_rhs_matrix);
-            cudssMatrixDestroy(kkt->cudss_matrix);
-            cudssDataDestroy(kkt->cudss_handle, kkt->cudss_data);
-            cudssConfigDestroy(kkt->cudss_config);
-            cudssDestroy(kkt->cudss_handle);
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        cudss_status = cudssExecute(kkt->cudss_handle, CUDSS_PHASE_FACTORIZATION, kkt->cudss_config,
-                                   kkt->cudss_data, kkt->cudss_matrix, kkt->cudss_solution_matrix,
-                                   kkt->cudss_rhs_matrix);
-        if (cudss_status != CUDSS_STATUS_SUCCESS) {
-            cudssMatrixDestroy(kkt->cudss_solution_matrix);
-            cudssMatrixDestroy(kkt->cudss_rhs_matrix);
-            cudssMatrixDestroy(kkt->cudss_matrix);
-            cudssDataDestroy(kkt->cudss_handle, kkt->cudss_data);
-            cudssConfigDestroy(kkt->cudss_config);
-            cudssDestroy(kkt->cudss_handle);
-            cudaFree(kkt->cudss_d_csc_values);
-            cudaFree(kkt->cudss_d_csc_row_indices);
-            cudaFree(kkt->cudss_d_csc_col_ptrs);
-            cudaFree(kkt->cudss_d_rhs);
-            cudaFree(kkt->cudss_d_solution);
-            kkt_solve_qdldl(solver, b, iters);
-            return;
-        }
-        
-        kkt->cudss_initialized = 1;
+        // Fallback to CPU
+        kkt_solve_qdldl(solver, b, iters);
+        return;
     }
     
     // Transfer right-hand side to GPU
-    cudaError_t cuda_status = cudaMemcpy(kkt->cudss_d_rhs, b, 
-                                        kkt->K->n * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
-    if (cuda_status != cudaSuccess) {
-        kkt_solve_qdldl(solver, b, iters);
-        return;
-    }
+    cudaMemcpy(kkt->cudss_d_rhs, b, 
+               kkt->K->n * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
     
     // Call cuDSS solve
-    cudssStatus_t cudss_status = cudssExecute(kkt->cudss_handle, CUDSS_PHASE_SOLVE, kkt->cudss_config,
-                                             kkt->cudss_data, kkt->cudss_matrix, kkt->cudss_solution_matrix,
-                                             kkt->cudss_rhs_matrix);
-    if (cudss_status != CUDSS_STATUS_SUCCESS) {
-        kkt_solve_qdldl(solver, b, iters);
-        return;
-    }
+    cudssExecute(kkt->cudss_handle, CUDSS_PHASE_SOLVE, kkt->cudss_config,
+                 kkt->cudss_data, kkt->cudss_matrix, kkt->cudss_solution_matrix,
+                 kkt->cudss_rhs_matrix);
     
     // Transfer solution back to host
-    cuda_status = cudaMemcpy(kkt->xyz, kkt->cudss_d_solution, 
-                            kkt->K->n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
-    if (cuda_status != cudaSuccess) {
-        kkt_solve_qdldl(solver, b, iters);
-        return;
-    }
+    cudaMemcpy(kkt->xyz, kkt->cudss_d_solution, 
+               kkt->K->n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
     
     // Apply permutation (similar to QDLDL version)
     for (QOCOInt i = 0; i < kkt->K->n; ++i) {
