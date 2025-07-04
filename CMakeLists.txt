@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.10)
 
 set(QOCO_VERSION_MAJOR "0")
 set(QOCO_VERSION_MINOR "1")
@@ -64,6 +64,34 @@ if(${MATLAB})
     add_compile_definitions(MATLAB)
 endif()
 
+# Add CUDA and cuDSS support
+option(USE_CUDSS "Use cuDSS for linear system solves" OFF)
+
+if(USE_CUDSS)
+    find_package(CUDA)
+    if(CUDA_FOUND)
+        message(STATUS "CUDA found: ${CUDA_TOOLKIT_ROOT_DIR}")
+        include_directories(${CUDA_INCLUDE_DIRS})
+        # Try to find cuDSS (user must set CU_DSS_ROOT or similar)
+        if(DEFINED ENV{CU_DSS_ROOT})
+            set(CU_DSS_ROOT $ENV{CU_DSS_ROOT})
+            include_directories(${CU_DSS_ROOT}/include)
+            link_directories(${CU_DSS_ROOT}/lib)
+            set(CU_DSS_LIBRARIES cudss)
+            message(STATUS "cuDSS found at ${CU_DSS_ROOT}")
+            add_compile_definitions(QOCO_USE_CUDSS)
+        else()
+            message(FATAL_ERROR "USE_CUDSS is ON but cuDSS not found. Set CU_DSS_ROOT environment variable to enable cuDSS support.")
+        endif()
+    else()
+        message(FATAL_ERROR "USE_CUDSS is ON but CUDA not found. Install CUDA toolkit to enable cuDSS support.")
+    endif()
+else()
+    message(STATUS "Using QDLDL for linear system solves (USE_CUDSS=OFF)")
+    set(CU_DSS_LIBRARIES "")
+    set(CUDA_LIBRARIES "")
+endif()
+
 set(qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_api.c"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/input_validation.c"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_linalg.c"
@@ -100,7 +128,7 @@ endif()
 
 # Build qoco shared library.
 add_library(qoco SHARED)
-target_link_libraries(qoco qdldl amd)
+target_link_libraries(qoco qdldl amd ${CU_DSS_LIBRARIES} ${CUDA_LIBRARIES})
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     target_link_libraries(qoco m)
 endif()
@@ -111,7 +139,7 @@ target_sources(qoco PRIVATE ${qoco_sources})
 
 # Build qoco static library.
 add_library(qocostatic STATIC)
-target_link_libraries(qocostatic qdldlstatic amd)
+target_link_libraries(qocostatic qdldlstatic amd ${CU_DSS_LIBRARIES} ${CUDA_LIBRARIES})
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     target_link_libraries(qocostatic m)
 endif()

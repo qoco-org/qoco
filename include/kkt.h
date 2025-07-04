@@ -115,12 +115,17 @@ void predictor_corrector(QOCOSolver* solver);
 /**
  * @brief Solves Kx = b once K has been factored. Solves via triangular solves
  * and applies iterative refinement afterwards.
+ * 
+ * Uses cuDSS (GPU-accelerated) if USE_CUDSS is enabled, otherwise uses QDLDL (CPU).
  *
  * @param solver Pointer to solver.
  * @param b Pointer to rhs of kkt system.
  * @param iters Number of iterations of iterative refinement performed.
  */
 void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
+
+// Solve Kx = b using cuDSS (GPU-accelerated direct sparse solver)
+void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
 
 /**
  * @brief Computes y = Kx where

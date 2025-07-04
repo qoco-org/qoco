@@ -121,6 +121,16 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->kkt->xyz = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  
+  // Initialize cuDSS fields
+  solver->work->kkt->cudss_handle = NULL;
+  solver->work->kkt->cudss_d_csc_values = NULL;
+  solver->work->kkt->cudss_d_csc_row_indices = NULL;
+  solver->work->kkt->cudss_d_csc_col_ptrs = NULL;
+  solver->work->kkt->cudss_d_rhs = NULL;
+  solver->work->kkt->cudss_d_solution = NULL;
+  solver->work->kkt->cudss_initialized = 0;
+
   construct_kkt(solver);
 
   // Allocate primal and dual variables.
@@ -534,6 +544,21 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->kkt->fwork);
   qoco_free(solver->work->kkt->Li);
   qoco_free(solver->work->kkt->Lx);
+  
+  // Clean up cuDSS resources
+#ifdef QOCO_USE_CUDSS
+  if (solver->work->kkt->cudss_initialized) {
+    // TODO: Free cuDSS device memory
+    // cudaFree(solver->work->kkt->cudss_d_csc_values);
+    // cudaFree(solver->work->kkt->cudss_d_csc_row_indices);
+    // cudaFree(solver->work->kkt->cudss_d_csc_col_ptrs);
+    // cudaFree(solver->work->kkt->cudss_d_rhs);
+    // cudaFree(solver->work->kkt->cudss_d_solution);
+    // TODO: Destroy cuDSS handle
+    // cudss_destroy(solver->work->kkt->cudss_handle);
+  }
+#endif
+  
   qoco_free(solver->work->kkt);
 
   // Free solution struct.

@@ -238,6 +238,15 @@ typedef struct {
   /** Mapping from elements in Gt to elements in the KKT matrix. */
   QOCOInt* GttoKKT;
 
+  // cuDSS integration fields
+  void* cudss_handle; // Opaque handle for cuDSS solver instance
+  void* cudss_d_csc_values; // Device pointer for CSC values (A->x)
+  void* cudss_d_csc_row_indices; // Device pointer for CSC row indices (A->i)
+  void* cudss_d_csc_col_ptrs; // Device pointer for CSC col pointers (A->p)
+  void* cudss_d_rhs; // Device pointer for right-hand side
+  void* cudss_d_solution; // Device pointer for solution
+  int cudss_initialized; // Flag to indicate if cuDSS is initialized for this KKT
+
 } QOCOKKT;
 
 /**

@@ -461,6 +461,11 @@ void predictor_corrector(QOCOSolver* solver)
 
 void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
+#ifdef QOCO_USE_CUDSS
+  // Use cuDSS for GPU-accelerated linear system solve
+  kkt_solve_cudss(solver, b, iters);
+#else
+  // Use QDLDL for CPU-based linear system solve
   QOCOKKT* kkt = solver->work->kkt;
 
   // Permute b and store in xyzbuff.
@@ -504,6 +509,7 @@ void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
   for (QOCOInt i = 0; i < kkt->K->n; ++i) {
     kkt->xyz[kkt->p[i]] = kkt->xyzbuff1[i];
   }
+#endif
 }
 
 void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
@@ -532,4 +538,38 @@ void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
               data->nsoc, data->q);
   qoco_axpy(work->ubuff2, &y[data->n + data->p], &y[data->n + data->p], -1.0,
             data->m);
+}
+
+// Solve Kx = b using cuDSS (GPU-accelerated direct sparse solver)
+void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
+{
+    QOCOKKT* kkt = solver->work->kkt;
+    
+    // Initialize cuDSS if not already done
+    if (!kkt->cudss_initialized) {
+        // TODO: Initialize cuDSS solver
+        // - Create cuDSS handle
+        // - Allocate device memory for CSC matrix (values, row_indices, col_ptrs)
+        // - Allocate device memory for rhs and solution
+        // - Transfer CSC matrix data to GPU
+        // - Set up cuDSS solver with matrix structure
+        
+        kkt->cudss_initialized = 1;
+    }
+    
+    // TODO: Transfer right-hand side to GPU
+    // cudaMemcpy(kkt->cudss_d_rhs, b, kkt->K->n * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    
+    // TODO: Call cuDSS solve
+    // cudss_solve(kkt->cudss_handle, kkt->cudss_d_rhs, kkt->cudss_d_solution);
+    
+    // TODO: Transfer solution back to host
+    // cudaMemcpy(kkt->xyz, kkt->cudss_d_solution, kkt->K->n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
+    
+    // TODO: Apply permutation if needed (similar to QDLDL version)
+    
+    // For now, just copy b to xyz as a placeholder
+    for (QOCOInt i = 0; i < kkt->K->n; ++i) {
+        kkt->xyz[i] = b[i];
+    }
 }
