@@ -125,6 +125,9 @@ void predictor_corrector(QOCOSolver* solver);
 void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
 
 #ifdef QOCO_USE_CUDSS
+// Factor the KKT matrix using cuDSS (equivalent to QDLDL_factor)
+void cudss_factor(QOCOSolver* solver);
+
 // Solve Kx = b using cuDSS (GPU-accelerated direct sparse solver)
 void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
 #endif
@@ -140,5 +143,7 @@ void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
  * @param y Pointer to output vector.
  */
 void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y);
+
+void factor(QOCOSolver* solver);
 
 #endif /* #ifndef QOCO_KKT_H */

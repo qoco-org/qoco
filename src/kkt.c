@@ -195,14 +195,7 @@ void initialize_ipm(QOCOSolver* solver)
   }
 
   // Factor KKT matrix.
-  QDLDL_factor(
-      solver->work->kkt->K->n, solver->work->kkt->K->p, solver->work->kkt->K->i,
-      solver->work->kkt->K->x, solver->work->kkt->Lp, solver->work->kkt->Li,
-      solver->work->kkt->Lx, solver->work->kkt->D, solver->work->kkt->Dinv,
-      solver->work->kkt->Lnz, solver->work->kkt->etree,
-      solver->work->kkt->bwork, solver->work->kkt->iwork,
-      solver->work->kkt->fwork, solver->work->kkt->p, solver->work->data->n,
-      solver->settings->kkt_dynamic_reg);
+  factor(solver);
 
   // Solve KKT system.
   kkt_solve(solver, solver->work->kkt->rhs, solver->settings->iter_ref_iters);
@@ -385,12 +378,7 @@ void predictor_corrector(QOCOSolver* solver)
   QOCOWorkspace* work = solver->work;
 
   // Factor KKT matrix.
-  QDLDL_factor(work->kkt->K->n, work->kkt->K->p, work->kkt->K->i,
-               work->kkt->K->x, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
-               work->kkt->D, work->kkt->Dinv, work->kkt->Lnz, work->kkt->etree,
-               work->kkt->bwork, work->kkt->iwork, work->kkt->fwork,
-               solver->work->kkt->p, solver->work->data->n,
-               solver->settings->kkt_dynamic_reg);
+  factor(solver);
 
   // Construct rhs for affine scaling direction.
   construct_kkt_aff_rhs(work);
@@ -552,9 +540,28 @@ void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
 }
 
 #ifdef QOCO_USE_CUDSS
-// Solve Kx = b using cuDSS (GPU-accelerated direct sparse solver)
+// Factor the KKT matrix using cuDSS (equivalent to QDLDL_factor)
+void cudss_factor(QOCOSolver* solver)
+{
+    QOCOKKT* kkt = solver->work->kkt;
+    
+    // Update the matrix values on GPU with current KKT matrix
+    cudaMemcpy(kkt->cudss_d_csc_values, kkt->K->x, 
+               kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    
+    // Update the cuDSS matrix with new values
+    cudssMatrixSetValues(kkt->cudss_matrix, kkt->cudss_d_csc_values);
+    
+    // Perform factorization phase
+    cudssExecute(kkt->cudss_handle, CUDSS_PHASE_FACTORIZATION, kkt->cudss_config,
+                 kkt->cudss_data, kkt->cudss_matrix, kkt->cudss_solution_matrix,
+                 kkt->cudss_rhs_matrix);
+}
+
+// Solve Kx = b using cuDSS (equivalent to kkt_solve)
 void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
 {
+    (void)iters; // Suppress unused parameter warning - cuDSS doesn't use iterative refinement
     QOCOKKT* kkt = solver->work->kkt;
     
     // Transfer right-hand side to GPU
@@ -576,3 +583,16 @@ void kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
     }
 }
 #endif
+
+void factor(QOCOSolver* solver) {
+#ifdef QOCO_USE_CUDSS
+    cudss_factor(solver);
+#else
+    QOCOKKT* kkt = solver->work->kkt;
+    QDLDL_factor(
+        kkt->K->n, kkt->K->p, kkt->K->i,
+        kkt->K->x, kkt->Lp, kkt->Li, kkt->Lx, kkt->D, kkt->Dinv,
+        kkt->Lnz, kkt->etree, kkt->bwork, kkt->iwork, kkt->fwork,
+        kkt->p, solver->work->data->n, solver->settings->kkt_dynamic_reg);
+#endif
+}
