@@ -129,6 +129,11 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   
   // Initialize cuDSS fields
   solver->work->kkt->cudss_handle = NULL;
+  solver->work->kkt->cudss_config = NULL;
+  solver->work->kkt->cudss_data = NULL;
+  solver->work->kkt->cudss_matrix = NULL;
+  solver->work->kkt->cudss_rhs_matrix = NULL;
+  solver->work->kkt->cudss_solution_matrix = NULL;
   solver->work->kkt->cudss_d_csc_values = NULL;
   solver->work->kkt->cudss_d_csc_row_indices = NULL;
   solver->work->kkt->cudss_d_csc_col_ptrs = NULL;
@@ -553,15 +558,46 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   // Clean up cuDSS resources
 #ifdef QOCO_USE_CUDSS
   if (solver->work->kkt->cudss_initialized) {
+    // Destroy cuDSS matrix objects
+    if (solver->work->kkt->cudss_matrix) {
+      cudssMatrixDestroy(solver->work->kkt->cudss_matrix);
+    }
+    if (solver->work->kkt->cudss_rhs_matrix) {
+      cudssMatrixDestroy(solver->work->kkt->cudss_rhs_matrix);
+    }
+    if (solver->work->kkt->cudss_solution_matrix) {
+      cudssMatrixDestroy(solver->work->kkt->cudss_solution_matrix);
+    }
+    
+    // Destroy cuDSS data and config objects
+    if (solver->work->kkt->cudss_data) {
+      cudssDataDestroy(solver->work->kkt->cudss_handle, solver->work->kkt->cudss_data);
+    }
+    if (solver->work->kkt->cudss_config) {
+      cudssConfigDestroy(solver->work->kkt->cudss_config);
+    }
+    
     // Destroy cuDSS handle
-    cudssDestroy(solver->work->kkt->cudss_handle);
+    if (solver->work->kkt->cudss_handle) {
+      cudssDestroy(solver->work->kkt->cudss_handle);
+    }
     
     // Free cuDSS device memory
-    cudaFree(solver->work->kkt->cudss_d_csc_values);
-    cudaFree(solver->work->kkt->cudss_d_csc_row_indices);
-    cudaFree(solver->work->kkt->cudss_d_csc_col_ptrs);
-    cudaFree(solver->work->kkt->cudss_d_rhs);
-    cudaFree(solver->work->kkt->cudss_d_solution);
+    if (solver->work->kkt->cudss_d_csc_values) {
+      cudaFree(solver->work->kkt->cudss_d_csc_values);
+    }
+    if (solver->work->kkt->cudss_d_csc_row_indices) {
+      cudaFree(solver->work->kkt->cudss_d_csc_row_indices);
+    }
+    if (solver->work->kkt->cudss_d_csc_col_ptrs) {
+      cudaFree(solver->work->kkt->cudss_d_csc_col_ptrs);
+    }
+    if (solver->work->kkt->cudss_d_rhs) {
+      cudaFree(solver->work->kkt->cudss_d_rhs);
+    }
+    if (solver->work->kkt->cudss_d_solution) {
+      cudaFree(solver->work->kkt->cudss_d_solution);
+    }
   }
 #endif
   
