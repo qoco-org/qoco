@@ -130,6 +130,9 @@ int cudss_factor(QOCOSolver* solver);
 
 // Solve Kx = b using cuDSS (GPU-accelerated direct sparse solver)
 int kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
+
+// Synchronize KKT matrix from CPU to GPU
+void sync_kkt_to_gpu(QOCOSolver* solver);
 #endif
 
 /**

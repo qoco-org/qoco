@@ -173,6 +173,11 @@ void initialize_ipm(QOCOSolver* solver)
   for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
     solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] = -1.0;
   }
+  
+#ifdef QOCO_USE_CUDSS
+  // Synchronize updated KKT matrix to GPU
+  sync_kkt_to_gpu(solver);
+#endif
 
   // Set Nesterov-Todd block in Wfull to -I.
   for (QOCOInt i = 0; i < solver->work->data->l; ++i) {
@@ -254,6 +259,11 @@ void update_nt_block(QOCOSolver* solver)
     solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] -=
         solver->settings->kkt_static_reg;
   }
+  
+#ifdef QOCO_USE_CUDSS
+  // Synchronize updated KKT matrix to GPU
+  sync_kkt_to_gpu(solver);
+#endif
 }
 
 void compute_kkt_residual(QOCOSolver* solver)
@@ -555,16 +565,28 @@ void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
 }
 
 #ifdef QOCO_USE_CUDSS
+// Synchronize KKT matrix from CPU to GPU
+void sync_kkt_to_gpu(QOCOSolver* solver)
+{
+    QOCOKKT* kkt = solver->work->kkt;
+    
+    // Copy matrix values from CPU to GPU
+    cudaMemcpy(kkt->d_csr_values, kkt->K->x, kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    
+    // Update the cuDSS matrix with new values
+    cudssStatus_t status = cudssMatrixSetValues((cudssMatrix_t)kkt->cudss_matrix, kkt->d_csr_values);
+    if (status != CUDSS_STATUS_SUCCESS) {
+        printf("cuDSS matrix set values failed with status %d\n", status);
+    }
+}
+
 // Factor the KKT matrix using cuDSS (equivalent to QDLDL_factor)
 int cudss_factor(QOCOSolver* solver)
 {
     QOCOKKT* kkt = solver->work->kkt;
     
-    // Update the matrix values on GPU with current KKT matrix
-    cudaMemcpy(kkt->d_csr_values, kkt->K->x, kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
-    
-    // Update the cuDSS matrix with new values
-    CUDSS_CHECK(cudssMatrixSetValues((cudssMatrix_t)kkt->cudss_matrix, kkt->d_csr_values), cudssMatrixSetValues);
+    // Synchronize matrix to GPU before factorization
+    sync_kkt_to_gpu(solver);
     
     // Perform factorization phase
     CUDSS_CHECK(cudssExecute((cudssHandle_t)kkt->cudss_handle, CUDSS_PHASE_FACTORIZATION, (cudssConfig_t)kkt->cudss_config,
@@ -580,8 +602,13 @@ int kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
     (void)iters; // Suppress unused parameter warning - cuDSS doesn't use iterative refinement
     QOCOKKT* kkt = solver->work->kkt;
     
-    // Transfer right-hand side to GPU
-    cudaMemcpy(kkt->cudss_d_rhs, b, 
+    // Permute b first (same as QDLDL version)
+    for (QOCOInt i = 0; i < kkt->K->n; ++i) {
+        kkt->xyzbuff1[i] = b[kkt->p[i]];
+    }
+    
+    // Transfer permuted right-hand side to GPU
+    cudaMemcpy(kkt->cudss_d_rhs, kkt->xyzbuff1, 
                kkt->K->n * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
     
     // Update the RHS matrix with new values
@@ -598,12 +625,12 @@ int kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
                      &solution_values, NULL, NULL);
     
     // Transfer solution back to host
-    cudaMemcpy(kkt->xyz, solution_values, 
+    cudaMemcpy(kkt->xyzbuff1, solution_values, 
                kkt->K->n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
 
-    // Apply permutation (similar to QDLDL version)
+    // Apply permutation to get final solution (same as QDLDL version)
     for (QOCOInt i = 0; i < kkt->K->n; ++i) {
-        kkt->xyz[kkt->p[i]] = kkt->xyz[i];
+        kkt->xyz[kkt->p[i]] = kkt->xyzbuff1[i];
     }
     
     return 0; // CUDSS_STATUS_SUCCESS

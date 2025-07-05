@@ -478,6 +478,11 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
         ->x[solver->work->kkt->GttoKKT[solver->work->data->GtoGt[i]]] =
         data->G->x[i];
   }
+  
+#ifdef QOCO_USE_CUDSS
+  // Synchronize updated KKT matrix to GPU
+  sync_kkt_to_gpu(solver);
+#endif
 }
 
 QOCOInt qoco_solve(QOCOSolver* solver)

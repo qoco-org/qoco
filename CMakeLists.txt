@@ -65,8 +65,6 @@ if(${MATLAB})
 endif()
 
 # Add CUDA and cuDSS support
-option(USE_CUDSS "Use cuDSS for linear system solves" OFF)
-
 if(USE_CUDSS)
     # Set CUDA include and lib dirs from CUDA_HOME or fallback
     if(DEFINED ENV{CUDA_HOME})
