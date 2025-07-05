@@ -133,9 +133,6 @@ int kkt_solve_cudss(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
 
 // Synchronize KKT matrix from CPU to GPU
 void sync_kkt_to_gpu(QOCOSolver* solver);
-
-// Optimized sync: only update changed Nesterov-Todd block elements
-void sync_nt_block_to_gpu(QOCOSolver* solver);
 #endif
 
 /**
