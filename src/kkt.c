@@ -208,7 +208,6 @@ void initialize_ipm(QOCOSolver* solver)
   }
 
   // Factor KKT matrix.
-  sync_kkt_to_gpu(solver);
   factor(solver);
 
   // Solve KKT system.
@@ -585,24 +584,37 @@ void sync_nt_block_to_gpu(QOCOSolver* solver)
     QOCOKKT* kkt = solver->work->kkt;
     QOCOWorkspace* work = solver->work;
     
-    // First, copy current GPU values to host buffer
-    QOCOFloat* temp_values = malloc(kkt->K->nnz * sizeof(QOCOFloat));
-    cudaMemcpy(temp_values, kkt->d_csr_values, kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
+    // Calculate total number of changes
+    QOCOInt total_changes = work->Wnnz + work->data->m;
     
-    // Update only the NT block elements in the temp buffer
+    // Allocate host arrays for the changed data
+    QOCOFloat* h_changed_values = malloc(total_changes * sizeof(QOCOFloat));
+    QOCOInt* h_changed_indices = malloc(total_changes * sizeof(QOCOInt));
+    
+    // Collect NT block elements
     for (QOCOInt i = 0; i < work->Wnnz; ++i) {
-        QOCOInt idx = kkt->nt2kkt[i];
-        temp_values[idx] = kkt->K->x[idx];
+        h_changed_indices[i] = kkt->nt2kkt[i];
+        h_changed_values[i] = kkt->K->x[kkt->nt2kkt[i]];
     }
     
-    // Update diagonal regularization elements
+    // Collect diagonal regularization elements
     for (QOCOInt i = 0; i < work->data->m; ++i) {
-        QOCOInt idx = kkt->ntdiag2kkt[i];
-        temp_values[idx] = kkt->K->x[idx];
+        h_changed_indices[work->Wnnz + i] = kkt->ntdiag2kkt[i];
+        h_changed_values[work->Wnnz + i] = kkt->K->x[kkt->ntdiag2kkt[i]];
     }
     
-    // Copy the entire updated buffer back to GPU
-    cudaMemcpy(kkt->d_csr_values, temp_values, kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    // Use individual cudaMemcpy calls but with proper error checking
+    // This is actually efficient for small numbers of scattered updates
+    for (QOCOInt i = 0; i < total_changes; ++i) {
+        cudaError_t err = cudaMemcpy((QOCOFloat*)kkt->d_csr_values + h_changed_indices[i], 
+                                    &h_changed_values[i], sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+        if (err != cudaSuccess) {
+            printf("cudaMemcpy failed for element %d: %s\n", i, cudaGetErrorString(err));
+        }
+    }
+    
+    // Ensure all copies are complete
+    cudaDeviceSynchronize();
     
     // Update the cuDSS matrix with new values
     cudssStatus_t status = cudssMatrixSetValues((cudssMatrix_t)kkt->cudss_matrix, kkt->d_csr_values);
@@ -610,7 +622,9 @@ void sync_nt_block_to_gpu(QOCOSolver* solver)
         printf("cuDSS matrix set values failed with status %d\n", status);
     }
     
-    free(temp_values);
+    // Cleanup
+    free(h_changed_values);
+    free(h_changed_indices);
 }
 
 // Factor the KKT matrix using cuDSS (equivalent to QDLDL_factor)
@@ -618,8 +632,14 @@ int cudss_factor(QOCOSolver* solver)
 {
     QOCOKKT* kkt = solver->work->kkt;
     
-    // Synchronize matrix to GPU before factorization (only NT block has changed)
-    sync_nt_block_to_gpu(solver);
+    // Use conditional sync based on whether we've done initial sync
+    if (kkt->cudss_full_synced) {
+        // Use optimized sync for subsequent factorizations
+        sync_nt_block_to_gpu(solver);
+    } else {
+        // Use full sync for first factorization
+        sync_kkt_to_gpu(solver);
+    }
     
     // Perform factorization phase
     CUDSS_CHECK(cudssExecute((cudssHandle_t)kkt->cudss_handle, CUDSS_PHASE_FACTORIZATION, (cudssConfig_t)kkt->cudss_config,
