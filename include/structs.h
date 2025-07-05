@@ -251,6 +251,7 @@ typedef struct {
     void* cudss_d_rhs; // Device pointer for right-hand side
     void* cudss_d_solution; // Device pointer for solution
     int cudss_initialized; // Flag to indicate if cuDSS is initialized for this KKT
+    int cudss_full_synced; // Flag to indicate if full matrix has been synced to GPU
 
 } QOCOKKT;
 

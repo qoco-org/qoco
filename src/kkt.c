@@ -573,6 +573,9 @@ void sync_kkt_to_gpu(QOCOSolver* solver)
     if (status != CUDSS_STATUS_SUCCESS) {
         printf("cuDSS matrix set values failed with status %d\n", status);
     }
+    
+    // Mark that we've done a full sync
+    kkt->cudss_full_synced = 1;
 }
 
 // Optimized sync: only update changed Nesterov-Todd block elements

@@ -291,6 +291,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
                            (cudssMatrix_t)kkt->cudss_rhs_matrix), cudssExecute);
   
   kkt->cudss_initialized = 1;
+  kkt->cudss_full_synced = 0; // Will be set to 1 after first full sync
 #endif
 
   // Compute elimination tree.
