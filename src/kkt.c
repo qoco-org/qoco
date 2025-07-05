@@ -592,7 +592,7 @@ void sync_nt_block_to_gpu(QOCOSolver* solver)
         QOCOInt idx = kkt->ntdiag2kkt[i];
         cudaMemcpy(&kkt->d_csr_values[idx], &kkt->K->x[idx], sizeof(QOCOFloat), cudaMemcpyHostToDevice);
     }
-    
+      
     // Update the cuDSS matrix with new values
     cudssStatus_t status = cudssMatrixSetValues((cudssMatrix_t)kkt->cudss_matrix, kkt->d_csr_values);
     if (status != CUDSS_STATUS_SUCCESS) {
