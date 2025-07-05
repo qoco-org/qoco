@@ -208,7 +208,6 @@ void initialize_ipm(QOCOSolver* solver)
   }
 
   // Factor KKT matrix.
-  sync_kkt_to_gpu(solver);
   factor(solver);
 
   // Solve KKT system.
@@ -585,32 +584,23 @@ void sync_nt_block_to_gpu(QOCOSolver* solver)
     QOCOKKT* kkt = solver->work->kkt;
     QOCOWorkspace* work = solver->work;
     
-    // First, copy current GPU values to host buffer
-    QOCOFloat* temp_values = malloc(kkt->K->nnz * sizeof(QOCOFloat));
-    cudaMemcpy(temp_values, kkt->d_csr_values, kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
-    
-    // Update only the NT block elements in the temp buffer
+    // Copy only the changed NT block elements to GPU
     for (QOCOInt i = 0; i < work->Wnnz; ++i) {
         QOCOInt idx = kkt->nt2kkt[i];
-        temp_values[idx] = kkt->K->x[idx];
+        cudaMemcpy(&kkt->d_csr_values[idx], &kkt->K->x[idx], sizeof(QOCOFloat), cudaMemcpyHostToDevice);
     }
     
-    // Update diagonal regularization elements
+    // Copy diagonal regularization elements
     for (QOCOInt i = 0; i < work->data->m; ++i) {
         QOCOInt idx = kkt->ntdiag2kkt[i];
-        temp_values[idx] = kkt->K->x[idx];
+        cudaMemcpy(&kkt->d_csr_values[idx], &kkt->K->x[idx], sizeof(QOCOFloat), cudaMemcpyHostToDevice);
     }
-    
-    // Copy the entire updated buffer back to GPU
-    cudaMemcpy(kkt->d_csr_values, temp_values, kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
-    
+      
     // Update the cuDSS matrix with new values
     cudssStatus_t status = cudssMatrixSetValues((cudssMatrix_t)kkt->cudss_matrix, kkt->d_csr_values);
     if (status != CUDSS_STATUS_SUCCESS) {
         printf("cuDSS matrix set values failed with status %d\n", status);
     }
-    
-    free(temp_values);
 }
 
 // Factor the KKT matrix using cuDSS (equivalent to QDLDL_factor)
@@ -618,8 +608,8 @@ int cudss_factor(QOCOSolver* solver)
 {
     QOCOKKT* kkt = solver->work->kkt;
     
-    // Synchronize matrix to GPU before factorization (only NT block has changed)
-    sync_nt_block_to_gpu(solver);
+    // Synchronize matrix to GPU before factorization
+    sync_kkt_to_gpu(solver);
     
     // Perform factorization phase
     CUDSS_CHECK(cudssExecute((cudssHandle_t)kkt->cudss_handle, CUDSS_PHASE_FACTORIZATION, (cudssConfig_t)kkt->cudss_config,
