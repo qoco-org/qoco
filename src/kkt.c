@@ -173,11 +173,6 @@ void initialize_ipm(QOCOSolver* solver)
   for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
     solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] = -1.0;
   }
-  
-#ifdef QOCO_USE_CUDSS
-  // Synchronize updated KKT matrix to GPU
-  sync_kkt_to_gpu(solver);
-#endif
 
   // Set Nesterov-Todd block in Wfull to -I.
   for (QOCOInt i = 0; i < solver->work->data->l; ++i) {
@@ -261,8 +256,8 @@ void update_nt_block(QOCOSolver* solver)
   }
   
 #ifdef QOCO_USE_CUDSS
-  // Synchronize updated KKT matrix to GPU
-  sync_kkt_to_gpu(solver);
+  // Optimized sync: only update changed NT block elements
+  sync_nt_block_to_gpu(solver);
 #endif
 }
 
@@ -565,13 +560,38 @@ void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
 }
 
 #ifdef QOCO_USE_CUDSS
-// Synchronize KKT matrix from CPU to GPU
+// Synchronize KKT matrix from CPU to GPU (full matrix)
 void sync_kkt_to_gpu(QOCOSolver* solver)
 {
     QOCOKKT* kkt = solver->work->kkt;
     
     // Copy matrix values from CPU to GPU
     cudaMemcpy(kkt->d_csr_values, kkt->K->x, kkt->K->nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    
+    // Update the cuDSS matrix with new values
+    cudssStatus_t status = cudssMatrixSetValues((cudssMatrix_t)kkt->cudss_matrix, kkt->d_csr_values);
+    if (status != CUDSS_STATUS_SUCCESS) {
+        printf("cuDSS matrix set values failed with status %d\n", status);
+    }
+}
+
+// Optimized sync: only update changed Nesterov-Todd block elements
+void sync_nt_block_to_gpu(QOCOSolver* solver)
+{
+    QOCOKKT* kkt = solver->work->kkt;
+    QOCOWorkspace* work = solver->work;
+    
+    // Copy only the changed NT block elements to GPU
+    for (QOCOInt i = 0; i < work->Wnnz; ++i) {
+        QOCOInt idx = kkt->nt2kkt[i];
+        cudaMemcpy(&kkt->d_csr_values[idx], &kkt->K->x[idx], sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    }
+    
+    // Copy diagonal regularization elements
+    for (QOCOInt i = 0; i < work->data->m; ++i) {
+        QOCOInt idx = kkt->ntdiag2kkt[i];
+        cudaMemcpy(&kkt->d_csr_values[idx], &kkt->K->x[idx], sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+    }
     
     // Update the cuDSS matrix with new values
     cudssStatus_t status = cudssMatrixSetValues((cudssMatrix_t)kkt->cudss_matrix, kkt->d_csr_values);

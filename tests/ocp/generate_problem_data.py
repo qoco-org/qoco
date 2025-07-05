@@ -9,7 +9,7 @@ import cvxpy as cp
 
 
 def generate_pdg():
-    N = 300  # Number of timesteps.
+    N = 3000  # Number of timesteps.
     dt = 0.5  # Discretization interval.
     g0 = 9.8  # Gravitational acceleration.
     zi = np.array([100, 50, 50, -9, 5, -9])  # Initial condition.
