@@ -37,6 +37,8 @@ where :math:`l` is the dimension of the non-negative orthant, and :math:`\mathca
 .. math::
     \mathcal{Q}^{q_i}_i = \{(t,x)  \in \mathbb{R} \times \mathbb{R}^{q_i - 1} \; : \; \|x\|_2 \leq t \}
 
+An example of putting a problem into QOCO's standard form can be found :download:`here <_static/qoco-parsing.pdf>`.
+
 Features
 --------------
 .. glossary::
