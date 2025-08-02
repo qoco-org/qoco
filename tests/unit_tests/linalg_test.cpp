@@ -1,7 +1,7 @@
+#include "qoco.h"
 #include "test_utils.h"
 #include "gtest/gtest.h"
-
-#include "qoco.h"
+#include <stdio.h>
 
 TEST(linalg, new_qoco_csc_matrix_test)
 {
@@ -224,28 +224,33 @@ TEST(linalg, regularize_test1)
   qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
   qoco_set_csc(Pexp, n, n, Pnnz, Px_exp, Pp, Pi);
 
-  regularize(P, 0.5, NULL);
-  expect_eq_csc(P, Pexp, tol);
+  QOCOCscMatrix* Pmalloc = new_qoco_csc_matrix(P);
+
+  QOCOInt num_diagP = count_diag(Pmalloc);
+  QOCOCscMatrix* Pres = regularize_P(num_diagP, Pmalloc, 0.5, NULL);
+
+  expect_eq_csc(Pres, Pexp, tol);
 
   free(P);
   free(Pexp);
+  free_qoco_csc_matrix(Pres);
 }
 
 TEST(linalg, regularize_test2)
 {
   constexpr QOCOInt n = 3;
-  QOCOFloat Px[] = {1, 2, 2, 3, 3};
-  constexpr QOCOInt Pnnz = 5;
-  QOCOInt Pp[] = {0, 2, 5, 5};
-  QOCOInt Pi[] = {1, 2, 0, 1, 2};
+  QOCOFloat Px[] = {2, 3};
+  constexpr QOCOInt Pnnz = 2;
+  QOCOInt Pp[] = {0, 0, 2, 2};
+  QOCOInt Pi[] = {0, 1};
 
-  QOCOFloat Px_exp[] = {1, 1, 2, 2, 4, 3, 1};
-  QOCOInt Pnnz_exp = 7;
-  QOCOInt Pp_exp[] = {0, 3, 6, 7};
-  QOCOInt Pi_exp[] = {0, 1, 2, 0, 1, 2, 2};
+  QOCOFloat Px_exp[] = {1, 2, 4, 1};
+  QOCOInt Pnnz_exp = 4;
+  QOCOInt Pp_exp[] = {0, 1, 3, 4};
+  QOCOInt Pi_exp[] = {0, 0, 1, 2};
 
-  QOCOInt nzadded_idx[n];
-  QOCOInt nzadded_idx_exp[] = {0, 6};
+  QOCOInt* nzadded_idx = (QOCOInt*)malloc(sizeof(QOCOInt) * n);
+  QOCOInt nzadded_idx_exp[] = {0, 3};
   QOCOInt nz_added_exp = 2;
 
   QOCOFloat tol = 1e-12;
@@ -259,19 +264,21 @@ TEST(linalg, regularize_test2)
   QOCOCscMatrix* Pmalloc = new_qoco_csc_matrix(P);
   QOCOCscMatrix* Pexpmalloc = new_qoco_csc_matrix(Pexp);
 
-  QOCOInt nz_added = regularize(Pmalloc, 1.0, nzadded_idx);
+  QOCOInt num_diagP = count_diag(Pmalloc);
+  QOCOCscMatrix* Pres = regularize_P(num_diagP, Pmalloc, 1.0, nzadded_idx);
 
-  expect_eq_csc(Pmalloc, Pexpmalloc, tol);
+  expect_eq_csc(Pres, Pexpmalloc, tol);
 
-  EXPECT_EQ(nz_added, nz_added_exp);
+  EXPECT_EQ(n - num_diagP, nz_added_exp);
 
-  for (QOCOInt i = 0; i < nz_added; ++i) {
+  for (QOCOInt i = 0; i < n - num_diagP; ++i) {
     EXPECT_EQ(nzadded_idx[i], nzadded_idx_exp[i]);
   }
 
   free(P);
   free(Pexp);
-  free_qoco_csc_matrix(Pmalloc);
+  free(nzadded_idx);
+  free_qoco_csc_matrix(Pres);
   free_qoco_csc_matrix(Pexpmalloc);
 }
 
@@ -297,12 +304,14 @@ TEST(linalg, regularize_test3)
 
   QOCOCscMatrix* Pmalloc = new_qoco_csc_matrix(P);
 
-  regularize(Pmalloc, 1e-3, NULL);
-  expect_eq_csc(Pmalloc, Pexp, tol);
+  QOCOInt num_diagP = count_diag(Pmalloc);
+  QOCOCscMatrix* Pres = regularize_P(num_diagP, Pmalloc, 1e-3, NULL);
 
-  free_qoco_csc_matrix(Pmalloc);
+  expect_eq_csc(Pres, Pexp, tol);
+
   free(P);
   free(Pexp);
+  free_qoco_csc_matrix(Pres);
 }
 
 TEST(linalg, col_inf_norm_USymm_test)

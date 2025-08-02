@@ -96,9 +96,12 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   // Regularize P.
   solver->work->kkt->Pnzadded_idx = qoco_calloc(n, sizeof(QOCOInt));
   if (P) {
-    solver->work->kkt->Pnum_nzadded =
-        regularize(solver->work->data->P, solver->settings->kkt_static_reg,
-                   solver->work->kkt->Pnzadded_idx);
+    QOCOInt num_diagP = count_diag(P);
+    solver->work->kkt->Pnum_nzadded = n - num_diagP;
+    QOCOCscMatrix* Preg = regularize_P(num_diagP, solver->work->data->P,
+                                       solver->settings->kkt_static_reg,
+                                       solver->work->kkt->Pnzadded_idx);
+    solver->work->data->P = Preg;
   }
   else {
     solver->work->data->P =
