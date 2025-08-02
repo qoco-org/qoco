@@ -151,16 +151,27 @@ void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n);
 
 /**
- * @brief Adds lambda * I to a CSC matrix. Called on P prior to construction of
- * KKT system in qoco_setup(). This function calls realloc() when adding new
- * nonzeros.
+ * @brief Counts the number of diagonal elements in upper triangular CSC matrix
+ * M.
  *
- * @param M Matrix to be regularized.
- * @param lambda Regularization factor.
- * @param nzadded_idx Indices of elements of M->x that are added.
- * @return Number of nonzeros added to M->x.
+ * @param M Input matrix.
+ * @return Number of nonzeros on the diagonal of M.
  */
-QOCOInt regularize(QOCOCscMatrix* M, QOCOFloat lambda, QOCOInt* nzadded_idx);
+QOCOInt count_diag(QOCOCscMatrix* M);
+
+/**
+ * @brief Adds reg * I to a CSC matrix. Called on P prior to construction
+ * of KKT system in qoco_setup(). This function calls realloc() when adding
+ * new nonzeros. Matrix P is freed using free_qoco_csc_matrix
+ *
+ * @param num_diagP Number of new element added to diagonal.
+ * @param P Matrix to be regularized.
+ * @param reg Regularization factor.
+ * @param nzadded_idx Indices of elements of M->x that are added.
+ * @return P + reg * I.
+ */
+QOCOCscMatrix* regularize_P(QOCOInt num_diagP, QOCOCscMatrix* P, QOCOFloat reg,
+                            QOCOInt* nzadded_idx);
 
 /**
  * @brief Subtracts lambda * I to a CSC matrix. Called on P when updating

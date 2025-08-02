@@ -220,60 +220,77 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
   return norm;
 }
 
-QOCOInt regularize(QOCOCscMatrix* M, QOCOFloat lambda, QOCOInt* nzadded_idx)
+QOCOInt count_diag(QOCOCscMatrix* M)
 {
-  QOCOInt num_nz = 0;
-  // Iterate over each column.
-  for (QOCOInt col = 0; col < M->n; col++) {
-    QOCOInt start = M->p[col];
-    QOCOInt end = M->p[col + 1];
-
-    // Flag to check if the diagonal element exists.
-    QOCOInt diagonal_exists = 0;
-
-    // Iterate over the elements in the current column.
-    unsigned char insert_set = 0;
-    QOCOInt insert = end;
-    for (QOCOInt i = start; i < end; i++) {
-      if (!insert_set && M->i[i] > col) {
-        insert = i;
-        insert_set = 1;
-      }
-      if (M->i[i] == col) {
-        M->x[i] += lambda; // Add lambda to the diagonal element.
-        diagonal_exists = 1;
-        break;
-      }
-    }
-
-    // If the diagonal element does not exist, we need to insert it.
-    if (!diagonal_exists) {
-      // Shift all the elements in values and row_indices arrays to make space
-      // for the new diagonal element.
-      M->nnz++;
-      M->x = realloc(M->x, M->nnz * sizeof(QOCOFloat));
-      M->i = realloc(M->i, M->nnz * sizeof(QOCOInt));
-
-      for (QOCOInt i = M->nnz - 1; i > insert; i--) {
-        M->x[i] = M->x[i - 1];
-        M->i[i] = M->i[i - 1];
-      }
-
-      // Insert the new diagonal element.
-      M->x[insert] = lambda;
-      M->i[insert] = col;
-      if (nzadded_idx) {
-        nzadded_idx[num_nz] = insert;
-      }
-      num_nz++;
-
-      // Update the column_pointers array.
-      for (QOCOInt i = col + 1; i <= M->n; i++) {
-        M->p[i]++;
-      }
+  QOCOInt count = 0;
+  for (QOCOInt j = 0; j < M->n; j++) {
+    // look for nonempty columns with final element
+    // on the diagonal.  Assumes triu format.
+    if ((M->p[j + 1] != M->p[j]) && (M->i[M->p[j + 1] - 1] == j)) {
+      count++;
     }
   }
-  return num_nz;
+  return count;
+}
+
+QOCOCscMatrix* regularize_P(QOCOInt num_diagP, QOCOCscMatrix* P, QOCOFloat reg,
+                            QOCOInt* nzadded_idx)
+{
+  QOCOInt n = P->n;
+
+  QOCOInt orig_nnz = P->nnz;
+  QOCOInt new_nnz =
+      orig_nnz + (n - num_diagP); // We insert one element per missing diagonal
+
+  // Allocate new matrix
+  QOCOCscMatrix* Preg = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+  Preg->m = n;
+  Preg->n = n;
+  Preg->nnz = new_nnz;
+  Preg->x = (QOCOFloat*)malloc(new_nnz * sizeof(QOCOFloat));
+  Preg->i = (QOCOInt*)malloc(new_nnz * sizeof(QOCOInt));
+  Preg->p = (QOCOInt*)malloc((n + 1) * sizeof(QOCOInt));
+
+  QOCOInt orig_pos, new_pos = 0;
+  Preg->p[0] = 0;
+
+  QOCOInt num_nz = 0;
+  for (QOCOInt j = 0; j < n; ++j) {
+    QOCOInt inserted_diag = 0;
+
+    for (orig_pos = P->p[j]; orig_pos < P->p[j + 1]; ++orig_pos) {
+      QOCOInt row = P->i[orig_pos];
+
+      if (!inserted_diag && row > j) {
+        // Insert missing diagonal before this row
+        Preg->i[new_pos] = j;
+        Preg->x[new_pos] = reg;
+        ++new_pos;
+        inserted_diag = 1;
+      }
+
+      Preg->i[new_pos] = row;
+      Preg->x[new_pos] = (row == j) ? P->x[orig_pos] + reg : P->x[orig_pos];
+      if (row == j)
+        inserted_diag = 1;
+      ++new_pos;
+    }
+
+    // No entries or diagonal still missing
+    if (!inserted_diag) {
+      Preg->i[new_pos] = j;
+      Preg->x[new_pos] = reg;
+      if (nzadded_idx) {
+        nzadded_idx[num_nz] = new_pos;
+      }
+      num_nz++;
+      ++new_pos;
+    }
+
+    Preg->p[j + 1] = new_pos;
+  }
+  free_qoco_csc_matrix(P);
+  return Preg;
 }
 
 void unregularize(QOCOCscMatrix* M, QOCOFloat lambda)
