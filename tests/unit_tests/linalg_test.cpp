@@ -1,7 +1,6 @@
 #include "qoco.h"
 #include "test_utils.h"
 #include "gtest/gtest.h"
-#include <stdio.h>
 
 TEST(linalg, new_qoco_csc_matrix_test)
 {
