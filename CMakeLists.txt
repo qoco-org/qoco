@@ -14,12 +14,15 @@ message(STATUS "We are on a ${CMAKE_SYSTEM_NAME} system")
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     set(IS_LINUX 1)
+    add_compile_definitions(IS_LINUX)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     set(IS_MACOS 1)
+    add_compile_definitions(IS_MACOS)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     set(IS_WINDOWS 1)
+    add_compile_definitions(IS_WINDOWS)
 endif()
 
 # If build type is not specified set to Release.
@@ -94,6 +97,9 @@ elseif(IS_MACOS)
     list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_macos.c")
 elseif(IS_WINDOWS)
     list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_windows.c")
+else()
+    list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_fallback.c")
+    message(STATUS "Using fallback timer implementation (returns 0)")
 endif()
 
 # Build qoco shared library.
