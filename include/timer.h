@@ -87,12 +87,12 @@ void stop_timer(QOCOTimer* timer);
  *
  * @param timer Pointer to timer struct.
  */
-QOCOFloat get_elapsed_time_sec(const QOCOTimer* timer);
+QOCOFloat get_elapsed_time_sec(QOCOTimer* timer);
 #else
 /* Provide no-op inline stubs when timing is unavailable */
 static inline void start_timer(QOCOTimer* timer) { (void)timer; }
 static inline void stop_timer(QOCOTimer* timer) { (void)timer; }
-static inline QOCOFloat get_elapsed_time_sec(const QOCOTimer* timer) {
+static inline QOCOFloat get_elapsed_time_sec(QOCOTimer* timer) {
   (void)timer;
   return (QOCOFloat)0.0;
 }
