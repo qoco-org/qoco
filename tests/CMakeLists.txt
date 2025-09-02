@@ -10,13 +10,13 @@ endif()
 if(QOCO_BUILD_TYPE STREQUAL Debug)
     set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
     add_compile_definitions(QOCO_DEBUG)
-    set(CMAKE_CXX_FLAGS "-g -march=native -Wall")
+        set(CMAKE_CXX_FLAGS "-g -march=native -Wall")
     if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
         set(CMAKE_CXX_FLAGS "-fsanitize=address,undefined")
     endif()
 else()
     set(QOCO_BUILD_TYPE Release)
-    set(CMAKE_CXX_FLAGS "-O3 -march=native -Wall")
+        set(CMAKE_CXX_FLAGS "-O3 -march=native -Wall")
 endif()
 
 # Add -Wextra if not on Windows.
@@ -26,7 +26,10 @@ endif()
 
 # Enable exception handling on Windows.
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+  if(MSVC)
+    # Only add MSVC-style flags when using MSVC
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+  endif()
 endif()
 
 message(STATUS "Test Build Type: " ${QOCO_BUILD_TYPE})
