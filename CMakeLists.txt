@@ -9,20 +9,6 @@ set(QOCO_VERSION "${QOCO_VERSION_MAJOR}.${QOCO_VERSION_MINOR}.${QOCO_VERSION_PAT
 project(qoco VERSION ${QOCO_VERSION})
 message(STATUS "Building QOCO v${QOCO_VERSION}")
 
-# If build type is not specified set to Release.
-if(QOCO_BUILD_TYPE STREQUAL Debug)
-    set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
-    add_compile_definitions(QOCO_DEBUG)
-    set(CMAKE_C_FLAGS "-g -Wall")
-
-    if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address,undefined")
-    endif()
-else()
-    set(QOCO_BUILD_TYPE Release)
-    set(CMAKE_C_FLAGS "-O3 -Wall")
-endif()
-
 # Detect operating system.
 message(STATUS "We are on a ${CMAKE_SYSTEM_NAME} system")
 
@@ -34,6 +20,20 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     set(IS_WINDOWS 1)
+endif()
+
+# If build type is not specified set to Release.
+if(QOCO_BUILD_TYPE STREQUAL Debug)
+    set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
+    add_compile_definitions(QOCO_DEBUG)
+    set(CMAKE_C_FLAGS "-g -Wall")
+
+    if(IS_LINUX OR IS_MACOS)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address,undefined")
+    endif()
+else()
+    set(QOCO_BUILD_TYPE Release)
+    set(CMAKE_C_FLAGS "-O3 -Wall")
 endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configure/qoco_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_config.h @ONLY)
@@ -88,11 +88,11 @@ set(qoco_headers "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco.h"
 )
 
 # Include timer file depending on OS.
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+if(IS_LINUX)
     list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_linux.c")
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+elseif(IS_MACOS)
     list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_macos.c")
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+elseif(IS_WINDOWS)
     list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_windows.c")
 endif()
 
@@ -100,7 +100,7 @@ endif()
 add_library(qoco SHARED)
 target_link_libraries(qoco qdldl amd)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qoco m)
 endif()
 
@@ -113,7 +113,7 @@ target_sources(qoco PRIVATE ${qoco_sources})
 add_library(qocostatic STATIC)
 target_link_libraries(qocostatic qdldlstatic amd)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qocostatic m)
 endif()
 
