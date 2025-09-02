@@ -42,7 +42,7 @@ message(STATUS "Build Type: " ${QOCO_BUILD_TYPE})
 message(STATUS "Build Flags: " ${CMAKE_C_FLAGS})
 
 # Set integer size to 32 bits.
-message(STATUS "Using 32 byte integers")
+message(STATUS "Using 32 bit integers")
 set(QDLDL_LONG OFF)
 
 # Set floating points to double precision.
