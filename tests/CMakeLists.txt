@@ -1,22 +1,35 @@
 cmake_minimum_required(VERSION 3.18)
 
-set (CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 14)
+
 # Python requirement.
 find_package(Python COMPONENTS Interpreter)
-if (NOT Python_FOUND)
+
+if(NOT Python_FOUND)
   message(FATAL_ERROR "Python is required to generate data for tests.")
 endif()
 
 if(QOCO_BUILD_TYPE STREQUAL Debug)
-    set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
-    add_compile_definitions(QOCO_DEBUG)
+  set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
+  add_compile_definitions(QOCO_DEBUG)
+
+  if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    set(CMAKE_CXX_FLAGS "-g -Wall")
+  else()
     set(CMAKE_CXX_FLAGS "-g -march=native -Wall")
-    if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-        set(CMAKE_CXX_FLAGS "-fsanitize=address,undefined")
-    endif()
+  endif()
+
+  if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined")
+  endif()
 else()
-    set(QOCO_BUILD_TYPE Release)
+  set(QOCO_BUILD_TYPE Release)
+
+  if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    set(CMAKE_CXX_FLAGS "-O3 -Wall")
+  else()
     set(CMAKE_CXX_FLAGS "-O3 -march=native -Wall")
+  endif()
 endif()
 
 # Add -Wextra if not on Windows.
@@ -26,9 +39,9 @@ endif()
 
 # Enable exception handling on Windows.
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
-  if(QOCO_BUILD_TYPE STREQUAL Release)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Ox")
+  if(MSVC)
+    # Only add MSVC-style flags when using MSVC
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
   endif()
 endif()
 
@@ -42,6 +55,7 @@ include_directories("${PROJECT_SOURCE_DIR}/lib/qdldl/include")
 
 # Unit tests.
 file(GLOB unit_tests "${PROJECT_SOURCE_DIR}/tests/unit_tests/*.cpp")
+
 foreach(file ${unit_tests})
   set(name)
   get_filename_component(name ${file} NAME_WE)
@@ -55,6 +69,7 @@ endforeach()
 
 # Simple convex tests.
 file(GLOB simple_tests "${PROJECT_SOURCE_DIR}/tests/simple_tests/*.cpp")
+
 foreach(file ${simple_tests})
   set(name)
   get_filename_component(name ${file} NAME_WE)
@@ -67,10 +82,11 @@ foreach(file ${simple_tests})
 endforeach()
 
 # Generate problem data.
-execute_process(COMMAND python generate_all_problem_data.py 
-    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
+execute_process(COMMAND python generate_all_problem_data.py
+  WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 
 file(GLOB ocp "${PROJECT_SOURCE_DIR}/tests/ocp/*.cpp")
+
 foreach(file ${ocp})
   set(name)
   get_filename_component(name ${file} NAME_WE)
@@ -83,6 +99,7 @@ foreach(file ${ocp})
 endforeach()
 
 file(GLOB portfolio "${PROJECT_SOURCE_DIR}/tests/portfolio/*.cpp")
+
 foreach(file ${portfolio})
   set(name)
   get_filename_component(name ${file} NAME_WE)
