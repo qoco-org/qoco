@@ -9,21 +9,9 @@ set(QOCO_VERSION "${QOCO_VERSION_MAJOR}.${QOCO_VERSION_MINOR}.${QOCO_VERSION_PAT
 project(qoco VERSION ${QOCO_VERSION})
 message(STATUS "Building QOCO v${QOCO_VERSION}")
 
-# If build type is not specified set to Release.
-if(QOCO_BUILD_TYPE STREQUAL Debug)
-    set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
-    add_compile_definitions(QOCO_DEBUG)
-    set(CMAKE_C_FLAGS "-g -Wall")
-    if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address,undefined")
-    endif()
-else()
-    set(QOCO_BUILD_TYPE Release)
-    set(CMAKE_C_FLAGS "-O3 -Wall")
-endif()
-
 # Detect operating system.
 message(STATUS "We are on a ${CMAKE_SYSTEM_NAME} system")
+
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     set(IS_LINUX 1)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
@@ -32,9 +20,20 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     set(IS_WINDOWS 1)
-    if(QOCO_BUILD_TYPE STREQUAL Release)
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /Ox")
+endif()
+
+# If build type is not specified set to Release.
+if(QOCO_BUILD_TYPE STREQUAL Debug)
+    set(QOCO_BUILD_TYPE ${QOCO_BUILD_TYPE})
+    add_compile_definitions(QOCO_DEBUG)
+    set(CMAKE_C_FLAGS "-g -Wall")
+
+    if(IS_LINUX OR IS_MACOS)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address,undefined")
     endif()
+else()
+    set(QOCO_BUILD_TYPE Release)
+    set(CMAKE_C_FLAGS "-O3 -Wall")
 endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configure/qoco_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_config.h @ONLY)
@@ -43,12 +42,11 @@ message(STATUS "Build Type: " ${QOCO_BUILD_TYPE})
 message(STATUS "Build Flags: " ${CMAKE_C_FLAGS})
 
 # Set integer size to 32 bits.
-message(STATUS "Using 32 byte integers")
+message(STATUS "Using 32 bit integers")
 set(QDLDL_LONG OFF)
 
 # Set floating points to double precision.
 message(STATUS "Using double precision floating point")
-
 
 # Add -fPIC option explicity.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -65,45 +63,47 @@ if(${MATLAB})
 endif()
 
 set(qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_api.c"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/input_validation.c"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_linalg.c"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/kkt.c"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/cone.c"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_status.c"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/equilibration.c"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_utils.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/input_validation.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_linalg.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/kkt.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/cone.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_status.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/equilibration.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_utils.c"
 )
 
 set(qoco_headers "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_api.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/input_validation.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_linalg.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/kkt.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/cone.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_status.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/equilibration.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/enums.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/definitions.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/structs.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/timer.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_utils.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_api.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/input_validation.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_linalg.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/kkt.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/cone.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_status.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/equilibration.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/enums.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/definitions.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/structs.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/timer.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_utils.h"
 )
 
 # Include timer file depending on OS.
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+if(IS_LINUX)
     list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_linux.c")
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+elseif(IS_MACOS)
     list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_macos.c")
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+elseif(IS_WINDOWS)
     list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_windows.c")
 endif()
 
 # Build qoco shared library.
 add_library(qoco SHARED)
 target_link_libraries(qoco qdldl amd)
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+
+if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qoco m)
 endif()
+
 target_include_directories(qoco PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qoco PUBLIC lib/amd)
 target_include_directories(qoco PUBLIC lib/qdldl/include)
@@ -112,9 +112,11 @@ target_sources(qoco PRIVATE ${qoco_sources})
 # Build qoco static library.
 add_library(qocostatic STATIC)
 target_link_libraries(qocostatic qdldlstatic amd)
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+
+if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qocostatic m)
 endif()
+
 target_include_directories(qocostatic PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(qocostatic PUBLIC lib/amd)
 target_include_directories(qocostatic PUBLIC lib/qdldl/include)
@@ -130,13 +132,13 @@ endif()
 # Test definitions.
 if(ENABLE_TESTING)
     configure_file(CMakeLists.txt.in
-            googletest-download/CMakeLists.txt)
+        googletest-download/CMakeLists.txt)
     execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download)
     execute_process(COMMAND ${CMAKE_COMMAND} --build .
-            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download)
     add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
-            ${CMAKE_BINARY_DIR}/googletest-build)
+        ${CMAKE_BINARY_DIR}/googletest-build)
     enable_testing()
     add_subdirectory(tests)
 endif()
@@ -156,5 +158,5 @@ install(
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
 install(FILES ${qoco_headers}
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/qoco"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/qoco"
 )
