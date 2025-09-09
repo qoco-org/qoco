@@ -98,7 +98,7 @@ endif()
 
 # Build qoco shared library.
 add_library(qoco SHARED)
-target_link_libraries(qoco qdldl amd)
+target_link_libraries(qoco qdldlstatic amd)
 
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qoco m)
