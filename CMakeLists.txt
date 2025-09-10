@@ -98,7 +98,7 @@ endif()
 
 # Build qoco shared library.
 add_library(qoco SHARED)
-target_link_libraries(qoco qdldlstatic amd)
+target_link_libraries(qoco qdldlobject amd)
 
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qoco m)
@@ -111,7 +111,7 @@ target_sources(qoco PRIVATE ${qoco_sources})
 
 # Build qoco static library.
 add_library(qocostatic STATIC)
-target_link_libraries(qocostatic qdldlstatic amd)
+target_link_libraries(qocostatic qdldlobject amd)
 
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qocostatic m)

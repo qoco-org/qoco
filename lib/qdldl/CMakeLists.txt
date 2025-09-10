@@ -11,12 +11,12 @@ project(qdldl VERSION ${QDLDL_VERSION})
 
 include( CMakeDependentOption )
 
-option( QDLDL_BUILD_STATIC_LIB "Build the static library" ON )
-option( QDLDL_BUILD_SHARED_LIB "Build the shared library" ON )
+option( QDLDL_BUILD_STATIC_LIB "Build the static library" OFF )
+option( QDLDL_BUILD_SHARED_LIB "Build the shared library" OFF )
 
 cmake_dependent_option( QDLDL_BUILD_DEMO_EXE
                         "Build the demo executable (requires the static library)"
-                        ON    # Default to on
+                        OFF    # Default to on
                         QDLDL_BUILD_STATIC_LIB OFF ) # Force off if the static library isn't built
 
 cmake_dependent_option( QDLDL_UNITTESTS
