@@ -52,6 +52,10 @@ message(STATUS "Using double precision floating point")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Add qdldl.
+set(QDLDL_BUILD_STATIC_LIB OFF CACHE BOOL "Do not build qdldl static library" FORCE)
+set(QDLDL_BUILD_SHARED_LIB OFF CACHE BOOL "Do not build qdldl shared library" FORCE)
+set(QDLDL_BUILD_DEMO_EXE OFF CACHE BOOL "Do not build qdldl demo" FORCE)
+set(QDLDL_UNITTESTS OFF CACHE BOOL "Do not build qdldl unit tests" FORCE)
 add_subdirectory(lib/qdldl)
 
 # Add amd
