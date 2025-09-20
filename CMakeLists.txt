@@ -133,6 +133,13 @@ if(BUILD_QOCO_DEMO)
     target_link_libraries(qoco_demo qocostatic)
 endif()
 
+# Build benchmark runner.
+if(BUILD_QOCO_BENCHMARK_RUNNER)
+    add_executable(benchmark_runner ${PROJECT_SOURCE_DIR}/benchmarks/benchmark_runner.c)
+    target_include_directories(benchmark_runner PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_link_libraries(benchmark_runner qocostatic)
+endif()
+
 # Test definitions.
 if(ENABLE_TESTING)
     configure_file(CMakeLists.txt.in
