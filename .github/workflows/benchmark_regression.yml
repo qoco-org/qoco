@@ -1,0 +1,82 @@
+name: Benchmark Regression
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set reusable strings
+        # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
+        id: strings
+        shell: bash
+        run: |
+          echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: "3.28.x"
+
+      - name: Install python dependancies
+        run: >
+          pip install cvxpy pandas matplotlib
+
+      - name: Configure CMake
+        # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+        # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+        run: >
+          cmake -B ${{ steps.strings.outputs.build-output-dir }}
+          -DCMAKE_CXX_COMPILER=clang++
+          -DCMAKE_C_COMPILER=clang
+          -DQOCO_BUILD_TYPE:STR=Release
+          -S ${{ github.workspace }} -DENABLE_TESTING:BOOL=True -DBUILD_QOCO_BENCHMARK_RUNNER:BOOL=True
+
+      - name: Build branch of solver
+        run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
+
+      - name: Run benchmarks on PR
+        run: python benchmarks/run_benchmark branch_results
+
+      - name: Configure CMake
+        # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+        # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+        run: >
+          cmake -B ${{ steps.strings.outputs.build-output-dir }}
+          -DCMAKE_CXX_COMPILER=clang++
+          -DCMAKE_C_COMPILER=clang
+          -DQOCO_BUILD_TYPE:STR=Release
+          -S ${{ github.workspace }} -DENABLE_TESTING:BOOL=True -DBUILD_QOCO_BENCHMARK_RUNNER:BOOL=True
+
+      - name: Get master benchmark
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          path: master
+
+      - name: Build master solver
+        run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
+
+      - name: Run benchmarks on master
+        run: python benchmarks/run_benchmark master_results
+
+      - name: Upload PR benchmark results
+        uses: actions/upload-artifact@v3
+        with:
+          name: pr-benchmark
+          path: branch_results.csv
+
+      - name: Upload master benchmark results
+        uses: actions/upload-artifact@v3
+        with:
+          name: master-benchmark
+          path: master_results.csv

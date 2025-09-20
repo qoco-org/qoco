@@ -1,13 +1,17 @@
 import subprocess
 import pandas as pd
 from pathlib import Path
+import sys
 
-def run_benchmarks(bin_dir, runner="./build/benchmark_runner"):
+def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="benchmark_results.csv"):
     bin_dir = Path(bin_dir)
     results = []
 
     # Loop over all .bin files in the directory
+    num = 0
     for bin_file in sorted(bin_dir.glob("*.bin")):
+        if num > 3:
+            break
         print(bin_file)
         # Call the benchmark_runner
         try:
@@ -33,13 +37,12 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner"):
                 "setup_time": None,
                 "solve_time": None
             })
-
+    num += 1
     # Convert to pandas dataframe
     df = pd.DataFrame(results)
-    return df
+    df.to_csv("benchmark_results.csv", index=False)
 
 if __name__ == "__main__":
-    df = run_benchmarks("./benchmarks/data")
-    print(df)
-    # Optionally save to CSV
-    df.to_csv("benchmark_results.csv", index=False)
+    # If a command-line argument is given, use it as the CSV filename
+    output_name = sys.argv[1] if len(sys.argv) > 1 else "benchmark_results.csv"
+    run_benchmarks("./benchmarks/data", output_csv=f"{output_name}.csv")
