@@ -41,7 +41,7 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
     # Convert to pandas dataframe
     df = pd.DataFrame(results)
     print(df)
-    df.to_csv("benchmark_results.csv", index=False)
+    df.to_csv(output_csv, index=False)
 
 if __name__ == "__main__":
     # If a command-line argument is given, use it as the CSV filename
