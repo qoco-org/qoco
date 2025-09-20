@@ -40,6 +40,7 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
         num += 1
     # Convert to pandas dataframe
     df = pd.DataFrame(results)
+    print(df)
     df.to_csv("benchmark_results.csv", index=False)
 
 if __name__ == "__main__":
