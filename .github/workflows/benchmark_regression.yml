@@ -70,13 +70,13 @@ jobs:
         run: python benchmarks/run_benchmark master_results
 
       - name: Upload PR benchmark results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pr-benchmark
           path: branch_results.csv
 
       - name: Upload master benchmark results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: master-benchmark
           path: master_results.csv
