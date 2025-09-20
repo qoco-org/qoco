@@ -37,7 +37,7 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
                 "setup_time": None,
                 "solve_time": None
             })
-    num += 1
+        num += 1
     # Convert to pandas dataframe
     df = pd.DataFrame(results)
     df.to_csv("benchmark_results.csv", index=False)
