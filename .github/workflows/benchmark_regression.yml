@@ -47,6 +47,12 @@ jobs:
       - name: Run benchmarks on PR
         run: python benchmarks/run_benchmarks.py branch_results
 
+      - name: Upload PR benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-benchmark
+          path: branch_results.csv
+
       - name: Checkout main
         uses: actions/checkout@v3
         with:
@@ -67,12 +73,6 @@ jobs:
 
       - name: Run benchmarks on main
         run: python benchmarks/run_benchmarks.py main_results
-
-      - name: Upload PR benchmark results
-        uses: actions/upload-artifact@v4
-        with:
-          name: pr-benchmark
-          path: branch_results.csv
 
       - name: Upload master benchmark results
         uses: actions/upload-artifact@v4
