@@ -30,13 +30,13 @@ int main(int argc, char** argv)
 
   // Dense vectors
   double* c = malloc(n * sizeof(double));
-  double* b = malloc(m * sizeof(double));
-  double* h = malloc(p * sizeof(double));
+  double* b = malloc(p * sizeof(double));
+  double* h = malloc(m * sizeof(double));
   int* q = malloc(nsoc * sizeof(int));
 
   fread(c, sizeof(double), n, f);
-  fread(b, sizeof(double), m, f);
-  fread(h, sizeof(double), p, f);
+  fread(b, sizeof(double), p, f);
+  fread(h, sizeof(double), m, f);
   fread(q, sizeof(int), nsoc, f);
 
   // P
@@ -96,27 +96,8 @@ int main(int argc, char** argv)
     q = NULL;
   }
 
-  // printf("n: %d\n", n);
-  // printf("m: %d\n", m);
-  // printf("p: %d\n", p);
-
-  // printf("c: ");
-  // print_arrayf(c, n);
-  // printf("b: ");
-  // print_arrayf(b, p);
-  // printf("h: ");
-  // print_arrayf(h, m);
-
-  // printf("P: ");
-  // print_qoco_csc_matrix(P);
-  // printf("A: ");
-  // print_qoco_csc_matrix(A);
-  // printf("G: ");
-  // print_qoco_csc_matrix(G);
-
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
   set_default_settings(settings);
-  // settings->verbose = 0;
   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
   QOCOInt exit =
       qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
