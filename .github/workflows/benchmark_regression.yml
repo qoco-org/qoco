@@ -107,7 +107,8 @@ jobs:
         run: |
           if [ -f /tmp/results/performance_profiles.png ]; then
               BASE64_IMG=$(base64 -w 0 /tmp/results/performance_profiles.png)
-              gh pr comment ${{ github.event.pull_request.number }} --body "Benchmark plot: ![Benchmark](data:image/png;base64,$BASE64_IMG)"
+              echo "Benchmark plot: ![Benchmark](data:image/png;base64,$BASE64_IMG)" > /tmp/comment_body.txt
+              gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment_body.txt
           else
               echo "performance_profiles.png not found, skipping PR comment."
           fi
