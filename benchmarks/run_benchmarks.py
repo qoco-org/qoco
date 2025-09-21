@@ -8,10 +8,7 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
     results = []
 
     # Loop over all .bin files in the directory
-    num = 0
     for bin_file in sorted(bin_dir.glob("*.bin")):
-        if num > 3:
-            break
         print(bin_file)
         # Call the benchmark_runner
         try:
@@ -37,10 +34,8 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
                 "setup_time": None,
                 "solve_time": None
             })
-        num += 1
     # Convert to pandas dataframe
     df = pd.DataFrame(results)
-    print(df)
     df.to_csv(output_csv, index=False)
 
 if __name__ == "__main__":
