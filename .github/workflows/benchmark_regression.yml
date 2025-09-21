@@ -99,13 +99,16 @@ jobs:
         run: python benchmarks/compute_performance_profiles.py /tmp/results/branch_results.csv /tmp/results/main_results.csv
 
       - name: Upload performance profiles
+        id: upload_profiles
         uses: actions/upload-artifact@v4
         with:
           name: performance-profiles
           path: /tmp/results/performance_profiles.png
-      - name: Comment on PR with link
+
+      - name: Comment on PR with performance profile link
         run: |
-          ARTIFACT_URL="https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts"
+          ARTIFACT_ID=${{ steps.upload_profiles.outputs.artifact-id }}
+          ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}"
           gh pr comment ${{ github.event.pull_request.number }} --body "Benchmark plot uploaded as artifact: $ARTIFACT_URL"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
