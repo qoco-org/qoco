@@ -42,8 +42,6 @@ jobs:
           pip install cvxpy pandas matplotlib seaborn
 
       - name: Configure CMake
-        # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-        # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
         run: >
           cmake -B ${{ steps.strings.outputs.build-output-dir }}
           -DCMAKE_CXX_COMPILER=clang++
@@ -56,12 +54,6 @@ jobs:
 
       - name: Run benchmarks on PR
         run: python benchmarks/run_benchmarks.py branch_results && mkdir -p /tmp/results && cp branch_results.csv /tmp/results/
-
-      - name: Upload PR benchmark results
-        uses: actions/upload-artifact@v4
-        with:
-          name: branch-benchmarks
-          path: branch_results.csv
 
       - name: Checkout main
         uses: actions/checkout@v3
@@ -83,13 +75,6 @@ jobs:
         run: python benchmarks/run_benchmarks.py main_results && cp main_results.csv /tmp/results/
         continue-on-error: true
 
-      - name: Upload master benchmark results
-        uses: actions/upload-artifact@v4
-        with:
-          name: main-benchmarks
-          path: main_results.csv
-        continue-on-error: true
-
       - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
@@ -98,17 +83,17 @@ jobs:
       - name: Generate performance profiles
         run: python benchmarks/compute_performance_profiles.py /tmp/results/branch_results.csv /tmp/results/main_results.csv
 
-      - name: Upload performance profiles
-        id: upload_profiles
+      - name: Upload all benchmark artifacts
+        id: upload_all
         uses: actions/upload-artifact@v4
         with:
-          name: performance-profiles
-          path: /tmp/results/performance_profiles.png
+          name: benchmark-artifacts
+          path: /tmp/results/
 
-      - name: Comment on PR with performance profile link
+      - name: Comment on PR with artifact link
         run: |
-          ARTIFACT_ID=${{ steps.upload_profiles.outputs.artifact-id }}
+          ARTIFACT_ID=${{ steps.upload_all.outputs.artifact-id }}
           ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}"
-          gh pr comment ${{ github.event.pull_request.number }} --body "Benchmark plot uploaded as artifact: $ARTIFACT_URL"
+          gh pr comment ${{ github.event.pull_request.number }} --body "Benchmark plots uploaded as artifact: $ARTIFACT_URL"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
