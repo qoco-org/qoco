@@ -103,14 +103,9 @@ jobs:
         with:
           name: performance-profiles
           path: /tmp/results/performance_profiles.png
-      - name: Comment on PR with plot inline
+      - name: Comment on PR with link
         run: |
-          if [ -f /tmp/results/performance_profiles.png ]; then
-              BASE64_IMG=$(base64 -w 0 /tmp/results/performance_profiles.png)
-              echo "Benchmark plot: ![Benchmark](data:image/png;base64,$BASE64_IMG)" > /tmp/comment_body.txt
-              gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment_body.txt
-          else
-              echo "performance_profiles.png not found, skipping PR comment."
-          fi
+          ARTIFACT_URL="https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts"
+          gh pr comment ${{ github.event.pull_request.number }} --body "Benchmark plot uploaded as artifact: $ARTIFACT_URL"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
