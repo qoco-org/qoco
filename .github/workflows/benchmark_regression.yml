@@ -45,7 +45,7 @@ jobs:
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
 
       - name: Run benchmarks on PR
-        run: python benchmarks/run_benchmarks.py branch_results
+        run: python benchmarks/run_benchmarks.py branch_results && mkdir -p /tmp/results && cp branch_results.csv /tmp/results/
 
       - name: Upload PR benchmark results
         uses: actions/upload-artifact@v4
@@ -70,7 +70,7 @@ jobs:
         run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
 
       - name: Run benchmarks on main
-        run: python benchmarks/run_benchmarks.py main_results
+        run: python benchmarks/run_benchmarks.py main_results && cp main_results.csv /tmp/results/
         continue-on-error: true
 
       - name: Upload master benchmark results
@@ -86,10 +86,10 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Generate performance profiles
-        run: python benchmarks/compute_performance_profiles.py branch_results.csv main_results.csv
+        run: python benchmarks/compute_performance_profiles.py /tmp/results/branch_results.csv /tmp/results/main_results.csv
 
       - name: Upload performance profiles
         uses: actions/upload-artifact@v4
         with:
           name: performance-profiles
-          path: performance_profiles.png
+          path: /tmp/results/performance_profiles.png
