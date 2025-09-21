@@ -22,6 +22,16 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+      - name: Install GitHub CLI
+        run: |
+          sudo apt update
+          sudo apt install -y gh
+
+      - name: Authenticate GitHub CLI
+        run: gh auth setup-git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v2
         with:
@@ -93,3 +103,13 @@ jobs:
         with:
           name: performance-profiles
           path: /tmp/results/performance_profiles.png
+      - name: Comment on PR with plot inline
+        run: |
+          if [ -f /tmp/results/performance_profiles.png ]; then
+              BASE64_IMG=$(base64 -w 0 /tmp/results/performance_profiles.png)
+              gh pr comment ${{ github.event.pull_request.number }} --body "Benchmark plot: ![Benchmark](data:image/png;base64,$BASE64_IMG)"
+          else
+              echo "performance_profiles.png not found, skipping PR comment."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
