@@ -7,11 +7,7 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
     bin_dir = Path(bin_dir)
     results = []
     # Loop over all .bin files in the directory
-    n = 0
     for bin_file in sorted(bin_dir.glob("*.bin")):
-        if n > 3:
-            break
-        n += 1
         print(bin_file)
         # Call the benchmark_runner
         try:
