@@ -1,0 +1,105 @@
+name: Benchmark Regression
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set reusable strings
+        # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
+        id: strings
+        shell: bash
+        run: |
+          echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+
+      - name: Install GitHub CLI
+        run: |
+          sudo apt update
+          sudo apt install -y gh
+
+      - name: Authenticate GitHub CLI
+        run: gh auth setup-git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: "3.28.x"
+
+      - name: Install python dependancies
+        run: >
+          pip install cvxpy pandas matplotlib seaborn
+
+      - name: Configure CMake
+        run: >
+          cmake -B ${{ steps.strings.outputs.build-output-dir }}
+          -DCMAKE_CXX_COMPILER=clang++
+          -DCMAKE_C_COMPILER=clang
+          -DQOCO_BUILD_TYPE:STR=Release
+          -S ${{ github.workspace }} -DBUILD_QOCO_BENCHMARK_RUNNER:BOOL=True
+
+      - name: Build branch of solver
+        run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
+
+      - name: Run benchmarks on PR
+        run: python benchmarks/run_benchmarks.py branch_results && mkdir -p /tmp/results && cp branch_results.csv /tmp/results/
+
+      - name: Checkout main
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Configure CMake
+        run: >
+          cmake -B ${{ steps.strings.outputs.build-output-dir }}
+          -DCMAKE_CXX_COMPILER=clang++
+          -DCMAKE_C_COMPILER=clang
+          -DQOCO_BUILD_TYPE:STR=Release
+          -S ${{ github.workspace }} -DBUILD_QOCO_BENCHMARK_RUNNER:BOOL=True
+
+      - name: Build main solver
+        run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
+
+      - name: Run benchmarks on main
+        run: python benchmarks/run_benchmarks.py main_results && cp main_results.csv /tmp/results/
+        continue-on-error: true
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Generate performance profiles
+        run: python benchmarks/compute_performance_profiles.py /tmp/results/branch_results.csv /tmp/results/main_results.csv
+
+      # - name: Report benchmark summary in PR
+      #   env:
+      #     PR_NUMBER: ${{ github.event.pull_request.number }}
+      #     GITHUB_REPOSITORY: ${{ github.repository }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     python benchmarks/regression_report.py /tmp/results/branch_results.csv /tmp/results/main_results.csv
+
+      - name: Upload all benchmark artifacts
+        id: upload_all
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-artifacts
+          path: /tmp/results/
+
+      # - name: Comment on PR with artifact link
+      #   run: |
+      #     ARTIFACT_ID=${{ steps.upload_all.outputs.artifact-id }}
+      #     ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}"
+      #     gh pr comment ${{ github.event.pull_request.number }} --body "Benchmark plots uploaded as artifact: $ARTIFACT_URL"
