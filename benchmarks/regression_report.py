@@ -19,7 +19,7 @@ branch_solved = (branch_df["exit_code"] == 1).sum()
 main_solved = (main_df["exit_code"] == 1).sum()
 
 msg_lines = []
-msg_lines.append(f"### 📊 [Download benchmark artifacts]({artifact_url})\n")
+msg_lines.append(f"### [Download benchmark artifacts]({artifact_url})\n")
 msg_lines.append("### Benchmark Summary\n")
 msg_lines.append(f"- PR branch solved: **{branch_solved}** problems")
 msg_lines.append(f"- Main branch solved: **{main_solved}** problems\n")
