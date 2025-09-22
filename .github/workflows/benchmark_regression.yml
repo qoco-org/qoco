@@ -88,9 +88,9 @@ jobs:
       - name: Report benchmark summary in PR
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_REPOSITORY: ${{ github.repository }}
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ARTIFACT_ID: ${{ steps.upload_all.outputs.artifact-id }}
+          ARTIFACT_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}"
         run: |
-          ARTIFACT_ID=${{ steps.upload_all.outputs.artifact-id }}
-          ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}"
           python benchmarks/regression_report.py /tmp/results/branch_results.csv /tmp/results/main_results.csv
