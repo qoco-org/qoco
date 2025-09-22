@@ -2,11 +2,59 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+static void apply_setting(QOCOSettings* settings, const char* arg)
+{
+  char key[64];
+  char val[64];
+  if (sscanf(arg, "%63[^=]=%63s", key, val) != 2) {
+    fprintf(stderr, "Warning: could not parse setting '%s'\n", arg);
+    return;
+  }
+
+  if (strcmp(key, "max_iters") == 0) {
+    settings->max_iters = atoi(val);
+  }
+  else if (strcmp(key, "bisect_iters") == 0) {
+    settings->bisect_iters = atoi(val);
+  }
+  else if (strcmp(key, "ruiz_iters") == 0) {
+    settings->ruiz_iters = atoi(val);
+  }
+  else if (strcmp(key, "iter_ref_iters") == 0) {
+    settings->iter_ref_iters = atoi(val);
+  }
+  else if (strcmp(key, "kkt_static_reg") == 0) {
+    settings->kkt_static_reg = atof(val);
+  }
+  else if (strcmp(key, "kkt_dynamic_reg") == 0) {
+    settings->kkt_dynamic_reg = atof(val);
+  }
+  else if (strcmp(key, "abstol") == 0) {
+    settings->abstol = atof(val);
+  }
+  else if (strcmp(key, "reltol") == 0) {
+    settings->reltol = atof(val);
+  }
+  else if (strcmp(key, "abstol_inacc") == 0) {
+    settings->abstol_inacc = atof(val);
+  }
+  else if (strcmp(key, "reltol_inacc") == 0) {
+    settings->reltol_inacc = atof(val);
+  }
+  else if (strcmp(key, "verbose") == 0) {
+    settings->verbose = atoi(val);
+  }
+  else {
+    fprintf(stderr, "Warning: unknown setting '%s'\n", key);
+  }
+}
 
 int main(int argc, char** argv)
 {
   if (argc < 2) {
-    fprintf(stderr, "usage: %s problem.bin\n", argv[0]);
+    fprintf(stderr, "usage: %s problem.bin [setting=value ...]\n", argv[0]);
     return 1;
   }
 
@@ -71,7 +119,6 @@ int main(int argc, char** argv)
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
 
-  // Check for missing data
   if (Pnnz == 0) {
     P = NULL;
   }
@@ -98,6 +145,12 @@ int main(int argc, char** argv)
 
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
   set_default_settings(settings);
+
+  // Apply overrides from argv[2..argc-1]
+  for (int i = 2; i < argc; i++) {
+    apply_setting(settings, argv[i]);
+  }
+
   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
   QOCOInt exit =
       qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);

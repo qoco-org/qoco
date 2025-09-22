@@ -3,7 +3,7 @@ import pandas as pd
 from pathlib import Path
 import sys
 
-def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="benchmark_results.csv"):
+def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="benchmark_results.csv", settings=None):
     bin_dir = Path(bin_dir)
     results = []
     # Loop over all .bin files in the directory
@@ -11,7 +11,10 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
         print(bin_file)
         # Call the benchmark_runner
         try:
-            output = subprocess.check_output([runner, str(bin_file)], text=True)
+            if settings:
+                output = subprocess.check_output([runner, str(bin_file), settings], text=True)
+            else:
+                output = subprocess.check_output([runner, str(bin_file)], text=True)
             # Example output: ./benchmarks/data/TAME.bin 1 1 0.000026 0.000021
             parts = output.strip().split()
             filename = parts[0]
@@ -45,4 +48,4 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
 if __name__ == "__main__":
     # If a command-line argument is given, use it as the CSV filename
     output_name = sys.argv[1] if len(sys.argv) > 1 else "benchmark_results.csv"
-    run_benchmarks("./benchmarks/data", output_csv=f"{output_name}.csv")
+    run_benchmarks(bin_dir="./benchmarks/data", output_csv=f"{output_name}.csv")
