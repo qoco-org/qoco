@@ -52,13 +52,13 @@ for name in baseline_df[both_solved].index:
 if iter_regressions:
     msg_lines.append("#### Iteration regressions (diff took more iterations)")
     for name, d, b, diff in iter_regressions:
-        msg_lines.append(f"- {name}: diff={d}, baseline={b}, Δ={diff:+}")
+        msg_lines.append(f"- {name}: diff={d}, baseline={b}")
     msg_lines.append("")
 
 if iter_improvements:
     msg_lines.append("#### Iteration improvements (diff took fewer iterations)")
     for name, d, b, diff in iter_improvements:
-        msg_lines.append(f"- {name}: diff={d}, baseline={b}, Δ={diff:+}")
+        msg_lines.append(f"- {name}: diff={d}, baseline={b}")
     msg_lines.append("")
 
 # Runtime differences (parameterized threshold)

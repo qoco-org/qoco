@@ -51,9 +51,8 @@ def compute_absolute_profile(csv_files):
 
     # determine xrange automatically
     min_time = min(all_runtimes)
-    max_time = max(all_runtimes)
     xmin = np.log10(min_time) - 0.2
-    xmax = np.log10(max_time) + 0.2
+    xmax = np.log10(tmax) - 0.2
 
     # compute curve for all solvers
     n_tau = 1000
@@ -134,7 +133,7 @@ def compute_relative_profile(csv_files):
 
     # determine xrange automatically
     xmin = 0
-    xmax = np.log10(max(all_relative_times)) + 0.2
+    xmax = np.log10(tmax) - 0.2
 
     # compute curve for all solvers
     n_tau = 1000
