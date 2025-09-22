@@ -1,0 +1,17 @@
+# Benchmark configuration for QOCO dev branch
+
+qoco:
+  branch: "comparison-branch-name"
+# Add solver settings here. If not provided, default qoco settings are used.
+solver_settings:
+  # max_iters: 200
+  # bisect_iters: 5
+  # ruiz_iters: 0
+  # iter_ref_iters: 1
+  # kkt_static_reg: 1e-8
+  # kkt_dynamic_reg: 1e-8
+  # abstol: 1e-8
+  # reltol: 1e-8
+  # abstol_inacc: 1e-5
+  # reltol_inacc: 1e-5
+  # verbose: 0

@@ -45,7 +45,7 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
     df = pd.DataFrame(results)
     df.to_csv(output_csv, index=False)
 
-if __name__ == "__main__":
-    # If a command-line argument is given, use it as the CSV filename
-    output_name = sys.argv[1] if len(sys.argv) > 1 else "benchmark_results.csv"
-    run_benchmarks(bin_dir="./benchmarks/data", output_csv=f"{output_name}.csv")
+# if __name__ == "__main__":
+#     # If a command-line argument is given, use it as the CSV filename
+#     output_name = sys.argv[1] if len(sys.argv) > 1 else "benchmark_results.csv"
+#     run_benchmarks(bin_dir="./benchmarks/data", output_csv=f"{output_name}.csv")

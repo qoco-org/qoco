@@ -1,0 +1,81 @@
+import yaml
+import sys
+import subprocess
+from utils.run_benchmarks import run_benchmarks
+import os
+
+def build_solver():
+    build_dir = "build"
+    cmake_cmd = [
+    "cmake",
+    "-B", build_dir,
+    "-DCMAKE_CXX_COMPILER=clang++",
+    "-DCMAKE_C_COMPILER=clang",
+    "-DQOCO_BUILD_TYPE:STR=Release",
+    "-DBUILD_QOCO_BENCHMARK_RUNNER:BOOL=True"
+    ]
+
+    # Run the command
+    subprocess.run(cmake_cmd, check=True)
+    subprocess.run(["cmake", "--build", build_dir], check=True)
+
+def load_yaml(path):
+    with open(path, "r") as f:
+        return yaml.safe_load(f)
+
+def format_settings(yaml_data):
+    if not yaml_data:  # YAML is empty
+        return None
+
+    settings = yaml_data.get("solver_settings")  # returns None if missing
+    if not settings:  # None or empty dict
+        return None
+
+    return " ".join(f"{k}={v}" for k, v in settings.items())
+
+if __name__ == "__main__":
+    baseline_config = load_yaml(sys.argv[1])
+    baseline_config_name = os.path.splitext(os.path.basename(sys.argv[1]))[0]
+    
+    diff_config = load_yaml(sys.argv[2])
+    diff_config_name = os.path.splitext(os.path.basename(sys.argv[2]))[0]
+
+    # Safely get the branch names
+    baseline_branch = baseline_config.get("qoco", {}).get("branch")
+    if not baseline_branch:
+        raise ValueError("Baseline YAML is missing qoco.branch")
+
+    diff_branch = diff_config.get("qoco", {}).get("branch")
+    if not diff_config:
+        raise ValueError("Diff YAML is missing qoco.branch")
+
+    # Make results directory
+    temp_results_dir = "/tmp/results/"
+    subprocess.run(["mkdir", "-p", temp_results_dir], check=True)
+
+    # Checkout and build the baseline branch
+    subprocess.run(["git", "checkout", baseline_branch], check=True)
+    build_solver()
+
+    # Run baseline solver
+    baseline_settings = format_settings(baseline_config)
+    baseline_results = temp_results_dir+f"{baseline_config_name}.csv"
+    run_benchmarks(bin_dir="./benchmarks/data", settings=baseline_settings, output_csv=baseline_results)
+
+    # Checkout and build the diff branch
+    subprocess.run(["git", "checkout", diff_branch], check=True)
+    build_solver()
+
+    # Run diff solver
+    diff_settings = format_settings(diff_config)
+    diff_results = temp_results_dir+f"{diff_config_name}.csv"
+    run_benchmarks(bin_dir="./benchmarks/data", settings=diff_settings, output_csv=diff_results)
+
+    # Generate performance profiles
+    subprocess.run(["python", "benchmarks/utils/compute_performance_profiles.py", baseline_results, diff_results], check=True)
+
+    # Copy results directory here
+    subprocess.run(["cp", "-r", temp_results_dir, "."], check=True)
+
+    # Generate regression report
+    subprocess.run(["python", "benchmarks/utils/regression_report.py", baseline_results, diff_results], check=True)
