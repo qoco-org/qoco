@@ -106,8 +106,8 @@ int main(int argc, char** argv)
   }
 
   // Print summary: filename, exit_code, setup time, solve time
-  printf("%s %d %f %f\n", filename, exit, solver->sol->setup_time_sec,
-         solver->sol->solve_time_sec);
+  printf("%s %d %d %f %f\n", filename, exit, solver->sol->iters,
+         solver->sol->setup_time_sec, solver->sol->solve_time_sec);
 
   // Free memory
   free(c);

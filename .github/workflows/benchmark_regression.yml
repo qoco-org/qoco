@@ -83,6 +83,14 @@ jobs:
       - name: Generate performance profiles
         run: python benchmarks/compute_performance_profiles.py /tmp/results/branch_results.csv /tmp/results/main_results.csv
 
+      - name: Report benchmark summary in PR
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python benchmarks/regression_report.py /tmp/results/branch_results.csv /tmp/results/main_results.csv
+
       - name: Upload all benchmark artifacts
         id: upload_all
         uses: actions/upload-artifact@v4
@@ -90,10 +98,8 @@ jobs:
           name: benchmark-artifacts
           path: /tmp/results/
 
-      - name: Comment on PR with artifact link
-        run: |
-          ARTIFACT_ID=${{ steps.upload_all.outputs.artifact-id }}
-          ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}"
-          gh pr comment ${{ github.event.pull_request.number }} --body "Benchmark plots uploaded as artifact: $ARTIFACT_URL"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Comment on PR with artifact link
+      #   run: |
+      #     ARTIFACT_ID=${{ steps.upload_all.outputs.artifact-id }}
+      #     ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}"
+      #     gh pr comment ${{ github.event.pull_request.number }} --body "Benchmark plots uploaded as artifact: $ARTIFACT_URL"
