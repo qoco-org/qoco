@@ -11,18 +11,14 @@ def checkout_branch(branch_name, is_diff=False):
     - For diff branch (the PR), just use HEAD.
     """
     try:
-        if is_diff:
+        if os.environ.get("BRANCH_NAME"):
             # Already checked out in Actions workflow
             subprocess.run(["git", "checkout", "HEAD"], check=True)
             print(f"Using current HEAD for diff branch ({branch_name})")
         else:
             # Fetch from upstream (your canonical repo)
-            subprocess.run([
-                "git", "remote", "add", "upstream",
-                "https://github.com/<YOUR_ORG_OR_USERNAME>/qoco.git"
-            ], check=False)  # ignore if already exists
-            subprocess.run(["git", "fetch", "upstream", branch_name], check=True)
-            subprocess.run(["git", "checkout", "-B", branch_name, f"upstream/{branch_name}"], check=True)
+            subprocess.run(["git", "fetch", "origin", branch_name], check=True)
+            subprocess.run(["git", "checkout", "-B", branch_name, f"origin/{branch_name}"], check=True)
             print(f"Checked out baseline branch {branch_name} from upstream")
     except subprocess.CalledProcessError as e:
         print(f"Failed to checkout branch {branch_name}: {e}")
