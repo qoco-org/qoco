@@ -96,3 +96,4 @@ if __name__ == "__main__":
 
     # Generate regression report
     subprocess.run(["python", "benchmarks/utils/regression_report.py", baseline_results, diff_results], check=True)
+    subprocess.run(["cp", "/tmp/pr_comment.txt", "./results"], check=True)

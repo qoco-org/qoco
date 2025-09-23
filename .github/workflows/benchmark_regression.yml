@@ -61,4 +61,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ARTIFACT_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.upload_all.outputs.artifact-id }}"
         run: |
-          python benchmarks/regression_report.py /tmp/results/main_results.csv /tmp/results/branch_results.csv
+          python benchmarks/utils/regression_report.py /tmp/results/main_results.csv /tmp/results/branch_results.csv
