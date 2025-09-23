@@ -11,10 +11,11 @@ def checkout_branch(branch_name, is_diff=False):
     - For diff branch (the PR), just use HEAD.
     """
     try:
+        # If in CI and if we need to check out pr branch, 
+        # checkout branch_name which should contain the HEAD commit of pr branch.
         if os.environ.get("BRANCH_NAME") and is_diff:
-            # Already checked out in Actions workflow
-            subprocess.run(["git", "checkout", "HEAD"], check=True)
-            print(f"Using current HEAD for diff branch ({branch_name})")
+            subprocess.run(["git", "checkout", branch_name], check=True)
+            print(f"Checked out branch {branch_name}")
         else:
             # Fetch from upstream (your canonical repo)
             subprocess.run(["git", "fetch", "origin", branch_name], check=True)
