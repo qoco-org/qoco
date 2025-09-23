@@ -3,6 +3,17 @@ import sys
 import subprocess
 from utils.run_benchmarks import run_benchmarks
 import os
+def checkout_branch(branch_name): 
+    """Checkout a branch in CI, fetching it first if needed.""" 
+    try: 
+        # Fetch all remote branches 
+        subprocess.run(["git", "fetch", "origin", branch_name], check=True) 
+        # Checkout the branch (create local tracking if necessary) 
+        subprocess.run(["git", "checkout", "-B", branch_name, f"origin/{branch_name}"], check=True) 
+        print(f"Checked out branch {branch_name}") 
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to checkout branch {branch_name}: {e}") 
+        raise
 
 def checkout_branch(branch_name, is_diff=False):
     """
@@ -11,7 +22,7 @@ def checkout_branch(branch_name, is_diff=False):
     - For diff branch (the PR), just use HEAD.
     """
     try:
-        if os.environ.get("BRANCH_NAME"):
+        if os.environ.get("BRANCH_NAME") and is_diff:
             # Already checked out in Actions workflow
             subprocess.run(["git", "checkout", "HEAD"], check=True)
             print(f"Using current HEAD for diff branch ({branch_name})")
@@ -19,7 +30,7 @@ def checkout_branch(branch_name, is_diff=False):
             # Fetch from upstream (your canonical repo)
             subprocess.run(["git", "fetch", "origin", branch_name], check=True)
             subprocess.run(["git", "checkout", "-B", branch_name, f"origin/{branch_name}"], check=True)
-            print(f"Checked out baseline branch {branch_name} from upstream")
+            print(f"Checked out branch {branch_name} from upstream")
     except subprocess.CalledProcessError as e:
         print(f"Failed to checkout branch {branch_name}: {e}")
         raise
@@ -76,9 +87,6 @@ if __name__ == "__main__":
 
     # Checkout and build the baseline branch
     checkout_branch(baseline_branch, is_diff=False)
-    # if os.environ.get("QOCO_DIR"):
-    #     subprocess.run(["cd", os.environ.get("QOCO_DIR")], check=True)
-    # subprocess.run(["git", "checkout", baseline_branch], check=True)
     build_solver()
 
     # Run baseline solver
@@ -88,7 +96,6 @@ if __name__ == "__main__":
 
     # Checkout and build the diff branch
     checkout_branch(diff_branch, is_diff=True)
-    # subprocess.run(["git", "checkout", diff_branch], check=True)
     build_solver()
 
     # Run diff solver
