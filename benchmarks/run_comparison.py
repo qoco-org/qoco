@@ -4,6 +4,18 @@ import subprocess
 from utils.run_benchmarks import run_benchmarks
 import os
 
+def checkout_branch(branch_name):
+    """Checkout a branch in CI, fetching it first if needed."""
+    try:
+        # Fetch all remote branches
+        subprocess.run(["git", "fetch", "origin", branch_name], check=True)
+        # Checkout the branch (create local tracking if necessary)
+        subprocess.run(["git", "checkout", "-B", branch_name, f"origin/{branch_name}"], check=True)
+        print(f"Checked out branch {branch_name}")
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to checkout branch {branch_name}: {e}")
+        raise
+
 def build_solver():
     build_dir = "build"
     cmake_cmd = [
@@ -55,7 +67,10 @@ if __name__ == "__main__":
     subprocess.run(["mkdir", "-p", temp_results_dir], check=True)
 
     # Checkout and build the baseline branch
-    subprocess.run(["git", "checkout", baseline_branch], check=True)
+    checkout_branch(baseline_branch)
+    # if os.environ.get("QOCO_DIR"):
+    #     subprocess.run(["cd", os.environ.get("QOCO_DIR")], check=True)
+    # subprocess.run(["git", "checkout", baseline_branch], check=True)
     build_solver()
 
     # Run baseline solver
@@ -64,7 +79,8 @@ if __name__ == "__main__":
     run_benchmarks(bin_dir="./benchmarks/data", settings=baseline_settings, output_csv=baseline_results)
 
     # Checkout and build the diff branch
-    subprocess.run(["git", "checkout", diff_branch], check=True)
+    checkout_branch(diff_branch)
+    # subprocess.run(["git", "checkout", diff_branch], check=True)
     build_solver()
 
     # Run diff solver
