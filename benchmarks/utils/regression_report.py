@@ -98,4 +98,5 @@ with open(comment_file, "w") as f:
     f.write(msg)
 
 # Post comment
-os.system(f"gh pr comment {pr_number} --body-file {comment_file}")
+if os.environ.get("GITHUB_TOKEN"):
+    os.system(f"gh pr comment {pr_number} --body-file {comment_file}")
