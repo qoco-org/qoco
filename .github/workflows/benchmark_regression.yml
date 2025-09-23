@@ -39,44 +39,13 @@ jobs:
 
       - name: Install python dependancies
         run: >
-          pip install cvxpy pandas matplotlib seaborn
+          pip install cvxpy pandas matplotlib seaborn pyyaml
 
-      - name: Configure CMake
+      - name: Run benchmark comparison on main and branch
         run: >
-          cmake -B ${{ steps.strings.outputs.build-output-dir }}
-          -DCMAKE_CXX_COMPILER=clang++
-          -DCMAKE_C_COMPILER=clang
-          -DQOCO_BUILD_TYPE:STR=Release
-          -S ${{ github.workspace }} -DBUILD_QOCO_BENCHMARK_RUNNER:BOOL=True
-
-      - name: Build branch of solver
-        run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
-
-      - name: Run benchmarks on PR
-        run: python benchmarks/run_benchmarks.py branch_results && mkdir -p /tmp/results && cp branch_results.csv /tmp/results/
-
-      - name: Checkout main
-        uses: actions/checkout@v3
-        with:
-          ref: main
-
-      - name: Configure CMake
-        run: >
-          cmake -B ${{ steps.strings.outputs.build-output-dir }}
-          -DCMAKE_CXX_COMPILER=clang++
-          -DCMAKE_C_COMPILER=clang
-          -DQOCO_BUILD_TYPE:STR=Release
-          -S ${{ github.workspace }} -DBUILD_QOCO_BENCHMARK_RUNNER:BOOL=True
-
-      - name: Build main solver
-        run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
-
-      - name: Run benchmarks on main
-        run: python benchmarks/run_benchmarks.py main_results && cp main_results.csv /tmp/results/
-        continue-on-error: true
-
-      - name: Generate performance profiles
-        run: python benchmarks/compute_performance_profiles.py /tmp/results/branch_results.csv /tmp/results/main_results.csv
+          python benchmarks/run_comparison.py benchmarks/configs/main.yml benchmarks/configs/branch.yml
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
 
       - name: Upload all benchmark artifacts
         id: upload_all

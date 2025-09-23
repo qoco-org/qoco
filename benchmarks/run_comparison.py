@@ -45,9 +45,10 @@ if __name__ == "__main__":
     if not baseline_branch:
         raise ValueError("Baseline YAML is missing qoco.branch")
 
-    diff_branch = diff_config.get("qoco", {}).get("branch")
-    if not diff_config:
-        raise ValueError("Diff YAML is missing qoco.branch")
+    # If BRANCH_NAME is set (by CI), the diff_branch = BRANCH_NAME
+    diff_branch = os.environ.get("BRANCH_NAME") or diff_config.get("qoco", {}).get("branch")
+    if not diff_branch:
+        raise ValueError("Diff YAML is missing qoco.branch and BRANCH_NAME is not set")
 
     # Make results directory
     temp_results_dir = "/tmp/results/"
