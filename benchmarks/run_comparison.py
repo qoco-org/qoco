@@ -3,17 +3,6 @@ import sys
 import subprocess
 from utils.run_benchmarks import run_benchmarks
 import os
-def checkout_branch(branch_name): 
-    """Checkout a branch in CI, fetching it first if needed.""" 
-    try: 
-        # Fetch all remote branches 
-        subprocess.run(["git", "fetch", "origin", branch_name], check=True) 
-        # Checkout the branch (create local tracking if necessary) 
-        subprocess.run(["git", "checkout", "-B", branch_name, f"origin/{branch_name}"], check=True) 
-        print(f"Checked out branch {branch_name}") 
-    except subprocess.CalledProcessError as e:
-        print(f"Failed to checkout branch {branch_name}: {e}") 
-        raise
 
 def checkout_branch(branch_name, is_diff=False):
     """
@@ -77,7 +66,7 @@ if __name__ == "__main__":
         raise ValueError("Baseline YAML is missing qoco.branch")
 
     # If BRANCH_NAME is set (by CI), the diff_branch = BRANCH_NAME
-    diff_branch = os.environ.get("BRANCH_NAME") or diff_config.get("qoco", {}).get("branch")
+    diff_branch = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip() if os.environ.get("BRANCH_NAME") else diff_config.get("qoco", {}).get("branch")
     if not diff_branch:
         raise ValueError("Diff YAML is missing qoco.branch and BRANCH_NAME is not set")
 
