@@ -255,14 +255,14 @@ void qoco_set_csc(QOCOCscMatrix* A, QOCOInt m, QOCOInt n, QOCOInt Annz,
 
 void set_default_settings(QOCOSettings* settings)
 {
-  settings->max_iters = 200;
+  settings->max_iters = 1;
   settings->bisect_iters = 5;
   settings->ruiz_iters = 0;
   settings->iter_ref_iters = 1;
   settings->kkt_static_reg = 1e-8;
   settings->kkt_dynamic_reg = 1e-8;
-  settings->abstol = 1e-8;
-  settings->reltol = 1e-8;
+  settings->abstol = 1e-7;
+  settings->reltol = 1e-7;
   settings->abstol_inacc = 1e-5;
   settings->reltol_inacc = 1e-5;
   settings->verbose = 0;
