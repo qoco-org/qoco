@@ -65,12 +65,10 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           ARTIFACT_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.upload_all.outputs.artifact-id }}"
         run: |
-          python benchmarks/utils/regression_report.py /tmp/results/main.csv /tmp/results/branch.csv
+          python benchmarks/utils/regression_report.py /tmp/results/main.csv /tmp/results/branch.csv && cat /tmp/pr_comment.txt
 
       - name: Comment on PR
-        if: github.event_name == 'pull_request'
+        if: github.event.pull_request.head.repo.fork == false
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Example: assuming regression_report.py creates a markdown report at /tmp/results/report.md
-          gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/pr_comment.txt
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/pr_comment.txt
