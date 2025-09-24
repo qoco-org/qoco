@@ -22,7 +22,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Get Started" href="install/index.html" /> 
+    <link rel="next" title="QOCO" href="qoco/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,11 +47,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Solver Documentation:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="install/index.html">Get Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/index.html">API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers/index.html">Parsers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qoco/index.html">QOCO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qocogen/index.html">QOCOGEN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="codegen/index.html">Custom Solver Generation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing/index.html">Contributing</a></li>
 </ul>
 
@@ -81,10 +79,10 @@
              
   <a class="reference external image-reference" href="https://github.com/qoco-org"><img alt="QOCO" class="align-center" src="_images/qoco-logo.JPEG" style="width: 400px;" />
 </a>
-<p>This website documents the Quadratic Objective Conic Optimizer (QOCO) and the code generator <a class="reference internal" href="codegen/index.html#qocogen"><span class="std std-ref">QOCOGEN</span></a>, developed by the <a class="reference external" href="https://uwacl.com/">Autonomous Controls Laboratory</a> at the University of Washington. The code for both is available on <a class="reference external" href="https://github.com/qoco-org">GitHub</a>.</p>
+<p>This website documents the Quadratic Objective Conic Optimizer (QOCO) and the code generator <a class="reference internal" href="qocogen/index.html#qocogen-doc"><span class="std std-ref">QOCOGEN</span></a>, developed by the <a class="reference external" href="https://uwacl.com/">Autonomous Controls Laboratory</a> at the University of Washington. The code for both is available on <a class="reference external" href="https://github.com/qoco-org">GitHub</a>.</p>
 <section id="standard-form">
 <h1>Standard Form<a class="headerlink" href="#standard-form" title="Link to this heading"></a></h1>
-<p>QOCO (pronounced co-co) is an software package to solve second-order cone programs with quadratic objectives of the following form</p>
+<p>QOCO (pronounced co-co) is a software package to solve second-order cone programs with quadratic objectives of the following form</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{split}
     \underset{x}{\text{minimize}}
@@ -100,7 +98,6 @@ is an inequality with respect to cone <span class="math notranslate nohighlight"
 <p>where <span class="math notranslate nohighlight">\(l\)</span> is the dimension of the non-negative orthant, and <span class="math notranslate nohighlight">\(\mathcal{Q}^{q_i}_i\)</span> is the <span class="math notranslate nohighlight">\(i^{th}\)</span> second-order cone with dimension <span class="math notranslate nohighlight">\(q_i\)</span> defined by</p>
 <div class="math notranslate nohighlight">
 \[\mathcal{Q}^{q_i}_i = \{(t,x)  \in \mathbb{R} \times \mathbb{R}^{q_i - 1} \; : \; \|x\|_2 \leq t \}\]</div>
-<p>An example of putting a problem into QOCO’s standard form can be found <a class="reference download internal" download="" href="_downloads/da1c86c4d19354f1677bd7d44dbee9e8/qoco-parsing.pdf"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
 </section>
 <section id="features">
 <h1>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h1>
@@ -114,7 +111,7 @@ is an inequality with respect to cone <span class="math notranslate nohighlight"
 <li><p><strong>Embeddable</strong>: Written in C, so it can be easily run on any embedded system.</p></li>
 <li><p><strong>Library-free</strong>: Does not require any external libraries.</p></li>
 <li><p><strong>Tuning-free</strong>: Does not require any hyperparameter tuning to achieve good performance.</p></li>
-<li><p><strong>Code Generation</strong>: <a class="reference internal" href="codegen/index.html#qocogen"><span class="std std-ref">QOCOGEN</span></a> is a custom solver generator which generates extremely fast, library-free custom solvers for second-order cone programs.</p></li>
+<li><p><strong>Code Generation</strong>: <a class="reference internal" href="qocogen/index.html#qocogen-doc"><span class="std std-ref">QOCOGEN</span></a> is a custom solver generator which generates extremely fast, library-free custom solvers for second-order cone programs.</p></li>
 </ul>
 </section>
 <section id="benchmarks">
@@ -134,7 +131,7 @@ is an inequality with respect to cone <span class="math notranslate nohighlight"
 </section>
 <section id="citing">
 <h1>Citing<a class="headerlink" href="#citing" title="Link to this heading"></a></h1>
-<p>If you find QOCO useful please star the repository on <a class="reference external" href="https://github.com/qoco-org/qoco">GitHub</a> and cite the <a class="reference external" href="https://arxiv.org/abs/2503.12658">QOCO paper</a> as follows</p>
+<p>If you find QOCO useful please star the repository on <a class="reference external" href="https://github.com/qoco-org/qoco">GitHub (QOCO)</a> and cite the <a class="reference external" href="https://arxiv.org/abs/2503.12658">QOCO paper</a> as follows</p>
 <div class="highlight-latex notranslate"><div class="highlight"><pre><span></span>@misc<span class="nb">{</span>chari2025qoco,
   title         = <span class="nb">{</span>QOCO: A Quadratic Objective Conic Optimizer with Custom Solver Generation<span class="nb">}</span>,
   author        = <span class="nb">{</span>Chari, Govind M and A<span class="nb">{</span><span class="k">\c</span><span class="nb">{</span>c<span class="nb">}}{</span><span class="k">\i</span><span class="nb">}</span>kme<span class="nb">{</span><span class="k">\c</span><span class="nb">{</span>s<span class="nb">}}</span>e, Beh<span class="nb">{</span><span class="k">\c</span><span class="nb">{</span>c<span class="nb">}}</span>et<span class="nb">}</span>,
@@ -154,7 +151,7 @@ is an inequality with respect to cone <span class="math notranslate nohighlight"
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="install/index.html" class="btn btn-neutral float-right" title="Get Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="qoco/index.html" class="btn btn-neutral float-right" title="QOCO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

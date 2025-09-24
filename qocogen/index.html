@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contributing &mdash; QOCO  documentation</title>
+  <title>QOCOGEN &mdash; QOCO  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=139e30ab" />
@@ -21,7 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Lossless Convexification" href="../examples/lcvx.html" /> 
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="CVXPY" href="../qoco/cvxpy.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,11 +48,17 @@
               <p class="caption" role="heading"><span class="caption-text">Solver Documentation:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../qoco/index.html">QOCO</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../qocogen/index.html">QOCOGEN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a><ul class="simple">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">QOCOGEN</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generate.html">Generating Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">Building Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">API for Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calling.html">Calling Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cvxpygen.html">CVXPYgen</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
 </ul>
 
         </div>
@@ -68,9 +75,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Contributing</li>
+      <li class="breadcrumb-item active">QOCOGEN</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/contributing/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/qocogen/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -78,19 +85,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="contributing">
-<h1>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h1>
+  <section id="qocogen">
+<span id="qocogen-doc"></span><h1>QOCOGEN<a class="headerlink" href="#qocogen" title="Link to this heading"></a></h1>
+<p>QOCOGEN is a custom code generator which takes in an SOCP problem family and generates a customized C solver (called qoco_custom) for this problem family which implements the same algorithm as QOCO. This customized solver is library-free, only uses static memory allocation, and can be a few times faster than QOCO.</p>
+<p>All problems in the same problem family have identical sparsity patterns for matrices <code class="code docutils literal notranslate"><span class="pre">P</span></code>, <code class="code docutils literal notranslate"><span class="pre">A</span></code>, and <code class="code docutils literal notranslate"><span class="pre">G</span></code>, and have identical values for <code class="code docutils literal notranslate"><span class="pre">l</span></code>, <code class="code docutils literal notranslate"><span class="pre">m</span></code>, <code class="code docutils literal notranslate"><span class="pre">p</span></code>, <code class="code docutils literal notranslate"><span class="pre">nsoc</span></code>, and <code class="code docutils literal notranslate"><span class="pre">q</span></code>.</p>
+<p>The easiest way to use QOCOGEN is through CVXPYgen (see <a class="reference internal" href="../examples/lcvx.html#lcvx-example"><span class="std std-ref">Lossless Convexification</span></a>).</p>
+<p>QOCOGEN generates custom solvers to solve SOCPs with the same standard form that QOCO solves.</p>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generate.html">Generating Custom Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building Custom Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API for Custom Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calling.html">Calling Custom Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cvxpygen.html">CVXPYgen</a></li>
+</ul>
 </div>
-<p>We are very open to any contribution including new features, bug fixes, new interfaces for different languages, and documentation improvements. File any issues, bug reports, or feature requests <a class="reference external" href="https://github.com/qoco-org/qoco/issues">here</a>.</p>
-<p>If you have any questions, comments, or any feedback, please email us at <a class="reference external" href="mailto:govindchari1&#37;&#52;&#48;gmail&#46;com">govindchari1<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../examples/lcvx.html" class="btn btn-neutral float-left" title="Lossless Convexification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../qoco/cvxpy.html" class="btn btn-neutral float-left" title="CVXPY" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

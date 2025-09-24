@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contributing &mdash; QOCO  documentation</title>
+  <title>Installation &mdash; QOCO  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=139e30ab" />
@@ -21,7 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Lossless Convexification" href="../examples/lcvx.html" /> 
+    <link rel="next" title="Generating Custom Solver" href="generate.html" />
+    <link rel="prev" title="QOCOGEN" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,11 +48,21 @@
               <p class="caption" role="heading"><span class="caption-text">Solver Documentation:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../qoco/index.html">QOCO</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../qocogen/index.html">QOCOGEN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a><ul class="simple">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">QOCOGEN</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pip">Pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-from-source">Build from Source</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="generate.html">Generating Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">Building Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">API for Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calling.html">Calling Custom Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cvxpygen.html">CVXPYgen</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">Contributing</a></li>
 </ul>
 
         </div>
@@ -68,9 +79,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Contributing</li>
+          <li class="breadcrumb-item"><a href="index.html">QOCOGEN</a></li>
+      <li class="breadcrumb-item active">Installation</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/contributing/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/qocogen/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -78,19 +90,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="contributing">
-<h1>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<section id="pip">
+<h2>Pip<a class="headerlink" href="#pip" title="Link to this heading"></a></h2>
+<p>QOCOGEN is on PyPI and can be installed as follows</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>qocogen
+</pre></div>
 </div>
-<p>We are very open to any contribution including new features, bug fixes, new interfaces for different languages, and documentation improvements. File any issues, bug reports, or feature requests <a class="reference external" href="https://github.com/qoco-org/qoco/issues">here</a>.</p>
-<p>If you have any questions, comments, or any feedback, please email us at <a class="reference external" href="mailto:govindchari1&#37;&#52;&#48;gmail&#46;com">govindchari1<span>&#64;</span>gmail<span>&#46;</span>com</a>.</p>
+</section>
+<section id="build-from-source">
+<h2>Build from Source<a class="headerlink" href="#build-from-source" title="Link to this heading"></a></h2>
+<p>QOCOGEN can also be built from source as follows</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/qoco-org/qocogen
+<span class="nb">cd</span><span class="w"> </span>qocogen
+pip<span class="w"> </span>install<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../examples/lcvx.html" class="btn btn-neutral float-left" title="Lossless Convexification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="QOCOGEN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="generate.html" class="btn btn-neutral float-right" title="Generating Custom Solver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
