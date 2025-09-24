@@ -96,7 +96,3 @@ msg = "\n".join(msg_lines)
 comment_file = "/tmp/pr_comment.txt"
 with open(comment_file, "w") as f:
     f.write(msg)
-
-# Post comment
-if os.environ.get("GITHUB_TOKEN"):
-    os.system(f"gh pr comment {pr_number} --body-file {comment_file}")
