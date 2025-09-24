@@ -133,11 +133,32 @@ if(BUILD_QOCO_DEMO)
     target_link_libraries(qoco_demo qocostatic)
 endif()
 
-# Build benchmark runner.
+# Build benchmark runners.
 if(BUILD_QOCO_BENCHMARK_RUNNER)
     add_executable(benchmark_runner ${PROJECT_SOURCE_DIR}/benchmarks/benchmark_runner.c)
     target_include_directories(benchmark_runner PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
     target_link_libraries(benchmark_runner qocostatic)
+
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt.in
+        ${CMAKE_BINARY_DIR}/googlebenchmark-download/CMakeLists.txt)
+
+    execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googlebenchmark-download)
+
+    execute_process(COMMAND ${CMAKE_COMMAND} --build .
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googlebenchmark-download)
+
+    # Import benchmark library
+    set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
+    set(BENCHMARK_DOWNLOAD_DEPENDENCIES OFF CACHE BOOL "" FORCE)
+    set(BENCHMARK_USE_BUNDLED_GTEST OFF CACHE BOOL "" FORCE)
+    add_subdirectory(${CMAKE_BINARY_DIR}/googlebenchmark-src
+        ${CMAKE_BINARY_DIR}/googlebenchmark-build)
+
+    # Your custom benchmark
+    add_executable(gbenchmark_runner ${PROJECT_SOURCE_DIR}/benchmarks/gbenchmark_runner.cpp)
+    target_include_directories(gbenchmark_runner PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_link_libraries(gbenchmark_runner PRIVATE qocostatic benchmark::benchmark)
 endif()
 
 # Test definitions.
