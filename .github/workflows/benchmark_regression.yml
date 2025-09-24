@@ -59,16 +59,22 @@ jobs:
         with:
           ref: main
 
-      - name: Report benchmark summary in PR
+      - name: Generate Regression Report
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           ARTIFACT_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.upload_all.outputs.artifact-id }}"
         run: |
-          python benchmarks/utils/regression_report.py /tmp/results/main.csv /tmp/results/branch.csv && cat /tmp/pr_comment.txt
+          python benchmarks/utils/regression_report.py /tmp/results/main.csv /tmp/results/branch.csv && cat /tmp/regression-report.txt
+
+      - name: Upload regression report
+        uses: actions/upload-artifact@v4
+        with:
+          name: regression-report
+          path: /tmp/regression-report.txt
 
       - name: Comment on PR
         if: github.event.pull_request.head.repo.fork == false
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/pr_comment.txt
+        run: gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/regression-report.txt

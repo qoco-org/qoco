@@ -93,6 +93,6 @@ if runtime_improvements:
 msg = "\n".join(msg_lines)
 
 # Write to file
-comment_file = "/tmp/pr_comment.txt"
+comment_file = "/tmp/regression-report.txt"
 with open(comment_file, "w") as f:
     f.write(msg)
