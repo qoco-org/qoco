@@ -107,23 +107,6 @@ struct ProblemData {
 static std::unique_ptr<ProblemData> g_problem;
 static std::unique_ptr<QOCOSettings> g_settings;
 
-// Benchmark: setup only
-static void BM_QOCO_Setup(benchmark::State& state)
-{
-  for (auto _ : state) {
-    SolverPtr solver((QOCOSolver*)malloc(sizeof(QOCOSolver)));
-    benchmark::DoNotOptimize(solver);
-    qoco_setup(
-        solver.get(), g_problem->n, g_problem->m, g_problem->p, g_problem->P,
-        g_problem->c.data(), g_problem->A,
-        g_problem->b.empty() ? nullptr : g_problem->b.data(), g_problem->G,
-        g_problem->h.empty() ? nullptr : g_problem->h.data(), g_problem->l,
-        g_problem->nsoc, g_problem->q.empty() ? nullptr : g_problem->q.data(),
-        g_settings.get());
-  }
-}
-BENCHMARK(BM_QOCO_Setup);
-
 // Benchmark: setup + solve
 static void BM_QOCO_Solve(benchmark::State& state)
 {
