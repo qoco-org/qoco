@@ -47,23 +47,18 @@ jobs:
         env:
           BRANCH_NAME: ${{ github.head_ref }}
 
-      - name: Upload all benchmark artifacts
-        id: upload_all
+      - name: Upload benchmark artifacts
+        id: upload_benchmarks
         uses: actions/upload-artifact@v4
         with:
           name: benchmark-artifacts
           path: /tmp/results/
 
-      - name: Checkout main branch
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
       - name: Generate Regression Report
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          ARTIFACT_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.upload_all.outputs.artifact-id }}"
+          ARTIFACT_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.upload_benchmarks.outputs.artifact-id }}"
         run: |
           python benchmarks/utils/regression_report.py /tmp/results/main.csv /tmp/results/branch.csv && cat /tmp/regression-report.txt
 
