@@ -24,3 +24,5 @@ To call the custom solver through CVXPYgen, run
 where we set the :code:`max_iters` option to :code:`100`. For a full list of settings that can be changed, refer to :ref:`settings <settings>`.
 
 For an example of setting up and solving a problem using QOCO through CVXPY and QOCOGEN through CVXPYgen, see :ref:`settings <lcvx_example>`.
+
+To see how to call the custom solver directly from C, see :ref:`calling <calling>`.
