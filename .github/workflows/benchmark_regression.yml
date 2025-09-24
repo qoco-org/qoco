@@ -54,6 +54,11 @@ jobs:
           name: benchmark-artifacts
           path: /tmp/results/
 
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
       - name: Report benchmark summary in PR
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
