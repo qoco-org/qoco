@@ -75,15 +75,6 @@ if __name__ == "__main__":
     temp_results_dir = "/tmp/results/"
     subprocess.run(["mkdir", "-p", temp_results_dir], check=True)
 
-    # Checkout and build the baseline branch
-    checkout_branch(baseline_branch, is_diff=False)
-    build_solver()
-
-    # Run baseline solver
-    baseline_settings = format_settings(baseline_config)
-    baseline_results = temp_results_dir+f"{baseline_config_name}.csv"
-    run_benchmarks(bin_dir="./benchmarks/data", settings=baseline_settings, output_csv=baseline_results)
-
     # Checkout and build the diff branch
     checkout_branch(diff_branch, is_diff=True)
     build_solver()
@@ -92,6 +83,15 @@ if __name__ == "__main__":
     diff_settings = format_settings(diff_config)
     diff_results = temp_results_dir+f"{diff_config_name}.csv"
     run_benchmarks(bin_dir="./benchmarks/data", settings=diff_settings, output_csv=diff_results)
+
+    # Checkout and build the baseline branch
+    checkout_branch(baseline_branch, is_diff=False)
+    build_solver()
+
+    # Run baseline solver
+    baseline_settings = format_settings(baseline_config)
+    baseline_results = temp_results_dir+f"{baseline_config_name}.csv"
+    run_benchmarks(bin_dir="./benchmarks/data", settings=baseline_settings, output_csv=baseline_results)
 
     # Generate performance profiles
     subprocess.run(["python", "benchmarks/utils/compute_performance_profiles.py", baseline_results, diff_results], check=True)
