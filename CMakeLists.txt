@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.18)
 set(QOCO_VERSION_MAJOR "0")
 set(QOCO_VERSION_MINOR "1")
 set(QOCO_VERSION_PATCH "6")
-set(QOCO_VERSION "${QOCO_VERSION_MAJOR}.${QOCO_VERSION_MINOR}.${QOCO_VERSION_PATCH}")
+set(QOCO_VERSION ${QOCO_VERSION_MAJOR}.${QOCO_VERSION_MINOR}.${QOCO_VERSION_PATCH})
 
 # Project name
 project(qoco VERSION ${QOCO_VERSION})
@@ -66,39 +66,57 @@ if(${MATLAB})
     add_compile_definitions(MATLAB)
 endif()
 
-set(qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_api.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/input_validation.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_linalg.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/kkt.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/cone.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_status.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/equilibration.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_utils.c"
+set_property(GLOBAL APPEND PROPERTY QOCO_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_api.c"
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/input_validation.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_linalg.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/kkt.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cone.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_status.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/equilibration.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_utils.c
 )
 
-set(qoco_headers "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_api.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/input_validation.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_linalg.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/kkt.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/cone.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_status.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/equilibration.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/enums.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/definitions.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/structs.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/timer.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_utils.h"
+set_property(GLOBAL APPEND PROPERTY QOCO_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco.h"
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_api.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/input_validation.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_linalg.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/kkt.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/cone.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_status.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/equilibration.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/enums.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/definitions.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/structs.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/timer.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_utils.h
+)
+
+set_property(GLOBAL APPEND PROPERTY QOCO_INCLUDE
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/lib/amd
+    ${PROJECT_SOURCE_DIR}/lib/qdldl/include
 )
 
 # Include timer file depending on OS.
 if(IS_LINUX)
-    list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_linux.c")
+    set_property(GLOBAL APPEND PROPERTY QOCO_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/timer_linux.c)
 elseif(IS_MACOS)
-    list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_macos.c")
+    set_property(GLOBAL APPEND PROPERTY QOCO_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/timer_macos.c)
 elseif(IS_WINDOWS)
-    list(APPEND qoco_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/timer_windows.c")
+    set_property(GLOBAL APPEND PROPERTY QOCO_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/timer_windows.c)
 endif()
+
+# Add algebra (must be done after defining qoco_sources and qoco_headers, since we append to these varibles)
+
+# TODO: Logic for selecting algebra backend
+set(QOCO_ALGEBRA_BACKEND
+    "qdldl"
+    CACHE STRING "The Algebra to use")
+add_subdirectory(algebra)
+
+get_property(qoco_sources GLOBAL PROPERTY QOCO_SOURCES)
+get_property(qoco_headers GLOBAL PROPERTY QOCO_HEADERS)
+get_property(qoco_include GLOBAL PROPERTY QOCO_INCLUDE)
 
 # Build qoco shared library.
 add_library(qoco SHARED)
@@ -108,9 +126,7 @@ if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qoco m)
 endif()
 
-target_include_directories(qoco PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(qoco PUBLIC lib/amd)
-target_include_directories(qoco PUBLIC lib/qdldl/include)
+target_include_directories(qoco PUBLIC ${qoco_include})
 target_sources(qoco PRIVATE ${qoco_sources})
 
 # Build qoco static library.
@@ -121,9 +137,7 @@ if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qocostatic m)
 endif()
 
-target_include_directories(qocostatic PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(qocostatic PUBLIC lib/amd)
-target_include_directories(qocostatic PUBLIC lib/qdldl/include)
+target_include_directories(qocostatic PUBLIC ${qoco_include})
 target_sources(qocostatic PRIVATE ${qoco_sources})
 
 # Build qoco demo.

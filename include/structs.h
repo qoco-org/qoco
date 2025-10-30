@@ -16,6 +16,7 @@
 #define QOCO_STRUCTS_H
 
 #include "definitions.h"
+#include "linsys.h"
 #include "timer.h"
 
 /**
@@ -376,6 +377,9 @@ typedef struct {
 
   /** Solver workspace. */
   QOCOWorkspace* work;
+
+  /** Linear system backend. */
+  LinSysBackend* linsys;
 
   /** Solution struct. */
   QOCOSolution* sol;

@@ -10,6 +10,7 @@
 
 #include "qoco_api.h"
 #include "amd.h"
+#include "qdldl_backend.h"
 
 QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
                    QOCOCscMatrix* P, QOCOFloat* c, QOCOCscMatrix* A,
@@ -125,6 +126,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->kkt->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   construct_kkt(solver);
+
+  solver->linsys = &qdldl_backend;
+  solver->linsys->linsys_setup();
 
   // Allocate primal and dual variables.
   solver->work->x = qoco_malloc(n * sizeof(QOCOFloat));
