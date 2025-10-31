@@ -85,6 +85,8 @@ struct LinSysData {
   /** Residual of KKT condition. */
   QOCOFloat* kktres;
 
+  QOCOInt Wnnz;
+
   /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
    * the KKT matrix. */
   QOCOInt* nt2kkt;
@@ -118,6 +120,12 @@ static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOProblemData* data)
 
   LinSysData* linsys_data = malloc(sizeof(LinSysData));
 
+  // Allocate vector buffers.
+  linsys_data->xyz = qoco_malloc(sizeof(QOCOFloat) * Kn);
+  linsys_data->xyzbuff1 = qoco_malloc(sizeof(QOCOFloat) * Kn);
+  linsys_data->xyzbuff2 = qoco_malloc(sizeof(QOCOFloat) * Kn);
+  linsys_data->Wnnz = kkt->Wnnz;
+
   // Allocate memory for QDLDL.
   linsys_data->etree = qoco_malloc(sizeof(QOCOInt) * Kn);
   linsys_data->Lnz = qoco_malloc(sizeof(QOCOInt) * Kn);
@@ -136,7 +144,6 @@ static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOProblemData* data)
       amd_order(linsys_data->K->n, linsys_data->K->p, linsys_data->K->i,
                 linsys_data->p, (double*)NULL, (double*)NULL);
   if (amd_status < 0) {
-    printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,,, %d", amd_status);
     return NULL;
   }
   invert_permutation(linsys_data->p, linsys_data->pinv, linsys_data->K->n);
@@ -177,10 +184,9 @@ static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOProblemData* data)
 
   // Compute elimination tree.
   QOCOInt sumLnz =
-      QDLDL_etree(Kn, linsys_data->p, linsys_data->K->i, linsys_data->iwork,
+      QDLDL_etree(Kn, linsys_data->K->p, linsys_data->K->i, linsys_data->iwork,
                   linsys_data->Lnz, linsys_data->etree);
   if (sumLnz < 0) {
-    printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,,, %d", sumLnz);
     return NULL;
   }
 
@@ -189,9 +195,107 @@ static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOProblemData* data)
   return linsys_data;
 }
 
-static void qdldl_factor() {}
+static void qdldl_factor(LinSysData* linsys_data, QOCOInt n,
+                         QOCOFloat kkt_dynamic_reg)
+{
+  QDLDL_factor(linsys_data->K->n, linsys_data->K->p, linsys_data->K->i,
+               linsys_data->K->x, linsys_data->Lp, linsys_data->Li,
+               linsys_data->Lx, linsys_data->D, linsys_data->Dinv,
+               linsys_data->Lnz, linsys_data->etree, linsys_data->bwork,
+               linsys_data->iwork, linsys_data->fwork, linsys_data->p, n,
+               kkt_dynamic_reg);
+}
 
-static void qdldl_solve() {}
+// TODO: Clean up extra copies.
+static void qdldl_solve(LinSysData* linsys_data, QOCOFloat* b, QOCOFloat* x,
+                        QOCOInt iter_ref_iters)
+{
+  // Permute b and store in xyzbuff.
+  for (QOCOInt i = 0; i < linsys_data->K->n; ++i) {
+    linsys_data->xyzbuff1[i] = b[linsys_data->p[i]];
+  }
+
+  // Copy permuted b into b.
+  copy_arrayf(linsys_data->xyzbuff1, b, linsys_data->K->n);
+
+  // Triangular solve.
+  QDLDL_solve(linsys_data->K->n, linsys_data->Lp, linsys_data->Li,
+              linsys_data->Lx, linsys_data->Dinv, linsys_data->xyzbuff1);
+
+  // Iterative refinement.
+  for (QOCOInt i = 0; i < iter_ref_iters; ++i) {
+    // r = b - K * x
+
+    for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
+      x[k] = linsys_data->xyzbuff1[k];
+    }
+
+    USpMv(linsys_data->K, x, linsys_data->xyzbuff2);
+
+    for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
+      x[k] = linsys_data->xyzbuff2[k];
+    }
+
+    for (QOCOInt j = 0; j < linsys_data->K->n; ++j) {
+      x[j] = b[j] - x[j];
+    }
+
+    // dx = K \ r
+    QDLDL_solve(linsys_data->K->n, linsys_data->Lp, linsys_data->Li,
+                linsys_data->Lx, linsys_data->Dinv, linsys_data->xyz);
+
+    // x = x + dx.
+    qoco_axpy(linsys_data->xyzbuff1, x, linsys_data->xyzbuff1, 1.0,
+              linsys_data->K->n);
+  }
+
+  for (QOCOInt i = 0; i < linsys_data->K->n; ++i) {
+    x[linsys_data->p[i]] = linsys_data->xyzbuff1[i];
+  }
+}
+
+static void qdldl_initialize_nt(LinSysData* linsys_data, QOCOInt m)
+{
+  for (QOCOInt i = 0; i < linsys_data->Wnnz; ++i) {
+    linsys_data->K->x[linsys_data->nt2kkt[i]] = 0.0;
+  }
+
+  // Set Nesterov-Todd block in KKT matrix to -I.
+  for (QOCOInt i = 0; i < m; ++i) {
+    linsys_data->K->x[linsys_data->ntdiag2kkt[i]] = -1.0;
+  }
+}
+
+static void qdldl_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
+                            QOCOFloat kkt_static_reg, QOCOInt m)
+{
+  for (QOCOInt i = 0; i < linsys_data->Wnnz; ++i) {
+    linsys_data->K->x[linsys_data->nt2kkt[i]] = -WtW[i];
+  }
+
+  // Regularize Nesterov-Todd block of KKT matrix.
+  for (QOCOInt i = 0; i < m; ++i) {
+    linsys_data->K->x[linsys_data->ntdiag2kkt[i]] -= kkt_static_reg;
+  }
+}
+
+static void qdldl_update_data(LinSysData* linsys_data, QOCOProblemData* data)
+{
+  // Update P in KKT matrix.
+  for (QOCOInt i = 0; i < data->P->nnz; ++i) {
+    linsys_data->K->x[linsys_data->PregtoKKT[i]] = data->P->x[i];
+  }
+
+  // Update A in KKT matrix.
+  for (QOCOInt i = 0; i < data->A->nnz; ++i) {
+    linsys_data->K->x[linsys_data->AttoKKT[data->AtoAt[i]]] = data->A->x[i];
+  }
+
+  // Update G in KKT matrix.
+  for (QOCOInt i = 0; i < data->G->nnz; ++i) {
+    linsys_data->K->x[linsys_data->GttoKKT[data->GtoGt[i]]] = data->G->x[i];
+  }
+}
 
 static void qdldl_cleanup() {}
 
@@ -199,6 +303,9 @@ static void qdldl_cleanup() {}
 
 // Export the backend struct
 LinSysBackend qdldl_backend = {.linsys_setup = qdldl_setup,
+                               .linsys_initialize_nt = qdldl_initialize_nt,
+                               .linsys_update_nt = qdldl_update_nt,
+                               .linsys_update_data = qdldl_update_data,
                                .linsys_factor = qdldl_factor,
                                .linsys_solve = qdldl_solve,
                                .linsys_cleanup = qdldl_cleanup};

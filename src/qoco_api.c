@@ -132,9 +132,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   // Set up linear system data.
   solver->linsys_data =
       solver->linsys->linsys_setup(solver->work->kkt, solver->work->data);
-  // if (!solver->linsys_data) {
-  //   return QOCO_SETUP_ERROR;
-  // }
+  if (!solver->linsys_data) {
+    return QOCO_SETUP_ERROR;
+  }
 
   // Allocate primal and dual variables.
   solver->work->x = qoco_malloc(n * sizeof(QOCOFloat));
@@ -393,6 +393,8 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   // Regularize P.
   unregularize(data->P, -solver->settings->kkt_static_reg);
 
+  solver->linsys->linsys_update_data(solver->linsys_data, solver->work->data);
+
   // Update P in KKT matrix.
   for (QOCOInt i = 0; i < data->P->nnz; ++i) {
     solver->work->kkt->K->x[solver->work->kkt->PregtoKKT[i]] = data->P->x[i];
@@ -452,6 +454,9 @@ QOCOInt qoco_solve(QOCOSolver* solver)
 
     // Update Nestrov-Todd block of KKT matrix.
     update_nt_block(solver);
+    // solver->linsys->linsys_update_nt(solver->linsys_data, solver->work->WtW,
+    //                                  solver->settings->kkt_static_reg,
+    //                                  solver->work->data->m);
 
     // Perform predictor-corrector.
     predictor_corrector(solver);

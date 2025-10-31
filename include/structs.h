@@ -349,8 +349,14 @@ typedef struct LinSysData LinSysData;
 
 typedef struct {
   LinSysData* (*linsys_setup)(QOCOKKT* KKT, QOCOProblemData* data);
-  void (*linsys_factor)();
-  void (*linsys_solve)();
+  void (*linsys_initialize_nt)(LinSysData* linsys_data, QOCOInt m);
+  void (*linsys_update_nt)(LinSysData* linsys_data, QOCOFloat* WtW,
+                           QOCOFloat kkt_static_reg, QOCOInt m);
+  void (*linsys_update_data)(LinSysData* linsys_data, QOCOProblemData* data);
+  void (*linsys_factor)(LinSysData* linsys_data, QOCOInt n,
+                        QOCOFloat kkt_dynamic_reg);
+  void (*linsys_solve)(LinSysData* linsys_data, QOCOFloat* b, QOCOFloat* x,
+                       QOCOInt iter_ref_iters);
   void (*linsys_cleanup)();
 } LinSysBackend;
 
