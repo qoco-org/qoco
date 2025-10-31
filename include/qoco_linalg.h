@@ -15,7 +15,31 @@
 #ifndef QOCO_LINALG_H
 #define QOCO_LINALG_H
 #include "definitions.h"
-#include "structs.h"
+
+/**
+ * @brief Compressed sparse column format matrices.
+ *
+ */
+typedef struct {
+  /** Number of rows. */
+  QOCOInt m;
+
+  /** Number of columns. */
+  QOCOInt n;
+
+  /** Number of nonzero elements. */
+  QOCOInt nnz;
+
+  /** Row indices (length: nnz). */
+  QOCOInt* i;
+
+  /** Column pointers (length: n+1). */
+  QOCOInt* p;
+
+  /** Data (length: nnz). */
+  QOCOFloat* x;
+
+} QOCOCscMatrix;
 
 /**
  * @brief Allocates a new csc matrix and copies A to it.

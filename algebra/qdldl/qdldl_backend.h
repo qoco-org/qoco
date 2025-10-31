@@ -15,7 +15,9 @@
 #ifndef QDLDL_BACKEND_H
 #define QDLDL_BACKEND_H
 
-#include "linsys.h"
+#include "amd.h"
+#include "qdldl.h"
+#include "structs.h"
 
 extern LinSysBackend qdldl_backend;
 

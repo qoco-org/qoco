@@ -128,7 +128,13 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   construct_kkt(solver);
 
   solver->linsys = &qdldl_backend;
-  solver->linsys->linsys_setup();
+
+  // Set up linear system data.
+  solver->linsys_data =
+      solver->linsys->linsys_setup(solver->work->kkt, solver->work->data);
+  // if (!solver->linsys_data) {
+  //   return QOCO_SETUP_ERROR;
+  // }
 
   // Allocate primal and dual variables.
   solver->work->x = qoco_malloc(n * sizeof(QOCOFloat));

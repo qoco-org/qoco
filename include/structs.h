@@ -16,33 +16,9 @@
 #define QOCO_STRUCTS_H
 
 #include "definitions.h"
-#include "linsys.h"
+// #include "linsys.h"
+#include "qoco_linalg.h"
 #include "timer.h"
-
-/**
- * @brief Compressed sparse column format matrices.
- *
- */
-typedef struct {
-  /** Number of rows. */
-  QOCOInt m;
-
-  /** Number of columns. */
-  QOCOInt n;
-
-  /** Number of nonzero elements. */
-  QOCOInt nnz;
-
-  /** Row indices (length: nnz). */
-  QOCOInt* i;
-
-  /** Column pointers (length: n+1). */
-  QOCOInt* p;
-
-  /** Data (length: nnz). */
-  QOCOFloat* x;
-
-} QOCOCscMatrix;
 
 /**
  * @brief SOCP problem data.
@@ -216,6 +192,8 @@ typedef struct {
   /** Residual of KKT condition. */
   QOCOFloat* kktres;
 
+  QOCOInt Wnnz;
+
   /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
    * the KKT matrix. */
   QOCOInt* nt2kkt;
@@ -366,6 +344,16 @@ typedef struct {
 
 } QOCOSolution;
 
+// Linear system data structs for backends to define.
+typedef struct LinSysData LinSysData;
+
+typedef struct {
+  LinSysData* (*linsys_setup)(QOCOKKT* KKT, QOCOProblemData* data);
+  void (*linsys_factor)();
+  void (*linsys_solve)();
+  void (*linsys_cleanup)();
+} LinSysBackend;
+
 /**
  * @brief QOCO Solver struct. Contains all information about the state of the
  * solver.
@@ -380,6 +368,9 @@ typedef struct {
 
   /** Linear system backend. */
   LinSysBackend* linsys;
+
+  /** Linear system backend. */
+  LinSysData* linsys_data;
 
   /** Solution struct. */
   QOCOSolution* sol;
