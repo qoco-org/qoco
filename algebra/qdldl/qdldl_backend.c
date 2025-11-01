@@ -12,6 +12,7 @@
 #include <stdio.h>
 
 // Contains data for linear system.
+// TODO: clean up unused parameters
 struct LinSysData {
   /** KKT matrix in CSC form. */
   QOCOCscMatrix* K;
@@ -242,7 +243,7 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOFloat* b, QOCOFloat* x,
 
     // dx = K \ r
     QDLDL_solve(linsys_data->K->n, linsys_data->Lp, linsys_data->Li,
-                linsys_data->Lx, linsys_data->Dinv, linsys_data->xyz);
+                linsys_data->Lx, linsys_data->Dinv, x);
 
     // x = x + dx.
     qoco_axpy(linsys_data->xyzbuff1, x, linsys_data->xyzbuff1, 1.0,

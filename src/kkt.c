@@ -383,8 +383,8 @@ void predictor_corrector(QOCOSolver* solver)
   QOCOWorkspace* work = solver->work;
 
   // Factor KKT matrix.
-  // solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
-  //                               solver->settings->kkt_dynamic_reg);
+  solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
+                                solver->settings->kkt_dynamic_reg);
   QDLDL_factor(work->kkt->K->n, work->kkt->K->p, work->kkt->K->i,
                work->kkt->K->x, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
                work->kkt->D, work->kkt->Dinv, work->kkt->Lnz, work->kkt->etree,
@@ -396,10 +396,9 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_aff_rhs(work);
 
   // Solve to get affine scaling direction.
-  kkt_solve(solver, work->kkt->rhs, solver->settings->iter_ref_iters);
-  // solver->linsys->linsys_solve(solver->linsys_data, solver->work->kkt->rhs,
-  //                              solver->work->kkt->xyz,
-  //                              solver->settings->iter_ref_iters);
+  solver->linsys->linsys_solve(solver->linsys_data, solver->work->kkt->rhs,
+                               solver->work->kkt->xyz,
+                               solver->settings->iter_ref_iters);
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
   QOCOFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
@@ -419,7 +418,9 @@ void predictor_corrector(QOCOSolver* solver)
 
   // Solve to get combined direction.
   kkt_solve(solver, work->kkt->rhs, solver->settings->iter_ref_iters);
-
+  // solver->linsys->linsys_solve(solver->linsys_data, solver->work->kkt->rhs,
+  //                              solver->work->kkt->xyz,
+  //                              solver->settings->iter_ref_iters);
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
   for (QOCOInt i = 0; i < work->kkt->K->n; ++i) {
