@@ -23,6 +23,7 @@ void allocate_kkt(QOCOWorkspace* work)
   Wsoc_nnz /= 2;
 
   work->Wnnz = work->data->m + Wsoc_nnz;
+  work->kkt->Wnnz = work->data->m + Wsoc_nnz;
   work->kkt->K->m = work->data->n + work->data->m + work->data->p;
   work->kkt->K->n = work->data->n + work->data->m + work->data->p;
   work->kkt->K->nnz = work->data->P->nnz + work->data->A->nnz +
@@ -151,6 +152,10 @@ void construct_kkt(QOCOSolver* solver)
 
 void initialize_ipm(QOCOSolver* solver)
 {
+
+  // TODO: Should we modify the KKT matrix in the kkt struct and in the
+  // linsys_data struct?.
+
   // Set Nesterov-Todd block in KKT matrix to -I.
   for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
     solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] = -1.0;
@@ -169,6 +174,9 @@ void initialize_ipm(QOCOSolver* solver)
     }
     idx += solver->work->data->q[i] * solver->work->data->q[i];
   }
+
+  solver->linsys->linsys_initialize_nt(solver->linsys_data,
+                                       solver->work->data->m);
 
   // Need to be set to 1.0 not 0.0 due to low tolerance stopping criteria checks
   // which only occur when a = 0.0. If a is set to 0.0 then the low tolerance
@@ -190,17 +198,13 @@ void initialize_ipm(QOCOSolver* solver)
   }
 
   // Factor KKT matrix.
-  QDLDL_factor(
-      solver->work->kkt->K->n, solver->work->kkt->K->p, solver->work->kkt->K->i,
-      solver->work->kkt->K->x, solver->work->kkt->Lp, solver->work->kkt->Li,
-      solver->work->kkt->Lx, solver->work->kkt->D, solver->work->kkt->Dinv,
-      solver->work->kkt->Lnz, solver->work->kkt->etree,
-      solver->work->kkt->bwork, solver->work->kkt->iwork,
-      solver->work->kkt->fwork, solver->work->kkt->p, solver->work->data->n,
-      solver->settings->kkt_dynamic_reg);
+  solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
+                                solver->settings->kkt_dynamic_reg);
 
   // Solve KKT system.
-  kkt_solve(solver, solver->work->kkt->rhs, solver->settings->iter_ref_iters);
+  solver->linsys->linsys_solve(solver->linsys_data, solver->work,
+                               solver->work->kkt->rhs, solver->work->kkt->xyz,
+                               solver->settings->iter_ref_iters);
 
   // Copy x part of solution to x.
   copy_arrayf(solver->work->kkt->xyz, solver->work->x, solver->work->data->n);
@@ -261,7 +265,7 @@ void compute_kkt_residual(QOCOSolver* solver)
   copy_arrayf(work->z, &work->kkt->xyzbuff1[work->data->n + work->data->p],
               work->data->m);
 
-  kkt_multiply(solver, work->kkt->xyzbuff1, work->kkt->kktres);
+  kkt_multiply(solver->work, work->kkt->xyzbuff1, work->kkt->kktres);
 
   // rhs += [c;-b;-h+s]
   QOCOInt idx;
@@ -380,18 +384,16 @@ void predictor_corrector(QOCOSolver* solver)
   QOCOWorkspace* work = solver->work;
 
   // Factor KKT matrix.
-  QDLDL_factor(work->kkt->K->n, work->kkt->K->p, work->kkt->K->i,
-               work->kkt->K->x, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
-               work->kkt->D, work->kkt->Dinv, work->kkt->Lnz, work->kkt->etree,
-               work->kkt->bwork, work->kkt->iwork, work->kkt->fwork,
-               solver->work->kkt->p, solver->work->data->n,
-               solver->settings->kkt_dynamic_reg);
+  solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
+                                solver->settings->kkt_dynamic_reg);
 
   // Construct rhs for affine scaling direction.
   construct_kkt_aff_rhs(work);
 
   // Solve to get affine scaling direction.
-  kkt_solve(solver, work->kkt->rhs, solver->settings->iter_ref_iters);
+  solver->linsys->linsys_solve(solver->linsys_data, solver->work,
+                               solver->work->kkt->rhs, solver->work->kkt->xyz,
+                               solver->settings->iter_ref_iters);
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
   QOCOFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
@@ -410,8 +412,9 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_comb_rhs(work);
 
   // Solve to get combined direction.
-  kkt_solve(solver, work->kkt->rhs, solver->settings->iter_ref_iters);
-
+  solver->linsys->linsys_solve(solver->linsys_data, solver->work,
+                               solver->work->kkt->rhs, solver->work->kkt->xyz,
+                               solver->settings->iter_ref_iters);
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
   for (QOCOInt i = 0; i < work->kkt->K->n; ++i) {
@@ -459,57 +462,9 @@ void predictor_corrector(QOCOSolver* solver)
   }
 }
 
-void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
+void kkt_multiply(QOCOWorkspace* work, QOCOFloat* x, QOCOFloat* y)
 {
-  QOCOKKT* kkt = solver->work->kkt;
-
-  // Permute b and store in xyzbuff.
-  for (QOCOInt i = 0; i < kkt->K->n; ++i) {
-    kkt->xyzbuff1[i] = b[kkt->p[i]];
-  }
-
-  // Copy permuted b into b.
-  copy_arrayf(kkt->xyzbuff1, b, kkt->K->n);
-
-  // Triangular solve.
-  QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyzbuff1);
-
-  // Iterative refinement.
-  for (QOCOInt i = 0; i < iters; ++i) {
-    // r = b - K * x
-
-    // Must apply permutation since kkt_multiply multiplies by unpermuted KKT
-    // matrix.
-    for (QOCOInt k = 0; k < kkt->K->n; ++k) {
-      kkt->xyz[kkt->p[k]] = kkt->xyzbuff1[k];
-    }
-
-    kkt_multiply(solver, kkt->xyz, kkt->xyzbuff2);
-
-    for (QOCOInt k = 0; k < kkt->K->n; ++k) {
-      kkt->xyz[k] = kkt->xyzbuff2[kkt->p[k]];
-    }
-
-    for (QOCOInt j = 0; j < kkt->K->n; ++j) {
-      kkt->xyz[j] = b[j] - kkt->xyz[j];
-    }
-
-    // dx = K \ r
-    QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyz);
-
-    // x = x + dx.
-    qoco_axpy(kkt->xyzbuff1, kkt->xyz, kkt->xyzbuff1, 1.0, kkt->K->n);
-  }
-
-  for (QOCOInt i = 0; i < kkt->K->n; ++i) {
-    kkt->xyz[kkt->p[i]] = kkt->xyzbuff1[i];
-  }
-}
-
-void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
-{
-  QOCOWorkspace* work = solver->work;
-  QOCOProblemData* data = solver->work->data;
+  QOCOProblemData* data = work->data;
 
   // Compute y[1:n] = P * x[1:n] + A^T * x[n+1:n+p] + G^T * x[n+p+1:n+p+m].
   USpMv(data->P, x, y);

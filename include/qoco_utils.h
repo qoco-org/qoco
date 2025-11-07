@@ -15,6 +15,7 @@
 #ifndef QOCO_UTILS_H
 #define QOCO_UTILS_H
 
+#include "common_linalg.h"
 #include "enums.h"
 #include "qoco_linalg.h"
 #include "qoco_status.h"

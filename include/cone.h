@@ -16,6 +16,7 @@
 #define QOCO_CONE_H
 
 #include "qoco_linalg.h"
+#include "structs.h"
 
 /**
  * @brief Computes second-order cone product u * v = p.

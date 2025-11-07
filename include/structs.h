@@ -16,32 +16,8 @@
 #define QOCO_STRUCTS_H
 
 #include "definitions.h"
+#include "qoco_linalg.h"
 #include "timer.h"
-
-/**
- * @brief Compressed sparse column format matrices.
- *
- */
-typedef struct {
-  /** Number of rows. */
-  QOCOInt m;
-
-  /** Number of columns. */
-  QOCOInt n;
-
-  /** Number of nonzero elements. */
-  QOCOInt nnz;
-
-  /** Row indices (length: nnz). */
-  QOCOInt* i;
-
-  /** Column pointers (length: n+1). */
-  QOCOInt* p;
-
-  /** Data (length: nnz). */
-  QOCOFloat* x;
-
-} QOCOCscMatrix;
 
 /**
  * @brief SOCP problem data.
@@ -215,6 +191,8 @@ typedef struct {
   /** Residual of KKT condition. */
   QOCOFloat* kktres;
 
+  QOCOInt Wnnz;
+
   /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
    * the KKT matrix. */
   QOCOInt* nt2kkt;
@@ -365,6 +343,22 @@ typedef struct {
 
 } QOCOSolution;
 
+// Linear system data structs for backends to define.
+typedef struct LinSysData LinSysData;
+
+typedef struct {
+  LinSysData* (*linsys_setup)(QOCOKKT* KKT, QOCOProblemData* data);
+  void (*linsys_initialize_nt)(LinSysData* linsys_data, QOCOInt m);
+  void (*linsys_update_nt)(LinSysData* linsys_data, QOCOFloat* WtW,
+                           QOCOFloat kkt_static_reg, QOCOInt m);
+  void (*linsys_update_data)(LinSysData* linsys_data, QOCOProblemData* data);
+  void (*linsys_factor)(LinSysData* linsys_data, QOCOInt n,
+                        QOCOFloat kkt_dynamic_reg);
+  void (*linsys_solve)(LinSysData* linsys_data, QOCOWorkspace* work,
+                       QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters);
+  void (*linsys_cleanup)(LinSysData* linsys_data);
+} LinSysBackend;
+
 /**
  * @brief QOCO Solver struct. Contains all information about the state of the
  * solver.
@@ -376,6 +370,12 @@ typedef struct {
 
   /** Solver workspace. */
   QOCOWorkspace* work;
+
+  /** Linear system backend. */
+  LinSysBackend* linsys;
+
+  /** Linear system backend. */
+  LinSysData* linsys_data;
 
   /** Solution struct. */
   QOCOSolution* sol;

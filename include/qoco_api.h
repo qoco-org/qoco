@@ -15,6 +15,7 @@
 #ifndef QOCO_API_H
 #define QOCO_API_H
 
+#include "common_linalg.h"
 #include "definitions.h"
 #include "enums.h"
 #include "equilibration.h"
