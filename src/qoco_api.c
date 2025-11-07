@@ -172,71 +172,6 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->ubuff3 = qoco_malloc(m * sizeof(QOCOFloat));
   solver->work->Ds = qoco_malloc(m * sizeof(QOCOFloat));
 
-  // Number of columns of KKT matrix.
-  QOCOInt Kn = solver->work->kkt->K->n;
-
-  // Allocate memory for QDLDL.
-  solver->work->kkt->etree = qoco_malloc(sizeof(QOCOInt) * Kn);
-  solver->work->kkt->Lnz = qoco_malloc(sizeof(QOCOInt) * Kn);
-  solver->work->kkt->Lp = qoco_malloc(sizeof(QOCOInt) * (Kn + 1));
-  solver->work->kkt->D = qoco_malloc(sizeof(QOCOFloat) * Kn);
-  solver->work->kkt->Dinv = qoco_malloc(sizeof(QOCOFloat) * Kn);
-  solver->work->kkt->iwork = qoco_malloc(sizeof(QOCOInt) * 3 * Kn);
-  solver->work->kkt->bwork = qoco_malloc(sizeof(unsigned char) * Kn);
-  solver->work->kkt->fwork = qoco_malloc(sizeof(QOCOFloat) * Kn);
-
-  // Compute AMD ordering.
-  QOCOCscMatrix* K = solver->work->kkt->K;
-  solver->work->kkt->p = qoco_malloc(K->n * sizeof(QOCOInt));
-  solver->work->kkt->pinv = qoco_malloc(K->n * sizeof(QOCOInt));
-  QOCOInt amd_status = amd_order(K->n, K->p, K->i, solver->work->kkt->p,
-                                 (double*)NULL, (double*)NULL);
-  if (amd_status < 0) {
-    return qoco_error(QOCO_AMD_ERROR);
-  }
-  invert_permutation(solver->work->kkt->p, solver->work->kkt->pinv, K->n);
-
-  // Permute KKT matrix.
-  QOCOInt* KtoPKPt = qoco_malloc(K->nnz * sizeof(QOCOInt));
-  QOCOCscMatrix* PKPt = csc_symperm(K, solver->work->kkt->pinv, KtoPKPt);
-
-  // Update mappings from NT matrix to permuted matrix.
-  for (QOCOInt i = 0; i < solver->work->Wnnz; ++i) {
-    solver->work->kkt->nt2kkt[i] = KtoPKPt[solver->work->kkt->nt2kkt[i]];
-  }
-  for (QOCOInt i = 0; i < m; ++i) {
-    solver->work->kkt->ntdiag2kkt[i] =
-        KtoPKPt[solver->work->kkt->ntdiag2kkt[i]];
-  }
-
-  for (QOCOInt i = 0; i < solver->work->data->P->nnz; ++i) {
-    solver->work->kkt->PregtoKKT[i] = KtoPKPt[solver->work->kkt->PregtoKKT[i]];
-  }
-
-  for (QOCOInt i = 0; i < solver->work->data->A->nnz; ++i) {
-    solver->work->kkt->AttoKKT[i] = KtoPKPt[solver->work->kkt->AttoKKT[i]];
-  }
-
-  for (QOCOInt i = 0; i < solver->work->data->G->nnz; ++i) {
-    solver->work->kkt->GttoKKT[i] = KtoPKPt[solver->work->kkt->GttoKKT[i]];
-  }
-
-  free_qoco_csc_matrix(solver->work->kkt->K);
-  qoco_free(KtoPKPt);
-
-  solver->work->kkt->K = PKPt;
-
-  // Compute elimination tree.
-  QOCOInt sumLnz =
-      QDLDL_etree(Kn, solver->work->kkt->K->p, solver->work->kkt->K->i,
-                  solver->work->kkt->iwork, solver->work->kkt->Lnz,
-                  solver->work->kkt->etree);
-  if (sumLnz < 0) {
-    return QOCO_SETUP_ERROR;
-  }
-  solver->work->kkt->Li = qoco_malloc(sizeof(QOCOInt) * sumLnz);
-  solver->work->kkt->Lx = qoco_malloc(sizeof(QOCOFloat) * sumLnz);
-
   // Allocate solution struct.
   solver->sol = qoco_malloc(sizeof(QOCOSolution));
   solver->sol->x = qoco_malloc(n * sizeof(QOCOFloat));
@@ -530,8 +465,6 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
 
   // Free KKT struct.
   free_qoco_csc_matrix(solver->work->kkt->K);
-  qoco_free(solver->work->kkt->p);
-  qoco_free(solver->work->kkt->pinv);
   qoco_free(solver->work->kkt->delta);
   qoco_free(solver->work->kkt->Druiz);
   qoco_free(solver->work->kkt->Eruiz);
@@ -545,16 +478,6 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->kkt->PregtoKKT);
   qoco_free(solver->work->kkt->AttoKKT);
   qoco_free(solver->work->kkt->GttoKKT);
-  qoco_free(solver->work->kkt->etree);
-  qoco_free(solver->work->kkt->Lnz);
-  qoco_free(solver->work->kkt->Lp);
-  qoco_free(solver->work->kkt->D);
-  qoco_free(solver->work->kkt->Dinv);
-  qoco_free(solver->work->kkt->iwork);
-  qoco_free(solver->work->kkt->bwork);
-  qoco_free(solver->work->kkt->fwork);
-  qoco_free(solver->work->kkt->Li);
-  qoco_free(solver->work->kkt->Lx);
   qoco_free(solver->work->kkt);
 
   // Free solution struct.
