@@ -17,33 +17,6 @@ struct LinSysData {
   /** KKT matrix in CSC form. */
   QOCOCscMatrix* K;
 
-  /** Diagonal of scaling matrix. */
-  QOCOFloat* delta;
-
-  /** Diagonal of scaling matrix. */
-  QOCOFloat* Druiz;
-
-  /** Diagonal of scaling matrix. */
-  QOCOFloat* Eruiz;
-
-  /** Diagonal of scaling matrix. */
-  QOCOFloat* Fruiz;
-
-  /** Inverse of Druiz. */
-  QOCOFloat* Dinvruiz;
-
-  /** Inverse of Eruiz. */
-  QOCOFloat* Einvruiz;
-
-  /** Inverse of Fruiz. */
-  QOCOFloat* Finvruiz;
-
-  /** Cost scaling factor. */
-  QOCOFloat k;
-
-  /** Inverse of cost scaling factor. */
-  QOCOFloat kinv;
-
   /** Permutation vector. */
   QOCOInt* p;
 
@@ -71,22 +44,11 @@ struct LinSysData {
 
   QOCOFloat* fwork;
 
-  /** RHS of KKT system. */
-  QOCOFloat* rhs;
-
-  /** Solution of KKT system. */
-  QOCOFloat* xyz;
-
   /** Buffer of size n + m + p. */
   QOCOFloat* xyzbuff1;
 
   /** Buffer of size n + m + p. */
   QOCOFloat* xyzbuff2;
-
-  /** Residual of KKT condition. */
-  QOCOFloat* kktres;
-
-  QOCOInt Wnnz;
 
   /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
    * the KKT matrix. */
@@ -99,19 +61,13 @@ struct LinSysData {
   /** Mapping from elements in regularized P to elements in the KKT matrix. */
   QOCOInt* PregtoKKT;
 
-  /** Indices of P->x that were added due to regularization. */
-  QOCOInt* Pnzadded_idx;
-
-  /** Number of elements of P->x that were added due to regularization. */
-  QOCOInt Pnum_nzadded;
-
   /** Mapping from elements in At to elements in the KKT matrix. */
   QOCOInt* AttoKKT;
 
   /** Mapping from elements in Gt to elements in the KKT matrix. */
   QOCOInt* GttoKKT;
 
-  QOCOInt* KtoPKPt;
+  QOCOInt Wnnz;
 };
 
 static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOProblemData* data)
@@ -122,7 +78,6 @@ static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOProblemData* data)
   LinSysData* linsys_data = malloc(sizeof(LinSysData));
 
   // Allocate vector buffers.
-  linsys_data->xyz = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->xyzbuff1 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->xyzbuff2 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->Wnnz = kkt->Wnnz;
@@ -150,9 +105,8 @@ static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOProblemData* data)
   invert_permutation(linsys_data->p, linsys_data->pinv, linsys_data->K->n);
 
   // Permute KKT matrix.
-  linsys_data->KtoPKPt = qoco_malloc(linsys_data->K->nnz * sizeof(QOCOInt));
-  QOCOCscMatrix* PKPt =
-      csc_symperm(linsys_data->K, linsys_data->pinv, linsys_data->KtoPKPt);
+  QOCOInt* KtoPKPt = qoco_malloc(linsys_data->K->nnz * sizeof(QOCOInt));
+  QOCOCscMatrix* PKPt = csc_symperm(linsys_data->K, linsys_data->pinv, KtoPKPt);
 
   // Update mappings to permuted matrix.
   linsys_data->nt2kkt = qoco_calloc(kkt->Wnnz, sizeof(QOCOInt));
@@ -161,26 +115,26 @@ static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOProblemData* data)
   linsys_data->AttoKKT = qoco_calloc(data->A->nnz, sizeof(QOCOInt));
   linsys_data->GttoKKT = qoco_calloc(data->G->nnz, sizeof(QOCOInt));
   for (QOCOInt i = 0; i < kkt->Wnnz; ++i) {
-    linsys_data->nt2kkt[i] = linsys_data->KtoPKPt[kkt->nt2kkt[i]];
+    linsys_data->nt2kkt[i] = KtoPKPt[kkt->nt2kkt[i]];
   }
   for (QOCOInt i = 0; i < data->m; ++i) {
-    linsys_data->ntdiag2kkt[i] = linsys_data->KtoPKPt[kkt->ntdiag2kkt[i]];
+    linsys_data->ntdiag2kkt[i] = KtoPKPt[kkt->ntdiag2kkt[i]];
   }
 
   for (QOCOInt i = 0; i < data->P->nnz; ++i) {
-    linsys_data->PregtoKKT[i] = linsys_data->KtoPKPt[kkt->PregtoKKT[i]];
+    linsys_data->PregtoKKT[i] = KtoPKPt[kkt->PregtoKKT[i]];
   }
 
   for (QOCOInt i = 0; i < data->A->nnz; ++i) {
-    linsys_data->AttoKKT[i] = linsys_data->KtoPKPt[kkt->AttoKKT[i]];
+    linsys_data->AttoKKT[i] = KtoPKPt[kkt->AttoKKT[i]];
   }
 
   for (QOCOInt i = 0; i < data->G->nnz; ++i) {
-    linsys_data->GttoKKT[i] = linsys_data->KtoPKPt[kkt->GttoKKT[i]];
+    linsys_data->GttoKKT[i] = KtoPKPt[kkt->GttoKKT[i]];
   }
 
   free_qoco_csc_matrix(linsys_data->K);
-
+  qoco_free(KtoPKPt);
   linsys_data->K = PKPt;
 
   // Compute elimination tree.
@@ -298,7 +252,30 @@ static void qdldl_update_data(LinSysData* linsys_data, QOCOProblemData* data)
   }
 }
 
-static void qdldl_cleanup() {}
+static void qdldl_cleanup(LinSysData* linsys_data)
+{
+  free_qoco_csc_matrix(linsys_data->K);
+  qoco_free(linsys_data->p);
+  qoco_free(linsys_data->pinv);
+  qoco_free(linsys_data->etree);
+  qoco_free(linsys_data->Lnz);
+  qoco_free(linsys_data->Lx);
+  qoco_free(linsys_data->Lp);
+  qoco_free(linsys_data->Li);
+  qoco_free(linsys_data->D);
+  qoco_free(linsys_data->Dinv);
+  qoco_free(linsys_data->iwork);
+  qoco_free(linsys_data->bwork);
+  qoco_free(linsys_data->fwork);
+  qoco_free(linsys_data->xyzbuff1);
+  qoco_free(linsys_data->xyzbuff2);
+  qoco_free(linsys_data->nt2kkt);
+  qoco_free(linsys_data->ntdiag2kkt);
+  qoco_free(linsys_data->PregtoKKT);
+  qoco_free(linsys_data->AttoKKT);
+  qoco_free(linsys_data->GttoKKT);
+  qoco_free(linsys_data);
+}
 
 // TODO: Update data
 

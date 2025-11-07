@@ -498,6 +498,9 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->data->q);
   qoco_free(solver->work->data);
 
+  // Cleanup linsys.
+  solver->linsys->linsys_cleanup(solver->linsys_data);
+
   // Free primal and dual variables.
   qoco_free(solver->work->kkt->rhs);
   qoco_free(solver->work->kkt->kktres);

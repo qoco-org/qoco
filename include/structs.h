@@ -357,7 +357,7 @@ typedef struct {
                         QOCOFloat kkt_dynamic_reg);
   void (*linsys_solve)(LinSysData* linsys_data, QOCOWorkspace* work,
                        QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters);
-  void (*linsys_cleanup)();
+  void (*linsys_cleanup)(LinSysData* linsys_data);
 } LinSysBackend;
 
 /**
