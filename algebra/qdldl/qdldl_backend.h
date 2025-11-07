@@ -20,6 +20,6 @@
 #include "qdldl.h"
 #include "structs.h"
 
-extern LinSysBackend qdldl_backend;
+extern LinSysBackend backend;
 
 #endif /* #ifndef QDLDL_BACKEND_H */

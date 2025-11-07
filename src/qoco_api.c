@@ -10,7 +10,7 @@
 
 #include "qoco_api.h"
 #include "amd.h"
-#include "qdldl_backend.h"
+#include "qdldl_backend.h" // TODO: make this modular so we can use any backend.
 
 QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
                    QOCOCscMatrix* P, QOCOFloat* c, QOCOCscMatrix* A,
@@ -127,7 +127,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->kkt->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   construct_kkt(solver);
 
-  solver->linsys = &qdldl_backend;
+  solver->linsys = &backend;
 
   // Set up linear system data.
   solver->linsys_data =

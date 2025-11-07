@@ -153,7 +153,8 @@ void construct_kkt(QOCOSolver* solver)
 void initialize_ipm(QOCOSolver* solver)
 {
 
-  // TODO: This NT stuff should be removed I believe.
+  // TODO: Should we modify the KKT matrix in the kkt struct and in the
+  // linsys_data struct?.
 
   // Set Nesterov-Todd block in KKT matrix to -I.
   for (QOCOInt i = 0; i < solver->work->data->m; ++i) {

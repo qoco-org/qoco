@@ -16,7 +16,6 @@
 #define QOCO_STRUCTS_H
 
 #include "definitions.h"
-// #include "linsys.h"
 #include "qoco_linalg.h"
 #include "timer.h"
 

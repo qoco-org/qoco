@@ -276,10 +276,10 @@ static void qdldl_cleanup(LinSysData* linsys_data)
 }
 
 // Export the backend struct
-LinSysBackend qdldl_backend = {.linsys_setup = qdldl_setup,
-                               .linsys_initialize_nt = qdldl_initialize_nt,
-                               .linsys_update_nt = qdldl_update_nt,
-                               .linsys_update_data = qdldl_update_data,
-                               .linsys_factor = qdldl_factor,
-                               .linsys_solve = qdldl_solve,
-                               .linsys_cleanup = qdldl_cleanup};
+LinSysBackend backend = {.linsys_setup = qdldl_setup,
+                         .linsys_initialize_nt = qdldl_initialize_nt,
+                         .linsys_update_nt = qdldl_update_nt,
+                         .linsys_update_data = qdldl_update_data,
+                         .linsys_factor = qdldl_factor,
+                         .linsys_solve = qdldl_solve,
+                         .linsys_cleanup = qdldl_cleanup};
