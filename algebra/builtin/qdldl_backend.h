@@ -16,6 +16,7 @@
 #define QDLDL_BACKEND_H
 
 #include "amd.h"
+#include "common_linalg.h"
 #include "kkt.h"
 #include "qdldl.h"
 #include "structs.h"

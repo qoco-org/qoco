@@ -15,6 +15,7 @@
 #ifndef QOCO_EQUILIBRATION_H
 #define QOCO_EQUILIBRATION_H
 
+#include "common_linalg.h"
 #include "qoco_linalg.h"
 #include "structs.h"
 
