@@ -12,7 +12,6 @@
 #include <stdio.h>
 
 // Contains data for linear system.
-// TODO: clean up unused parameters
 struct LinSysData {
   /** KKT matrix in CSC form. */
   QOCOCscMatrix* K;
@@ -161,7 +160,6 @@ static void qdldl_factor(LinSysData* linsys_data, QOCOInt n,
                kkt_dynamic_reg);
 }
 
-// TODO: Clean up extra copies.
 static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters)
 {
@@ -276,8 +274,6 @@ static void qdldl_cleanup(LinSysData* linsys_data)
   qoco_free(linsys_data->GttoKKT);
   qoco_free(linsys_data);
 }
-
-// TODO: Update data
 
 // Export the backend struct
 LinSysBackend qdldl_backend = {.linsys_setup = qdldl_setup,
