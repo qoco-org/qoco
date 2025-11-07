@@ -385,12 +385,6 @@ void predictor_corrector(QOCOSolver* solver)
   // Factor KKT matrix.
   solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
                                 solver->settings->kkt_dynamic_reg);
-  QDLDL_factor(work->kkt->K->n, work->kkt->K->p, work->kkt->K->i,
-               work->kkt->K->x, work->kkt->Lp, work->kkt->Li, work->kkt->Lx,
-               work->kkt->D, work->kkt->Dinv, work->kkt->Lnz, work->kkt->etree,
-               work->kkt->bwork, work->kkt->iwork, work->kkt->fwork,
-               solver->work->kkt->p, solver->work->data->n,
-               solver->settings->kkt_dynamic_reg);
 
   // Construct rhs for affine scaling direction.
   construct_kkt_aff_rhs(work);
@@ -417,10 +411,9 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_comb_rhs(work);
 
   // Solve to get combined direction.
-  kkt_solve(solver, work->kkt->rhs, solver->settings->iter_ref_iters);
-  // solver->linsys->linsys_solve(solver->linsys_data, solver->work->kkt->rhs,
-  //                              solver->work->kkt->xyz,
-  //                              solver->settings->iter_ref_iters);
+  solver->linsys->linsys_solve(solver->linsys_data, solver->work,
+                               solver->work->kkt->rhs, solver->work->kkt->xyz,
+                               solver->settings->iter_ref_iters);
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
   for (QOCOInt i = 0; i < work->kkt->K->n; ++i) {
@@ -465,53 +458,6 @@ void predictor_corrector(QOCOSolver* solver)
   }
   for (QOCOInt i = 0; i < work->data->m; ++i) {
     work->z[i] = work->z[i] + a * Dz[i];
-  }
-}
-
-void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
-{
-  QOCOKKT* kkt = solver->work->kkt;
-
-  // Permute b and store in xyzbuff.
-  for (QOCOInt i = 0; i < kkt->K->n; ++i) {
-    kkt->xyzbuff1[i] = b[kkt->p[i]];
-  }
-
-  // Copy permuted b into b.
-  copy_arrayf(kkt->xyzbuff1, b, kkt->K->n);
-
-  // Triangular solve.
-  QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyzbuff1);
-
-  // Iterative refinement.
-  for (QOCOInt i = 0; i < iters; ++i) {
-    // r = b - K * x
-
-    // Must apply permutation since kkt_multiply multiplies by unpermuted KKT
-    // matrix.
-    for (QOCOInt k = 0; k < kkt->K->n; ++k) {
-      kkt->xyz[kkt->p[k]] = kkt->xyzbuff1[k];
-    }
-
-    kkt_multiply(solver->work, kkt->xyz, kkt->xyzbuff2);
-
-    for (QOCOInt k = 0; k < kkt->K->n; ++k) {
-      kkt->xyz[k] = kkt->xyzbuff2[kkt->p[k]];
-    }
-
-    for (QOCOInt j = 0; j < kkt->K->n; ++j) {
-      kkt->xyz[j] = b[j] - kkt->xyz[j];
-    }
-
-    // dx = K \ r
-    QDLDL_solve(kkt->K->n, kkt->Lp, kkt->Li, kkt->Lx, kkt->Dinv, kkt->xyz);
-
-    // x = x + dx.
-    qoco_axpy(kkt->xyzbuff1, kkt->xyz, kkt->xyzbuff1, 1.0, kkt->K->n);
-  }
-
-  for (QOCOInt i = 0; i < kkt->K->n; ++i) {
-    kkt->xyz[kkt->p[i]] = kkt->xyzbuff1[i];
   }
 }
 

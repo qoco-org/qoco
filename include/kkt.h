@@ -113,16 +113,6 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work);
 void predictor_corrector(QOCOSolver* solver);
 
 /**
- * @brief Solves Kx = b once K has been factored. Solves via triangular solves
- * and applies iterative refinement afterwards.
- *
- * @param solver Pointer to solver.
- * @param b Pointer to rhs of kkt system.
- * @param iters Number of iterations of iterative refinement performed.
- */
-void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
-
-/**
  * @brief Computes y = Kx where
  *     [ P   A^T       G^T      ]
  * K = | A    0         0       |
