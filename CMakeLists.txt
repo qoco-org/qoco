@@ -68,7 +68,6 @@ endif()
 
 set_property(GLOBAL APPEND PROPERTY QOCO_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_api.c"
     ${CMAKE_CURRENT_SOURCE_DIR}/src/input_validation.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_linalg.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/kkt.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/cone.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_status.c
@@ -110,7 +109,7 @@ endif()
 
 # TODO: Logic for selecting algebra backend
 set(QOCO_ALGEBRA_BACKEND
-    "qdldl"
+    "builtin"
     CACHE STRING "The Algebra to use")
 add_subdirectory(algebra)
 

@@ -1,5 +1,5 @@
 /**
- * @file linalg.c
+ * @file builtin_linalg.c
  * @author Govind M. Chari <govindchari1@gmail.com>
  *
  * @section LICENSE
