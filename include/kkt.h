@@ -128,10 +128,10 @@ void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters);
  * K = | A    0         0       |
  *     [ G    0   -W'W - e * I  ]
  *
- * @param solver Pointer to solver.
+ * @param work Pointer to workspace.
  * @param x Pointer to input vector.
  * @param y Pointer to output vector.
  */
-void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y);
+void kkt_multiply(QOCOWorkspace* work, QOCOFloat* x, QOCOFloat* y);
 
 #endif /* #ifndef QOCO_KKT_H */

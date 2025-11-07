@@ -201,8 +201,8 @@ void initialize_ipm(QOCOSolver* solver)
                                 solver->settings->kkt_dynamic_reg);
 
   // Solve KKT system.
-  solver->linsys->linsys_solve(solver->linsys_data, solver->work->kkt->rhs,
-                               solver->work->kkt->xyz,
+  solver->linsys->linsys_solve(solver->linsys_data, solver->work,
+                               solver->work->kkt->rhs, solver->work->kkt->xyz,
                                solver->settings->iter_ref_iters);
 
   // Copy x part of solution to x.
@@ -264,7 +264,7 @@ void compute_kkt_residual(QOCOSolver* solver)
   copy_arrayf(work->z, &work->kkt->xyzbuff1[work->data->n + work->data->p],
               work->data->m);
 
-  kkt_multiply(solver, work->kkt->xyzbuff1, work->kkt->kktres);
+  kkt_multiply(solver->work, work->kkt->xyzbuff1, work->kkt->kktres);
 
   // rhs += [c;-b;-h+s]
   QOCOInt idx;
@@ -396,8 +396,8 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_aff_rhs(work);
 
   // Solve to get affine scaling direction.
-  solver->linsys->linsys_solve(solver->linsys_data, solver->work->kkt->rhs,
-                               solver->work->kkt->xyz,
+  solver->linsys->linsys_solve(solver->linsys_data, solver->work,
+                               solver->work->kkt->rhs, solver->work->kkt->xyz,
                                solver->settings->iter_ref_iters);
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
@@ -493,7 +493,7 @@ void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
       kkt->xyz[kkt->p[k]] = kkt->xyzbuff1[k];
     }
 
-    kkt_multiply(solver, kkt->xyz, kkt->xyzbuff2);
+    kkt_multiply(solver->work, kkt->xyz, kkt->xyzbuff2);
 
     for (QOCOInt k = 0; k < kkt->K->n; ++k) {
       kkt->xyz[k] = kkt->xyzbuff2[kkt->p[k]];
@@ -515,10 +515,9 @@ void kkt_solve(QOCOSolver* solver, QOCOFloat* b, QOCOInt iters)
   }
 }
 
-void kkt_multiply(QOCOSolver* solver, QOCOFloat* x, QOCOFloat* y)
+void kkt_multiply(QOCOWorkspace* work, QOCOFloat* x, QOCOFloat* y)
 {
-  QOCOWorkspace* work = solver->work;
-  QOCOProblemData* data = solver->work->data;
+  QOCOProblemData* data = work->data;
 
   // Compute y[1:n] = P * x[1:n] + A^T * x[n+1:n+p] + G^T * x[n+p+1:n+p+m].
   USpMv(data->P, x, y);

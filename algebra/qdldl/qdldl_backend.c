@@ -208,8 +208,8 @@ static void qdldl_factor(LinSysData* linsys_data, QOCOInt n,
 }
 
 // TODO: Clean up extra copies.
-static void qdldl_solve(LinSysData* linsys_data, QOCOFloat* b, QOCOFloat* x,
-                        QOCOInt iter_ref_iters)
+static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
+                        QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters)
 {
   // Permute b and store in xyzbuff.
   for (QOCOInt i = 0; i < linsys_data->K->n; ++i) {
@@ -228,13 +228,13 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOFloat* b, QOCOFloat* x,
     // r = b - K * x
 
     for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
-      x[k] = linsys_data->xyzbuff1[k];
+      x[linsys_data->p[k]] = linsys_data->xyzbuff1[k];
     }
 
-    USpMv(linsys_data->K, x, linsys_data->xyzbuff2);
+    kkt_multiply(work, x, linsys_data->xyzbuff2);
 
     for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
-      x[k] = linsys_data->xyzbuff2[k];
+      x[k] = linsys_data->xyzbuff2[linsys_data->p[k]];
     }
 
     for (QOCOInt j = 0; j < linsys_data->K->n; ++j) {
