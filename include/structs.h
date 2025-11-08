@@ -149,33 +149,6 @@ typedef struct {
   /** Inverse of cost scaling factor. */
   QOCOFloat kinv;
 
-  /** Permutation vector. */
-  QOCOInt* p;
-
-  /** Inverse of permutation vector. */
-  QOCOInt* pinv;
-
-  /** Elimination tree for LDL factorization of K. */
-  QOCOInt* etree;
-
-  QOCOInt* Lnz;
-
-  QOCOFloat* Lx;
-
-  QOCOInt* Lp;
-
-  QOCOInt* Li;
-
-  QOCOFloat* D;
-
-  QOCOFloat* Dinv;
-
-  QOCOInt* iwork;
-
-  unsigned char* bwork;
-
-  QOCOFloat* fwork;
-
   /** RHS of KKT system. */
   QOCOFloat* rhs;
 
