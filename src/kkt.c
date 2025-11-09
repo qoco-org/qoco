@@ -11,90 +11,92 @@
 #include "kkt.h"
 #include "qoco_utils.h"
 
-QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
-                             QOCOCscMatrix* G, QOCOCscMatrix* At,
-                             QOCOCscMatrix* Gt, QOCOFloat static_reg, QOCOInt n,
-                             QOCOInt m, QOCOInt p, QOCOInt l, QOCOInt nsoc,
-                             QOCOInt* q, QOCOInt* PregtoKKT, QOCOInt* AttoKKT,
-                             QOCOInt* GttoKKT, QOCOInt* nt2kkt,
-                             QOCOInt* ntdiag2kkt, QOCOInt Wnnz)
+void allocate_kkt(QOCOWorkspace* work)
 {
-  QOCOCscMatrix* KKT = qoco_malloc(sizeof(QOCOCscMatrix));
+  work->kkt->K = qoco_malloc(sizeof(QOCOCscMatrix));
 
-  KKT->m = n + m + p;
-  KKT->n = n + m + p;
-  KKT->nnz = P->nnz + A->nnz + G->nnz + Wnnz + p;
+  // Number of nonzeros in second-order cone part of NT scaling.
+  QOCOInt Wsoc_nnz = 0;
+  for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
+    Wsoc_nnz += work->data->q[i] * work->data->q[i] - work->data->q[i];
+  }
+  Wsoc_nnz /= 2;
 
-  KKT->x = qoco_calloc(KKT->nnz, sizeof(QOCOFloat));
-  KKT->i = qoco_calloc(KKT->nnz, sizeof(QOCOInt));
-  KKT->p = qoco_calloc((KKT->n + 1), sizeof(QOCOInt));
+  work->Wnnz = work->data->m + Wsoc_nnz;
+  work->kkt->Wnnz = work->data->m + Wsoc_nnz;
+  work->kkt->K->m = work->data->n + work->data->m + work->data->p;
+  work->kkt->K->n = work->data->n + work->data->m + work->data->p;
+  work->kkt->K->nnz = work->data->P->nnz + work->data->A->nnz +
+                      work->data->G->nnz + work->Wnnz + work->data->p;
 
+  work->kkt->K->x = qoco_calloc(work->kkt->K->nnz, sizeof(QOCOFloat));
+  work->kkt->K->i = qoco_calloc(work->kkt->K->nnz, sizeof(QOCOInt));
+  work->kkt->K->p = qoco_calloc((work->kkt->K->n + 1), sizeof(QOCOInt));
+}
+
+void construct_kkt(QOCOSolver* solver)
+{
+  QOCOWorkspace* work = solver->work;
   QOCOInt nz = 0;
   QOCOInt col = 0;
   // Add P block
-  for (QOCOInt k = 0; k < P->nnz; ++k) {
-    PregtoKKT[k] = nz;
-    KKT->x[nz] = P->x[k];
-    KKT->i[nz] = P->i[k];
+  for (QOCOInt k = 0; k < work->data->P->nnz; ++k) {
+    work->kkt->PregtoKKT[k] = nz;
+    work->kkt->K->x[nz] = work->data->P->x[k];
+    work->kkt->K->i[nz] = work->data->P->i[k];
     nz += 1;
   }
-  for (QOCOInt k = 0; k < P->n + 1; ++k) {
-    KKT->p[col] = P->p[k];
+  for (QOCOInt k = 0; k < work->data->P->n + 1; ++k) {
+    work->kkt->K->p[col] = work->data->P->p[k];
     col += 1;
   }
 
   // Add A^T block
-  for (QOCOInt Atcol = 0; Atcol < At->n; ++Atcol) {
+  for (QOCOInt Atcol = 0; Atcol < work->data->At->n; ++Atcol) {
     QOCOInt nzadded = 0;
-    for (QOCOInt k = At->p[Atcol]; k < At->p[Atcol + 1]; ++k) {
+    for (QOCOInt k = work->data->At->p[Atcol]; k < work->data->At->p[Atcol + 1];
+         ++k) {
       // If the nonzero is in row i of A then add
-      if (AttoKKT) {
-        AttoKKT[k] = nz;
-      }
-      KKT->x[nz] = At->x[k];
-      KKT->i[nz] = At->i[k];
+      work->kkt->AttoKKT[k] = nz;
+      work->kkt->K->x[nz] = work->data->At->x[k];
+      work->kkt->K->i[nz] = work->data->At->i[k];
       nz += 1;
       nzadded += 1;
     }
 
     // Add -e * Id regularization.
-    KKT->x[nz] = -static_reg;
-    KKT->i[nz] = n + Atcol;
+    work->kkt->K->x[nz] = -solver->settings->kkt_static_reg;
+    work->kkt->K->i[nz] = work->data->n + Atcol;
     nz += 1;
     nzadded += 1;
-    KKT->p[col] = KKT->p[col - 1] + nzadded;
+    work->kkt->K->p[col] = work->kkt->K->p[col - 1] + nzadded;
     col += 1;
   }
 
   // Add non-negative orthant part of G^T.
   QOCOInt nz_nt = 0;
   QOCOInt diag = 0;
-  for (QOCOInt Gtcol = 0; Gtcol < l; ++Gtcol) {
+  for (QOCOInt Gtcol = 0; Gtcol < work->data->l; ++Gtcol) {
 
     // Counter for number of nonzeros from G added to this column of KKT matrix
     QOCOInt nzadded = 0;
-    for (QOCOInt k = Gt->p[Gtcol]; k < Gt->p[Gtcol + 1]; ++k) {
-      if (GttoKKT) {
-        GttoKKT[k] = nz;
-      }
-      KKT->x[nz] = Gt->x[k];
-      KKT->i[nz] = Gt->i[k];
+    for (QOCOInt k = work->data->Gt->p[Gtcol]; k < work->data->Gt->p[Gtcol + 1];
+         ++k) {
+      work->kkt->GttoKKT[k] = nz;
+      work->kkt->K->x[nz] = work->data->Gt->x[k];
+      work->kkt->K->i[nz] = work->data->Gt->i[k];
       nz += 1;
       nzadded += 1;
     }
 
     // Add -Id to NT block.
-    KKT->x[nz] = -1.0;
-    KKT->i[nz] = n + p + Gtcol;
-    KKT->p[col] = KKT->p[col - 1] + nzadded + 1;
+    work->kkt->K->x[nz] = -1.0;
+    work->kkt->K->i[nz] = work->data->n + work->data->p + Gtcol;
+    work->kkt->K->p[col] = work->kkt->K->p[col - 1] + nzadded + 1;
 
     // Mapping from NT matrix entries to KKT matrix entries.
-    if (nt2kkt) {
-      nt2kkt[nz_nt] = nz;
-    }
-    if (ntdiag2kkt) {
-      ntdiag2kkt[diag] = nz;
-    }
+    work->kkt->nt2kkt[nz_nt] = nz;
+    work->kkt->ntdiag2kkt[diag] = nz;
     diag++;
     nz_nt += 1;
 
@@ -103,55 +105,49 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
   }
 
   // Add second-order cone parts of G^T.
-  QOCOInt idx = l;
-  for (QOCOInt c = 0; c < nsoc; ++c) {
-    for (QOCOInt Gtcol = idx; Gtcol < idx + q[c]; ++Gtcol) {
+  QOCOInt idx = work->data->l;
+  for (QOCOInt c = 0; c < work->data->nsoc; ++c) {
+    for (QOCOInt Gtcol = idx; Gtcol < idx + work->data->q[c]; ++Gtcol) {
       // Loop over columns of G
 
       // Counter for number of nonzeros from G added to this column of KKT
       // matrix
       QOCOInt nzadded = 0;
-      for (QOCOInt k = Gt->p[Gtcol]; k < Gt->p[Gtcol + 1]; ++k) {
-        if (GttoKKT) {
-          GttoKKT[k] = nz;
-        }
-        KKT->x[nz] = Gt->x[k];
-        KKT->i[nz] = Gt->i[k];
+      for (QOCOInt k = work->data->Gt->p[Gtcol];
+           k < work->data->Gt->p[Gtcol + 1]; ++k) {
+        work->kkt->GttoKKT[k] = nz;
+        work->kkt->K->x[nz] = work->data->Gt->x[k];
+        work->kkt->K->i[nz] = work->data->Gt->i[k];
         nz += 1;
         nzadded += 1;
       }
 
       // Add NT block.
-      for (QOCOInt i = idx; i < idx + q[c]; i++) {
+      for (QOCOInt i = idx; i < idx + work->data->q[c]; i++) {
         // Only add upper triangular part.
-        if (i + n + p <= col - 1) {
+        if (i + work->data->n + work->data->p <= col - 1) {
           // Add -1 if element is on main diagonal and 0 otherwise.
-          if (i + n + p == col - 1) {
-            KKT->x[nz] = -1.0;
-            if (ntdiag2kkt) {
-              ntdiag2kkt[diag] = nz;
-            }
+          if (i + work->data->n + work->data->p == col - 1) {
+            work->kkt->K->x[nz] = -1.0;
+            work->kkt->ntdiag2kkt[diag] = nz;
             diag++;
           }
           else {
-            KKT->x[nz] = 0.0;
+            work->kkt->K->x[nz] = 0.0;
           }
-          KKT->i[nz] = n + p + i;
-          if (nt2kkt) {
-            nt2kkt[nz_nt] = nz;
-          }
+          work->kkt->K->i[nz] = work->data->n + work->data->p + i;
+          work->kkt->nt2kkt[nz_nt] = nz;
           nz_nt += 1;
           nz += 1;
           nzadded += 1;
         }
       }
-      KKT->p[col] = KKT->p[col - 1] + nzadded;
+      work->kkt->K->p[col] = work->kkt->K->p[col - 1] + nzadded;
       // Mapping from NT matrix entries to KKT matrix entries.
       col += 1;
     }
-    idx += q[c];
+    idx += work->data->q[c];
   }
-  return KKT;
 }
 
 void initialize_ipm(QOCOSolver* solver)
@@ -320,8 +316,9 @@ void construct_kkt_aff_rhs(QOCOWorkspace* work)
               work->data->m, work->data->nsoc, work->data->q);
 
   // Add W*lambda to z portion of rhs.
-  qoco_axpy(work->ubuff1, &work->kkt->rhs[work->data->n + work->data->p],
-            &work->kkt->rhs[work->data->n + work->data->p], 1.0, work->data->m);
+  for (QOCOInt i = 0; i < work->data->m; ++i) {
+    work->kkt->rhs[work->data->n + work->data->p + i] += work->ubuff1[i];
+  }
 }
 
 void construct_kkt_comb_rhs(QOCOWorkspace* work)
@@ -364,8 +361,9 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
   // Ds = -cone_product(lambda, lambda) - settings.mehrotra *
   // cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
 
-  copy_and_negate_arrayf(work->ubuff1, work->Ds, work->data->m);
-  qoco_axpy(work->ubuff3, work->Ds, work->Ds, -1.0, work->data->m);
+  for (QOCOInt i = 0; i < work->data->m; ++i) {
+    work->Ds[i] = -work->ubuff1[i] - work->ubuff3[i];
+  }
 
   // ubuff2 = cone_division(lambda, ds).
   cone_division(work->lambda, work->Ds, work->ubuff2, work->data->l,
@@ -376,9 +374,9 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
               work->data->m, work->data->nsoc, work->data->q);
 
   // rhs = [dx;dy;dz-W'*cone_division(lambda, ds, pdata)];
-  qoco_axpy(work->ubuff1, &work->kkt->rhs[work->data->n + work->data->p],
-            &work->kkt->rhs[work->data->n + work->data->p], -1.0,
-            work->data->m);
+  for (QOCOInt i = 0; i < work->data->m; ++i) {
+    work->kkt->rhs[work->data->n + work->data->p + i] -= work->ubuff1[i];
+  }
 }
 
 void predictor_corrector(QOCOSolver* solver)
@@ -433,8 +431,9 @@ void predictor_corrector(QOCOSolver* solver)
                 work->data->nsoc, work->data->q);
   nt_multiply(work->Wfull, Dz, work->ubuff2, work->data->l, work->data->m,
               work->data->nsoc, work->data->q);
-
-  qoco_axpy(work->ubuff2, work->ubuff1, work->ubuff3, -1.0, work->data->m);
+  for (QOCOInt i = 0; i < work->data->m; ++i) {
+    work->ubuff3[i] = work->ubuff1[i] - work->ubuff2[i];
+  }
   nt_multiply(work->Wfull, work->ubuff3, work->Ds, work->data->l, work->data->m,
               work->data->nsoc, work->data->q);
 
@@ -449,10 +448,18 @@ void predictor_corrector(QOCOSolver* solver)
   QOCOFloat* Dx = work->kkt->xyz;
   QOCOFloat* Dy = &work->kkt->xyz[work->data->n];
 
-  qoco_axpy(Dx, work->x, work->x, a, work->data->n);
-  qoco_axpy(work->Ds, work->s, work->s, a, work->data->m);
-  qoco_axpy(Dy, work->y, work->y, a, work->data->p);
-  qoco_axpy(Dz, work->z, work->z, a, work->data->m);
+  for (QOCOInt i = 0; i < work->data->n; ++i) {
+    work->x[i] = work->x[i] + a * Dx[i];
+  }
+  for (QOCOInt i = 0; i < work->data->m; ++i) {
+    work->s[i] = work->s[i] + a * work->Ds[i];
+  }
+  for (QOCOInt i = 0; i < work->data->p; ++i) {
+    work->y[i] = work->y[i] + a * Dy[i];
+  }
+  for (QOCOInt i = 0; i < work->data->m; ++i) {
+    work->z[i] = work->z[i] + a * Dz[i];
+  }
 }
 
 void kkt_multiply(QOCOWorkspace* work, QOCOFloat* x, QOCOFloat* y)

@@ -22,40 +22,27 @@
 #include "structs.h"
 
 /**
- * @brief Constructs and returns the upper triangular portion of the KKT matrix
- in CSC form.
+ * @brief Allocate memory for KKT matrix.
  *
- *     [ P + e*I      A^T       G^T    ]
- * K = | A         - e * I       0     |
- *     [ G             0        -I     ]
-
- * @param P P.
- * @param A A.
- * @param G G.
- * @param At A^T.
- * @param Gt G^T.
- * @param static_reg Static regularization parameter.
- * @param n Rows of P.
- * @param m Rows of G.
- * @param p Rows of A.
- * @param l Dimension of nonneg orthant.
- * @param nsoc Number of socs
- * @param q Dimension of socs
- * @param PregtoKKT Mapping from Preg scaling to KKT matrix.
- * @param AttoKKT Mapping from At scaling to KKT matrix.
- * @param GttoKKT Mapping from Gt scaling to KKT matrix.
- * @param nt2kkt Mapping from NT scaling to KKT matrix.
- * @param ntdiag2kkt Mapping from NT scaling diagonal to KKT matrix.
- * @param Wnnz Number of nonzeros in upper triangular portion of NT scaling.
- * @return QOCOCscMatrix*
+ * @param work Pointer to workspace.
  */
-QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
-                             QOCOCscMatrix* G, QOCOCscMatrix* At,
-                             QOCOCscMatrix* Gt, QOCOFloat static_reg, QOCOInt n,
-                             QOCOInt m, QOCOInt p, QOCOInt l, QOCOInt nsoc,
-                             QOCOInt* q, QOCOInt* PregtoKKT, QOCOInt* AttoKKT,
-                             QOCOInt* GttoKKT, QOCOInt* nt2kkt,
-                             QOCOInt* ntdiag2kkt, QOCOInt Wnnz);
+void allocate_kkt(QOCOWorkspace* work);
+
+/**
+ * @brief Constructs upper triangular part of KKT matrix with -I
+ * for Nestrov-Todd scaling matrix (the (3,3) block)
+ *
+ * clang-format off
+ *
+ *     [ P   A^T   G^T ]
+ * K = | A    0     0  |
+ *     [ G    0    -I  ]
+ *
+ * clang-format on
+ *
+ * @param solver Pointer to solver
+ */
+void construct_kkt(QOCOSolver* solver);
 
 /**
  * @brief Gets initial values for primal and dual variables such that (s,z) \in
