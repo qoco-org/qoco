@@ -188,18 +188,12 @@ void initialize_ipm(QOCOSolver* solver)
   solver->work->a = 1.0;
 
   // Construct rhs of KKT system.
-  idx = 0;
-  for (idx = 0; idx < solver->work->data->n; ++idx) {
-    solver->work->kkt->rhs[idx] = -solver->work->data->c[idx];
-  }
-  for (QOCOInt i = 0; i < solver->work->data->p; ++i) {
-    solver->work->kkt->rhs[idx] = solver->work->data->b[i];
-    idx += 1;
-  }
-  for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
-    solver->work->kkt->rhs[idx] = solver->work->data->h[i];
-    idx += 1;
-  }
+  // Construct rhs of KKT system = [-c;b;h].
+  QOCOProblemData* data = solver->work->data;
+  QOCOKKT* kkt = solver->work->kkt;
+  copy_and_negate_arrayf(data->c, kkt->rhs, data->n);
+  copy_arrayf(data->b, &kkt->rhs[data->n], data->p);
+  copy_arrayf(data->h, &kkt->rhs[data->n + data->p], data->m);
 
   // Factor KKT matrix.
   solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
@@ -275,23 +269,22 @@ void compute_kkt_residual(QOCOSolver* solver)
   QOCOInt idx;
 
   // Add c and account for regularization of P.
-  for (idx = 0; idx < work->data->n; ++idx) {
-    work->kkt->kktres[idx] =
-        work->kkt->kktres[idx] +
-        (work->data->c[idx] - solver->settings->kkt_static_reg * work->x[idx]);
-  }
+  qoco_axpy(work->data->c, work->kkt->kktres, work->kkt->kktres, 1.0,
+            work->data->n);
+  qoco_axpy(work->x, work->kkt->kktres, work->kkt->kktres,
+            -solver->settings->kkt_static_reg, work->data->n);
 
   // Add -b.
-  for (QOCOInt i = 0; i < work->data->p; ++i) {
-    work->kkt->kktres[idx] = work->kkt->kktres[idx] - work->data->b[i];
-    idx += 1;
-  }
+  qoco_axpy(work->data->b, &work->kkt->kktres[work->data->n],
+            &work->kkt->kktres[work->data->n], -1.0, work->data->p);
 
   // Add -h + s.
-  for (QOCOInt i = 0; i < work->data->m; ++i) {
-    work->kkt->kktres[idx] += -work->data->h[i] + work->s[i];
-    idx += 1;
-  }
+  qoco_axpy(work->data->h, &work->kkt->kktres[work->data->n + work->data->p],
+            &work->kkt->kktres[work->data->n + work->data->p], -1.0,
+            work->data->m);
+  qoco_axpy(work->s, &work->kkt->kktres[work->data->n + work->data->p],
+            &work->kkt->kktres[work->data->n + work->data->p], 1.0,
+            work->data->m);
 
   // Compute objective.
   QOCOFloat obj = qoco_dot(work->x, work->data->c, work->data->n);
