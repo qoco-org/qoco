@@ -10,7 +10,15 @@
 
 #include "common_linalg.h"
 
-QOCOCscMatrix* construct_identity(QOCOInt n, QOCOFloat lambda)
+void free_qoco_csc_matrix(QOCOCscMatrix* A)
+{
+  free(A->x);
+  free(A->i);
+  free(A->p);
+  free(A);
+}
+
+QOCOCscMatrix* construct_identity_csc(QOCOInt n, QOCOFloat lambda)
 {
   QOCOCscMatrix* M = qoco_malloc(sizeof(QOCOCscMatrix));
   QOCOFloat* x = qoco_malloc(n * sizeof(QOCOFloat));
@@ -49,8 +57,8 @@ QOCOInt count_diag(QOCOCscMatrix* M)
   return count;
 }
 
-QOCOCscMatrix* regularize_P(QOCOInt num_diagP, QOCOCscMatrix* P, QOCOFloat reg,
-                            QOCOInt* nzadded_idx)
+QOCOCscMatrix* regularize_P_csc(QOCOInt num_diagP, QOCOCscMatrix* P,
+                                QOCOFloat reg, QOCOInt* nzadded_idx)
 {
   QOCOInt n = P->n;
 
@@ -109,7 +117,7 @@ QOCOCscMatrix* regularize_P(QOCOInt num_diagP, QOCOCscMatrix* P, QOCOFloat reg,
   return Preg;
 }
 
-void unregularize(QOCOCscMatrix* M, QOCOFloat lambda)
+void unregularize_csc(QOCOCscMatrix* M, QOCOFloat lambda)
 {
   // Iterate over each column.
   for (QOCOInt col = 0; col < M->n; col++) {
@@ -165,7 +173,8 @@ void row_inf_norm(const QOCOCscMatrix* M, QOCOFloat* norm)
   }
 }
 
-QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A, QOCOInt* AtoAt)
+QOCOCscMatrix* create_transposed_csc_matrix(const QOCOCscMatrix* A,
+                                            QOCOInt* AtoAt)
 {
   QOCOCscMatrix* B = qoco_malloc(sizeof(QOCOCscMatrix));
   B->m = A->n;
@@ -198,7 +207,9 @@ QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A, QOCOInt* AtoAt)
       int dest_pos = B->p[row] + temp[row];
       B->i[dest_pos] = j;       // Column index becomes row index
       B->x[dest_pos] = A->x[i]; // Value remains the same
-      AtoAt[i] = dest_pos;
+      if (AtoAt) {
+        AtoAt[i] = dest_pos;
+      }
       temp[row]++;
     }
   }
@@ -210,7 +221,7 @@ QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A, QOCOInt* AtoAt)
   return B;
 }
 
-void row_col_scale(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D)
+void row_col_scale_csc(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D)
 {
   for (QOCOInt j = 0; j < M->n; ++j) {
     for (QOCOInt i = M->p[j]; i < M->p[j + 1]; ++i) {
@@ -219,7 +230,58 @@ void row_col_scale(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D)
   }
 }
 
-void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
+void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
+{
+  qoco_assert(x || n == 0);
+  qoco_assert(y || n == 0);
+
+  for (QOCOInt i = 0; i < n; ++i) {
+    y[i] = x[i];
+  }
+}
+
+void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
+{
+  qoco_assert(x || n == 0);
+  qoco_assert(y || n == 0);
+
+  for (QOCOInt i = 0; i < n; ++i) {
+    y[i] = -x[i];
+  }
+}
+
+void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
+{
+  qoco_assert(x || n == 0);
+  qoco_assert(y || n == 0);
+
+  for (QOCOInt i = 0; i < n; ++i) {
+    y[i] = x[i];
+  }
+}
+
+QOCOInt max_arrayi(const QOCOInt* x, QOCOInt n)
+{
+  qoco_assert(x || n == 0);
+
+  QOCOInt max = -QOCOInt_MAX;
+  for (QOCOInt i = 0; i < n; ++i) {
+    max = qoco_max(max, x[i]);
+  }
+  return max;
+}
+
+void scale_arrayf(QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n)
+{
+  qoco_assert(x || n == 0);
+  qoco_assert(y || n == 0);
+
+  for (QOCOInt i = 0; i < n; ++i) {
+    y[i] = s * x[i];
+  }
+}
+
+void ew_product_arrayf(QOCOFloat* x, QOCOFloat* y, QOCOFloat* z, QOCOInt n)
 {
   for (QOCOInt i = 0; i < n; ++i) {
     z[i] = x[i] * y[i];

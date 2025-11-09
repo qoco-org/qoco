@@ -8,11 +8,12 @@
  * This source code is licensed under the BSD 3-Clause License
  */
 
-#include "qoco_linalg.h"
+#include "builtin_types.h"
 
-QOCOCscMatrix* new_qoco_csc_matrix(const QOCOCscMatrix* A)
+QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 {
-  QOCOCscMatrix* M = qoco_malloc(sizeof(QOCOCscMatrix));
+  QOCOMatrix* M = qoco_malloc(sizeof(QOCOMatrix));
+  QOCOCscMatrix* Mcsc = qoco_malloc(sizeof(QOCOCscMatrix));
 
   if (A) {
     QOCOInt m = A->m;
@@ -27,61 +28,88 @@ QOCOCscMatrix* new_qoco_csc_matrix(const QOCOCscMatrix* A)
     copy_arrayi(A->i, i, nnz);
     copy_arrayi(A->p, p, n + 1);
 
-    M->m = m;
-    M->n = n;
-    M->nnz = nnz;
-    M->x = x;
-    M->i = i;
-    M->p = p;
+    Mcsc->m = m;
+    Mcsc->n = n;
+    Mcsc->nnz = nnz;
+    Mcsc->x = x;
+    Mcsc->i = i;
+    Mcsc->p = p;
   }
   else {
-    M->m = 0;
-    M->n = 0;
-    M->nnz = 0;
-    M->x = NULL;
-    M->i = NULL;
-    M->p = NULL;
+    Mcsc->m = 0;
+    Mcsc->n = 0;
+    Mcsc->nnz = 0;
+    Mcsc->x = NULL;
+    Mcsc->i = NULL;
+    Mcsc->p = NULL;
   }
+
+  M->csc = M;
 
   return M;
 }
 
-void free_qoco_csc_matrix(QOCOCscMatrix* A)
+QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
 {
-  free(A->x);
-  free(A->i);
-  free(A->p);
-  free(A);
+  QOCOVectorf* v = qoco_malloc(sizeof(QOCOVectorf));
+  QOCOFloat* vdata = qoco_malloc(sizeof(QOCOFloat) * n);
+  copy_arrayf(x, vdata, n);
+
+  v->len = n;
+  v->data = vdata;
 }
 
-void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
+void free_qoco_matrix(QOCOMatrix* A)
 {
-  qoco_assert(x || n == 0);
-  qoco_assert(y || n == 0);
-
-  for (QOCOInt i = 0; i < n; ++i) {
-    y[i] = x[i];
-  }
+  free_qoco_csc_matrix(A);
+  qoco_free(A);
 }
 
-void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
+void free_qoco_vectorf(QOCOVectorf* x)
 {
-  qoco_assert(x || n == 0);
-  qoco_assert(y || n == 0);
-
-  for (QOCOInt i = 0; i < n; ++i) {
-    y[i] = -x[i];
-  }
+  qoco_free(x->data);
+  qoco_free(x);
 }
 
-void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
+QOCOMatrix* create_transposed_matrix(const QOCOMatrix* A, QOCOInt* AtoAt)
 {
-  qoco_assert(x || n == 0);
-  qoco_assert(y || n == 0);
+  QOCOMatrix* At = qoco_malloc(sizeof(QOCOMatrix));
+  QOCOCscMatrix* Atcsc = create_transposed_csc_matrix(A->csc, AtoAt);
+  At->csc = Atcsc;
+  return At;
+}
 
-  for (QOCOInt i = 0; i < n; ++i) {
-    y[i] = x[i];
-  }
+QOCOMatrix* regularize_P(QOCOInt num_diagP, QOCOMatrix* P, QOCOFloat reg,
+                         QOCOInt* nzadded_idx)
+{
+  regularize_P_csc(num_diagP, P->csc, reg, nzadded_idx);
+  qoco_free(P);
+}
+
+void unregularize(QOCOMatrix* M, QOCOFloat lambda)
+{
+  unregularize_csc(M->csc, lambda);
+}
+
+QOCOMatrix* construct_identity(QOCOInt n, QOCOFloat lambda)
+{
+  QOCOMatrix* M = qoco_malloc(sizeof(QOCOMatrix));
+  M->csc = construct_identity_csc(n, lambda);
+}
+
+void scale_matrix(QOCOFloat a, QOCOMatrix* M)
+{
+  scale_arrayf(M->csc->x, M->csc->x, a, M->csc->nnz);
+}
+
+void row_col_scale(QOCOMatrix* M, QOCOVectorf* E, QOCOVectorf* D)
+{
+  row_col_scale_csc(M->csc, E->data, D->data);
+}
+
+void update_matrix(QOCOMatrix* M, QOCOFloat* Mnew)
+{
+  copy_arrayf(Mnew, M->csc->x, M->csc->nnz);
 }
 
 QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
@@ -96,24 +124,33 @@ QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
   return x;
 }
 
-QOCOInt max_arrayi(const QOCOInt* x, QOCOInt n)
+void ew_product(QOCOVectorf* x, QOCOVectorf* y, QOCOVectorf* z)
 {
-  qoco_assert(x || n == 0);
-
-  QOCOInt max = -QOCOInt_MAX;
-  for (QOCOInt i = 0; i < n; ++i) {
-    max = qoco_max(max, x[i]);
-  }
-  return max;
+  qoco_assert(x->len == y->len);
+  qoco_assert(x->len == z->len);
+  ew_product_arrayf(x->data, y->data, z->data, x->len);
 }
 
-void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n)
+void ew_product_vec_array(QOCOVectorf* x, QOCOFloat* y, QOCOVectorf* z)
 {
-  qoco_assert(x || n == 0);
-  qoco_assert(y || n == 0);
+  qoco_assert(x->len == y->len);
+  qoco_assert(x->len == z->len);
+  ew_product_arrayf(x->data, y, z->data, x->len);
+}
 
-  for (QOCOInt i = 0; i < n; ++i) {
-    y[i] = s * x[i];
+void scale_vectorf(QOCOFloat a, QOCOVectorf* u)
+{
+  scale_arrayf(u->data, u->data, a, u->len);
+}
+
+void copy_vectorf(QOCOVectorf* src, QOCOFloat* dest, QOCOInt dest_idx,
+                  QOCOInt negate)
+{
+  if (negate) {
+    copy_arrayf(src->data, &dest[dest_idx], src->len);
+  }
+  else {
+    copy_and_negate_arrayf(src->data, &dest[dest_idx], src->len);
   }
 }
 
