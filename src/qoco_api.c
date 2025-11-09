@@ -42,6 +42,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   }
 
   solver->work->data = qoco_malloc(sizeof(QOCOProblemData));
+  QOCOProblemData* data = solver->work->data;
   // Malloc error
   if (!(solver->work->data)) {
     return QOCO_MALLOC_ERROR;
@@ -110,8 +111,16 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
     solver->work->kkt->Pnum_nzadded = n;
   }
 
-  // Allocate KKT struct.
-  allocate_kkt(solver->work);
+  // Compute number of nonzeros in upper triangular NT scaling matrix.
+  QOCOInt Wsoc_nnz = 0;
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+    Wsoc_nnz += q[i] * q[i] - q[i];
+  }
+  Wsoc_nnz /= 2;
+  QOCOInt Wnnz = m + Wsoc_nnz;
+  solver->work->Wnnz = Wnnz;
+  solver->work->kkt->Wnnz = Wnnz;
+
   solver->work->kkt->nt2kkt = qoco_calloc(solver->work->Wnnz, sizeof(QOCOInt));
   solver->work->kkt->ntdiag2kkt = qoco_calloc(m, sizeof(QOCOInt));
   solver->work->kkt->PregtoKKT =
@@ -125,7 +134,12 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->kkt->xyz = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  construct_kkt(solver);
+  solver->work->kkt->K =
+      construct_kkt(data->P, data->A, data->G, data->At, data->Gt,
+                    solver->settings->kkt_static_reg, n, m, p, l, nsoc, q,
+                    solver->work->kkt->PregtoKKT, solver->work->kkt->AttoKKT,
+                    solver->work->kkt->GttoKKT, solver->work->kkt->nt2kkt,
+                    solver->work->kkt->ntdiag2kkt, solver->work->Wnnz);
 
   solver->linsys = &backend;
 
