@@ -127,12 +127,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   solver->work->kkt->nt2kkt = qoco_calloc(solver->work->Wnnz, sizeof(QOCOInt));
   solver->work->kkt->ntdiag2kkt = qoco_calloc(m, sizeof(QOCOInt));
-  solver->work->kkt->PregtoKKT =
-      qoco_calloc(Preg_nnz, sizeof(QOCOInt));
-  solver->work->kkt->AttoKKT =
-      qoco_calloc(Annz, sizeof(QOCOInt));
-  solver->work->kkt->GttoKKT =
-      qoco_calloc(Gnnz, sizeof(QOCOInt));
+  solver->work->kkt->PregtoKKT = qoco_calloc(Preg_nnz, sizeof(QOCOInt));
+  solver->work->kkt->AttoKKT = qoco_calloc(Annz, sizeof(QOCOInt));
+  solver->work->kkt->GttoKKT = qoco_calloc(Gnnz, sizeof(QOCOInt));
   solver->work->kkt->rhs = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->kktres = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyz = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
@@ -169,7 +166,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   solver->work->W = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
   solver->work->Wfull = qoco_malloc(Wnnzfull * sizeof(QOCOFloat));
-  for (int i = 0; i < Wnnzfull; ++i) {
+  for (QOCOInt i = 0; i < Wnnzfull; ++i) {
     solver->work->Wfull[i] = 0.0;
   }
   solver->work->Wnnzfull = Wnnzfull;
@@ -385,9 +382,21 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   initialize_ipm(solver);
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
-    // Compute kkt residual.
-    compute_kkt_residual(solver);
+    // Compute kkt residual (TODO: Why is this line needed?).
+    for (QOCOInt i = 0; i < solver->work->Wnnzfull; ++i) {
+      solver->work->Wfull[i] = 0.0;
+    }
 
+    compute_kkt_residual(
+        solver->work->data, solver->work->x, solver->work->y, solver->work->s,
+        solver->work->z, solver->work->kkt->kktres,
+        solver->settings->kkt_static_reg, solver->work->kkt->xyzbuff1,
+        solver->work->xbuff, solver->work->ubuff1, solver->work->ubuff2);
+
+    // Compute objective function.
+    solver->sol->obj = compute_objective(
+        solver->work->data, solver->work->x, solver->work->xbuff,
+        solver->settings->kkt_static_reg, solver->work->kkt->k);
     // Compute mu.
     compute_mu(solver->work);
 
@@ -406,7 +415,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     compute_nt_scaling(solver->work);
 
     // Update Nestrov-Todd block of KKT matrix.
-    update_nt_block(solver);
+    // update_nt_block(solver);
     solver->linsys->linsys_update_nt(solver->linsys_data, solver->work->WtW,
                                      solver->settings->kkt_static_reg,
                                      solver->work->data->m);
