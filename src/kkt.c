@@ -207,13 +207,6 @@ void initialize_ipm(QOCOSolver* solver)
   bring2cone(solver->work->z, solver->work->data);
 }
 
-void set_nt_block_zeros(QOCOWorkspace* work)
-{
-  for (QOCOInt i = 0; i < work->Wnnz; ++i) {
-    work->kkt->K->x[work->kkt->nt2kkt[i]] = 0.0;
-  }
-}
-
 void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
                           QOCOFloat* s, QOCOFloat* z, QOCOFloat* kktres,
                           QOCOFloat static_reg, QOCOFloat* xyzbuff,
@@ -398,9 +391,10 @@ void predictor_corrector(QOCOSolver* solver)
   // Update iterates.
   QOCOFloat* Dx = work->kkt->xyz;
   QOCOFloat* Dy = &work->kkt->xyz[work->data->n];
+  QOCOFloat* Ds = work->Ds;
 
   qoco_axpy(Dx, work->x, work->x, a, work->data->n);
-  qoco_axpy(work->Ds, work->s, work->s, a, work->data->m);
+  qoco_axpy(Ds, work->s, work->s, a, work->data->m);
   qoco_axpy(Dy, work->y, work->y, a, work->data->p);
   qoco_axpy(Dz, work->z, work->z, a, work->data->m);
 }
@@ -424,7 +418,7 @@ void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
     SpMv(data->G, x, &y[data->n + data->p]);
   }
 
-  // If Wfull is provided, then compute necessary matvecs. It would not be
+  // If Wfull is provided, then compute necessary matvecs. Wfull is not
   // provided when computing the KKT residual.
   if (Wfull) {
     nt_multiply(Wfull, &x[data->n + data->p], mbuff1, data->l, data->m,

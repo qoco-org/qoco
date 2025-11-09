@@ -66,14 +66,6 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
 void initialize_ipm(QOCOSolver* solver);
 
 /**
- * @brief Set the Nesterov-Todd block to be zeros. Used prior to
- * compute_kkt_residual().
- *
- * @param work Pointer to workspace.
- */
-void set_nt_block_zeros(QOCOWorkspace* work);
-
-/**
  * @brief Computes residual of KKT conditions.
  *
  * clang-format off
