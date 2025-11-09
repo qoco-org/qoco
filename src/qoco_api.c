@@ -383,7 +383,16 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
     // Compute kkt residual.
-    compute_kkt_residual(solver);
+    compute_kkt_residual(
+        solver->work->data, solver->work->x, solver->work->y, solver->work->s,
+        solver->work->z, solver->work->kkt->kktres,
+        solver->settings->kkt_static_reg, solver->work->kkt->xyzbuff1,
+        solver->work->xbuff, solver->work->ubuff1, solver->work->ubuff2);
+
+    // Compute objective function.
+    solver->sol->obj = compute_objective(
+        solver->work->data, solver->work->x, solver->work->xbuff,
+        solver->settings->kkt_static_reg, solver->work->kkt->k);
 
     // Compute mu.
     compute_mu(solver->work);
@@ -403,7 +412,6 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     compute_nt_scaling(solver->work);
 
     // Update Nestrov-Todd block of KKT matrix.
-    update_nt_block(solver);
     solver->linsys->linsys_update_nt(solver->linsys_data, solver->work->WtW,
                                      solver->settings->kkt_static_reg,
                                      solver->work->data->m);

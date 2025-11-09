@@ -214,67 +214,49 @@ void set_nt_block_zeros(QOCOWorkspace* work)
   }
 }
 
-void update_nt_block(QOCOSolver* solver)
+void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
+                          QOCOFloat* s, QOCOFloat* z, QOCOFloat* kktres,
+                          QOCOFloat static_reg, QOCOFloat* xyzbuff,
+                          QOCOFloat* nbuff, QOCOFloat* mbuff1,
+                          QOCOFloat* mbuff2)
 {
-  for (QOCOInt i = 0; i < solver->work->Wnnz; ++i) {
-    solver->work->kkt->K->x[solver->work->kkt->nt2kkt[i]] =
-        -solver->work->WtW[i];
-  }
-
-  // Regularize Nesterov-Todd block of KKT matrix.
-  for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
-    solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] -=
-        solver->settings->kkt_static_reg;
-  }
-}
-
-void compute_kkt_residual(QOCOSolver* solver)
-{
-  QOCOWorkspace* work = solver->work;
-
   // Set xyzbuff to [x;y;z]
-  copy_arrayf(work->x, work->kkt->xyzbuff1, work->data->n);
-  copy_arrayf(work->y, &work->kkt->xyzbuff1[work->data->n], work->data->p);
-  copy_arrayf(work->z, &work->kkt->xyzbuff1[work->data->n + work->data->p],
-              work->data->m);
+  copy_arrayf(x, xyzbuff, data->n);
+  copy_arrayf(y, &xyzbuff[data->n], data->p);
+  copy_arrayf(z, &xyzbuff[data->n + data->p], data->m);
 
   // Compute K*[x;y;z] with a zero'd out NT block.
-  kkt_multiply(work->kkt->xyzbuff1, work->kkt->kktres, work->data, NULL,
-               work->xbuff, work->ubuff1, work->ubuff2);
+  kkt_multiply(xyzbuff, kktres, data, NULL, nbuff, mbuff1, mbuff1);
 
   // rhs += [c;-b;-h+s]
   // Add c and account for regularization of P.
-  qoco_axpy(work->data->c, work->kkt->kktres, work->kkt->kktres, 1.0,
-            work->data->n);
-  qoco_axpy(work->x, work->kkt->kktres, work->kkt->kktres,
-            -solver->settings->kkt_static_reg, work->data->n);
+  qoco_axpy(data->c, kktres, kktres, 1.0, data->n);
+  qoco_axpy(x, kktres, kktres, -static_reg, data->n);
 
   // Add -b.
-  qoco_axpy(work->data->b, &work->kkt->kktres[work->data->n],
-            &work->kkt->kktres[work->data->n], -1.0, work->data->p);
+  qoco_axpy(data->b, &kktres[data->n], &kktres[data->n], -1.0, data->p);
 
   // Add -h + s.
-  qoco_axpy(work->data->h, &work->kkt->kktres[work->data->n + work->data->p],
-            &work->kkt->kktres[work->data->n + work->data->p], -1.0,
-            work->data->m);
-  qoco_axpy(work->s, &work->kkt->kktres[work->data->n + work->data->p],
-            &work->kkt->kktres[work->data->n + work->data->p], 1.0,
-            work->data->m);
+  qoco_axpy(data->h, &kktres[data->n + data->p], &kktres[data->n + data->p],
+            -1.0, data->m);
+  qoco_axpy(s, &kktres[data->n + data->p], &kktres[data->n + data->p], 1.0,
+            data->m);
+}
 
-  // Compute objective.
-  QOCOFloat obj = qoco_dot(work->x, work->data->c, work->data->n);
-  USpMv(work->data->P, work->x, work->xbuff);
+QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
+                            QOCOFloat* nbuff, QOCOFloat static_reg, QOCOFloat k)
+{
+  QOCOFloat obj = qoco_dot(x, data->c, data->n);
+  USpMv(data->P, x, nbuff);
 
   // Correct for regularization in P.
   QOCOFloat regularization_correction = 0.0;
-  for (QOCOInt i = 0; i < work->data->n; ++i) {
-    regularization_correction +=
-        solver->settings->kkt_static_reg * work->x[i] * work->x[i];
+  for (QOCOInt i = 0; i < data->n; ++i) {
+    regularization_correction += static_reg * x[i] * x[i];
   }
-  obj += 0.5 * (qoco_dot(work->xbuff, work->x, work->data->n) -
-                regularization_correction);
-  obj = safe_div(obj, work->kkt->k);
-  solver->sol->obj = obj;
+  obj += 0.5 * (qoco_dot(nbuff, x, data->n) - regularization_correction);
+  obj = safe_div(obj, k);
+  return obj;
 }
 
 void construct_kkt_aff_rhs(QOCOWorkspace* work)

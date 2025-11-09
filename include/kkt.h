@@ -74,18 +74,7 @@ void initialize_ipm(QOCOSolver* solver);
 void set_nt_block_zeros(QOCOWorkspace* work);
 
 /**
- * @brief Updates and regularizes Nesterov-Todd scaling block of KKT matrix.
- *
- *     [ P   A^T       G^T      ]
- * K = | A    0         0       |
- *     [ G    0   -W'W - e * I  ]
- *
- * @param solver Pointer to solver.
- */
-void update_nt_block(QOCOSolver* solver);
-
-/**
- * @brief Computes residual of KKT conditions and stores in work->kkt->rhs.
+ * @brief Computes residual of KKT conditions.
  *
  * clang-format off
  *
@@ -95,9 +84,37 @@ void update_nt_block(QOCOSolver* solver);
  *
  * clang-format on
  *
- * @param solver Pointer to solver.
+ * @param data Pointer to problem data
+ * @param x Primal iterate.
+ * @param y Dual iterate.
+ * @param s Slack iterate.
+ * @param z Dual iterate.
+ * @param kktres Computed residual is stored here.
+ * @param static_reg Static regularization parameter.
+ * @param xyzbuff Buffer of length n+p+m.
+ * @param nbuff Buffer of length n.
+ * @param mbuff1 Buffer of length m.
+ * @param mbuff2 Buffer of length m.
  */
-void compute_kkt_residual(QOCOSolver* solver);
+void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
+                          QOCOFloat* s, QOCOFloat* z, QOCOFloat* kktres,
+                          QOCOFloat static_reg, QOCOFloat* xyzbuff,
+                          QOCOFloat* nbuff, QOCOFloat* mbuff1,
+                          QOCOFloat* mbuff2);
+/**
+ * @brief Computes the objective
+ * obj = (1/2)*x'*P*x + c'*x
+ *
+ * @param data Pointer to problem data.
+ * @param x Primal solution at current iterate.
+ * @param nbuff Buffer of length n.
+ * @param static_reg Static regularization value;
+ * @param k Objective scaling from ruiz equilibration.
+ * @return Computed objective
+ */
+QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
+                            QOCOFloat* nbuff, QOCOFloat static_reg,
+                            QOCOFloat k);
 
 /**
  * @brief Constructs rhs for the affine scaling KKT system.
