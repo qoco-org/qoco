@@ -252,10 +252,10 @@ void compute_kkt_residual(QOCOSolver* solver)
   QOCOWorkspace* work = solver->work;
 
   // // Zero out the NT scaling block.
-  // set_nt_block_zeros(work);
-  // for (QOCOInt i = 0; i < work->Wnnzfull; ++i) {
-  //   work->Wfull[i] = 0.0;
-  // }
+  set_nt_block_zeros(work);
+  for (QOCOInt i = 0; i < work->Wnnzfull; ++i) {
+    work->Wfull[i] = 0.0;
+  }
 
   // Set xyzbuff to [x;y;z]
   copy_arrayf(work->x, work->kkt->xyzbuff1, work->data->n);
