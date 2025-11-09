@@ -263,11 +263,11 @@ void compute_kkt_residual(QOCOSolver* solver)
   copy_arrayf(work->z, &work->kkt->xyzbuff1[work->data->n + work->data->p],
               work->data->m);
 
-  kkt_multiply(solver->work, work->kkt->xyzbuff1, work->kkt->kktres);
+  // Compute K*[x;y;z] with a zero'd out NT block.
+  kkt_multiply(work->kkt->xyzbuff1, work->kkt->kktres, work->data, NULL,
+               work->xbuff, work->ubuff1, work->ubuff2);
 
   // rhs += [c;-b;-h+s]
-  QOCOInt idx;
-
   // Add c and account for regularization of P.
   qoco_axpy(work->data->c, work->kkt->kktres, work->kkt->kktres, 1.0,
             work->data->n);
@@ -448,29 +448,31 @@ void predictor_corrector(QOCOSolver* solver)
   qoco_axpy(Dz, work->z, work->z, a, work->data->m);
 }
 
-void kkt_multiply(QOCOWorkspace* work, QOCOFloat* x, QOCOFloat* y)
+void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
+                  QOCOFloat* Wfull, QOCOFloat* nbuff, QOCOFloat* mbuff1,
+                  QOCOFloat* mbuff2)
 {
-  QOCOProblemData* data = work->data;
 
   // Compute y[1:n] = P * x[1:n] + A^T * x[n+1:n+p] + G^T * x[n+p+1:n+p+m].
   USpMv(data->P, x, y);
 
   if (data->p > 0) {
-    SpMtv(data->A, &x[data->n], work->xbuff);
-    qoco_axpy(y, work->xbuff, y, 1.0, data->n);
+    SpMtv(data->A, &x[data->n], nbuff);
+    qoco_axpy(y, nbuff, y, 1.0, data->n);
     SpMv(data->A, x, &y[data->n]);
   }
 
   if (data->m > 0) {
-    SpMtv(data->G, &x[data->n + data->p], work->xbuff);
-    qoco_axpy(y, work->xbuff, y, 1.0, data->n);
+    SpMtv(data->G, &x[data->n + data->p], nbuff);
+    qoco_axpy(y, nbuff, y, 1.0, data->n);
     SpMv(data->G, x, &y[data->n + data->p]);
   }
 
-  nt_multiply(work->Wfull, &x[data->n + data->p], work->ubuff1, data->l,
-              data->m, data->nsoc, data->q);
-  nt_multiply(work->Wfull, work->ubuff1, work->ubuff2, data->l, data->m,
-              data->nsoc, data->q);
-  qoco_axpy(work->ubuff2, &y[data->n + data->p], &y[data->n + data->p], -1.0,
-            data->m);
+  if (Wfull) {
+    nt_multiply(Wfull, &x[data->n + data->p], mbuff1, data->l, data->m,
+                data->nsoc, data->q);
+    nt_multiply(Wfull, mbuff1, mbuff2, data->l, data->m, data->nsoc, data->q);
+    qoco_axpy(mbuff2, &y[data->n + data->p], &y[data->n + data->p], -1.0,
+              data->m);
+  }
 }

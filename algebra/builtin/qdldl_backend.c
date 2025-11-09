@@ -183,8 +183,8 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
       x[linsys_data->p[k]] = linsys_data->xyzbuff1[k];
     }
 
-    kkt_multiply(work, x, linsys_data->xyzbuff2);
-
+    kkt_multiply(x, linsys_data->xyzbuff2, work->data, work->Wfull, work->xbuff,
+                 work->ubuff1, work->ubuff2);
     for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
       x[k] = linsys_data->xyzbuff2[linsys_data->p[k]];
     }
