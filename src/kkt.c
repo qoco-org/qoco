@@ -160,24 +160,19 @@ void initialize_ipm(QOCOSolver* solver)
   // TODO: Should we modify the KKT matrix in the kkt struct and in the
   // linsys_data struct?.
 
-  // Set Nesterov-Todd block in KKT matrix to -I.
-  // for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
-  //   solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] = -1.0;
-  // }
-
-  // // Set Nesterov-Todd block in Wfull to -I.
-  // for (QOCOInt i = 0; i < solver->work->data->l; ++i) {
-  //   solver->work->Wfull[i] = 1.0;
-  // }
-  // QOCOInt idx = solver->work->data->l;
-  // for (QOCOInt i = 0; i < solver->work->data->nsoc; ++i) {
-  //   for (QOCOInt k = 0; k < solver->work->data->q[i]; ++k) {
-  //     for (QOCOInt l = 0; l < solver->work->data->q[i]; ++l) {
-  //       solver->work->Wfull[idx + k * solver->work->data->q[i] + k] = 1.0;
-  //     }
-  //   }
-  //   idx += solver->work->data->q[i] * solver->work->data->q[i];
-  // }
+  // Set Nesterov-Todd block in Wfull to -I (need for kkt_multiply in iterative refinement).
+  for (QOCOInt i = 0; i < solver->work->data->l; ++i) {
+    solver->work->Wfull[i] = 1.0;
+  }
+  QOCOInt idx = solver->work->data->l;
+  for (QOCOInt i = 0; i < solver->work->data->nsoc; ++i) {
+    for (QOCOInt k = 0; k < solver->work->data->q[i]; ++k) {
+      for (QOCOInt l = 0; l < solver->work->data->q[i]; ++l) {
+        solver->work->Wfull[idx + k * solver->work->data->q[i] + k] = 1.0;
+      }
+    }
+    idx += solver->work->data->q[i] * solver->work->data->q[i];
+  }
 
   solver->linsys->linsys_initialize_nt(solver->linsys_data,
                                        solver->work->data->m);
@@ -251,7 +246,7 @@ void compute_kkt_residual(QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
 
-  // // Zero out the NT scaling block.
+  // Zero out the NT scaling block (need for kkt_multiply in iterative refinement).
   set_nt_block_zeros(work);
   for (QOCOInt i = 0; i < work->Wnnzfull; ++i) {
     work->Wfull[i] = 0.0;
