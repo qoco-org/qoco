@@ -131,10 +131,16 @@ void predictor_corrector(QOCOSolver* solver);
  * K = | A    0         0       |
  *     [ G    0   -W'W - e * I  ]
  *
- * @param work Pointer to workspace.
  * @param x Pointer to input vector.
  * @param y Pointer to output vector.
+ * @param data Pointer to problem data.
+ * @param Wfull Pointer to full NT scaling matrix W.
+ * @param nbuff Temporary buffer of length n.
+ * @param mbuff1 Temporary buffer of length m.
+ * @param mbuff2 Temporary buffer of length m.
  */
-void kkt_multiply(QOCOWorkspace* work, QOCOFloat* x, QOCOFloat* y);
+void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
+                  QOCOFloat* Wfull, QOCOFloat* nbuff, QOCOFloat* mbuff1,
+                  QOCOFloat* mbuff2);
 
 #endif /* #ifndef QOCO_KKT_H */

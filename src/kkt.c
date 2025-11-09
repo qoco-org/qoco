@@ -161,24 +161,6 @@ void initialize_ipm(QOCOSolver* solver)
   // linsys_data struct?.
 
   // Set Nesterov-Todd block in KKT matrix to -I.
-  for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
-    solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] = -1.0;
-  }
-
-  // Set Nesterov-Todd block in Wfull to -I.
-  for (QOCOInt i = 0; i < solver->work->data->l; ++i) {
-    solver->work->Wfull[i] = 1.0;
-  }
-  QOCOInt idx = solver->work->data->l;
-  for (QOCOInt i = 0; i < solver->work->data->nsoc; ++i) {
-    for (QOCOInt k = 0; k < solver->work->data->q[i]; ++k) {
-      for (QOCOInt l = 0; l < solver->work->data->q[i]; ++l) {
-        solver->work->Wfull[idx + k * solver->work->data->q[i] + k] = 1.0;
-      }
-    }
-    idx += solver->work->data->q[i] * solver->work->data->q[i];
-  }
-
   solver->linsys->linsys_initialize_nt(solver->linsys_data,
                                        solver->work->data->m);
 
@@ -187,19 +169,12 @@ void initialize_ipm(QOCOSolver* solver)
   // stopping criteria check would be triggered.
   solver->work->a = 1.0;
 
-  // Construct rhs of KKT system.
-  idx = 0;
-  for (idx = 0; idx < solver->work->data->n; ++idx) {
-    solver->work->kkt->rhs[idx] = -solver->work->data->c[idx];
-  }
-  for (QOCOInt i = 0; i < solver->work->data->p; ++i) {
-    solver->work->kkt->rhs[idx] = solver->work->data->b[i];
-    idx += 1;
-  }
-  for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
-    solver->work->kkt->rhs[idx] = solver->work->data->h[i];
-    idx += 1;
-  }
+  // Construct rhs of KKT system = [-c;b;h].
+  QOCOProblemData* data = solver->work->data;
+  QOCOKKT* kkt = solver->work->kkt;
+  copy_and_negate_arrayf(data->c, kkt->rhs, data->n);
+  copy_arrayf(data->b, &kkt->rhs[data->n], data->p);
+  copy_arrayf(data->h, &kkt->rhs[data->n + data->p], data->m);
 
   // Factor KKT matrix.
   solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
@@ -257,41 +232,34 @@ void compute_kkt_residual(QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
 
-  // Zero out the NT scaling block.
-  set_nt_block_zeros(work);
-  for (QOCOInt i = 0; i < work->Wnnzfull; ++i) {
-    work->Wfull[i] = 0.0;
-  }
-
   // Set xyzbuff to [x;y;z]
   copy_arrayf(work->x, work->kkt->xyzbuff1, work->data->n);
   copy_arrayf(work->y, &work->kkt->xyzbuff1[work->data->n], work->data->p);
   copy_arrayf(work->z, &work->kkt->xyzbuff1[work->data->n + work->data->p],
               work->data->m);
 
-  kkt_multiply(solver->work, work->kkt->xyzbuff1, work->kkt->kktres);
+  // Compute K*[x;y;z] with a zero'd out NT block.
+  kkt_multiply(work->kkt->xyzbuff1, work->kkt->kktres, work->data, NULL,
+               work->xbuff, work->ubuff1, work->ubuff2);
 
   // rhs += [c;-b;-h+s]
-  QOCOInt idx;
-
   // Add c and account for regularization of P.
-  for (idx = 0; idx < work->data->n; ++idx) {
-    work->kkt->kktres[idx] =
-        work->kkt->kktres[idx] +
-        (work->data->c[idx] - solver->settings->kkt_static_reg * work->x[idx]);
-  }
+  qoco_axpy(work->data->c, work->kkt->kktres, work->kkt->kktres, 1.0,
+            work->data->n);
+  qoco_axpy(work->x, work->kkt->kktres, work->kkt->kktres,
+            -solver->settings->kkt_static_reg, work->data->n);
 
   // Add -b.
-  for (QOCOInt i = 0; i < work->data->p; ++i) {
-    work->kkt->kktres[idx] = work->kkt->kktres[idx] - work->data->b[i];
-    idx += 1;
-  }
+  qoco_axpy(work->data->b, &work->kkt->kktres[work->data->n],
+            &work->kkt->kktres[work->data->n], -1.0, work->data->p);
 
   // Add -h + s.
-  for (QOCOInt i = 0; i < work->data->m; ++i) {
-    work->kkt->kktres[idx] += -work->data->h[i] + work->s[i];
-    idx += 1;
-  }
+  qoco_axpy(work->data->h, &work->kkt->kktres[work->data->n + work->data->p],
+            &work->kkt->kktres[work->data->n + work->data->p], -1.0,
+            work->data->m);
+  qoco_axpy(work->s, &work->kkt->kktres[work->data->n + work->data->p],
+            &work->kkt->kktres[work->data->n + work->data->p], 1.0,
+            work->data->m);
 
   // Compute objective.
   QOCOFloat obj = qoco_dot(work->x, work->data->c, work->data->n);
@@ -455,29 +423,32 @@ void predictor_corrector(QOCOSolver* solver)
   qoco_axpy(Dz, work->z, work->z, a, work->data->m);
 }
 
-void kkt_multiply(QOCOWorkspace* work, QOCOFloat* x, QOCOFloat* y)
+void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
+                  QOCOFloat* Wfull, QOCOFloat* nbuff, QOCOFloat* mbuff1,
+                  QOCOFloat* mbuff2)
 {
-  QOCOProblemData* data = work->data;
-
   // Compute y[1:n] = P * x[1:n] + A^T * x[n+1:n+p] + G^T * x[n+p+1:n+p+m].
   USpMv(data->P, x, y);
 
   if (data->p > 0) {
-    SpMtv(data->A, &x[data->n], work->xbuff);
-    qoco_axpy(y, work->xbuff, y, 1.0, data->n);
+    SpMtv(data->A, &x[data->n], nbuff);
+    qoco_axpy(y, nbuff, y, 1.0, data->n);
     SpMv(data->A, x, &y[data->n]);
   }
 
   if (data->m > 0) {
-    SpMtv(data->G, &x[data->n + data->p], work->xbuff);
-    qoco_axpy(y, work->xbuff, y, 1.0, data->n);
+    SpMtv(data->G, &x[data->n + data->p], nbuff);
+    qoco_axpy(y, nbuff, y, 1.0, data->n);
     SpMv(data->G, x, &y[data->n + data->p]);
   }
 
-  nt_multiply(work->Wfull, &x[data->n + data->p], work->ubuff1, data->l,
-              data->m, data->nsoc, data->q);
-  nt_multiply(work->Wfull, work->ubuff1, work->ubuff2, data->l, data->m,
-              data->nsoc, data->q);
-  qoco_axpy(work->ubuff2, &y[data->n + data->p], &y[data->n + data->p], -1.0,
-            data->m);
+  // If Wfull is provided, then compute necessary matvecs. It would not be
+  // provided when computing the KKT residual.
+  if (Wfull) {
+    nt_multiply(Wfull, &x[data->n + data->p], mbuff1, data->l, data->m,
+                data->nsoc, data->q);
+    nt_multiply(Wfull, mbuff1, mbuff2, data->l, data->m, data->nsoc, data->q);
+    qoco_axpy(mbuff2, &y[data->n + data->p], &y[data->n + data->p], -1.0,
+              data->m);
+  }
 }
