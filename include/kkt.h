@@ -21,6 +21,12 @@
 #include "qoco_linalg.h"
 #include "structs.h"
 
+QOCOCscMatrix* create_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A, QOCOCscMatrix* G,
+                          QOCOCscMatrix* At, QOCOCscMatrix* Gt, QOCOFloat static_reg, QOCOInt n,
+                          QOCOInt m, QOCOInt p, QOCOInt l, QOCOInt nsoc,
+                          QOCOInt* q, QOCOInt* PregtoKKT, QOCOInt* AttoKKT,
+                          QOCOInt* GttoKKT, QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt);
+
 /**
  * @brief Allocate memory for KKT matrix.
  *

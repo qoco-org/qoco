@@ -18,13 +18,21 @@
 #include "qoco_linalg.h"
 
 /**
+ * @brief Frees all the internal arrays and the pointer to the QOCOCscMatrix.
+ * Should only be used if QOCOCscMatrix and all internal arrays were malloc'ed.
+ *
+ * @param A Pointer to QOCOCscMatrix.
+ */
+void free_qoco_csc_matrix(QOCOCscMatrix* A);
+
+/**
  * @brief Allocates a new csc matrix that is lambda * I.
  *
  * @param n Size of identity matrix.
  * @param lambda Scaling factor for identity.
  * @return Pointer to new constructed matrix.
  */
-QOCOCscMatrix* construct_identity(QOCOInt n, QOCOFloat lambda);
+QOCOCscMatrix* construct_identity_csc(QOCOInt n, QOCOFloat lambda);
 
 /**
  * @brief Counts the number of diagonal elements in upper triangular CSC matrix
@@ -46,7 +54,7 @@ QOCOInt count_diag(QOCOCscMatrix* M);
  * @param nzadded_idx Indices of elements of M->x that are added.
  * @return P + reg * I.
  */
-QOCOCscMatrix* regularize_P(QOCOInt num_diagP, QOCOCscMatrix* P, QOCOFloat reg,
+QOCOCscMatrix* regularize_P_csc(QOCOInt num_diagP, QOCOCscMatrix* P, QOCOFloat reg,
                             QOCOInt* nzadded_idx);
 
 /**
@@ -57,7 +65,7 @@ QOCOCscMatrix* regularize_P(QOCOInt num_diagP, QOCOCscMatrix* P, QOCOFloat reg,
  * @param M Matrix.
  * @param lambda Regularization.
  */
-void unregularize(QOCOCscMatrix* M, QOCOFloat lambda);
+void unregularize_csc(QOCOCscMatrix* M, QOCOFloat lambda);
 
 /**
  * @brief Computes the infinity norm of each column (or equivalently row) of a
@@ -83,17 +91,44 @@ void row_inf_norm(const QOCOCscMatrix* M, QOCOFloat* norm);
  * @param A Input matrix.
  * @param AtoAt Mapping from A to At.
  */
-QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A, QOCOInt* AtoAt);
+QOCOCscMatrix* create_transposed_csc_matrix(const QOCOCscMatrix* A, QOCOInt* AtoAt);
 
 /**
  * @brief Scales the rows of M by E and columns of M by D.
  * M = diag(E) * M * diag(S)
  *
- * @param M An m by n sparse matrix.
+ * @param M An m by n QOCOCscMatrix matrix.
  * @param E Vector of length m.
  * @param D Vector of length m.
  */
-void row_col_scale(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D);
+void row_col_scale_csc(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D);
+
+/**
+ * @brief Copies array of QOCOFloats from x to array y.
+ *
+ * @param x Source array.
+ * @param y Destination array.
+ * @param n Length of arrays.
+ */
+void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n);
+
+/**
+ * @brief Copies and negates array of QOCOFloats from x to array y.
+ *
+ * @param x Source array.
+ * @param y Destination array.
+ * @param n Length of arrays.
+ */
+void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n);
+
+/**
+ * @brief Copies array of QOCOInts from x to array y.
+ *
+ * @param x Source array.
+ * @param y Destination array.
+ * @param n Length of arrays.
+ */
+void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n);
 
 /**
  * @brief Computes elementwise product z = x .* y
@@ -103,7 +138,27 @@ void row_col_scale(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D);
  * @param z Output array.
  * @param n Length of arrays.
  */
-void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n);
+void ew_product_arrayf(QOCOFloat* x, QOCOFloat* y, QOCOFloat* z, QOCOInt n);
+
+/**
+ * @brief Computes maximum element of array of QOCOInts.
+ *
+ * @param x Input array.
+ * @param n Length of array.
+ * @return Maximum element of x.
+ */
+QOCOInt max_arrayi(const QOCOInt* x, QOCOInt n);
+
+/**
+ * @brief Scales array x by s and stores result in y.
+ * y = s * x
+ *
+ * @param x Input array.
+ * @param y Output array.
+ * @param s Scaling factor.
+ * @param n Length of arrays.
+ */
+void scale_arrayf(QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n);
 
 /**
  * @brief Inverts permutation vector p and stores inverse in pinv.
