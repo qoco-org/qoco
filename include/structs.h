@@ -119,8 +119,6 @@ typedef struct {
  *
  */
 typedef struct {
-  /** KKT matrix in CSC form. */
-  QOCOCscMatrix* K;
 
   /** Diagonal of scaling matrix. */
   QOCOFloat* delta;
@@ -320,7 +318,8 @@ typedef struct {
 typedef struct LinSysData LinSysData;
 
 typedef struct {
-  LinSysData* (*linsys_setup)(QOCOKKT* KKT, QOCOProblemData* data);
+  LinSysData* (*linsys_setup)(QOCOKKT* KKT, QOCOCscMatrix* K,
+                              QOCOProblemData* data);
   void (*linsys_initialize_nt)(LinSysData* linsys_data, QOCOInt m);
   void (*linsys_update_nt)(LinSysData* linsys_data, QOCOFloat* WtW,
                            QOCOFloat kkt_static_reg, QOCOInt m);

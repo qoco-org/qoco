@@ -135,7 +135,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->kkt->xyz = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  solver->work->kkt->K =
+  QOCOCscMatrix* K =
       construct_kkt(data->P, data->A, data->G, data->At, data->Gt,
                     solver->settings->kkt_static_reg, n, m, p, l, nsoc, q,
                     solver->work->kkt->PregtoKKT, solver->work->kkt->AttoKKT,
@@ -146,7 +146,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   // Set up linear system data.
   solver->linsys_data =
-      solver->linsys->linsys_setup(solver->work->kkt, solver->work->data);
+      solver->linsys->linsys_setup(solver->work->kkt, K, solver->work->data);
   if (!solver->linsys_data) {
     return QOCO_SETUP_ERROR;
   }
@@ -344,25 +344,6 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   unregularize(data->P, -solver->settings->kkt_static_reg);
 
   solver->linsys->linsys_update_data(solver->linsys_data, solver->work->data);
-
-  // Update P in KKT matrix.
-  for (QOCOInt i = 0; i < data->P->nnz; ++i) {
-    solver->work->kkt->K->x[solver->work->kkt->PregtoKKT[i]] = data->P->x[i];
-  }
-
-  // Update A in KKT matrix.
-  for (QOCOInt i = 0; i < data->A->nnz; ++i) {
-    solver->work->kkt->K
-        ->x[solver->work->kkt->AttoKKT[solver->work->data->AtoAt[i]]] =
-        data->A->x[i];
-  }
-
-  // Update G in KKT matrix.
-  for (QOCOInt i = 0; i < data->G->nnz; ++i) {
-    solver->work->kkt->K
-        ->x[solver->work->kkt->GttoKKT[solver->work->data->GtoGt[i]]] =
-        data->G->x[i];
-  }
 }
 
 QOCOInt qoco_solve(QOCOSolver* solver)
@@ -490,7 +471,6 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->Ds);
 
   // Free KKT struct.
-  free_qoco_csc_matrix(solver->work->kkt->K);
   qoco_free(solver->work->kkt->delta);
   qoco_free(solver->work->kkt->Druiz);
   qoco_free(solver->work->kkt->Eruiz);

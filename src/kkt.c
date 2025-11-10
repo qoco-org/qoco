@@ -380,7 +380,7 @@ void predictor_corrector(QOCOSolver* solver)
                                solver->settings->iter_ref_iters);
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
-  for (QOCOInt i = 0; i < work->kkt->K->n; ++i) {
+  for (QOCOInt i = 0; i < work->data->n + work->data->p + work->data->m; ++i) {
     if (isnan(work->kkt->xyz[i])) {
       work->a = 0.0;
       return;

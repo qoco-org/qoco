@@ -69,10 +69,11 @@ struct LinSysData {
   QOCOInt Wnnz;
 };
 
-static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOProblemData* data)
+static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOCscMatrix* K,
+                               QOCOProblemData* data)
 {
   // Number of columns of KKT matrix.
-  QOCOInt Kn = kkt->K->n;
+  QOCOInt Kn = K->n;
 
   LinSysData* linsys_data = malloc(sizeof(LinSysData));
 
@@ -92,7 +93,8 @@ static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOProblemData* data)
   linsys_data->fwork = qoco_malloc(sizeof(QOCOFloat) * Kn);
 
   // Compute AMD ordering.
-  linsys_data->K = new_qoco_csc_matrix(kkt->K);
+  linsys_data->K = new_qoco_csc_matrix(K);
+  free_qoco_csc_matrix(K);
   linsys_data->p = qoco_malloc(linsys_data->K->n * sizeof(QOCOInt));
   linsys_data->pinv = qoco_malloc(linsys_data->K->n * sizeof(QOCOInt));
   QOCOInt amd_status =
