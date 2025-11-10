@@ -162,6 +162,9 @@ void initialize_ipm(QOCOSolver* solver)
 
   // Set Nesterov-Todd block in Wfull to -I (need for kkt_multiply in iterative
   // refinement).
+  for (QOCOInt i = 0; i < solver->work->Wnnzfull; ++i) {
+    solver->work->Wfull[i] = 0.0;
+  }
   for (QOCOInt i = 0; i < solver->work->data->l; ++i) {
     solver->work->Wfull[i] = 1.0;
   }

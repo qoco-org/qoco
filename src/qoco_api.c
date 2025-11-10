@@ -385,20 +385,16 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   initialize_ipm(solver);
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
-    // Compute kkt residual (TODO: Why is this loop needed?).
-    for (QOCOInt i = 0; i < work->Wnnzfull; ++i) {
-      work->Wfull[i] = 0.0;
-    }
-    compute_kkt_residual(
-        data, work->x, work->y, work->s,
-        work->z, work->kkt->kktres,
-        solver->settings->kkt_static_reg, work->kkt->xyzbuff1,
-        work->xbuff, work->ubuff1, work->ubuff2);
+    // Compute kkt residual.
+    compute_kkt_residual(data, work->x, work->y, work->s, work->z,
+                         work->kkt->kktres, solver->settings->kkt_static_reg,
+                         work->kkt->xyzbuff1, work->xbuff, work->ubuff1,
+                         work->ubuff2);
 
     // Compute objective function.
-    solver->sol->obj = compute_objective(
-        data, work->x, work->xbuff,
-        solver->settings->kkt_static_reg, work->kkt->k);
+    solver->sol->obj =
+        compute_objective(data, work->x, work->xbuff,
+                          solver->settings->kkt_static_reg, work->kkt->k);
 
     // Compute mu = s'*z / m.
     work->mu = (data->m > 0)
@@ -421,8 +417,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
 
     // Update Nestrov-Todd block of KKT matrix.
     solver->linsys->linsys_update_nt(solver->linsys_data, work->WtW,
-                                     solver->settings->kkt_static_reg,
-                                     data->m);
+                                     solver->settings->kkt_static_reg, data->m);
 
     // Perform predictor-corrector.
     predictor_corrector(solver);
