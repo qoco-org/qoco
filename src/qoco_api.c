@@ -415,7 +415,6 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     compute_nt_scaling(solver->work);
 
     // Update Nestrov-Todd block of KKT matrix.
-    // update_nt_block(solver);
     solver->linsys->linsys_update_nt(solver->linsys_data, solver->work->WtW,
                                      solver->settings->kkt_static_reg,
                                      solver->work->data->m);

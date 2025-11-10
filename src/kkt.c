@@ -222,27 +222,6 @@ void initialize_ipm(QOCOSolver* solver)
   bring2cone(solver->work->z, solver->work->data);
 }
 
-void set_nt_block_zeros(QOCOWorkspace* work)
-{
-  for (QOCOInt i = 0; i < work->Wnnz; ++i) {
-    work->kkt->K->x[work->kkt->nt2kkt[i]] = 0.0;
-  }
-}
-
-void update_nt_block(QOCOSolver* solver)
-{
-  for (QOCOInt i = 0; i < solver->work->Wnnz; ++i) {
-    solver->work->kkt->K->x[solver->work->kkt->nt2kkt[i]] =
-        -solver->work->WtW[i];
-  }
-
-  // Regularize Nesterov-Todd block of KKT matrix.
-  for (QOCOInt i = 0; i < solver->work->data->m; ++i) {
-    solver->work->kkt->K->x[solver->work->kkt->ntdiag2kkt[i]] -=
-        solver->settings->kkt_static_reg;
-  }
-}
-
 void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
                           QOCOFloat* s, QOCOFloat* z, QOCOFloat* kktres,
                           QOCOFloat static_reg, QOCOFloat* xyzbuff,
