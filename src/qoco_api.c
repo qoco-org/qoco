@@ -127,12 +127,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   solver->work->kkt->nt2kkt = qoco_calloc(solver->work->Wnnz, sizeof(QOCOInt));
   solver->work->kkt->ntdiag2kkt = qoco_calloc(m, sizeof(QOCOInt));
-  solver->work->kkt->PregtoKKT =
-      qoco_calloc(Preg_nnz, sizeof(QOCOInt));
-  solver->work->kkt->AttoKKT =
-      qoco_calloc(Annz, sizeof(QOCOInt));
-  solver->work->kkt->GttoKKT =
-      qoco_calloc(Gnnz, sizeof(QOCOInt));
+  solver->work->kkt->PregtoKKT = qoco_calloc(Preg_nnz, sizeof(QOCOInt));
+  solver->work->kkt->AttoKKT = qoco_calloc(Annz, sizeof(QOCOInt));
+  solver->work->kkt->GttoKKT = qoco_calloc(Gnnz, sizeof(QOCOInt));
   solver->work->kkt->rhs = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->kktres = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyz = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
@@ -169,7 +166,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   solver->work->W = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
   solver->work->Wfull = qoco_malloc(Wnnzfull * sizeof(QOCOFloat));
-  for (int i = 0; i < Wnnzfull; ++i) {
+  for (QOCOInt i = 0; i < Wnnzfull; ++i) {
     solver->work->Wfull[i] = 0.0;
   }
   solver->work->Wnnzfull = Wnnzfull;
@@ -370,7 +367,10 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
 
 QOCOInt qoco_solve(QOCOSolver* solver)
 {
-  start_timer(&(solver->work->solve_timer));
+  QOCOWorkspace* work = solver->work;
+  QOCOProblemData* data = solver->work->data;
+
+  start_timer(&(work->solve_timer));
 
   // Validate settings.
   if (qoco_validate_settings(solver->settings)) {
@@ -386,15 +386,25 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
     // Compute kkt residual.
-    compute_kkt_residual(solver);
+    compute_kkt_residual(data, work->x, work->y, work->s, work->z,
+                         work->kkt->kktres, solver->settings->kkt_static_reg,
+                         work->kkt->xyzbuff1, work->xbuff, work->ubuff1,
+                         work->ubuff2);
 
-    // Compute mu.
-    compute_mu(solver->work);
+    // Compute objective function.
+    solver->sol->obj =
+        compute_objective(data, work->x, work->xbuff,
+                          solver->settings->kkt_static_reg, work->kkt->k);
+
+    // Compute mu = s'*z / m.
+    work->mu = (data->m > 0)
+                   ? safe_div(qoco_dot(work->s, work->z, data->m), data->m)
+                   : 0;
 
     // Check stopping criteria.
     if (check_stopping(solver)) {
-      stop_timer(&(solver->work->solve_timer));
-      unscale_variables(solver->work);
+      stop_timer(&(work->solve_timer));
+      unscale_variables(work);
       copy_solution(solver);
       if (solver->settings->verbose) {
         print_footer(solver->sol, solver->sol->status);
@@ -403,13 +413,11 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     }
 
     // Compute Nesterov-Todd scalings.
-    compute_nt_scaling(solver->work);
+    compute_nt_scaling(work);
 
     // Update Nestrov-Todd block of KKT matrix.
-    update_nt_block(solver);
-    solver->linsys->linsys_update_nt(solver->linsys_data, solver->work->WtW,
-                                     solver->settings->kkt_static_reg,
-                                     solver->work->data->m);
+    solver->linsys->linsys_update_nt(solver->linsys_data, work->WtW,
+                                     solver->settings->kkt_static_reg, data->m);
 
     // Perform predictor-corrector.
     predictor_corrector(solver);
@@ -423,8 +431,8 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     }
   }
 
-  stop_timer(&(solver->work->solve_timer));
-  unscale_variables(solver->work);
+  stop_timer(&(work->solve_timer));
+  unscale_variables(work);
   copy_solution(solver);
   solver->sol->status = QOCO_MAX_ITER;
   if (solver->settings->verbose) {

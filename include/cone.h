@@ -128,13 +128,6 @@ void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
                  QOCOInt nsoc, QOCOInt* q);
 
 /**
- * @brief Computes gap (z'*s / m) and stores in work->mu.
- *
- * @param work Pointer to workspace.
- */
-void compute_mu(QOCOWorkspace* work);
-
-/**
  * @brief Compute Nesterov-Todd scalings and scaled variables.
  *
  * @param work Pointer to workspace.
