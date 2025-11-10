@@ -169,14 +169,6 @@ void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
   }
 }
 
-void compute_mu(QOCOWorkspace* work)
-{
-  work->mu =
-      (work->data->m > 0)
-          ? safe_div(qoco_dot(work->s, work->z, work->data->m), work->data->m)
-          : 0;
-}
-
 void compute_nt_scaling(QOCOWorkspace* work)
 {
   // Compute Nesterov-Todd scaling for LP cone.

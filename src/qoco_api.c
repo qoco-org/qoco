@@ -367,7 +367,10 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
 
 QOCOInt qoco_solve(QOCOSolver* solver)
 {
-  start_timer(&(solver->work->solve_timer));
+  QOCOWorkspace* work = solver->work;
+  QOCOProblemData* data = solver->work->data;
+
+  start_timer(&(work->solve_timer));
 
   // Validate settings.
   if (qoco_validate_settings(solver->settings)) {
@@ -382,28 +385,30 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   initialize_ipm(solver);
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
-    // Compute kkt residual (TODO: Why is this line needed?).
-    for (QOCOInt i = 0; i < solver->work->Wnnzfull; ++i) {
-      solver->work->Wfull[i] = 0.0;
+    // Compute kkt residual (TODO: Why is this loop needed?).
+    for (QOCOInt i = 0; i < work->Wnnzfull; ++i) {
+      work->Wfull[i] = 0.0;
     }
-
     compute_kkt_residual(
-        solver->work->data, solver->work->x, solver->work->y, solver->work->s,
-        solver->work->z, solver->work->kkt->kktres,
-        solver->settings->kkt_static_reg, solver->work->kkt->xyzbuff1,
-        solver->work->xbuff, solver->work->ubuff1, solver->work->ubuff2);
+        data, work->x, work->y, work->s,
+        work->z, work->kkt->kktres,
+        solver->settings->kkt_static_reg, work->kkt->xyzbuff1,
+        work->xbuff, work->ubuff1, work->ubuff2);
 
     // Compute objective function.
     solver->sol->obj = compute_objective(
-        solver->work->data, solver->work->x, solver->work->xbuff,
-        solver->settings->kkt_static_reg, solver->work->kkt->k);
-    // Compute mu.
-    compute_mu(solver->work);
+        data, work->x, work->xbuff,
+        solver->settings->kkt_static_reg, work->kkt->k);
+
+    // Compute mu = s'*z / m.
+    work->mu = (data->m > 0)
+                   ? safe_div(qoco_dot(work->s, work->z, data->m), data->m)
+                   : 0;
 
     // Check stopping criteria.
     if (check_stopping(solver)) {
-      stop_timer(&(solver->work->solve_timer));
-      unscale_variables(solver->work);
+      stop_timer(&(work->solve_timer));
+      unscale_variables(work);
       copy_solution(solver);
       if (solver->settings->verbose) {
         print_footer(solver->sol, solver->sol->status);
@@ -412,12 +417,12 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     }
 
     // Compute Nesterov-Todd scalings.
-    compute_nt_scaling(solver->work);
+    compute_nt_scaling(work);
 
     // Update Nestrov-Todd block of KKT matrix.
-    solver->linsys->linsys_update_nt(solver->linsys_data, solver->work->WtW,
+    solver->linsys->linsys_update_nt(solver->linsys_data, work->WtW,
                                      solver->settings->kkt_static_reg,
-                                     solver->work->data->m);
+                                     data->m);
 
     // Perform predictor-corrector.
     predictor_corrector(solver);
@@ -431,8 +436,8 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     }
   }
 
-  stop_timer(&(solver->work->solve_timer));
-  unscale_variables(solver->work);
+  stop_timer(&(work->solve_timer));
+  unscale_variables(work);
   copy_solution(solver);
   solver->sol->status = QOCO_MAX_ITER;
   if (solver->settings->verbose) {

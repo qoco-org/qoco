@@ -406,9 +406,10 @@ void predictor_corrector(QOCOSolver* solver)
   // Update iterates.
   QOCOFloat* Dx = work->kkt->xyz;
   QOCOFloat* Dy = &work->kkt->xyz[work->data->n];
+  QOCOFloat* Ds = work->Ds;
 
   qoco_axpy(Dx, work->x, work->x, a, work->data->n);
-  qoco_axpy(work->Ds, work->s, work->s, a, work->data->m);
+  qoco_axpy(Ds, work->s, work->s, a, work->data->m);
   qoco_axpy(Dy, work->y, work->y, a, work->data->p);
   qoco_axpy(Dz, work->z, work->z, a, work->data->m);
 }
