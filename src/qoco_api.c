@@ -356,10 +356,11 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
     for (QOCOInt i = 0; i < data->P->nnz - kkt->Pnum_nzadded; ++i) {
       if (i == avoid) {
         offset++;
-        avoid = offset > kkt->Pnum_nzadded ? kkt->Pnzadded_idx[offset]
-                                           : data->P->nnz + 1;
+        avoid = kkt->Pnzadded_idx[offset];
       }
-      data->P->x[i + offset] = Pxnew[i];
+      else {
+        data->P->x[i + offset] = Pxnew[i];
+      }
     }
   }
 
