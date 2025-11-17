@@ -36,43 +36,35 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   // Allocate workspace.
   solver->work = qoco_malloc(sizeof(QOCOWorkspace));
 
-  // Malloc error.
-  if (!(solver->work)) {
-    return QOCO_MALLOC_ERROR;
-  }
-
+  // Allocate problem data.
   solver->work->data = qoco_malloc(sizeof(QOCOProblemData));
   QOCOProblemData* data = solver->work->data;
-  // Malloc error
-  if (!(solver->work->data)) {
-    return QOCO_MALLOC_ERROR;
-  }
 
   // Copy problem data.
-  solver->work->data->m = m;
-  solver->work->data->n = n;
-  solver->work->data->p = p;
-  solver->work->data->A = new_qoco_csc_matrix(A);
-  solver->work->data->G = new_qoco_csc_matrix(G);
-  solver->work->data->c = qoco_malloc(n * sizeof(QOCOFloat));
-  solver->work->data->b = qoco_malloc(p * sizeof(QOCOFloat));
-  solver->work->data->h = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->data->q = qoco_malloc(nsoc * sizeof(QOCOInt));
+  data->m = m;
+  data->n = n;
+  data->p = p;
+  data->A = new_qoco_csc_matrix(A);
+  data->G = new_qoco_csc_matrix(G);
+  data->c = qoco_malloc(n * sizeof(QOCOFloat));
+  data->b = qoco_malloc(p * sizeof(QOCOFloat));
+  data->h = qoco_malloc(m * sizeof(QOCOFloat));
+  data->q = qoco_malloc(nsoc * sizeof(QOCOInt));
 
-  copy_arrayf(c, solver->work->data->c, n);
-  copy_arrayf(b, solver->work->data->b, p);
-  copy_arrayf(h, solver->work->data->h, m);
-  copy_arrayi(q, solver->work->data->q, nsoc);
+  copy_arrayf(c, data->c, n);
+  copy_arrayf(b, data->b, p);
+  copy_arrayf(h, data->h, m);
+  copy_arrayi(q, data->q, nsoc);
 
-  solver->work->data->l = l;
-  solver->work->data->nsoc = nsoc;
+  data->l = l;
+  data->nsoc = nsoc;
 
   // Copy P.
   if (P) {
-    solver->work->data->P = new_qoco_csc_matrix(P);
+    data->P = new_qoco_csc_matrix(P);
   }
   else {
-    solver->work->data->P = NULL;
+    data->P = NULL;
   }
 
   // Equilibrate data.
@@ -90,28 +82,22 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->data->AtoAt = qoco_malloc(Annz * sizeof(QOCOInt));
   solver->work->data->GtoGt = qoco_malloc(Gnnz * sizeof(QOCOInt));
 
-  solver->work->data->At = create_transposed_matrix(solver->work->data->A,
-                                                    solver->work->data->AtoAt);
-  solver->work->data->Gt = create_transposed_matrix(solver->work->data->G,
-                                                    solver->work->data->GtoGt);
+  solver->work->data->At = create_transposed_matrix(data->A, data->AtoAt);
+  solver->work->data->Gt = create_transposed_matrix(data->G, data->GtoGt);
   ruiz_equilibration(solver);
 
   // Regularize P.
-  QOCOInt Preg_nnz = 0;
   solver->work->kkt->Pnzadded_idx = qoco_calloc(n, sizeof(QOCOInt));
   if (P) {
     QOCOInt num_diagP = count_diag(P);
     solver->work->kkt->Pnum_nzadded = n - num_diagP;
-    Preg_nnz = P->nnz + (n - num_diagP);
-    QOCOCscMatrix* Preg = regularize_P(num_diagP, solver->work->data->P,
-                                       solver->settings->kkt_static_reg,
-                                       solver->work->kkt->Pnzadded_idx);
-    solver->work->data->P = Preg;
+    QOCOCscMatrix* Preg =
+        regularize_P(num_diagP, data->P, solver->settings->kkt_static_reg,
+                     solver->work->kkt->Pnzadded_idx);
+    data->P = Preg;
   }
   else {
-    Preg_nnz = n;
-    solver->work->data->P =
-        construct_identity(n, solver->settings->kkt_static_reg);
+    data->P = construct_identity(n, solver->settings->kkt_static_reg);
     solver->work->kkt->Pnum_nzadded = n;
   }
 
@@ -123,30 +109,17 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   Wsoc_nnz /= 2;
   QOCOInt Wnnz = m + Wsoc_nnz;
   solver->work->Wnnz = Wnnz;
-  solver->work->kkt->Wnnz = Wnnz;
 
-  solver->work->kkt->nt2kkt = qoco_calloc(solver->work->Wnnz, sizeof(QOCOInt));
-  solver->work->kkt->ntdiag2kkt = qoco_calloc(m, sizeof(QOCOInt));
-  solver->work->kkt->PregtoKKT = qoco_calloc(Preg_nnz, sizeof(QOCOInt));
-  solver->work->kkt->AttoKKT = qoco_calloc(Annz, sizeof(QOCOInt));
-  solver->work->kkt->GttoKKT = qoco_calloc(Gnnz, sizeof(QOCOInt));
   solver->work->kkt->rhs = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->kktres = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyz = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->kkt->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  QOCOCscMatrix* K =
-      construct_kkt(data->P, data->A, data->G, data->At, data->Gt,
-                    solver->settings->kkt_static_reg, n, m, p, l, nsoc, q,
-                    solver->work->kkt->PregtoKKT, solver->work->kkt->AttoKKT,
-                    solver->work->kkt->GttoKKT, solver->work->kkt->nt2kkt,
-                    solver->work->kkt->ntdiag2kkt, solver->work->Wnnz);
-
   solver->linsys = &backend;
 
   // Set up linear system data.
   solver->linsys_data =
-      solver->linsys->linsys_setup(solver->work->kkt, K, solver->work->data);
+      solver->linsys->linsys_setup(data, solver->settings, Wnnz);
   if (!solver->linsys_data) {
     return QOCO_SETUP_ERROR;
   }
@@ -159,9 +132,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->mu = 0.0;
 
   // Allocate Nesterov-Todd scalings and scaled variables.
-  QOCOInt Wnnzfull = solver->work->data->l;
-  for (QOCOInt i = 0; i < solver->work->data->nsoc; ++i) {
-    Wnnzfull += solver->work->data->q[i] * solver->work->data->q[i];
+  QOCOInt Wnnzfull = data->l;
+  for (QOCOInt i = 0; i < data->nsoc; ++i) {
+    Wnnzfull += data->q[i] * data->q[i];
   }
 
   solver->work->W = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
@@ -478,12 +451,12 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->kkt->Dinvruiz);
   qoco_free(solver->work->kkt->Einvruiz);
   qoco_free(solver->work->kkt->Finvruiz);
-  qoco_free(solver->work->kkt->nt2kkt);
-  qoco_free(solver->work->kkt->ntdiag2kkt);
+  // qoco_free(solver->work->kkt->nt2kkt);
+  // qoco_free(solver->work->kkt->ntdiag2kkt);
   qoco_free(solver->work->kkt->Pnzadded_idx);
-  qoco_free(solver->work->kkt->PregtoKKT);
-  qoco_free(solver->work->kkt->AttoKKT);
-  qoco_free(solver->work->kkt->GttoKKT);
+  // qoco_free(solver->work->kkt->PregtoKKT);
+  // qoco_free(solver->work->kkt->AttoKKT);
+  // qoco_free(solver->work->kkt->GttoKKT);
   qoco_free(solver->work->kkt);
 
   // Free solution struct.

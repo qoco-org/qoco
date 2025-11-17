@@ -162,30 +162,11 @@ typedef struct {
   /** Residual of KKT condition. */
   QOCOFloat* kktres;
 
-  QOCOInt Wnnz;
-
-  /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
-   * the KKT matrix. */
-  QOCOInt* nt2kkt;
-
-  /** Mapping from elements on the main diagonal of the Nesterov-Todd scaling
-   * matrices to elements in the KKT matrix. Used for regularization.*/
-  QOCOInt* ntdiag2kkt;
-
-  /** Mapping from elements in regularized P to elements in the KKT matrix. */
-  QOCOInt* PregtoKKT;
-
   /** Indices of P->x that were added due to regularization. */
   QOCOInt* Pnzadded_idx;
 
   /** Number of elements of P->x that were added due to regularization. */
   QOCOInt Pnum_nzadded;
-
-  /** Mapping from elements in At to elements in the KKT matrix. */
-  QOCOInt* AttoKKT;
-
-  /** Mapping from elements in Gt to elements in the KKT matrix. */
-  QOCOInt* GttoKKT;
 
 } QOCOKKT;
 
@@ -318,8 +299,8 @@ typedef struct {
 typedef struct LinSysData LinSysData;
 
 typedef struct {
-  LinSysData* (*linsys_setup)(QOCOKKT* KKT, QOCOCscMatrix* K,
-                              QOCOProblemData* data);
+  LinSysData* (*linsys_setup)(QOCOProblemData* data, QOCOSettings* settings,
+                              QOCOInt Wnnz);
   void (*linsys_initialize_nt)(LinSysData* linsys_data, QOCOInt m);
   void (*linsys_update_nt)(LinSysData* linsys_data, QOCOFloat* WtW,
                            QOCOFloat kkt_static_reg, QOCOInt m);

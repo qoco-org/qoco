@@ -69,18 +69,18 @@ struct LinSysData {
   QOCOInt Wnnz;
 };
 
-static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOCscMatrix* K,
-                               QOCOProblemData* data)
+static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
+                               QOCOInt Wnnz)
 {
   // Number of columns of KKT matrix.
-  QOCOInt Kn = K->n;
+  QOCOInt Kn = data->n + data->m + data->p;
 
   LinSysData* linsys_data = malloc(sizeof(LinSysData));
 
   // Allocate vector buffers.
   linsys_data->xyzbuff1 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->xyzbuff2 = qoco_malloc(sizeof(QOCOFloat) * Kn);
-  linsys_data->Wnnz = kkt->Wnnz;
+  linsys_data->Wnnz = Wnnz;
 
   // Allocate memory for QDLDL.
   linsys_data->etree = qoco_malloc(sizeof(QOCOInt) * Kn);
@@ -92,9 +92,25 @@ static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOCscMatrix* K,
   linsys_data->bwork = qoco_malloc(sizeof(unsigned char) * Kn);
   linsys_data->fwork = qoco_malloc(sizeof(QOCOFloat) * Kn);
 
+  // Allocate memory for mappings to KKT matrix.
+  linsys_data->nt2kkt = qoco_calloc(Wnnz, sizeof(QOCOInt));
+  linsys_data->ntdiag2kkt = qoco_calloc(data->m, sizeof(QOCOInt));
+  linsys_data->PregtoKKT = qoco_calloc(data->P->nnz, sizeof(QOCOInt));
+  linsys_data->AttoKKT = qoco_calloc(data->A->nnz, sizeof(QOCOInt));
+  linsys_data->GttoKKT = qoco_calloc(data->G->nnz, sizeof(QOCOInt));
+
+  QOCOInt* nt2kkt_temp = qoco_calloc(Wnnz, sizeof(QOCOInt));
+  QOCOInt* ntdiag2kkt_temp = qoco_calloc(data->m, sizeof(QOCOInt));
+  QOCOInt* PregtoKKT_temp = qoco_calloc(data->P->nnz, sizeof(QOCOInt));
+  QOCOInt* AttoKKT_temp = qoco_calloc(data->A->nnz, sizeof(QOCOInt));
+  QOCOInt* GttoKKT_temp = qoco_calloc(data->G->nnz, sizeof(QOCOInt));
+
+  linsys_data->K = construct_kkt(
+      data->P, data->A, data->G, data->At, data->Gt, settings->kkt_static_reg,
+      data->n, data->m, data->p, data->l, data->nsoc, data->q, PregtoKKT_temp,
+      AttoKKT_temp, GttoKKT_temp, nt2kkt_temp, ntdiag2kkt_temp, Wnnz);
+
   // Compute AMD ordering.
-  linsys_data->K = new_qoco_csc_matrix(K);
-  free_qoco_csc_matrix(K);
   linsys_data->p = qoco_malloc(linsys_data->K->n * sizeof(QOCOInt));
   linsys_data->pinv = qoco_malloc(linsys_data->K->n * sizeof(QOCOInt));
   QOCOInt amd_status =
@@ -110,32 +126,32 @@ static LinSysData* qdldl_setup(QOCOKKT* kkt, QOCOCscMatrix* K,
   QOCOCscMatrix* PKPt = csc_symperm(linsys_data->K, linsys_data->pinv, KtoPKPt);
 
   // Update mappings to permuted matrix.
-  linsys_data->nt2kkt = qoco_calloc(kkt->Wnnz, sizeof(QOCOInt));
-  linsys_data->ntdiag2kkt = qoco_calloc(data->m, sizeof(QOCOInt));
-  linsys_data->PregtoKKT = qoco_calloc(data->P->nnz, sizeof(QOCOInt));
-  linsys_data->AttoKKT = qoco_calloc(data->A->nnz, sizeof(QOCOInt));
-  linsys_data->GttoKKT = qoco_calloc(data->G->nnz, sizeof(QOCOInt));
-  for (QOCOInt i = 0; i < kkt->Wnnz; ++i) {
-    linsys_data->nt2kkt[i] = KtoPKPt[kkt->nt2kkt[i]];
+  for (QOCOInt i = 0; i < Wnnz; ++i) {
+    linsys_data->nt2kkt[i] = KtoPKPt[nt2kkt_temp[i]];
   }
   for (QOCOInt i = 0; i < data->m; ++i) {
-    linsys_data->ntdiag2kkt[i] = KtoPKPt[kkt->ntdiag2kkt[i]];
+    linsys_data->ntdiag2kkt[i] = KtoPKPt[ntdiag2kkt_temp[i]];
   }
 
   for (QOCOInt i = 0; i < data->P->nnz; ++i) {
-    linsys_data->PregtoKKT[i] = KtoPKPt[kkt->PregtoKKT[i]];
+    linsys_data->PregtoKKT[i] = KtoPKPt[PregtoKKT_temp[i]];
   }
 
   for (QOCOInt i = 0; i < data->A->nnz; ++i) {
-    linsys_data->AttoKKT[i] = KtoPKPt[kkt->AttoKKT[i]];
+    linsys_data->AttoKKT[i] = KtoPKPt[AttoKKT_temp[i]];
   }
 
   for (QOCOInt i = 0; i < data->G->nnz; ++i) {
-    linsys_data->GttoKKT[i] = KtoPKPt[kkt->GttoKKT[i]];
+    linsys_data->GttoKKT[i] = KtoPKPt[GttoKKT_temp[i]];
   }
 
   free_qoco_csc_matrix(linsys_data->K);
   qoco_free(KtoPKPt);
+  qoco_free(nt2kkt_temp);
+  qoco_free(ntdiag2kkt_temp);
+  qoco_free(PregtoKKT_temp);
+  qoco_free(AttoKKT_temp);
+  qoco_free(GttoKKT_temp);
   linsys_data->K = PKPt;
 
   // Compute elimination tree.
