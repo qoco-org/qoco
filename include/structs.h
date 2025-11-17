@@ -72,6 +72,12 @@ typedef struct {
   /** Number of affine equality constraints. */
   QOCOInt p;
 
+  /** Indices of P->x that were added due to regularization. */
+  QOCOInt* Pnzadded_idx;
+
+  /** Number of elements of P->x that were added due to regularization. */
+  QOCOInt Pnum_nzadded;
+
 } QOCOProblemData;
 
 /**
@@ -114,8 +120,7 @@ typedef struct {
 } QOCOSettings;
 
 /**
- * @brief Contains all data needed for constructing and modifying KKT matrix and
- * performing predictor-corrector step.
+ * @brief Contains all data related to problem scaling and equilibration.
  *
  */
 typedef struct {
@@ -147,28 +152,7 @@ typedef struct {
   /** Inverse of cost scaling factor. */
   QOCOFloat kinv;
 
-  /** RHS of KKT system. */
-  QOCOFloat* rhs;
-
-  /** Solution of KKT system. */
-  QOCOFloat* xyz;
-
-  /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff1;
-
-  /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff2;
-
-  /** Residual of KKT condition. */
-  QOCOFloat* kktres;
-
-  /** Indices of P->x that were added due to regularization. */
-  QOCOInt* Pnzadded_idx;
-
-  /** Number of elements of P->x that were added due to regularization. */
-  QOCOInt Pnum_nzadded;
-
-} QOCOKKT;
+} QOCOScaling;
 
 /**
  * @brief QOCO Workspace
@@ -180,8 +164,8 @@ typedef struct {
   /** Solve timer. */
   QOCOTimer solve_timer;
 
-  /** Contains all data related to KKT system. */
-  QOCOKKT* kkt;
+  /** Contains all data related problem scaling. */
+  QOCOScaling* scaling;
 
   /** Iterate of primal variables. */
   QOCOFloat* x;
@@ -253,6 +237,21 @@ typedef struct {
 
   /** Search direction for slack variables. Length of m. */
   QOCOFloat* Ds;
+
+  /** RHS of KKT system. */
+  QOCOFloat* rhs;
+
+  /** Solution of KKT system. */
+  QOCOFloat* xyz;
+
+  /** Buffer of size n + m + p. */
+  QOCOFloat* xyzbuff1;
+
+  /** Buffer of size n + m + p. */
+  QOCOFloat* xyzbuff2;
+
+  /** Residual of KKT condition. */
+  QOCOFloat* kktres;
 
 } QOCOWorkspace;
 

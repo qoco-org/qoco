@@ -34,11 +34,11 @@
 
  *
  * @param data Pointer to problem data.
- * @param kkt Pointer to kkt struct.
+ * @param scaling Pointer to scaling struct.
  * @param ruiz_iters Number of ruiz iterations.
 
  */
-void ruiz_equilibration(QOCOProblemData* data, QOCOKKT* kkt,
+void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
                         QOCOInt ruiz_iters);
 
 /**
