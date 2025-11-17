@@ -84,7 +84,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   solver->work->data->At = create_transposed_matrix(data->A, data->AtoAt);
   solver->work->data->Gt = create_transposed_matrix(data->G, data->GtoGt);
-  ruiz_equilibration(solver);
+  ruiz_equilibration(data, solver->work->kkt, solver->settings->ruiz_iters);
 
   // Regularize P.
   solver->work->kkt->Pnzadded_idx = qoco_calloc(n, sizeof(QOCOInt));
@@ -311,7 +311,8 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   }
 
   // Equilibrate new matrix data.
-  ruiz_equilibration(solver);
+  ruiz_equilibration(solver->work->data, solver->work->kkt,
+                     solver->settings->ruiz_iters);
 
   // Regularize P.
   unregularize(data->P, -solver->settings->kkt_static_reg);
