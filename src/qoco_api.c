@@ -300,6 +300,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   if (Axnew) {
     for (QOCOInt i = 0; i < data->A->nnz; ++i) {
       data->A->x[i] = Axnew[i];
+      data->At->x[i] = Axnew[data->AtoAt[i]];
     }
   }
 
@@ -307,6 +308,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   if (Gxnew) {
     for (QOCOInt i = 0; i < data->G->nnz; ++i) {
       data->G->x[i] = Gxnew[i];
+      data->Gt->x[i] = Gxnew[data->GtoGt[i]];
     }
   }
 
