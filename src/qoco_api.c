@@ -451,12 +451,7 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->kkt->Dinvruiz);
   qoco_free(solver->work->kkt->Einvruiz);
   qoco_free(solver->work->kkt->Finvruiz);
-  // qoco_free(solver->work->kkt->nt2kkt);
-  // qoco_free(solver->work->kkt->ntdiag2kkt);
   qoco_free(solver->work->kkt->Pnzadded_idx);
-  // qoco_free(solver->work->kkt->PregtoKKT);
-  // qoco_free(solver->work->kkt->AttoKKT);
-  // qoco_free(solver->work->kkt->GttoKKT);
   qoco_free(solver->work->kkt);
 
   // Free solution struct.
