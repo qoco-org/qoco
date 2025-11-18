@@ -9,7 +9,6 @@
  */
 
 #include "qdldl_backend.h"
-#include <stdio.h>
 
 // Contains data for linear system.
 struct LinSysData {

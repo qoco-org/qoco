@@ -25,25 +25,25 @@
  */
 typedef struct {
   /** Quadratic cost term. */
-  QOCOCscMatrix* P; //
+  QOCOMatrix* P; //
 
   /** Linear cost term. */
-  QOCOFloat* c;
+  QOCOVectorf* c;
 
   /** Affine equality constraint matrix. */
-  QOCOCscMatrix* A;
+  QOCOMatrix* A;
 
   /** Transpose of A (used in Ruiz for fast row norm calculations of A). */
-  QOCOCscMatrix* At;
+  QOCOMatrix* At;
 
   /** Affine equality constraint offset. */
-  QOCOFloat* b;
+  QOCOVectorf* b;
 
   /** Conic constraint matrix. */
-  QOCOCscMatrix* G;
+  QOCOMatrix* G;
 
   /** Transpose of G (used in Ruiz for fast row norm calculations of G). */
-  QOCOCscMatrix* Gt;
+  QOCOMatrix* Gt;
 
   /** Mapping from A to At. */
   QOCOInt* AtoAt;
@@ -52,7 +52,7 @@ typedef struct {
   QOCOInt* GtoGt;
 
   /** Conic constraint offset. */
-  QOCOFloat* h;
+  QOCOVectorf* h;
 
   /** Dimension of non-negative orthant in cone C. */
   QOCOInt l;
@@ -126,25 +126,25 @@ typedef struct {
 typedef struct {
 
   /** Diagonal of scaling matrix. */
-  QOCOFloat* delta;
+  QOCOVectorf* delta;
 
   /** Diagonal of scaling matrix. */
-  QOCOFloat* Druiz;
+  QOCOVectorf* Druiz;
 
   /** Diagonal of scaling matrix. */
-  QOCOFloat* Eruiz;
+  QOCOVectorf* Eruiz;
 
   /** Diagonal of scaling matrix. */
-  QOCOFloat* Fruiz;
+  QOCOVectorf* Fruiz;
 
   /** Inverse of Druiz. */
-  QOCOFloat* Dinvruiz;
+  QOCOVectorf* Dinvruiz;
 
   /** Inverse of Eruiz. */
-  QOCOFloat* Einvruiz;
+  QOCOVectorf* Einvruiz;
 
   /** Inverse of Fruiz. */
-  QOCOFloat* Finvruiz;
+  QOCOVectorf* Finvruiz;
 
   /** Cost scaling factor. */
   QOCOFloat k;
@@ -168,16 +168,16 @@ typedef struct {
   QOCOScaling* scaling;
 
   /** Iterate of primal variables. */
-  QOCOFloat* x;
+  QOCOVectorf* x;
 
   /** Iterate of slack variables associated with conic constraint. */
-  QOCOFloat* s;
+  QOCOVectorf* s;
 
   /** Iterate of dual variables associated with affine equality constraint. */
-  QOCOFloat* y;
+  QOCOVectorf* y;
 
   /** Iterate of dual variables associated with conic constraint. */
-  QOCOFloat* z;
+  QOCOVectorf* z;
 
   /** Gap (s'*z / m) */
   QOCOFloat mu;

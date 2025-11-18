@@ -16,6 +16,10 @@
 #define QOCO_LINALG_H
 #include "definitions.h"
 
+typedef struct QOCOMatrix_ QOCOMatrix;
+typedef struct QOCOVectorf_ QOCOVectorf;
+typedef struct QOCOVectori_ QOCOVectori;
+
 /**
  * @brief Compressed sparse column format matrices.
  *
