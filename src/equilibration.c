@@ -164,7 +164,8 @@ void unscale_variables(QOCOWorkspace* work)
   ew_product(get_pointer_vectorf(work->x, 0),
              get_pointer_vectorf(work->scaling->Druiz, 0),
              get_pointer_vectorf(work->x, 0), work->data->n);
-  ew_product(get_pointer_vectorf(work->x, 0),
+
+  ew_product(get_pointer_vectorf(work->s, 0),
              get_pointer_vectorf(work->scaling->Finvruiz, 0),
              get_pointer_vectorf(work->s, 0), work->data->m);
 
