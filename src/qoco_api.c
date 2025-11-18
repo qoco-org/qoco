@@ -46,9 +46,6 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   data->p = p;
   solver->work->data->A = new_qoco_matrix(A);
   solver->work->data->G = new_qoco_matrix(G);
-  data->c = qoco_malloc(n * sizeof(QOCOFloat));
-  data->b = qoco_malloc(p * sizeof(QOCOFloat));
-  data->h = qoco_malloc(m * sizeof(QOCOFloat));
   data->q = qoco_malloc(nsoc * sizeof(QOCOInt));
 
   copy_arrayi(q, data->q, nsoc);
@@ -69,36 +66,47 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   }
 
   // Equilibrate data.
-  QOCOInt Annz = A ? A->nnz : 0;
-  QOCOInt Gnnz = G ? G->nnz : 0;
+  QOCOInt Annz = A ? get_nnz(data->A) : 0;
+  QOCOInt Gnnz = G ? get_nnz(data->G) : 0;
 
   solver->work->scaling = qoco_malloc(sizeof(QOCOScaling));
-  solver->work->scaling->delta = qoco_malloc((n + p + m) * sizeof(QOCOFloat));
-  solver->work->scaling->Druiz = qoco_malloc(n * sizeof(QOCOFloat));
-  solver->work->scaling->Eruiz = qoco_malloc(p * sizeof(QOCOFloat));
-  solver->work->scaling->Fruiz = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->scaling->Dinvruiz = qoco_malloc(n * sizeof(QOCOFloat));
-  solver->work->scaling->Einvruiz = qoco_malloc(p * sizeof(QOCOFloat));
-  solver->work->scaling->Finvruiz = qoco_malloc(m * sizeof(QOCOFloat));
+  solver->work->scaling->delta = new_qoco_vectorf(NULL, n + p + m);
+  solver->work->scaling->Druiz = new_qoco_vectorf(NULL, n);
+  solver->work->scaling->Eruiz = new_qoco_vectorf(NULL, p);
+  solver->work->scaling->Fruiz = new_qoco_vectorf(NULL, m);
+  solver->work->scaling->Dinvruiz = new_qoco_vectorf(NULL, n);
+  solver->work->scaling->Einvruiz = new_qoco_vectorf(NULL, p);
+  solver->work->scaling->Finvruiz = new_qoco_vectorf(NULL, m);
   solver->work->data->AtoAt = qoco_malloc(Annz * sizeof(QOCOInt));
   solver->work->data->GtoGt = qoco_malloc(Gnnz * sizeof(QOCOInt));
 
-  solver->work->data->At = create_transposed_matrix(data->A, data->AtoAt);
-  solver->work->data->Gt = create_transposed_matrix(data->G, data->GtoGt);
+  QOCOCscMatrix* Atcsc = create_transposed_matrix(get_csc_matrix(data->A), data->AtoAt);
+  solver->work->data->At = new_qoco_matrix(Atcsc);
+  free_qoco_csc_matrix(Atcsc);
+  QOCOCscMatrix* Gtcsc = create_transposed_matrix(get_csc_matrix(data->G), data->GtoGt);
+  solver->work->data->Gt = new_qoco_matrix(Gtcsc);
+  free_qoco_csc_matrix(Gtcsc);
   ruiz_equilibration(data, solver->work->scaling, solver->settings->ruiz_iters);
 
   // Regularize P.
   data->Pnzadded_idx = qoco_calloc(n, sizeof(QOCOInt));
   if (P) {
-    QOCOInt num_diagP = count_diag(P);
+    QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
+    QOCOInt num_diagP = count_diag(Pcsc);
     data->Pnum_nzadded = n - num_diagP;
+    // Create a copy of the CSC matrix since regularize_P will free it
+    QOCOCscMatrix* Pcsc_copy = new_qoco_csc_matrix(Pcsc);
     QOCOCscMatrix* Preg =
-        regularize_P(num_diagP, data->P, solver->settings->kkt_static_reg,
+        regularize_P(num_diagP, Pcsc_copy, solver->settings->kkt_static_reg,
                      data->Pnzadded_idx);
-    data->P = Preg;
+    free_qoco_matrix(data->P);
+    data->P = new_qoco_matrix(Preg);
+    free_qoco_csc_matrix(Preg);
   }
   else {
-    data->P = construct_identity(n, solver->settings->kkt_static_reg);
+    QOCOCscMatrix* Pid = construct_identity(n, solver->settings->kkt_static_reg);
+    data->P = new_qoco_matrix(Pid);
+    free_qoco_csc_matrix(Pid);
     data->Pnum_nzadded = n;
   }
 
@@ -121,10 +129,10 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   }
 
   // Allocate primal and dual variables.
-  solver->work->x = qoco_malloc(n * sizeof(QOCOFloat));
-  solver->work->s = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->y = qoco_malloc(p * sizeof(QOCOFloat));
-  solver->work->z = qoco_malloc(m * sizeof(QOCOFloat));
+  solver->work->x = new_qoco_vectorf(NULL, n);
+  solver->work->s = new_qoco_vectorf(NULL, m);
+  solver->work->y = new_qoco_vectorf(NULL, p);
+  solver->work->z = new_qoco_vectorf(NULL, m);
   solver->work->mu = 0.0;
 
   // Allocate Nesterov-Todd scalings and scaled variables.
@@ -232,23 +240,29 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
 
   // Update cost vector.
   if (cnew) {
+    QOCOFloat* cdata = get_data_vectorf(data->c);
+    QOCOFloat* Druiz_data = get_data_vectorf(solver->work->scaling->Druiz);
     for (QOCOInt i = 0; i < data->n; ++i) {
-      data->c[i] =
-          solver->work->scaling->k * solver->work->scaling->Druiz[i] * cnew[i];
+      cdata[i] =
+          solver->work->scaling->k * Druiz_data[i] * cnew[i];
     }
   }
 
   // Update equality constraint vector.
   if (bnew) {
+    QOCOFloat* bdata = get_data_vectorf(data->b);
+    QOCOFloat* Eruiz_data = get_data_vectorf(solver->work->scaling->Eruiz);
     for (QOCOInt i = 0; i < data->p; ++i) {
-      data->b[i] = solver->work->scaling->Eruiz[i] * bnew[i];
+      bdata[i] = Eruiz_data[i] * bnew[i];
     }
   }
 
   // Update conic constraint vector.
   if (hnew) {
+    QOCOFloat* hdata = get_data_vectorf(data->h);
+    QOCOFloat* Fruiz_data = get_data_vectorf(solver->work->scaling->Fruiz);
     for (QOCOInt i = 0; i < data->m; ++i) {
-      data->h[i] = solver->work->scaling->Fruiz[i] * hnew[i];
+      hdata[i] = Fruiz_data[i] * hnew[i];
     }
   }
 }
@@ -261,57 +275,76 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   QOCOScaling* scaling = solver->work->scaling;
 
   // Undo regularization.
-  unregularize(data->P, solver->settings->kkt_static_reg);
+  QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
+  unregularize(Pcsc, solver->settings->kkt_static_reg);
 
   // Unequilibrate P.
-  scale_arrayf(data->P->x, data->P->x, scaling->kinv, data->P->nnz);
-  row_col_scale(data->P, scaling->Dinvruiz, scaling->Dinvruiz);
+  QOCOFloat* Px = Pcsc->x;
+  QOCOInt Pnnz = get_nnz(data->P);
+  QOCOFloat* Dinvruiz_data = get_data_vectorf(scaling->Dinvruiz);
+  scale_arrayf(Px, Px, scaling->kinv, Pnnz);
+  row_col_scale(Pcsc, Dinvruiz_data, Dinvruiz_data);
 
   // Unequilibrate c.
-  scale_arrayf(data->c, data->c, scaling->kinv, data->n);
-  ew_product(data->c, scaling->Dinvruiz, data->c, data->n);
+  QOCOFloat* cdata = get_data_vectorf(data->c);
+  scale_arrayf(cdata, cdata, scaling->kinv, data->n);
+  ew_product(cdata, Dinvruiz_data, cdata, data->n);
 
   // Unequilibrate A.
-  row_col_scale(data->A, scaling->Einvruiz, scaling->Dinvruiz);
+  QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
+  QOCOFloat* Einvruiz_data = get_data_vectorf(scaling->Einvruiz);
+  row_col_scale(Acsc, Einvruiz_data, Dinvruiz_data);
 
   // Unequilibrate G.
-  row_col_scale(data->G, scaling->Finvruiz, scaling->Dinvruiz);
+  QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
+  QOCOFloat* Finvruiz_data = get_data_vectorf(scaling->Finvruiz);
+  row_col_scale(Gcsc, Finvruiz_data, Dinvruiz_data);
 
   // Unequilibrate b.
-  ew_product(data->b, scaling->Einvruiz, data->b, data->p);
+  QOCOFloat* bdata = get_data_vectorf(data->b);
+  ew_product(bdata, Einvruiz_data, bdata, data->p);
 
   // Unequilibrate h.
-  ew_product(data->h, scaling->Finvruiz, data->h, data->m);
+  QOCOFloat* hdata = get_data_vectorf(data->h);
+  ew_product(hdata, Finvruiz_data, hdata, data->m);
 
   // Update P and avoid nonzeros that were added for regularization.
   if (Pxnew) {
     QOCOInt avoid =
-        data->Pnum_nzadded > 0 ? data->Pnzadded_idx[0] : data->P->nnz + 1;
+        data->Pnum_nzadded > 0 ? data->Pnzadded_idx[0] : Pnnz + 1;
     QOCOInt offset = 0;
-    for (QOCOInt i = 0; i < data->P->nnz - data->Pnum_nzadded; ++i) {
+    for (QOCOInt i = 0; i < Pnnz - data->Pnum_nzadded; ++i) {
       if (i == avoid) {
         offset++;
         avoid = data->Pnzadded_idx[offset];
       }
       else {
-        data->P->x[i + offset] = Pxnew[i];
+        Px[i + offset] = Pxnew[i];
       }
     }
   }
 
   // Update A.
   if (Axnew) {
-    for (QOCOInt i = 0; i < data->A->nnz; ++i) {
-      data->A->x[i] = Axnew[i];
-      data->At->x[i] = Axnew[data->AtoAt[i]];
+    QOCOCscMatrix* Atcsc = get_csc_matrix(data->At);
+    QOCOFloat* Ax = Acsc->x;
+    QOCOFloat* Atx = Atcsc->x;
+    QOCOInt Annz = get_nnz(data->A);
+    for (QOCOInt i = 0; i < Annz; ++i) {
+      Ax[i] = Axnew[i];
+      Atx[i] = Axnew[data->AtoAt[i]];
     }
   }
 
   // Update G.
   if (Gxnew) {
-    for (QOCOInt i = 0; i < data->G->nnz; ++i) {
-      data->G->x[i] = Gxnew[i];
-      data->Gt->x[i] = Gxnew[data->GtoGt[i]];
+    QOCOCscMatrix* Gtcsc = get_csc_matrix(data->Gt);
+    QOCOFloat* Gx = Gcsc->x;
+    QOCOFloat* Gtx = Gtcsc->x;
+    QOCOInt Gnnz = get_nnz(data->G);
+    for (QOCOInt i = 0; i < Gnnz; ++i) {
+      Gx[i] = Gxnew[i];
+      Gtx[i] = Gxnew[data->GtoGt[i]];
     }
   }
 
@@ -320,7 +353,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
                      solver->settings->ruiz_iters);
 
   // Regularize P.
-  unregularize(data->P, -solver->settings->kkt_static_reg);
+  unregularize(get_csc_matrix(data->P), -solver->settings->kkt_static_reg);
 
   solver->linsys->linsys_update_data(solver->linsys_data, solver->work->data);
 }
@@ -346,18 +379,18 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
     // Compute kkt residual.
-    compute_kkt_residual(data, work->x, work->y, work->s, work->z, work->kktres,
+    compute_kkt_residual(data, get_data_vectorf(work->x), get_data_vectorf(work->y), get_data_vectorf(work->s), get_data_vectorf(work->z), work->kktres,
                          solver->settings->kkt_static_reg, work->xyzbuff1,
                          work->xbuff, work->ubuff1, work->ubuff2);
 
     // Compute objective function.
     solver->sol->obj =
-        compute_objective(data, work->x, work->xbuff,
+        compute_objective(data, get_data_vectorf(work->x), work->xbuff,
                           solver->settings->kkt_static_reg, work->scaling->k);
 
     // Compute mu = s'*z / m.
     work->mu = (data->m > 0)
-                   ? safe_div(qoco_dot(work->s, work->z, data->m), data->m)
+                   ? safe_div(qoco_dot(get_data_vectorf(work->s), get_data_vectorf(work->z), data->m), data->m)
                    : 0;
 
     // Check stopping criteria.
@@ -404,17 +437,19 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
 {
 
   // Free problem data.
-  free_qoco_csc_matrix(solver->work->data->P);
-  free_qoco_csc_matrix(solver->work->data->A);
-  free_qoco_csc_matrix(solver->work->data->G);
-  free_qoco_csc_matrix(solver->work->data->At);
-  free_qoco_csc_matrix(solver->work->data->Gt);
+  if (solver->work->data->P) {
+    free_qoco_matrix(solver->work->data->P);
+  }
+  free_qoco_matrix(solver->work->data->A);
+  free_qoco_matrix(solver->work->data->G);
+  free_qoco_matrix(solver->work->data->At);
+  free_qoco_matrix(solver->work->data->Gt);
 
   qoco_free(solver->work->data->AtoAt);
   qoco_free(solver->work->data->GtoGt);
-  qoco_free(solver->work->data->b);
-  qoco_free(solver->work->data->c);
-  qoco_free(solver->work->data->h);
+  free_qoco_vectorf(solver->work->data->b);
+  free_qoco_vectorf(solver->work->data->c);
+  free_qoco_vectorf(solver->work->data->h);
   qoco_free(solver->work->data->q);
   qoco_free(solver->work->data->Pnzadded_idx);
   qoco_free(solver->work->data);
@@ -428,10 +463,10 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->xyz);
   qoco_free(solver->work->xyzbuff1);
   qoco_free(solver->work->xyzbuff2);
-  qoco_free(solver->work->x);
-  qoco_free(solver->work->s);
-  qoco_free(solver->work->y);
-  qoco_free(solver->work->z);
+  free_qoco_vectorf(solver->work->x);
+  free_qoco_vectorf(solver->work->s);
+  free_qoco_vectorf(solver->work->y);
+  free_qoco_vectorf(solver->work->z);
 
   // Free Nesterov-Todd scalings and scaled variables.
   qoco_free(solver->work->W);
@@ -450,13 +485,13 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->Ds);
 
   // Free scaling struct.
-  qoco_free(solver->work->scaling->delta);
-  qoco_free(solver->work->scaling->Druiz);
-  qoco_free(solver->work->scaling->Eruiz);
-  qoco_free(solver->work->scaling->Fruiz);
-  qoco_free(solver->work->scaling->Dinvruiz);
-  qoco_free(solver->work->scaling->Einvruiz);
-  qoco_free(solver->work->scaling->Finvruiz);
+  free_qoco_vectorf(solver->work->scaling->delta);
+  free_qoco_vectorf(solver->work->scaling->Druiz);
+  free_qoco_vectorf(solver->work->scaling->Eruiz);
+  free_qoco_vectorf(solver->work->scaling->Fruiz);
+  free_qoco_vectorf(solver->work->scaling->Dinvruiz);
+  free_qoco_vectorf(solver->work->scaling->Einvruiz);
+  free_qoco_vectorf(solver->work->scaling->Finvruiz);
   qoco_free(solver->work->scaling);
 
   // Free solution struct.

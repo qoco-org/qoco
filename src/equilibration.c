@@ -20,132 +20,143 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
   scaling->k = 1.0;
   scaling->kinv = 1.0;
 
-  // for (QOCOInt i = 0; i < ruiz_iters; ++i) {
+  QOCOFloat* delta_data = get_data_vectorf(scaling->delta);
+  QOCOFloat* cdata = get_data_vectorf(data->c);
+  QOCOFloat* Druiz_data = get_data_vectorf(scaling->Druiz);
+  QOCOFloat* Eruiz_data = get_data_vectorf(scaling->Eruiz);
+  QOCOFloat* Fruiz_data = get_data_vectorf(scaling->Fruiz);
+  QOCOFloat* bdata = get_data_vectorf(data->b);
+  QOCOFloat* hdata = get_data_vectorf(data->h);
 
-  //   // Compute infinity norm of rows of [P A' G']
-  //   for (QOCOInt j = 0; j < data->n; ++j) {
-  //     set_element_vectorf(scaling->delta, j, 0.0);
-  //   }
-  //   g = inf_norm(data->c, data->n);
-  //   QOCOFloat Pinf_mean = 0.0;
-  //   if (data->P) {
-  //     col_inf_norm_USymm(data->P, scaling->delta);
-  //     for (QOCOInt j = 0; j < data->n; ++j) {
-  //       Pinf_mean += get_element_vectorf(scaling->delta, j);
-  //     }
-  //     Pinf_mean /= data->n;
-  //   }
+  for (QOCOInt i = 0; i < ruiz_iters; ++i) {
 
-  //   // g = 1 / max(mean(Pinf), norm(c, "inf"));
-  //   g = qoco_max(Pinf_mean, g);
-  //   g = safe_div(1.0, g);
-  //   scaling->k *= g;
+    // Compute infinity norm of rows of [P A' G']
+    for (QOCOInt j = 0; j < data->n; ++j) {
+      set_element_vectorf(scaling->delta, j, 0.0);
+    }
+    g = inf_norm(cdata, data->n);
+    QOCOFloat Pinf_mean = 0.0;
+    if (data->P) {
+      col_inf_norm_USymm_matrix(data->P, delta_data);
+      for (QOCOInt j = 0; j < data->n; ++j) {
+        Pinf_mean += get_element_vectorf(scaling->delta, j);
+      }
+      Pinf_mean /= data->n;
+    }
 
-  //   // TODO: Replace all this with row_inf norm and col inf norm functions
-  //   that
-  //   // operate on QOCOMatrix.
-  //   if (get_nnz(data->A) > 0) {
-  //     for (QOCOInt j = 0; j < data->n; ++j) {
-  //       QOCOFloat nrm = inf_norm(&data->A->x[data->A->p[j]],
-  //                                data->A->p[j + 1] - data->A->p[j]);
-  //       nrm = qoco_max(get_element_vectorf(scaling->delta, j), nrm);
-  //       set_element_vectorf(scaling->delta, j, nrm);
-  //     }
-  //   }
-  //   if (get_nnz(data->G) > 0) {
-  //     for (QOCOInt j = 0; j < data->n; ++j) {
-  //       QOCOFloat nrm = inf_norm(&data->G->x[data->G->p[j]],
-  //                                data->G->p[j + 1] - data->G->p[j]);
-  //       nrm = qoco_max(get_element_vectorf(scaling->delta, j), nrm);
-  //       set_element_vectorf(scaling->delta, j, nrm);
-  //     }
-  //   }
+    // g = 1 / max(mean(Pinf), norm(c, "inf"));
+    g = qoco_max(Pinf_mean, g);
+    g = safe_div(1.0, g);
+    scaling->k *= g;
 
-  //   // d(i) = 1 / sqrt(max([Pinf(i), Atinf(i), Gtinf(i)]));
-  //   for (QOCOInt j = 0; j < data->n; ++j) {
-  //     QOCOFloat temp = qoco_sqrt(get_element_vectorf(scaling->delta, j));
-  //     temp = safe_div(1.0, temp);
-  //     set_element_vectorf(scaling->delta, j, temp);
-  //   }
+    // Compute column infinity norms of A and G
+    if (get_nnz(data->A) > 0) {
+      QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
+      for (QOCOInt j = 0; j < data->n; ++j) {
+        QOCOFloat nrm = inf_norm(&Acsc->x[Acsc->p[j]],
+                                 Acsc->p[j + 1] - Acsc->p[j]);
+        nrm = qoco_max(get_element_vectorf(scaling->delta, j), nrm);
+        set_element_vectorf(scaling->delta, j, nrm);
+      }
+    }
+    if (get_nnz(data->G) > 0) {
+      QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
+      for (QOCOInt j = 0; j < data->n; ++j) {
+        QOCOFloat nrm = inf_norm(&Gcsc->x[Gcsc->p[j]],
+                                 Gcsc->p[j + 1] - Gcsc->p[j]);
+        nrm = qoco_max(get_element_vectorf(scaling->delta, j), nrm);
+        set_element_vectorf(scaling->delta, j, nrm);
+      }
+    }
 
-  //   // Compute infinity norm of rows of [A 0 0].
-  //   if (get_nnz(data->A) > 0) {
-  //     for (QOCOInt j = 0; j < data->p; ++j) {
-  //       QOCOFloat nrm = inf_norm(&data->At->x[data->At->p[j]],
-  //                                data->At->p[j + 1] - data->At->p[j]);
-  //       set_element_vectorf(scaling->delta, data->n + j, nrm);
-  //     }
-  //     // d(i) = 1 / sqrt(Ainf(i));
-  //     for (QOCOInt k = 0; k < data->p; ++k) {
-  //       QOCOFloat temp =
-  //           qoco_sqrt(get_element_vectorf(scaling->delta, data->n + k));
-  //       temp = safe_div(1.0, temp);
-  //       set_element_vectorf(scaling->delta, data->n + k, temp);
-  //     }
-  //   }
+    // d(i) = 1 / sqrt(max([Pinf(i), Atinf(i), Gtinf(i)]));
+    for (QOCOInt j = 0; j < data->n; ++j) {
+      QOCOFloat temp = qoco_sqrt(get_element_vectorf(scaling->delta, j));
+      temp = safe_div(1.0, temp);
+      set_element_vectorf(scaling->delta, j, temp);
+    }
 
-  //   // Compute infinity norm of rows of [G 0 0].
-  //   if (get_nnz(data->G) > 0) {
-  //     for (QOCOInt j = 0; j < data->m; ++j) {
-  //       QOCOFloat nrm = inf_norm(&data->Gt->x[data->Gt->p[j]],
-  //                                data->Gt->p[j + 1] - data->Gt->p[j]);
-  //       set_element_vectorf(scaling->delta, data->n + data->p + j, nrm);
-  //     }
-  //     // d(i) = 1 / sqrt(Ginf(i));
-  //     for (QOCOInt k = 0; k < data->m; ++k) {
-  //       QOCOFloat temp = qoco_sqrt(
-  //           get_element_vectorf(scaling->delta, data->n + data->p + k));
-  //       temp = safe_div(1.0, temp);
-  //       set_element_vectorf(scaling->delta, data->n + data->p + k, temp);
-  //     }
-  //   }
+    // Compute infinity norm of rows of [A 0 0].
+    if (get_nnz(data->A) > 0) {
+      QOCOCscMatrix* Atcsc = get_csc_matrix(data->At);
+      for (QOCOInt j = 0; j < Atcsc->n; ++j) {
+        QOCOFloat nrm = inf_norm(&Atcsc->x[Atcsc->p[j]],
+                                 Atcsc->p[j + 1] - Atcsc->p[j]);
+        set_element_vectorf(scaling->delta, data->n + j, nrm);
+      }
+      // d(i) = 1 / sqrt(Ainf(i));
+      for (QOCOInt k = 0; k < data->p; ++k) {
+        QOCOFloat temp =
+            qoco_sqrt(get_element_vectorf(scaling->delta, data->n + k));
+        temp = safe_div(1.0, temp);
+        set_element_vectorf(scaling->delta, data->n + k, temp);
+      }
+    }
 
-  //   QOCOFloat* D = scaling->delta;
-  //   QOCOFloat* E = get_pointer_vectorf(scaling->delta, data->n);
-  //   QOCOFloat* F = get_pointer_vectorf(scaling->delta, data->n + data->p);
+    // Compute infinity norm of rows of [G 0 0].
+    if (get_nnz(data->G) > 0) {
+      QOCOCscMatrix* Gtcsc = get_csc_matrix(data->Gt);
+      for (QOCOInt j = 0; j < Gtcsc->n; ++j) {
+        QOCOFloat nrm = inf_norm(&Gtcsc->x[Gtcsc->p[j]],
+                                 Gtcsc->p[j + 1] - Gtcsc->p[j]);
+        set_element_vectorf(scaling->delta, data->n + data->p + j, nrm);
+      }
+      // d(i) = 1 / sqrt(Ginf(i));
+      for (QOCOInt k = 0; k < data->m; ++k) {
+        QOCOFloat temp = qoco_sqrt(
+            get_element_vectorf(scaling->delta, data->n + data->p + k));
+        temp = safe_div(1.0, temp);
+        set_element_vectorf(scaling->delta, data->n + data->p + k, temp);
+      }
+    }
 
-  //   // Make scalings for all variables in a second-order cone equal.
-  //   QOCOInt idx = data->l;
-  //   for (QOCOInt j = 0; j < data->nsoc; ++j) {
-  //     for (QOCOInt k = idx + 1; k < idx + data->q[j]; ++k) {
-  //       F[k] = F[idx];
-  //     }
-  //     idx += data->q[j];
-  //   }
+    QOCOFloat* D = delta_data;
+    QOCOFloat* E = &delta_data[data->n];
+    QOCOFloat* F = &delta_data[data->n + data->p];
 
-  //   // Scale P.
-  //   if (data->P) {
-  //     scale_arrayf(data->P->x, data->P->x, g, get_nnz(data->P));
-  //     row_col_scale(data->P, D, D);
-  //   }
+    // Make scalings for all variables in a second-order cone equal.
+    QOCOInt idx = data->l;
+    for (QOCOInt j = 0; j < data->nsoc; ++j) {
+      for (QOCOInt k = idx + 1; k < idx + data->q[j]; ++k) {
+        F[k] = F[idx];
+      }
+      idx += data->q[j];
+    }
 
-  //   // Scale c.
-  //   scale_arrayf(data->c, data->c, g, data->n);
-  //   ew_product(data->c, D, data->c, data->n);
+    // Scale P.
+    if (data->P) {
+      QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
+      scale_arrayf(Pcsc->x, Pcsc->x, g, get_nnz(data->P));
+      row_col_scale_matrix(data->P, D, D);
+    }
 
-  //   // Scale A and G.
-  //   row_col_scale(data->A, E, D);
-  //   row_col_scale(data->G, F, D);
-  //   row_col_scale(data->At, D, E);
-  //   row_col_scale(data->Gt, D, F);
+    // Scale c.
+    scale_arrayf(cdata, cdata, g, data->n);
+    ew_product(cdata, D, cdata, data->n);
 
-  //   // Update scaling matrices with delta.
-  //   ew_product(scaling->Druiz, D, scaling->Druiz, data->n);
-  //   ew_product(scaling->Eruiz, E, scaling->Eruiz, data->p);
-  //   ew_product(scaling->Fruiz, F, scaling->Fruiz, data->m);
-  // }
+    // Scale A and G.
+    row_col_scale_matrix(data->A, E, D);
+    row_col_scale_matrix(data->G, F, D);
+    row_col_scale_matrix(data->At, D, E);
+    row_col_scale_matrix(data->Gt, D, F);
 
-  // // Scale b.
-  // ew_product(data->b, scaling->Eruiz, data->b, data->p);
+    // Update scaling matrices with delta.
+    ew_product(Druiz_data, D, Druiz_data, data->n);
+    ew_product(Eruiz_data, E, Eruiz_data, data->p);
+    ew_product(Fruiz_data, F, Fruiz_data, data->m);
+  }
 
-  // // Scale h.
-  // ew_product(data->h, scaling->Fruiz, data->h, data->m);
+  // Scale b.
+  ew_product(bdata, Eruiz_data, bdata, data->p);
 
-  // // Compute Dinv, Einv, Finv.
-  // reciprocal_vectorf(scaling->Druiz, scaling->Dinvruiz);
-  // reciprocal_vectorf(scaling->Eruiz, scaling->Einvruiz);
-  // reciprocal_vectorf(scaling->Fruiz, scaling->Finvruiz);
-  // scaling->kinv = safe_div(1.0, scaling->k);
+  // Scale h.
+  ew_product(hdata, Fruiz_data, hdata, data->m);
+
+  // Compute Dinv, Einv, Finv.
+  reciprocal_vectorf(scaling->Druiz, scaling->Dinvruiz);
+  reciprocal_vectorf(scaling->Eruiz, scaling->Einvruiz);
+  reciprocal_vectorf(scaling->Fruiz, scaling->Finvruiz);
+  scaling->kinv = safe_div(1.0, scaling->k);
 }
 
 void unscale_variables(QOCOWorkspace* work)

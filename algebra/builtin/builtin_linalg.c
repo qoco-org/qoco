@@ -53,7 +53,14 @@ QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
 {
   QOCOVectorf* v = qoco_malloc(sizeof(QOCOVectorf));
   QOCOFloat* vdata = qoco_malloc(sizeof(QOCOFloat) * n);
-  copy_arrayf(x, vdata, n);
+  if (x) {
+    copy_arrayf(x, vdata, n);
+  } else {
+    // Initialize to zero if x is NULL
+    for (QOCOInt i = 0; i < n; ++i) {
+      vdata[i] = 0.0;
+    }
+  }
 
   v->len = n;
   v->data = vdata;
@@ -83,6 +90,36 @@ QOCOFloat get_element_vectorf(const QOCOVectorf* x, QOCOInt idx)
 QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
 {
   return &x->data[idx];
+}
+
+QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
+{
+  return x->data;
+}
+
+QOCOInt get_length_vectorf(const QOCOVectorf* x)
+{
+  return x->len;
+}
+
+QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M)
+{
+  return M->csc;
+}
+
+void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
+{
+  col_inf_norm_USymm(get_csc_matrix(M), norm);
+}
+
+void row_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
+{
+  row_inf_norm(get_csc_matrix(M), norm);
+}
+
+void row_col_scale_matrix(QOCOMatrix* M, const QOCOFloat* E, const QOCOFloat* D)
+{
+  row_col_scale(get_csc_matrix(M), (QOCOFloat*)E, (QOCOFloat*)D);
 }
 
 void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data)
@@ -266,6 +303,21 @@ void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
       r[i] += M->x[j] * v[M->i[j]];
     }
   }
+}
+
+void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+{
+  USpMv(M->csc, v, r);
+}
+
+void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+{
+  SpMv(M->csc, v, r);
+}
+
+void SpMtv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+{
+  SpMtv(M->csc, v, r);
 }
 
 QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)

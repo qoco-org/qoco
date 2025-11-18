@@ -59,7 +59,7 @@ TEST(missing_constraints_test, no_soc_constraints)
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
   ASSERT_EQ(exit, QOCO_SOLVED);
 
   qoco_cleanup(solver);
@@ -169,7 +169,7 @@ TEST(missing_constraints_test, no_eq_constraints)
 
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
   ASSERT_EQ(exit, QOCO_SOLVED);
 
   qoco_cleanup(solver);
@@ -263,7 +263,7 @@ TEST(missing_constraints_test, lp_test_no_P)
 
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
   ASSERT_EQ(exit, QOCO_SOLVED);
 
   qoco_cleanup(solver);
@@ -328,7 +328,7 @@ TEST(simple_socp_test, p1)
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
   ASSERT_EQ(exit, QOCO_SOLVED);
 
   qoco_cleanup(solver);
@@ -395,7 +395,7 @@ TEST(simple_socp_test, p2)
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
   ASSERT_EQ(exit, QOCO_SOLVED);
 
   qoco_cleanup(solver);
@@ -462,7 +462,7 @@ TEST(simple_socp_test, p3)
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
   ASSERT_EQ(exit, QOCO_SOLVED);
 
   qoco_cleanup(solver);
@@ -591,7 +591,7 @@ TEST(simple_socp_test, reduced_tolerance)
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
   ASSERT_EQ(exit, QOCO_SOLVED_INACCURATE);
 
   qoco_cleanup(solver);
@@ -666,7 +666,7 @@ TEST(simple_socp_test, update_vector_data_test)
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
   ASSERT_EQ(exit, QOCO_SOLVED);
 
   qoco_cleanup(solver);
@@ -738,7 +738,7 @@ TEST(simple_socp_test, update_constraint_data_test)
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->s, sexp, m, tol);
   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
-  expect_eq_vectorf(solver->sol->z, zexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
   ASSERT_EQ(exit, QOCO_SOLVED);
 
   qoco_cleanup(solver);
