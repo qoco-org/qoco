@@ -36,83 +36,69 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   // Allocate workspace.
   solver->work = qoco_malloc(sizeof(QOCOWorkspace));
 
-  // Malloc error.
-  if (!(solver->work)) {
-    return QOCO_MALLOC_ERROR;
-  }
-
+  // Allocate problem data.
   solver->work->data = qoco_malloc(sizeof(QOCOProblemData));
   QOCOProblemData* data = solver->work->data;
-  // Malloc error
-  if (!(solver->work->data)) {
-    return QOCO_MALLOC_ERROR;
-  }
 
   // Copy problem data.
-  solver->work->data->m = m;
-  solver->work->data->n = n;
-  solver->work->data->p = p;
-  solver->work->data->A = new_qoco_csc_matrix(A);
-  solver->work->data->G = new_qoco_csc_matrix(G);
-  solver->work->data->c = qoco_malloc(n * sizeof(QOCOFloat));
-  solver->work->data->b = qoco_malloc(p * sizeof(QOCOFloat));
-  solver->work->data->h = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->data->q = qoco_malloc(nsoc * sizeof(QOCOInt));
+  data->m = m;
+  data->n = n;
+  data->p = p;
+  data->A = new_qoco_csc_matrix(A);
+  data->G = new_qoco_csc_matrix(G);
+  data->c = qoco_malloc(n * sizeof(QOCOFloat));
+  data->b = qoco_malloc(p * sizeof(QOCOFloat));
+  data->h = qoco_malloc(m * sizeof(QOCOFloat));
+  data->q = qoco_malloc(nsoc * sizeof(QOCOInt));
 
-  copy_arrayf(c, solver->work->data->c, n);
-  copy_arrayf(b, solver->work->data->b, p);
-  copy_arrayf(h, solver->work->data->h, m);
-  copy_arrayi(q, solver->work->data->q, nsoc);
+  copy_arrayf(c, data->c, n);
+  copy_arrayf(b, data->b, p);
+  copy_arrayf(h, data->h, m);
+  copy_arrayi(q, data->q, nsoc);
 
-  solver->work->data->l = l;
-  solver->work->data->nsoc = nsoc;
+  data->l = l;
+  data->nsoc = nsoc;
 
   // Copy P.
   if (P) {
-    solver->work->data->P = new_qoco_csc_matrix(P);
+    data->P = new_qoco_csc_matrix(P);
   }
   else {
-    solver->work->data->P = NULL;
+    data->P = NULL;
   }
 
   // Equilibrate data.
   QOCOInt Annz = A ? A->nnz : 0;
   QOCOInt Gnnz = G ? G->nnz : 0;
 
-  solver->work->kkt = qoco_malloc(sizeof(QOCOKKT));
-  solver->work->kkt->delta = qoco_malloc((n + p + m) * sizeof(QOCOFloat));
-  solver->work->kkt->Druiz = qoco_malloc(n * sizeof(QOCOFloat));
-  solver->work->kkt->Eruiz = qoco_malloc(p * sizeof(QOCOFloat));
-  solver->work->kkt->Fruiz = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->kkt->Dinvruiz = qoco_malloc(n * sizeof(QOCOFloat));
-  solver->work->kkt->Einvruiz = qoco_malloc(p * sizeof(QOCOFloat));
-  solver->work->kkt->Finvruiz = qoco_malloc(m * sizeof(QOCOFloat));
+  solver->work->scaling = qoco_malloc(sizeof(QOCOScaling));
+  solver->work->scaling->delta = qoco_malloc((n + p + m) * sizeof(QOCOFloat));
+  solver->work->scaling->Druiz = qoco_malloc(n * sizeof(QOCOFloat));
+  solver->work->scaling->Eruiz = qoco_malloc(p * sizeof(QOCOFloat));
+  solver->work->scaling->Fruiz = qoco_malloc(m * sizeof(QOCOFloat));
+  solver->work->scaling->Dinvruiz = qoco_malloc(n * sizeof(QOCOFloat));
+  solver->work->scaling->Einvruiz = qoco_malloc(p * sizeof(QOCOFloat));
+  solver->work->scaling->Finvruiz = qoco_malloc(m * sizeof(QOCOFloat));
   solver->work->data->AtoAt = qoco_malloc(Annz * sizeof(QOCOInt));
   solver->work->data->GtoGt = qoco_malloc(Gnnz * sizeof(QOCOInt));
 
-  solver->work->data->At = create_transposed_matrix(solver->work->data->A,
-                                                    solver->work->data->AtoAt);
-  solver->work->data->Gt = create_transposed_matrix(solver->work->data->G,
-                                                    solver->work->data->GtoGt);
-  ruiz_equilibration(solver);
+  solver->work->data->At = create_transposed_matrix(data->A, data->AtoAt);
+  solver->work->data->Gt = create_transposed_matrix(data->G, data->GtoGt);
+  ruiz_equilibration(data, solver->work->scaling, solver->settings->ruiz_iters);
 
   // Regularize P.
-  QOCOInt Preg_nnz = 0;
-  solver->work->kkt->Pnzadded_idx = qoco_calloc(n, sizeof(QOCOInt));
+  data->Pnzadded_idx = qoco_calloc(n, sizeof(QOCOInt));
   if (P) {
     QOCOInt num_diagP = count_diag(P);
-    solver->work->kkt->Pnum_nzadded = n - num_diagP;
-    Preg_nnz = P->nnz + (n - num_diagP);
-    QOCOCscMatrix* Preg = regularize_P(num_diagP, solver->work->data->P,
-                                       solver->settings->kkt_static_reg,
-                                       solver->work->kkt->Pnzadded_idx);
-    solver->work->data->P = Preg;
+    data->Pnum_nzadded = n - num_diagP;
+    QOCOCscMatrix* Preg =
+        regularize_P(num_diagP, data->P, solver->settings->kkt_static_reg,
+                     data->Pnzadded_idx);
+    data->P = Preg;
   }
   else {
-    Preg_nnz = n;
-    solver->work->data->P =
-        construct_identity(n, solver->settings->kkt_static_reg);
-    solver->work->kkt->Pnum_nzadded = n;
+    data->P = construct_identity(n, solver->settings->kkt_static_reg);
+    data->Pnum_nzadded = n;
   }
 
   // Compute number of nonzeros in upper triangular NT scaling matrix.
@@ -123,30 +109,12 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   Wsoc_nnz /= 2;
   QOCOInt Wnnz = m + Wsoc_nnz;
   solver->work->Wnnz = Wnnz;
-  solver->work->kkt->Wnnz = Wnnz;
-
-  solver->work->kkt->nt2kkt = qoco_calloc(solver->work->Wnnz, sizeof(QOCOInt));
-  solver->work->kkt->ntdiag2kkt = qoco_calloc(m, sizeof(QOCOInt));
-  solver->work->kkt->PregtoKKT = qoco_calloc(Preg_nnz, sizeof(QOCOInt));
-  solver->work->kkt->AttoKKT = qoco_calloc(Annz, sizeof(QOCOInt));
-  solver->work->kkt->GttoKKT = qoco_calloc(Gnnz, sizeof(QOCOInt));
-  solver->work->kkt->rhs = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  solver->work->kkt->kktres = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  solver->work->kkt->xyz = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  solver->work->kkt->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  solver->work->kkt->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  solver->work->kkt->K =
-      construct_kkt(data->P, data->A, data->G, data->At, data->Gt,
-                    solver->settings->kkt_static_reg, n, m, p, l, nsoc, q,
-                    solver->work->kkt->PregtoKKT, solver->work->kkt->AttoKKT,
-                    solver->work->kkt->GttoKKT, solver->work->kkt->nt2kkt,
-                    solver->work->kkt->ntdiag2kkt, solver->work->Wnnz);
 
   solver->linsys = &backend;
 
   // Set up linear system data.
   solver->linsys_data =
-      solver->linsys->linsys_setup(solver->work->kkt, solver->work->data);
+      solver->linsys->linsys_setup(data, solver->settings, Wnnz);
   if (!solver->linsys_data) {
     return QOCO_SETUP_ERROR;
   }
@@ -159,9 +127,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->mu = 0.0;
 
   // Allocate Nesterov-Todd scalings and scaled variables.
-  QOCOInt Wnnzfull = solver->work->data->l;
-  for (QOCOInt i = 0; i < solver->work->data->nsoc; ++i) {
-    Wnnzfull += solver->work->data->q[i] * solver->work->data->q[i];
+  QOCOInt Wnnzfull = data->l;
+  for (QOCOInt i = 0; i < data->nsoc; ++i) {
+    Wnnzfull += data->q[i] * data->q[i];
   }
 
   solver->work->W = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
@@ -186,6 +154,11 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->ubuff2 = qoco_malloc(m * sizeof(QOCOFloat));
   solver->work->ubuff3 = qoco_malloc(m * sizeof(QOCOFloat));
   solver->work->Ds = qoco_malloc(m * sizeof(QOCOFloat));
+  solver->work->rhs = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->kktres = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->xyz = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
 
   // Allocate solution struct.
   solver->sol = qoco_malloc(sizeof(QOCOSolution));
@@ -259,21 +232,22 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
   // Update cost vector.
   if (cnew) {
     for (QOCOInt i = 0; i < data->n; ++i) {
-      data->c[i] = solver->work->kkt->k * solver->work->kkt->Druiz[i] * cnew[i];
+      data->c[i] =
+          solver->work->scaling->k * solver->work->scaling->Druiz[i] * cnew[i];
     }
   }
 
   // Update equality constraint vector.
   if (bnew) {
     for (QOCOInt i = 0; i < data->p; ++i) {
-      data->b[i] = solver->work->kkt->Eruiz[i] * bnew[i];
+      data->b[i] = solver->work->scaling->Eruiz[i] * bnew[i];
     }
   }
 
   // Update conic constraint vector.
   if (hnew) {
     for (QOCOInt i = 0; i < data->m; ++i) {
-      data->h[i] = solver->work->kkt->Fruiz[i] * hnew[i];
+      data->h[i] = solver->work->scaling->Fruiz[i] * hnew[i];
     }
   }
 }
@@ -283,40 +257,40 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
 {
   solver->sol->status = QOCO_UNSOLVED;
   QOCOProblemData* data = solver->work->data;
-  QOCOKKT* kkt = solver->work->kkt;
+  QOCOScaling* scaling = solver->work->scaling;
 
   // Undo regularization.
   unregularize(data->P, solver->settings->kkt_static_reg);
 
   // Unequilibrate P.
-  scale_arrayf(data->P->x, data->P->x, kkt->kinv, data->P->nnz);
-  row_col_scale(data->P, kkt->Dinvruiz, kkt->Dinvruiz);
+  scale_arrayf(data->P->x, data->P->x, scaling->kinv, data->P->nnz);
+  row_col_scale(data->P, scaling->Dinvruiz, scaling->Dinvruiz);
 
   // Unequilibrate c.
-  scale_arrayf(data->c, data->c, kkt->kinv, data->n);
-  ew_product(data->c, kkt->Dinvruiz, data->c, data->n);
+  scale_arrayf(data->c, data->c, scaling->kinv, data->n);
+  ew_product(data->c, scaling->Dinvruiz, data->c, data->n);
 
   // Unequilibrate A.
-  row_col_scale(data->A, kkt->Einvruiz, kkt->Dinvruiz);
+  row_col_scale(data->A, scaling->Einvruiz, scaling->Dinvruiz);
 
   // Unequilibrate G.
-  row_col_scale(data->G, kkt->Finvruiz, kkt->Dinvruiz);
+  row_col_scale(data->G, scaling->Finvruiz, scaling->Dinvruiz);
 
   // Unequilibrate b.
-  ew_product(data->b, kkt->Einvruiz, data->b, data->p);
+  ew_product(data->b, scaling->Einvruiz, data->b, data->p);
 
   // Unequilibrate h.
-  ew_product(data->h, kkt->Finvruiz, data->h, data->m);
+  ew_product(data->h, scaling->Finvruiz, data->h, data->m);
 
   // Update P and avoid nonzeros that were added for regularization.
   if (Pxnew) {
     QOCOInt avoid =
-        kkt->Pnum_nzadded > 0 ? kkt->Pnzadded_idx[0] : data->P->nnz + 1;
+        data->Pnum_nzadded > 0 ? data->Pnzadded_idx[0] : data->P->nnz + 1;
     QOCOInt offset = 0;
-    for (QOCOInt i = 0; i < data->P->nnz - kkt->Pnum_nzadded; ++i) {
+    for (QOCOInt i = 0; i < data->P->nnz - data->Pnum_nzadded; ++i) {
       if (i == avoid) {
         offset++;
-        avoid = kkt->Pnzadded_idx[offset];
+        avoid = data->Pnzadded_idx[offset];
       }
       else {
         data->P->x[i + offset] = Pxnew[i];
@@ -328,6 +302,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   if (Axnew) {
     for (QOCOInt i = 0; i < data->A->nnz; ++i) {
       data->A->x[i] = Axnew[i];
+      data->At->x[i] = Axnew[data->AtoAt[i]];
     }
   }
 
@@ -335,35 +310,18 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   if (Gxnew) {
     for (QOCOInt i = 0; i < data->G->nnz; ++i) {
       data->G->x[i] = Gxnew[i];
+      data->Gt->x[i] = Gxnew[data->GtoGt[i]];
     }
   }
 
   // Equilibrate new matrix data.
-  ruiz_equilibration(solver);
+  ruiz_equilibration(solver->work->data, solver->work->scaling,
+                     solver->settings->ruiz_iters);
 
   // Regularize P.
   unregularize(data->P, -solver->settings->kkt_static_reg);
 
   solver->linsys->linsys_update_data(solver->linsys_data, solver->work->data);
-
-  // Update P in KKT matrix.
-  for (QOCOInt i = 0; i < data->P->nnz; ++i) {
-    solver->work->kkt->K->x[solver->work->kkt->PregtoKKT[i]] = data->P->x[i];
-  }
-
-  // Update A in KKT matrix.
-  for (QOCOInt i = 0; i < data->A->nnz; ++i) {
-    solver->work->kkt->K
-        ->x[solver->work->kkt->AttoKKT[solver->work->data->AtoAt[i]]] =
-        data->A->x[i];
-  }
-
-  // Update G in KKT matrix.
-  for (QOCOInt i = 0; i < data->G->nnz; ++i) {
-    solver->work->kkt->K
-        ->x[solver->work->kkt->GttoKKT[solver->work->data->GtoGt[i]]] =
-        data->G->x[i];
-  }
 }
 
 QOCOInt qoco_solve(QOCOSolver* solver)
@@ -387,15 +345,14 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
     // Compute kkt residual.
-    compute_kkt_residual(data, work->x, work->y, work->s, work->z,
-                         work->kkt->kktres, solver->settings->kkt_static_reg,
-                         work->kkt->xyzbuff1, work->xbuff, work->ubuff1,
-                         work->ubuff2);
+    compute_kkt_residual(data, work->x, work->y, work->s, work->z, work->kktres,
+                         solver->settings->kkt_static_reg, work->xyzbuff1,
+                         work->xbuff, work->ubuff1, work->ubuff2);
 
     // Compute objective function.
     solver->sol->obj =
         compute_objective(data, work->x, work->xbuff,
-                          solver->settings->kkt_static_reg, work->kkt->k);
+                          solver->settings->kkt_static_reg, work->scaling->k);
 
     // Compute mu = s'*z / m.
     work->mu = (data->m > 0)
@@ -458,17 +415,18 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->data->c);
   qoco_free(solver->work->data->h);
   qoco_free(solver->work->data->q);
+  qoco_free(solver->work->data->Pnzadded_idx);
   qoco_free(solver->work->data);
 
   // Cleanup linsys.
   solver->linsys->linsys_cleanup(solver->linsys_data);
 
   // Free primal and dual variables.
-  qoco_free(solver->work->kkt->rhs);
-  qoco_free(solver->work->kkt->kktres);
-  qoco_free(solver->work->kkt->xyz);
-  qoco_free(solver->work->kkt->xyzbuff1);
-  qoco_free(solver->work->kkt->xyzbuff2);
+  qoco_free(solver->work->rhs);
+  qoco_free(solver->work->kktres);
+  qoco_free(solver->work->xyz);
+  qoco_free(solver->work->xyzbuff1);
+  qoco_free(solver->work->xyzbuff2);
   qoco_free(solver->work->x);
   qoco_free(solver->work->s);
   qoco_free(solver->work->y);
@@ -490,22 +448,15 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->ubuff3);
   qoco_free(solver->work->Ds);
 
-  // Free KKT struct.
-  free_qoco_csc_matrix(solver->work->kkt->K);
-  qoco_free(solver->work->kkt->delta);
-  qoco_free(solver->work->kkt->Druiz);
-  qoco_free(solver->work->kkt->Eruiz);
-  qoco_free(solver->work->kkt->Fruiz);
-  qoco_free(solver->work->kkt->Dinvruiz);
-  qoco_free(solver->work->kkt->Einvruiz);
-  qoco_free(solver->work->kkt->Finvruiz);
-  qoco_free(solver->work->kkt->nt2kkt);
-  qoco_free(solver->work->kkt->ntdiag2kkt);
-  qoco_free(solver->work->kkt->Pnzadded_idx);
-  qoco_free(solver->work->kkt->PregtoKKT);
-  qoco_free(solver->work->kkt->AttoKKT);
-  qoco_free(solver->work->kkt->GttoKKT);
-  qoco_free(solver->work->kkt);
+  // Free scaling struct.
+  qoco_free(solver->work->scaling->delta);
+  qoco_free(solver->work->scaling->Druiz);
+  qoco_free(solver->work->scaling->Eruiz);
+  qoco_free(solver->work->scaling->Fruiz);
+  qoco_free(solver->work->scaling->Dinvruiz);
+  qoco_free(solver->work->scaling->Einvruiz);
+  qoco_free(solver->work->scaling->Finvruiz);
+  qoco_free(solver->work->scaling);
 
   // Free solution struct.
   qoco_free(solver->sol->x);

@@ -271,7 +271,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
 void compute_centering(QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
-  QOCOFloat* Dzaff = &work->kkt->xyz[work->data->n + work->data->p];
+  QOCOFloat* Dzaff = &work->xyz[work->data->n + work->data->p];
   QOCOFloat a = qoco_min(linesearch(work->z, Dzaff, 1.0, solver),
                          linesearch(work->s, work->Ds, 1.0, solver));
 

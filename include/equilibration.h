@@ -33,9 +33,13 @@
  * clang-format on
 
  *
- * @param solver Pointer to solver.
+ * @param data Pointer to problem data.
+ * @param scaling Pointer to scaling struct.
+ * @param ruiz_iters Number of ruiz iterations.
+
  */
-void ruiz_equilibration(QOCOSolver* solver);
+void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
+                        QOCOInt ruiz_iters);
 
 /**
  * @brief Undo variable transformation induced by ruiz equilibration.
