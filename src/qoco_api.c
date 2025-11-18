@@ -44,24 +44,25 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   data->m = m;
   data->n = n;
   data->p = p;
-  data->A = new_qoco_csc_matrix(A);
-  data->G = new_qoco_csc_matrix(G);
+  solver->work->data->A = new_qoco_matrix(A);
+  solver->work->data->G = new_qoco_matrix(G);
   data->c = qoco_malloc(n * sizeof(QOCOFloat));
   data->b = qoco_malloc(p * sizeof(QOCOFloat));
   data->h = qoco_malloc(m * sizeof(QOCOFloat));
   data->q = qoco_malloc(nsoc * sizeof(QOCOInt));
 
-  copy_arrayf(c, data->c, n);
-  copy_arrayf(b, data->b, p);
-  copy_arrayf(h, data->h, m);
   copy_arrayi(q, data->q, nsoc);
+
+  solver->work->data->c = new_qoco_vectorf(c, n);
+  solver->work->data->b = new_qoco_vectorf(b, p);
+  solver->work->data->h = new_qoco_vectorf(h, m);
 
   data->l = l;
   data->nsoc = nsoc;
 
   // Copy P.
   if (P) {
-    data->P = new_qoco_csc_matrix(P);
+    data->P = new_qoco_matrix(P);
   }
   else {
     data->P = NULL;

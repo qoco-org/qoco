@@ -94,20 +94,21 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   // Allocate memory for mappings to KKT matrix.
   linsys_data->nt2kkt = qoco_calloc(Wnnz, sizeof(QOCOInt));
   linsys_data->ntdiag2kkt = qoco_calloc(data->m, sizeof(QOCOInt));
-  linsys_data->PregtoKKT = qoco_calloc(data->P->nnz, sizeof(QOCOInt));
-  linsys_data->AttoKKT = qoco_calloc(data->A->nnz, sizeof(QOCOInt));
-  linsys_data->GttoKKT = qoco_calloc(data->G->nnz, sizeof(QOCOInt));
+  linsys_data->PregtoKKT = qoco_calloc(get_nnz(data->P), sizeof(QOCOInt));
+  linsys_data->AttoKKT = qoco_calloc(get_nnz(data->A), sizeof(QOCOInt));
+  linsys_data->GttoKKT = qoco_calloc(get_nnz(data->G), sizeof(QOCOInt));
 
   QOCOInt* nt2kkt_temp = qoco_calloc(Wnnz, sizeof(QOCOInt));
   QOCOInt* ntdiag2kkt_temp = qoco_calloc(data->m, sizeof(QOCOInt));
-  QOCOInt* PregtoKKT_temp = qoco_calloc(data->P->nnz, sizeof(QOCOInt));
-  QOCOInt* AttoKKT_temp = qoco_calloc(data->A->nnz, sizeof(QOCOInt));
-  QOCOInt* GttoKKT_temp = qoco_calloc(data->G->nnz, sizeof(QOCOInt));
+  QOCOInt* PregtoKKT_temp = qoco_calloc(get_nnz(data->P), sizeof(QOCOInt));
+  QOCOInt* AttoKKT_temp = qoco_calloc(get_nnz(data->A), sizeof(QOCOInt));
+  QOCOInt* GttoKKT_temp = qoco_calloc(get_nnz(data->G), sizeof(QOCOInt));
 
   linsys_data->K = construct_kkt(
-      data->P, data->A, data->G, data->At, data->Gt, settings->kkt_static_reg,
-      data->n, data->m, data->p, data->l, data->nsoc, data->q, PregtoKKT_temp,
-      AttoKKT_temp, GttoKKT_temp, nt2kkt_temp, ntdiag2kkt_temp, Wnnz);
+      data->P->csc, data->A->csc, data->G->csc, data->At->csc, data->Gt->csc,
+      settings->kkt_static_reg, data->n, data->m, data->p, data->l, data->nsoc,
+      data->q, PregtoKKT_temp, AttoKKT_temp, GttoKKT_temp, nt2kkt_temp,
+      ntdiag2kkt_temp, Wnnz);
 
   // Compute AMD ordering.
   linsys_data->p = qoco_malloc(linsys_data->K->n * sizeof(QOCOInt));
@@ -132,15 +133,15 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
     linsys_data->ntdiag2kkt[i] = KtoPKPt[ntdiag2kkt_temp[i]];
   }
 
-  for (QOCOInt i = 0; i < data->P->nnz; ++i) {
+  for (QOCOInt i = 0; i < get_nnz(data->P); ++i) {
     linsys_data->PregtoKKT[i] = KtoPKPt[PregtoKKT_temp[i]];
   }
 
-  for (QOCOInt i = 0; i < data->A->nnz; ++i) {
+  for (QOCOInt i = 0; i < get_nnz(data->A); ++i) {
     linsys_data->AttoKKT[i] = KtoPKPt[AttoKKT_temp[i]];
   }
 
-  for (QOCOInt i = 0; i < data->G->nnz; ++i) {
+  for (QOCOInt i = 0; i < get_nnz(data->G); ++i) {
     linsys_data->GttoKKT[i] = KtoPKPt[GttoKKT_temp[i]];
   }
 
@@ -252,18 +253,20 @@ static void qdldl_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
 static void qdldl_update_data(LinSysData* linsys_data, QOCOProblemData* data)
 {
   // Update P in KKT matrix.
-  for (QOCOInt i = 0; i < data->P->nnz; ++i) {
-    linsys_data->K->x[linsys_data->PregtoKKT[i]] = data->P->x[i];
+  for (QOCOInt i = 0; i < get_nnz(data->P); ++i) {
+    linsys_data->K->x[linsys_data->PregtoKKT[i]] = data->P->csc->x[i];
   }
 
   // Update A in KKT matrix.
-  for (QOCOInt i = 0; i < data->A->nnz; ++i) {
-    linsys_data->K->x[linsys_data->AttoKKT[data->AtoAt[i]]] = data->A->x[i];
+  for (QOCOInt i = 0; i < get_nnz(data->A); ++i) {
+    linsys_data->K->x[linsys_data->AttoKKT[data->AtoAt[i]]] =
+        data->A->csc->x[i];
   }
 
   // Update G in KKT matrix.
-  for (QOCOInt i = 0; i < data->G->nnz; ++i) {
-    linsys_data->K->x[linsys_data->GttoKKT[data->GtoGt[i]]] = data->G->x[i];
+  for (QOCOInt i = 0; i < get_nnz(data->G); ++i) {
+    linsys_data->K->x[linsys_data->GttoKKT[data->GtoGt[i]]] =
+        data->G->csc->x[i];
   }
 }
 

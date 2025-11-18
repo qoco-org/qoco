@@ -54,6 +54,80 @@ typedef struct {
 QOCOCscMatrix* new_qoco_csc_matrix(const QOCOCscMatrix* A);
 
 /**
+ * @brief Allocates a new QOCOMatrix and copies A to it.
+ *
+ * @param A Matrix to copy.
+ * @return Pointer to new constructed matrix.
+ */
+QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A);
+
+/**
+ * @brief Frees QOCOMatrix.
+ *
+ * @param A Matrix to free.
+ */
+void free_qoco_matrix(QOCOMatrix* A);
+
+/**
+ * @brief Allocates a new QOCOVectorf and copies A to it.
+ *
+ * @param x vector to copy.
+ * @param n length of vector.
+ * @return Pointer to new constructed vector.
+ */
+QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n);
+
+/**
+ * @brief Frees QOCOVectorf.
+ *
+ * @param x Vector to free.
+ */
+void free_qoco_vectorf(QOCOVectorf* x);
+
+/**
+ * @brief Returns the number of nonzeros in a QOCOMatrix.
+ *
+ * @param A Input matrix.
+ * @return Number of nonzeros.
+ */
+QOCOInt get_nnz(const QOCOMatrix* A);
+
+/**
+ * @brief Returns x[idx].
+ *
+ * @param x Input vector.
+ * @param idx Index.
+ * @return x[idx].
+ */
+QOCOFloat get_element_vectorf(const QOCOVectorf* x, QOCOInt idx);
+
+/**
+ * @brief Performs x[idx] = data.
+ *
+ * @param x Input vector.
+ * @param idx Index.
+ * @param idx data.
+ */
+void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data);
+
+/**
+ * @brief Performs output .= 1.0 ./ input.
+ *
+ * @param input Input vector.
+ * @param output Input vector.
+ */
+void reciprocal_vectorf(const QOCOVectorf* input, QOCOVectorf* output);
+
+/**
+ * @brief Returns &x[idx].
+ *
+ * @param x Input vector.
+ * @param idx Index.
+ * @return &x[idx].
+ */
+QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx);
+
+/**
  * @brief Frees all the internal arrays and the pointer to the QOCOCscMatrix.
  * Should only be used if QOCOCscMatrix and all internal arrays were malloc'ed.
  *
