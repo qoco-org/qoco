@@ -290,10 +290,11 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
     for (QOCOInt i = 0; i < data->P->nnz - data->Pnum_nzadded; ++i) {
       if (i == avoid) {
         offset++;
-        avoid = offset > data->Pnum_nzadded ? data->Pnzadded_idx[offset]
-                                            : data->P->nnz + 1;
+        avoid = data->Pnzadded_idx[offset];
       }
-      data->P->x[i + offset] = Pxnew[i];
+      else {
+        data->P->x[i + offset] = Pxnew[i];
+      }
     }
   }
 
