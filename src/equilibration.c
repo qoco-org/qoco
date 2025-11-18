@@ -50,21 +50,20 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     scaling->k *= g;
 
     // Compute column infinity norms of A and G
+    // For CSC format, column norms are computed efficiently
+    QOCOFloat Anorm[data->n];
+    QOCOFloat Gnorm[data->n];
     if (get_nnz(data->A) > 0) {
-      QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
+      col_inf_norm_matrix(data->A, Anorm);
       for (QOCOInt j = 0; j < data->n; ++j) {
-        QOCOFloat nrm = inf_norm(&Acsc->x[Acsc->p[j]],
-                                 Acsc->p[j + 1] - Acsc->p[j]);
-        nrm = qoco_max(get_element_vectorf(scaling->delta, j), nrm);
+        QOCOFloat nrm = qoco_max(get_element_vectorf(scaling->delta, j), Anorm[j]);
         set_element_vectorf(scaling->delta, j, nrm);
       }
     }
     if (get_nnz(data->G) > 0) {
-      QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
+      col_inf_norm_matrix(data->G, Gnorm);
       for (QOCOInt j = 0; j < data->n; ++j) {
-        QOCOFloat nrm = inf_norm(&Gcsc->x[Gcsc->p[j]],
-                                 Gcsc->p[j + 1] - Gcsc->p[j]);
-        nrm = qoco_max(get_element_vectorf(scaling->delta, j), nrm);
+        QOCOFloat nrm = qoco_max(get_element_vectorf(scaling->delta, j), Gnorm[j]);
         set_element_vectorf(scaling->delta, j, nrm);
       }
     }
@@ -77,13 +76,9 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     }
 
     // Compute infinity norm of rows of [A 0 0].
+    // For row norms, compute column norms of the transpose (At is stored in CSC format)
     if (get_nnz(data->A) > 0) {
-      QOCOCscMatrix* Atcsc = get_csc_matrix(data->At);
-      for (QOCOInt j = 0; j < Atcsc->n; ++j) {
-        QOCOFloat nrm = inf_norm(&Atcsc->x[Atcsc->p[j]],
-                                 Atcsc->p[j + 1] - Atcsc->p[j]);
-        set_element_vectorf(scaling->delta, data->n + j, nrm);
-      }
+      col_inf_norm_matrix(data->At, &delta_data[data->n]);
       // d(i) = 1 / sqrt(Ainf(i));
       for (QOCOInt k = 0; k < data->p; ++k) {
         QOCOFloat temp =
@@ -94,13 +89,9 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     }
 
     // Compute infinity norm of rows of [G 0 0].
+    // For row norms, compute column norms of the transpose (Gt is stored in CSC format)
     if (get_nnz(data->G) > 0) {
-      QOCOCscMatrix* Gtcsc = get_csc_matrix(data->Gt);
-      for (QOCOInt j = 0; j < Gtcsc->n; ++j) {
-        QOCOFloat nrm = inf_norm(&Gtcsc->x[Gtcsc->p[j]],
-                                 Gtcsc->p[j + 1] - Gtcsc->p[j]);
-        set_element_vectorf(scaling->delta, data->n + data->p + j, nrm);
-      }
+      col_inf_norm_matrix(data->Gt, &delta_data[data->n + data->p]);
       // d(i) = 1 / sqrt(Ginf(i));
       for (QOCOInt k = 0; k < data->m; ++k) {
         QOCOFloat temp = qoco_sqrt(

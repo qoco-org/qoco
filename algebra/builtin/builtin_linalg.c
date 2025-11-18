@@ -112,6 +112,11 @@ void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
   col_inf_norm_USymm(get_csc_matrix(M), norm);
 }
 
+void col_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
+{
+  col_inf_norm(get_csc_matrix(M), norm);
+}
+
 void row_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
 {
   row_inf_norm(get_csc_matrix(M), norm);

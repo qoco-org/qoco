@@ -193,6 +193,15 @@ void SpMtv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm);
 
 /**
+ * @brief Computes the infinity norm of each column of M and stores in norm.
+ * Works with QOCOMatrix*.
+ *
+ * @param M An m by n sparse matrix.
+ * @param norm Result vector of length n.
+ */
+void col_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm);
+
+/**
  * @brief Computes the infinity norm of each row of M and stores in norm.
  * Works with QOCOMatrix*.
  *
