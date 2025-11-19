@@ -102,6 +102,32 @@ QOCOInt get_length_vectorf(const QOCOVectorf* x)
   return x->len;
 }
 
+void sync_vector_to_device_if_needed(QOCOVectorf* v)
+{
+  // No-op for builtin backend (no device memory)
+  (void)v;
+}
+
+void set_solve_phase(int active)
+{
+  // No-op for builtin backend (no device memory)
+  (void)active;
+}
+
+int get_solve_phase(void)
+{
+  // Always return 0 for builtin backend (no device memory)
+  return 0;
+}
+
+void copy_vector_from_device(QOCOVectorf* src, QOCOFloat* dst, QOCOInt n)
+{
+  // For builtin backend, just copy from host memory
+  if (src && dst) {
+    copy_arrayf(src->data, dst, n);
+  }
+}
+
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M)
 {
   return M->csc;
