@@ -467,7 +467,6 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
   // Run factorization - data structure persists from setup
   // Analysis only needed once (first factorization), then just factorization
   if (!linsys_data->analysis_done) {
-    fprintf(stderr, "DEBUG: Calling cuDSS analysis phase (first time)\n");
     cudssStatus_t status_analysis = cudssExecute(linsys_data->handle, CUDSS_PHASE_ANALYSIS,
                              linsys_data->config, linsys_data->data,
                              linsys_data->K_csr, linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix);
@@ -484,7 +483,6 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
     linsys_data->analysis_done = 1;
   }
 
-  fprintf(stderr, "DEBUG: Calling cuDSS factorization phase\n");
   cudssStatus_t status_factor = cudssExecute(linsys_data->handle, CUDSS_PHASE_FACTORIZATION,
                            linsys_data->config, linsys_data->data,
                            linsys_data->K_csr, linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix);
