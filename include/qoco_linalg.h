@@ -16,6 +16,10 @@
 #define QOCO_LINALG_H
 #include "definitions.h"
 
+typedef struct QOCOMatrix_ QOCOMatrix;
+typedef struct QOCOVectorf_ QOCOVectorf;
+typedef struct QOCOVectori_ QOCOVectori;
+
 /**
  * @brief Compressed sparse column format matrices.
  *
@@ -48,6 +52,173 @@ typedef struct {
  * @return Pointer to new constructed matrix.
  */
 QOCOCscMatrix* new_qoco_csc_matrix(const QOCOCscMatrix* A);
+
+/**
+ * @brief Allocates a new QOCOMatrix and copies A to it.
+ *
+ * @param A Matrix to copy.
+ * @return Pointer to new constructed matrix.
+ */
+QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A);
+
+/**
+ * @brief Frees QOCOMatrix.
+ *
+ * @param A Matrix to free.
+ */
+void free_qoco_matrix(QOCOMatrix* A);
+
+/**
+ * @brief Allocates a new QOCOVectorf and copies A to it.
+ *
+ * @param x vector to copy.
+ * @param n length of vector.
+ * @return Pointer to new constructed vector.
+ */
+QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n);
+
+/**
+ * @brief Frees QOCOVectorf.
+ *
+ * @param x Vector to free.
+ */
+void free_qoco_vectorf(QOCOVectorf* x);
+
+/**
+ * @brief Returns the number of nonzeros in a QOCOMatrix.
+ *
+ * @param A Input matrix.
+ * @return Number of nonzeros.
+ */
+QOCOInt get_nnz(const QOCOMatrix* A);
+
+/**
+ * @brief Returns x[idx].
+ *
+ * @param x Input vector.
+ * @param idx Index.
+ * @return x[idx].
+ */
+QOCOFloat get_element_vectorf(const QOCOVectorf* x, QOCOInt idx);
+
+/**
+ * @brief Performs x[idx] = data.
+ *
+ * @param x Input vector.
+ * @param idx Index.
+ * @param idx data.
+ */
+void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data);
+
+/**
+ * @brief Performs output .= 1.0 ./ input.
+ *
+ * @param input Input vector.
+ * @param output Input vector.
+ */
+void reciprocal_vectorf(const QOCOVectorf* input, QOCOVectorf* output);
+
+/**
+ * @brief Returns &x[idx].
+ *
+ * @param x Input vector.
+ * @param idx Index.
+ * @return &x[idx].
+ */
+QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx);
+
+/**
+ * @brief Returns the underlying data array of a QOCOVectorf.
+ *
+ * @param x Input vector.
+ * @return Pointer to underlying data array.
+ */
+QOCOFloat* get_data_vectorf(const QOCOVectorf* x);
+
+/**
+ * @brief Returns the length of a QOCOVectorf.
+ *
+ * @param x Input vector.
+ * @return Length of vector.
+ */
+QOCOInt get_length_vectorf(const QOCOVectorf* x);
+
+/**
+ * @brief Returns the underlying CSC matrix from a QOCOMatrix.
+ * This function provides access to implementation-specific data.
+ * For builtin implementation, returns the internal CSC matrix.
+ *
+ * @param M Input matrix.
+ * @return Pointer to underlying CSC matrix.
+ */
+QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M);
+
+/**
+ * @brief Sparse matrix vector multiplication for QOCOMatrix where M is
+ * symmetric and only the upper triangular part is given. Computes r = M * v
+ *
+ * @param M Upper triangular part of M.
+ * @param v Vector.
+ * @param r Result.
+ */
+void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
+
+/**
+ * @brief Sparse matrix vector multiplication for QOCOMatrix. Computes r = M * v.
+ *
+ * @param M Matrix.
+ * @param v Vector.
+ * @param r Result.
+ */
+void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
+
+/**
+ * @brief Sparse matrix vector multiplication for QOCOMatrix where M is first
+ * transposed. Computes r = M^T * v.
+ *
+ * @param M Matrix.
+ * @param v Vector.
+ * @param r Result.
+ */
+void SpMtv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
+
+/**
+ * @brief Computes the infinity norm of each column (or equivalently row) of a
+ * symmetric sparse matrix M where only the upper triangular portion of M is
+ * given. Works with QOCOMatrix*.
+ *
+ * @param M Upper triangular part of sparse symmetric matrix.
+ * @param norm Result vector of length n.
+ */
+void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm);
+
+/**
+ * @brief Computes the infinity norm of each column of M and stores in norm.
+ * Works with QOCOMatrix*.
+ *
+ * @param M An m by n sparse matrix.
+ * @param norm Result vector of length n.
+ */
+void col_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm);
+
+/**
+ * @brief Computes the infinity norm of each row of M and stores in norm.
+ * Works with QOCOMatrix*.
+ *
+ * @param M An m by n sparse matrix.
+ * @param norm Result vector of length m.
+ */
+void row_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm);
+
+/**
+ * @brief Scales the rows of M by E and columns of M by D.
+ * M = diag(E) * M * diag(D). Works with QOCOMatrix*.
+ *
+ * @param M An m by n sparse matrix.
+ * @param E Vector of length m.
+ * @param D Vector of length n.
+ */
+void row_col_scale_matrix(QOCOMatrix* M, const QOCOFloat* E, const QOCOFloat* D);
 
 /**
  * @brief Frees all the internal arrays and the pointer to the QOCOCscMatrix.

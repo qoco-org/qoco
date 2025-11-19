@@ -150,6 +150,24 @@ void col_inf_norm_USymm(const QOCOCscMatrix* M, QOCOFloat* norm)
   }
 }
 
+void col_inf_norm(const QOCOCscMatrix* M, QOCOFloat* norm)
+{
+  // Initialize norm array to zero
+  for (QOCOInt j = 0; j < M->n; j++) {
+    norm[j] = 0.0;
+  }
+  
+  // For CSC format, column norms are computed efficiently by iterating over columns
+  for (QOCOInt j = 0; j < M->n; j++) {
+    for (QOCOInt idx = M->p[j]; idx < M->p[j + 1]; idx++) {
+      QOCOFloat val = qoco_abs(M->x[idx]);
+      if (val > norm[j]) {
+        norm[j] = val;
+      }
+    }
+  }
+}
+
 void row_inf_norm(const QOCOCscMatrix* M, QOCOFloat* norm)
 {
   for (QOCOInt i = 0; i < M->m; ++i) {

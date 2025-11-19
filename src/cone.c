@@ -174,7 +174,8 @@ void compute_nt_scaling(QOCOWorkspace* work)
   // Compute Nesterov-Todd scaling for LP cone.
   QOCOInt idx;
   for (idx = 0; idx < work->data->l; ++idx) {
-    work->WtW[idx] = safe_div(work->s[idx], work->z[idx]);
+    work->WtW[idx] = safe_div(get_element_vectorf(work->s, idx),
+                              get_element_vectorf(work->z, idx));
     work->W[idx] = qoco_sqrt(work->WtW[idx]);
     work->Wfull[idx] = work->W[idx];
     work->Winv[idx] = safe_div(1.0, work->W[idx]);
@@ -186,15 +187,19 @@ void compute_nt_scaling(QOCOWorkspace* work)
   QOCOInt nt_idx_full = idx;
   for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
     // Compute normalized vectors.
-    QOCOFloat s_scal = soc_residual2(&work->s[idx], work->data->q[i]);
+    QOCOFloat s_scal =
+        soc_residual2(get_pointer_vectorf(work->s, idx), work->data->q[i]);
     s_scal = qoco_sqrt(s_scal);
     QOCOFloat f = safe_div(1.0, s_scal);
-    scale_arrayf(&work->s[idx], work->sbar, f, work->data->q[i]);
+    scale_arrayf(get_pointer_vectorf(work->s, idx), work->sbar, f,
+                 work->data->q[i]);
 
-    QOCOFloat z_scal = soc_residual2(&work->z[idx], work->data->q[i]);
+    QOCOFloat z_scal =
+        soc_residual2(get_pointer_vectorf(work->z, idx), work->data->q[i]);
     z_scal = qoco_sqrt(z_scal);
     f = safe_div(1.0, z_scal);
-    scale_arrayf(&work->z[idx], work->zbar, f, work->data->q[i]);
+    scale_arrayf(get_pointer_vectorf(work->z, idx), work->zbar, f,
+                 work->data->q[i]);
 
     QOCOFloat gamma = qoco_sqrt(
         0.5 * (1 + qoco_dot(work->sbar, work->zbar, work->data->q[i])));
@@ -264,22 +269,26 @@ void compute_nt_scaling(QOCOWorkspace* work)
   }
 
   // Compute scaled variable lambda. lambda = W * z.
-  nt_multiply(work->Wfull, work->z, work->lambda, work->data->l, work->data->m,
-              work->data->nsoc, work->data->q);
+  nt_multiply(work->Wfull, get_pointer_vectorf(work->z, 0), work->lambda,
+              work->data->l, work->data->m, work->data->nsoc, work->data->q);
 }
 
 void compute_centering(QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
   QOCOFloat* Dzaff = &work->xyz[work->data->n + work->data->p];
-  QOCOFloat a = qoco_min(linesearch(work->z, Dzaff, 1.0, solver),
-                         linesearch(work->s, work->Ds, 1.0, solver));
+  QOCOFloat a = qoco_min(
+      linesearch(get_pointer_vectorf(work->z, 0), Dzaff, 1.0, solver),
+      linesearch(get_pointer_vectorf(work->s, 0), work->Ds, 1.0, solver));
 
   // Compute rho. rho = ((s + a * Ds)'*(z + a * Dz)) / (s'*z).
-  qoco_axpy(Dzaff, work->z, work->ubuff1, a, work->data->m);
-  qoco_axpy(work->Ds, work->s, work->ubuff2, a, work->data->m);
+  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), work->ubuff1, a,
+            work->data->m);
+  qoco_axpy(work->Ds, get_pointer_vectorf(work->s, 0), work->ubuff2, a,
+            work->data->m);
   QOCOFloat rho = qoco_dot(work->ubuff1, work->ubuff2, work->data->m) /
-                  qoco_dot(work->z, work->s, work->data->m);
+                  qoco_dot(get_pointer_vectorf(work->z, 0),
+                           get_pointer_vectorf(work->s, 0), work->data->m);
 
   // Compute sigma. sigma = max(0, min(1, rho))^3.
   QOCOFloat sigma = qoco_min(1.0, rho);

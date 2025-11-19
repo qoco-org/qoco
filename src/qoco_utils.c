@@ -87,9 +87,9 @@ void print_header(QOCOSolver* solver)
   printf("|     eq constraints:   %-9d                       |\n", data->p);
   printf("|     ineq constraints: %-9d                       |\n", data->l);
   printf("|     soc constraints:  %-9d                       |\n", data->nsoc);
-  printf("|     nnz(P):           %-9d                       |\n", data->P->nnz - solver->work->data->Pnum_nzadded);
-  printf("|     nnz(A):           %-9d                       |\n", data->A->nnz);
-  printf("|     nnz(G):           %-9d                       |\n", data->G->nnz);
+  printf("|     nnz(P):           %-9d                       |\n", (data->P ? get_nnz(data->P) : 0) - solver->work->data->Pnum_nzadded);
+  printf("|     nnz(A):           %-9d                       |\n", get_nnz(data->A));
+  printf("|     nnz(G):           %-9d                       |\n", get_nnz(data->G));
   printf("| Solver Settings:                                      |\n");
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
@@ -133,55 +133,71 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat eabsinacc = solver->settings->abstol_inacc;
   QOCOFloat erelinacc = solver->settings->reltol_inacc;
 
-  ew_product(work->scaling->Einvruiz, data->b, work->ybuff, data->p);
+  QOCOFloat* Einvruiz_data = get_data_vectorf(work->scaling->Einvruiz);
+  QOCOFloat* bdata = get_data_vectorf(data->b);
+  ew_product(Einvruiz_data, bdata, work->ybuff, data->p);
   QOCOFloat binf = data->p > 0 ? inf_norm(work->ybuff, data->p) : 0;
 
-  ew_product(work->scaling->Fruiz, work->s, work->ubuff1, data->m);
+  QOCOFloat* Fruiz_data = get_data_vectorf(work->scaling->Fruiz);
+  QOCOFloat* sdata = get_data_vectorf(work->s);
+  ew_product(Fruiz_data, sdata, work->ubuff1, data->m);
   QOCOFloat sinf = data->m > 0 ? inf_norm(work->ubuff1, data->m) : 0;
 
-  ew_product(work->scaling->Dinvruiz, work->x, work->xbuff, data->n);
+  QOCOFloat* Dinvruiz_data = get_data_vectorf(work->scaling->Dinvruiz);
+  QOCOFloat* xdata = get_data_vectorf(work->x);
+  ew_product(Dinvruiz_data, xdata, work->xbuff, data->n);
   QOCOFloat cinf = inf_norm(work->xbuff, data->n);
 
-  ew_product(work->scaling->Finvruiz, data->h, work->ubuff3, data->m);
+  QOCOFloat* Finvruiz_data = get_data_vectorf(work->scaling->Finvruiz);
+  QOCOFloat* hdata = get_data_vectorf(data->h);
+  ew_product(Finvruiz_data, hdata, work->ubuff3, data->m);
   QOCOFloat hinf = data->m > 0 ? inf_norm(work->ubuff3, data->m) : 0;
 
   // Compute ||A^T * y||_\infty. If equality constraints aren't present, A->m =
   // A->n = 0 and SpMtv is a nullop.
-  SpMtv(data->A, work->y, work->xbuff);
-  ew_product(work->xbuff, work->scaling->Dinvruiz, work->xbuff, data->n);
+  QOCOFloat* ydata = get_data_vectorf(work->y);
+  SpMtv_matrix(data->A, ydata, work->xbuff);
+  ew_product(work->xbuff, Dinvruiz_data, work->xbuff, data->n);
   QOCOFloat Atyinf = data->p ? inf_norm(work->xbuff, data->n) : 0;
 
   // Compute ||G^T * z||_\infty. If inequality constraints aren't present, G->m
   // = G->n = 0 and SpMtv is a nullop.
-  SpMtv(data->G, work->z, work->xbuff);
-  ew_product(work->xbuff, work->scaling->Dinvruiz, work->xbuff, data->n);
+  QOCOFloat* zdata = get_data_vectorf(work->z);
+  SpMtv_matrix(data->G, zdata, work->xbuff);
+  ew_product(work->xbuff, Dinvruiz_data, work->xbuff, data->n);
   QOCOFloat Gtzinf = data->m > 0 ? inf_norm(work->xbuff, data->n) : 0;
 
   // Compute ||P * x||_\infty
-  USpMv(data->P, work->x, work->xbuff);
-  for (QOCOInt i = 0; i < data->n; ++i) {
-    work->xbuff[i] -= solver->settings->kkt_static_reg * work->x[i];
+  if (data->P) {
+    USpMv_matrix(data->P, xdata, work->xbuff);
+  } else {
+    for (QOCOInt i = 0; i < data->n; ++i) {
+      work->xbuff[i] = 0.0;
+    }
   }
-  ew_product(work->xbuff, work->scaling->Dinvruiz, work->xbuff, data->n);
+  for (QOCOInt i = 0; i < data->n; ++i) {
+    work->xbuff[i] -= solver->settings->kkt_static_reg * xdata[i];
+  }
+  ew_product(work->xbuff, Dinvruiz_data, work->xbuff, data->n);
   QOCOFloat Pxinf = inf_norm(work->xbuff, data->n);
-  QOCOFloat xPx = qoco_dot(work->x, work->xbuff, work->data->n);
+  QOCOFloat xPx = qoco_dot(xdata, work->xbuff, work->data->n);
 
   // Compute ||A * x||_\infty
-  SpMv(data->A, work->x, work->ybuff);
-  ew_product(work->ybuff, work->scaling->Einvruiz, work->ybuff, data->p);
+  SpMv_matrix(data->A, xdata, work->ybuff);
+  ew_product(work->ybuff, Einvruiz_data, work->ybuff, data->p);
   QOCOFloat Axinf = data->p ? inf_norm(work->ybuff, data->p) : 0;
 
   // Compute ||G * x||_\infty
-  SpMv(data->G, work->x, work->ubuff1);
-  ew_product(work->ubuff1, work->scaling->Finvruiz, work->ubuff1, data->m);
+  SpMv_matrix(data->G, xdata, work->ubuff1);
+  ew_product(work->ubuff1, Finvruiz_data, work->ubuff1, data->m);
   QOCOFloat Gxinf = data->m ? inf_norm(work->ubuff1, data->m) : 0;
 
   // Compute primal residual.
-  ew_product(&work->kktres[data->n], work->scaling->Einvruiz, work->ybuff,
+  ew_product(&work->kktres[data->n], Einvruiz_data, work->ybuff,
              data->p);
   QOCOFloat eq_res = inf_norm(work->ybuff, data->p);
 
-  ew_product(&work->kktres[data->n + data->p], work->scaling->Finvruiz,
+  ew_product(&work->kktres[data->n + data->p], Finvruiz_data,
              work->ubuff1, data->m);
   QOCOFloat conic_res = inf_norm(work->ubuff1, data->m);
 
@@ -189,14 +205,14 @@ unsigned char check_stopping(QOCOSolver* solver)
   solver->sol->pres = pres;
 
   // Compute dual residual.
-  ew_product(work->kktres, work->scaling->Dinvruiz, work->xbuff, data->n);
+  ew_product(work->kktres, Dinvruiz_data, work->xbuff, data->n);
   scale_arrayf(work->xbuff, work->xbuff, work->scaling->kinv, data->n);
   QOCOFloat dres = inf_norm(work->xbuff, data->n);
   solver->sol->dres = dres;
 
   // Compute complementary slackness residual.
-  ew_product(work->s, work->scaling->Fruiz, work->ubuff1, data->m);
-  ew_product(work->z, work->scaling->Fruiz, work->ubuff2, data->m);
+  ew_product(sdata, Fruiz_data, work->ubuff1, data->m);
+  ew_product(zdata, Fruiz_data, work->ubuff2, data->m);
   QOCOFloat gap = qoco_dot(work->ubuff1, work->ubuff2, data->m);
   gap *= work->scaling->kinv;
   solver->sol->gap = gap;
@@ -214,9 +230,10 @@ unsigned char check_stopping(QOCOSolver* solver)
   dres_rel *= work->scaling->kinv;
 
   // Compute max{1, abs(pobj), abs(dobj)}.
-  QOCOFloat ctx = qoco_dot(work->data->c, work->x, work->data->n);
-  QOCOFloat bty = qoco_dot(work->data->b, work->y, work->data->p);
-  QOCOFloat htz = qoco_dot(work->data->h, work->z, work->data->m);
+  QOCOFloat* cdata = get_data_vectorf(work->data->c);
+  QOCOFloat ctx = qoco_dot(cdata, xdata, work->data->n);
+  QOCOFloat bty = qoco_dot(bdata, ydata, work->data->p);
+  QOCOFloat htz = qoco_dot(hdata, zdata, work->data->m);
   QOCOFloat pobj = 0.5 * xPx + ctx;
   QOCOFloat dobj = -0.5 * xPx - bty - htz;
 
@@ -252,10 +269,10 @@ unsigned char check_stopping(QOCOSolver* solver)
 void copy_solution(QOCOSolver* solver)
 {
   // Copy optimization variables.
-  copy_arrayf(solver->work->x, solver->sol->x, solver->work->data->n);
-  copy_arrayf(solver->work->s, solver->sol->s, solver->work->data->m);
-  copy_arrayf(solver->work->y, solver->sol->y, solver->work->data->p);
-  copy_arrayf(solver->work->z, solver->sol->z, solver->work->data->m);
+  copy_arrayf(get_data_vectorf(solver->work->x), solver->sol->x, solver->work->data->n);
+  copy_arrayf(get_data_vectorf(solver->work->s), solver->sol->s, solver->work->data->m);
+  copy_arrayf(get_data_vectorf(solver->work->y), solver->sol->y, solver->work->data->p);
+  copy_arrayf(get_data_vectorf(solver->work->z), solver->sol->z, solver->work->data->m);
 
   solver->sol->solve_time_sec =
       get_elapsed_time_sec(&(solver->work->solve_timer));
