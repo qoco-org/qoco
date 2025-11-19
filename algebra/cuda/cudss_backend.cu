@@ -326,7 +326,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
                                    (int64_t)Kn, (int64_t)Kn, (int64_t)linsys_data->K->nnz,
                                    csr_row_ptr, NULL, csr_col_ind, csr_val,
                                    indexType, valueType_setup,
-                                   CUDSS_MTYPE_SPD, CUDSS_MVIEW_UPPER, CUDSS_BASE_ZERO));
+                                   CUDSS_MTYPE_SYMMETRIC, CUDSS_MVIEW_UPPER, CUDSS_BASE_ZERO));
   
   // Run analysis once during setup (data structure already created above)
   linsys_data->analysis_done = 0;  // Will be set to 1 after first analysis
@@ -514,15 +514,27 @@ void map_work_buffers_to_device(void* linsys_data_ptr, QOCOWorkspace* work)
   
   // Store original device pointers (if any) so we can restore them later
   // For now, just point d_data to our buffers
-  if (work->rhs && work->rhs->d_data) {
-    // Free the original device allocation and point to our buffer
-    cudaFree(work->rhs->d_data);
+  if (work->rhs) {
+    QOCOFloat* old_rhs = work->rhs->d_data;
+    if (old_rhs && old_rhs != linsys_data->d_xyzbuff1) {
+      CUDA_CHECK(cudaMemcpy(linsys_data->d_xyzbuff1, old_rhs,
+                            n * sizeof(QOCOFloat), cudaMemcpyDeviceToDevice));
+      cudaFree(old_rhs);
+    } else if (!old_rhs) {
+      CUDA_CHECK(cudaMemset(linsys_data->d_xyzbuff1, 0, n * sizeof(QOCOFloat)));
+    }
     work->rhs->d_data = linsys_data->d_xyzbuff1;
   }
   
-  if (work->xyz && work->xyz->d_data) {
-    // Free the original device allocation and point to our buffer
-    cudaFree(work->xyz->d_data);
+  if (work->xyz) {
+    QOCOFloat* old_xyz = work->xyz->d_data;
+    if (old_xyz && old_xyz != linsys_data->d_xyzbuff2) {
+      CUDA_CHECK(cudaMemcpy(linsys_data->d_xyzbuff2, old_xyz,
+                            n * sizeof(QOCOFloat), cudaMemcpyDeviceToDevice));
+      cudaFree(old_xyz);
+    } else if (!old_xyz) {
+      CUDA_CHECK(cudaMemset(linsys_data->d_xyzbuff2, 0, n * sizeof(QOCOFloat)));
+    }
     work->xyz->d_data = linsys_data->d_xyzbuff2;
   }
 }
@@ -582,6 +594,23 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   // work->xyz->d_data points to d_xyzbuff2 (mapped in map_work_buffers_to_device)
   // RHS was constructed directly into d_xyzbuff1, solution will be written to d_xyzbuff2
   
+  // Ensure RHS buffer contains the contents of b (in case caller passed a different pointer)
+  if (b) {
+    if (b != linsys_data->d_xyzbuff1) {
+      cudaPointerAttributes attrs;
+      cudaError_t err = cudaPointerGetAttributes(&attrs, b);
+      if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
+        CUDA_CHECK(cudaMemcpy(linsys_data->d_xyzbuff1, b, n * sizeof(QOCOFloat),
+                              cudaMemcpyDeviceToDevice));
+      } else {
+        CUDA_CHECK(cudaMemcpy(linsys_data->d_xyzbuff1, b, n * sizeof(QOCOFloat),
+                              cudaMemcpyHostToDevice));
+      }
+    }
+  } else {
+    CUDA_CHECK(cudaMemset(linsys_data->d_xyzbuff1, 0, n * sizeof(QOCOFloat)));
+  }
+  
   // Clear solution buffer (d_xyz_matrix points to d_xyzbuff2)
   CUDA_CHECK(cudaMemset(linsys_data->d_xyzbuff2, 0, n * sizeof(QOCOFloat)));
     
@@ -589,7 +618,19 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   // where solution is the output and rhs is the input
   // Note: d_rhs_matrix points to d_xyzbuff1, d_xyz_matrix points to d_xyzbuff2
   #ifdef HAVE_CUDSS
- 
+
+  // Debug: print RHS before solve
+  QOCOFloat* rhs_host = (QOCOFloat*)malloc(n * sizeof(QOCOFloat));
+  if (rhs_host) {
+    CUDA_CHECK(cudaMemcpy(rhs_host, linsys_data->d_xyzbuff1, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+    fprintf(stderr, "cuDSS RHS (first min(20,n) entries): ");
+    for (QOCOInt i = 0; i < n && i < 20; ++i) {
+      fprintf(stderr, "%.6e ", rhs_host[i]);
+    }
+    if (n > 20) fprintf(stderr, "...");
+    fprintf(stderr, "\n");
+  }
+
   cudssStatus_t status = cudssExecute(linsys_data->handle, CUDSS_PHASE_SOLVE,
                                       linsys_data->config, linsys_data->data,
                                       linsys_data->K_csr, linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix);
@@ -601,8 +642,25 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                          (status == CUDSS_STATUS_EXECUTION_FAILED) ? "EXECUTION_FAILED" : \
                          (status == CUDSS_STATUS_INTERNAL_ERROR) ? "INTERNAL_ERROR" : "UNKNOWN";
     fprintf(stderr, "ERROR: cuDSS solve failed with status %d (%s)\n", (int)status, err_str);
-    
+  } else {
+    // Debug: print solution after solve
+    QOCOFloat* sol_host = (QOCOFloat*)malloc(n * sizeof(QOCOFloat));
+    if (sol_host) {
+      CUDA_CHECK(cudaMemcpy(sol_host, linsys_data->d_xyzbuff2, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+      fprintf(stderr, "cuDSS solution (first min(20,n) entries): ");
+      for (QOCOInt i = 0; i < n && i < 20; ++i) {
+        fprintf(stderr, "%.6e ", sol_host[i]);
+      }
+      if (n > 20) fprintf(stderr, "...");
+      fprintf(stderr, "\n");
+      free(sol_host);
+    }
   }
+
+  if (rhs_host) {
+    free(rhs_host);
+  }
+
   // Solution is now in d_xyzbuff2 (pointed to by d_xyz_matrix and work->xyz->d_data)
   // No need to copy - work->xyz->d_data already points to d_xyzbuff2
   #else
