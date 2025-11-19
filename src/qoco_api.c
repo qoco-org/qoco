@@ -439,15 +439,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
       // Clear solve phase flag before copying solution (allows copy from device to host)
       #ifdef QOCO_ALGEBRA_BACKEND_CUDA
       extern void set_solve_phase(int active);
-      extern void sync_vector_to_device_if_needed(QOCOVectorf* v);
       set_solve_phase(0);
-      // Sync vectors from device to host before copying solution
-      sync_vector_to_device_if_needed(work->rhs);
-      sync_vector_to_device_if_needed(work->xyz);
-      sync_vector_to_device_if_needed(work->x);
-      sync_vector_to_device_if_needed(work->s);
-      sync_vector_to_device_if_needed(work->y);
-      sync_vector_to_device_if_needed(work->z);
       #endif
       unscale_variables(work);
       copy_solution(solver);

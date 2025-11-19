@@ -10,6 +10,10 @@
 
 #include "qoco_utils.h"
 
+#ifdef QOCO_ALGEBRA_BACKEND_CUDA
+extern void sync_vector_to_device_if_needed(QOCOVectorf* v);
+#endif
+
 void print_qoco_csc_matrix(QOCOCscMatrix* M)
 {
   printf("\nPrinting CSC Matrix:\n");
@@ -271,6 +275,14 @@ void copy_solution(QOCOSolver* solver)
   // Copy optimization variables from device to host (CUDA backend) or host to host (builtin)
   // During solve phase, get_data_vectorf returns device pointers, but we've cleared solve phase
   // before calling this, so it returns host pointers
+#ifdef QOCO_ALGEBRA_BACKEND_CUDA
+  sync_vector_to_device_if_needed(solver->work->rhs);
+  sync_vector_to_device_if_needed(solver->work->xyz);
+  sync_vector_to_device_if_needed(solver->work->x);
+  sync_vector_to_device_if_needed(solver->work->s);
+  sync_vector_to_device_if_needed(solver->work->y);
+  sync_vector_to_device_if_needed(solver->work->z);
+#endif
   copy_arrayf(get_data_vectorf(solver->work->x), solver->sol->x, solver->work->data->n);
   copy_arrayf(get_data_vectorf(solver->work->s), solver->sol->s, solver->work->data->m);
   copy_arrayf(get_data_vectorf(solver->work->y), solver->sol->y, solver->work->data->p);
