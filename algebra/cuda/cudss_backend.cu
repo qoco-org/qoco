@@ -306,8 +306,9 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   
   // Create cuDSS matrix in CSR format
   #ifdef HAVE_CUDSS
-  // cuDSS CSR format needs rowStart and rowEnd arrays
-  // For standard CSR, rowEnd[i] = rowStart[i+1], so we can create it
+  // cuDSS CSR format: rowEnd can be NULL (cuDSS will compute it from rowStart)
+  // The working example (simple.cpp) passes NULL for rowEnd
+  // Store row_end for potential future use, but pass NULL to cuDSS
   QOCOInt* csr_row_end;
   CUDA_CHECK(cudaMalloc(&csr_row_end, Kn * sizeof(QOCOInt)));
   // Copy rowStart[1..n] to rowEnd[0..n-1]
@@ -318,11 +319,14 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   cudaDataType_t indexType = CUDA_R_32I;  // QOCOInt is int32_t
   cudaDataType_t valueType_setup = (sizeof(QOCOFloat) == 8) ? CUDA_R_64F : CUDA_R_32F;
   
+  // KKT matrix is symmetric (upper triangular stored)
+  // Use CUDSS_MTYPE_SPD (symmetric positive definite) like the working example
+  // Pass NULL for rowEnd - cuDSS will compute it from rowStart
   CUDSS_CHECK(cudssMatrixCreateCsr(&linsys_data->K_csr,
                                    (int64_t)Kn, (int64_t)Kn, (int64_t)linsys_data->K->nnz,
-                                   csr_row_ptr, csr_row_end, csr_col_ind, csr_val,
+                                   csr_row_ptr, NULL, csr_col_ind, csr_val,
                                    indexType, valueType_setup,
-                                   CUDSS_MTYPE_GENERAL, CUDSS_MVIEW_FULL, CUDSS_BASE_ZERO));
+                                   CUDSS_MTYPE_SPD, CUDSS_MVIEW_UPPER, CUDSS_BASE_ZERO));
   
   // Run analysis once during setup (data structure already created above)
   linsys_data->analysis_done = 0;  // Will be set to 1 after first analysis
@@ -582,11 +586,12 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   
   // Clear solution buffer (d_xyz_matrix points to d_xyzbuff2)
   CUDA_CHECK(cudaMemset(linsys_data->d_xyzbuff2, 0, n * sizeof(QOCOFloat)));
-  
+    
   // cuDSS API signature: cudssExecute(handle, phase, config, data, matrix, solution, rhs)
   // where solution is the output and rhs is the input
   // Note: d_rhs_matrix points to d_xyzbuff1, d_xyz_matrix points to d_xyzbuff2
   #ifdef HAVE_CUDSS
+ 
   cudssStatus_t status = cudssExecute(linsys_data->handle, CUDSS_PHASE_SOLVE,
                                       linsys_data->config, linsys_data->data,
                                       linsys_data->K_csr, linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix);
@@ -598,6 +603,7 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                          (status == CUDSS_STATUS_EXECUTION_FAILED) ? "EXECUTION_FAILED" : \
                          (status == CUDSS_STATUS_INTERNAL_ERROR) ? "INTERNAL_ERROR" : "UNKNOWN";
     fprintf(stderr, "ERROR: cuDSS solve failed with status %d (%s)\n", (int)status, err_str);
+    
   }
   // Solution is now in d_xyzbuff2 (pointed to by d_xyz_matrix and work->xyz->d_data)
   // No need to copy - work->xyz->d_data already points to d_xyzbuff2
