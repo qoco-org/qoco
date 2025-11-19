@@ -33,26 +33,17 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
   QOCOInt nz = 0;
   QOCOInt col = 0;
   // Add P block
-  if (P) {
-    for (QOCOInt k = 0; k < P->nnz; ++k) {
-      if (PregtoKKT) {
-        PregtoKKT[k] = nz;
-      }
-      KKT->x[nz] = P->x[k];
-      KKT->i[nz] = P->i[k];
-      nz += 1;
+  for (QOCOInt k = 0; k < P->nnz; ++k) {
+    if (PregtoKKT) {
+      PregtoKKT[k] = nz;
     }
-    for (QOCOInt k = 0; k < P->n + 1; ++k) {
-      KKT->p[col] = P->p[k];
-      col += 1;
-    }
+    KKT->x[nz] = P->x[k];
+    KKT->i[nz] = P->i[k];
+    nz += 1;
   }
-  else {
-    // P is NULL, so just set column pointers for n columns
-    for (QOCOInt k = 0; k < n + 1; ++k) {
-      KKT->p[col] = 0;
-      col += 1;
-    }
+  for (QOCOInt k = 0; k < P->n + 1; ++k) {
+    KKT->p[col] = P->p[k];
+    col += 1;
   }
 
   // Add A^T block
@@ -280,14 +271,7 @@ QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
 {
   QOCOFloat* cdata = get_data_vectorf(data->c);
   QOCOFloat obj = qoco_dot(x, cdata, data->n);
-  if (data->P) {
-    USpMv_matrix(data->P, x, nbuff);
-  }
-  else {
-    for (QOCOInt i = 0; i < data->n; ++i) {
-      nbuff[i] = 0.0;
-    }
-  }
+  USpMv_matrix(data->P, x, nbuff);
 
   // Correct for regularization in P.
   QOCOFloat regularization_correction = 0.0;
