@@ -1,12 +1,21 @@
 cmake_minimum_required(VERSION 3.18)
 
+# Set CUDA flags early for compiler ID test
+# Check if cuda backend is requested before project() call
+if(DEFINED QOCO_ALGEBRA_BACKEND AND ${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -allow-unsupported-compiler")
+    set(CMAKE_CUDA_FLAGS_INIT "${CMAKE_CUDA_FLAGS_INIT} -allow-unsupported-compiler")
+    # Also set via cache to ensure it's picked up during compiler detection
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -allow-unsupported-compiler" CACHE STRING "Flags for CUDA compiler")
+endif()
+
 set(QOCO_VERSION_MAJOR "0")
 set(QOCO_VERSION_MINOR "1")
 set(QOCO_VERSION_PATCH "6")
 set(QOCO_VERSION ${QOCO_VERSION_MAJOR}.${QOCO_VERSION_MINOR}.${QOCO_VERSION_PATCH})
 
 # Project name
-project(qoco VERSION ${QOCO_VERSION})
+project(qoco VERSION ${QOCO_VERSION} LANGUAGES C CXX)
 message(STATUS "Building QOCO v${QOCO_VERSION}")
 
 # Detect operating system.
@@ -112,15 +121,21 @@ endif()
 set(QOCO_ALGEBRA_BACKEND
     "builtin"
     CACHE STRING "The Algebra to use")
+
+# CUDA flags are set early if needed
 add_subdirectory(algebra)
 
 get_property(qoco_sources GLOBAL PROPERTY QOCO_SOURCES)
 get_property(qoco_headers GLOBAL PROPERTY QOCO_HEADERS)
 get_property(qoco_include GLOBAL PROPERTY QOCO_INCLUDE)
 
+# Get CUDA libraries if using CUDA backend
+get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
+
 # Build qoco shared library.
 add_library(qoco SHARED)
 target_link_libraries(qoco qdldlobject amd)
+target_link_libraries(qoco ${qoco_cuda_libs})
 
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qoco m)
@@ -129,12 +144,33 @@ endif()
 target_include_directories(qoco PUBLIC ${qoco_include})
 target_sources(qoco PRIVATE ${qoco_sources})
 
+# Enable CUDA if using CUDA backend
+if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    enable_language(CUDA)
+    set_target_properties(qoco PROPERTIES
+        CUDA_SEPARABLE_COMPILATION ON
+        CUDA_RESOLVE_DEVICE_SYMBOLS ON
+    )
+endif()
+
 # Build qoco static library.
 add_library(qocostatic STATIC)
 target_link_libraries(qocostatic qdldlobject amd)
+target_link_libraries(qocostatic ${qoco_cuda_libs})
 
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qocostatic m)
+endif()
+
+target_include_directories(qocostatic PUBLIC ${qoco_include})
+target_sources(qocostatic PRIVATE ${qoco_sources})
+
+# Enable CUDA if using CUDA backend
+if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    set_target_properties(qocostatic PROPERTIES
+        CUDA_SEPARABLE_COMPILATION ON
+        CUDA_RESOLVE_DEVICE_SYMBOLS ON
+    )
 endif()
 
 target_include_directories(qocostatic PUBLIC ${qoco_include})

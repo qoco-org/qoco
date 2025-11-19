@@ -10,7 +10,7 @@
 
 #include "qoco_api.h"
 #include "amd.h"
-#include "qdldl_backend.h" // TODO: make this modular so we can use any backend.
+#include "backend.h"
 
 QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
                    QOCOCscMatrix* P, QOCOFloat* c, QOCOCscMatrix* A,
