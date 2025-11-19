@@ -51,8 +51,8 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
 
     // Compute column infinity norms of A and G
     // For CSC format, column norms are computed efficiently
-    QOCOFloat Anorm[data->n];
-    QOCOFloat Gnorm[data->n];
+    QOCOFloat* Anorm = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * data->n);
+    QOCOFloat* Gnorm = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * data->n);    
     if (get_nnz(data->A) > 0) {
       col_inf_norm_matrix(data->A, Anorm);
       for (QOCOInt j = 0; j < data->n; ++j) {
@@ -67,6 +67,8 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
         set_element_vectorf(scaling->delta, j, nrm);
       }
     }
+    qoco_free(Anorm);
+    qoco_free(Gnorm);
 
     // d(i) = 1 / sqrt(max([Pinf(i), Atinf(i), Gtinf(i)]));
     for (QOCOInt j = 0; j < data->n; ++j) {
