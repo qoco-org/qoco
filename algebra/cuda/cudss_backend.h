@@ -40,6 +40,7 @@ typedef enum { CUDSS_PHASE_ANALYSIS, CUDSS_PHASE_FACTORIZATION, CUDSS_PHASE_SOLV
 #define cudssConfigCreate(x) (CUDSS_STATUS_SUCCESS)
 #define cudssDataCreate(h, x) (CUDSS_STATUS_SUCCESS)
 #define cudssMatrixCreateCsr(h, m, nrows, ncols, nnz, rp, ci, v) (CUDSS_STATUS_SUCCESS)
+#define cudssMatrixSetValues(m, v) (CUDSS_STATUS_SUCCESS)
 #define cudssExecute(h, p, c, d, m, x, b) (CUDSS_STATUS_SUCCESS)
 #define cudssMatrixDestroy(m) ((void)0)
 #define cudssDataDestroy(d) ((void)0)
