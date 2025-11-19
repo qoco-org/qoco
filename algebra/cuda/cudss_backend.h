@@ -15,7 +15,6 @@
 #ifndef CUDSS_BACKEND_H
 #define CUDSS_BACKEND_H
 
-#include "amd.h"
 #include "cuda_types.h"
 #ifdef __cplusplus
 extern "C" {

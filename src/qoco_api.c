@@ -163,9 +163,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->ubuff2 = qoco_malloc(m * sizeof(QOCOFloat));
   solver->work->ubuff3 = qoco_malloc(m * sizeof(QOCOFloat));
   solver->work->Ds = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->rhs = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->rhs = new_qoco_vectorf(NULL, n + m + p);
   solver->work->kktres = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  solver->work->xyz = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->xyz = new_qoco_vectorf(NULL, n + m + p);
   solver->work->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
   solver->work->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
 
@@ -374,6 +374,13 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     print_header(solver);
   }
 
+  // Set solve phase flag for CUDA backend (prevents CPU-GPU copies during solve)
+  // During solve phase, get_data_vectorf returns device pointers automatically
+  #ifdef QOCO_ALGEBRA_BACKEND_CUDA
+  extern void set_solve_phase(int active);
+  set_solve_phase(1);
+  #endif
+
   // Get initializations for primal and dual variables.
   initialize_ipm(solver);
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
@@ -396,6 +403,11 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     // Check stopping criteria.
     if (check_stopping(solver)) {
       stop_timer(&(work->solve_timer));
+      // Clear solve phase flag before copying solution (allows copy from device to host)
+      #ifdef QOCO_ALGEBRA_BACKEND_CUDA
+      extern void set_solve_phase(int active);
+      set_solve_phase(0);
+      #endif
       unscale_variables(work);
       copy_solution(solver);
       if (solver->settings->verbose) {
@@ -423,9 +435,22 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     }
   }
 
-  stop_timer(&(work->solve_timer));
-  unscale_variables(work);
-  copy_solution(solver);
+      stop_timer(&(work->solve_timer));
+      // Clear solve phase flag before copying solution (allows copy from device to host)
+      #ifdef QOCO_ALGEBRA_BACKEND_CUDA
+      extern void set_solve_phase(int active);
+      extern void sync_vector_to_device_if_needed(QOCOVectorf* v);
+      set_solve_phase(0);
+      // Sync vectors from device to host before copying solution
+      sync_vector_to_device_if_needed(work->rhs);
+      sync_vector_to_device_if_needed(work->xyz);
+      sync_vector_to_device_if_needed(work->x);
+      sync_vector_to_device_if_needed(work->s);
+      sync_vector_to_device_if_needed(work->y);
+      sync_vector_to_device_if_needed(work->z);
+      #endif
+      unscale_variables(work);
+      copy_solution(solver);
   solver->sol->status = QOCO_MAX_ITER;
   if (solver->settings->verbose) {
     print_footer(solver->sol, solver->sol->status);
@@ -458,9 +483,9 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   solver->linsys->linsys_cleanup(solver->linsys_data);
 
   // Free primal and dual variables.
-  qoco_free(solver->work->rhs);
+  free_qoco_vectorf(solver->work->rhs);
   qoco_free(solver->work->kktres);
-  qoco_free(solver->work->xyz);
+  free_qoco_vectorf(solver->work->xyz);
   qoco_free(solver->work->xyzbuff1);
   qoco_free(solver->work->xyzbuff2);
   free_qoco_vectorf(solver->work->x);

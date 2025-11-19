@@ -268,7 +268,9 @@ unsigned char check_stopping(QOCOSolver* solver)
 
 void copy_solution(QOCOSolver* solver)
 {
-  // Copy optimization variables.
+  // Copy optimization variables from device to host (CUDA backend) or host to host (builtin)
+  // During solve phase, get_data_vectorf returns device pointers, but we've cleared solve phase
+  // before calling this, so it returns host pointers
   copy_arrayf(get_data_vectorf(solver->work->x), solver->sol->x, solver->work->data->n);
   copy_arrayf(get_data_vectorf(solver->work->s), solver->sol->s, solver->work->data->m);
   copy_arrayf(get_data_vectorf(solver->work->y), solver->sol->y, solver->work->data->p);

@@ -112,6 +112,41 @@ TEST(missing_constraints_test, no_ineq_constraints)
     exit = qoco_solve(solver);
   }
 
+  // Debug: print solution struct after solve
+  printf("\n=== Solution after solve ===\n");
+  printf("exit code: %d\n", exit);
+  printf("status: %d\n", solver->sol->status);
+  printf("iters: %d\n", solver->sol->iters);
+  printf("obj: %e\n", solver->sol->obj);
+  printf("pres: %e\n", solver->sol->pres);
+  printf("dres: %e\n", solver->sol->dres);
+  printf("gap: %e\n", solver->sol->gap);
+  printf("x: ");
+  for (QOCOInt i = 0; i < n; ++i) {
+    printf("%e ", solver->sol->x[i]);
+  }
+  printf("\n");
+  if (p > 0) {
+    printf("y: ");
+    for (QOCOInt i = 0; i < p; ++i) {
+      printf("%e ", solver->sol->y[i]);
+    }
+    printf("\n");
+  }
+  if (m > 0) {
+    printf("s: ");
+    for (QOCOInt i = 0; i < m; ++i) {
+      printf("%e ", solver->sol->s[i]);
+    }
+    printf("\n");
+    printf("z: ");
+    for (QOCOInt i = 0; i < m; ++i) {
+      printf("%e ", solver->sol->z[i]);
+    }
+    printf("\n");
+  }
+  printf("============================\n\n");
+
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
   expect_eq_vectorf(solver->sol->y, yexp, p, tol);
   ASSERT_EQ(exit, QOCO_SOLVED);

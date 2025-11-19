@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 
 # Set CUDA flags early for compiler ID test
 # Check if cuda backend is requested before project() call
-if(DEFINED QOCO_ALGEBRA_BACKEND AND ${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+if(DEFINED QOCO_ALGEBRA_BACKEND AND QOCO_ALGEBRA_BACKEND STREQUAL "cuda")
     set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -allow-unsupported-compiler")
     set(CMAKE_CUDA_FLAGS_INIT "${CMAKE_CUDA_FLAGS_INIT} -allow-unsupported-compiler")
     # Also set via cache to ensure it's picked up during compiler detection
@@ -151,6 +151,12 @@ if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
         CUDA_SEPARABLE_COMPILATION ON
         CUDA_RESOLVE_DEVICE_SYMBOLS ON
     )
+    # Add HAVE_CUDSS definition if cuDSS library was found
+    get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
+    if("${qoco_cuda_libs}" MATCHES "cudss")
+        target_compile_definitions(qoco PRIVATE HAVE_CUDSS)
+        message(STATUS "Added HAVE_CUDSS to qoco target")
+    endif()
 endif()
 
 # Build qoco static library.
@@ -171,6 +177,11 @@ if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
         CUDA_SEPARABLE_COMPILATION ON
         CUDA_RESOLVE_DEVICE_SYMBOLS ON
     )
+    # Add HAVE_CUDSS definition if cuDSS library was found
+    get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
+    if("${qoco_cuda_libs}" MATCHES "cudss")
+        target_compile_definitions(qocostatic PRIVATE HAVE_CUDSS)
+    endif()
 endif()
 
 target_include_directories(qocostatic PUBLIC ${qoco_include})

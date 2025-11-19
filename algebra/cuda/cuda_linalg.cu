@@ -259,15 +259,48 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
   return &x->data[idx];
 }
 
+// Track solve phase to determine if we should return device or host pointers
+static int solve_phase_active = 0;
+
+void set_solve_phase(int active)
+{
+  solve_phase_active = active;
+}
+
+int get_solve_phase(void)
+{
+  return solve_phase_active;
+}
+
+// Helper function to copy solution vectors from device to host (called from C code)
+void copy_vector_from_device(QOCOVectorf* src, QOCOFloat* dst, QOCOInt n)
+{
+  if (src && src->d_data && dst) {
+    CUDA_CHECK(cudaMemcpy(dst, src->d_data, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+  }
+}
+
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
 {
-  // Return device pointer for GPU operations
-  return x->d_data;
+  // During equilibration/setup (CPU phase), return host pointer
+  // During solve (GPU phase), return device pointer to avoid CPU-GPU copies
+  if (solve_phase_active && x->d_data) {
+    return x->d_data;
+  }
+  return x->data;
 }
 
 QOCOInt get_length_vectorf(const QOCOVectorf* x)
 {
   return x->len;
+}
+
+void sync_vector_to_device_if_needed(QOCOVectorf* v)
+{
+  if (v && v->data && v->d_data) {
+    // Sync from device to host (at solver termination, copy device data to host)
+    CUDA_CHECK(cudaMemcpy(v->data, v->d_data, v->len * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+  }
 }
 
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M)
@@ -312,9 +345,10 @@ void row_col_scale_matrix(QOCOMatrix* M, const QOCOFloat* E, const QOCOFloat* D)
 
 void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data)
 {
-  // Update device directly (no host copy needed during solve)
+  // Update host (during setup/equilibration, host is primary)
+  x->data[idx] = data;
+  // Also update device to keep in sync
   CUDA_CHECK(cudaMemcpy(&x->d_data[idx], &data, sizeof(QOCOFloat), cudaMemcpyHostToDevice));
-  x->data[idx] = data;  // Keep host in sync for compatibility
 }
 
 void reciprocal_vectorf(const QOCOVectorf* input, QOCOVectorf* output)
@@ -384,23 +418,25 @@ void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
 
   if (n == 0) return;
   
-  const QOCOInt blockSize = 256;
-  const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
-  
-  // Check if pointers are on device
+  // Check if pointers are on device - handle errors gracefully
   cudaPointerAttributes attrs_x, attrs_y;
-  cudaPointerGetAttributes(&attrs_x, x);
-  cudaPointerGetAttributes(&attrs_y, y);
+  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
+  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
   
-  if (attrs_x.type == cudaMemoryTypeDevice || attrs_y.type == cudaMemoryTypeDevice) {
+  // If either pointer check succeeds and one is on device, use CUDA
+  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
+      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
+    const QOCOInt blockSize = 256;
+    const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
     // At least one pointer is on device - use kernel
-    if (attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeDevice) {
+    if (err_x == cudaSuccess && err_y == cudaSuccess &&
+        attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeDevice) {
       // Both device
       copy_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, n);
-    } else if (attrs_x.type == cudaMemoryTypeDevice) {
+    } else if (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) {
       // x on device, y on host
       CUDA_CHECK(cudaMemcpy(y, x, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
-    } else {
+    } else if (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice) {
       // y on device, x on host
       CUDA_CHECK(cudaMemcpy((QOCOFloat*)y, x, n * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
     }
@@ -423,14 +459,18 @@ void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
   const QOCOInt blockSize = 256;
   const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
   
+  // Check if pointers are on device - handle errors gracefully
   cudaPointerAttributes attrs_x, attrs_y;
-  cudaPointerGetAttributes(&attrs_x, x);
-  cudaPointerGetAttributes(&attrs_y, y);
+  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
+  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
   
-  if (attrs_x.type == cudaMemoryTypeDevice || attrs_y.type == cudaMemoryTypeDevice) {
-    if (attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeDevice) {
+  // If either pointer check succeeds and one is on device, use CUDA
+  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
+      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
+    if (err_x == cudaSuccess && err_y == cudaSuccess &&
+        attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeDevice) {
       copy_and_negate_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, n);
-    } else if (attrs_x.type == cudaMemoryTypeDevice) {
+    } else if (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) {
         QOCOFloat* temp = (QOCOFloat*)qoco_malloc(n * sizeof(QOCOFloat));
       CUDA_CHECK(cudaMemcpy(temp, x, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
       for (QOCOInt i = 0; i < n; ++i) y[i] = -temp[i];
@@ -460,16 +500,20 @@ void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
   const QOCOInt blockSize = 256;
   const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
   
+  // Check if pointers are on device - handle errors gracefully
   cudaPointerAttributes attrs_x, attrs_y;
-  cudaPointerGetAttributes(&attrs_x, x);
-  cudaPointerGetAttributes(&attrs_y, y);
+  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
+  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
   
-  if (attrs_x.type == cudaMemoryTypeDevice || attrs_y.type == cudaMemoryTypeDevice) {
-    if (attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeDevice) {
+  // If either pointer check succeeds and one is on device, use CUDA
+  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
+      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
+    if (err_x == cudaSuccess && err_y == cudaSuccess &&
+        attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeDevice) {
       copy_arrayi_kernel<<<numBlocks, blockSize>>>(x, (QOCOInt*)y, n);
-    } else if (attrs_x.type == cudaMemoryTypeDevice) {
+    } else if (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) {
       CUDA_CHECK(cudaMemcpy(y, x, n * sizeof(QOCOInt), cudaMemcpyDeviceToHost));
-    } else {
+    } else if (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice) {
       CUDA_CHECK(cudaMemcpy((QOCOInt*)y, x, n * sizeof(QOCOInt), cudaMemcpyHostToDevice));
     }
     CUDA_CHECK(cudaDeviceSynchronize());
@@ -487,11 +531,14 @@ QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
 
   if (n == 0) return 0.0;
 
+  // Check if pointers are on device - handle errors gracefully
   cudaPointerAttributes attrs_u, attrs_v;
-  cudaPointerGetAttributes(&attrs_u, u);
-  cudaPointerGetAttributes(&attrs_v, v);
-
-  if (attrs_u.type == cudaMemoryTypeDevice || attrs_v.type == cudaMemoryTypeDevice) {
+  cudaError_t err_u = cudaPointerGetAttributes(&attrs_u, u);
+  cudaError_t err_v = cudaPointerGetAttributes(&attrs_v, v);
+  
+  // If either pointer check fails or one is on device, use CUDA
+  if ((err_u == cudaSuccess && attrs_u.type == cudaMemoryTypeDevice) ||
+      (err_v == cudaSuccess && attrs_v.type == cudaMemoryTypeDevice)) {
     cublasHandle_t handle;
     cublasCreate(&handle);
     QOCOFloat result;
@@ -514,9 +561,9 @@ QOCOInt max_arrayi(const QOCOInt* x, QOCOInt n)
   if (n == 0) return -QOCOInt_MAX;
 
   cudaPointerAttributes attrs;
-  cudaPointerGetAttributes(&attrs, x);
-
-  if (attrs.type == cudaMemoryTypeDevice) {
+  cudaError_t err = cudaPointerGetAttributes(&attrs, x);
+  
+  if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
     // Copy to host and compute
       QOCOInt* h_x = (QOCOInt*)qoco_malloc(n * sizeof(QOCOInt));
     CUDA_CHECK(cudaMemcpy(h_x, x, n * sizeof(QOCOInt), cudaMemcpyDeviceToHost));
@@ -545,17 +592,22 @@ void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n)
   const QOCOInt blockSize = 256;
   const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
 
+  // Check if pointers are on device - handle errors gracefully
   cudaPointerAttributes attrs_x, attrs_y;
-  cudaPointerGetAttributes(&attrs_x, x);
-  cudaPointerGetAttributes(&attrs_y, y);
+  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
+  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
 
-  if (attrs_x.type == cudaMemoryTypeDevice || attrs_y.type == cudaMemoryTypeDevice) {
-    if (attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeDevice) {
+  // If either pointer check succeeds and one is on device, use CUDA
+  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
+      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
+    if (err_x == cudaSuccess && err_y == cudaSuccess &&
+        attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeDevice) {
       scale_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, s, n);
     } else {
       cublasHandle_t handle;
       cublasCreate(&handle);
-      if (attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeHost) {
+      if (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice &&
+          err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeHost) {
         QOCOFloat* d_y;
         CUDA_CHECK(cudaMalloc(&d_y, n * sizeof(QOCOFloat)));
         cublasDcopy(handle, n, x, 1, d_y, 1);
@@ -591,27 +643,33 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
   const QOCOInt blockSize = 256;
   const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
 
+  // Check if pointers are on device - handle errors gracefully
   cudaPointerAttributes attrs_x, attrs_y, attrs_z;
-  cudaPointerGetAttributes(&attrs_x, x);
-  cudaPointerGetAttributes(&attrs_y, y);
-  cudaPointerGetAttributes(&attrs_z, z);
-
-  if (attrs_x.type == cudaMemoryTypeDevice || attrs_y.type == cudaMemoryTypeDevice || attrs_z.type == cudaMemoryTypeDevice) {
-    if (attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeDevice && attrs_z.type == cudaMemoryTypeDevice) {
+  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
+  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
+  cudaError_t err_z = cudaPointerGetAttributes(&attrs_z, z);
+  
+  // If any pointer check succeeds and indicates device memory, use CUDA
+  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
+      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice) ||
+      (err_z == cudaSuccess && attrs_z.type == cudaMemoryTypeDevice)) {
+    if (err_x == cudaSuccess && err_y == cudaSuccess && err_z == cudaSuccess &&
+        attrs_x.type == cudaMemoryTypeDevice && attrs_y.type == cudaMemoryTypeDevice &&
+        attrs_z.type == cudaMemoryTypeDevice) {
       axpy_kernel<<<numBlocks, blockSize>>>(x, y, (QOCOFloat*)z, a, n);
     } else {
       cublasHandle_t handle;
       cublasCreate(&handle);
       // For mixed cases, use cublas
-      if (attrs_z.type == cudaMemoryTypeDevice) {
+      if (err_z == cudaSuccess && attrs_z.type == cudaMemoryTypeDevice) {
         cublasDcopy(handle, n, y, 1, (QOCOFloat*)z, 1);
         cublasDaxpy(handle, n, &a, x, 1, (QOCOFloat*)z, 1);
       } else {
         // Need to copy to host
         QOCOFloat* d_z;
         CUDA_CHECK(cudaMalloc(&d_z, n * sizeof(QOCOFloat)));
-        const QOCOFloat* d_x = (attrs_x.type == cudaMemoryTypeDevice) ? x : NULL;
-        const QOCOFloat* d_y = (attrs_y.type == cudaMemoryTypeDevice) ? y : NULL;
+        const QOCOFloat* d_x = (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ? x : NULL;
+        const QOCOFloat* d_y = (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice) ? y : NULL;
         if (!d_x) {
           CUDA_CHECK(cudaMalloc((void**)&d_x, n * sizeof(QOCOFloat)));
           CUDA_CHECK(cudaMemcpy((void*)d_x, x, n * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
@@ -623,8 +681,12 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
         cublasDcopy(handle, n, d_y, 1, d_z, 1);
         cublasDaxpy(handle, n, &a, d_x, 1, d_z, 1);
         CUDA_CHECK(cudaMemcpy(z, d_z, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
-        if (attrs_x.type == cudaMemoryTypeHost) cudaFree((void*)d_x);
-        if (attrs_y.type == cudaMemoryTypeHost) cudaFree((void*)d_y);
+        if (!d_x || (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeHost)) {
+          if (d_x) cudaFree((void*)d_x);
+        }
+        if (!d_y || (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeHost)) {
+          if (d_y) cudaFree((void*)d_y);
+        }
         cudaFree(d_z);
       }
       cublasDestroy(handle);
@@ -716,9 +778,9 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
   if (n == 0) return 0.0;
 
   cudaPointerAttributes attrs;
-  cudaPointerGetAttributes(&attrs, x);
-
-  if (attrs.type == cudaMemoryTypeDevice) {
+  cudaError_t err = cudaPointerGetAttributes(&attrs, x);
+  
+  if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
     const QOCOInt blockSize = 256;
     const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
     QOCOFloat* d_result;
