@@ -174,7 +174,8 @@ unsigned char check_stopping(QOCOSolver* solver)
   // Compute ||P * x||_\infty
   if (data->P) {
     USpMv_matrix(data->P, xdata, work->xbuff);
-  } else {
+  }
+  else {
     for (QOCOInt i = 0; i < data->n; ++i) {
       work->xbuff[i] = 0.0;
     }
@@ -197,12 +198,11 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat Gxinf = data->m ? inf_norm(work->ubuff1, data->m) : 0;
 
   // Compute primal residual.
-  ew_product(&work->kktres[data->n], Einvruiz_data, work->ybuff,
-             data->p);
+  ew_product(&work->kktres[data->n], Einvruiz_data, work->ybuff, data->p);
   QOCOFloat eq_res = inf_norm(work->ybuff, data->p);
 
-  ew_product(&work->kktres[data->n + data->p], Finvruiz_data,
-             work->ubuff1, data->m);
+  ew_product(&work->kktres[data->n + data->p], Finvruiz_data, work->ubuff1,
+             data->m);
   QOCOFloat conic_res = inf_norm(work->ubuff1, data->m);
 
   QOCOFloat pres = qoco_max(eq_res, conic_res);
@@ -272,9 +272,10 @@ unsigned char check_stopping(QOCOSolver* solver)
 
 void copy_solution(QOCOSolver* solver)
 {
-  // Copy optimization variables from device to host (CUDA backend) or host to host (builtin)
-  // During solve phase, get_data_vectorf returns device pointers, but we've cleared solve phase
-  // before calling this, so it returns host pointers
+  // Copy optimization variables from device to host (CUDA backend) or host to
+  // host (builtin) During solve phase, get_data_vectorf returns device
+  // pointers, but we've cleared solve phase before calling this, so it returns
+  // host pointers
 #ifdef QOCO_ALGEBRA_BACKEND_CUDA
   sync_vector_to_device_if_needed(solver->work->rhs);
   sync_vector_to_device_if_needed(solver->work->xyz);
@@ -283,10 +284,14 @@ void copy_solution(QOCOSolver* solver)
   sync_vector_to_device_if_needed(solver->work->y);
   sync_vector_to_device_if_needed(solver->work->z);
 #endif
-  copy_arrayf(get_data_vectorf(solver->work->x), solver->sol->x, solver->work->data->n);
-  copy_arrayf(get_data_vectorf(solver->work->s), solver->sol->s, solver->work->data->m);
-  copy_arrayf(get_data_vectorf(solver->work->y), solver->sol->y, solver->work->data->p);
-  copy_arrayf(get_data_vectorf(solver->work->z), solver->sol->z, solver->work->data->m);
+  copy_arrayf(get_data_vectorf(solver->work->x), solver->sol->x,
+              solver->work->data->n);
+  copy_arrayf(get_data_vectorf(solver->work->s), solver->sol->s,
+              solver->work->data->m);
+  copy_arrayf(get_data_vectorf(solver->work->y), solver->sol->y,
+              solver->work->data->p);
+  copy_arrayf(get_data_vectorf(solver->work->z), solver->sol->z,
+              solver->work->data->m);
 
   solver->sol->solve_time_sec =
       get_elapsed_time_sec(&(solver->work->solve_timer));

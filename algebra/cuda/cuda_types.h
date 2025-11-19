@@ -49,20 +49,22 @@ typedef struct {
 } QOCOCsrMatrix;
 
 struct QOCOVectori_ {
-  QOCOInt* data;  // Host pointer (kept for compatibility, but not used during solve)
-  QOCOInt* d_data;  // Device pointer (primary storage)
+  QOCOInt*
+      data; // Host pointer (kept for compatibility, but not used during solve)
+  QOCOInt* d_data; // Device pointer (primary storage)
   QOCOInt len;
 };
 
 struct QOCOVectorf_ {
-  QOCOFloat* data;  // Host pointer (kept for compatibility, but not used during solve)
-  QOCOFloat* d_data;  // Device pointer (primary storage)
+  QOCOFloat*
+      data; // Host pointer (kept for compatibility, but not used during solve)
+  QOCOFloat* d_data; // Device pointer (primary storage)
   QOCOInt len;
 };
 
 struct QOCOMatrix_ {
-  QOCOCscMatrix* csc;  // Host CSC (used for setup/CPU operations)
-  QOCOCsrMatrix* d_csr;  // Device CSR (primary GPU storage)
+  QOCOCscMatrix* csc;   // Host CSC (used for setup/CPU operations)
+  QOCOCsrMatrix* d_csr; // Device CSR (primary GPU storage)
 };
 
 #endif /* ifndef CUDA_TYPES_H */

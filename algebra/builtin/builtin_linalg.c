@@ -55,7 +55,8 @@ QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
   QOCOFloat* vdata = qoco_malloc(sizeof(QOCOFloat) * n);
   if (x) {
     copy_arrayf(x, vdata, n);
-  } else {
+  }
+  else {
     // Initialize to zero if x is NULL
     for (QOCOInt i = 0; i < n; ++i) {
       vdata[i] = 0.0;
@@ -92,15 +93,9 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
   return &x->data[idx];
 }
 
-QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
-{
-  return x->data;
-}
+QOCOFloat* get_data_vectorf(const QOCOVectorf* x) { return x->data; }
 
-QOCOInt get_length_vectorf(const QOCOVectorf* x)
-{
-  return x->len;
-}
+QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
 
 void sync_vector_to_device_if_needed(QOCOVectorf* v)
 {
@@ -128,10 +123,7 @@ void copy_vector_from_device(QOCOVectorf* src, QOCOFloat* dst, QOCOInt n)
   }
 }
 
-QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M)
-{
-  return M->csc;
-}
+QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }
 
 void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
 {

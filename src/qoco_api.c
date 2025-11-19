@@ -80,10 +80,12 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->data->AtoAt = qoco_malloc(Annz * sizeof(QOCOInt));
   solver->work->data->GtoGt = qoco_malloc(Gnnz * sizeof(QOCOInt));
 
-  QOCOCscMatrix* Atcsc = create_transposed_matrix(get_csc_matrix(data->A), data->AtoAt);
+  QOCOCscMatrix* Atcsc =
+      create_transposed_matrix(get_csc_matrix(data->A), data->AtoAt);
   solver->work->data->At = new_qoco_matrix(Atcsc);
   free_qoco_csc_matrix(Atcsc);
-  QOCOCscMatrix* Gtcsc = create_transposed_matrix(get_csc_matrix(data->G), data->GtoGt);
+  QOCOCscMatrix* Gtcsc =
+      create_transposed_matrix(get_csc_matrix(data->G), data->GtoGt);
   solver->work->data->Gt = new_qoco_matrix(Gtcsc);
   free_qoco_csc_matrix(Gtcsc);
   ruiz_equilibration(data, solver->work->scaling, solver->settings->ruiz_iters);
@@ -104,7 +106,8 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
     free_qoco_csc_matrix(Preg);
   }
   else {
-    QOCOCscMatrix* Pid = construct_identity(n, solver->settings->kkt_static_reg);
+    QOCOCscMatrix* Pid =
+        construct_identity(n, solver->settings->kkt_static_reg);
     data->P = new_qoco_matrix(Pid);
     free_qoco_csc_matrix(Pid);
     data->Pnum_nzadded = n;
@@ -243,8 +246,7 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
     QOCOFloat* cdata = get_data_vectorf(data->c);
     QOCOFloat* Druiz_data = get_data_vectorf(solver->work->scaling->Druiz);
     for (QOCOInt i = 0; i < data->n; ++i) {
-      cdata[i] =
-          solver->work->scaling->k * Druiz_data[i] * cnew[i];
+      cdata[i] = solver->work->scaling->k * Druiz_data[i] * cnew[i];
     }
   }
 
@@ -310,8 +312,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
 
   // Update P and avoid nonzeros that were added for regularization.
   if (Pxnew) {
-    QOCOInt avoid =
-        data->Pnum_nzadded > 0 ? data->Pnzadded_idx[0] : Pnnz + 1;
+    QOCOInt avoid = data->Pnum_nzadded > 0 ? data->Pnzadded_idx[0] : Pnnz + 1;
     QOCOInt offset = 0;
     for (QOCOInt i = 0; i < Pnnz - data->Pnum_nzadded; ++i) {
       if (i == avoid) {
@@ -374,19 +375,21 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     print_header(solver);
   }
 
-  // Set solve phase flag for CUDA backend (prevents CPU-GPU copies during solve)
-  // During solve phase, get_data_vectorf returns device pointers automatically
-  #ifdef QOCO_ALGEBRA_BACKEND_CUDA
+// Set solve phase flag for CUDA backend (prevents CPU-GPU copies during solve)
+// During solve phase, get_data_vectorf returns device pointers automatically
+#ifdef QOCO_ALGEBRA_BACKEND_CUDA
   extern void set_solve_phase(int active);
   set_solve_phase(1);
-  #endif
+#endif
 
   // Get initializations for primal and dual variables.
   initialize_ipm(solver);
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
     // Compute kkt residual.
-    compute_kkt_residual(data, get_data_vectorf(work->x), get_data_vectorf(work->y), get_data_vectorf(work->s), get_data_vectorf(work->z), work->kktres,
+    compute_kkt_residual(data, get_data_vectorf(work->x),
+                         get_data_vectorf(work->y), get_data_vectorf(work->s),
+                         get_data_vectorf(work->z), work->kktres,
                          solver->settings->kkt_static_reg, work->xyzbuff1,
                          work->xbuff, work->ubuff1, work->ubuff2);
 
@@ -397,17 +400,20 @@ QOCOInt qoco_solve(QOCOSolver* solver)
 
     // Compute mu = s'*z / m.
     work->mu = (data->m > 0)
-                   ? safe_div(qoco_dot(get_data_vectorf(work->s), get_data_vectorf(work->z), data->m), data->m)
+                   ? safe_div(qoco_dot(get_data_vectorf(work->s),
+                                       get_data_vectorf(work->z), data->m),
+                              data->m)
                    : 0;
 
     // Check stopping criteria.
     if (check_stopping(solver)) {
       stop_timer(&(work->solve_timer));
-      // Clear solve phase flag before copying solution (allows copy from device to host)
-      #ifdef QOCO_ALGEBRA_BACKEND_CUDA
+// Clear solve phase flag before copying solution (allows copy from device to
+// host)
+#ifdef QOCO_ALGEBRA_BACKEND_CUDA
       extern void set_solve_phase(int active);
       set_solve_phase(0);
-      #endif
+#endif
       unscale_variables(work);
       copy_solution(solver);
       if (solver->settings->verbose) {
@@ -435,14 +441,15 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     }
   }
 
-      stop_timer(&(work->solve_timer));
-      // Clear solve phase flag before copying solution (allows copy from device to host)
-      #ifdef QOCO_ALGEBRA_BACKEND_CUDA
-      extern void set_solve_phase(int active);
-      set_solve_phase(0);
-      #endif
-      unscale_variables(work);
-      copy_solution(solver);
+  stop_timer(&(work->solve_timer));
+// Clear solve phase flag before copying solution (allows copy from device to
+// host)
+#ifdef QOCO_ALGEBRA_BACKEND_CUDA
+  extern void set_solve_phase(int active);
+  set_solve_phase(0);
+#endif
+  unscale_variables(work);
+  copy_solution(solver);
   solver->sol->status = QOCO_MAX_ITER;
   if (solver->settings->verbose) {
     print_footer(solver->sol, solver->sol->status);
