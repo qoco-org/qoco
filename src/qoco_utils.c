@@ -172,14 +172,7 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat Gtzinf = data->m > 0 ? inf_norm(work->xbuff, data->n) : 0;
 
   // Compute ||P * x||_\infty
-  if (data->P) {
-    USpMv_matrix(data->P, xdata, work->xbuff);
-  }
-  else {
-    for (QOCOInt i = 0; i < data->n; ++i) {
-      work->xbuff[i] = 0.0;
-    }
-  }
+  USpMv_matrix(data->P, xdata, work->xbuff);
   for (QOCOInt i = 0; i < data->n; ++i) {
     work->xbuff[i] -= solver->settings->kkt_static_reg * xdata[i];
   }
