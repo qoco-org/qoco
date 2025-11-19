@@ -1,21 +1,12 @@
 cmake_minimum_required(VERSION 3.18)
 
-# Set CUDA flags early for compiler ID test
-# Check if cuda backend is requested before project() call
-if(DEFINED QOCO_ALGEBRA_BACKEND AND QOCO_ALGEBRA_BACKEND STREQUAL "cuda")
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -allow-unsupported-compiler")
-    set(CMAKE_CUDA_FLAGS_INIT "${CMAKE_CUDA_FLAGS_INIT} -allow-unsupported-compiler")
-    # Also set via cache to ensure it's picked up during compiler detection
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -allow-unsupported-compiler" CACHE STRING "Flags for CUDA compiler")
-endif()
-
 set(QOCO_VERSION_MAJOR "0")
 set(QOCO_VERSION_MINOR "1")
 set(QOCO_VERSION_PATCH "6")
 set(QOCO_VERSION ${QOCO_VERSION_MAJOR}.${QOCO_VERSION_MINOR}.${QOCO_VERSION_PATCH})
 
 # Project name
-project(qoco VERSION ${QOCO_VERSION} LANGUAGES C CXX)
+project(qoco VERSION ${QOCO_VERSION})
 message(STATUS "Building QOCO v${QOCO_VERSION}")
 
 # Detect operating system.
@@ -116,11 +107,10 @@ elseif(IS_WINDOWS)
 endif()
 
 # Add algebra (must be done after defining qoco_sources and qoco_headers, since we append to these varibles)
-
-# TODO: Logic for selecting algebra backend
-set(QOCO_ALGEBRA_BACKEND
-    "builtin"
-    CACHE STRING "The Algebra to use")
+if(NOT DEFINED QOCO_ALGEBRA_BACKEND)
+    set(QOCO_ALGEBRA_BACKEND "builtin" CACHE STRING "The Algebra to use")
+endif()
+message(STATUS "Using ${QOCO_ALGEBRA_BACKEND} algebra")
 
 # CUDA flags are set early if needed
 add_subdirectory(algebra)
@@ -183,7 +173,6 @@ if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
         target_compile_definitions(qocostatic PRIVATE HAVE_CUDSS)
     endif()
 endif()
-
 target_include_directories(qocostatic PUBLIC ${qoco_include})
 target_sources(qocostatic PRIVATE ${qoco_sources})
 
