@@ -25,7 +25,7 @@ def checkout_branch(branch_name, is_diff=False):
         print(f"Failed to checkout branch {branch_name}: {e}")
         raise
 
-def build_solver():
+def build_solver(backend="builtin"):
     build_dir = "build"
     cmake_cmd = [
     "cmake",
@@ -35,6 +35,14 @@ def build_solver():
     "-DQOCO_BUILD_TYPE:STR=Release",
     "-DBUILD_QOCO_BENCHMARK_RUNNER:BOOL=True"
     ]
+    
+    # Add backend-specific flag
+    if backend == "cuda":
+        cmake_cmd.append("-DQOCO_ALGEBRA_BACKEND:STR=cuda")
+    elif backend == "builtin":
+        cmake_cmd.append("-DQOCO_ALGEBRA_BACKEND:STR=builtin")
+    else:
+        raise ValueError(f"Invalid backend: {backend}. Must be 'cuda' or 'builtin'")
 
     # Run the command
     subprocess.run(cmake_cmd, check=True)
@@ -61,15 +69,21 @@ if __name__ == "__main__":
     diff_config = load_yaml(sys.argv[2])
     diff_config_name = os.path.splitext(os.path.basename(sys.argv[2]))[0]
 
-    # Safely get the branch names
+    # Safely get the branch names and backends
     baseline_branch = baseline_config.get("qoco", {}).get("branch")
     if not baseline_branch:
         raise ValueError("Baseline YAML is missing qoco.branch")
+    baseline_backend = baseline_config.get("qoco", {}).get("backend", "builtin")
+    if baseline_backend not in ["cuda", "builtin"]:
+        raise ValueError(f"Invalid backend in baseline YAML: {baseline_backend}. Must be 'cuda' or 'builtin'")
 
     # If BRANCH_NAME is set (by CI), the diff_branch = BRANCH_NAME
     diff_branch = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip() if os.environ.get("BRANCH_NAME") else diff_config.get("qoco", {}).get("branch")
     if not diff_branch:
         raise ValueError("Diff YAML is missing qoco.branch and BRANCH_NAME is not set")
+    diff_backend = diff_config.get("qoco", {}).get("backend", "builtin")
+    if diff_backend not in ["cuda", "builtin"]:
+        raise ValueError(f"Invalid backend in diff YAML: {diff_backend}. Must be 'cuda' or 'builtin'")
 
     # Make results directory
     temp_results_dir = "/tmp/results/"
@@ -77,7 +91,7 @@ if __name__ == "__main__":
 
     # Checkout and build the diff branch
     checkout_branch(diff_branch, is_diff=True)
-    build_solver()
+    build_solver(diff_backend)
 
     # Run diff solver
     diff_settings = format_settings(diff_config)
@@ -86,7 +100,7 @@ if __name__ == "__main__":
 
     # Checkout and build the baseline branch
     checkout_branch(baseline_branch, is_diff=False)
-    build_solver()
+    build_solver(baseline_backend)
 
     # Run baseline solver
     baseline_settings = format_settings(baseline_config)
