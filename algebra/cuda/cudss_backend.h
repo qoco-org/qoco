@@ -16,6 +16,7 @@
 #define CUDSS_BACKEND_H
 
 #include "cuda_types.h"
+#include <cudss.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -25,33 +26,6 @@ extern "C" {
 }
 #endif
 #include "structs.h"
-
-#ifdef HAVE_CUDSS
-#include <cudss.h>
-#else
-// Stub definitions for cuDSS types if not available
-typedef void* cudssHandle_t;
-typedef void* cudssConfig_t;
-typedef void* cudssData_t;
-typedef void* cudssMatrix_t;
-typedef enum { CUDSS_STATUS_SUCCESS } cudssStatus_t;
-typedef enum {
-  CUDSS_PHASE_ANALYSIS,
-  CUDSS_PHASE_FACTORIZATION,
-  CUDSS_PHASE_SOLVE
-} cudssPhase_t;
-#define cudssCreate(x) (CUDSS_STATUS_SUCCESS)
-#define cudssConfigCreate(x) (CUDSS_STATUS_SUCCESS)
-#define cudssDataCreate(h, x) (CUDSS_STATUS_SUCCESS)
-#define cudssMatrixCreateCsr(h, m, nrows, ncols, nnz, rp, ci, v)               \
-  (CUDSS_STATUS_SUCCESS)
-#define cudssMatrixSetValues(m, v) (CUDSS_STATUS_SUCCESS)
-#define cudssExecute(h, p, c, d, m, x, b) (CUDSS_STATUS_SUCCESS)
-#define cudssMatrixDestroy(m) ((void)0)
-#define cudssDataDestroy(d) ((void)0)
-#define cudssConfigDestroy(c) ((void)0)
-#define cudssDestroy(h) ((void)0)
-#endif
 
 extern LinSysBackend backend;
 
