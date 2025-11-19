@@ -12,6 +12,7 @@
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 #include <cusparse.h>
+#include <library_types.h>
 
 #include "kkt.h"
 #include "common_linalg.h"
@@ -29,7 +30,13 @@
   do { \
     cudssStatus_t err = call; \
     if (err != CUDSS_STATUS_SUCCESS) { \
-      fprintf(stderr, "cuDSS error at %s:%d\n", __FILE__, __LINE__); \
+      const char* err_str = (err == CUDSS_STATUS_NOT_INITIALIZED) ? "NOT_INITIALIZED" : \
+                           (err == CUDSS_STATUS_ALLOC_FAILED) ? "ALLOC_FAILED" : \
+                           (err == CUDSS_STATUS_INVALID_VALUE) ? "INVALID_VALUE" : \
+                           (err == CUDSS_STATUS_NOT_SUPPORTED) ? "NOT_SUPPORTED" : \
+                           (err == CUDSS_STATUS_EXECUTION_FAILED) ? "EXECUTION_FAILED" : \
+                           (err == CUDSS_STATUS_INTERNAL_ERROR) ? "INTERNAL_ERROR" : "UNKNOWN"; \
+      fprintf(stderr, "cuDSS error at %s:%d: status %d (%s)\n", __FILE__, __LINE__, (int)err, err_str); \
       exit(1); \
     } \
   } while(0)
@@ -282,8 +289,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   CUDA_CHECK(cudaMemcpy(csr_row_end, &csr_row_ptr[1], Kn * sizeof(QOCOInt), cudaMemcpyDeviceToDevice));
   
   // Determine data types
-  #include <library_types.h>
-  cudaDataType_t indexType = CUDA_R_32F;  // Use 32-bit float as placeholder for 32-bit int indices
+  cudaDataType_t indexType = CUDA_R_32I;  // QOCOInt is int32_t
   cudaDataType_t valueType_setup = (sizeof(QOCOFloat) == 8) ? CUDA_R_64F : CUDA_R_32F;
   
   CUDSS_CHECK(cudssMatrixCreateCsr(&linsys_data->K_csr,
@@ -335,11 +341,19 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
 {
   // Update matrix values - KKT matrix was updated on host (in CSC format)
   // Convert updated CSC to CSR and update device matrix
-  // Destroy old matrix if it exists
+  // Destroy old matrix and dense matrix wrappers if they exist
   #ifdef HAVE_CUDSS
   if (linsys_data->K_csr) {
     cudssMatrixDestroy(linsys_data->K_csr);
     linsys_data->K_csr = NULL;
+  }
+  if (linsys_data->d_xyz_matrix) {
+    cudssMatrixDestroy(linsys_data->d_xyz_matrix);
+    linsys_data->d_xyz_matrix = NULL;
+  }
+  if (linsys_data->d_rhs_matrix) {
+    cudssMatrixDestroy(linsys_data->d_rhs_matrix);
+    linsys_data->d_rhs_matrix = NULL;
   }
   #endif
   
@@ -363,8 +377,7 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
   CUDA_CHECK(cudaMemcpy(csr_row_end, &csr_row_ptr[1], linsys_data->K->n * sizeof(QOCOInt), cudaMemcpyDeviceToDevice));
   
   // Determine data types
-  #include <library_types.h>
-  cudaDataType_t indexType_factor = CUDA_R_32F;  // Use 32-bit float as placeholder for 32-bit int indices
+  cudaDataType_t indexType_factor = CUDA_R_32I;  // QOCOInt is int32_t
   cudaDataType_t valueType_factor = (sizeof(QOCOFloat) == 8) ? CUDA_R_64F : CUDA_R_32F;
   
   CUDSS_CHECK(cudssMatrixCreateCsr(&linsys_data->K_csr,
@@ -374,13 +387,41 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
                                    CUDSS_MTYPE_GENERAL, CUDSS_MVIEW_FULL, CUDSS_BASE_ZERO));
   
   // Perform analysis and factorization - use dense matrix wrappers for dummy vectors
-  CUDSS_CHECK(cudssExecute(linsys_data->handle, CUDSS_PHASE_ANALYSIS,
-                           linsys_data->config, linsys_data->data,
-                           linsys_data->K_csr, linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix));
+  // Recreate dense matrix wrappers pointing to the same device buffers
+  CUDSS_CHECK(cudssMatrixCreateDn(&linsys_data->d_rhs_matrix, (int64_t)linsys_data->K->n, 1, (int64_t)linsys_data->K->n, 
+                                   linsys_data->d_xyzbuff1, valueType_factor, CUDSS_LAYOUT_COL_MAJOR));
+  CUDSS_CHECK(cudssMatrixCreateDn(&linsys_data->d_xyz_matrix, (int64_t)linsys_data->K->n, 1, (int64_t)linsys_data->K->n, 
+                                   linsys_data->d_xyzbuff2, valueType_factor, CUDSS_LAYOUT_COL_MAJOR));
 
-  CUDSS_CHECK(cudssExecute(linsys_data->handle, CUDSS_PHASE_FACTORIZATION,
+  fprintf(stderr, "DEBUG: Calling cuDSS analysis phase\n");
+  cudssStatus_t status_analysis = cudssExecute(linsys_data->handle, CUDSS_PHASE_ANALYSIS,
                            linsys_data->config, linsys_data->data,
-                           linsys_data->K_csr, linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix));
+                           linsys_data->K_csr, linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix);
+  if (status_analysis != CUDSS_STATUS_SUCCESS) {
+    const char* err_str = (status_analysis == CUDSS_STATUS_NOT_INITIALIZED) ? "NOT_INITIALIZED" : \
+                         (status_analysis == CUDSS_STATUS_ALLOC_FAILED) ? "ALLOC_FAILED" : \
+                         (status_analysis == CUDSS_STATUS_INVALID_VALUE) ? "INVALID_VALUE" : \
+                         (status_analysis == CUDSS_STATUS_NOT_SUPPORTED) ? "NOT_SUPPORTED" : \
+                         (status_analysis == CUDSS_STATUS_EXECUTION_FAILED) ? "EXECUTION_FAILED" : \
+                         (status_analysis == CUDSS_STATUS_INTERNAL_ERROR) ? "INTERNAL_ERROR" : "UNKNOWN";
+    fprintf(stderr, "ERROR: cuDSS analysis failed with status %d (%s)\n", (int)status_analysis, err_str);
+    exit(1);
+  }
+
+  fprintf(stderr, "DEBUG: Calling cuDSS factorization phase\n");
+  cudssStatus_t status_factor = cudssExecute(linsys_data->handle, CUDSS_PHASE_FACTORIZATION,
+                           linsys_data->config, linsys_data->data,
+                           linsys_data->K_csr, linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix);
+  if (status_factor != CUDSS_STATUS_SUCCESS) {
+    const char* err_str = (status_factor == CUDSS_STATUS_NOT_INITIALIZED) ? "NOT_INITIALIZED" : \
+                         (status_factor == CUDSS_STATUS_ALLOC_FAILED) ? "ALLOC_FAILED" : \
+                         (status_factor == CUDSS_STATUS_INVALID_VALUE) ? "INVALID_VALUE" : \
+                         (status_factor == CUDSS_STATUS_NOT_SUPPORTED) ? "NOT_SUPPORTED" : \
+                         (status_factor == CUDSS_STATUS_EXECUTION_FAILED) ? "EXECUTION_FAILED" : \
+                         (status_factor == CUDSS_STATUS_INTERNAL_ERROR) ? "INTERNAL_ERROR" : "UNKNOWN";
+    fprintf(stderr, "ERROR: cuDSS factorization failed with status %d (%s)\n", (int)status_factor, err_str);
+    exit(1);
+  }
   #else
   // cuDSS not available - free device arrays and set to NULL
   linsys_data->K_csr = NULL;
@@ -461,20 +502,31 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   }
   
   // Solve - cuDSS expects dense matrix wrappers for b and x
-  // Copy data from b and x into cuDSS dense matrix buffers
+  // Copy data from b into cuDSS dense matrix buffer for RHS
   CUDA_CHECK(cudaMemcpy(linsys_data->d_xyzbuff1, d_b, n * sizeof(QOCOFloat), cudaMemcpyDeviceToDevice));
+  
+  // Clear solution buffer (d_xyz_matrix points to d_xyzbuff2)
+  CUDA_CHECK(cudaMemset(linsys_data->d_xyzbuff2, 0, n * sizeof(QOCOFloat)));
   
   // cuDSS API signature: cudssExecute(handle, phase, config, data, matrix, solution, rhs)
   // where solution is the output and rhs is the input
+  // Note: d_rhs_matrix points to d_xyzbuff1, d_xyz_matrix points to d_xyzbuff2
   #ifdef HAVE_CUDSS
   fprintf(stderr, "DEBUG: Calling cuDSS solve with HAVE_CUDSS defined\n");
   cudssStatus_t status = cudssExecute(linsys_data->handle, CUDSS_PHASE_SOLVE,
                                       linsys_data->config, linsys_data->data,
                                       linsys_data->K_csr, linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix);
   if (status != CUDSS_STATUS_SUCCESS) {
-    fprintf(stderr, "ERROR: cuDSS solve failed with status %d\n", (int)status);
+    const char* err_str = (status == CUDSS_STATUS_NOT_INITIALIZED) ? "NOT_INITIALIZED" : \
+                         (status == CUDSS_STATUS_ALLOC_FAILED) ? "ALLOC_FAILED" : \
+                         (status == CUDSS_STATUS_INVALID_VALUE) ? "INVALID_VALUE" : \
+                         (status == CUDSS_STATUS_NOT_SUPPORTED) ? "NOT_SUPPORTED" : \
+                         (status == CUDSS_STATUS_EXECUTION_FAILED) ? "EXECUTION_FAILED" : \
+                         (status == CUDSS_STATUS_INTERNAL_ERROR) ? "INTERNAL_ERROR" : "UNKNOWN";
+    fprintf(stderr, "ERROR: cuDSS solve failed with status %d (%s)\n", (int)status, err_str);
   }
   // Copy solution back from cuDSS dense matrix buffer to x
+  // d_xyz_matrix points to d_xyzbuff2, so copy from there to d_x
   CUDA_CHECK(cudaMemcpy(d_x, linsys_data->d_xyzbuff2, n * sizeof(QOCOFloat), cudaMemcpyDeviceToDevice));
   #else
   fprintf(stderr, "DEBUG: HAVE_CUDSS not defined, using fallback (copy b to x)\n");
