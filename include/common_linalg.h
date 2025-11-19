@@ -70,6 +70,14 @@ void unregularize(QOCOCscMatrix* M, QOCOFloat lambda);
 void col_inf_norm_USymm(const QOCOCscMatrix* M, QOCOFloat* norm);
 
 /**
+ * @brief Computes the infinity norm of each column of M and stores in norm.
+ *
+ * @param M An m by n sparse matrix in CSC format.
+ * @param norm Result vector of length n.
+ */
+void col_inf_norm(const QOCOCscMatrix* M, QOCOFloat* norm);
+
+/**
  * @brief Computes the infinity norm of each row of M and stores in norm.
  *
  * @param M An m by n sparse matrix.

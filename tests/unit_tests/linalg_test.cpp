@@ -409,9 +409,9 @@ TEST(linalg, ruiz_test)
 
   qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
 
-  expect_eq_vectorf(solver->work->scaling->Druiz, Dexp, n, tol);
-  expect_eq_vectorf(solver->work->scaling->Eruiz, Eexp, p, tol);
-  expect_eq_vectorf(solver->work->scaling->Fruiz, Fexp, m, tol);
+  expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Druiz), Dexp, n, tol);
+  expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Eruiz), Eexp, p, tol);
+  expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Fruiz), Fexp, m, tol);
   EXPECT_NEAR(solver->work->scaling->k, kexp, tol);
 
   qoco_cleanup(solver);

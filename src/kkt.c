@@ -23,7 +23,8 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
 
   KKT->m = n + m + p;
   KKT->n = n + m + p;
-  KKT->nnz = P->nnz + A->nnz + G->nnz + Wnnz + p;
+  QOCOInt Pnnz = P ? P->nnz : 0;
+  KKT->nnz = Pnnz + A->nnz + G->nnz + Wnnz + p;
 
   KKT->x = qoco_calloc(KKT->nnz, sizeof(QOCOFloat));
   KKT->i = qoco_calloc(KKT->nnz, sizeof(QOCOInt));
@@ -32,15 +33,25 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
   QOCOInt nz = 0;
   QOCOInt col = 0;
   // Add P block
-  for (QOCOInt k = 0; k < P->nnz; ++k) {
-    PregtoKKT[k] = nz;
-    KKT->x[nz] = P->x[k];
-    KKT->i[nz] = P->i[k];
-    nz += 1;
-  }
-  for (QOCOInt k = 0; k < P->n + 1; ++k) {
-    KKT->p[col] = P->p[k];
-    col += 1;
+  if (P) {
+    for (QOCOInt k = 0; k < P->nnz; ++k) {
+      if (PregtoKKT) {
+        PregtoKKT[k] = nz;
+      }
+      KKT->x[nz] = P->x[k];
+      KKT->i[nz] = P->i[k];
+      nz += 1;
+    }
+    for (QOCOInt k = 0; k < P->n + 1; ++k) {
+      KKT->p[col] = P->p[k];
+      col += 1;
+    }
+  } else {
+    // P is NULL, so just set column pointers for n columns
+    for (QOCOInt k = 0; k < n + 1; ++k) {
+      KKT->p[col] = 0;
+      col += 1;
+    }
   }
 
   // Add A^T block
@@ -189,9 +200,14 @@ void initialize_ipm(QOCOSolver* solver)
   // Construct rhs of KKT system.
   // Construct rhs of KKT system = [-c;b;h].
   QOCOProblemData* data = solver->work->data;
-  copy_and_negate_arrayf(data->c, solver->work->rhs, data->n);
-  copy_arrayf(data->b, &solver->work->rhs[data->n], data->p);
-  copy_arrayf(data->h, &solver->work->rhs[data->n + data->p], data->m);
+  QOCOFloat* cdata = get_data_vectorf(data->c);
+  QOCOFloat* bdata = get_data_vectorf(data->b);
+  QOCOFloat* hdata = get_data_vectorf(data->h);
+  QOCOFloat* rhs = get_data_vectorf(solver->work->rhs);
+  QOCOFloat* xyz = get_data_vectorf(solver->work->xyz);
+  copy_and_negate_arrayf(cdata, rhs, data->n);
+  copy_arrayf(bdata, &rhs[data->n], data->p);
+  copy_arrayf(hdata, &rhs[data->n + data->p], data->m);
 
   // Factor KKT matrix.
   solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
@@ -199,28 +215,30 @@ void initialize_ipm(QOCOSolver* solver)
 
   // Solve KKT system.
   solver->linsys->linsys_solve(solver->linsys_data, solver->work,
-                               solver->work->rhs, solver->work->xyz,
+                               rhs, xyz,
                                solver->settings->iter_ref_iters);
 
-  // Copy x part of solution to x.
-  copy_arrayf(solver->work->xyz, solver->work->x, solver->work->data->n);
+  // Copy x part of solution to x (GPU-to-GPU copy).
+  // During solve phase, get_data_vectorf returns device pointers, so copy_arrayf
+  // will detect both xyz and work->x are on device and use a CUDA kernel.
+  copy_arrayf(xyz, get_data_vectorf(solver->work->x), solver->work->data->n);
 
-  // Copy y part of solution to y.
-  copy_arrayf(&solver->work->xyz[solver->work->data->n], solver->work->y,
+  // Copy y part of solution to y (GPU-to-GPU copy).
+  copy_arrayf(&xyz[solver->work->data->n], get_data_vectorf(solver->work->y),
               solver->work->data->p);
 
-  // Copy z part of solution to z.
-  copy_arrayf(&solver->work->xyz[solver->work->data->n + solver->work->data->p],
-              solver->work->z, solver->work->data->m);
+  // Copy z part of solution to z (GPU-to-GPU copy).
+  copy_arrayf(&xyz[solver->work->data->n + solver->work->data->p],
+              get_data_vectorf(solver->work->z), solver->work->data->m);
 
-  // Copy and negate z part of solution to s.
+  // Copy and negate z part of solution to s (GPU-to-GPU copy).
   copy_and_negate_arrayf(
-      &solver->work->xyz[solver->work->data->n + solver->work->data->p],
-      solver->work->s, solver->work->data->m);
+      &xyz[solver->work->data->n + solver->work->data->p],
+      get_data_vectorf(solver->work->s), solver->work->data->m);
 
   // Bring s and z to cone C.
-  bring2cone(solver->work->s, solver->work->data);
-  bring2cone(solver->work->z, solver->work->data);
+  bring2cone(get_data_vectorf(solver->work->s), solver->work->data);
+  bring2cone(get_data_vectorf(solver->work->z), solver->work->data);
 }
 
 void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
@@ -240,14 +258,17 @@ void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
 
   // rhs += [c;-b;-h+s]
   // Add c and account for regularization of P.
-  qoco_axpy(data->c, kktres, kktres, 1.0, data->n);
+  QOCOFloat* cdata = get_data_vectorf(data->c);
+  QOCOFloat* bdata = get_data_vectorf(data->b);
+  QOCOFloat* hdata = get_data_vectorf(data->h);
+  qoco_axpy(cdata, kktres, kktres, 1.0, data->n);
   qoco_axpy(x, kktres, kktres, -static_reg, data->n);
 
   // Add -b.
-  qoco_axpy(data->b, &kktres[data->n], &kktres[data->n], -1.0, data->p);
+  qoco_axpy(bdata, &kktres[data->n], &kktres[data->n], -1.0, data->p);
 
   // Add -h + s.
-  qoco_axpy(data->h, &kktres[data->n + data->p], &kktres[data->n + data->p],
+  qoco_axpy(hdata, &kktres[data->n + data->p], &kktres[data->n + data->p],
             -1.0, data->m);
   qoco_axpy(s, &kktres[data->n + data->p], &kktres[data->n + data->p], 1.0,
             data->m);
@@ -256,8 +277,15 @@ void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
 QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
                             QOCOFloat* nbuff, QOCOFloat static_reg, QOCOFloat k)
 {
-  QOCOFloat obj = qoco_dot(x, data->c, data->n);
-  USpMv(data->P, x, nbuff);
+  QOCOFloat* cdata = get_data_vectorf(data->c);
+  QOCOFloat obj = qoco_dot(x, cdata, data->n);
+  if (data->P) {
+    USpMv_matrix(data->P, x, nbuff);
+  } else {
+    for (QOCOInt i = 0; i < data->n; ++i) {
+      nbuff[i] = 0.0;
+    }
+  }
 
   // Correct for regularization in P.
   QOCOFloat regularization_correction = 0.0;
@@ -270,8 +298,11 @@ QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
 }
 void construct_kkt_aff_rhs(QOCOWorkspace* work)
 {
+  // During solve phase, get_data_vectorf returns device pointer automatically
+  QOCOFloat* rhs = get_data_vectorf(work->rhs);
+  
   // Negate the kkt residual and store in rhs.
-  copy_and_negate_arrayf(work->kktres, work->rhs,
+  copy_and_negate_arrayf(work->kktres, rhs,
                          work->data->n + work->data->p + work->data->m);
 
   // Compute W*lambda
@@ -279,15 +310,18 @@ void construct_kkt_aff_rhs(QOCOWorkspace* work)
               work->data->m, work->data->nsoc, work->data->q);
 
   // Add W*lambda to z portion of rhs.
-  qoco_axpy(work->ubuff1, &work->rhs[work->data->n + work->data->p],
-            &work->rhs[work->data->n + work->data->p], 1.0, work->data->m);
+  qoco_axpy(work->ubuff1, &rhs[work->data->n + work->data->p],
+            &rhs[work->data->n + work->data->p], 1.0, work->data->m);
 }
 
 void construct_kkt_comb_rhs(QOCOWorkspace* work)
 {
+  // During solve phase, get_data_vectorf returns device pointer automatically
+  QOCOFloat* rhs = get_data_vectorf(work->rhs);
+  QOCOFloat* xyz = get_data_vectorf(work->xyz);
 
   // Negate the kkt residual and store in rhs.
-  copy_and_negate_arrayf(work->kktres, work->rhs,
+  copy_and_negate_arrayf(work->kktres, rhs,
                          work->data->n + work->data->p + work->data->m);
 
   /// ds = -cone_product(lambda, lambda) - settings.mehrotra *
@@ -298,7 +332,7 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
               work->data->m, work->data->nsoc, work->data->q);
 
   // ubuff2 = W * Dzaff.
-  QOCOFloat* Dzaff = &work->xyz[work->data->n + work->data->p];
+  QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
   nt_multiply(work->Wfull, Dzaff, work->ubuff2, work->data->l, work->data->m,
               work->data->nsoc, work->data->q);
 
@@ -335,8 +369,8 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
               work->data->m, work->data->nsoc, work->data->q);
 
   // rhs = [dx;dy;dz-W'*cone_division(lambda, ds, pdata)];
-  qoco_axpy(work->ubuff1, &work->rhs[work->data->n + work->data->p],
-            &work->rhs[work->data->n + work->data->p], -1.0, work->data->m);
+  qoco_axpy(work->ubuff1, &rhs[work->data->n + work->data->p],
+            &rhs[work->data->n + work->data->p], -1.0, work->data->m);
 }
 
 void predictor_corrector(QOCOSolver* solver)
@@ -351,12 +385,15 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_aff_rhs(work);
 
   // Solve to get affine scaling direction.
+  // During solve phase, get_data_vectorf returns device pointers automatically
+  QOCOFloat* rhs = get_data_vectorf(work->rhs);
+  QOCOFloat* xyz = get_data_vectorf(work->xyz);
   solver->linsys->linsys_solve(solver->linsys_data, solver->work,
-                               solver->work->rhs, solver->work->xyz,
+                               rhs, xyz,
                                solver->settings->iter_ref_iters);
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
-  QOCOFloat* Dzaff = &work->xyz[work->data->n + work->data->p];
+  QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
   nt_multiply(work->Wfull, Dzaff, work->ubuff1, work->data->l, work->data->m,
               work->data->nsoc, work->data->q);
   for (QOCOInt i = 0; i < work->data->m; ++i) {
@@ -368,25 +405,64 @@ void predictor_corrector(QOCOSolver* solver)
   // Compute centering parameter.
   compute_centering(solver);
 
-  // Construct rhs for affine scaling direction.
+  // Construct rhs for combined direction.
   construct_kkt_comb_rhs(work);
 
   // Solve to get combined direction.
+  // During solve phase, get_data_vectorf returns device pointers automatically
+  rhs = get_data_vectorf(work->rhs);
+  xyz = get_data_vectorf(work->xyz);
   solver->linsys->linsys_solve(solver->linsys_data, solver->work,
-                               solver->work->rhs, solver->work->xyz,
+                               rhs, xyz,
                                solver->settings->iter_ref_iters);
+  
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
+  // During solve phase, xyz is on device, so we need to sync to host for NaN check
+  // But this is error checking, not part of normal solve flow
+  #ifdef QOCO_ALGEBRA_BACKEND_CUDA
+  extern int get_solve_phase(void);
+  if (get_solve_phase()) {
+    // Temporarily sync xyz from device to host for NaN check
+    // This creates a temporary copy, but it's only for error checking
+    QOCOInt n = work->data->n + work->data->m + work->data->p;
+    QOCOFloat* xyz_host = (QOCOFloat*)malloc(n * sizeof(QOCOFloat));
+    extern void* cudaMemcpy(void* dst, const void* src, size_t count, int kind);
+    #define cudaMemcpyDeviceToHost 2
+    cudaMemcpy(xyz_host, xyz, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
+    for (QOCOInt i = 0; i < n; ++i) {
+      if (isnan(xyz_host[i])) {
+        free(xyz_host);
+        work->a = 0.0;
+        return;
+      }
+    }
+    free(xyz_host);
+  } else {
+    // Not in solve phase, use host pointer directly
+    QOCOFloat* xyz_host = get_data_vectorf(work->xyz);
+    for (QOCOInt i = 0; i < work->data->n + work->data->p + work->data->m; ++i) {
+      if (isnan(xyz_host[i])) {
+        work->a = 0.0;
+        return;
+      }
+    }
+  }
+  #else
+  // Builtin backend - use host pointer directly
+  QOCOFloat* xyz_host = get_data_vectorf(work->xyz);
   for (QOCOInt i = 0; i < work->data->n + work->data->p + work->data->m; ++i) {
-    if (isnan(work->xyz[i])) {
+    if (isnan(xyz_host[i])) {
       work->a = 0.0;
       return;
     }
   }
+  #endif
 
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
   // computed in construct_kkt_comb_rhs() and stored in work->Ds.
-  QOCOFloat* Dz = &work->xyz[work->data->n + work->data->p];
+  // Use device pointer during solve phase
+  QOCOFloat* Dz = &xyz[work->data->n + work->data->p];
   cone_division(work->lambda, work->Ds, work->ubuff1, work->data->l,
                 work->data->nsoc, work->data->q);
   nt_multiply(work->Wfull, Dz, work->ubuff2, work->data->l, work->data->m,
@@ -397,21 +473,25 @@ void predictor_corrector(QOCOSolver* solver)
               work->data->nsoc, work->data->q);
 
   // Compute step-size.
-  QOCOFloat a = qoco_min(linesearch(work->s, work->Ds, 0.99, solver),
-                         linesearch(work->z, Dz, 0.99, solver));
+  QOCOFloat a = qoco_min(linesearch(get_data_vectorf(work->s), work->Ds, 0.99, solver),
+                         linesearch(get_data_vectorf(work->z), Dz, 0.99, solver));
 
   // Save step-size.
   work->a = a;
 
   // Update iterates.
-  QOCOFloat* Dx = work->xyz;
-  QOCOFloat* Dy = &work->xyz[work->data->n];
+  // During solve phase, get_data_vectorf returns device pointer automatically
+  QOCOFloat* Dx = xyz;
+  QOCOFloat* Dy = &xyz[work->data->n];
   QOCOFloat* Ds = work->Ds;
 
-  qoco_axpy(Dx, work->x, work->x, a, work->data->n);
-  qoco_axpy(Ds, work->s, work->s, a, work->data->m);
-  qoco_axpy(Dy, work->y, work->y, a, work->data->p);
-  qoco_axpy(Dz, work->z, work->z, a, work->data->m);
+  qoco_axpy(Dx, get_data_vectorf(work->x), get_data_vectorf(work->x), a, work->data->n);
+  qoco_axpy(Ds, get_data_vectorf(work->s), get_data_vectorf(work->s), a, work->data->m);
+  qoco_axpy(Dy, get_data_vectorf(work->y), get_data_vectorf(work->y), a, work->data->p);
+  qoco_axpy(Dz, get_data_vectorf(work->z), get_data_vectorf(work->z), a, work->data->m);
+  
+  // Note: No sync needed here - get_data_vectorf returns device pointer during solve phase,
+  // so qoco_axpy operates directly on device memory
 }
 
 void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
@@ -420,18 +500,24 @@ void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
 {
 
   // Compute y[1:n] = P * x[1:n] + A^T * x[n+1:n+p] + G^T * x[n+p+1:n+p+m].
-  USpMv(data->P, x, y);
+  if (data->P) {
+    USpMv_matrix(data->P, x, y);
+  } else {
+    for (QOCOInt i = 0; i < data->n; ++i) {
+      y[i] = 0.0;
+    }
+  }
 
   if (data->p > 0) {
-    SpMtv(data->A, &x[data->n], nbuff);
+    SpMtv_matrix(data->A, &x[data->n], nbuff);
     qoco_axpy(y, nbuff, y, 1.0, data->n);
-    SpMv(data->A, x, &y[data->n]);
+    SpMv_matrix(data->A, x, &y[data->n]);
   }
 
   if (data->m > 0) {
-    SpMtv(data->G, &x[data->n + data->p], nbuff);
+    SpMtv_matrix(data->G, &x[data->n + data->p], nbuff);
     qoco_axpy(y, nbuff, y, 1.0, data->n);
-    SpMv(data->G, x, &y[data->n + data->p]);
+    SpMv_matrix(data->G, x, &y[data->n + data->p]);
   }
 
   if (Wfull) {
