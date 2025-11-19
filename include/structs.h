@@ -239,10 +239,10 @@ typedef struct {
   QOCOFloat* Ds;
 
   /** RHS of KKT system. */
-  QOCOFloat* rhs;
+  QOCOVectorf* rhs;
 
   /** Solution of KKT system. */
-  QOCOFloat* xyz;
+  QOCOVectorf* xyz;
 
   /** Buffer of size n + m + p. */
   QOCOFloat* xyzbuff1;
