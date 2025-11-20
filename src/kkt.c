@@ -209,21 +209,18 @@ void initialize_ipm(QOCOSolver* solver)
   solver->linsys->linsys_solve(solver->linsys_data, solver->work, rhs, xyz,
                                solver->settings->iter_ref_iters);
 
-  // Copy x part of solution to x (GPU-to-GPU copy).
-  // During solve phase, get_data_vectorf returns device pointers, so
-  // copy_arrayf will detect both xyz and work->x are on device and use a CUDA
-  // kernel.
+  // Copy x part of solution to x.
   copy_arrayf(xyz, get_data_vectorf(solver->work->x), solver->work->data->n);
 
-  // Copy y part of solution to y (GPU-to-GPU copy).
+  // Copy y part of solution to y.
   copy_arrayf(&xyz[solver->work->data->n], get_data_vectorf(solver->work->y),
               solver->work->data->p);
 
-  // Copy z part of solution to z (GPU-to-GPU copy).
+  // Copy z part of solution to z.
   copy_arrayf(&xyz[solver->work->data->n + solver->work->data->p],
               get_data_vectorf(solver->work->z), solver->work->data->m);
 
-  // Copy and negate z part of solution to s (GPU-to-GPU copy).
+  // Copy and negate z part of solution to s.
   copy_and_negate_arrayf(&xyz[solver->work->data->n + solver->work->data->p],
                          get_data_vectorf(solver->work->s),
                          solver->work->data->m);
@@ -282,9 +279,9 @@ QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
   obj = safe_div(obj, k);
   return obj;
 }
+
 void construct_kkt_aff_rhs(QOCOWorkspace* work)
 {
-  // During solve phase, get_data_vectorf returns device pointer automatically
   QOCOFloat* rhs = get_data_vectorf(work->rhs);
 
   // Negate the kkt residual and store in rhs.
@@ -302,7 +299,6 @@ void construct_kkt_aff_rhs(QOCOWorkspace* work)
 
 void construct_kkt_comb_rhs(QOCOWorkspace* work)
 {
-  // During solve phase, get_data_vectorf returns device pointer automatically
   QOCOFloat* rhs = get_data_vectorf(work->rhs);
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
 
@@ -371,7 +367,6 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_aff_rhs(work);
 
   // Solve to get affine scaling direction.
-  // During solve phase, get_data_vectorf returns device pointers automatically
   QOCOFloat* rhs = get_data_vectorf(work->rhs);
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
   solver->linsys->linsys_solve(solver->linsys_data, solver->work, rhs, xyz,
@@ -394,7 +389,6 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_comb_rhs(work);
 
   // Solve to get combined direction.
-  // During solve phase, get_data_vectorf returns device pointers automatically
   rhs = get_data_vectorf(work->rhs);
   xyz = get_data_vectorf(work->xyz);
   solver->linsys->linsys_solve(solver->linsys_data, solver->work, rhs, xyz,
@@ -402,8 +396,6 @@ void predictor_corrector(QOCOSolver* solver)
 
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
-  // During solve phase, xyz is on device, so we need to sync to host for NaN
-  // check But this is error checking, not part of normal solve flow
   for (QOCOInt i = 0; i < work->data->n + work->data->p + work->data->m; ++i) {
     if (isnan(xyz[i])) {
       work->a = 0.0;
@@ -413,7 +405,6 @@ void predictor_corrector(QOCOSolver* solver)
 
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
   // computed in construct_kkt_comb_rhs() and stored in work->Ds.
-  // Use device pointer during solve phase
   QOCOFloat* Dz = &xyz[work->data->n + work->data->p];
   cone_division(work->lambda, work->Ds, work->ubuff1, work->data->l,
                 work->data->nsoc, work->data->q);
@@ -433,7 +424,6 @@ void predictor_corrector(QOCOSolver* solver)
   work->a = a;
 
   // Update iterates.
-  // During solve phase, get_data_vectorf returns device pointer automatically
   QOCOFloat* Dx = xyz;
   QOCOFloat* Dy = &xyz[work->data->n];
   QOCOFloat* Ds = work->Ds;
@@ -446,9 +436,6 @@ void predictor_corrector(QOCOSolver* solver)
             work->data->p);
   qoco_axpy(Dz, get_data_vectorf(work->z), get_data_vectorf(work->z), a,
             work->data->m);
-
-  // Note: No sync needed here - get_data_vectorf returns device pointer during
-  // solve phase, so qoco_axpy operates directly on device memory
 }
 
 void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,

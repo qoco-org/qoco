@@ -142,7 +142,7 @@ QOCOFloat* get_data_vectorf(const QOCOVectorf* x);
  *
  * @param v Input vector.
  */
-void sync_vector_to_device_if_needed(QOCOVectorf* v);
+void sync_vector_to_host(QOCOVectorf* v);
 
 /**
  * @brief Sets the solve phase flag (CUDA backend only).

@@ -9,13 +9,6 @@
  */
 
 #include "cudss_backend.h"
-#include <cublas_v2.h>
-#include <cuda_runtime.h>
-#include <cusparse.h>
-#include <library_types.h>
-
-#include "common_linalg.h"
-#include "kkt.h"
 
 #define CUDA_CHECK(call)                                                       \
   do {                                                                         \
@@ -62,24 +55,11 @@ struct LinSysData {
   /** cuDSS data. */
   cudssData_t data;
 
-  /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff1;
-
   /** Buffer of size n + m + p (device) - used for b and x vectors. */
-  QOCOFloat* d_xyzbuff1;
-
-  /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff2;
+  QOCOFloat* d_rhs_matrix_data;
 
   /** Buffer of size n + m + p (device). */
-  QOCOFloat* d_xyzbuff2;
-
-  /** Device buffer for rhs (RHS of KKT system) - used during solve phase. */
-  QOCOFloat* d_rhs;
-
-  /** Device buffer for xyz (solution of KKT system) - used during solve phase.
-   */
-  QOCOFloat* d_xyz;
+  QOCOFloat* d_xyz_matrix_data;
 
   /** Mapping from elements in the Nesterov-Todd scaling matrix to elements in
    * the KKT matrix. */
@@ -103,13 +83,6 @@ struct LinSysData {
   /** Number of constraints (m) - stored for use in factor */
   QOCOInt m;
 
-  /** Number of valid NT diagonal entries (only SOC constraints have NT
-   * diagonals) */
-  QOCOInt valid_ntdiag_count;
-
-  /** Static regularization value (stored for use in factor) */
-  QOCOFloat kkt_static_reg;
-
   /** cuSPARSE handle. */
   cusparseHandle_t cusparse_handle;
 
@@ -123,18 +96,8 @@ struct LinSysData {
   cudssMatrix_t d_rhs_matrix;
   cudssMatrix_t d_xyz_matrix;
 
-  /** CSR matrix arrays on GPU (persistent, updated directly) */
-  QOCOInt* d_csr_row_ptr;
-  QOCOInt* d_csr_row_end;
-  QOCOInt* d_csr_col_ind;
+  /** CSR data array (used for updating NT block and cudss_update_data) */
   QOCOFloat* d_csr_val;
-
-  /** Mappings on GPU for direct updates */
-  QOCOInt* d_nt2kkt;
-  QOCOInt* d_ntdiag2kkt;
-  QOCOInt* d_PregtoKKT;
-  QOCOInt* d_AttoKKT;
-  QOCOInt* d_GttoKKT;
 
   /** Mapping from NT block indices to CSR KKT matrix indices (device) */
   QOCOInt* d_nt2kktcsr;
@@ -149,17 +112,9 @@ struct LinSysData {
   QOCOInt* d_AttoKKTcsr;
   QOCOInt* d_GttoKKTcsr;
 
-  /** CSC structure on GPU (for converting updates) */
-  QOCOInt* d_csc_p;
-  QOCOInt* d_csc_i;
-
-  /** Flag to track if analysis has been done (per instance) */
-  int analysis_done;
 };
 
-// Convert CSC to CSR on host and copy to device
-// Optionally returns host CSR arrays and CSC-to-CSR mapping for building
-// nt2kktcsr
+// Convert CSC to CSR on CPU and copy to GPU
 static void csc_to_csr_device(const QOCOCscMatrix* csc, QOCOInt** csr_row_ptr,
                               QOCOInt** csr_col_ind, QOCOFloat** csr_val,
                               cusparseHandle_t handle,
@@ -274,28 +229,23 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   cublasCreate(&linsys_data->cublas_handle);
 
   // Allocate vector buffers
-  linsys_data->xyzbuff1 = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * Kn);
-  linsys_data->xyzbuff2 = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * Kn);
-  CUDA_CHECK(cudaMalloc(&linsys_data->d_xyzbuff1, sizeof(QOCOFloat) * Kn));
-  CUDA_CHECK(cudaMalloc(&linsys_data->d_xyzbuff2, sizeof(QOCOFloat) * Kn));
+  CUDA_CHECK(cudaMalloc(&linsys_data->d_rhs_matrix_data, sizeof(QOCOFloat) * Kn));
+  CUDA_CHECK(cudaMalloc(&linsys_data->d_xyz_matrix_data, sizeof(QOCOFloat) * Kn));
   linsys_data->Wnnz = Wnnz;
 
   // Allocate memory for mappings to KKT matrix
   linsys_data->nt2kkt = (QOCOInt*)qoco_calloc(Wnnz, sizeof(QOCOInt));
   linsys_data->ntdiag2kkt = (QOCOInt*)qoco_calloc(data->m, sizeof(QOCOInt));
   linsys_data->PregtoKKT =
-      data->P ? (QOCOInt*)qoco_calloc(get_nnz(data->P), sizeof(QOCOInt)) : NULL;
+      (QOCOInt*)qoco_calloc(get_nnz(data->P), sizeof(QOCOInt));
   linsys_data->AttoKKT =
       (QOCOInt*)qoco_calloc(get_nnz(data->A), sizeof(QOCOInt));
   linsys_data->GttoKKT =
       (QOCOInt*)qoco_calloc(get_nnz(data->G), sizeof(QOCOInt));
 
-  // Store kkt_static_reg for use in factor
-  linsys_data->kkt_static_reg = settings->kkt_static_reg;
-
   // Construct KKT matrix (no permutation for CUDA backend)
   linsys_data->K = construct_kkt(
-      data->P ? get_csc_matrix(data->P) : NULL, get_csc_matrix(data->A),
+      get_csc_matrix(data->P), get_csc_matrix(data->A),
       get_csc_matrix(data->G), get_csc_matrix(data->At),
       get_csc_matrix(data->Gt), settings->kkt_static_reg, data->n, data->m,
       data->p, data->l, data->nsoc, data->q, linsys_data->PregtoKKT,
@@ -322,40 +272,25 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       nt2kktcsr[i] = csc2csr[linsys_data->nt2kkt[i]];
     }
   }
-  // Count valid diagonal entries first (only SOC constraints have NT diagonal
-  // entries)
-  QOCOInt valid_diag_count = 0;
-  for (QOCOInt i = 0; i < data->m; ++i) {
-    if (linsys_data->ntdiag2kkt[i] != 0) {
-      valid_diag_count++;
-    }
-  }
   QOCOInt* ntdiag2kktcsr = NULL;
-  if (valid_diag_count > 0) {
-    ntdiag2kktcsr = (QOCOInt*)qoco_malloc(valid_diag_count * sizeof(QOCOInt));
-    // Build ntdiag2kktcsr with only valid entries
+  if (data->m > 0) {
+    ntdiag2kktcsr = (QOCOInt*)qoco_malloc(data->m * sizeof(QOCOInt));
     QOCOInt diag_idx = 0;
     for (QOCOInt i = 0; i < data->m; ++i) {
-      if (linsys_data->ntdiag2kkt[i] != 0) {
-        ntdiag2kktcsr[diag_idx] = csc2csr[linsys_data->ntdiag2kkt[i]];
-        diag_idx++;
-      }
+      ntdiag2kktcsr[diag_idx] = csc2csr[linsys_data->ntdiag2kkt[i]];
+      diag_idx++;
     }
   }
-  // Store the actual count of valid diagonal entries
-  linsys_data->valid_ntdiag_count = valid_diag_count;
 
   // Build CSR mappings for P, A, G (convert from CSC indices to CSR indices)
   QOCOInt* PregtoKKTcsr = NULL;
   QOCOInt* AttoKKTcsr = NULL;
   QOCOInt* GttoKKTcsr = NULL;
 
-  if (data->P && linsys_data->PregtoKKT) {
-    QOCOInt Pnnz = get_nnz(data->P);
-    PregtoKKTcsr = (QOCOInt*)qoco_malloc(Pnnz * sizeof(QOCOInt));
-    for (QOCOInt i = 0; i < Pnnz; ++i) {
-      PregtoKKTcsr[i] = csc2csr[linsys_data->PregtoKKT[i]];
-    }
+  QOCOInt Pnnz = get_nnz(data->P);
+  PregtoKKTcsr = (QOCOInt*)qoco_malloc(Pnnz * sizeof(QOCOInt));
+  for (QOCOInt i = 0; i < Pnnz; ++i) {
+    PregtoKKTcsr[i] = csc2csr[linsys_data->PregtoKKT[i]];
   }
 
   QOCOInt Annz = get_nnz(data->A);
@@ -370,19 +305,8 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
     GttoKKTcsr[i] = csc2csr[linsys_data->GttoKKT[data->GtoGt[i]]];
   }
 
-  // Store CSR arrays on GPU persistently (will be updated directly, not
-  // recreated)
-  linsys_data->d_csr_row_ptr = csr_row_ptr;
-  linsys_data->d_csr_col_ind = csr_col_ind;
+  // Store CSR data array.
   linsys_data->d_csr_val = csr_val;
-
-  // Create cuDSS matrix in CSR format
-  QOCOInt* csr_row_end;
-  CUDA_CHECK(cudaMalloc(&csr_row_end, Kn * sizeof(QOCOInt)));
-  // Copy rowStart[1..n] to rowEnd[0..n-1]
-  CUDA_CHECK(cudaMemcpy(csr_row_end, &csr_row_ptr[1], Kn * sizeof(QOCOInt),
-                        cudaMemcpyDeviceToDevice));
-  linsys_data->d_csr_row_end = csr_row_end;
 
   // Determine data types
   cudaDataType_t indexType = CUDA_R_32I; // QOCOInt is int32_t
@@ -390,8 +314,6 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       (sizeof(QOCOFloat) == 8) ? CUDA_R_64F : CUDA_R_32F;
 
   // KKT matrix is symmetric (upper triangular stored)
-  // Use CUDSS_MTYPE_SPD (symmetric positive definite) like the working example
-  // Pass NULL for rowEnd - cuDSS will compute it from rowStart
   CUDSS_CHECK(cudssMatrixCreateCsr(
       &linsys_data->K_csr, (int64_t)Kn, (int64_t)Kn,
       (int64_t)linsys_data->K->nnz, csr_row_ptr, NULL, csr_col_ind, csr_val,
@@ -400,32 +322,9 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
 
   // Run analysis phase.
   CUDSS_CHECK(cudssExecute(linsys_data->handle, CUDSS_PHASE_ANALYSIS,
-    linsys_data->config, linsys_data->data, linsys_data->K_csr,
-    linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix));
-
-  // Copy mappings to GPU for direct updates
-  CUDA_CHECK(cudaMalloc(&linsys_data->d_nt2kkt, Wnnz * sizeof(QOCOInt)));
-  CUDA_CHECK(cudaMalloc(&linsys_data->d_ntdiag2kkt, data->m * sizeof(QOCOInt)));
-  CUDA_CHECK(cudaMalloc(&linsys_data->d_PregtoKKT,
-                        get_nnz(data->P) * sizeof(QOCOInt)));
-  CUDA_CHECK(cudaMemcpy(linsys_data->d_PregtoKKT, linsys_data->PregtoKKT,
-                        get_nnz(data->P) * sizeof(QOCOInt),
-                        cudaMemcpyHostToDevice));
-  CUDA_CHECK(
-      cudaMalloc(&linsys_data->d_AttoKKT, get_nnz(data->A) * sizeof(QOCOInt)));
-  CUDA_CHECK(
-      cudaMalloc(&linsys_data->d_GttoKKT, get_nnz(data->G) * sizeof(QOCOInt)));
-
-  CUDA_CHECK(cudaMemcpy(linsys_data->d_nt2kkt, linsys_data->nt2kkt,
-                        Wnnz * sizeof(QOCOInt), cudaMemcpyHostToDevice));
-  CUDA_CHECK(cudaMemcpy(linsys_data->d_ntdiag2kkt, linsys_data->ntdiag2kkt,
-                        data->m * sizeof(QOCOInt), cudaMemcpyHostToDevice));
-  CUDA_CHECK(cudaMemcpy(linsys_data->d_AttoKKT, linsys_data->AttoKKT,
-                        get_nnz(data->A) * sizeof(QOCOInt),
-                        cudaMemcpyHostToDevice));
-  CUDA_CHECK(cudaMemcpy(linsys_data->d_GttoKKT, linsys_data->GttoKKT,
-                        get_nnz(data->G) * sizeof(QOCOInt),
-                        cudaMemcpyHostToDevice));
+                           linsys_data->config, linsys_data->data,
+                           linsys_data->K_csr, linsys_data->d_xyz_matrix,
+                           linsys_data->d_rhs_matrix));
 
   // Allocate and copy nt2kktcsr and ntdiag2kktcsr to device
   if (Wnnz > 0) {
@@ -439,12 +338,12 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
     linsys_data->d_nt2kktcsr = NULL;
     linsys_data->d_WtW = NULL;
   }
-  // Only allocate ntdiag2kktcsr if there are valid diagonal entries
-  if (valid_diag_count > 0) {
+  // Only allocate ntdiag2kktcsr if m > 0 (i.e. if there are conic constraints)
+  if (data->m > 0) {
     CUDA_CHECK(cudaMalloc(&linsys_data->d_ntdiag2kktcsr,
-                          valid_diag_count * sizeof(QOCOInt)));
+      data->m * sizeof(QOCOInt)));
     CUDA_CHECK(cudaMemcpy(linsys_data->d_ntdiag2kktcsr, ntdiag2kktcsr,
-                          valid_diag_count * sizeof(QOCOInt),
+      data->m * sizeof(QOCOInt),
                           cudaMemcpyHostToDevice));
   }
   else {
@@ -481,36 +380,13 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   qoco_free(h_csr_col_ind);
   qoco_free(csc2csr);
 
-  // Copy CSC structure to GPU (for converting updates in factor)
-  CUDA_CHECK(cudaMalloc(&linsys_data->d_csc_p,
-                        (linsys_data->K->n + 1) * sizeof(QOCOInt)));
-  CUDA_CHECK(
-      cudaMalloc(&linsys_data->d_csc_i, linsys_data->K->nnz * sizeof(QOCOInt)));
-  CUDA_CHECK(cudaMemcpy(linsys_data->d_csc_p, linsys_data->K->p,
-                        (linsys_data->K->n + 1) * sizeof(QOCOInt),
-                        cudaMemcpyHostToDevice));
-  CUDA_CHECK(cudaMemcpy(linsys_data->d_csc_i, linsys_data->K->i,
-                        linsys_data->K->nnz * sizeof(QOCOInt),
-                        cudaMemcpyHostToDevice));
-
-  // Allocate device vectors for rhs and xyz
-  // These will be used by the cuDSS dense matrix wrappers
-  QOCOFloat* d_rhs_ptr = NULL;
-  QOCOFloat* d_xyz_ptr = NULL;
-  CUDA_CHECK(cudaMalloc(&d_rhs_ptr, Kn * sizeof(QOCOFloat)));
-  CUDA_CHECK(cudaMalloc(&d_xyz_ptr, Kn * sizeof(QOCOFloat)));
-
-  // Store in struct for cleanup
-  linsys_data->d_xyzbuff1 = d_rhs_ptr; // Used for rhs buffer
-  linsys_data->d_xyzbuff2 = d_xyz_ptr; // Used for xyz buffer
-
   // Create dense matrix wrappers for solution and RHS vectors (column vectors)
-  // Note: d_rhs_matrix wraps d_xyzbuff1, d_xyz_matrix wraps d_xyzbuff2
+  // Note: d_rhs_matrix wraps d_rhs_matrix_data, d_xyz_matrix wraps d_xyz_matrix_data
   CUDSS_CHECK(cudssMatrixCreateDn(&linsys_data->d_rhs_matrix, (int64_t)Kn, 1,
-                                  (int64_t)Kn, linsys_data->d_xyzbuff1,
+                                  (int64_t)Kn, linsys_data->d_rhs_matrix_data,
                                   valueType_setup, CUDSS_LAYOUT_COL_MAJOR));
   CUDSS_CHECK(cudssMatrixCreateDn(&linsys_data->d_xyz_matrix, (int64_t)Kn, 1,
-                                  (int64_t)Kn, linsys_data->d_xyzbuff2,
+                                  (int64_t)Kn, linsys_data->d_xyz_matrix_data,
                                   valueType_setup, CUDSS_LAYOUT_COL_MAJOR));
 
   return linsys_data;
@@ -520,12 +396,12 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
 __global__ void update_csr_nt_blocks_kernel(
     const QOCOFloat* WtW,     // NT block values (on GPU)
     QOCOFloat* csr_val,       // CSR values to update (on GPU)
-    const QOCOInt* nt2kktcsr, // Mapping from NT indices to CSR indices
+    const QOCOInt* nt2kktcsr,
     const QOCOInt*
-        ntdiag2kktcsr,        // Mapping from NT diagonal indices to CSR indices
-    QOCOFloat kkt_static_reg, // Regularization value (unused in this kernel)
-    QOCOInt Wnnz,             // Number of NT block nonzeros
-    QOCOInt m)                // Number of constraints (unused in this kernel)
+        ntdiag2kktcsr,
+    QOCOFloat kkt_static_reg,
+    QOCOInt Wnnz,
+    QOCOInt m)
 {
   QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -540,9 +416,9 @@ __global__ void update_csr_nt_blocks_kernel(
 __global__ void update_csr_nt_diag_kernel(
     QOCOFloat* csr_val, // CSR values to update (on GPU)
     const QOCOInt*
-        ntdiag2kktcsr,        // Mapping from NT diagonal indices to CSR indices
-    QOCOFloat kkt_static_reg, // Regularization value to subtract
-    QOCOInt m)                // Number of constraints
+        ntdiag2kktcsr,
+    QOCOFloat kkt_static_reg,
+    QOCOInt m)
 {
   QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
   if (idx < m) {
@@ -555,8 +431,8 @@ __global__ void update_csr_nt_diag_kernel(
 __global__ void update_csr_matrix_data_kernel(
     const QOCOFloat* matrix_val, // New matrix values (on GPU)
     QOCOFloat* csr_val,          // CSR values to update (on GPU)
-    const QOCOInt* mat2kktcsr,   // Mapping from matrix indices to CSR indices
-    QOCOInt nnz)                 // Number of nonzeros
+    const QOCOInt* mat2kktcsr,
+    QOCOInt nnz)
 {
   QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
   if (idx < nnz) {
@@ -565,62 +441,13 @@ __global__ void update_csr_matrix_data_kernel(
   }
 }
 
-// CUDA kernel to update CSR values from updated CSC KKT matrix
-// Maps CSC indices to CSR indices and updates values
-// NOTE: This is kept for backward compatibility but should not be used for NT
-// updates
-__global__ void update_csr_from_csc_kernel(
-    const QOCOFloat*
-        csc_val,        // Updated CSC values (on GPU, copied from CPU KKT)
-    QOCOFloat* csr_val, // CSR values to update (on GPU)
-    const QOCOInt* csr_row_ptr, // CSR row pointers
-    const QOCOInt* csr_col_ind, // CSR column indices
-    const QOCOInt* csc_p,       // CSC column pointers (on GPU)
-    const QOCOInt* csc_i,       // CSC row indices (on GPU)
-    QOCOInt n,                  // Matrix dimension
-    QOCOInt nnz)                // Number of nonzeros
-{
-  QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
-  if (idx >= nnz)
-    return;
-
-  // For each CSR element at index idx, find corresponding CSC element
-  // CSR: row = find row such that csr_row_ptr[row] <= idx < csr_row_ptr[row+1]
-  //      col = csr_col_ind[idx]
-  // CSC: find idx_csc such that csc_i[idx_csc] == row and column of idx_csc ==
-  // col
-
-  // Binary search for row
-  QOCOInt row = 0;
-  QOCOInt left = 0, right = n - 1;
-  while (left <= right) {
-    QOCOInt mid = (left + right) / 2;
-    if (csr_row_ptr[mid] <= idx) {
-      row = mid;
-      left = mid + 1;
-    }
-    else {
-      right = mid - 1;
-    }
-  }
-
-  QOCOInt col = csr_col_ind[idx];
-
-  // Find corresponding CSC element: search column col for row
-  for (QOCOInt csc_idx = csc_p[col]; csc_idx < csc_p[col + 1]; csc_idx++) {
-    if (csc_i[csc_idx] == row) {
-      csr_val[idx] = csc_val[csc_idx];
-      return;
-    }
-  }
-}
-
 static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
                          QOCOFloat kkt_dynamic_reg)
 {
   CUDSS_CHECK(cudssExecute(linsys_data->handle, CUDSS_PHASE_FACTORIZATION,
-    linsys_data->config, linsys_data->data, linsys_data->K_csr,
-    linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix));
+                           linsys_data->config, linsys_data->data,
+                           linsys_data->K_csr, linsys_data->d_xyz_matrix,
+                           linsys_data->d_rhs_matrix));
 }
 
 static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
@@ -628,61 +455,23 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
 {
   QOCOInt n = linsys_data->K->n;
   (void)iter_ref_iters; // No iterative refinement for CUDA backend
-  // b is copied to d_xyzbuff1 if provided
-  // x will receive the solution from d_xyzbuff2 after cudssExecute
 
-  // During solve phase, ALL data is on GPU - NO CPU-GPU transfers
-  // work->rhs->d_data points to d_xyzbuff1 (mapped in
-  // map_work_buffers_to_device) work->xyz->d_data points to d_xyzbuff2 (mapped
-  // in map_work_buffers_to_device) RHS was constructed directly into
-  // d_xyzbuff1, solution will be written to d_xyzbuff2
+  // Copy b from CPU to GPU.
+  CUDA_CHECK(cudaMemcpy(linsys_data->d_rhs_matrix_data, b, n * sizeof(QOCOFloat),
+                          cudaMemcpyHostToDevice));
 
-  // Ensure RHS buffer contains the contents of b (in case caller passed a
-  // different pointer)
-  if (b) {
-    if (b != linsys_data->d_xyzbuff1) {
-      cudaPointerAttributes attrs;
-      cudaError_t err = cudaPointerGetAttributes(&attrs, b);
-      if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
-        CUDA_CHECK(cudaMemcpy(linsys_data->d_xyzbuff1, b, n * sizeof(QOCOFloat),
-                              cudaMemcpyDeviceToDevice));
-      }
-      else {
-        CUDA_CHECK(cudaMemcpy(linsys_data->d_xyzbuff1, b, n * sizeof(QOCOFloat),
-                              cudaMemcpyHostToDevice));
-      }
-    }
-  }
-  else {
-    CUDA_CHECK(cudaMemset(linsys_data->d_xyzbuff1, 0, n * sizeof(QOCOFloat)));
-  }
+  // Clear solution buffer (d_xyz_matrix points to d_xyz_matrix_data)
+  CUDA_CHECK(cudaMemset(linsys_data->d_xyz_matrix_data, 0, n * sizeof(QOCOFloat)));
 
-  // Clear solution buffer (d_xyz_matrix points to d_xyzbuff2)
-  CUDA_CHECK(cudaMemset(linsys_data->d_xyzbuff2, 0, n * sizeof(QOCOFloat)));
+  // d_rhs_matrix points to d_rhs_matrix_data, d_xyz_matrix points to d_xyz_matrix_data
+  CUDSS_CHECK(cudssExecute(linsys_data->handle, CUDSS_PHASE_SOLVE,
+                           linsys_data->config, linsys_data->data,
+                           linsys_data->K_csr, linsys_data->d_xyz_matrix,
+                           linsys_data->d_rhs_matrix));
 
-  // cuDSS API signature: cudssExecute(handle, phase, config, data, matrix,
-  // solution, rhs) where solution is the output and rhs is the input Note:
-  // d_rhs_matrix points to d_xyzbuff1, d_xyz_matrix points to d_xyzbuff2
-  CUDSS_CHECK(cudssExecute(linsys_data->handle, CUDSS_PHASE_SOLVE, linsys_data->config,
-    linsys_data->data, linsys_data->K_csr,
-    linsys_data->d_xyz_matrix, linsys_data->d_rhs_matrix));
-
-    // Solution is now in d_xyzbuff2 (pointed to by d_xyz_matrix)
-    // Copy solution from d_xyz_matrix (d_xyzbuff2) to x
-    if (x) {
-      cudaPointerAttributes attrs;
-      cudaError_t err = cudaPointerGetAttributes(&attrs, x);
-      if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
-        // x is on device - device-to-device copy
-        CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyzbuff2, n * sizeof(QOCOFloat),
-                              cudaMemcpyDeviceToDevice));
-      }
-      else {
-        // x is on host - device-to-host copy
-        CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyzbuff2, n * sizeof(QOCOFloat),
-                              cudaMemcpyDeviceToHost));
-      }
-    }
+  // Copy x from GPU to CPU.
+  CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyz_matrix_data, n * sizeof(QOCOFloat),
+                        cudaMemcpyDeviceToHost));
 }
 
 static void cudss_initialize_nt(LinSysData* linsys_data, QOCOInt m)
@@ -699,7 +488,8 @@ static void cudss_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
   // Update CSR matrix values on GPU directly for NT blocks
   if (linsys_data->Wnnz > 0 && linsys_data->d_nt2kktcsr) {
     // Copy WtW to device from host
-    CUDA_CHECK(cudaMemcpy(linsys_data->d_WtW, WtW, linsys_data->Wnnz * sizeof(QOCOFloat),
+    CUDA_CHECK(cudaMemcpy(linsys_data->d_WtW, WtW,
+                          linsys_data->Wnnz * sizeof(QOCOFloat),
                           cudaMemcpyHostToDevice));
 
     // Update NT blocks directly in CSR
@@ -708,20 +498,19 @@ static void cudss_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
         (linsys_data->Wnnz + threadsPerBlock - 1) / threadsPerBlock;
     update_csr_nt_blocks_kernel<<<numBlocks_nt, threadsPerBlock>>>(
         linsys_data->d_WtW, linsys_data->d_csr_val, linsys_data->d_nt2kktcsr,
-        linsys_data->d_ntdiag2kktcsr, kkt_static_reg,
-        linsys_data->Wnnz, m);
+        linsys_data->d_ntdiag2kktcsr, kkt_static_reg, linsys_data->Wnnz, m);
     CUDA_CHECK(cudaGetLastError());
   }
 
-  // Update diagonal regularization separately (only for valid entries)
-  if (linsys_data->valid_ntdiag_count > 0 && linsys_data->d_ntdiag2kktcsr) {
+  // Update diagonal regularization separately
+  if (m > 0 && linsys_data->d_ntdiag2kktcsr) {
     QOCOInt threadsPerBlock = 256;
     QOCOInt numBlocks_diag =
-        (linsys_data->valid_ntdiag_count + threadsPerBlock - 1) /
+        (m + threadsPerBlock - 1) /
         threadsPerBlock;
     update_csr_nt_diag_kernel<<<numBlocks_diag, threadsPerBlock>>>(
-        linsys_data->d_csr_val, linsys_data->d_ntdiag2kktcsr,
-        kkt_static_reg, linsys_data->valid_ntdiag_count);
+        linsys_data->d_csr_val, linsys_data->d_ntdiag2kktcsr, kkt_static_reg,
+        m);
     CUDA_CHECK(cudaGetLastError());
   }
   CUDSS_CHECK(cudssMatrixSetValues(linsys_data->K_csr, linsys_data->d_csr_val));
@@ -822,26 +611,14 @@ static void cudss_cleanup(LinSysData* linsys_data)
   cusparseDestroyMatDescr(linsys_data->descr);
   cublasDestroy(linsys_data->cublas_handle);
   free_qoco_csc_matrix(linsys_data->K);
-  qoco_free(linsys_data->xyzbuff1);
-  qoco_free(linsys_data->xyzbuff2);
-  cudaFree(linsys_data->d_xyzbuff1);
-  cudaFree(linsys_data->d_xyzbuff2);
+  cudaFree(linsys_data->d_rhs_matrix_data);
+  cudaFree(linsys_data->d_xyz_matrix_data);
   qoco_free(linsys_data->nt2kkt);
   qoco_free(linsys_data->ntdiag2kkt);
   qoco_free(linsys_data->PregtoKKT);
   qoco_free(linsys_data->AttoKKT);
   qoco_free(linsys_data->GttoKKT);
-  cudaFree(linsys_data->d_csr_row_ptr);
-  cudaFree(linsys_data->d_csr_row_end);
-  cudaFree(linsys_data->d_csr_col_ind);
   cudaFree(linsys_data->d_csr_val);
-  cudaFree(linsys_data->d_nt2kkt);
-  cudaFree(linsys_data->d_ntdiag2kkt);
-  cudaFree(linsys_data->d_PregtoKKT);
-  cudaFree(linsys_data->d_AttoKKT);
-  cudaFree(linsys_data->d_GttoKKT);
-  cudaFree(linsys_data->d_csc_p);
-  cudaFree(linsys_data->d_csc_i);
   cudaFree(linsys_data->d_nt2kktcsr);
   cudaFree(linsys_data->d_ntdiag2kktcsr);
   cudaFree(linsys_data->d_WtW);

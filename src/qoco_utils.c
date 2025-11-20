@@ -264,10 +264,10 @@ void copy_solution(QOCOSolver* solver)
 {
   // Copy optimization variables from device to host (CUDA backend).
 #ifdef QOCO_ALGEBRA_BACKEND_CUDA
-  sync_vector_to_device_if_needed(solver->work->x);
-  sync_vector_to_device_if_needed(solver->work->s);
-  sync_vector_to_device_if_needed(solver->work->y);
-  sync_vector_to_device_if_needed(solver->work->z);
+  sync_vector_to_host(solver->work->x);
+  sync_vector_to_host(solver->work->s);
+  sync_vector_to_host(solver->work->y);
+  sync_vector_to_host(solver->work->z);
 #endif
   copy_arrayf(get_data_vectorf(solver->work->x), solver->sol->x,
               solver->work->data->n);

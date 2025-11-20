@@ -12,10 +12,7 @@
 #include <cublas_v2.h>
 #include <cuda_runtime.h>
 #include <cusparse.h>
-
-extern "C" {
 #include "common_linalg.h"
-}
 
 #define CUDA_CHECK(call)                                                       \
   do {                                                                         \
@@ -71,32 +68,7 @@ __global__ void axpy_kernel(const QOCOFloat* x, const QOCOFloat* y,
   }
 }
 
-__global__ void inf_norm_kernel(const QOCOFloat* x, QOCOFloat* result,
-                                QOCOInt n)
-{
-  extern __shared__ QOCOFloat sdata[];
-  QOCOInt tid = threadIdx.x;
-  QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
-
-  QOCOFloat val = (idx < n) ? fabs(x[idx]) : 0.0f;
-  sdata[tid] = val;
-  __syncthreads();
-
-  for (QOCOInt s = blockDim.x / 2; s > 0; s >>= 1) {
-    if (tid < s) {
-      sdata[tid] = fmaxf(sdata[tid], sdata[tid + s]);
-    }
-    __syncthreads();
-  }
-
-  if (tid == 0) {
-    result[blockIdx.x] = sdata[0];
-  }
-}
-
-extern "C" {
-
-// Host implementation that manages GPU memory
+// Construct A on CPU and set device pointer to NULL.
 QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 {
   QOCOMatrix* M = (QOCOMatrix*)qoco_malloc(sizeof(QOCOMatrix));
@@ -106,7 +78,6 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     QOCOInt n = A->n;
     QOCOInt nnz = A->nnz;
 
-    // Allocate host memory
     QOCOCscMatrix* Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
     QOCOFloat* x = (QOCOFloat*)qoco_malloc(nnz * sizeof(QOCOFloat));
     QOCOInt* p = (QOCOInt*)qoco_malloc((n + 1) * sizeof(QOCOInt));
@@ -122,14 +93,7 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     Mcsc->x = x;
     Mcsc->i = i;
     Mcsc->p = p;
-
-    // For problem matrices (P, A, G), don't convert to CSR yet
-    // Equilibration happens on CPU using CSC, then KKT matrix is formed
-    // Only KKT matrix needs to be converted to CSR for cuDSS
-    // So for now, leave d_csr as NULL - it will be set up when KKT matrix is
-    // created
     M->csc = Mcsc;
-    M->d_csr = NULL;
   }
   else {
     QOCOCscMatrix* Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
@@ -140,12 +104,12 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     Mcsc->i = NULL;
     Mcsc->p = NULL;
     M->csc = Mcsc;
-    M->d_csr = NULL;
   }
 
   return M;
 }
 
+// Construct x on CPU copy vector to GPU.
 QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
 {
   QOCOVectorf* v = (QOCOVectorf*)qoco_malloc(sizeof(QOCOVectorf));
@@ -174,21 +138,8 @@ QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
 
 void free_qoco_matrix(QOCOMatrix* A)
 {
-  if (A) {
-    if (A->csc) {
-      free_qoco_csc_matrix(A->csc);
-    }
-    if (A->d_csr) {
-      if (A->d_csr->row_ptr)
-        cudaFree(A->d_csr->row_ptr);
-      if (A->d_csr->col_ind)
-        cudaFree(A->d_csr->col_ind);
-      if (A->d_csr->val)
-        cudaFree(A->d_csr->val);
-      qoco_free(A->d_csr);
-    }
-    qoco_free(A);
-  }
+  free_qoco_csc_matrix(A->csc);
+  qoco_free(A);
 }
 
 void free_qoco_vectorf(QOCOVectorf* x)
@@ -231,11 +182,9 @@ QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
 
 QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
 
-void sync_vector_to_device_if_needed(QOCOVectorf* v)
+void sync_vector_to_host(QOCOVectorf* v)
 {
   if (v && v->data && v->d_data) {
-    // Sync from device to host (at solver termination, copy device data to
-    // host)
     CUDA_CHECK(cudaMemcpy(v->data, v->d_data, v->len * sizeof(QOCOFloat),
                           cudaMemcpyDeviceToHost));
   }
@@ -245,54 +194,37 @@ QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }
 
 void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
 {
-  // Called during setup on CPU
+  // Called during equilibration on CPU
   col_inf_norm_USymm(get_csc_matrix(M), norm);
 }
 
 void col_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
 {
-  // Called during setup on CPU
+  // Called during equilibration on CPU
   col_inf_norm(get_csc_matrix(M), norm);
 }
 
 void row_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
 {
-  // Called during setup on CPU
+  // Called during equilibration on CPU
   row_inf_norm(get_csc_matrix(M), norm);
 }
 
 void row_col_scale_matrix(QOCOMatrix* M, const QOCOFloat* E, const QOCOFloat* D)
 {
-  // Called during setup on CPU - scale on host CSC
+  // Called during equilibration on CPU
   row_col_scale(get_csc_matrix(M), (QOCOFloat*)E, (QOCOFloat*)D);
-
-  // Clear device CSR if it exists - it will be recreated from updated CSC when
-  // KKT matrix is formed
-  if (M->d_csr) {
-    // Free old device CSR - it will be recreated from updated CSC later
-    if (M->d_csr->row_ptr)
-      cudaFree(M->d_csr->row_ptr);
-    if (M->d_csr->col_ind)
-      cudaFree(M->d_csr->col_ind);
-    if (M->d_csr->val)
-      cudaFree(M->d_csr->val);
-    qoco_free(M->d_csr);
-    M->d_csr = NULL;
-  }
 }
 
 void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data)
 {
-  // Update host (called during setup/equilibration)
+  // Called during equilibration on CPU
   x->data[idx] = data;
-  // Also update device to keep in sync
-  CUDA_CHECK(cudaMemcpy(&x->d_data[idx], &data, sizeof(QOCOFloat),
-                        cudaMemcpyHostToDevice));
 }
 
 void reciprocal_vectorf(const QOCOVectorf* input, QOCOVectorf* output)
 {
-  // This is called by the host.
+  // Called during equilibration on CPU
   for (QOCOInt i = 0; i < input->len; ++i) {
     output->data[i] = safe_div(1.0, input->data[i]);
   }
@@ -349,40 +281,22 @@ void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
   qoco_assert(x || n == 0);
   qoco_assert(y || n == 0);
 
-  if (n == 0)
-    return;
+  const QOCOInt blockSize = 256;
+  const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
 
   // Check if pointers are on device - handle errors gracefully
   cudaPointerAttributes attrs_x, attrs_y;
   cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
   cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
 
-  // If either pointer check succeeds and one is on device, use CUDA
+  // If either pointer check succeeds and one is on device, use CUDA kernel.
   if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
       (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
-    const QOCOInt blockSize = 256;
-    const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
-    // At least one pointer is on device - use kernel
-    if (err_x == cudaSuccess && err_y == cudaSuccess &&
-        attrs_x.type == cudaMemoryTypeDevice &&
-        attrs_y.type == cudaMemoryTypeDevice) {
-      // Both device
-      copy_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, n);
-    }
-    else if (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) {
-      // x on device, y on host
-      CUDA_CHECK(
-          cudaMemcpy(y, x, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
-    }
-    else if (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice) {
-      // y on device, x on host
-      CUDA_CHECK(cudaMemcpy((QOCOFloat*)y, x, n * sizeof(QOCOFloat),
-                            cudaMemcpyHostToDevice));
-    }
+    copy_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, n);
     CUDA_CHECK(cudaDeviceSynchronize());
   }
   else {
-    // Both on host - use CPU
+    // If both pointers are on host, use CPU.
     for (QOCOInt i = 0; i < n; ++i) {
       y[i] = x[i];
     }
@@ -394,9 +308,6 @@ void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
   qoco_assert(x || n == 0);
   qoco_assert(y || n == 0);
 
-  if (n == 0)
-    return;
-
   const QOCOInt blockSize = 256;
   const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
 
@@ -405,78 +316,26 @@ void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
   cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
   cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
 
-  // If either pointer check succeeds and one is on device, use CUDA
+  // If either pointer check succeeds and one is on device, use CUDA kernel.
   if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
       (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
-    if (err_x == cudaSuccess && err_y == cudaSuccess &&
-        attrs_x.type == cudaMemoryTypeDevice &&
-        attrs_y.type == cudaMemoryTypeDevice) {
-      copy_and_negate_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y,
-                                                              n);
-    }
-    else if (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) {
-      QOCOFloat* temp = (QOCOFloat*)qoco_malloc(n * sizeof(QOCOFloat));
-      CUDA_CHECK(
-          cudaMemcpy(temp, x, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
-      for (QOCOInt i = 0; i < n; ++i)
-        y[i] = -temp[i];
-      qoco_free(temp);
-    }
-    else {
-      QOCOFloat* d_y;
-      CUDA_CHECK(cudaMalloc(&d_y, n * sizeof(QOCOFloat)));
-      CUDA_CHECK(
-          cudaMemcpy(d_y, x, n * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
-      copy_and_negate_arrayf_kernel<<<numBlocks, blockSize>>>(d_y,
-                                                              (QOCOFloat*)y, n);
-      cudaFree(d_y);
-    }
+    copy_and_negate_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y,
+                                                            n);
     CUDA_CHECK(cudaDeviceSynchronize());
   }
   else {
+    // If both pointers are on host, use CPU.
     for (QOCOInt i = 0; i < n; ++i) {
       y[i] = -x[i];
     }
   }
 }
 
+// Only called by CPU during setup.
 void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
 {
-  qoco_assert(x || n == 0);
-  qoco_assert(y || n == 0);
-
-  if (n == 0)
-    return;
-
-  const QOCOInt blockSize = 256;
-  const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
-
-  // Check if pointers are on device - handle errors gracefully
-  cudaPointerAttributes attrs_x, attrs_y;
-  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
-  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
-
-  // If either pointer check succeeds and one is on device, use CUDA
-  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
-      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
-    if (err_x == cudaSuccess && err_y == cudaSuccess &&
-        attrs_x.type == cudaMemoryTypeDevice &&
-        attrs_y.type == cudaMemoryTypeDevice) {
-      copy_arrayi_kernel<<<numBlocks, blockSize>>>(x, (QOCOInt*)y, n);
-    }
-    else if (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) {
-      CUDA_CHECK(cudaMemcpy(y, x, n * sizeof(QOCOInt), cudaMemcpyDeviceToHost));
-    }
-    else if (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice) {
-      CUDA_CHECK(cudaMemcpy((QOCOInt*)y, x, n * sizeof(QOCOInt),
-                            cudaMemcpyHostToDevice));
-    }
-    CUDA_CHECK(cudaDeviceSynchronize());
-  }
-  else {
-    for (QOCOInt i = 0; i < n; ++i) {
-      y[i] = x[i];
-    }
+  for (QOCOInt i = 0; i < n; ++i) {
+    y[i] = x[i];
   }
 }
 
@@ -514,32 +373,11 @@ QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
 
 QOCOInt max_arrayi(const QOCOInt* x, QOCOInt n)
 {
-  qoco_assert(x || n == 0);
-
-  if (n == 0)
-    return -QOCOInt_MAX;
-
-  cudaPointerAttributes attrs;
-  cudaError_t err = cudaPointerGetAttributes(&attrs, x);
-
-  if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
-    // Copy to host and compute
-    QOCOInt* h_x = (QOCOInt*)qoco_malloc(n * sizeof(QOCOInt));
-    CUDA_CHECK(cudaMemcpy(h_x, x, n * sizeof(QOCOInt), cudaMemcpyDeviceToHost));
-    QOCOInt max = -QOCOInt_MAX;
-    for (QOCOInt i = 0; i < n; ++i) {
-      max = qoco_max(max, h_x[i]);
-    }
-    qoco_free(h_x);
-    return max;
+  QOCOInt max = -QOCOInt_MAX;
+  for (QOCOInt i = 0; i < n; ++i) {
+    max = qoco_max(max, x[i]);
   }
-  else {
-    QOCOInt max = -QOCOInt_MAX;
-    for (QOCOInt i = 0; i < n; ++i) {
-      max = qoco_max(max, x[i]);
-    }
-    return max;
-  }
+  return max;
 }
 
 void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n)
@@ -564,7 +402,7 @@ void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n)
     if (err_x == cudaSuccess && err_y == cudaSuccess &&
         attrs_x.type == cudaMemoryTypeDevice &&
         attrs_y.type == cudaMemoryTypeDevice) {
-      scale_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, s, n);
+      scale_arrayf_kernel<<<numBlocks, blockSize>>>(x, y, s, n);
     }
     CUDA_CHECK(cudaDeviceSynchronize());
   }
@@ -601,7 +439,7 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
         attrs_x.type == cudaMemoryTypeDevice &&
         attrs_y.type == cudaMemoryTypeDevice &&
         attrs_z.type == cudaMemoryTypeDevice) {
-      axpy_kernel<<<numBlocks, blockSize>>>(x, y, (QOCOFloat*)z, a, n);
+      axpy_kernel<<<numBlocks, blockSize>>>(x, y, z, a, n);
     }
     CUDA_CHECK(cudaDeviceSynchronize());
   }
@@ -663,10 +501,6 @@ void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
   }
 }
 
-} // extern "C" - end of C linkage block
-
-// Functions that don't need C linkage (called from C++ code or headers without
-// extern "C")
 void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
   USpMv(M->csc, v, r);
@@ -686,42 +520,11 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
 {
   qoco_assert(x || n == 0);
 
-  if (n == 0)
-    return 0.0;
-
-  cudaPointerAttributes attrs;
-  cudaError_t err = cudaPointerGetAttributes(&attrs, x);
-
-  if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
-    const QOCOInt blockSize = 256;
-    const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
-    QOCOFloat* d_result;
-    CUDA_CHECK(cudaMalloc(&d_result, numBlocks * sizeof(QOCOFloat)));
-
-    inf_norm_kernel<<<numBlocks, blockSize, blockSize * sizeof(QOCOFloat)>>>(
-        x, d_result, n);
-
-    QOCOFloat* h_result =
-        (QOCOFloat*)qoco_malloc(numBlocks * sizeof(QOCOFloat));
-    CUDA_CHECK(cudaMemcpy(h_result, d_result, numBlocks * sizeof(QOCOFloat),
-                          cudaMemcpyDeviceToHost));
-
-    QOCOFloat result = 0.0;
-    for (QOCOInt i = 0; i < numBlocks; ++i) {
-      result = qoco_max(result, h_result[i]);
-    }
-
-    qoco_free(h_result);
-    cudaFree(d_result);
-    return result;
+  QOCOFloat norm = 0.0;
+  QOCOFloat xi;
+  for (QOCOInt i = 0; i < n; ++i) {
+    xi = qoco_abs(x[i]);
+    norm = qoco_max(norm, xi);
   }
-  else {
-    QOCOFloat norm = 0.0;
-    QOCOFloat xi;
-    for (QOCOInt i = 0; i < n; ++i) {
-      xi = qoco_abs(x[i]);
-      norm = qoco_max(norm, xi);
-    }
-    return norm;
-  }
+  return norm;
 }

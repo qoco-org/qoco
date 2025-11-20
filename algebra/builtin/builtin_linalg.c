@@ -97,17 +97,11 @@ QOCOFloat* get_data_vectorf(const QOCOVectorf* x) { return x->data; }
 
 QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
 
-void sync_vector_to_device_if_needed(QOCOVectorf* v)
-{
-  // No-op for builtin backend (no device memory)
-  (void)v;
-}
+// No-op for builtin backend
+void sync_vector_to_host(QOCOVectorf* v) {}
 
-void set_solve_phase(int active)
-{
-  // No-op for builtin backend (no device memory)
-  (void)active;
-}
+// No-op for builtin backend
+void set_solve_phase(int active) {}
 
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }
 

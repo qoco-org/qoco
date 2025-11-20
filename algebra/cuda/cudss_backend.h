@@ -17,6 +17,10 @@
 
 #include "cuda_types.h"
 #include <cudss.h>
+#include <cublas_v2.h>
+#include <cuda_runtime.h>
+#include <cusparse.h>
+#include <library_types.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
