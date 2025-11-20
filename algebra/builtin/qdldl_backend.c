@@ -302,8 +302,14 @@ static void qdldl_cleanup(LinSysData* linsys_data)
   qoco_free(linsys_data);
 }
 
+static const char* qdldl_name(void)
+{
+  return "builtin/qdldl";
+}
+
 // Export the backend struct
-LinSysBackend backend = {.linsys_setup = qdldl_setup,
+LinSysBackend backend = {.linsys_name = qdldl_name,
+                         .linsys_setup = qdldl_setup,
                          .linsys_initialize_nt = qdldl_initialize_nt,
                          .linsys_update_nt = qdldl_update_nt,
                          .linsys_update_data = qdldl_update_data,

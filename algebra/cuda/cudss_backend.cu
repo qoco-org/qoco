@@ -1041,8 +1041,14 @@ static void cudss_cleanup(LinSysData* linsys_data)
   qoco_free(linsys_data);
 }
 
+static const char* cudss_name(void)
+{
+  return "cuda/cuDSS";
+}
+
 // Export the backend struct
-LinSysBackend backend = {.linsys_setup = cudss_setup,
+LinSysBackend backend = {.linsys_name = cudss_name,
+                         .linsys_setup = cudss_setup,
                          .linsys_initialize_nt = cudss_initialize_nt,
                          .linsys_update_nt = cudss_update_nt,
                          .linsys_update_data = cudss_update_data,

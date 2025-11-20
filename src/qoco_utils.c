@@ -95,6 +95,7 @@ void print_header(QOCOSolver* solver)
   printf("|     nnz(A):           %-9d                       |\n", get_nnz(data->A));
   printf("|     nnz(G):           %-9d                       |\n", get_nnz(data->G));
   printf("| Solver Settings:                                      |\n");
+  printf("|     algebra: %-27s              |\n", solver->linsys->linsys_name());
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
   printf("|     bisect_iters: %-2d iter_ref_iters: %-2d               |\n", settings->bisect_iters, settings->iter_ref_iters);
