@@ -109,14 +109,6 @@ void set_solve_phase(int active)
   (void)active;
 }
 
-void copy_vector_from_device(QOCOVectorf* src, QOCOFloat* dst, QOCOInt n)
-{
-  // For builtin backend, just copy from host memory
-  if (src && dst) {
-    copy_arrayf(src->data, dst, n);
-  }
-}
-
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }
 
 void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)

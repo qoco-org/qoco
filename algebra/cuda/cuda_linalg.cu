@@ -219,16 +219,6 @@ static int solve_phase_active = 0;
 
 void set_solve_phase(int active) { solve_phase_active = active; }
 
-// Helper function to copy solution vectors from device to host (called from C
-// code)
-void copy_vector_from_device(QOCOVectorf* src, QOCOFloat* dst, QOCOInt n)
-{
-  if (src && src->d_data && dst) {
-    CUDA_CHECK(cudaMemcpy(dst, src->d_data, n * sizeof(QOCOFloat),
-                          cudaMemcpyDeviceToHost));
-  }
-}
-
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
 {
   // During equilibration/setup (CPU phase), return host pointer
@@ -253,23 +243,21 @@ void sync_vector_to_device_if_needed(QOCOVectorf* v)
 
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }
 
-// These functions are only called during equilibration on CPU, so call C
-// functions directly
 void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
 {
-  // Called during setup on CPU - use existing C function
+  // Called during setup on CPU
   col_inf_norm_USymm(get_csc_matrix(M), norm);
 }
 
 void col_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
 {
-  // Called during setup on CPU - use existing C function
+  // Called during setup on CPU
   col_inf_norm(get_csc_matrix(M), norm);
 }
 
 void row_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
 {
-  // Called during setup on CPU - use existing C function
+  // Called during setup on CPU
   row_inf_norm(get_csc_matrix(M), norm);
 }
 

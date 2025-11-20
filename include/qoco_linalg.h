@@ -154,17 +154,6 @@ void sync_vector_to_device_if_needed(QOCOVectorf* v);
 void set_solve_phase(int active);
 
 /**
- * @brief Copies vector data from device to host (CUDA backend only).
- * This is a no-op for non-CUDA backends. Used to copy solution vectors
- * after solver terminates.
- *
- * @param src Source vector (on device).
- * @param dst Destination buffer (on host).
- * @param n Number of elements to copy.
- */
-void copy_vector_from_device(QOCOVectorf* src, QOCOFloat* dst, QOCOInt n);
-
-/**
  * @brief Returns the length of a QOCOVectorf.
  *
  * @param x Input vector.
