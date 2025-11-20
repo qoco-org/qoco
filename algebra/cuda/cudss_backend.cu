@@ -140,6 +140,11 @@ struct LinSysData {
   /** Mapping from NT diagonal indices to CSR KKT matrix indices (device) */
   QOCOInt* d_ntdiag2kktcsr;
 
+  /** Mapping from P, A, G indices to CSR KKT matrix indices (device) */
+  QOCOInt* d_PregtoKKTcsr;
+  QOCOInt* d_AttoKKTcsr;
+  QOCOInt* d_GttoKKTcsr;
+
   /** CSC structure on GPU (for converting updates) */
   QOCOInt* d_csc_p;
   QOCOInt* d_csc_i;
@@ -329,6 +334,31 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   // Store the actual count of valid diagonal entries
   linsys_data->valid_ntdiag_count = valid_diag_count;
 
+  // Build CSR mappings for P, A, G (convert from CSC indices to CSR indices)
+  QOCOInt* PregtoKKTcsr = NULL;
+  QOCOInt* AttoKKTcsr = NULL;
+  QOCOInt* GttoKKTcsr = NULL;
+  
+  if (data->P && linsys_data->PregtoKKT) {
+    QOCOInt Pnnz = get_nnz(data->P);
+    PregtoKKTcsr = (QOCOInt*)qoco_malloc(Pnnz * sizeof(QOCOInt));
+    for (QOCOInt i = 0; i < Pnnz; ++i) {
+      PregtoKKTcsr[i] = csc2csr[linsys_data->PregtoKKT[i]];
+    }
+  }
+  
+  QOCOInt Annz = get_nnz(data->A);
+  AttoKKTcsr = (QOCOInt*)qoco_malloc(Annz * sizeof(QOCOInt));
+  for (QOCOInt i = 0; i < Annz; ++i) {
+    AttoKKTcsr[i] = csc2csr[linsys_data->AttoKKT[data->AtoAt[i]]];
+  }
+  
+  QOCOInt Gnnz = get_nnz(data->G);
+  GttoKKTcsr = (QOCOInt*)qoco_malloc(Gnnz * sizeof(QOCOInt));
+  for (QOCOInt i = 0; i < Gnnz; ++i) {
+    GttoKKTcsr[i] = csc2csr[linsys_data->GttoKKT[data->GtoGt[i]]];
+  }
+
   // Store CSR arrays on GPU persistently (will be updated directly, not
   // recreated)
   linsys_data->d_csr_row_ptr = csr_row_ptr;
@@ -401,9 +431,30 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
     linsys_data->d_ntdiag2kktcsr = NULL;
   }
 
+  // Allocate and copy P, A, G CSR mappings to device
+  if (PregtoKKTcsr) {
+    QOCOInt Pnnz = get_nnz(data->P);
+    CUDA_CHECK(cudaMalloc(&linsys_data->d_PregtoKKTcsr, Pnnz * sizeof(QOCOInt)));
+    CUDA_CHECK(cudaMemcpy(linsys_data->d_PregtoKKTcsr, PregtoKKTcsr,
+                          Pnnz * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+  } else {
+    linsys_data->d_PregtoKKTcsr = NULL;
+  }
+  
+  CUDA_CHECK(cudaMalloc(&linsys_data->d_AttoKKTcsr, Annz * sizeof(QOCOInt)));
+  CUDA_CHECK(cudaMemcpy(linsys_data->d_AttoKKTcsr, AttoKKTcsr,
+                        Annz * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+  
+  CUDA_CHECK(cudaMalloc(&linsys_data->d_GttoKKTcsr, Gnnz * sizeof(QOCOInt)));
+  CUDA_CHECK(cudaMemcpy(linsys_data->d_GttoKKTcsr, GttoKKTcsr,
+                        Gnnz * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+
   // Free temporary host arrays
   if (nt2kktcsr) qoco_free(nt2kktcsr);
   if (ntdiag2kktcsr) qoco_free(ntdiag2kktcsr);
+  if (PregtoKKTcsr) qoco_free(PregtoKKTcsr);
+  if (AttoKKTcsr) qoco_free(AttoKKTcsr);
+  if (GttoKKTcsr) qoco_free(GttoKKTcsr);
   qoco_free(h_csr_row_ptr);
   qoco_free(h_csr_col_ind);
   qoco_free(csc2csr);
@@ -474,6 +525,20 @@ __global__ void update_csr_nt_diag_kernel(
   if (idx < m) {
     QOCOInt csr_idx = ntdiag2kktcsr[idx];
     csr_val[csr_idx] -= kkt_static_reg;
+  }
+}
+
+// CUDA kernel to update CSR values for P, A, G matrices
+__global__ void update_csr_matrix_data_kernel(
+    const QOCOFloat* matrix_val,    // New matrix values (on GPU)
+    QOCOFloat* csr_val,              // CSR values to update (on GPU)
+    const QOCOInt* mat2kktcsr,       // Mapping from matrix indices to CSR indices
+    QOCOInt nnz)                     // Number of nonzeros
+{
+  QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
+  if (idx < nnz) {
+    QOCOInt csr_idx = mat2kktcsr[idx];
+    csr_val[csr_idx] = matrix_val[idx];
   }
 }
 
@@ -820,28 +885,84 @@ static void cudss_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
 
 static void cudss_update_data(LinSysData* linsys_data, QOCOProblemData* data)
 {
-  // Update P in KKT matrix
+  // Update P, A, G directly in CSR matrix on GPU
+  QOCOInt threadsPerBlock = 256;
+  
+  // Update P in CSR matrix
+  if (data->P && linsys_data->d_PregtoKKTcsr) {
+    QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
+    QOCOInt Pnnz = get_nnz(data->P);
+    
+    // Copy P values to device
+    QOCOFloat* d_Pval;
+    CUDA_CHECK(cudaMalloc(&d_Pval, Pnnz * sizeof(QOCOFloat)));
+    CUDA_CHECK(cudaMemcpy(d_Pval, Pcsc->x, Pnnz * sizeof(QOCOFloat),
+                          cudaMemcpyHostToDevice));
+    
+    // Update CSR values directly
+    QOCOInt numBlocks = (Pnnz + threadsPerBlock - 1) / threadsPerBlock;
+    update_csr_matrix_data_kernel<<<numBlocks, threadsPerBlock>>>(
+        d_Pval, linsys_data->d_csr_val, linsys_data->d_PregtoKKTcsr, Pnnz);
+    CUDA_CHECK(cudaGetLastError());
+    
+    cudaFree(d_Pval);
+  }
+
+  // Update A in CSR matrix
+  QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
+  QOCOInt Annz = get_nnz(data->A);
+  
+  // Copy A values to device
+  QOCOFloat* d_Aval;
+  CUDA_CHECK(cudaMalloc(&d_Aval, Annz * sizeof(QOCOFloat)));
+  CUDA_CHECK(cudaMemcpy(d_Aval, Acsc->x, Annz * sizeof(QOCOFloat),
+                        cudaMemcpyHostToDevice));
+  
+  // Update CSR values directly
+  QOCOInt numBlocksA = (Annz + threadsPerBlock - 1) / threadsPerBlock;
+  update_csr_matrix_data_kernel<<<numBlocksA, threadsPerBlock>>>(
+      d_Aval, linsys_data->d_csr_val, linsys_data->d_AttoKKTcsr, Annz);
+  CUDA_CHECK(cudaGetLastError());
+  
+  cudaFree(d_Aval);
+
+  // Update G in CSR matrix
+  QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
+  QOCOInt Gnnz = get_nnz(data->G);
+  
+  // Copy G values to device
+  QOCOFloat* d_Gval;
+  CUDA_CHECK(cudaMalloc(&d_Gval, Gnnz * sizeof(QOCOFloat)));
+  CUDA_CHECK(cudaMemcpy(d_Gval, Gcsc->x, Gnnz * sizeof(QOCOFloat),
+                        cudaMemcpyHostToDevice));
+  
+  // Update CSR values directly
+  QOCOInt numBlocksG = (Gnnz + threadsPerBlock - 1) / threadsPerBlock;
+  update_csr_matrix_data_kernel<<<numBlocksG, threadsPerBlock>>>(
+      d_Gval, linsys_data->d_csr_val, linsys_data->d_GttoKKTcsr, Gnnz);
+  CUDA_CHECK(cudaGetLastError());
+  
+  cudaFree(d_Gval);
+  
+  CUDA_CHECK(cudaDeviceSynchronize());
+  
+  // Also update host CSC matrix for consistency (used by other functions)
   if (data->P && linsys_data->PregtoKKT) {
     QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
     for (QOCOInt i = 0; i < get_nnz(data->P); ++i) {
       linsys_data->K->x[linsys_data->PregtoKKT[i]] = Pcsc->x[i];
     }
   }
-
-  // Update A in KKT matrix
-  QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
+  
+  QOCOCscMatrix* Acsc_host = get_csc_matrix(data->A);
   for (QOCOInt i = 0; i < get_nnz(data->A); ++i) {
-    linsys_data->K->x[linsys_data->AttoKKT[data->AtoAt[i]]] = Acsc->x[i];
+    linsys_data->K->x[linsys_data->AttoKKT[data->AtoAt[i]]] = Acsc_host->x[i];
   }
-
-  // Update G in KKT matrix
-  QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
+  
+  QOCOCscMatrix* Gcsc_host = get_csc_matrix(data->G);
   for (QOCOInt i = 0; i < get_nnz(data->G); ++i) {
-    linsys_data->K->x[linsys_data->GttoKKT[data->GtoGt[i]]] = Gcsc->x[i];
+    linsys_data->K->x[linsys_data->GttoKKT[data->GtoGt[i]]] = Gcsc_host->x[i];
   }
-
-  // Update device matrix - convert to CSR and update
-  // Note: This is simplified; in production we'd maintain device copy
 }
 
 static void cudss_cleanup(LinSysData* linsys_data)
@@ -911,6 +1032,12 @@ static void cudss_cleanup(LinSysData* linsys_data)
     cudaFree(linsys_data->d_nt2kktcsr);
   if (linsys_data->d_ntdiag2kktcsr)
     cudaFree(linsys_data->d_ntdiag2kktcsr);
+  if (linsys_data->d_PregtoKKTcsr)
+    cudaFree(linsys_data->d_PregtoKKTcsr);
+  if (linsys_data->d_AttoKKTcsr)
+    cudaFree(linsys_data->d_AttoKKTcsr);
+  if (linsys_data->d_GttoKKTcsr)
+    cudaFree(linsys_data->d_GttoKKTcsr);
   qoco_free(linsys_data);
 }
 
