@@ -154,14 +154,6 @@ void sync_vector_to_device_if_needed(QOCOVectorf* v);
 void set_solve_phase(int active);
 
 /**
- * @brief Gets the solve phase flag (CUDA backend only).
- * Returns 1 if solve phase is active, 0 otherwise.
- *
- * @return 1 if solve phase is active, 0 otherwise.
- */
-int get_solve_phase(void);
-
-/**
  * @brief Copies vector data from device to host (CUDA backend only).
  * This is a no-op for non-CUDA backends. Used to copy solution vectors
  * after solver terminates.

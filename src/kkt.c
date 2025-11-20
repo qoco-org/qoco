@@ -400,50 +400,16 @@ void predictor_corrector(QOCOSolver* solver)
   solver->linsys->linsys_solve(solver->linsys_data, solver->work, rhs, xyz,
                                solver->settings->iter_ref_iters);
 
-// Check if solution has NaNs. If NaNs are present, early exit and set a to
-// 0.0 to trigger reduced tolerance optimality checks.
-// During solve phase, xyz is on device, so we need to sync to host for NaN
-// check But this is error checking, not part of normal solve flow
-#ifdef QOCO_ALGEBRA_BACKEND_CUDA
-  extern int get_solve_phase(void);
-  if (get_solve_phase()) {
-    // Temporarily sync xyz from device to host for NaN check
-    // This creates a temporary copy, but it's only for error checking
-    QOCOInt n = work->data->n + work->data->m + work->data->p;
-    QOCOFloat* xyz_host = (QOCOFloat*)malloc(n * sizeof(QOCOFloat));
-    extern void* cudaMemcpy(void* dst, const void* src, size_t count, int kind);
-#define cudaMemcpyDeviceToHost 2
-    cudaMemcpy(xyz_host, xyz, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
-    for (QOCOInt i = 0; i < n; ++i) {
-      if (isnan(xyz_host[i])) {
-        free(xyz_host);
-        work->a = 0.0;
-        return;
-      }
-    }
-    free(xyz_host);
-  }
-  else {
-    // Not in solve phase, use host pointer directly
-    QOCOFloat* xyz_host = get_data_vectorf(work->xyz);
-    for (QOCOInt i = 0; i < work->data->n + work->data->p + work->data->m;
-         ++i) {
-      if (isnan(xyz_host[i])) {
-        work->a = 0.0;
-        return;
-      }
-    }
-  }
-#else
-  // Builtin backend - use host pointer directly
-  QOCOFloat* xyz_host = get_data_vectorf(work->xyz);
+  // Check if solution has NaNs. If NaNs are present, early exit and set a to
+  // 0.0 to trigger reduced tolerance optimality checks.
+  // During solve phase, xyz is on device, so we need to sync to host for NaN
+  // check But this is error checking, not part of normal solve flow
   for (QOCOInt i = 0; i < work->data->n + work->data->p + work->data->m; ++i) {
-    if (isnan(xyz_host[i])) {
+    if (isnan(xyz[i])) {
       work->a = 0.0;
       return;
     }
   }
-#endif
 
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
   // computed in construct_kkt_comb_rhs() and stored in work->Ds.

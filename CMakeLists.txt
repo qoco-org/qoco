@@ -112,14 +112,19 @@ if(NOT DEFINED QOCO_ALGEBRA_BACKEND)
 endif()
 message(STATUS "Using ${QOCO_ALGEBRA_BACKEND} algebra")
 
-# CUDA flags are set early if needed
+# Enable CUDA if using CUDA backend
+if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    enable_language(CUDA)
+endif()
+
+# QOCO_CUDA_LIBS is set here if needed.
 add_subdirectory(algebra)
 
 get_property(qoco_sources GLOBAL PROPERTY QOCO_SOURCES)
 get_property(qoco_headers GLOBAL PROPERTY QOCO_HEADERS)
 get_property(qoco_include GLOBAL PROPERTY QOCO_INCLUDE)
 
-# Get CUDA libraries if using CUDA backend
+# Get CUDA libraries if using CUDA backend.
 get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
 
 # Build qoco shared library.
@@ -134,21 +139,6 @@ endif()
 target_include_directories(qoco PUBLIC ${qoco_include})
 target_sources(qoco PRIVATE ${qoco_sources})
 
-# Enable CUDA if using CUDA backend
-if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
-    enable_language(CUDA)
-    set_target_properties(qoco PROPERTIES
-        CUDA_SEPARABLE_COMPILATION ON
-        CUDA_RESOLVE_DEVICE_SYMBOLS ON
-    )
-    # Add HAVE_CUDSS definition if cuDSS library was found
-    get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
-    if("${qoco_cuda_libs}" MATCHES "cudss")
-        target_compile_definitions(qoco PRIVATE HAVE_CUDSS)
-        message(STATUS "Added HAVE_CUDSS to qoco target")
-    endif()
-endif()
-
 # Build qoco static library.
 add_library(qocostatic STATIC)
 target_link_libraries(qocostatic qdldlobject amd)
@@ -158,21 +148,6 @@ if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qocostatic m)
 endif()
 
-target_include_directories(qocostatic PUBLIC ${qoco_include})
-target_sources(qocostatic PRIVATE ${qoco_sources})
-
-# Enable CUDA if using CUDA backend
-if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
-    set_target_properties(qocostatic PROPERTIES
-        CUDA_SEPARABLE_COMPILATION ON
-        CUDA_RESOLVE_DEVICE_SYMBOLS ON
-    )
-    # Add HAVE_CUDSS definition if cuDSS library was found
-    get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
-    if("${qoco_cuda_libs}" MATCHES "cudss")
-        target_compile_definitions(qocostatic PRIVATE HAVE_CUDSS)
-    endif()
-endif()
 target_include_directories(qocostatic PUBLIC ${qoco_include})
 target_sources(qocostatic PRIVATE ${qoco_sources})
 

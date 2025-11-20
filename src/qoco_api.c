@@ -375,10 +375,8 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     print_header(solver);
   }
 
-// Set solve phase flag for CUDA backend (prevents CPU-GPU copies during solve)
-// During solve phase, get_data_vectorf returns device pointers automatically
+// Set solve phase flag for CUDA backend (prevents get_data_vectorf from returning device pointers)
 #ifdef QOCO_ALGEBRA_BACKEND_CUDA
-  extern void set_solve_phase(int active);
   set_solve_phase(1);
 #endif
 
@@ -408,12 +406,6 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     // Check stopping criteria.
     if (check_stopping(solver)) {
       stop_timer(&(work->solve_timer));
-// Clear solve phase flag before copying solution (allows copy from device to
-// host)
-#ifdef QOCO_ALGEBRA_BACKEND_CUDA
-      extern void set_solve_phase(int active);
-      set_solve_phase(0);
-#endif
       unscale_variables(work);
       copy_solution(solver);
       if (solver->settings->verbose) {
@@ -442,12 +434,6 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   }
 
   stop_timer(&(work->solve_timer));
-// Clear solve phase flag before copying solution (allows copy from device to
-// host)
-#ifdef QOCO_ALGEBRA_BACKEND_CUDA
-  extern void set_solve_phase(int active);
-  set_solve_phase(0);
-#endif
   unscale_variables(work);
   copy_solution(solver);
   solver->sol->status = QOCO_MAX_ITER;
@@ -461,9 +447,7 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
 {
 
   // Free problem data.
-  if (solver->work->data->P) {
-    free_qoco_matrix(solver->work->data->P);
-  }
+  free_qoco_matrix(solver->work->data->P);
   free_qoco_matrix(solver->work->data->A);
   free_qoco_matrix(solver->work->data->G);
   free_qoco_matrix(solver->work->data->At);

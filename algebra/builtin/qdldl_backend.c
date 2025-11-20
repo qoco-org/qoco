@@ -302,7 +302,7 @@ static void qdldl_cleanup(LinSysData* linsys_data)
   qoco_free(linsys_data);
 }
 
-static const char* qdldl_name(void)
+static const char* qdldl_name()
 {
   return "builtin/qdldl";
 }

@@ -109,12 +109,6 @@ void set_solve_phase(int active)
   (void)active;
 }
 
-int get_solve_phase(void)
-{
-  // Always return 0 for builtin backend (no device memory)
-  return 0;
-}
-
 void copy_vector_from_device(QOCOVectorf* src, QOCOFloat* dst, QOCOInt n)
 {
   // For builtin backend, just copy from host memory

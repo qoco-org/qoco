@@ -94,74 +94,6 @@ __global__ void inf_norm_kernel(const QOCOFloat* x, QOCOFloat* result,
   }
 }
 
-static inline QOCOInt get_block_size(QOCOInt n)
-{
-  return (n + 255) / 256 * 256 < 256 ? 256 : ((n + 255) / 256) * 256;
-}
-
-// Convert CSC to CSR format (host conversion, then copy to device)
-// Used for converting matrices to GPU format after setup/equilibration
-static void csc_to_csr(const QOCOCscMatrix* csc, QOCOInt** csr_row_ptr,
-                       QOCOInt** csr_col_ind, QOCOFloat** csr_val)
-{
-  QOCOInt m = csc->m;
-  QOCOInt n = csc->n;
-  QOCOInt nnz = csc->nnz;
-
-  // Allocate CSR arrays on host
-  QOCOInt* h_csr_row_ptr = (QOCOInt*)qoco_calloc((m + 1), sizeof(QOCOInt));
-  QOCOInt* h_csr_col_ind = (QOCOInt*)qoco_malloc(nnz * sizeof(QOCOInt));
-  QOCOFloat* h_csr_val = (QOCOFloat*)qoco_malloc(nnz * sizeof(QOCOFloat));
-
-  // Count nonzeros per row
-  for (QOCOInt col = 0; col < n; ++col) {
-    for (QOCOInt idx = csc->p[col]; idx < csc->p[col + 1]; ++idx) {
-      QOCOInt row = csc->i[idx];
-      h_csr_row_ptr[row + 1]++;
-    }
-  }
-
-  // Compute row pointers (prefix sum)
-  for (QOCOInt i = 0; i < m; ++i) {
-    h_csr_row_ptr[i + 1] += h_csr_row_ptr[i];
-  }
-
-  // Temporary array to track current position in each row
-  QOCOInt* row_pos = (QOCOInt*)qoco_malloc(m * sizeof(QOCOInt));
-  for (QOCOInt i = 0; i < m; ++i) {
-    row_pos[i] = h_csr_row_ptr[i];
-  }
-
-  // Fill CSR arrays
-  for (QOCOInt col = 0; col < n; ++col) {
-    for (QOCOInt idx = csc->p[col]; idx < csc->p[col + 1]; ++idx) {
-      QOCOInt row = csc->i[idx];
-      QOCOInt csr_idx = row_pos[row]++;
-      h_csr_col_ind[csr_idx] = col;
-      h_csr_val[csr_idx] = csc->x[idx];
-    }
-  }
-
-  qoco_free(row_pos);
-
-  // Allocate device memory and copy
-  CUDA_CHECK(cudaMalloc(csr_row_ptr, (m + 1) * sizeof(QOCOInt)));
-  CUDA_CHECK(cudaMalloc(csr_col_ind, nnz * sizeof(QOCOInt)));
-  CUDA_CHECK(cudaMalloc(csr_val, nnz * sizeof(QOCOFloat)));
-
-  CUDA_CHECK(cudaMemcpy(*csr_row_ptr, h_csr_row_ptr, (m + 1) * sizeof(QOCOInt),
-                        cudaMemcpyHostToDevice));
-  CUDA_CHECK(cudaMemcpy(*csr_col_ind, h_csr_col_ind, nnz * sizeof(QOCOInt),
-                        cudaMemcpyHostToDevice));
-  CUDA_CHECK(cudaMemcpy(*csr_val, h_csr_val, nnz * sizeof(QOCOFloat),
-                        cudaMemcpyHostToDevice));
-
-  // Free host memory
-  qoco_free(h_csr_row_ptr);
-  qoco_free(h_csr_col_ind);
-  qoco_free(h_csr_val);
-}
-
 extern "C" {
 
 // Host implementation that manages GPU memory
@@ -287,8 +219,6 @@ static int solve_phase_active = 0;
 
 void set_solve_phase(int active) { solve_phase_active = active; }
 
-int get_solve_phase(void) { return solve_phase_active; }
-
 // Helper function to copy solution vectors from device to host (called from C
 // code)
 void copy_vector_from_device(QOCOVectorf* src, QOCOFloat* dst, QOCOInt n)
@@ -365,7 +295,7 @@ void row_col_scale_matrix(QOCOMatrix* M, const QOCOFloat* E, const QOCOFloat* D)
 
 void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data)
 {
-  // Update host (during setup/equilibration, host is primary)
+  // Update host (called during setup/equilibration)
   x->data[idx] = data;
   // Also update device to keep in sync
   CUDA_CHECK(cudaMemcpy(&x->d_data[idx], &data, sizeof(QOCOFloat),
@@ -374,18 +304,10 @@ void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data)
 
 void reciprocal_vectorf(const QOCOVectorf* input, QOCOVectorf* output)
 {
-  // Operate directly on device
-  const QOCOInt blockSize = 256;
-  const QOCOInt numBlocks = (input->len + blockSize - 1) / blockSize;
-
-  // Use a kernel for reciprocal
-  // For now, do on host then copy (setup phase only)
+  // This is called by the host.
   for (QOCOInt i = 0; i < input->len; ++i) {
     output->data[i] = safe_div(1.0, input->data[i]);
   }
-  CUDA_CHECK(cudaMemcpy(output->d_data, output->data,
-                        output->len * sizeof(QOCOFloat),
-                        cudaMemcpyHostToDevice));
 }
 
 QOCOCscMatrix* new_qoco_csc_matrix(const QOCOCscMatrix* A)
@@ -656,30 +578,6 @@ void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n)
         attrs_y.type == cudaMemoryTypeDevice) {
       scale_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, s, n);
     }
-    else {
-      cublasHandle_t handle;
-      cublasCreate(&handle);
-      if (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice &&
-          err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeHost) {
-        QOCOFloat* d_y;
-        CUDA_CHECK(cudaMalloc(&d_y, n * sizeof(QOCOFloat)));
-        cublasDcopy(handle, n, x, 1, d_y, 1);
-        cublasDscal(handle, n, &s, d_y, 1);
-        CUDA_CHECK(
-            cudaMemcpy(y, d_y, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
-        cudaFree(d_y);
-      }
-      else {
-        QOCOFloat* d_x;
-        CUDA_CHECK(cudaMalloc(&d_x, n * sizeof(QOCOFloat)));
-        CUDA_CHECK(
-            cudaMemcpy(d_x, x, n * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
-        cublasDcopy(handle, n, d_x, 1, (QOCOFloat*)y, 1);
-        cublasDscal(handle, n, &s, (QOCOFloat*)y, 1);
-        cudaFree(d_x);
-      }
-      cublasDestroy(handle);
-    }
     CUDA_CHECK(cudaDeviceSynchronize());
   }
   else {
@@ -717,54 +615,6 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
         attrs_z.type == cudaMemoryTypeDevice) {
       axpy_kernel<<<numBlocks, blockSize>>>(x, y, (QOCOFloat*)z, a, n);
     }
-    else {
-      cublasHandle_t handle;
-      cublasCreate(&handle);
-      // For mixed cases, use cublas
-      if (err_z == cudaSuccess && attrs_z.type == cudaMemoryTypeDevice) {
-        cublasDcopy(handle, n, y, 1, (QOCOFloat*)z, 1);
-        cublasDaxpy(handle, n, &a, x, 1, (QOCOFloat*)z, 1);
-      }
-      else {
-        // Need to copy to host
-        QOCOFloat* d_z;
-        CUDA_CHECK(cudaMalloc(&d_z, n * sizeof(QOCOFloat)));
-        const QOCOFloat* d_x =
-            (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice)
-                ? x
-                : NULL;
-        const QOCOFloat* d_y =
-            (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)
-                ? y
-                : NULL;
-        if (!d_x) {
-          CUDA_CHECK(cudaMalloc((void**)&d_x, n * sizeof(QOCOFloat)));
-          CUDA_CHECK(cudaMemcpy((void*)d_x, x, n * sizeof(QOCOFloat),
-                                cudaMemcpyHostToDevice));
-        }
-        if (!d_y) {
-          CUDA_CHECK(cudaMalloc((void**)&d_y, n * sizeof(QOCOFloat)));
-          CUDA_CHECK(cudaMemcpy((void*)d_y, y, n * sizeof(QOCOFloat),
-                                cudaMemcpyHostToDevice));
-        }
-        cublasDcopy(handle, n, d_y, 1, d_z, 1);
-        cublasDaxpy(handle, n, &a, d_x, 1, d_z, 1);
-        CUDA_CHECK(
-            cudaMemcpy(z, d_z, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
-        if (!d_x ||
-            (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeHost)) {
-          if (d_x)
-            cudaFree((void*)d_x);
-        }
-        if (!d_y ||
-            (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeHost)) {
-          if (d_y)
-            cudaFree((void*)d_y);
-        }
-        cudaFree(d_z);
-      }
-      cublasDestroy(handle);
-    }
     CUDA_CHECK(cudaDeviceSynchronize());
   }
   else {
@@ -774,15 +624,12 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
   }
 }
 
-// Sparse matrix-vector multiplication using cuSPARSE
 void USpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
   qoco_assert(M);
   qoco_assert(v);
   qoco_assert(r);
 
-  // For now, use CPU implementation
-  // TODO: Implement CUDA version using cuSPARSE
   for (QOCOInt i = 0; i < M->n; i++) {
     r[i] = 0.0;
     for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
