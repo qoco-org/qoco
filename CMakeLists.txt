@@ -107,20 +107,30 @@ elseif(IS_WINDOWS)
 endif()
 
 # Add algebra (must be done after defining qoco_sources and qoco_headers, since we append to these varibles)
+if(NOT DEFINED QOCO_ALGEBRA_BACKEND)
+    set(QOCO_ALGEBRA_BACKEND "builtin" CACHE STRING "The Algebra to use")
+endif()
+message(STATUS "Using ${QOCO_ALGEBRA_BACKEND} algebra")
 
-# TODO: Logic for selecting algebra backend
-set(QOCO_ALGEBRA_BACKEND
-    "builtin"
-    CACHE STRING "The Algebra to use")
+# Enable CUDA if using CUDA backend
+if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    enable_language(CUDA)
+endif()
+
+# QOCO_CUDA_LIBS is set here if needed.
 add_subdirectory(algebra)
 
 get_property(qoco_sources GLOBAL PROPERTY QOCO_SOURCES)
 get_property(qoco_headers GLOBAL PROPERTY QOCO_HEADERS)
 get_property(qoco_include GLOBAL PROPERTY QOCO_INCLUDE)
 
+# Get CUDA libraries if using CUDA backend.
+get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
+
 # Build qoco shared library.
 add_library(qoco SHARED)
 target_link_libraries(qoco qdldlobject amd)
+target_link_libraries(qoco ${qoco_cuda_libs})
 
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qoco m)
@@ -132,6 +142,7 @@ target_sources(qoco PRIVATE ${qoco_sources})
 # Build qoco static library.
 add_library(qocostatic STATIC)
 target_link_libraries(qocostatic qdldlobject amd)
+target_link_libraries(qocostatic ${qoco_cuda_libs})
 
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qocostatic m)

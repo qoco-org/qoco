@@ -64,6 +64,11 @@ foreach(file ${unit_tests})
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
   target_link_libraries("${name}" qocostatic gtest_main)
+  # Link CUDA libraries for CUDA backend
+  if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
+    target_link_libraries("${name}" ${qoco_cuda_libs})
+  endif()
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -78,6 +83,11 @@ foreach(file ${simple_tests})
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
   target_link_libraries("${name}" qocostatic gtest_main)
+  # Link CUDA libraries for CUDA backend
+  if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
+    target_link_libraries("${name}" ${qoco_cuda_libs})
+  endif()
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -95,6 +105,11 @@ foreach(file ${ocp})
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
   target_link_libraries("${name}" qocostatic gtest_main)
+  # Link CUDA libraries for CUDA backend
+  if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
+    target_link_libraries("${name}" ${qoco_cuda_libs})
+  endif()
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
 
@@ -108,5 +123,10 @@ foreach(file ${portfolio})
     "${PROJECT_SOURCE_DIR}/tests/main.cpp"
     "${PROJECT_SOURCE_DIR}/tests/utils/test_utils.cpp")
   target_link_libraries("${name}" qocostatic gtest_main)
+  # Link CUDA libraries for CUDA backend
+  if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
+    target_link_libraries("${name}" ${qoco_cuda_libs})
+  endif()
   add_test(NAME ${name} COMMAND "${name}")
 endforeach()
