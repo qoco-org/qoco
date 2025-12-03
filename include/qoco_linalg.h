@@ -136,6 +136,24 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx);
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x);
 
 /**
+ * @brief Syncs vector data from host to device if needed (CUDA backend only).
+ * This is a no-op for non-CUDA backends.
+ * Note: This should NOT be called during qoco_solve to avoid CPU-GPU copies.
+ *
+ * @param v Input vector.
+ */
+void sync_vector_to_host(QOCOVectorf* v);
+
+/**
+ * @brief Sets the solve phase flag (CUDA backend only).
+ * During solve phase, get_data_vectorf returns device pointers.
+ * This prevents CPU-GPU copies during the solve loop.
+ *
+ * @param active 1 if solve phase is active, 0 otherwise.
+ */
+void set_solve_phase(int active);
+
+/**
  * @brief Returns the length of a QOCOVectorf.
  *
  * @param x Input vector.

@@ -239,10 +239,10 @@ typedef struct {
   QOCOFloat* Ds;
 
   /** RHS of KKT system. */
-  QOCOFloat* rhs;
+  QOCOVectorf* rhs;
 
   /** Solution of KKT system. */
-  QOCOFloat* xyz;
+  QOCOVectorf* xyz;
 
   /** Buffer of size n + m + p. */
   QOCOFloat* xyzbuff1;
@@ -298,9 +298,9 @@ typedef struct {
 typedef struct LinSysData LinSysData;
 
 typedef struct {
+  const char* (*linsys_name)();
   LinSysData* (*linsys_setup)(QOCOProblemData* data, QOCOSettings* settings,
                               QOCOInt Wnnz);
-  void (*linsys_initialize_nt)(LinSysData* linsys_data, QOCOInt m);
   void (*linsys_update_nt)(LinSysData* linsys_data, QOCOFloat* WtW,
                            QOCOFloat kkt_static_reg, QOCOInt m);
   void (*linsys_update_data)(LinSysData* linsys_data, QOCOProblemData* data);

@@ -52,18 +52,20 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     // Compute column infinity norms of A and G
     // For CSC format, column norms are computed efficiently
     QOCOFloat* Anorm = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * data->n);
-    QOCOFloat* Gnorm = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * data->n);    
+    QOCOFloat* Gnorm = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * data->n);
     if (get_nnz(data->A) > 0) {
       col_inf_norm_matrix(data->A, Anorm);
       for (QOCOInt j = 0; j < data->n; ++j) {
-        QOCOFloat nrm = qoco_max(get_element_vectorf(scaling->delta, j), Anorm[j]);
+        QOCOFloat nrm =
+            qoco_max(get_element_vectorf(scaling->delta, j), Anorm[j]);
         set_element_vectorf(scaling->delta, j, nrm);
       }
     }
     if (get_nnz(data->G) > 0) {
       col_inf_norm_matrix(data->G, Gnorm);
       for (QOCOInt j = 0; j < data->n; ++j) {
-        QOCOFloat nrm = qoco_max(get_element_vectorf(scaling->delta, j), Gnorm[j]);
+        QOCOFloat nrm =
+            qoco_max(get_element_vectorf(scaling->delta, j), Gnorm[j]);
         set_element_vectorf(scaling->delta, j, nrm);
       }
     }
@@ -78,7 +80,8 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     }
 
     // Compute infinity norm of rows of [A 0 0].
-    // For row norms, compute column norms of the transpose (At is stored in CSC format)
+    // For row norms, compute column norms of the transpose (At is stored in CSC
+    // format)
     if (get_nnz(data->A) > 0) {
       col_inf_norm_matrix(data->At, &delta_data[data->n]);
       // d(i) = 1 / sqrt(Ainf(i));
@@ -91,7 +94,8 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     }
 
     // Compute infinity norm of rows of [G 0 0].
-    // For row norms, compute column norms of the transpose (Gt is stored in CSC format)
+    // For row norms, compute column norms of the transpose (Gt is stored in CSC
+    // format)
     if (get_nnz(data->G) > 0) {
       col_inf_norm_matrix(data->Gt, &delta_data[data->n + data->p]);
       // d(i) = 1 / sqrt(Ginf(i));
