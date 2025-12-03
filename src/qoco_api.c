@@ -88,10 +88,11 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
       create_transposed_matrix(get_csc_matrix(data->G), data->GtoGt);
   solver->work->data->Gt = new_qoco_matrix(Gtcsc);
   free_qoco_csc_matrix(Gtcsc);
-  ruiz_equilibration(data, solver->work->scaling, solver->settings->ruiz_iters);
 
-  // Compute scaling statistics before regularization.
+  // Compute scaling statistics before equilibration and regularization.
   compute_scaling_statistics(data);
+
+  ruiz_equilibration(data, solver->work->scaling, solver->settings->ruiz_iters);
 
   // Regularize P.
   data->Pnzadded_idx = qoco_calloc(n, sizeof(QOCOInt));

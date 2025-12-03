@@ -139,14 +139,14 @@ void compute_scaling_statistics(QOCOProblemData* data)
     }
   }
 
-  // Handle case where all values are zero (set to 0.0)
-  if (data->obj_range_min == QOCOFloat_MAX) {
+  // Handle case where all values are zero or value is -0.0 (set to 0.0)
+  if (data->obj_range_min == QOCOFloat_MAX || data->obj_range_min == 0.0) {
     data->obj_range_min = 0.0;
   }
-  if (data->constraint_range_min == QOCOFloat_MAX) {
+  if (data->constraint_range_min == QOCOFloat_MAX || data->constraint_range_min == 0.0) {
     data->constraint_range_min = 0.0;
   }
-  if (data->rhs_range_min == QOCOFloat_MAX) {
+  if (data->rhs_range_min == QOCOFloat_MAX || data->rhs_range_min == 0.0) {
     data->rhs_range_min = 0.0;
   }
 }
