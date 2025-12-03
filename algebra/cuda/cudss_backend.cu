@@ -208,9 +208,10 @@ static void csc_to_csr_device(const QOCOCscMatrix* csc, QOCOInt** csr_row_ptr,
 static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
                                QOCOInt Wnnz)
 {
-  QOCOInt Kn = data->n + data->m + data->p;
 
   LinSysData* linsys_data = (LinSysData*)qoco_malloc(sizeof(LinSysData));
+
+  linsys_data->Kn = data->n + data->m + data->p;
 
   // Initialize cuDSS
   CUDSS_CHECK(cudssCreate(&linsys_data->handle));
@@ -224,8 +225,8 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   cusparseSetMatIndexBase(linsys_data->descr, CUSPARSE_INDEX_BASE_ZERO);
 
   // Allocate vector buffers
-  CUDA_CHECK(cudaMalloc(&linsys_data->d_rhs_matrix_data, sizeof(QOCOFloat) * Kn));
-  CUDA_CHECK(cudaMalloc(&linsys_data->d_xyz_matrix_data, sizeof(QOCOFloat) * Kn));
+  CUDA_CHECK(cudaMalloc(&linsys_data->d_rhs_matrix_data, sizeof(QOCOFloat) * linsys_data->Kn));
+  CUDA_CHECK(cudaMalloc(&linsys_data->d_xyz_matrix_data, sizeof(QOCOFloat) * linsys_data->Kn));
   linsys_data->Wnnz = Wnnz;
 
   // Allocate memory for mappings to KKT matrix
@@ -246,7 +247,6 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       data->p, data->l, data->nsoc, data->q, linsys_data->PregtoKKT,
       linsys_data->AttoKKT, linsys_data->GttoKKT, linsys_data->nt2kkt,
       linsys_data->ntdiag2kkt, Wnnz);
-  linsys_data->Kn = Kcsc->n;
 
   // Convert KKT matrix from CSC (CPU) to CSR (GPU) for cuDSS
   QOCOInt* csr_row_ptr;
@@ -311,7 +311,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
 
   // KKT matrix is symmetric (upper triangular stored)
   CUDSS_CHECK(cudssMatrixCreateCsr(
-      &linsys_data->K_csr, (int64_t)Kn, (int64_t)Kn,
+      &linsys_data->K_csr, (int64_t)linsys_data->Kn, (int64_t)linsys_data->Kn,
       (int64_t)Kcsc->nnz, csr_row_ptr, NULL, csr_col_ind, csr_val,
       indexType, valueType_setup, CUDSS_MTYPE_SYMMETRIC, CUDSS_MVIEW_UPPER,
       CUDSS_BASE_ZERO));
@@ -378,11 +378,11 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
 
   // Create dense matrix wrappers for solution and RHS vectors (column vectors)
   // Note: d_rhs_matrix wraps d_rhs_matrix_data, d_xyz_matrix wraps d_xyz_matrix_data
-  CUDSS_CHECK(cudssMatrixCreateDn(&linsys_data->d_rhs_matrix, (int64_t)Kn, 1,
-                                  (int64_t)Kn, linsys_data->d_rhs_matrix_data,
+  CUDSS_CHECK(cudssMatrixCreateDn(&linsys_data->d_rhs_matrix, (int64_t)linsys_data->Kn, 1,
+                                  (int64_t)linsys_data->Kn, linsys_data->d_rhs_matrix_data,
                                   valueType_setup, CUDSS_LAYOUT_COL_MAJOR));
-  CUDSS_CHECK(cudssMatrixCreateDn(&linsys_data->d_xyz_matrix, (int64_t)Kn, 1,
-                                  (int64_t)Kn, linsys_data->d_xyz_matrix_data,
+  CUDSS_CHECK(cudssMatrixCreateDn(&linsys_data->d_xyz_matrix, (int64_t)linsys_data->Kn, 1,
+                                  (int64_t)linsys_data->Kn, linsys_data->d_xyz_matrix_data,
                                   valueType_setup, CUDSS_LAYOUT_COL_MAJOR));
 
   return linsys_data;
@@ -450,15 +450,14 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
 static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters)
 {
-  QOCOInt n = linsys_data->Kn;
   (void)iter_ref_iters; // No iterative refinement for CUDA backend
 
   // Copy b from CPU to GPU.
-  CUDA_CHECK(cudaMemcpy(linsys_data->d_rhs_matrix_data, b, n * sizeof(QOCOFloat),
+  CUDA_CHECK(cudaMemcpy(linsys_data->d_rhs_matrix_data, b, linsys_data->Kn * sizeof(QOCOFloat),
                           cudaMemcpyHostToDevice));
 
   // Clear solution buffer (d_xyz_matrix points to d_xyz_matrix_data)
-  CUDA_CHECK(cudaMemset(linsys_data->d_xyz_matrix_data, 0, n * sizeof(QOCOFloat)));
+  CUDA_CHECK(cudaMemset(linsys_data->d_xyz_matrix_data, 0, linsys_data->Kn * sizeof(QOCOFloat)));
 
   // d_rhs_matrix points to d_rhs_matrix_data, d_xyz_matrix points to d_xyz_matrix_data
   CUDSS_CHECK(cudssExecute(linsys_data->handle, CUDSS_PHASE_SOLVE,
@@ -467,7 +466,7 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                            linsys_data->d_rhs_matrix));
 
   // Copy x from GPU to CPU.
-  CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyz_matrix_data, n * sizeof(QOCOFloat),
+  CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyz_matrix_data, linsys_data->Kn * sizeof(QOCOFloat),
                         cudaMemcpyDeviceToHost));
 }
 
