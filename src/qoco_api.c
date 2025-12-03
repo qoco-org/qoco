@@ -88,6 +88,10 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
       create_transposed_matrix(get_csc_matrix(data->G), data->GtoGt);
   solver->work->data->Gt = new_qoco_matrix(Gtcsc);
   free_qoco_csc_matrix(Gtcsc);
+
+  // Compute scaling statistics before equilibration and regularization.
+  compute_scaling_statistics(data);
+
   ruiz_equilibration(data, solver->work->scaling, solver->settings->ruiz_iters);
 
   // Regularize P.
@@ -241,12 +245,24 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
   solver->sol->status = QOCO_UNSOLVED;
   QOCOProblemData* data = solver->work->data;
 
+  if (cnew) {
+    copy_arrayf(cnew, get_data_vectorf(data->c), data->n);
+  }
+  if (bnew) {
+    copy_arrayf(bnew, get_data_vectorf(data->b), data->p);
+  }
+  if (hnew) {
+    copy_arrayf(hnew, get_data_vectorf(data->h), data->m);
+  }
+
+  compute_scaling_statistics(data);
+
   // Update cost vector.
   if (cnew) {
     QOCOFloat* cdata = get_data_vectorf(data->c);
     QOCOFloat* Druiz_data = get_data_vectorf(solver->work->scaling->Druiz);
     for (QOCOInt i = 0; i < data->n; ++i) {
-      cdata[i] = solver->work->scaling->k * Druiz_data[i] * cnew[i];
+      cdata[i] = solver->work->scaling->k * Druiz_data[i] * cdata[i];
     }
   }
 
@@ -255,7 +271,7 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
     QOCOFloat* bdata = get_data_vectorf(data->b);
     QOCOFloat* Eruiz_data = get_data_vectorf(solver->work->scaling->Eruiz);
     for (QOCOInt i = 0; i < data->p; ++i) {
-      bdata[i] = Eruiz_data[i] * bnew[i];
+      bdata[i] = Eruiz_data[i] * bdata[i];
     }
   }
 
@@ -264,7 +280,7 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
     QOCOFloat* hdata = get_data_vectorf(data->h);
     QOCOFloat* Fruiz_data = get_data_vectorf(solver->work->scaling->Fruiz);
     for (QOCOInt i = 0; i < data->m; ++i) {
-      hdata[i] = Fruiz_data[i] * hnew[i];
+      hdata[i] = Fruiz_data[i] * hdata[i];
     }
   }
 }
@@ -348,6 +364,8 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
       Gtx[i] = Gxnew[data->GtoGt[i]];
     }
   }
+
+  compute_scaling_statistics(data);
 
   // Equilibrate new matrix data.
   ruiz_equilibration(solver->work->data, solver->work->scaling,

@@ -47,6 +47,15 @@ void print_arrayf(QOCOFloat* x, QOCOInt n);
 void print_arrayi(QOCOInt* x, QOCOInt n);
 
 /**
+ * @brief Computes scaling statistics (min/max absolute values) for objective,
+ * constraint matrices, and RHS vectors. Stores results in data struct.
+ * Should be called before regularization of P.
+ *
+ * @param data Pointer to problem data struct where statistics will be stored.
+ */
+void compute_scaling_statistics(QOCOProblemData* data);
+
+/**
  * @brief Prints QOCO header.
  *
  * @param solver Pointer to solver.
