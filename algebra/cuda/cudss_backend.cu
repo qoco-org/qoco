@@ -89,9 +89,6 @@ struct LinSysData {
   /** Matrix description. */
   cusparseMatDescr_t descr;
 
-  /** cuBLAS handle (for axpy operations). */
-  cublasHandle_t cublas_handle;
-
   /** cuDSS dense matrix wrappers for solution and RHS vectors. */
   cudssMatrix_t d_rhs_matrix;
   cudssMatrix_t d_xyz_matrix;
@@ -224,9 +221,6 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   cusparseCreateMatDescr(&linsys_data->descr);
   cusparseSetMatType(linsys_data->descr, CUSPARSE_MATRIX_TYPE_GENERAL);
   cusparseSetMatIndexBase(linsys_data->descr, CUSPARSE_INDEX_BASE_ZERO);
-
-  // Initialize cuBLAS
-  cublasCreate(&linsys_data->cublas_handle);
 
   // Allocate vector buffers
   CUDA_CHECK(cudaMalloc(&linsys_data->d_rhs_matrix_data, sizeof(QOCOFloat) * Kn));
@@ -585,7 +579,6 @@ static void cudss_cleanup(LinSysData* linsys_data)
   cudssDestroy(linsys_data->handle);
   cusparseDestroy(linsys_data->cusparse_handle);
   cusparseDestroyMatDescr(linsys_data->descr);
-  cublasDestroy(linsys_data->cublas_handle);
   free_qoco_csc_matrix(linsys_data->K);
   cudaFree(linsys_data->d_rhs_matrix_data);
   cudaFree(linsys_data->d_xyz_matrix_data);
