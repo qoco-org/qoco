@@ -340,6 +340,7 @@ void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
   }
 }
 
+// TODO: Don't create and destroy cublas handle for each dot product. One way around this is to create a custom kernel for the dot product. 
 QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
 {
   qoco_assert(u || n == 0);
