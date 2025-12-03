@@ -165,6 +165,7 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
   return &x->data[idx];
 }
 
+// TODO: remove set_solve_phase and solve_phase_active. Now we need them, since equilibration is done on CPU (requiring get_data_vectorf to return a host pointer) and solve is done on GPU.
 // Track solve phase to determine if we should return device or host pointers
 static int solve_phase_active = 0;
 

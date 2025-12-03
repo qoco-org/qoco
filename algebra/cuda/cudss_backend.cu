@@ -450,6 +450,7 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
                            linsys_data->d_rhs_matrix));
 }
 
+// TODO: Remove cudaMemcpy, now we need it since rhs and solution is copied to and from GPU respectively.
 static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters)
 {
@@ -474,6 +475,7 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         cudaMemcpyDeviceToHost));
 }
 
+// TODO: Remove cudaMemcpy, now we need it since NT computation is done on the CPU.
 static void cudss_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
                             QOCOFloat kkt_static_reg, QOCOInt m)
 {
