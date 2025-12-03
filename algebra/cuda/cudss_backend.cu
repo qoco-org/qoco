@@ -579,24 +579,6 @@ static void cudss_update_data(LinSysData* linsys_data, QOCOProblemData* data)
   cudaFree(d_Gval);
 
   CUDA_CHECK(cudaDeviceSynchronize());
-
-  // Also update host CSC matrix for consistency (used by other functions)
-  if (data->P && linsys_data->PregtoKKT) {
-    QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
-    for (QOCOInt i = 0; i < get_nnz(data->P); ++i) {
-      linsys_data->K->x[linsys_data->PregtoKKT[i]] = Pcsc->x[i];
-    }
-  }
-
-  QOCOCscMatrix* Acsc_host = get_csc_matrix(data->A);
-  for (QOCOInt i = 0; i < get_nnz(data->A); ++i) {
-    linsys_data->K->x[linsys_data->AttoKKT[data->AtoAt[i]]] = Acsc_host->x[i];
-  }
-
-  QOCOCscMatrix* Gcsc_host = get_csc_matrix(data->G);
-  for (QOCOInt i = 0; i < get_nnz(data->G); ++i) {
-    linsys_data->K->x[linsys_data->GttoKKT[data->GtoGt[i]]] = Gcsc_host->x[i];
-  }
 }
 
 static void cudss_cleanup(LinSysData* linsys_data)
