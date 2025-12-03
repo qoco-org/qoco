@@ -6,3 +6,4 @@ __pycache__/
 qoco_config.h
 docs/_build/*
 call_grind.txt
+benchmarks/configs/
