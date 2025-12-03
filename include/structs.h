@@ -78,6 +78,24 @@ typedef struct {
   /** Number of elements of P->x that were added due to regularization. */
   QOCOInt Pnum_nzadded;
 
+  /** Scaling statistics: minimum absolute value in P (prior to regularization) and c. */
+  QOCOFloat obj_range_min;
+
+  /** Scaling statistics: maximum absolute value in P (prior to regularization) and c. */
+  QOCOFloat obj_range_max;
+
+  /** Scaling statistics: minimum absolute value in A and G. */
+  QOCOFloat constraint_range_min;
+
+  /** Scaling statistics: maximum absolute value in A and G. */
+  QOCOFloat constraint_range_max;
+
+  /** Scaling statistics: minimum absolute value in b and h. */
+  QOCOFloat rhs_range_min;
+
+  /** Scaling statistics: maximum absolute value in b and h. */
+  QOCOFloat rhs_range_max;
+
 } QOCOProblemData;
 
 /**

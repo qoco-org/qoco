@@ -68,6 +68,103 @@ void print_arrayi(QOCOInt* x, QOCOInt n)
   printf("}\n");
 }
 
+void compute_scaling_statistics(QOCOProblemData* data)
+{
+  // Initialize min/max values
+  data->obj_range_min = QOCOFloat_MAX;
+  data->obj_range_max = 0.0;
+  data->constraint_range_min = QOCOFloat_MAX;
+  data->constraint_range_max = 0.0;
+  data->rhs_range_min = QOCOFloat_MAX;
+  data->rhs_range_max = 0.0;
+
+  // Compute Objective range: P (prior to regularization) and c
+  // Note: This is called before regularization, so P is in its original form
+  if (data->P) {
+    QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
+    for (QOCOInt j = 0; j < Pcsc->n; ++j) {
+      for (QOCOInt idx = Pcsc->p[j]; idx < Pcsc->p[j + 1]; ++idx) {
+        QOCOFloat abs_val = qoco_abs(Pcsc->x[idx]);
+        if (abs_val > 0.0) {  // Only consider non-zero values
+          data->obj_range_min = qoco_min(data->obj_range_min, abs_val);
+          data->obj_range_max = qoco_max(data->obj_range_max, abs_val);
+        }
+      }
+    }
+  }
+
+  // Add c to objective range
+  QOCOFloat* cdata = get_data_vectorf(data->c);
+  for (QOCOInt i = 0; i < data->n; ++i) {
+    QOCOFloat abs_val = qoco_abs(cdata[i]);
+    if (abs_val > 0.0) {
+      data->obj_range_min = qoco_min(data->obj_range_min, abs_val);
+      data->obj_range_max = qoco_max(data->obj_range_max, abs_val);
+    }
+  }
+
+  // Compute Constraint range: A and G
+  if (data->A && get_nnz(data->A) > 0) {
+    QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
+    for (QOCOInt j = 0; j < Acsc->n; ++j) {
+      for (QOCOInt idx = Acsc->p[j]; idx < Acsc->p[j + 1]; ++idx) {
+        QOCOFloat abs_val = qoco_abs(Acsc->x[idx]);
+        if (abs_val > 0.0) {
+          data->constraint_range_min = qoco_min(data->constraint_range_min, abs_val);
+          data->constraint_range_max = qoco_max(data->constraint_range_max, abs_val);
+        }
+      }
+    }
+  }
+
+  if (data->G && get_nnz(data->G) > 0) {
+    QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
+    for (QOCOInt j = 0; j < Gcsc->n; ++j) {
+      for (QOCOInt idx = Gcsc->p[j]; idx < Gcsc->p[j + 1]; ++idx) {
+        QOCOFloat abs_val = qoco_abs(Gcsc->x[idx]);
+        if (abs_val > 0.0) {
+          data->constraint_range_min = qoco_min(data->constraint_range_min, abs_val);
+          data->constraint_range_max = qoco_max(data->constraint_range_max, abs_val);
+        }
+      }
+    }
+  }
+
+  // Compute RHS range: b and h
+  if (data->p > 0) {
+    QOCOFloat* bdata = get_data_vectorf(data->b);
+    for (QOCOInt i = 0; i < data->p; ++i) {
+      QOCOFloat abs_val = qoco_abs(bdata[i]);
+      if (abs_val > 0.0) {
+        data->rhs_range_min = qoco_min(data->rhs_range_min, abs_val);
+        data->rhs_range_max = qoco_max(data->rhs_range_max, abs_val);
+      }
+    }
+  }
+
+  if (data->m > 0) {
+    QOCOFloat* hdata = get_data_vectorf(data->h);
+    for (QOCOInt i = 0; i < data->m; ++i) {
+      QOCOFloat abs_val = qoco_abs(hdata[i]);
+      if (abs_val > 0.0) {
+        data->rhs_range_min = qoco_min(data->rhs_range_min, abs_val);
+        data->rhs_range_max = qoco_max(data->rhs_range_max, abs_val);
+      }
+    }
+  }
+
+  // Handle case where all values are zero (set to 0.0)
+  if (data->obj_range_min == QOCOFloat_MAX) {
+    data->obj_range_min = 0.0;
+  }
+  if (data->constraint_range_min == QOCOFloat_MAX) {
+    data->constraint_range_min = 0.0;
+  }
+  if (data->rhs_range_min == QOCOFloat_MAX) {
+    data->rhs_range_min = 0.0;
+  }
+}
+
 void print_header(QOCOSolver* solver)
 {
   QOCOProblemData* data = solver->work->data;
@@ -90,6 +187,10 @@ void print_header(QOCOSolver* solver)
   printf("|     nnz(P):           %-9d                       |\n", (data->P ? get_nnz(data->P) : 0) - solver->work->data->Pnum_nzadded);
   printf("|     nnz(A):           %-9d                       |\n", get_nnz(data->A));
   printf("|     nnz(G):           %-9d                       |\n", get_nnz(data->G));
+  printf("| Scaling Statistics:                                   |\n");
+  printf("|     Objective range      [%.0e, %.0e]               |\n", data->obj_range_min, data->obj_range_max);
+  printf("|     Constraint range     [%.0e, %.0e]               |\n", data->constraint_range_min, data->constraint_range_max);
+  printf("|     RHS range            [%.0e, %.0e]               |\n", data->rhs_range_min, data->rhs_range_max);
   printf("| Solver Settings:                                      |\n");
   printf("|     algebra: %-27s              |\n", solver->linsys->linsys_name());
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);

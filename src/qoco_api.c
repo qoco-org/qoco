@@ -90,6 +90,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   free_qoco_csc_matrix(Gtcsc);
   ruiz_equilibration(data, solver->work->scaling, solver->settings->ruiz_iters);
 
+  // Compute scaling statistics before regularization.
+  compute_scaling_statistics(data);
+
   // Regularize P.
   data->Pnzadded_idx = qoco_calloc(n, sizeof(QOCOInt));
   if (P) {
