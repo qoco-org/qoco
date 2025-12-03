@@ -40,11 +40,12 @@
 
 // Contains data for linear system.
 struct LinSysData {
-  /** KKT matrix in CSC form (host). */
-  QOCOCscMatrix* K;
 
   /** KKT matrix in CSR form (device) for cuDSS. */
   cudssMatrix_t K_csr;
+
+  /** Number of rows/columns of KKT matrix. */
+  QOCOInt Kn;
 
   /** cuDSS handle. */
   cudssHandle_t handle;
@@ -238,13 +239,14 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       (QOCOInt*)qoco_calloc(get_nnz(data->G), sizeof(QOCOInt));
 
   // Construct KKT matrix (no permutation for CUDA backend)
-  linsys_data->K = construct_kkt(
+  QOCOCscMatrix* Kcsc = construct_kkt(
       get_csc_matrix(data->P), get_csc_matrix(data->A),
       get_csc_matrix(data->G), get_csc_matrix(data->At),
       get_csc_matrix(data->Gt), settings->kkt_static_reg, data->n, data->m,
       data->p, data->l, data->nsoc, data->q, linsys_data->PregtoKKT,
       linsys_data->AttoKKT, linsys_data->GttoKKT, linsys_data->nt2kkt,
       linsys_data->ntdiag2kkt, Wnnz);
+  linsys_data->Kn = Kcsc->n;
 
   // Convert KKT matrix from CSC (CPU) to CSR (GPU) for cuDSS
   QOCOInt* csr_row_ptr;
@@ -254,7 +256,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   QOCOInt* h_csr_col_ind;
   QOCOInt* csc2csr;
 
-  csc_to_csr_device(linsys_data->K, &csr_row_ptr, &csr_col_ind, &csr_val,
+  csc_to_csr_device(Kcsc, &csr_row_ptr, &csr_col_ind, &csr_val,
                     linsys_data->cusparse_handle, &h_csr_row_ptr,
                     &h_csr_col_ind, &csc2csr);
 
@@ -310,7 +312,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   // KKT matrix is symmetric (upper triangular stored)
   CUDSS_CHECK(cudssMatrixCreateCsr(
       &linsys_data->K_csr, (int64_t)Kn, (int64_t)Kn,
-      (int64_t)linsys_data->K->nnz, csr_row_ptr, NULL, csr_col_ind, csr_val,
+      (int64_t)Kcsc->nnz, csr_row_ptr, NULL, csr_col_ind, csr_val,
       indexType, valueType_setup, CUDSS_MTYPE_SYMMETRIC, CUDSS_MVIEW_UPPER,
       CUDSS_BASE_ZERO));
 
@@ -448,7 +450,7 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
 static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters)
 {
-  QOCOInt n = linsys_data->K->n;
+  QOCOInt n = linsys_data->Kn;
   (void)iter_ref_iters; // No iterative refinement for CUDA backend
 
   // Copy b from CPU to GPU.
@@ -579,7 +581,6 @@ static void cudss_cleanup(LinSysData* linsys_data)
   cudssDestroy(linsys_data->handle);
   cusparseDestroy(linsys_data->cusparse_handle);
   cusparseDestroyMatDescr(linsys_data->descr);
-  free_qoco_csc_matrix(linsys_data->K);
   cudaFree(linsys_data->d_rhs_matrix_data);
   cudaFree(linsys_data->d_xyz_matrix_data);
   qoco_free(linsys_data->nt2kkt);
