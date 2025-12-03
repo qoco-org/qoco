@@ -474,14 +474,6 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         cudaMemcpyDeviceToHost));
 }
 
-static void cudss_initialize_nt(LinSysData* linsys_data, QOCOInt m)
-{
-  // Set Nesterov-Todd block in KKT matrix to -I
-  for (QOCOInt i = 0; i < m; ++i) {
-    linsys_data->K->x[linsys_data->ntdiag2kkt[i]] = -1.0;
-  }
-}
-
 static void cudss_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
                             QOCOFloat kkt_static_reg, QOCOInt m)
 {
@@ -614,7 +606,6 @@ static const char* cudss_name() { return "cuda/cuDSS"; }
 
 LinSysBackend backend = {.linsys_name = cudss_name,
                          .linsys_setup = cudss_setup,
-                         .linsys_initialize_nt = cudss_initialize_nt,
                          .linsys_update_nt = cudss_update_nt,
                          .linsys_update_data = cudss_update_data,
                          .linsys_factor = cudss_factor,

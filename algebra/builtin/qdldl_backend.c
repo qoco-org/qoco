@@ -229,18 +229,6 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   }
 }
 
-static void qdldl_initialize_nt(LinSysData* linsys_data, QOCOInt m)
-{
-  for (QOCOInt i = 0; i < linsys_data->Wnnz; ++i) {
-    linsys_data->K->x[linsys_data->nt2kkt[i]] = 0.0;
-  }
-
-  // Set Nesterov-Todd block in KKT matrix to -I.
-  for (QOCOInt i = 0; i < m; ++i) {
-    linsys_data->K->x[linsys_data->ntdiag2kkt[i]] = -1.0;
-  }
-}
-
 static void qdldl_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
                             QOCOFloat kkt_static_reg, QOCOInt m)
 {
@@ -310,7 +298,6 @@ static const char* qdldl_name()
 // Export the backend struct
 LinSysBackend backend = {.linsys_name = qdldl_name,
                          .linsys_setup = qdldl_setup,
-                         .linsys_initialize_nt = qdldl_initialize_nt,
                          .linsys_update_nt = qdldl_update_nt,
                          .linsys_update_data = qdldl_update_data,
                          .linsys_factor = qdldl_factor,

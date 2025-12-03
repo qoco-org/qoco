@@ -181,8 +181,8 @@ void initialize_ipm(QOCOSolver* solver)
     idx += solver->work->data->q[i] * solver->work->data->q[i];
   }
 
-  solver->linsys->linsys_initialize_nt(solver->linsys_data,
-                                       solver->work->data->m);
+  // solver->linsys->linsys_initialize_nt(solver->linsys_data,
+  //                                      solver->work->data->m);
 
   // Need to be set to 1.0 not 0.0 due to low tolerance stopping criteria checks
   // which only occur when a = 0.0. If a is set to 0.0 then the low tolerance
