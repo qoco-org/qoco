@@ -45,8 +45,17 @@ message(STATUS "Build Flags: " ${CMAKE_C_FLAGS})
 message(STATUS "Using 32 bit integers")
 set(QDLDL_LONG OFF)
 
-# Set floating points to double precision.
-message(STATUS "Using double precision floating point")
+# Option for single precision floating point.
+option(QOCO_SINGLE_PRECISION "Use single precision (float) instead of double precision" OFF)
+
+# Set floating points precision.
+if(QOCO_SINGLE_PRECISION)
+    message(STATUS "Using single precision floating point")
+    add_compile_definitions(QOCO_SINGLE_PRECISION)
+    set(QDLDL_FLOAT ON CACHE BOOL "Use float numbers instead of doubles" FORCE)
+else()
+    message(STATUS "Using double precision floating point")
+endif()
 
 # Add -fPIC option explicity.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)

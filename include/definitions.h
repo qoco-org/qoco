@@ -26,11 +26,20 @@ typedef int QOCOInt;
 #define printf mexPrintf
 #endif
 
+#ifdef QOCO_SINGLE_PRECISION
+typedef float QOCOFloat;
+#ifdef IS_WINDOWS
+#define QOCOFloat_MAX 3.4e38f
+#else
+#define QOCOFloat_MAX __FLT_MAX__
+#endif
+#else
 typedef double QOCOFloat;
 #ifdef IS_WINDOWS
 #define QOCOFloat_MAX 1e308
 #else
 #define QOCOFloat_MAX __DBL_MAX__
+#endif
 #endif
 
 #define qoco_max(a, b) (((a) > (b)) ? (a) : (b))
