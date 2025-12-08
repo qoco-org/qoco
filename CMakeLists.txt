@@ -7,6 +7,7 @@ set(QOCO_VERSION ${QOCO_VERSION_MAJOR}.${QOCO_VERSION_MINOR}.${QOCO_VERSION_PATC
 
 # Project name
 project(qoco VERSION ${QOCO_VERSION})
+include(GNUInstallDirs)
 message(STATUS "Building QOCO v${QOCO_VERSION}")
 
 # Detect operating system.
