@@ -13,6 +13,7 @@
 #include <cuda_runtime.h>
 #include <cusparse.h>
 #include "common_linalg.h"
+#include "cudss_backend.h"
 
 #define CUDA_CHECK(call)                                                       \
   do {                                                                         \
@@ -357,11 +358,23 @@ QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
   // If either pointer check fails or one is on device, use CUDA
   if ((err_u == cudaSuccess && attrs_u.type == cudaMemoryTypeDevice) ||
       (err_v == cudaSuccess && attrs_v.type == cudaMemoryTypeDevice)) {
+    // Ensure CUDA libraries are loaded
+    if (!load_cuda_libraries()) {
+      fprintf(stderr, "Failed to load CUDA libraries in qoco_dot\n");
+      // Fallback to CPU implementation
+      QOCOFloat x = 0.0;
+      for (QOCOInt i = 0; i < n; ++i) {
+        x += u[i] * v[i];
+      }
+      return x;
+    }
+    
+    CudaLibFuncs* funcs = get_cuda_funcs();
     cublasHandle_t handle;
-    cublasCreate(&handle);
+    funcs->cublasCreate(&handle);
     QOCOFloat result;
-    cublasDdot(handle, n, u, 1, v, 1, &result);
-    cublasDestroy(handle);
+    funcs->cublasDdot(handle, n, (const double*)u, 1, (const double*)v, 1, (double*)&result);
+    funcs->cublasDestroy(handle);
     return result;
   }
   else {

@@ -140,7 +140,10 @@ get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
 # Build qoco shared library.
 add_library(qoco SHARED)
 target_link_libraries(qoco qdldlobject amd)
-target_link_libraries(qoco ${qoco_cuda_libs})
+# CUDA libraries are loaded dynamically via dlopen() in cudss_setup()
+if(IS_LINUX OR IS_MACOS)
+    target_link_libraries(qoco dl)
+endif()
 
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qoco m)
@@ -152,7 +155,10 @@ target_sources(qoco PRIVATE ${qoco_sources})
 # Build qoco static library.
 add_library(qocostatic STATIC)
 target_link_libraries(qocostatic qdldlobject amd)
-target_link_libraries(qocostatic ${qoco_cuda_libs})
+# CUDA libraries are loaded dynamically via dlopen() in cudss_setup()
+if(IS_LINUX OR IS_MACOS)
+    target_link_libraries(qocostatic dl)
+endif()
 
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qocostatic m)
