@@ -22,6 +22,17 @@ QOCO is initialized by creating a QOCO object as follows
 
     solver = qoco.QOCO()
 
+GPU Backend
+~~~~~~~~~~~
+
+To use the GPU-accelerated CUDA backend, instantiate QOCO with the :code:`algebra="cuda"` parameter:
+
+.. code:: python
+
+    solver = qoco.QOCO(algebra="cuda")
+
+This requires that you have installed QOCO with CUDA support (see :ref:`python_installation`) and have CUDA 13 and cudss installed on your system.
+
 The problem is specified in the setup phase by running
 
 .. code:: python

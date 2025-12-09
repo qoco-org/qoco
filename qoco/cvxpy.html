@@ -50,7 +50,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">QOCO</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="install/index.html">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/index.html">API</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">CVXPY</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CVXPY</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gpu-backend">GPU Backend</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../qocogen/index.html">QOCOGEN</a></li>
@@ -91,7 +94,15 @@
 </pre></div>
 </div>
 <p>where we set the <code class="code docutils literal notranslate"><span class="pre">max_iters</span></code> option to <code class="code docutils literal notranslate"><span class="pre">100</span></code>. For a full list of settings that can be changed, refer to <a class="reference internal" href="api/settings.html#settings"><span class="std std-ref">settings</span></a>.</p>
+<section id="gpu-backend">
+<h2>GPU Backend<a class="headerlink" href="#gpu-backend" title="Link to this heading"></a></h2>
+<p>If you have the CUDA backend installed (see <a class="reference internal" href="install/python.html#python-installation"><span class="std std-ref">Python</span></a>), you can use GPU acceleration by adding <code class="code docutils literal notranslate"><span class="pre">algebra=&quot;cuda&quot;</span></code> to the <code class="code docutils literal notranslate"><span class="pre">problem.solve()</span></code> call:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">problem</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;QOCO&#39;</span><span class="p">,</span> <span class="n">algebra</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will use the GPU-accelerated CUDA backend for solving the problem, which can provide significant performance improvements for large-scale problems.</p>
 <p>For some example problems that can be solved with CVXPY refer to <a class="reference external" href="https://www.cvxpy.org/examples/index.html">examples</a>. To solve these problems with QOCO, add the keyword argument <code class="code docutils literal notranslate"><span class="pre">solver='QOCO'</span></code> to the <code class="code docutils literal notranslate"><span class="pre">problem.solve()</span></code> function.</p>
+</section>
 </section>
 
 
