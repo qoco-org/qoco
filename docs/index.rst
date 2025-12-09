@@ -43,6 +43,7 @@ Features
 
 * **Robust**: Given that QOCO implements a primal-dual interior point method, it is very robust to ill-conditioning in problem data.
 * **Fast**: Faster and more robust than many commercial and open-source second-order cone solvers.
+* **GPU Accelerated**: QOCO supports GPU acceleration through a CUDA backend for improved performance on large-scale problems.
 * **Easy to use**: Can be called from C, C++, Python and with parsers such as CVXPY making it easy to use.
 * **Free and open source**: Distributed under the `BSD 3-Clause license <https://opensource.org/license/bsd-3-Clause>`_
 * **Embeddable**: Written in C, so it can be easily run on any embedded system.
