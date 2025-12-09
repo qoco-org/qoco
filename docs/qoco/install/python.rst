@@ -11,6 +11,17 @@ QOCO is on PyPI and can be installed as follows
 
    pip install qoco
 
+CUDA Backend
+~~~~~~~~~~~~
+
+To install QOCO with CUDA backend support for GPU acceleration, use:
+
+.. code:: bash
+
+   pip install qoco[cuda]
+
+**Requirements**: The CUDA backend requires CUDA 13 and cudss to be installed on your system. Make sure you have these dependencies before installing the CUDA backend.
+
 
 Build from Source
 -----------------
