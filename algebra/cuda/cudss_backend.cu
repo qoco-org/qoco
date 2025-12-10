@@ -433,7 +433,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
     GttoKKTcsr[i] = csc2csr[linsys_data->GttoKKT[data->GtoGt[i]]];
   }
 
-  // Store CSR data array.
+  // Store CSR data array (values are updated later, so we keep the pointer)
   linsys_data->d_csr_val = csr_val;
 
   // Determine data types
@@ -447,12 +447,16 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       (int64_t)Kcsc->nnz, csr_row_ptr, NULL, csr_col_ind, csr_val,
       indexType, valueType_setup, CUDSS_MTYPE_SYMMETRIC, CUDSS_MVIEW_UPPER,
       CUDSS_BASE_ZERO));
-
+   
   // Run analysis phase.
   CUDSS_CHECK(g_cuda_funcs.cudssExecute(linsys_data->handle, CUDSS_PHASE_ANALYSIS,
                            linsys_data->config, linsys_data->data,
                            linsys_data->K_csr, linsys_data->d_xyz_matrix,
                            linsys_data->d_rhs_matrix));
+
+  // Free CSR structure arrays - cuDSS uses them during analysis
+  cudaFree(csr_row_ptr);
+  cudaFree(csr_col_ind);
 
   // Allocate and copy nt2kktcsr and ntdiag2kktcsr to device
   if (Wnnz > 0) {
