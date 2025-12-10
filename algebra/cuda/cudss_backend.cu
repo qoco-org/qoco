@@ -454,6 +454,10 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
                            linsys_data->K_csr, linsys_data->d_xyz_matrix,
                            linsys_data->d_rhs_matrix));
 
+  // Free CSR structure arrays - cuDSS uses them during analysis
+  cudaFree(csr_row_ptr);
+  cudaFree(csr_col_ind);
+
   // Allocate and copy nt2kktcsr and ntdiag2kktcsr to device
   if (Wnnz > 0) {
     CUDA_CHECK(cudaMalloc(&linsys_data->d_nt2kktcsr, Wnnz * sizeof(QOCOInt)));
