@@ -3,14 +3,14 @@ CVXPYgen
 
 QOCOGEN can be called from `CVXPYgen <https://github.com/cvxgrp/cvxpygen/>`_ from version 0.5.0 onwards to generate a custom solver and then to call the custom solver from Python.
 
-After :ref:`installing QOCO <python_installation>` and defining your problem in CVXPY, QOCOGEN can be called to generate a custom solver using CVXPYgen as follows
+After :ref:`installing QOCO <python_installation>`, :ref:`installing QOCOGEN <python_installation_qocogen>` and defining your problem in CVXPY, QOCOGEN can be called to generate a custom solver using CVXPYgen as follows
 
 .. code:: python
 
    from cvxpygen import cpg
 
    # problem is a CVXPY problem
-   cpg.generate_code(problem, code_dir='solver_directory', solver='QOCO')
+   cpg.generate_code(problem, code_dir='solver_directory', solver='QOCOGEN')
 
 
 To call the custom solver through CVXPYgen, run
@@ -23,6 +23,6 @@ To call the custom solver through CVXPYgen, run
 
 where we set the :code:`max_iters` option to :code:`100`. For a full list of settings that can be changed, refer to :ref:`settings <settings>`.
 
-For an example of setting up and solving a problem using QOCO through CVXPY and QOCOGEN through CVXPYgen, see :ref:`settings <lcvx_example>`.
+For an example of setting up and solving a problem using QOCO through CVXPY and solving with QOCO and QOCOGEN via CVXPYgen, see :ref:`settings <lcvx_example>`.
 
 To see how to call the custom solver directly from C, see :ref:`calling <calling>`.
