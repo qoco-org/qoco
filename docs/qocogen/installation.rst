@@ -1,3 +1,5 @@
+.. _python_installation_qocogen:
+
 Installation
 ==============
 

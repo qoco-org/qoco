@@ -116,20 +116,19 @@ CVXPY/CVXPYgen
             ]
         )
 
-    # Generate code with CVXPYgen/QOCOGEN
-    cpg.generate_code(prob, code_dir='lcvx', solver='QOCO')
+    # Generate code with CVXPYgen/QOCOGEN (Can replace 'QOCOGEN' with 'QOCO' below to generate CVXPYgen solver with QOCO)
+    cpg.generate_code(prob, code_dir='lcvx_qocogen', solver='QOCOGEN')
 
     # Solve problem with CVXPY/QOCO
-    val = prob.solve(solver='QOCO', verbose=True) # Throwaway solve to parse the problem
     t0 = time.time()
     val = prob.solve(solver='QOCO', verbose=True)
     t1 = time.time()
-    sys.stdout.write('\QOCO\nSolve time: %.3f ms\n' % (1000*(t1-t0)))
+    sys.stdout.write('QOCO\nSolve time via CVXPY: %.3f ms\n' % (1000*(t1-t0)))
     sys.stdout.write('Objective function value: %.6f\n' % val)
 
-    # Solve problem with CVXPYgen/qoco_custom
+    # Solve problem with CVXPYgen/QOCOGEN
     t0 = time.time()
     val = prob.solve(method='CPG', verbose=True)
     t1 = time.time()
-    sys.stdout.write('\nqoco_custom \nSolve time: %.3f ms\n' % (1000 * (t1 - t0)))
+    sys.stdout.write('QOCOGEN \nSolve time via CVXPYgen: %.3f ms\n' % (1000 * (t1 - t0)))
     sys.stdout.write('Objective function value: %.6f\n' % val)
