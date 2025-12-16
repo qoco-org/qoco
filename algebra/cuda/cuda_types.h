@@ -16,11 +16,15 @@
 #ifndef CUDA_TYPES_H
 #define CUDA_TYPES_H
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 #include "common_linalg.h"
 #include "definitions.h"
 #include "qoco_linalg.h"
+#ifdef __cplusplus
 }
+#endif
 #include <cuda_runtime.h>
 
 struct QOCOVectori_ {

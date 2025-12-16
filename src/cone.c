@@ -278,16 +278,18 @@ void compute_centering(QOCOSolver* solver)
   QOCOWorkspace* work = solver->work;
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
   QOCOFloat a = qoco_min(
       linesearch(get_pointer_vectorf(work->z, 0), Dzaff, 1.0, solver),
       linesearch(get_pointer_vectorf(work->s, 0), work->Ds, 1.0, solver));
 
   // Compute rho. rho = ((s + a * Ds)'*(z + a * Dz)) / (s'*z).
-  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), work->ubuff1, a,
+  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), ubuff1, a,
             work->data->m);
-  qoco_axpy(work->Ds, get_pointer_vectorf(work->s, 0), work->ubuff2, a,
+  qoco_axpy(work->Ds, get_pointer_vectorf(work->s, 0), ubuff2, a,
             work->data->m);
-  QOCOFloat rho = qoco_dot(work->ubuff1, work->ubuff2, work->data->m) /
+  QOCOFloat rho = qoco_dot(ubuff1, ubuff2, work->data->m) /
                   qoco_dot(get_pointer_vectorf(work->z, 0),
                            get_pointer_vectorf(work->s, 0), work->data->m);
 
@@ -313,14 +315,15 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                            QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
 
   QOCOFloat al = 0.0;
   QOCOFloat au = 1.0;
   QOCOFloat a = 0.0;
   for (QOCOInt i = 0; i < solver->settings->bisect_iters; ++i) {
     a = 0.5 * (al + au);
-    qoco_axpy(Du, u, work->ubuff1, safe_div(a, f), work->data->m);
-    if (cone_residual(work->ubuff1, work->data->l, work->data->nsoc,
+    qoco_axpy(Du, u, ubuff1, safe_div(a, f), work->data->m);
+    if (cone_residual(ubuff1, work->data->l, work->data->nsoc,
                       work->data->q) >= 0) {
       au = a;
     }

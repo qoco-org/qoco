@@ -242,16 +242,16 @@ typedef struct {
   QOCOVectorf* xbuff;
 
   /** Temporary variable of length p. */
-  QOCOFloat* ybuff;
+  QOCOVectorf* ybuff;
 
   /** Temporary variable of length m. */
-  QOCOFloat* ubuff1;
+  QOCOVectorf* ubuff1;
 
   /** Temporary variable of length m. */
-  QOCOFloat* ubuff2;
+  QOCOVectorf* ubuff2;
 
   /** Temporary variable of length m. */
-  QOCOFloat* ubuff3;
+  QOCOVectorf* ubuff3;
 
   /** Search direction for slack variables. Length of m. */
   QOCOFloat* Ds;

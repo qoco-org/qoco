@@ -20,6 +20,8 @@ typedef struct QOCOMatrix_ QOCOMatrix;
 typedef struct QOCOVectorf_ QOCOVectorf;
 typedef struct QOCOVectori_ QOCOVectori;
 
+void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n);
+
 /**
  * @brief Compressed sparse column format matrices.
  *
@@ -143,6 +145,7 @@ QOCOFloat* get_data_vectorf(const QOCOVectorf* x);
  * @param v Input vector.
  */
 void sync_vector_to_host(QOCOVectorf* v);
+void sync_vector_to_device(const QOCOVectorf* v);
 
 /**
  * @brief Sets the solve phase flag (CUDA backend only).

@@ -249,6 +249,14 @@ void sync_vector_to_host(QOCOVectorf* v)
   }
 }
 
+void sync_vector_to_device(const QOCOVectorf* v)
+{
+  if (v && v->data && v->d_data) {
+    CUDA_CHECK(cudaMemcpy(v->d_data, v->data, v->len * sizeof(QOCOFloat),
+                          cudaMemcpyHostToDevice));
+  }
+}
+
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }
 
 void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
@@ -550,6 +558,57 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
   else {
     for (QOCOInt i = 0; i < n; ++i) {
       z[i] = a * x[i] + y[i];
+    }
+  }
+}
+
+__global__ void ew_product_kernel(const QOCOFloat* x, const QOCOFloat* y,
+                                  QOCOFloat* z, QOCOInt n)
+{
+  QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
+  if (idx < n) {
+    z[idx] = x[idx] * y[idx];
+  }
+}
+
+void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
+{
+  qoco_assert(x || n == 0);
+  qoco_assert(y || n == 0);
+  qoco_assert(z || n == 0);
+
+  if (n == 0)
+    return;
+
+  const QOCOInt blockSize = 256;
+  const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
+
+  cudaPointerAttributes attrs_x, attrs_y, attrs_z;
+  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
+  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
+  cudaError_t err_z = cudaPointerGetAttributes(&attrs_z, z);
+
+  int x_is_device = (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice);
+  int y_is_device = (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice);
+  int z_is_device = (err_z == cudaSuccess && attrs_z.type == cudaMemoryTypeDevice);
+
+  if ((x_is_device || y_is_device || z_is_device) &&
+      !(x_is_device && y_is_device && z_is_device)) {
+    fprintf(stderr,
+            "Error in ew_product: mixed memory spaces "
+            "(x_is_device=%d, y_is_device=%d, z_is_device=%d). "
+            "x=%p, y=%p, z=%p\n",
+            x_is_device, y_is_device, z_is_device, (void*)x, (void*)y, (void*)z);
+    exit(1);
+  }
+
+  if (x_is_device && y_is_device && z_is_device) {
+    ew_product_kernel<<<numBlocks, blockSize>>>(x, y, z, n);
+    CUDA_CHECK(cudaDeviceSynchronize());
+  }
+  else {
+    for (QOCOInt i = 0; i < n; ++i) {
+      z[i] = x[i] * y[i];
     }
   }
 }

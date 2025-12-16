@@ -160,6 +160,17 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
 
   // Disable host data mode for CUDA backend (no-op for builtin backend)
   set_scaling_statistics_mode(0);
+
+  // Sync updated scaling vectors and scaled data to device (CUDA backend).
+  sync_vector_to_device(scaling->Druiz);
+  sync_vector_to_device(scaling->Eruiz);
+  sync_vector_to_device(scaling->Fruiz);
+  sync_vector_to_device(scaling->Dinvruiz);
+  sync_vector_to_device(scaling->Einvruiz);
+  sync_vector_to_device(scaling->Finvruiz);
+  sync_vector_to_device(data->c);
+  sync_vector_to_device(data->b);
+  sync_vector_to_device(data->h);
 }
 
 void unscale_variables(QOCOWorkspace* work)

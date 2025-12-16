@@ -165,10 +165,10 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->sbar = qoco_malloc(qmax * sizeof(QOCOFloat));
   solver->work->zbar = qoco_malloc(qmax * sizeof(QOCOFloat));
   solver->work->xbuff = new_qoco_vectorf(NULL, n);
-  solver->work->ybuff = qoco_malloc(p * sizeof(QOCOFloat));
-  solver->work->ubuff1 = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->ubuff2 = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->ubuff3 = qoco_malloc(m * sizeof(QOCOFloat));
+  solver->work->ybuff = new_qoco_vectorf(NULL, p);
+  solver->work->ubuff1 = new_qoco_vectorf(NULL, m);
+  solver->work->ubuff2 = new_qoco_vectorf(NULL, m);
+  solver->work->ubuff3 = new_qoco_vectorf(NULL, m);
   solver->work->Ds = qoco_malloc(m * sizeof(QOCOFloat));
   solver->work->rhs = new_qoco_vectorf(NULL, n + m + p);
   solver->work->kktres = new_qoco_vectorf(NULL, n + m + p);
@@ -402,7 +402,9 @@ QOCOInt qoco_solve(QOCOSolver* solver)
                          get_data_vectorf(work->y), get_data_vectorf(work->s),
                          get_data_vectorf(work->z), get_data_vectorf(work->kktres),
                          solver->settings->kkt_static_reg, get_data_vectorf(work->xyzbuff1),
-                         get_data_vectorf(work->xbuff), work->ubuff1, work->ubuff2);
+                         get_data_vectorf(work->xbuff),
+                         get_data_vectorf(work->ubuff1),
+                         get_data_vectorf(work->ubuff2));
 
     // Compute objective function.
     solver->sol->obj =
@@ -499,10 +501,10 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   qoco_free(solver->work->sbar);
   qoco_free(solver->work->zbar);
   free_qoco_vectorf(solver->work->xbuff);
-  qoco_free(solver->work->ybuff);
-  qoco_free(solver->work->ubuff1);
-  qoco_free(solver->work->ubuff2);
-  qoco_free(solver->work->ubuff3);
+  free_qoco_vectorf(solver->work->ybuff);
+  free_qoco_vectorf(solver->work->ubuff1);
+  free_qoco_vectorf(solver->work->ubuff2);
+  free_qoco_vectorf(solver->work->ubuff3);
   qoco_free(solver->work->Ds);
 
   // Free scaling struct.
