@@ -239,7 +239,7 @@ typedef struct {
   QOCOFloat* zbar;
 
   /** Temporary variable of length n. */
-  QOCOFloat* xbuff;
+  QOCOVectorf* xbuff;
 
   /** Temporary variable of length p. */
   QOCOFloat* ybuff;
