@@ -154,6 +154,15 @@ void sync_vector_to_host(QOCOVectorf* v);
 void set_solve_phase(int active);
 
 /**
+ * @brief Sets the scaling statistics mode flag (CUDA backend only).
+ * During scaling statistics computation, get_data_vectorf returns host pointers.
+ * This allows CPU access to vector data for statistics computation.
+ *
+ * @param active 1 if scaling statistics mode is active, 0 otherwise.
+ */
+void set_scaling_statistics_mode(int active);
+
+/**
  * @brief Returns the length of a QOCOVectorf.
  *
  * @param x Input vector.

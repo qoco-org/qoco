@@ -226,8 +226,10 @@ void initialize_ipm(QOCOSolver* solver)
                          solver->work->data->m);
 
   // Bring s and z to cone C.
+  set_scaling_statistics_mode(1);
   bring2cone(get_data_vectorf(solver->work->s), solver->work->data);
   bring2cone(get_data_vectorf(solver->work->z), solver->work->data);
+  set_scaling_statistics_mode(0);
 }
 
 void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,

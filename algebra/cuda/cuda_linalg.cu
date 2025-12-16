@@ -166,14 +166,23 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
   return &x->data[idx];
 }
 
+// Static flag to track when we're in compute_scaling_statistics
+static int in_scaling_statistics_mode = 0;
+
+void set_scaling_statistics_mode(int active)
+{
+  in_scaling_statistics_mode = active;
+}
+
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
 {
+  // During compute_scaling_statistics, return host pointer for CPU access
+  if (in_scaling_statistics_mode) {
+    return x->data;
+  }
   // During equilibration/setup (CPU phase), return host pointer
   // During solve (GPU phase), return device pointer to avoid CPU-GPU copies
-  // if (x->d_data) {
-  //   return x->d_data;
-  // }
-  return x->data;
+  return x->d_data;
 }
 
 QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
