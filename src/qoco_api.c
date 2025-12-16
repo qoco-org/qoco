@@ -393,12 +393,6 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     print_header(solver);
   }
 
-// Set solve phase flag for CUDA backend (prevents get_data_vectorf from
-// returning device pointers)
-#ifdef QOCO_ALGEBRA_BACKEND_CUDA
-  set_solve_phase(1);
-#endif
-
   // Get initializations for primal and dual variables.
   initialize_ipm(solver);
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
