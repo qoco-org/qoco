@@ -171,10 +171,10 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->ubuff3 = qoco_malloc(m * sizeof(QOCOFloat));
   solver->work->Ds = qoco_malloc(m * sizeof(QOCOFloat));
   solver->work->rhs = new_qoco_vectorf(NULL, n + m + p);
-  solver->work->kktres = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->kktres = new_qoco_vectorf(NULL, n + m + p);
   solver->work->xyz = new_qoco_vectorf(NULL, n + m + p);
-  solver->work->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  solver->work->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->xyzbuff1 = new_qoco_vectorf(NULL, n + m + p);
+  solver->work->xyzbuff2 = new_qoco_vectorf(NULL, n + m + p);
 
   // Allocate solution struct.
   solver->sol = qoco_malloc(sizeof(QOCOSolution));
@@ -400,8 +400,8 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     // Compute kkt residual.
     compute_kkt_residual(data, get_data_vectorf(work->x),
                          get_data_vectorf(work->y), get_data_vectorf(work->s),
-                         get_data_vectorf(work->z), work->kktres,
-                         solver->settings->kkt_static_reg, work->xyzbuff1,
+                         get_data_vectorf(work->z), get_data_vectorf(work->kktres),
+                         solver->settings->kkt_static_reg, get_data_vectorf(work->xyzbuff1),
                          work->xbuff, work->ubuff1, work->ubuff2);
 
     // Compute objective function.
@@ -480,10 +480,10 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
 
   // Free primal and dual variables.
   free_qoco_vectorf(solver->work->rhs);
-  qoco_free(solver->work->kktres);
+  free_qoco_vectorf(solver->work->kktres);
   free_qoco_vectorf(solver->work->xyz);
-  qoco_free(solver->work->xyzbuff1);
-  qoco_free(solver->work->xyzbuff2);
+  free_qoco_vectorf(solver->work->xyzbuff1);
+  free_qoco_vectorf(solver->work->xyzbuff2);
   free_qoco_vectorf(solver->work->x);
   free_qoco_vectorf(solver->work->s);
   free_qoco_vectorf(solver->work->y);

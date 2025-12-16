@@ -263,13 +263,13 @@ typedef struct {
   QOCOVectorf* xyz;
 
   /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff1;
+  QOCOVectorf* xyzbuff1;
 
   /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff2;
+  QOCOVectorf* xyzbuff2;
 
   /** Residual of KKT condition. */
-  QOCOFloat* kktres;
+  QOCOVectorf* kktres;
 
 } QOCOWorkspace;
 

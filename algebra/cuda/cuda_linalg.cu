@@ -73,12 +73,14 @@ __global__ void axpy_kernel(const QOCOFloat* x, const QOCOFloat* y,
 QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 {
   QOCOMatrix* M = (QOCOMatrix*)qoco_malloc(sizeof(QOCOMatrix));
+  M->d_csc = NULL;  // Initialize device matrix to NULL
 
   if (A) {
     QOCOInt m = A->m;
     QOCOInt n = A->n;
     QOCOInt nnz = A->nnz;
 
+    // Allocate host CSC matrix
     QOCOCscMatrix* Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
     QOCOFloat* x = (QOCOFloat*)qoco_malloc(nnz * sizeof(QOCOFloat));
     QOCOInt* p = (QOCOInt*)qoco_malloc((n + 1) * sizeof(QOCOInt));
@@ -95,6 +97,28 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     Mcsc->i = i;
     Mcsc->p = p;
     M->csc = Mcsc;
+
+    // Allocate device CSC matrix
+    QOCOCscMatrix* d_Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
+    QOCOFloat* d_x;
+    QOCOInt* d_p;
+    QOCOInt* d_i;
+    
+    CUDA_CHECK(cudaMalloc(&d_x, nnz * sizeof(QOCOFloat)));
+    CUDA_CHECK(cudaMalloc(&d_p, (n + 1) * sizeof(QOCOInt)));
+    CUDA_CHECK(cudaMalloc(&d_i, nnz * sizeof(QOCOInt)));
+    
+    CUDA_CHECK(cudaMemcpy(d_x, x, nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_p, p, (n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_i, i, nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+    
+    d_Mcsc->m = m;
+    d_Mcsc->n = n;
+    d_Mcsc->nnz = nnz;
+    d_Mcsc->x = d_x;
+    d_Mcsc->i = d_i;
+    d_Mcsc->p = d_p;
+    M->d_csc = d_Mcsc;
   }
   else {
     QOCOCscMatrix* Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
@@ -105,6 +129,7 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     Mcsc->i = NULL;
     Mcsc->p = NULL;
     M->csc = Mcsc;
+    M->d_csc = NULL;
   }
 
   return M;
@@ -139,8 +164,20 @@ QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
 
 void free_qoco_matrix(QOCOMatrix* A)
 {
-  free_qoco_csc_matrix(A->csc);
-  qoco_free(A);
+  if (A) {
+    // Free host CSC matrix
+    free_qoco_csc_matrix(A->csc);
+    
+    // Free device CSC matrix if allocated
+    if (A->d_csc) {
+      if (A->d_csc->x) cudaFree(A->d_csc->x);
+      if (A->d_csc->i) cudaFree(A->d_csc->i);
+      if (A->d_csc->p) cudaFree(A->d_csc->p);
+      qoco_free(A->d_csc);
+    }
+    
+    qoco_free(A);
+  }
 }
 
 void free_qoco_vectorf(QOCOVectorf* x)
@@ -294,14 +331,25 @@ void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
   cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
   cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
 
-  // If either pointer check succeeds and one is on device, use CUDA kernel.
-  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
-      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
+  // Check if we have mixed host/device pointers
+  int x_is_device = (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice);
+  int y_is_device = (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice);
+
+  if (x_is_device && y_is_device) {
+    // Both on device - use CUDA kernel
     copy_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, n);
     CUDA_CHECK(cudaDeviceSynchronize());
   }
+  else if (x_is_device && !y_is_device) {
+    // x on device, y on host - use cudaMemcpy device to host
+    CUDA_CHECK(cudaMemcpy(y, x, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+  }
+  else if (!x_is_device && y_is_device) {
+    // x on host, y on device - use cudaMemcpy host to device
+    CUDA_CHECK(cudaMemcpy(y, x, n * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
+  }
   else {
-    // If both pointers are on host, use CPU.
+    // Both on host - use CPU
     for (QOCOInt i = 0; i < n; ++i) {
       y[i] = x[i];
     }
@@ -321,15 +369,36 @@ void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
   cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
   cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
 
-  // If either pointer check succeeds and one is on device, use CUDA kernel.
-  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
-      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
+  // Check if we have mixed host/device pointers
+  int x_is_device = (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice);
+  int y_is_device = (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice);
+
+  if (x_is_device && y_is_device) {
+    // Both on device - use CUDA kernel
     copy_and_negate_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y,
                                                             n);
     CUDA_CHECK(cudaDeviceSynchronize());
   }
+  else if (x_is_device && !y_is_device) {
+    // x on device, y on host - copy to temp buffer, negate on host
+    QOCOFloat* temp = (QOCOFloat*)qoco_malloc(n * sizeof(QOCOFloat));
+    CUDA_CHECK(cudaMemcpy(temp, x, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+    for (QOCOInt i = 0; i < n; ++i) {
+      y[i] = -temp[i];
+    }
+    qoco_free(temp);
+  }
+  else if (!x_is_device && y_is_device) {
+    // x on host, y on device - negate on host, then copy to device
+    QOCOFloat* temp = (QOCOFloat*)qoco_malloc(n * sizeof(QOCOFloat));
+    for (QOCOInt i = 0; i < n; ++i) {
+      temp[i] = -x[i];
+    }
+    CUDA_CHECK(cudaMemcpy(y, temp, n * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
+    qoco_free(temp);
+  }
   else {
-    // If both pointers are on host, use CPU.
+    // Both on host - use CPU
     for (QOCOInt i = 0; i < n; ++i) {
       y[i] = -x[i];
     }
@@ -468,19 +537,90 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
   }
 }
 
+// CUDA kernel for device-side USpMv
+// Each thread handles one column of the matrix
+__global__ void USpMv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+{
+  QOCOInt i = blockIdx.x;
+  if (i >= M->n) return;
+  
+  // Process all nonzeros in column i
+  for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
+    int row = M->i[j];
+    QOCOFloat val = M->x[j] * v[i];
+    
+    // Add to r[row] using atomic (multiple columns can write to same row)
+    atomicAdd(&r[row], val);
+    
+    // If off-diagonal, also add to r[i] (symmetric part)
+    // Note: r[i] is only written by thread i, but we use atomic for safety
+    if (row != i) {
+      atomicAdd(&r[i], M->x[j] * v[row]);
+    }
+  }
+}
+
+// Host function that handles both host and device pointers
+// Requires that matrix and vectors are all on the same memory space (all CPU or all GPU)
 void USpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
   qoco_assert(M);
   qoco_assert(v);
   qoco_assert(r);
 
-  for (QOCOInt i = 0; i < M->n; i++) {
-    r[i] = 0.0;
-    for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
-      int row = M->i[j];
-      r[row] += M->x[j] * v[i];
-      if (row != i)
-        r[i] += M->x[j] * v[row];
+  // Check if matrix data pointers are on device
+  cudaPointerAttributes attrs_Mx, attrs_Mp, attrs_Mi;
+  cudaError_t err_Mx = cudaPointerGetAttributes(&attrs_Mx, M->x);
+  cudaError_t err_Mp = cudaPointerGetAttributes(&attrs_Mp, M->p);
+  cudaError_t err_Mi = cudaPointerGetAttributes(&attrs_Mi, M->i);
+
+  // Check if vector pointers are on device
+  cudaPointerAttributes attrs_v, attrs_r;
+  cudaError_t err_v = cudaPointerGetAttributes(&attrs_v, v);
+  cudaError_t err_r = cudaPointerGetAttributes(&attrs_r, r);
+
+  // Determine if matrix data is on device
+  int Mx_is_device = (err_Mx == cudaSuccess && attrs_Mx.type == cudaMemoryTypeDevice);
+  int Mp_is_device = (err_Mp == cudaSuccess && attrs_Mp.type == cudaMemoryTypeDevice);
+  int Mi_is_device = (err_Mi == cudaSuccess && attrs_Mi.type == cudaMemoryTypeDevice);
+  int M_is_device = Mx_is_device || Mp_is_device || Mi_is_device;
+
+  // Determine if vectors are on device
+  int v_is_device = (err_v == cudaSuccess && attrs_v.type == cudaMemoryTypeDevice);
+  int r_is_device = (err_r == cudaSuccess && attrs_r.type == cudaMemoryTypeDevice);
+
+  // Check for mixed memory spaces - raise error if mixed
+  if (M_is_device && (!v_is_device || !r_is_device)) {
+    fprintf(stderr, "Error in USpMv: Matrix is on device but vectors are on host\n");
+    exit(1);
+  }
+  if ((v_is_device || r_is_device) && !M_is_device) {
+    fprintf(stderr, "Error in USpMv: Vectors are on device but matrix is on host\n");
+    exit(1);
+  }
+  if (v_is_device != r_is_device) {
+    fprintf(stderr, "Error in USpMv: Input and output vectors are on different memory spaces\n");
+    exit(1);
+  }
+
+  if (M_is_device && v_is_device && r_is_device) {
+    // All on device - use GPU kernel
+    // First initialize result vector to zero
+    CUDA_CHECK(cudaMemset(r, 0, M->n * sizeof(QOCOFloat)));
+    // Launch kernel with one thread per column
+    USpMv_kernel<<<M->n, 1>>>(M, v, r);
+    CUDA_CHECK(cudaDeviceSynchronize());
+  }
+  else {
+    // All on host - use CPU implementation
+    for (QOCOInt i = 0; i < M->n; i++) {
+      r[i] = 0.0;
+      for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
+        int row = M->i[j];
+        r[row] += M->x[j] * v[i];
+        if (row != i)
+          r[i] += M->x[j] * v[row];
+      }
     }
   }
 }
@@ -521,7 +661,37 @@ void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 
 void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  USpMv(M->csc, v, r);
+  // Check if vectors are on device
+  cudaPointerAttributes attrs_v, attrs_r;
+  cudaError_t err_v = cudaPointerGetAttributes(&attrs_v, v);
+  cudaError_t err_r = cudaPointerGetAttributes(&attrs_r, r);
+
+  // If cudaPointerGetAttributes fails, assume host pointer
+  // (This can happen for host pointers not managed by CUDA)
+  int v_is_device = (err_v == cudaSuccess && attrs_v.type == cudaMemoryTypeDevice);
+  int r_is_device = (err_r == cudaSuccess && attrs_r.type == cudaMemoryTypeDevice);
+
+  // Use device matrix only if BOTH vectors are on device and device matrix exists
+  if (v_is_device && r_is_device) {
+    if (!M->d_csc) {
+      fprintf(stderr, "Error in USpMv_matrix: Vectors are on device but device matrix (d_csc) is NULL. "
+                      "Matrix was likely created without device allocation. "
+                      "This can happen if the matrix was created with A=NULL or if device allocation failed.\n");
+      exit(1);
+    }
+    // Use device matrix - d_csc->x, d_csc->p, d_csc->i are device pointers
+    USpMv(M->d_csc, v, r);
+  }
+  else if (!v_is_device && !r_is_device) {
+    // Both vectors on host, use host matrix
+    USpMv(M->csc, v, r);
+  }
+  else {
+    // Mixed: one vector on device, one on host - this is an error
+    fprintf(stderr, "Error in USpMv_matrix: Input and output vectors are on different memory spaces. "
+                    "v_is_device=%d, r_is_device=%d\n", v_is_device, r_is_device);
+    exit(1);
+  }
 }
 
 void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)

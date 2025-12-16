@@ -281,10 +281,11 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat Gxinf = data->m ? inf_norm(work->ubuff1, data->m) : 0;
 
   // Compute primal residual.
-  ew_product(&work->kktres[data->n], Einvruiz_data, work->ybuff, data->p);
+  QOCOFloat* kktres_data = get_data_vectorf(work->kktres);
+  ew_product(&kktres_data[data->n], Einvruiz_data, work->ybuff, data->p);
   QOCOFloat eq_res = inf_norm(work->ybuff, data->p);
 
-  ew_product(&work->kktres[data->n + data->p], Finvruiz_data, work->ubuff1,
+  ew_product(&kktres_data[data->n + data->p], Finvruiz_data, work->ubuff1,
              data->m);
   QOCOFloat conic_res = inf_norm(work->ubuff1, data->m);
 
@@ -292,7 +293,7 @@ unsigned char check_stopping(QOCOSolver* solver)
   solver->sol->pres = pres;
 
   // Compute dual residual.
-  ew_product(work->kktres, Dinvruiz_data, work->xbuff, data->n);
+  ew_product(kktres_data, Dinvruiz_data, work->xbuff, data->n);
   scale_arrayf(work->xbuff, work->xbuff, work->scaling->kinv, data->n);
   QOCOFloat dres = inf_norm(work->xbuff, data->n);
   solver->sol->dres = dres;

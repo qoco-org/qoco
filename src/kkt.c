@@ -287,7 +287,7 @@ void construct_kkt_aff_rhs(QOCOWorkspace* work)
   QOCOFloat* rhs = get_data_vectorf(work->rhs);
 
   // Negate the kkt residual and store in rhs.
-  copy_and_negate_arrayf(work->kktres, rhs,
+  copy_and_negate_arrayf(get_data_vectorf(work->kktres), rhs,
                          work->data->n + work->data->p + work->data->m);
 
   // Compute W*lambda
@@ -305,7 +305,7 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
 
   // Negate the kkt residual and store in rhs.
-  copy_and_negate_arrayf(work->kktres, rhs,
+  copy_and_negate_arrayf(get_data_vectorf(work->kktres), rhs,
                          work->data->n + work->data->p + work->data->m);
 
   /// ds = -cone_product(lambda, lambda) - settings.mehrotra *
