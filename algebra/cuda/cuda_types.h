@@ -37,7 +37,7 @@ struct QOCOVectorf_ {
 
 struct QOCOMatrix_ {
   QOCOCscMatrix* csc;      // Host CSC matrix
-  QOCOCscMatrix* d_csc;    // Device CSC matrix (NULL if not allocated)
+  QOCOCscMatrix* d_csc;    // Device pointer to device CSC matrix structure
 };
 
 #endif /* ifndef CUDA_TYPES_H */
