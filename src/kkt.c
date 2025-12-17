@@ -226,10 +226,13 @@ void initialize_ipm(QOCOSolver* solver)
                          solver->work->data->m);
 
   // Bring s and z to cone C.
+  // TODO: bring2cone should be called on the device to avoid CPU-GPU copies.
   set_scaling_statistics_mode(1);
   bring2cone(get_data_vectorf(solver->work->s), solver->work->data);
   bring2cone(get_data_vectorf(solver->work->z), solver->work->data);
   set_scaling_statistics_mode(0);
+  sync_vector_to_device(solver->work->s); 
+  sync_vector_to_device(solver->work->z);
 }
 
 void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,

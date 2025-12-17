@@ -68,6 +68,20 @@ void print_arrayi(QOCOInt* x, QOCOInt n)
   printf("}\n");
 }
 
+void print_vectorf(const QOCOVectorf* v)
+{
+  if (!v) {
+    printf("vector is NULL\n");
+    return;
+  }
+  // Ensure host data is up to date (no-op on CPU backend)
+  sync_vector_to_host((QOCOVectorf*)v);
+  // Use host pointer via get_pointer_vectorf to avoid device pointer
+  QOCOFloat* data = get_pointer_vectorf(v, 0);
+  QOCOInt len = get_length_vectorf(v);
+  print_arrayf(data, len);
+}
+
 void compute_scaling_statistics(QOCOProblemData* data)
 {
   // Enable host data mode for CUDA backend (no-op for builtin backend)
@@ -309,7 +323,7 @@ unsigned char check_stopping(QOCOSolver* solver)
   solver->sol->gap = gap;
 
   // Compute max{Axinf, binf, Gxinf, hinf, sinf}.
-  QOCOFloat pres_rel = qoco_max(Axinf, binf);
+  QOCOFloat pres_rel = qoco_max(Axinf, 0);
   pres_rel = qoco_max(pres_rel, Gxinf);
   pres_rel = qoco_max(pres_rel, hinf);
   pres_rel = qoco_max(pres_rel, sinf);
