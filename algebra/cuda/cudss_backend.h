@@ -67,6 +67,8 @@ typedef struct {
   cublasStatus_t (*cublasCreate)(cublasHandle_t* handle);
   cublasStatus_t (*cublasDdot)(cublasHandle_t handle, int n, const double* x, int incx, const double* y, int incy, double* result);
   cublasStatus_t (*cublasDestroy)(cublasHandle_t handle);
+  cublasStatus_t (*cublasIdamin)(cublasHandle_t handle, int n, const double* x, int incx, int* result);
+  cublasStatus_t (*cublasIdamax)(cublasHandle_t handle, int n, const double* x, int incx, int* result);
 } CudaLibFuncs;
 
 // Accessor function for CUDA library function pointers

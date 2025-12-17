@@ -332,3 +332,19 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
   }
   return norm;
 }
+
+QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
+{
+  qoco_assert(x || n == 0);
+
+  if (n == 0)
+    return QOCOFloat_MAX;
+
+  QOCOFloat min_val = QOCOFloat_MAX;
+  QOCOFloat xi;
+  for (QOCOInt i = 0; i < n; ++i) {
+    xi = qoco_abs(x[i]);
+    min_val = qoco_min(min_val, xi);
+  }
+  return min_val;
+}

@@ -36,7 +36,8 @@ struct QOCOVectorf_ {
 };
 
 struct QOCOMatrix_ {
-  QOCOCscMatrix* csc;
+  QOCOCscMatrix* csc;   // Host pointer
+  QOCOCscMatrix* d_csc; // Device pointer
 };
 
 #endif /* ifndef CUDA_TYPES_H */

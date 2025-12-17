@@ -82,63 +82,40 @@ void compute_scaling_statistics(QOCOProblemData* data)
   // Note: This is called before regularization, so P is in its original form
   if (data->P) {
     QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
-    for (QOCOInt j = 0; j < Pcsc->nnz; ++j) {
-      QOCOFloat abs_val = qoco_abs(Pcsc->x[j]);
-      data->obj_range_min = qoco_min(data->obj_range_min, abs_val);
-      data->obj_range_max = qoco_max(data->obj_range_max, abs_val);
-    }
+    data->obj_range_min = min_abs_val(Pcsc->x, Pcsc->nnz);
+    data->obj_range_max = inf_norm(Pcsc->x, Pcsc->nnz);
   }
 
   // Add c to objective range
   QOCOFloat* cdata = get_data_vectorf(data->c);
-  for (QOCOInt i = 0; i < data->n; ++i) {
-    QOCOFloat abs_val = qoco_abs(cdata[i]);
-    data->obj_range_min = qoco_min(data->obj_range_min, abs_val);
-    data->obj_range_max = qoco_max(data->obj_range_max, abs_val);
-  }
+  data->obj_range_min = min_abs_val(cdata, data->n);
+  data->obj_range_max = inf_norm(cdata, data->n);
 
   // Compute Constraint range: A and G
   if (data->A && get_nnz(data->A) > 0) {
     QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
-    for (QOCOInt j = 0; j < Acsc->nnz; ++j) {
-      QOCOFloat abs_val = qoco_abs(Acsc->x[j]);
-      data->constraint_range_min =
-          qoco_min(data->constraint_range_min, abs_val);
-      data->constraint_range_max =
-          qoco_max(data->constraint_range_max, abs_val);
-    }
+    data->constraint_range_min = min_abs_val(Acsc->x, Acsc->nnz);
+    data->constraint_range_max = inf_norm(Acsc->x, Acsc->nnz);
   }
 
   if (data->G && get_nnz(data->G) > 0) {
     QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
-    for (QOCOInt j = 0; j < Gcsc->nnz; ++j) {
-      QOCOFloat abs_val = qoco_abs(Gcsc->x[j]);
-      data->constraint_range_min =
-          qoco_min(data->constraint_range_min, abs_val);
-      data->constraint_range_max =
-          qoco_max(data->constraint_range_max, abs_val);
-    }
+    data->constraint_range_min = min_abs_val(Gcsc->x, Gcsc->nnz);
+    data->constraint_range_max = inf_norm(Gcsc->x, Gcsc->nnz);
   }
 
   // Compute RHS range: b and h
   if (data->p > 0) {
     QOCOFloat* bdata = get_data_vectorf(data->b);
-    for (QOCOInt i = 0; i < data->p; ++i) {
-      QOCOFloat abs_val = qoco_abs(bdata[i]);
-      data->rhs_range_min = qoco_min(data->rhs_range_min, abs_val);
-      data->rhs_range_max = qoco_max(data->rhs_range_max, abs_val);
-    }
+    data->rhs_range_min = min_abs_val(bdata, data->p);
+    data->rhs_range_max = inf_norm(bdata, data->p);
   }
 
   if (data->m > 0) {
     QOCOFloat* hdata = get_data_vectorf(data->h);
-    for (QOCOInt i = 0; i < data->m; ++i) {
-      QOCOFloat abs_val = qoco_abs(hdata[i]);
-      data->rhs_range_min = qoco_min(data->rhs_range_min, abs_val);
-      data->rhs_range_max = qoco_max(data->rhs_range_max, abs_val);
-    }
+    data->rhs_range_min = min_abs_val(hdata, data->m);
+    data->rhs_range_max = inf_norm(hdata, data->m);
   }
-
   // Handle case where all values are zero or value is -0.0 (set to 0.0)
   if (data->obj_range_min == QOCOFloat_MAX || data->obj_range_min == 0.0) {
     data->obj_range_min = 0.0;

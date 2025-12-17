@@ -69,7 +69,7 @@ __global__ void axpy_kernel(const QOCOFloat* x, const QOCOFloat* y,
   }
 }
 
-// Construct A on CPU and set device pointer to NULL.
+// Construct A on CPU and create device copy.
 QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 {
   QOCOMatrix* M = (QOCOMatrix*)qoco_malloc(sizeof(QOCOMatrix));
@@ -79,6 +79,7 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     QOCOInt n = A->n;
     QOCOInt nnz = A->nnz;
 
+    // Allocate host CSC matrix
     QOCOCscMatrix* Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
     QOCOFloat* x = (QOCOFloat*)qoco_malloc(nnz * sizeof(QOCOFloat));
     QOCOInt* p = (QOCOInt*)qoco_malloc((n + 1) * sizeof(QOCOInt));
@@ -95,6 +96,40 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     Mcsc->i = i;
     Mcsc->p = p;
     M->csc = Mcsc;
+
+    // Allocate device CSC matrix
+    QOCOCscMatrix* d_Mcsc;
+    CUDA_CHECK(cudaMalloc(&d_Mcsc, sizeof(QOCOCscMatrix)));
+    
+    QOCOFloat* d_x = NULL;
+    QOCOInt* d_p = NULL;
+    QOCOInt* d_i = NULL;
+    
+    if (nnz > 0) {
+      CUDA_CHECK(cudaMalloc(&d_x, nnz * sizeof(QOCOFloat)));
+      CUDA_CHECK(cudaMalloc(&d_i, nnz * sizeof(QOCOInt)));
+      // Copy data to device
+      CUDA_CHECK(cudaMemcpy(d_x, x, nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
+      CUDA_CHECK(cudaMemcpy(d_i, i, nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+    }
+    
+    if (n > 0) {
+      CUDA_CHECK(cudaMalloc(&d_p, (n + 1) * sizeof(QOCOInt)));
+      CUDA_CHECK(cudaMemcpy(d_p, p, (n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+    }
+
+    // Set up device CSC matrix structure on host (with device pointers)
+    QOCOCscMatrix d_Mcsc_host;
+    d_Mcsc_host.m = m;
+    d_Mcsc_host.n = n;
+    d_Mcsc_host.nnz = nnz;
+    d_Mcsc_host.x = d_x;
+    d_Mcsc_host.i = d_i;
+    d_Mcsc_host.p = d_p;
+
+    // Copy the device CSC matrix structure to device
+    CUDA_CHECK(cudaMemcpy(d_Mcsc, &d_Mcsc_host, sizeof(QOCOCscMatrix), cudaMemcpyHostToDevice));
+    M->d_csc = d_Mcsc;
   }
   else {
     QOCOCscMatrix* Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
@@ -105,6 +140,7 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     Mcsc->i = NULL;
     Mcsc->p = NULL;
     M->csc = Mcsc;
+    M->d_csc = NULL;
   }
 
   return M;
@@ -139,8 +175,30 @@ QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
 
 void free_qoco_matrix(QOCOMatrix* A)
 {
-  free_qoco_csc_matrix(A->csc);
-  qoco_free(A);
+  if (A) {
+    // Free host CSC matrix
+    free_qoco_csc_matrix(A->csc);
+    
+    // Free device CSC matrix
+    if (A->d_csc) {
+      QOCOCscMatrix d_csc_host;
+      // Copy device structure to host to get pointers
+      CUDA_CHECK(cudaMemcpy(&d_csc_host, A->d_csc, sizeof(QOCOCscMatrix), cudaMemcpyDeviceToHost));
+      
+      if (d_csc_host.x) {
+        CUDA_CHECK(cudaFree(d_csc_host.x));
+      }
+      if (d_csc_host.i) {
+        CUDA_CHECK(cudaFree(d_csc_host.i));
+      }
+      if (d_csc_host.p) {
+        CUDA_CHECK(cudaFree(d_csc_host.p));
+      }
+      CUDA_CHECK(cudaFree(A->d_csc));
+    }
+    
+    qoco_free(A);
+  }
 }
 
 void free_qoco_vectorf(QOCOVectorf* x)
@@ -168,7 +226,7 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
 
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
 {
-  return x->data;
+  return x->d_data;
 }
 
 QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
@@ -181,7 +239,7 @@ void sync_vector_to_host(QOCOVectorf* v)
   }
 }
 
-QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }
+QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return (QOCOCscMatrix*)M->d_csc; }
 
 void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
 {
@@ -524,11 +582,81 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
 {
   qoco_assert(x || n == 0);
 
-  QOCOFloat norm = 0.0;
-  QOCOFloat xi;
-  for (QOCOInt i = 0; i < n; ++i) {
-    xi = qoco_abs(x[i]);
-    norm = qoco_max(norm, xi);
+  if (n == 0)
+    return 0.0;
+
+  // Check if pointer is on device - handle errors gracefully
+  cudaPointerAttributes attrs;
+  cudaError_t err = cudaPointerGetAttributes(&attrs, x);
+
+  if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
+    printf("Using cuBLAS in inf_norm\n");
+    CudaLibFuncs* funcs = get_cuda_funcs();
+    cublasHandle_t handle;
+    funcs->cublasCreate(&handle);
+    
+    int idx_max;
+    QOCOFloat max_val;
+    
+    funcs->cublasIdamax(handle, n, (const double*)x, 1, &idx_max);
+    // Note: cuBLAS uses 1-based indexing, so subtract 1
+    idx_max -= 1;
+    CUDA_CHECK(cudaMemcpy(&max_val, &x[idx_max], sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+    
+    funcs->cublasDestroy(handle);
+    return qoco_abs(max_val);
   }
-  return norm;
+  else {
+    printf("Using CPU in inf_norm\n");
+    QOCOFloat norm = 0.0;
+    QOCOFloat xi;
+    for (QOCOInt i = 0; i < n; ++i) {
+      xi = qoco_abs(x[i]);
+      norm = qoco_max(norm, xi);
+    }
+    return norm;
+  }
+}
+
+QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
+{
+  qoco_assert(x || n == 0);
+
+  if (n == 0)
+    return QOCOFloat_MAX;
+
+  // Check if pointer is on device - handle errors gracefully
+  cudaPointerAttributes attrs;
+  cudaError_t err = cudaPointerGetAttributes(&attrs, x);
+
+  // If pointer check fails, it might be a host pointer or CUDA not initialized
+  // If it succeeds and is on device, use cuBLAS
+  if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
+    printf("Using cuBLAS in min_abs_val\n");
+
+    CudaLibFuncs* funcs = get_cuda_funcs();    
+    cublasHandle_t handle;
+    funcs->cublasCreate(&handle);
+    
+    int idx_min;
+    QOCOFloat min_val;
+    
+    funcs->cublasIdamin(handle, n, (const double*)x, 1, &idx_min);
+    // Note: cuBLAS uses 1-based indexing, so subtract 1
+    idx_min -= 1;
+    CUDA_CHECK(cudaMemcpy(&min_val, &x[idx_min], sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+    
+    funcs->cublasDestroy(handle);
+    return qoco_abs(min_val);
+  }
+  else {
+    printf("Using CPU in min_abs_val\n");
+    QOCOFloat min_val = QOCOFloat_MAX;
+    QOCOFloat xi;
+    for (QOCOInt i = 0; i < n; ++i) {
+      xi = qoco_abs(x[i]);
+      min_val = qoco_min(min_val, xi);
+    }
+    return min_val;
+  }
 }

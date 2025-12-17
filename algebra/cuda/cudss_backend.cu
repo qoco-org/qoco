@@ -152,8 +152,17 @@ int load_cuda_libraries(void) {
   if (!g_cuda_funcs.cublasDestroy) {
     g_cuda_funcs.cublasDestroy = (typeof(g_cuda_funcs.cublasDestroy))dlsym(g_cublas_handle, "cublasDestroy");
   }
+  g_cuda_funcs.cublasIdamin = (typeof(g_cuda_funcs.cublasIdamin))dlsym(g_cublas_handle, "cublasIdamin_v2");
+  if (!g_cuda_funcs.cublasIdamin) {
+    g_cuda_funcs.cublasIdamin = (typeof(g_cuda_funcs.cublasIdamin))dlsym(g_cublas_handle, "cublasIdamin");
+  }
+  g_cuda_funcs.cublasIdamax = (typeof(g_cuda_funcs.cublasIdamax))dlsym(g_cublas_handle, "cublasIdamax_v2");
+  if (!g_cuda_funcs.cublasIdamax) {
+    g_cuda_funcs.cublasIdamax = (typeof(g_cuda_funcs.cublasIdamax))dlsym(g_cublas_handle, "cublasIdamax");
+  }
 
-  if (!g_cuda_funcs.cublasCreate || !g_cuda_funcs.cublasDdot || !g_cuda_funcs.cublasDestroy) {
+  if (!g_cuda_funcs.cublasCreate || !g_cuda_funcs.cublasDdot || !g_cuda_funcs.cublasDestroy ||
+      !g_cuda_funcs.cublasIdamin || !g_cuda_funcs.cublasIdamax) {
     fprintf(stderr, "Failed to resolve cuBLAS symbols: %s\n", dlerror());
     dlclose(g_cudss_handle);
     dlclose(g_cusparse_handle);

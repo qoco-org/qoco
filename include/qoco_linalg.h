@@ -345,4 +345,13 @@ void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
  */
 QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n);
 
+/**
+ * @brief Computes the minimum absolute value of x.
+ *
+ * @param x Input vector.
+ * @param n Length of input vector.
+ * @return Minimum absolute value of x.
+ */
+QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n);
+
 #endif /* #ifndef QOCO_LINALG_H*/
