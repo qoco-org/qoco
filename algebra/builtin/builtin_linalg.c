@@ -93,6 +93,13 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
   return &x->data[idx];
 }
 
+void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
+{
+  for (QOCOInt i = 0; i < n; ++i) {
+    z[i] = x[i] * y[i];
+  }
+}
+
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x) { return x->data; }
 
 QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }

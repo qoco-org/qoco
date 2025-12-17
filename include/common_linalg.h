@@ -104,16 +104,6 @@ QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A, QOCOInt* AtoAt);
 void row_col_scale(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D);
 
 /**
- * @brief Computes elementwise product z = x .* y
- *
- * @param x Input array.
- * @param y Input array.
- * @param z Output array.
- * @param n Length of arrays.
- */
-void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n);
-
-/**
  * @brief Inverts permutation vector p and stores inverse in pinv.
  *
  * @param p Input permutation vector.

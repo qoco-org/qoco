@@ -102,6 +102,16 @@ void free_qoco_vectorf(QOCOVectorf* x);
 QOCOInt get_nnz(const QOCOMatrix* A);
 
 /**
+ * @brief Computes elementwise product z = x .* y
+ *
+ * @param x Input array.
+ * @param y Input array.
+ * @param z Output array.
+ * @param n Length of arrays.
+ */
+void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n);
+
+/**
  * @brief Returns x[idx].
  *
  * @param x Input vector.

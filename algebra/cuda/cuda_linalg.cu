@@ -69,6 +69,14 @@ __global__ void axpy_kernel(const QOCOFloat* x, const QOCOFloat* y,
   }
 }
 
+__global__ void ew_product_kernel(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
+{
+  QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
+  if (i < n) {
+      z[i] = x[i] * y[i];
+  }
+}
+
 // Construct A on CPU and create device copy.
 QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 {
@@ -180,21 +188,17 @@ void free_qoco_matrix(QOCOMatrix* A)
     free_qoco_csc_matrix(A->csc);
     
     // Free device CSC matrix
-    if (A->d_csc) {
-      QOCOCscMatrix d_csc_host;
-      // Copy device structure to host to get pointers
-      CUDA_CHECK(cudaMemcpy(&d_csc_host, A->d_csc, sizeof(QOCOCscMatrix), cudaMemcpyDeviceToHost));
-      
-      if (d_csc_host.x) {
-        CUDA_CHECK(cudaFree(d_csc_host.x));
+    if (A->d_csc) {     
+      if (A->d_csc->x) {
+        CUDA_CHECK(cudaFree(A->d_csc->x));
       }
-      if (d_csc_host.i) {
-        CUDA_CHECK(cudaFree(d_csc_host.i));
+      if (A->d_csc->i) {
+        CUDA_CHECK(cudaFree(A->d_csc->i));
       }
-      if (d_csc_host.p) {
-        CUDA_CHECK(cudaFree(d_csc_host.p));
+      if (A->d_csc->p) {
+        CUDA_CHECK(cudaFree(A->d_csc->p));
       }
-      CUDA_CHECK(cudaFree(A->d_csc));
+      qoco_free(A->d_csc);
     }
     
     qoco_free(A);
@@ -404,6 +408,15 @@ void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
     y[i] = x[i];
   }
 }
+
+void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
+{
+  const int threads = 256;
+  const int blocks  = (n + threads - 1) / threads;
+  ew_product_kernel<<<blocks, threads>>>(x, y, z, n);
+  CUDA_CHECK(cudaDeviceSynchronize());
+}
+
 
 // TODO: Don't create and destroy cublas handle for each dot product. One way around this is to create a custom kernel for the dot product. 
 QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)

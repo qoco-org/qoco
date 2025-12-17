@@ -238,13 +238,6 @@ void row_col_scale(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D)
   }
 }
 
-void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
-{
-  for (QOCOInt i = 0; i < n; ++i) {
-    z[i] = x[i] * y[i];
-  }
-}
-
 void invert_permutation(const QOCOInt* p, QOCOInt* pinv, QOCOInt n)
 {
   for (QOCOInt i = 0; i < n; ++i) {

@@ -98,6 +98,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   ruiz_equilibration(data, solver->work->scaling, solver->settings->ruiz_iters);
 
   // Regularize P.
+  set_cpu_mode(1);
   data->Pnzadded_idx = qoco_calloc(n, sizeof(QOCOInt));
   if (P) {
     QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
@@ -119,7 +120,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
     free_qoco_csc_matrix(Pid);
     data->Pnum_nzadded = n;
   }
-  
+  set_cpu_mode(0);
 
   // Compute number of nonzeros in upper triangular NT scaling matrix.
   QOCOInt Wsoc_nnz = 0;
