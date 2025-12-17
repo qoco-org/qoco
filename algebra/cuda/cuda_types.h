@@ -37,7 +37,7 @@ struct QOCOVectorf_ {
 
 struct QOCOMatrix_ {
   QOCOCscMatrix* csc;   // Host pointer
-  QOCOCscMatrix* d_csc; // Device pointer
+  QOCOCscMatrix* d_csc; // Host pointer, but csc arrays are on device.
 };
 
 #endif /* ifndef CUDA_TYPES_H */

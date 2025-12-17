@@ -100,6 +100,8 @@ QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
 // No-op for builtin backend
 void sync_vector_to_host(QOCOVectorf* v) {}
 
+void set_cpu_mode(int active) {}
+
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }
 
 void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)

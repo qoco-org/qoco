@@ -98,8 +98,9 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     M->csc = Mcsc;
 
     // Allocate device CSC matrix
-    QOCOCscMatrix* d_Mcsc;
-    CUDA_CHECK(cudaMalloc(&d_Mcsc, sizeof(QOCOCscMatrix)));
+    // QOCOCscMatrix* d_Mcsc;
+    // CUDA_CHECK(cudaMalloc(&d_Mcsc, sizeof(QOCOCscMatrix)));
+    QOCOCscMatrix* d_Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
     
     QOCOFloat* d_x = NULL;
     QOCOInt* d_p = NULL;
@@ -119,16 +120,15 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     }
 
     // Set up device CSC matrix structure on host (with device pointers)
-    QOCOCscMatrix d_Mcsc_host;
-    d_Mcsc_host.m = m;
-    d_Mcsc_host.n = n;
-    d_Mcsc_host.nnz = nnz;
-    d_Mcsc_host.x = d_x;
-    d_Mcsc_host.i = d_i;
-    d_Mcsc_host.p = d_p;
+    d_Mcsc->m = m;
+    d_Mcsc->n = n;
+    d_Mcsc->nnz = nnz;
+    d_Mcsc->x = d_x;
+    d_Mcsc->i = d_i;
+    d_Mcsc->p = d_p;
 
     // Copy the device CSC matrix structure to device
-    CUDA_CHECK(cudaMemcpy(d_Mcsc, &d_Mcsc_host, sizeof(QOCOCscMatrix), cudaMemcpyHostToDevice));
+    // CUDA_CHECK(cudaMemcpy(d_Mcsc, &d_Mcsc_host, sizeof(QOCOCscMatrix), cudaMemcpyHostToDevice));
     M->d_csc = d_Mcsc;
   }
   else {
@@ -239,7 +239,24 @@ void sync_vector_to_host(QOCOVectorf* v)
   }
 }
 
-QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return (QOCOCscMatrix*)M->d_csc; }
+static int in_cpu_mode = 0;
+
+void set_cpu_mode(int active)
+{
+  in_cpu_mode = active;
+  printf("set_cpu_mode: %d\n", active);
+}
+
+QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) {
+  if (in_cpu_mode) {
+    printf("returning host csc matrix\n");
+    return M->csc;
+  }
+  else {
+    printf("returning device csc matrix\n");
+    return M->d_csc;
+  }
+}
 
 void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)
 {
@@ -406,15 +423,15 @@ QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
   if ((err_u == cudaSuccess && attrs_u.type == cudaMemoryTypeDevice) ||
       (err_v == cudaSuccess && attrs_v.type == cudaMemoryTypeDevice)) {
     // Ensure CUDA libraries are loaded
-    if (!load_cuda_libraries()) {
-      fprintf(stderr, "Failed to load CUDA libraries in qoco_dot\n");
-      // Fallback to CPU implementation
-      QOCOFloat x = 0.0;
-      for (QOCOInt i = 0; i < n; ++i) {
-        x += u[i] * v[i];
-      }
-      return x;
-    }
+    // if (!load_cuda_libraries()) {
+    //   fprintf(stderr, "Failed to load CUDA libraries in qoco_dot\n");
+    //   // Fallback to CPU implementation
+    //   QOCOFloat x = 0.0;
+    //   for (QOCOInt i = 0; i < n; ++i) {
+    //     x += u[i] * v[i];
+    //   }
+    //   return x;
+    // }
     
     CudaLibFuncs* funcs = get_cuda_funcs();
     cublasHandle_t handle;
@@ -591,6 +608,11 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
 
   if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
     printf("Using cuBLAS in inf_norm\n");
+    // Load CUDA libraries dynamically. TODO: This should be done in qoco_setup.
+    if (!load_cuda_libraries()) {
+      fprintf(stderr, "Failed to load CUDA libraries\n");
+      exit(1);
+    }
     CudaLibFuncs* funcs = get_cuda_funcs();
     cublasHandle_t handle;
     funcs->cublasCreate(&handle);
@@ -633,7 +655,11 @@ QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
   // If it succeeds and is on device, use cuBLAS
   if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
     printf("Using cuBLAS in min_abs_val\n");
-
+    // Load CUDA libraries dynamically. TODO: This should be done in qoco_setup.
+    if (!load_cuda_libraries()) {
+      fprintf(stderr, "Failed to load CUDA libraries\n");
+      exit(1);
+    }
     CudaLibFuncs* funcs = get_cuda_funcs();    
     cublasHandle_t handle;
     funcs->cublasCreate(&handle);

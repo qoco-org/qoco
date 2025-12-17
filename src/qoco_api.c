@@ -80,6 +80,8 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->data->AtoAt = qoco_malloc(Annz * sizeof(QOCOInt));
   solver->work->data->GtoGt = qoco_malloc(Gnnz * sizeof(QOCOInt));
 
+  // When creating transposed matrices, get_csc_matrix should return host pointers, since create_transposed_matrix is a host function.
+  set_cpu_mode(1);
   QOCOCscMatrix* Atcsc =
       create_transposed_matrix(get_csc_matrix(data->A), data->AtoAt);
   solver->work->data->At = new_qoco_matrix(Atcsc);
@@ -88,6 +90,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
       create_transposed_matrix(get_csc_matrix(data->G), data->GtoGt);
   solver->work->data->Gt = new_qoco_matrix(Gtcsc);
   free_qoco_csc_matrix(Gtcsc);
+  set_cpu_mode(0);
 
   // Compute scaling statistics before equilibration and regularization.
   compute_scaling_statistics(data);
@@ -116,6 +119,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
     free_qoco_csc_matrix(Pid);
     data->Pnum_nzadded = n;
   }
+  
 
   // Compute number of nonzeros in upper triangular NT scaling matrix.
   QOCOInt Wsoc_nnz = 0;

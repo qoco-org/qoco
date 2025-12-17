@@ -46,6 +46,15 @@ typedef struct {
 } QOCOCscMatrix;
 
 /**
+ * @brief Sets the CPU mode flag (CUDA backend only).
+ * During scaling statistics computation, get_data_vectorf returns host pointers.
+ * This allows CPU access to vector data for statistics computation.
+ *
+ * @param active 1 if CPU mode is active, 0 otherwise.
+ */
+void set_cpu_mode(int active);
+
+/**
  * @brief Allocates a new csc matrix and copies A to it.
  *
  * @param A Matrix to copy.
