@@ -267,9 +267,7 @@ unsigned char check_stopping(QOCOSolver* solver)
 
   // Compute ||P * x||_\infty
   USpMv_matrix(data->P, xdata, xbuff_data);
-  for (QOCOInt i = 0; i < data->n; ++i) {
-    xbuff_data[i] -= solver->settings->kkt_static_reg * xdata[i];
-  }
+  qoco_axpy(xdata, xbuff_data, xbuff_data, -solver->settings->kkt_static_reg, data->n);
   ew_product(xbuff_data, Dinvruiz_data, xbuff_data, data->n);
   QOCOFloat Pxinf = inf_norm(xbuff_data, data->n);
   QOCOFloat xPx = qoco_dot(xdata, xbuff_data, work->data->n);
@@ -343,17 +341,22 @@ unsigned char check_stopping(QOCOSolver* solver)
         dres < eabsinacc + erelinacc * dres_rel &&
         solver->sol->gap < eabsinacc + erelinacc * gap_rel) {
       solver->sol->status = QOCO_SOLVED_INACCURATE;
+      printf("stalled\n");
       return 1;
     }
     else {
       solver->sol->status = QOCO_NUMERICAL_ERROR;
+      printf("numerical error\n");
       return 1;
     }
   }
-
+  printf("pres: %f, pres_rel: %f, eabs: %f, erel: %f\n", pres, pres_rel, eabs, erel);
+  printf("dres: %f, dres_rel: %f, eabsinacc: %f, erelinacc: %f\n", dres, dres_rel, eabsinacc, erelinacc);
+  printf("solver->sol->gap: %f, gap_rel: %f, eabsinacc: %f, erelinacc: %f\n", solver->sol->gap, gap_rel, eabsinacc, erelinacc);
   if (pres < eabs + erel * pres_rel && dres < eabs + erel * dres_rel &&
       solver->sol->gap < eabs + erel * gap_rel) {
     solver->sol->status = QOCO_SOLVED;
+    printf("solved inaccurately\n");
     return 1;
   }
   return 0;

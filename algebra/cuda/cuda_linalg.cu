@@ -447,34 +447,28 @@ QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
   if (n == 0)
     return 0.0;
 
-  // Check if pointers are on device - handle errors gracefully
+  // Check if pointers are on device
   cudaPointerAttributes attrs_u, attrs_v;
   cudaError_t err_u = cudaPointerGetAttributes(&attrs_u, u);
   cudaError_t err_v = cudaPointerGetAttributes(&attrs_v, v);
+  int u_is_device = (err_u == cudaSuccess && attrs_u.type == cudaMemoryTypeDevice);
+  int v_is_device = (err_v == cudaSuccess && attrs_v.type == cudaMemoryTypeDevice);
 
-  // If either pointer check fails or one is on device, use CUDA
-  if ((err_u == cudaSuccess && attrs_u.type == cudaMemoryTypeDevice) ||
-      (err_v == cudaSuccess && attrs_v.type == cudaMemoryTypeDevice)) {
-    // Ensure CUDA libraries are loaded
-    if (!load_cuda_libraries()) {
-      fprintf(stderr, "Failed to load CUDA libraries in qoco_dot\n");
-      // Fallback to CPU implementation
-      QOCOFloat x = 0.0;
-      for (QOCOInt i = 0; i < n; ++i) {
-        x += u[i] * v[i];
-      }
-      return x;
+  // If any are device, copy both to host and compute
+  if (u_is_device || v_is_device) {
+    QOCOFloat* u_host = (QOCOFloat*)qoco_malloc(n * sizeof(QOCOFloat));
+    QOCOFloat* v_host = (QOCOFloat*)qoco_malloc(n * sizeof(QOCOFloat));
+    CUDA_CHECK(cudaMemcpy(u_host, u, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+    CUDA_CHECK(cudaMemcpy(v_host, v, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+
+    QOCOFloat x = 0.0;
+    for (QOCOInt i = 0; i < n; ++i) {
+      x += u_host[i] * v_host[i];
     }
-    
-    CudaLibFuncs* funcs = get_cuda_funcs();
-    cublasHandle_t handle;
-    funcs->cublasCreate(&handle);
-    QOCOFloat result;
-    funcs->cublasDdot(handle, n, (const double*)u, 1, (const double*)v, 1, (double*)&result);
-    funcs->cublasDestroy(handle);
-    return result;
-  }
-  else {
+    qoco_free(u_host);
+    qoco_free(v_host);
+    return x;
+  } else {
     QOCOFloat x = 0.0;
     for (QOCOInt i = 0; i < n; ++i) {
       x += u[i] * v[i];
@@ -981,11 +975,31 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
 {
   qoco_assert(x || n == 0);
 
-  QOCOFloat norm = 0.0;
-  QOCOFloat xi;
-  for (QOCOInt i = 0; i < n; ++i) {
-    xi = qoco_abs(x[i]);
-    norm = qoco_max(norm, xi);
+  // Detect memory space of x
+  cudaPointerAttributes attrs_x;
+  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
+  int x_is_device = (err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice);
+  if (x_is_device) {
+    // Copy to host and compute norm
+    QOCOFloat* x_host = (QOCOFloat*)qoco_malloc(n * sizeof(QOCOFloat));
+    CUDA_CHECK(cudaMemcpy(x_host, x, n * sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+
+    QOCOFloat norm = 0.0;
+    for (QOCOInt i = 0; i < n; ++i) {
+      QOCOFloat xi = qoco_abs(x_host[i]);
+      norm = qoco_max(norm, xi);
+    }
+
+    qoco_free(x_host);
+
+    return norm;
   }
-  return norm;
+  else {
+    QOCOFloat norm = 0.0;
+    for (QOCOInt i = 0; i < n; ++i) {
+      QOCOFloat xi = qoco_abs(x[i]);
+      norm = qoco_max(norm, xi);
+    }
+    return norm;
+  }
 }
