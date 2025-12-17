@@ -121,6 +121,12 @@ if(NOT DEFINED QOCO_ALGEBRA_BACKEND)
     set(QOCO_ALGEBRA_BACKEND "builtin" CACHE STRING "The Algebra to use")
 endif()
 message(STATUS "Using ${QOCO_ALGEBRA_BACKEND} algebra")
+# Propagate backend choice to all targets
+if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    add_compile_definitions(QOCO_ALGEBRA_BACKEND_CUDA)
+else()
+    add_compile_definitions(QOCO_ALGEBRA_BACKEND_BUILTIN)
+endif()
 
 # Enable CUDA if using CUDA backend
 if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")

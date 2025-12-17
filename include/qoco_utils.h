@@ -37,6 +37,10 @@ void print_qoco_csc_matrix(QOCOCscMatrix* M);
  * @param n Number of elements in array.
  */
 void print_arrayf(QOCOFloat* x, QOCOInt n);
+/**
+ * @brief Syncs a vector to host and prints its contents.
+ */
+void print_vectorf(const QOCOVectorf* v);
 
 /**
  * @brief Prints array of QOCOInts.

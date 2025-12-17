@@ -1,1 +1,1 @@
-export CXX=/usr/bin/clang++ && export CC=/usr/bin/clang && cd build && cmake -DQOCO_BUILD_TYPE:STR=Release -DENABLE_TESTING:BOOL=True -DBUILD_QOCO_BENCHMARK_RUNNER:BOOL=True -DQOCO_ALGEBRA_BACKEND:str="cuda" .. && make -j$(nproc) && ctest --verbose && cd ..
+export CXX=/usr/bin/clang++ && export CC=/usr/bin/clang && cd build && cmake -DQOCO_BUILD_TYPE:STR=Release -DENABLE_TESTING:BOOL=True -DBUILD_QOCO_BENCHMARK_RUNNER:BOOL=True -DQOCO_ALGEBRA_BACKEND:str="cuda" -DCMAKE_CUDA_COMPILER=/usr/local/cuda-13.0/bin/nvcc .. && make -j$(nproc) && ctest --verbose && cd ..

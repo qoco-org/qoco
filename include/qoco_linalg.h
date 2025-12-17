@@ -20,6 +20,8 @@ typedef struct QOCOMatrix_ QOCOMatrix;
 typedef struct QOCOVectorf_ QOCOVectorf;
 typedef struct QOCOVectori_ QOCOVectori;
 
+void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n);
+
 /**
  * @brief Compressed sparse column format matrices.
  *
@@ -143,6 +145,7 @@ QOCOFloat* get_data_vectorf(const QOCOVectorf* x);
  * @param v Input vector.
  */
 void sync_vector_to_host(QOCOVectorf* v);
+void sync_vector_to_device(const QOCOVectorf* v);
 
 /**
  * @brief Sets the solve phase flag (CUDA backend only).
@@ -152,6 +155,15 @@ void sync_vector_to_host(QOCOVectorf* v);
  * @param active 1 if solve phase is active, 0 otherwise.
  */
 void set_solve_phase(int active);
+
+/**
+ * @brief Sets the scaling statistics mode flag (CUDA backend only).
+ * During scaling statistics computation, get_data_vectorf returns host pointers.
+ * This allows CPU access to vector data for statistics computation.
+ *
+ * @param active 1 if scaling statistics mode is active, 0 otherwise.
+ */
+void set_scaling_statistics_mode(int active);
 
 /**
  * @brief Returns the length of a QOCOVectorf.
