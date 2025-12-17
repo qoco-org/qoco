@@ -380,7 +380,9 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   linsys_data->GttoKKT =
       (QOCOInt*)qoco_calloc(get_nnz(data->G), sizeof(QOCOInt));
 
-  // Construct KKT matrix (no permutation for CUDA backend)
+  // Construct KKT matrix (no permutation for CUDA backend).
+  // Need to set CPU mode to 1 so get_csc_matrix returns host pointers, since construct_kkt is a host function.
+  set_cpu_mode(1);
   QOCOCscMatrix* Kcsc = construct_kkt(
       get_csc_matrix(data->P), get_csc_matrix(data->A),
       get_csc_matrix(data->G), get_csc_matrix(data->At),
@@ -388,6 +390,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       data->p, data->l, data->nsoc, data->q, linsys_data->PregtoKKT,
       linsys_data->AttoKKT, linsys_data->GttoKKT, linsys_data->nt2kkt,
       linsys_data->ntdiag2kkt, Wnnz);
+  set_cpu_mode(0);
 
   // Convert KKT matrix from CSC (CPU) to CSR (GPU) for cuDSS
   QOCOInt* csr_row_ptr;
