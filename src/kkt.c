@@ -165,17 +165,18 @@ void initialize_ipm(QOCOSolver* solver)
 
   // Set Nesterov-Todd block in Wfull to -I (need for kkt_multiply in iterative
   // refinement).
+  QOCOFloat* Wfull = get_data_vectorf(solver->work->Wfull);
   for (QOCOInt i = 0; i < solver->work->Wnnzfull; ++i) {
-    solver->work->Wfull[i] = 0.0;
+    Wfull[i] = 0.0;
   }
   for (QOCOInt i = 0; i < solver->work->data->l; ++i) {
-    solver->work->Wfull[i] = 1.0;
+    Wfull[i] = 1.0;
   }
   QOCOInt idx = solver->work->data->l;
   for (QOCOInt i = 0; i < solver->work->data->nsoc; ++i) {
     for (QOCOInt k = 0; k < solver->work->data->q[i]; ++k) {
       for (QOCOInt l = 0; l < solver->work->data->q[i]; ++l) {
-        solver->work->Wfull[idx + k * solver->work->data->q[i] + k] = 1.0;
+        Wfull[idx + k * solver->work->data->q[i] + k] = 1.0;
       }
     }
     idx += solver->work->data->q[i] * solver->work->data->q[i];
@@ -283,17 +284,21 @@ QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
 void construct_kkt_aff_rhs(QOCOWorkspace* work)
 {
   QOCOFloat* rhs = get_data_vectorf(work->rhs);
+  QOCOFloat* kktres = get_data_vectorf(work->kktres);
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* lambda = get_data_vectorf(work->lambda);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
 
   // Negate the kkt residual and store in rhs.
-  copy_and_negate_arrayf(work->kktres, rhs,
+  copy_and_negate_arrayf(kktres, rhs,
                          work->data->n + work->data->p + work->data->m);
 
   // Compute W*lambda
-  nt_multiply(work->Wfull, work->lambda, work->ubuff1, work->data->l,
+  nt_multiply(Wfull, lambda, ubuff1, work->data->l,
               work->data->m, work->data->nsoc, work->data->q);
 
   // Add W*lambda to z portion of rhs.
-  qoco_axpy(work->ubuff1, &rhs[work->data->n + work->data->p],
+  qoco_axpy(ubuff1, &rhs[work->data->n + work->data->p],
             &rhs[work->data->n + work->data->p], 1.0, work->data->m);
 }
 
@@ -301,63 +306,77 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
 {
   QOCOFloat* rhs = get_data_vectorf(work->rhs);
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
+  QOCOFloat* kktres = get_data_vectorf(work->kktres);
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* Winvfull = get_data_vectorf(work->Winvfull);
+  QOCOFloat* Ds = get_data_vectorf(work->Ds);
+  QOCOFloat* lambda = get_data_vectorf(work->lambda);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
+  QOCOFloat* ubuff3 = get_data_vectorf(work->ubuff3);
 
   // Negate the kkt residual and store in rhs.
-  copy_and_negate_arrayf(work->kktres, rhs,
+  copy_and_negate_arrayf(kktres, rhs,
                          work->data->n + work->data->p + work->data->m);
 
   /// ds = -cone_product(lambda, lambda) - settings.mehrotra *
   /// cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
 
   // ubuff1 = Winv * Dsaff.
-  nt_multiply(work->Winvfull, work->Ds, work->ubuff1, work->data->l,
+  nt_multiply(Winvfull, Ds, ubuff1, work->data->l,
               work->data->m, work->data->nsoc, work->data->q);
 
   // ubuff2 = W * Dzaff.
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
-  nt_multiply(work->Wfull, Dzaff, work->ubuff2, work->data->l, work->data->m,
+  nt_multiply(Wfull, Dzaff, ubuff2, work->data->l, work->data->m,
               work->data->nsoc, work->data->q);
 
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata).
-  cone_product(work->ubuff1, work->ubuff2, work->ubuff3, work->data->l,
+  cone_product(ubuff1, ubuff2, ubuff3, work->data->l,
                work->data->nsoc, work->data->q);
 
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata) - sigma * mu * e.
   QOCOFloat sm = work->sigma * work->mu;
   QOCOInt idx = 0;
   for (idx = 0; idx < work->data->l; ++idx) {
-    work->ubuff3[idx] -= sm;
+    ubuff3[idx] -= sm;
   }
   for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
-    work->ubuff3[idx] -= sm;
+    ubuff3[idx] -= sm;
     idx += work->data->q[i];
   }
   // ubuff1 = lambda * lambda.
-  cone_product(work->lambda, work->lambda, work->ubuff1, work->data->l,
+  cone_product(lambda, lambda, ubuff1, work->data->l,
                work->data->nsoc, work->data->q);
 
   // Ds = -cone_product(lambda, lambda) - settings.mehrotra *
   // cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
 
-  copy_and_negate_arrayf(work->ubuff1, work->Ds, work->data->m);
-  qoco_axpy(work->ubuff3, work->Ds, work->Ds, -1.0, work->data->m);
+  copy_and_negate_arrayf(ubuff1, Ds, work->data->m);
+  qoco_axpy(ubuff3, Ds, Ds, -1.0, work->data->m);
 
   // ubuff2 = cone_division(lambda, ds).
-  cone_division(work->lambda, work->Ds, work->ubuff2, work->data->l,
+  cone_division(lambda, Ds, ubuff2, work->data->l,
                 work->data->nsoc, work->data->q);
 
   // ubuff1 = W * cone_division(lambda, ds).
-  nt_multiply(work->Wfull, work->ubuff2, work->ubuff1, work->data->l,
+  nt_multiply(Wfull, ubuff2, ubuff1, work->data->l,
               work->data->m, work->data->nsoc, work->data->q);
 
   // rhs = [dx;dy;dz-W'*cone_division(lambda, ds, pdata)];
-  qoco_axpy(work->ubuff1, &rhs[work->data->n + work->data->p],
+  qoco_axpy(ubuff1, &rhs[work->data->n + work->data->p],
             &rhs[work->data->n + work->data->p], -1.0, work->data->m);
 }
 
 void predictor_corrector(QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* lambda = get_data_vectorf(work->lambda);
+  QOCOFloat* Ds = get_data_vectorf(work->Ds);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
+  QOCOFloat* ubuff3 = get_data_vectorf(work->ubuff3);
 
   // Factor KKT matrix.
   solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
@@ -374,12 +393,12 @@ void predictor_corrector(QOCOSolver* solver)
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
-  nt_multiply(work->Wfull, Dzaff, work->ubuff1, work->data->l, work->data->m,
+  nt_multiply(Wfull, Dzaff, ubuff1, work->data->l, work->data->m,
               work->data->nsoc, work->data->q);
   for (QOCOInt i = 0; i < work->data->m; ++i) {
-    work->ubuff1[i] = -work->lambda[i] - work->ubuff1[i];
+    ubuff1[i] = -lambda[i] - ubuff1[i];
   }
-  nt_multiply(work->Wfull, work->ubuff1, work->Ds, work->data->l, work->data->m,
+  nt_multiply(Wfull, ubuff1, Ds, work->data->l, work->data->m,
               work->data->nsoc, work->data->q);
 
   // Compute centering parameter.
@@ -406,18 +425,18 @@ void predictor_corrector(QOCOSolver* solver)
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
   // computed in construct_kkt_comb_rhs() and stored in work->Ds.
   QOCOFloat* Dz = &xyz[work->data->n + work->data->p];
-  cone_division(work->lambda, work->Ds, work->ubuff1, work->data->l,
+  cone_division(lambda, Ds, ubuff1, work->data->l,
                 work->data->nsoc, work->data->q);
-  nt_multiply(work->Wfull, Dz, work->ubuff2, work->data->l, work->data->m,
+  nt_multiply(Wfull, Dz, ubuff2, work->data->l, work->data->m,
               work->data->nsoc, work->data->q);
 
-  qoco_axpy(work->ubuff2, work->ubuff1, work->ubuff3, -1.0, work->data->m);
-  nt_multiply(work->Wfull, work->ubuff3, work->Ds, work->data->l, work->data->m,
+  qoco_axpy(ubuff2, ubuff1, ubuff3, -1.0, work->data->m);
+  nt_multiply(Wfull, ubuff3, Ds, work->data->l, work->data->m,
               work->data->nsoc, work->data->q);
 
   // Compute step-size.
   QOCOFloat a =
-      qoco_min(linesearch(get_data_vectorf(work->s), work->Ds, 0.99, solver),
+      qoco_min(linesearch(get_data_vectorf(work->s), Ds, 0.99, solver),
                linesearch(get_data_vectorf(work->z), Dz, 0.99, solver));
 
   // Save step-size.
@@ -426,7 +445,6 @@ void predictor_corrector(QOCOSolver* solver)
   // Update iterates.
   QOCOFloat* Dx = xyz;
   QOCOFloat* Dy = &xyz[work->data->n];
-  QOCOFloat* Ds = work->Ds;
 
   qoco_axpy(Dx, get_data_vectorf(work->x), get_data_vectorf(work->x), a,
             work->data->n);

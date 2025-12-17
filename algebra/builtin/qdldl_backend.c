@@ -198,6 +198,10 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
               linsys_data->Lx, linsys_data->Dinv, linsys_data->xyzbuff1);
 
   // Iterative refinement.
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
   for (QOCOInt i = 0; i < iter_ref_iters; ++i) {
     // r = b - K * x
 
@@ -205,8 +209,8 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
       x[linsys_data->p[k]] = linsys_data->xyzbuff1[k];
     }
 
-    kkt_multiply(x, linsys_data->xyzbuff2, work->data, work->Wfull, work->xbuff,
-                 work->ubuff1, work->ubuff2);
+    kkt_multiply(x, linsys_data->xyzbuff2, work->data, Wfull, xbuff, ubuff1,
+                 ubuff2);
     for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
       x[k] = linsys_data->xyzbuff2[linsys_data->p[k]];
     }

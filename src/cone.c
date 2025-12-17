@@ -171,15 +171,23 @@ void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
 
 void compute_nt_scaling(QOCOWorkspace* work)
 {
+  QOCOFloat* W = get_data_vectorf(work->W);
+  QOCOFloat* WtW = get_data_vectorf(work->WtW);
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* Winv = get_data_vectorf(work->Winv);
+  QOCOFloat* Winvfull = get_data_vectorf(work->Winvfull);
+  QOCOFloat* sbar = get_data_vectorf(work->sbar);
+  QOCOFloat* zbar = get_data_vectorf(work->zbar);
+  QOCOFloat* lambda = get_data_vectorf(work->lambda);
   // Compute Nesterov-Todd scaling for LP cone.
   QOCOInt idx;
   for (idx = 0; idx < work->data->l; ++idx) {
-    work->WtW[idx] = safe_div(get_element_vectorf(work->s, idx),
-                              get_element_vectorf(work->z, idx));
-    work->W[idx] = qoco_sqrt(work->WtW[idx]);
-    work->Wfull[idx] = work->W[idx];
-    work->Winv[idx] = safe_div(1.0, work->W[idx]);
-    work->Winvfull[idx] = work->Winv[idx];
+    WtW[idx] =
+        safe_div(get_element_vectorf(work->s, idx), get_element_vectorf(work->z, idx));
+    W[idx] = qoco_sqrt(WtW[idx]);
+    Wfull[idx] = W[idx];
+    Winv[idx] = safe_div(1.0, W[idx]);
+    Winvfull[idx] = Winv[idx];
   }
 
   // Compute Nesterov-Todd scaling for second-order cones.
@@ -191,32 +199,32 @@ void compute_nt_scaling(QOCOWorkspace* work)
         soc_residual2(get_pointer_vectorf(work->s, idx), work->data->q[i]);
     s_scal = qoco_sqrt(s_scal);
     QOCOFloat f = safe_div(1.0, s_scal);
-    scale_arrayf(get_pointer_vectorf(work->s, idx), work->sbar, f,
+    scale_arrayf(get_pointer_vectorf(work->s, idx), sbar, f,
                  work->data->q[i]);
 
     QOCOFloat z_scal =
         soc_residual2(get_pointer_vectorf(work->z, idx), work->data->q[i]);
     z_scal = qoco_sqrt(z_scal);
     f = safe_div(1.0, z_scal);
-    scale_arrayf(get_pointer_vectorf(work->z, idx), work->zbar, f,
+    scale_arrayf(get_pointer_vectorf(work->z, idx), zbar, f,
                  work->data->q[i]);
 
     QOCOFloat gamma = qoco_sqrt(
-        0.5 * (1 + qoco_dot(work->sbar, work->zbar, work->data->q[i])));
+        0.5 * (1 + qoco_dot(sbar, zbar, work->data->q[i])));
 
     f = safe_div(1.0, (2 * gamma));
 
     // Overwrite sbar with wbar.
-    work->sbar[0] = f * (work->sbar[0] + work->zbar[0]);
+    sbar[0] = f * (sbar[0] + zbar[0]);
     for (QOCOInt j = 1; j < work->data->q[i]; ++j) {
-      work->sbar[j] = f * (work->sbar[j] - work->zbar[j]);
+      sbar[j] = f * (sbar[j] - zbar[j]);
     }
 
     // Overwrite zbar with v.
-    f = safe_div(1.0, qoco_sqrt(2 * (work->sbar[0] + 1)));
-    work->zbar[0] = f * (work->sbar[0] + 1.0);
+    f = safe_div(1.0, qoco_sqrt(2 * (sbar[0] + 1)));
+    zbar[0] = f * (sbar[0] + 1.0);
     for (QOCOInt j = 1; j < work->data->q[i]; ++j) {
-      work->zbar[j] = f * work->sbar[j];
+      zbar[j] = f * sbar[j];
     }
 
     // Compute W for second-order cones.
@@ -227,27 +235,27 @@ void compute_nt_scaling(QOCOWorkspace* work)
       for (QOCOInt k = 0; k <= j; ++k) {
         QOCOInt full_idx1 = nt_idx_full + j * work->data->q[i] + k;
         QOCOInt full_idx2 = nt_idx_full + k * work->data->q[i] + j;
-        work->W[nt_idx + shift] = 2 * (work->zbar[k] * work->zbar[j]);
+        W[nt_idx + shift] = 2 * (zbar[k] * zbar[j]);
         if (j != 0 && k == 0) {
-          work->Winv[nt_idx + shift] = -work->W[nt_idx + shift];
+          Winv[nt_idx + shift] = -W[nt_idx + shift];
         }
         else {
-          work->Winv[nt_idx + shift] = work->W[nt_idx + shift];
+          Winv[nt_idx + shift] = W[nt_idx + shift];
         }
         if (j == k && j == 0) {
-          work->W[nt_idx + shift] -= 1;
-          work->Winv[nt_idx + shift] -= 1;
+          W[nt_idx + shift] -= 1;
+          Winv[nt_idx + shift] -= 1;
         }
         else if (j == k) {
-          work->W[nt_idx + shift] += 1;
-          work->Winv[nt_idx + shift] += 1;
+          W[nt_idx + shift] += 1;
+          Winv[nt_idx + shift] += 1;
         }
-        work->W[nt_idx + shift] *= f;
-        work->Winv[nt_idx + shift] *= finv;
-        work->Wfull[full_idx1] = work->W[nt_idx + shift];
-        work->Wfull[full_idx2] = work->W[nt_idx + shift];
-        work->Winvfull[full_idx1] = work->Winv[nt_idx + shift];
-        work->Winvfull[full_idx2] = work->Winv[nt_idx + shift];
+        W[nt_idx + shift] *= f;
+        Winv[nt_idx + shift] *= finv;
+        Wfull[full_idx1] = W[nt_idx + shift];
+        Wfull[full_idx2] = W[nt_idx + shift];
+        Winvfull[full_idx1] = Winv[nt_idx + shift];
+        Winvfull[full_idx2] = Winv[nt_idx + shift];
         shift += 1;
       }
     }
@@ -256,9 +264,9 @@ void compute_nt_scaling(QOCOWorkspace* work)
     shift = 0;
     for (QOCOInt j = 0; j < work->data->q[i]; ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
-        work->WtW[nt_idx + shift] = qoco_dot(
-            &work->Wfull[nt_idx_full + j * work->data->q[i]],
-            &work->Wfull[nt_idx_full + k * work->data->q[i]], work->data->q[i]);
+        WtW[nt_idx + shift] = qoco_dot(
+            &Wfull[nt_idx_full + j * work->data->q[i]],
+            &Wfull[nt_idx_full + k * work->data->q[i]], work->data->q[i]);
         shift += 1;
       }
     }
@@ -269,7 +277,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
   }
 
   // Compute scaled variable lambda. lambda = W * z.
-  nt_multiply(work->Wfull, get_pointer_vectorf(work->z, 0), work->lambda,
+  nt_multiply(Wfull, get_pointer_vectorf(work->z, 0), lambda,
               work->data->l, work->data->m, work->data->nsoc, work->data->q);
 }
 
@@ -277,17 +285,20 @@ void compute_centering(QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
+  QOCOFloat* Ds = get_data_vectorf(work->Ds);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
   QOCOFloat a = qoco_min(
       linesearch(get_pointer_vectorf(work->z, 0), Dzaff, 1.0, solver),
-      linesearch(get_pointer_vectorf(work->s, 0), work->Ds, 1.0, solver));
+      linesearch(get_pointer_vectorf(work->s, 0), Ds, 1.0, solver));
 
   // Compute rho. rho = ((s + a * Ds)'*(z + a * Dz)) / (s'*z).
-  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), work->ubuff1, a,
+  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), ubuff1, a,
             work->data->m);
-  qoco_axpy(work->Ds, get_pointer_vectorf(work->s, 0), work->ubuff2, a,
+  qoco_axpy(Ds, get_pointer_vectorf(work->s, 0), ubuff2, a,
             work->data->m);
-  QOCOFloat rho = qoco_dot(work->ubuff1, work->ubuff2, work->data->m) /
+  QOCOFloat rho = qoco_dot(ubuff1, ubuff2, work->data->m) /
                   qoco_dot(get_pointer_vectorf(work->z, 0),
                            get_pointer_vectorf(work->s, 0), work->data->m);
 
@@ -313,14 +324,15 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                            QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
 
   QOCOFloat al = 0.0;
   QOCOFloat au = 1.0;
   QOCOFloat a = 0.0;
   for (QOCOInt i = 0; i < solver->settings->bisect_iters; ++i) {
     a = 0.5 * (al + au);
-    qoco_axpy(Du, u, work->ubuff1, safe_div(a, f), work->data->m);
-    if (cone_residual(work->ubuff1, work->data->l, work->data->nsoc,
+    qoco_axpy(Du, u, ubuff1, safe_div(a, f), work->data->m);
+    if (cone_residual(ubuff1, work->data->l, work->data->nsoc,
                       work->data->q) >= 0) {
       au = a;
     }

@@ -213,48 +213,48 @@ typedef struct {
   QOCOInt Wnnzfull;
 
   /** Upper triangular part of Nesterov-Todd Scaling */
-  QOCOFloat* W;
+  QOCOVectorf* W;
 
   /** Full Nesterov-Todd Scaling */
-  QOCOFloat* Wfull;
+  QOCOVectorf* Wfull;
 
   /** Upper triangular part of inverse of Nesterov-Todd Scaling */
-  QOCOFloat* Winv;
+  QOCOVectorf* Winv;
 
   /** Full inverse of Nesterov-Todd Scaling */
-  QOCOFloat* Winvfull;
+  QOCOVectorf* Winvfull;
 
   /** Nesterov-Todd Scaling squared */
-  QOCOFloat* WtW;
+  QOCOVectorf* WtW;
 
   /** Scaled variables. */
-  QOCOFloat* lambda;
+  QOCOVectorf* lambda;
 
   /** Temporary array needed in Nesterov-Todd scaling calculations. Length of
    * max(q). */
-  QOCOFloat* sbar;
+  QOCOVectorf* sbar;
 
   /** Temporary array needed in Nesterov-Todd scaling calculations. Length of
    * max(q). */
-  QOCOFloat* zbar;
+  QOCOVectorf* zbar;
 
   /** Temporary variable of length n. */
-  QOCOFloat* xbuff;
+  QOCOVectorf* xbuff;
 
   /** Temporary variable of length p. */
-  QOCOFloat* ybuff;
+  QOCOVectorf* ybuff;
 
   /** Temporary variable of length m. */
-  QOCOFloat* ubuff1;
+  QOCOVectorf* ubuff1;
 
   /** Temporary variable of length m. */
-  QOCOFloat* ubuff2;
+  QOCOVectorf* ubuff2;
 
   /** Temporary variable of length m. */
-  QOCOFloat* ubuff3;
+  QOCOVectorf* ubuff3;
 
   /** Search direction for slack variables. Length of m. */
-  QOCOFloat* Ds;
+  QOCOVectorf* Ds;
 
   /** RHS of KKT system. */
   QOCOVectorf* rhs;
@@ -263,13 +263,13 @@ typedef struct {
   QOCOVectorf* xyz;
 
   /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff1;
+  QOCOVectorf* xyzbuff1;
 
   /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff2;
+  QOCOVectorf* xyzbuff2;
 
   /** Residual of KKT condition. */
-  QOCOFloat* kktres;
+  QOCOVectorf* kktres;
 
 } QOCOWorkspace;
 

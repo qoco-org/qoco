@@ -148,33 +148,30 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
     Wnnzfull += data->q[i] * data->q[i];
   }
 
-  solver->work->W = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
-  solver->work->Wfull = qoco_malloc(Wnnzfull * sizeof(QOCOFloat));
-  for (QOCOInt i = 0; i < Wnnzfull; ++i) {
-    solver->work->Wfull[i] = 0.0;
-  }
+  solver->work->W = new_qoco_vectorf(NULL, solver->work->Wnnz);
+  solver->work->Wfull = new_qoco_vectorf(NULL, Wnnzfull);
   solver->work->Wnnzfull = Wnnzfull;
-  solver->work->Winv = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
-  solver->work->Winvfull = qoco_malloc(Wnnzfull * sizeof(QOCOFloat));
-  solver->work->WtW = qoco_malloc(solver->work->Wnnz * sizeof(QOCOFloat));
-  solver->work->lambda = qoco_malloc(m * sizeof(QOCOFloat));
+  solver->work->Winv = new_qoco_vectorf(NULL, solver->work->Wnnz);
+  solver->work->Winvfull = new_qoco_vectorf(NULL, Wnnzfull);
+  solver->work->WtW = new_qoco_vectorf(NULL, solver->work->Wnnz);
+  solver->work->lambda = new_qoco_vectorf(NULL, m);
   QOCOInt qmax = 0;
   if (solver->work->data->nsoc) {
     qmax = max_arrayi(solver->work->data->q, solver->work->data->nsoc);
   }
-  solver->work->sbar = qoco_malloc(qmax * sizeof(QOCOFloat));
-  solver->work->zbar = qoco_malloc(qmax * sizeof(QOCOFloat));
-  solver->work->xbuff = qoco_malloc(n * sizeof(QOCOFloat));
-  solver->work->ybuff = qoco_malloc(p * sizeof(QOCOFloat));
-  solver->work->ubuff1 = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->ubuff2 = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->ubuff3 = qoco_malloc(m * sizeof(QOCOFloat));
-  solver->work->Ds = qoco_malloc(m * sizeof(QOCOFloat));
+  solver->work->sbar = new_qoco_vectorf(NULL, qmax);
+  solver->work->zbar = new_qoco_vectorf(NULL, qmax);
+  solver->work->xbuff = new_qoco_vectorf(NULL, n);
+  solver->work->ybuff = new_qoco_vectorf(NULL, p);
+  solver->work->ubuff1 = new_qoco_vectorf(NULL, m);
+  solver->work->ubuff2 = new_qoco_vectorf(NULL, m);
+  solver->work->ubuff3 = new_qoco_vectorf(NULL, m);
+  solver->work->Ds = new_qoco_vectorf(NULL, m);
   solver->work->rhs = new_qoco_vectorf(NULL, n + m + p);
-  solver->work->kktres = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->kktres = new_qoco_vectorf(NULL, n + m + p);
   solver->work->xyz = new_qoco_vectorf(NULL, n + m + p);
-  solver->work->xyzbuff1 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
-  solver->work->xyzbuff2 = qoco_malloc((n + m + p) * sizeof(QOCOFloat));
+  solver->work->xyzbuff1 = new_qoco_vectorf(NULL, n + m + p);
+  solver->work->xyzbuff2 = new_qoco_vectorf(NULL, n + m + p);
 
   // Allocate solution struct.
   solver->sol = qoco_malloc(sizeof(QOCOSolution));
@@ -398,15 +395,17 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
     // Compute kkt residual.
-    compute_kkt_residual(data, get_data_vectorf(work->x),
-                         get_data_vectorf(work->y), get_data_vectorf(work->s),
-                         get_data_vectorf(work->z), work->kktres,
-                         solver->settings->kkt_static_reg, work->xyzbuff1,
-                         work->xbuff, work->ubuff1, work->ubuff2);
+    compute_kkt_residual(
+        data, get_data_vectorf(work->x), get_data_vectorf(work->y),
+        get_data_vectorf(work->s), get_data_vectorf(work->z),
+        get_data_vectorf(work->kktres), solver->settings->kkt_static_reg,
+        get_data_vectorf(work->xyzbuff1), get_data_vectorf(work->xbuff),
+        get_data_vectorf(work->ubuff1), get_data_vectorf(work->ubuff2));
 
     // Compute objective function.
     solver->sol->obj =
-        compute_objective(data, get_data_vectorf(work->x), work->xbuff,
+        compute_objective(data, get_data_vectorf(work->x),
+                          get_data_vectorf(work->xbuff),
                           solver->settings->kkt_static_reg, work->scaling->k);
 
     // Compute mu = s'*z / m.
@@ -431,7 +430,8 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     compute_nt_scaling(work);
 
     // Update Nestrov-Todd block of KKT matrix.
-    solver->linsys->linsys_update_nt(solver->linsys_data, work->WtW,
+    solver->linsys->linsys_update_nt(solver->linsys_data,
+                                     get_data_vectorf(work->WtW),
                                      solver->settings->kkt_static_reg, data->m);
 
     // Perform predictor-corrector.
@@ -480,30 +480,30 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
 
   // Free primal and dual variables.
   free_qoco_vectorf(solver->work->rhs);
-  qoco_free(solver->work->kktres);
+  free_qoco_vectorf(solver->work->kktres);
   free_qoco_vectorf(solver->work->xyz);
-  qoco_free(solver->work->xyzbuff1);
-  qoco_free(solver->work->xyzbuff2);
+  free_qoco_vectorf(solver->work->xyzbuff1);
+  free_qoco_vectorf(solver->work->xyzbuff2);
   free_qoco_vectorf(solver->work->x);
   free_qoco_vectorf(solver->work->s);
   free_qoco_vectorf(solver->work->y);
   free_qoco_vectorf(solver->work->z);
 
   // Free Nesterov-Todd scalings and scaled variables.
-  qoco_free(solver->work->W);
-  qoco_free(solver->work->Wfull);
-  qoco_free(solver->work->Winv);
-  qoco_free(solver->work->Winvfull);
-  qoco_free(solver->work->WtW);
-  qoco_free(solver->work->lambda);
-  qoco_free(solver->work->sbar);
-  qoco_free(solver->work->zbar);
-  qoco_free(solver->work->xbuff);
-  qoco_free(solver->work->ybuff);
-  qoco_free(solver->work->ubuff1);
-  qoco_free(solver->work->ubuff2);
-  qoco_free(solver->work->ubuff3);
-  qoco_free(solver->work->Ds);
+  free_qoco_vectorf(solver->work->W);
+  free_qoco_vectorf(solver->work->Wfull);
+  free_qoco_vectorf(solver->work->Winv);
+  free_qoco_vectorf(solver->work->Winvfull);
+  free_qoco_vectorf(solver->work->WtW);
+  free_qoco_vectorf(solver->work->lambda);
+  free_qoco_vectorf(solver->work->sbar);
+  free_qoco_vectorf(solver->work->zbar);
+  free_qoco_vectorf(solver->work->xbuff);
+  free_qoco_vectorf(solver->work->ybuff);
+  free_qoco_vectorf(solver->work->ubuff1);
+  free_qoco_vectorf(solver->work->ubuff2);
+  free_qoco_vectorf(solver->work->ubuff3);
+  free_qoco_vectorf(solver->work->Ds);
 
   // Free scaling struct.
   free_qoco_vectorf(solver->work->scaling->delta);
