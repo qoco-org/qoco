@@ -155,6 +155,17 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
   reciprocal_vectorf(scaling->Eruiz, scaling->Einvruiz);
   reciprocal_vectorf(scaling->Fruiz, scaling->Finvruiz);
   scaling->kinv = safe_div(1.0, scaling->k);
+
+  // Sync updated scaling vectors and scaled data to device (CUDA backend).
+  sync_vector_to_device(scaling->Druiz);
+  sync_vector_to_device(scaling->Eruiz);
+  sync_vector_to_device(scaling->Fruiz);
+  sync_vector_to_device(scaling->Dinvruiz);
+  sync_vector_to_device(scaling->Einvruiz);
+  sync_vector_to_device(scaling->Finvruiz);
+  sync_vector_to_device(data->c);
+  sync_vector_to_device(data->b);
+  sync_vector_to_device(data->h);
 }
 
 void unscale_variables(QOCOWorkspace* work)

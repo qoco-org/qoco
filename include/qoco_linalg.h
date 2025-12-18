@@ -164,6 +164,15 @@ QOCOFloat* get_data_vectorf(const QOCOVectorf* x);
 void sync_vector_to_host(QOCOVectorf* v);
 
 /**
+ * @brief Syncs vector data from device to host if needed (CUDA backend only).
+ * This is a no-op for non-CUDA backends.
+ * Note: This should NOT be called during qoco_solve to avoid CPU-GPU copies.
+ *
+ * @param v Input vector.
+ */
+void sync_vector_to_device(QOCOVectorf* v);
+
+/**
  * @brief Returns the length of a QOCOVectorf.
  *
  * @param x Input vector.

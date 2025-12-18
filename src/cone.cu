@@ -11,6 +11,33 @@
 #include "cone.h"
 #include "qoco_utils.h"
 
+#define CUDA_CHECK(call)                                                       \
+  do {                                                                         \
+    cudaError_t err = call;                                                    \
+    if (err != cudaSuccess) {                                                  \
+      fprintf(stderr, "CUDA error at %s:%d: %s\n", __FILE__, __LINE__,         \
+              cudaGetErrorString(err));                                        \
+      exit(1);                                                                 \
+    }                                                                          \
+  } while (0)
+
+
+__device__ __forceinline__
+QOCOFloat qoco_max_dev(QOCOFloat a, QOCOFloat b)
+{
+    return a > b ? a : b;
+}
+
+__device__ __forceinline__
+QOCOFloat soc_residual_dev(const QOCOFloat* u, QOCOInt n)
+{
+    QOCOFloat sum = 0.0;
+    for (QOCOInt i = 1; i < n; ++i) {
+        sum += u[i] * u[i];
+    }
+    return sqrt(sum) - u[0];
+}
+
 __global__ void set_Wfull_linear(QOCOFloat* W, QOCOInt Wnnzfull, QOCOInt l)
 {
     QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -43,57 +70,30 @@ __global__ void set_Wfull_soc(QOCOFloat* W, const QOCOInt* q, QOCOInt nsoc, QOCO
     W[idx + k * dim + k] = 1.0;
 }
 
-__global__ void cone_residual_fused_kernel(const QOCOFloat* u,
-                                QOCOInt l,
-                                QOCOInt nsoc,
-                                const QOCOInt* q,
-                                QOCOFloat* res)
+__global__ void cone_residual_kernel(const QOCOFloat* u,
+                          QOCOInt l,
+                          QOCOInt nsoc,
+                          const QOCOInt* q,
+                          QOCOFloat* out)
 {
-    extern __shared__ QOCOFloat sdata[];
+  // // single thread
+  // if (threadIdx.x != 0 || blockIdx.x != 0) return;
 
-    QOCOFloat local = -1e7;
+  // QOCOFloat res = -1e7;
+  // QOCOInt idx = 0;
 
-    /* ---------------- LP cone ---------------- */
-    QOCOInt tid = blockIdx.x * blockDim.x + threadIdx.x;
-    QOCOInt stride = blockDim.x * gridDim.x;
+  // // LP cone
+  // for (; idx < l; ++idx) {
+  //     res = qoco_max_dev(res, -u[idx]);
+  // }
 
-    for (QOCOInt i = tid; i < l; i += stride) {
-        local = qoco_max(local, -u[i]);
-    }
+  // // SOC cones
+  // for (QOCOInt i = 0; i < nsoc; ++i) {
+  //     res = qoco_max_dev(res, soc_residual_dev(&u[idx], q[i]));
+  //     idx += q[i];
+  // }
 
-    /* ---------------- SOC cones ---------------- */
-    // one SOC per block if possible
-    for (QOCOInt soc = blockIdx.x; soc < nsoc; soc += gridDim.x) {
-
-        // compute SOC offset
-        QOCOInt idx = l;
-        for (QOCOInt i = 0; i < soc; ++i) {
-            idx += q[i];
-        }
-
-        // only one thread computes soc_residual
-        if (threadIdx.x == 0) {
-            local = qoco_max(local,
-                             soc_residual(&u[idx], q[soc]));
-        }
-    }
-
-    /* ---------------- block reduction ---------------- */
-    sdata[threadIdx.x] = local;
-    __syncthreads();
-
-    for (unsigned int s = blockDim.x / 2; s > 0; s >>= 1) {
-        if (threadIdx.x < s) {
-            sdata[threadIdx.x] =
-                qoco_max(sdata[threadIdx.x], sdata[threadIdx.x + s]);
-        }
-        __syncthreads();
-    }
-
-    /* ---------------- global reduction ---------------- */
-    if (threadIdx.x == 0) {
-        atomicMax((int*)res, __float_as_int(sdata[0]));
-    }
+  *out = 0;
 }
 
 
@@ -120,28 +120,34 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* d
     );
 }
 
-QOCOFloat cone_residual(const QOCOFloat* u, QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
+QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc, const QOCOInt* q_host)
 {
-    QOCOFloat h_res = -1e7;
-    QOCOFloat* d_res;
+  QOCOInt* d_q = nullptr;
+  QOCOFloat* d_out = nullptr;
+  QOCOFloat h_out;
 
-    cudaMalloc(&d_res, sizeof(QOCOFloat));
-    cudaMemcpy(d_res, &h_res, sizeof(QOCOFloat), cudaMemcpyHostToDevice);
+  // Allocate output
+  CUDA_CHECK(cudaMalloc(&d_out, sizeof(QOCOFloat)));
 
-    const int threads = 256;
-    const int blocks  = 128;  // tune if needed
+  if (nsoc > 0) {
+      CUDA_CHECK(cudaMalloc(&d_q, nsoc * sizeof(QOCOInt)));
+      CUDA_CHECK(cudaMemcpy(d_q, q_host,
+                            nsoc * sizeof(QOCOInt),
+                            cudaMemcpyHostToDevice));
+  }
+  cone_residual_kernel<<<1,1>>>(d_u, l, nsoc, d_q, d_out);
 
-    cone_residual_fused_kernel<<<blocks, threads,
-        threads * sizeof(QOCOFloat)>>>(
-            u, l, nsoc, q, d_res
-        );
+  CUDA_CHECK(cudaGetLastError());
 
-    cudaMemcpy(&h_res, d_res, sizeof(QOCOFloat), cudaMemcpyDeviceToHost);
-    cudaFree(d_res);
+  CUDA_CHECK(cudaMemcpy(&h_out, d_out,
+                        sizeof(QOCOFloat),
+                        cudaMemcpyDeviceToHost));
 
-    return h_res;
+  if (d_q) CUDA_CHECK(cudaFree(d_q));
+  CUDA_CHECK(cudaFree(d_out));
+
+  return h_out;
 }
-
 
 void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
                  QOCOInt n)
@@ -167,7 +173,7 @@ void soc_division(const QOCOFloat* lam, const QOCOFloat* v, QOCOFloat* d,
   }
 }
 
-QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n)
+QOCO_HD QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n)
 {
   QOCOFloat res = 0;
   for (QOCOInt i = 1; i < n; ++i) {

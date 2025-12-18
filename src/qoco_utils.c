@@ -68,6 +68,20 @@ void print_arrayi(QOCOInt* x, QOCOInt n)
   printf("}\n");
 }
 
+void print_vectorf(const QOCOVectorf* v)
+{
+  if (!v) {
+    printf("vector is NULL\n");
+    return;
+  }
+  // Ensure host data is up to date (no-op on CPU backend)
+  sync_vector_to_host((QOCOVectorf*)v);
+  // Use host pointer via get_pointer_vectorf to avoid device pointer
+  QOCOFloat* data = get_pointer_vectorf(v, 0);
+  QOCOInt len = get_length_vectorf(v);
+  print_arrayf(data, len);
+}
+
 void compute_scaling_statistics(QOCOProblemData* data)
 {
   set_cpu_mode(1);
@@ -242,9 +256,7 @@ unsigned char check_stopping(QOCOSolver* solver)
 
   // Compute ||P * x||_\infty
   USpMv(data->P, xdata, xbuff);
-  for (QOCOInt i = 0; i < data->n; ++i) {
-    xbuff[i] -= solver->settings->kkt_static_reg * xdata[i];
-  }
+  qoco_axpy(xdata, xbuff, xbuff, -solver->settings->kkt_static_reg, data->n);
   ew_product(xbuff, Dinvruiz_data, xbuff, data->n);
   QOCOFloat Pxinf = inf_norm(xbuff, data->n);
   QOCOFloat xPx = qoco_dot(xdata, xbuff, work->data->n);
@@ -322,9 +334,12 @@ unsigned char check_stopping(QOCOSolver* solver)
       return 1;
     }
   }
-
+  printf("pres: %f, pres_rel: %f, eabs: %f, erel: %f\n", pres, pres_rel, eabs, erel);
+  printf("dres: %f, dres_rel: %f, eabsinacc: %f, erelinacc: %f\n", dres, dres_rel, eabsinacc, erelinacc);
+  printf("solver->sol->gap: %f, gap_rel: %f, eabsinacc: %f, erelinacc: %f\n", solver->sol->gap, gap_rel, eabsinacc, erelinacc);
   if (pres < eabs + erel * pres_rel && dres < eabs + erel * dres_rel &&
       solver->sol->gap < eabs + erel * gap_rel) {
+    printf("Solved");
     solver->sol->status = QOCO_SOLVED;
     return 1;
   }

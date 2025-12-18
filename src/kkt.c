@@ -212,8 +212,10 @@ void initialize_ipm(QOCOSolver* solver)
                          solver->work->data->m);
 
   // Bring s and z to cone C.
+  print_vectorf(solver->work->s);
   bring2cone(get_data_vectorf(solver->work->s), solver->work->data);
   bring2cone(get_data_vectorf(solver->work->z), solver->work->data);
+  print_vectorf(solver->work->s);
 }
 
 void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
@@ -257,10 +259,7 @@ QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
   USpMv(data->P, x, nbuff);
 
   // Correct for regularization in P.
-  QOCOFloat regularization_correction = 0.0;
-  for (QOCOInt i = 0; i < data->n; ++i) {
-    regularization_correction += static_reg * x[i] * x[i];
-  }
+  QOCOFloat regularization_correction = static_reg * qoco_dot(x, x, data->n);
   obj += 0.5 * (qoco_dot(nbuff, x, data->n) - regularization_correction);
   obj = safe_div(obj, k);
   return obj;

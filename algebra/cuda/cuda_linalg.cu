@@ -275,6 +275,14 @@ void sync_vector_to_host(QOCOVectorf* v)
   }
 }
 
+void sync_vector_to_device(QOCOVectorf* v)
+{
+  if (v && v->data && v->d_data) {
+    CUDA_CHECK(cudaMemcpy(v->d_data, v->data, v->len * sizeof(QOCOFloat),
+                          cudaMemcpyHostToDevice));
+  }
+}
+
 static int in_cpu_mode = 0;
 
 void set_cpu_mode(int active)
@@ -585,7 +593,7 @@ void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 
 void SpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {  
-  CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->n * sizeof(QOCOFloat)));
+  CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->m * sizeof(QOCOFloat)));
   SpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
   CUDA_CHECK(cudaDeviceSynchronize());
 }
