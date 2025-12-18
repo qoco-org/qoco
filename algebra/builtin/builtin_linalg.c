@@ -69,6 +69,26 @@ QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
   return v;
 }
 
+QOCOVectori* new_qoco_vectori(const QOCOInt* x, QOCOInt n)
+{
+  QOCOVectori* v = qoco_malloc(sizeof(QOCOVectori));
+  QOCOInt* vdata = qoco_malloc(sizeof(QOCOInt) * n);
+  if (x) {
+    copy_arrayi(x, vdata, n);
+  }
+  else {
+    // Initialize to zero if x is NULL
+    for (QOCOInt i = 0; i < n; ++i) {
+      vdata[i] = 0;
+    }
+  }
+
+  v->len = n;
+  v->data = vdata;
+
+  return v;
+}
+
 void free_qoco_matrix(QOCOMatrix* A)
 {
   free_qoco_csc_matrix(A->csc);
@@ -81,12 +101,24 @@ void free_qoco_vectorf(QOCOVectorf* x)
   qoco_free(x);
 }
 
+void free_qoco_vectori(QOCOVectori* x)
+{
+  qoco_free(x->data);
+  qoco_free(x);
+}
+
 QOCOInt get_nnz(const QOCOMatrix* A) { return A->csc->nnz; }
 
 QOCOFloat get_element_vectorf(const QOCOVectorf* x, QOCOInt idx)
 {
   return x->data[idx];
 }
+
+QOCOInt get_element_vectori(const QOCOVectori* x, QOCOInt idx)
+{
+  return x->data[idx];
+}
+
 
 QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
 {
@@ -101,6 +133,8 @@ void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
 }
 
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x) { return x->data; }
+
+QOCOInt* get_data_vectori(const QOCOVectori* x) { return x->data; }
 
 QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
 

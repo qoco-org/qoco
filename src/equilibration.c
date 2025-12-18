@@ -115,10 +115,10 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     // Make scalings for all variables in a second-order cone equal.
     QOCOInt idx = data->l;
     for (QOCOInt j = 0; j < data->nsoc; ++j) {
-      for (QOCOInt k = idx + 1; k < idx + data->q[j]; ++k) {
+      for (QOCOInt k = idx + 1; k < idx + get_element_vectori(data->q, j); ++k) {
         F[k] = F[idx];
       }
-      idx += data->q[j];
+      idx += get_element_vectori(data->q, j);
     }
 
     // Scale P.

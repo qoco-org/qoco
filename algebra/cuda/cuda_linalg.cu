@@ -220,6 +220,33 @@ QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
   return v;
 }
 
+// Construct x on CPU copy vector to GPU.
+QOCOVectori* new_qoco_vectori(const QOCOInt* x, QOCOInt n)
+{
+  QOCOVectori* v = (QOCOVectori*)qoco_malloc(sizeof(QOCOVectori));
+  QOCOInt* vdata = (QOCOInt*)qoco_malloc(sizeof(QOCOInt) * n);
+
+  if (x) {
+    copy_arrayi(x, vdata, n);
+  }
+  else {
+    for (QOCOInt i = 0; i < n; ++i) {
+      vdata[i] = 0;
+    }
+  }
+
+  QOCOInt* d_vdata;
+  CUDA_CHECK(cudaMalloc(&d_vdata, sizeof(QOCOInt) * n));
+  CUDA_CHECK(cudaMemcpy(d_vdata, vdata, sizeof(QOCOInt) * n,
+                        cudaMemcpyHostToDevice));
+
+  v->len = n;
+  v->data = vdata;
+  v->d_data = d_vdata;
+
+  return v;
+}
+
 void free_qoco_matrix(QOCOMatrix* A)
 {
     if (!A) return;
@@ -243,6 +270,17 @@ void free_qoco_matrix(QOCOMatrix* A)
 }
 
 void free_qoco_vectorf(QOCOVectorf* x)
+{
+  if (x) {
+    if (x->data)
+      qoco_free(x->data);
+    if (x->d_data)
+      cudaFree(x->d_data);
+    qoco_free(x);
+  }
+}
+
+void free_qoco_vectori(QOCOVectorf* x)
 {
   if (x) {
     if (x->data)
@@ -302,6 +340,31 @@ QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
     return x->d_data;
   }
 }
+
+QOCOInt* get_data_vectori(const QOCOVectori* x)
+{
+  if (in_cpu_mode) {
+    printf("returning host vector\n");
+    return x->data;
+  }
+  else {
+    printf("returning device vector\n");
+    return x->d_data;
+  }
+}
+
+QOCOInt get_element_vectori(const QOCOVectori* x, QOCOInt idx)
+{
+  if (in_cpu_mode) {
+    printf("returning host element\n");
+    return x->data[idx];
+  }
+  else {
+    printf("returning device element\n");
+    return x->d_data[idx];
+  }
+}
+
 
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) {
   if (in_cpu_mode) {

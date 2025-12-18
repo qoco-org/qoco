@@ -78,7 +78,7 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A);
 void free_qoco_matrix(QOCOMatrix* A);
 
 /**
- * @brief Allocates a new QOCOVectorf and copies A to it.
+ * @brief Allocates a new QOCOVectorf and copies x to it.
  *
  * @param x vector to copy.
  * @param n length of vector.
@@ -87,11 +87,28 @@ void free_qoco_matrix(QOCOMatrix* A);
 QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n);
 
 /**
+ * @brief Allocates a new QOCOVectori and copies x to it.
+ *
+ * @param x vector to copy.
+ * @param n length of vector.
+ * @return Pointer to new constructed vector.
+ */
+QOCOVectori* new_qoco_vectori(const QOCOInt* x, QOCOInt n);
+
+/**
  * @brief Frees QOCOVectorf.
  *
  * @param x Vector to free.
  */
 void free_qoco_vectorf(QOCOVectorf* x);
+
+/**
+ * @brief Frees QOCOVectori.
+ *
+ * @param x Vector to free.
+ */
+void free_qoco_vectori(QOCOVectori* x);
+
 
 /**
  * @brief Returns the number of nonzeros in a QOCOMatrix.
@@ -119,6 +136,15 @@ void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n);
  * @return x[idx].
  */
 QOCOFloat get_element_vectorf(const QOCOVectorf* x, QOCOInt idx);
+
+/**
+ * @brief Returns x[idx].
+ *
+ * @param x Input vector.
+ * @param idx Index.
+ * @return x[idx].
+ */
+QOCOInt get_element_vectori(const QOCOVectori* x, QOCOInt idx);
 
 /**
  * @brief Performs x[idx] = data.
@@ -153,6 +179,14 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx);
  * @return Pointer to underlying data array.
  */
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x);
+
+/**
+ * @brief Returns the underlying data array of a QOCOVectori.
+ *
+ * @param x Input vector.
+ * @return Pointer to underlying data array.
+ */
+QOCOInt* get_data_vectori(const QOCOVectori* x);
 
 /**
  * @brief Syncs vector data from host to device if needed (CUDA backend only).

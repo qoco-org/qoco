@@ -387,7 +387,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       get_csc_matrix(data->P), get_csc_matrix(data->A),
       get_csc_matrix(data->G), get_csc_matrix(data->At),
       get_csc_matrix(data->Gt), settings->kkt_static_reg, data->n, data->m,
-      data->p, data->l, data->nsoc, data->q, linsys_data->PregtoKKT,
+      data->p, data->l, data->nsoc, get_data_vectori(data->q), linsys_data->PregtoKKT,
       linsys_data->AttoKKT, linsys_data->GttoKKT, linsys_data->nt2kkt,
       linsys_data->ntdiag2kkt, Wnnz);
   set_cpu_mode(0);

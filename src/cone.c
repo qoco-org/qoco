@@ -22,10 +22,10 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* d
   }
   QOCOInt idx = data->l;
   for (QOCOInt i = 0; i < data->nsoc; ++i) {
-    for (QOCOInt k = 0; k < data->q[i]; ++k) {
-      Wfull_data[idx + k * data->q[i] + k] = 1.0;
+    for (QOCOInt k = 0; k < get_element_vectori(data->q, i); ++k) {
+      Wfull_data[idx + k * get_element_vectori(data->q, i) + k] = 1.0;
     }
-    idx += data->q[i] * data->q[i];
+    idx += get_element_vectori(data->q, i) * get_element_vectori(data->q, i);
   }
 }
 
@@ -127,7 +127,7 @@ QOCOFloat cone_residual(const QOCOFloat* u, QOCOInt l, QOCOInt nsoc,
 
 void bring2cone(QOCOFloat* u, QOCOProblemData* data)
 {
-  if (cone_residual(u, data->l, data->nsoc, data->q) >= 0) {
+  if (cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q)) >= 0) {
     QOCOFloat a = 0.0;
 
     // Get a for for LP cone.
@@ -139,11 +139,11 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data)
 
     // Get a for second-order cone.
     for (QOCOInt i = 0; i < data->nsoc; ++i) {
-      QOCOFloat soc_res = soc_residual(&u[idx], data->q[i]);
+      QOCOFloat soc_res = soc_residual(&u[idx], get_element_vectori(data->q, i));
       if (soc_res > 0 && soc_res > a) {
         a = soc_res;
       }
-      idx += data->q[i];
+      idx += get_element_vectori(data->q, i);
     }
 
     // Compute u + (1 + a) * e for LP cone.
@@ -154,7 +154,7 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data)
     // Compute u + (1 + a) * e for second-order cones.
     for (QOCOInt i = 0; i < data->nsoc; ++i) {
       u[idx] += (1 + a);
-      idx += data->q[i];
+      idx += get_element_vectori(data->q, i);
     }
   }
 }
@@ -214,34 +214,34 @@ void compute_nt_scaling(QOCOWorkspace* work)
   for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
     // Compute normalized vectors.
     QOCOFloat s_scal =
-        soc_residual2(get_pointer_vectorf(work->s, idx), work->data->q[i]);
+        soc_residual2(get_pointer_vectorf(work->s, idx), get_element_vectori(work->data->q, i));
     s_scal = qoco_sqrt(s_scal);
     QOCOFloat f = safe_div(1.0, s_scal);
     scale_arrayf(get_pointer_vectorf(work->s, idx), sbar, f,
-                 work->data->q[i]);
+                 get_element_vectori(work->data->q, i));
 
     QOCOFloat z_scal =
-        soc_residual2(get_pointer_vectorf(work->z, idx), work->data->q[i]);
+        soc_residual2(get_pointer_vectorf(work->z, idx), get_element_vectori(work->data->q, i));
     z_scal = qoco_sqrt(z_scal);
     f = safe_div(1.0, z_scal);
     scale_arrayf(get_pointer_vectorf(work->z, idx), zbar, f,
-                 work->data->q[i]);
+                 get_element_vectori(work->data->q, i));
 
     QOCOFloat gamma = qoco_sqrt(
-        0.5 * (1 + qoco_dot(sbar, zbar, work->data->q[i])));
+        0.5 * (1 + qoco_dot(sbar, zbar, get_element_vectori(work->data->q, i))));
 
     f = safe_div(1.0, (2 * gamma));
 
     // Overwrite sbar with wbar.
     sbar[0] = f * (sbar[0] + zbar[0]);
-    for (QOCOInt j = 1; j < work->data->q[i]; ++j) {
+    for (QOCOInt j = 1; j < get_element_vectori(work->data->q, i); ++j) {
       sbar[j] = f * (sbar[j] - zbar[j]);
     }
 
     // Overwrite zbar with v.
     f = safe_div(1.0, qoco_sqrt(2 * (sbar[0] + 1)));
     zbar[0] = f * (sbar[0] + 1.0);
-    for (QOCOInt j = 1; j < work->data->q[i]; ++j) {
+    for (QOCOInt j = 1; j < get_element_vectori(work->data->q, i); ++j) {
       zbar[j] = f * sbar[j];
     }
 
@@ -249,10 +249,10 @@ void compute_nt_scaling(QOCOWorkspace* work)
     QOCOInt shift = 0;
     f = qoco_sqrt(safe_div(s_scal, z_scal));
     QOCOFloat finv = safe_div(1.0, f);
-    for (QOCOInt j = 0; j < work->data->q[i]; ++j) {
+    for (QOCOInt j = 0; j < get_element_vectori(work->data->q, i); ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
-        QOCOInt full_idx1 = nt_idx_full + j * work->data->q[i] + k;
-        QOCOInt full_idx2 = nt_idx_full + k * work->data->q[i] + j;
+        QOCOInt full_idx1 = nt_idx_full + j * get_element_vectori(work->data->q, i) + k;
+        QOCOInt full_idx2 = nt_idx_full + k * get_element_vectori(work->data->q, i) + j;
         W[nt_idx + shift] = 2 * (zbar[k] * zbar[j]);
         if (j != 0 && k == 0) {
           Winv[nt_idx + shift] = -W[nt_idx + shift];
@@ -280,23 +280,23 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
     // Compute WtW for second-order cones.
     shift = 0;
-    for (QOCOInt j = 0; j < work->data->q[i]; ++j) {
+    for (QOCOInt j = 0; j < get_element_vectori(work->data->q, i); ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
         WtW[nt_idx + shift] = qoco_dot(
-            &Wfull[nt_idx_full + j * work->data->q[i]],
-            &Wfull[nt_idx_full + k * work->data->q[i]], work->data->q[i]);
+            &Wfull[nt_idx_full + j * get_element_vectori(work->data->q, i)],
+            &Wfull[nt_idx_full + k * get_element_vectori(work->data->q, i)], get_element_vectori(work->data->q, i));
         shift += 1;
       }
     }
 
-    idx += work->data->q[i];
-    nt_idx += (work->data->q[i] * work->data->q[i] + work->data->q[i]) / 2;
-    nt_idx_full += work->data->q[i] * work->data->q[i];
+    idx += get_element_vectori(work->data->q, i);
+    nt_idx += (get_element_vectori(work->data->q, i) * get_element_vectori(work->data->q, i) + get_element_vectori(work->data->q, i)) / 2;
+    nt_idx_full += get_element_vectori(work->data->q, i) * get_element_vectori(work->data->q, i);
   }
 
   // Compute scaled variable lambda. lambda = W * z.
   nt_multiply(Wfull, get_pointer_vectorf(work->z, 0), lambda,
-              work->data->l, work->data->m, work->data->nsoc, work->data->q);
+              work->data->l, work->data->m, work->data->nsoc, get_data_vectori(work->data->q));
 }
 
 void compute_centering(QOCOSolver* solver)
@@ -351,7 +351,7 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
     a = 0.5 * (al + au);
     qoco_axpy(Du, u, ubuff1, safe_div(a, f), work->data->m);
     if (cone_residual(ubuff1, work->data->l, work->data->nsoc,
-                      work->data->q) >= 0) {
+                      get_data_vectori(work->data->q)) >= 0) {
       au = a;
     }
     else {

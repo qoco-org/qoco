@@ -44,16 +44,12 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   data->m = m;
   data->n = n;
   data->p = p;
-  solver->work->data->A = new_qoco_matrix(A);
-  solver->work->data->G = new_qoco_matrix(G);
-  data->q = qoco_malloc(nsoc * sizeof(QOCOInt));
-
-  copy_arrayi(q, data->q, nsoc);
-
-  solver->work->data->c = new_qoco_vectorf(c, n);
-  solver->work->data->b = new_qoco_vectorf(b, p);
-  solver->work->data->h = new_qoco_vectorf(h, m);
-
+  data->A = new_qoco_matrix(A);
+  data->G = new_qoco_matrix(G);
+  data->q = new_qoco_vectori(q, n);
+  data->c = new_qoco_vectorf(c, n);
+  data->b = new_qoco_vectorf(b, p);
+  data->h = new_qoco_vectorf(h, m);
   data->l = l;
   data->nsoc = nsoc;
 
@@ -150,8 +146,14 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   // Allocate Nesterov-Todd scalings and scaled variables.
   QOCOInt Wnnzfull = data->l;
   for (QOCOInt i = 0; i < data->nsoc; ++i) {
-    Wnnzfull += data->q[i] * data->q[i];
+    Wnnzfull += get_element_vectori(data->q, i) * get_element_vectori(data->q, i);
   }
+  QOCOInt qmax = 0;
+  set_cpu_mode(1);
+  if (solver->work->data->nsoc) {
+    qmax = max_arrayi(get_data_vectori(data->q), solver->work->data->nsoc);
+  }
+  set_cpu_mode(0);
 
   solver->work->W = new_qoco_vectorf(NULL, solver->work->Wnnz);
   solver->work->Wfull = new_qoco_vectorf(NULL, Wnnzfull);
@@ -160,10 +162,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->Winvfull = new_qoco_vectorf(NULL, Wnnzfull);
   solver->work->WtW = new_qoco_vectorf(NULL, solver->work->Wnnz);
   solver->work->lambda = new_qoco_vectorf(NULL, m);
-  QOCOInt qmax = 0;
-  if (solver->work->data->nsoc) {
-    qmax = max_arrayi(solver->work->data->q, solver->work->data->nsoc);
-  }
+
   solver->work->sbar = new_qoco_vectorf(NULL, qmax);
   solver->work->zbar = new_qoco_vectorf(NULL, qmax);
   solver->work->xbuff = new_qoco_vectorf(NULL, n);
@@ -476,7 +475,7 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   free_qoco_vectorf(solver->work->data->b);
   free_qoco_vectorf(solver->work->data->c);
   free_qoco_vectorf(solver->work->data->h);
-  qoco_free(solver->work->data->q);
+  free_qoco_vectori(solver->work->data->q);
   qoco_free(solver->work->data->Pnzadded_idx);
   qoco_free(solver->work->data);
 

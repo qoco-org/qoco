@@ -109,7 +109,7 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
       data->P ? get_csc_matrix(data->P) : NULL, get_csc_matrix(data->A),
       get_csc_matrix(data->G), get_csc_matrix(data->At),
       get_csc_matrix(data->Gt), settings->kkt_static_reg, data->n, data->m,
-      data->p, data->l, data->nsoc, data->q, PregtoKKT_temp, AttoKKT_temp,
+      data->p, data->l, data->nsoc, get_data_vectori(data->q), PregtoKKT_temp, AttoKKT_temp,
       GttoKKT_temp, nt2kkt_temp, ntdiag2kkt_temp, Wnnz);
 
   // Compute AMD ordering.

@@ -61,7 +61,7 @@ typedef struct {
   QOCOInt nsoc;
 
   /** Dimension of each second-order cone (length of nsoc)*/
-  QOCOInt* q;
+  QOCOVectori* q;
 
   /** Number of primal variables. */
   QOCOInt n;
