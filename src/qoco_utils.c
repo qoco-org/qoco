@@ -68,7 +68,7 @@ void print_arrayi(QOCOInt* x, QOCOInt n)
   printf("}\n");
 }
 
-void print_vectorf(const QOCOVectorf* v)
+void print_vectorf(QOCOVectorf* v)
 {
   if (!v) {
     printf("vector is NULL\n");

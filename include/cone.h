@@ -20,6 +20,7 @@ extern "C" {
 #endif
 #include "qoco_linalg.h"
 #include "structs.h"
+#include "qoco_utils.h"
 
 /**
  * @brief Sets Wfull to I.

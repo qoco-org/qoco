@@ -9,7 +9,6 @@
  */
 
 #include "cone.h"
-#include "qoco_utils.h"
 
 #define CUDA_CHECK(call)                                                       \
   do {                                                                         \
@@ -50,7 +49,7 @@ __global__ void set_Wfull_linear(QOCOFloat* W, QOCOInt Wnnzfull, QOCOInt l)
     }
 }
 
-__global__ void set_Wfull_soc(QOCOFloat* W, const QOCOInt* q, QOCOInt nsoc, QOCOInt l)
+__global__ void set_Wfull_soc(QOCOFloat* W, QOCOInt* q, QOCOInt nsoc, QOCOInt l)
 {
     QOCOInt soc = blockIdx.x;
     if (soc >= nsoc) return;
@@ -111,14 +110,19 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* d
       Wnnzfull,
       data->l
   );
+  CUDA_CHECK(cudaGetLastError());
 
   // kernel 2: SOC blocks
-  // set_Wfull_soc<<<data->nsoc, 256>>>(
-  //     W,
-  //     data->q,
-  //     data->nsoc,
-  //     data->l
-  // );
+  const int blocks2 = data->nsoc;
+  if (data->nsoc > 0)
+  {
+    set_Wfull_soc<<<blocks2, 256>>>(
+        W,
+        get_data_vectori(data->q),
+        data->nsoc,
+        data->l
+    );
+  }
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -399,7 +403,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
   // Compute scaled variable lambda. lambda = W * z.
   nt_multiply(Wfull, get_pointer_vectorf(work->z, 0), lambda,
-              work->data->l, work->data->m, work->data->nsoc, qi);
+              work->data->l, work->data->m, work->data->nsoc, get_data_vectori(work->data->q));
 }
 
 void compute_centering(QOCOSolver* solver)

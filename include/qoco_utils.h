@@ -49,7 +49,7 @@ void print_arrayi(QOCOInt* x, QOCOInt n);
 /**
  * @brief Syncs a vector to host and prints its contents.
  */
-void print_vectorf(const QOCOVectorf* v);
+void print_vectorf(QOCOVectorf* v);
 
 /**
  * @brief Computes scaling statistics (min/max absolute values) for objective,

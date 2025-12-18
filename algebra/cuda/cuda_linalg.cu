@@ -280,7 +280,7 @@ void free_qoco_vectorf(QOCOVectorf* x)
   }
 }
 
-void free_qoco_vectori(QOCOVectorf* x)
+void free_qoco_vectori(QOCOVectori* x)
 {
   if (x) {
     if (x->data)
@@ -332,11 +332,11 @@ void set_cpu_mode(int active)
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
 {
   if (in_cpu_mode) {
-    printf("returning host vector\n");
+    printf("returning host vectorf\n");
     return x->data;
   }
   else {
-    printf("returning device vector\n");
+    printf("returning device vectorf\n");
     return x->d_data;
   }
 }
@@ -344,11 +344,11 @@ QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
 QOCOInt* get_data_vectori(const QOCOVectori* x)
 {
   if (in_cpu_mode) {
-    printf("returning host vector\n");
+    printf("returning host vectori\n");
     return x->data;
   }
   else {
-    printf("returning device vector\n");
+    printf("returning device vectori\n");
     return x->d_data;
   }
 }
