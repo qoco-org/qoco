@@ -22,10 +22,11 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* d
   }
   QOCOInt idx = data->l;
   for (QOCOInt i = 0; i < data->nsoc; ++i) {
-    for (QOCOInt k = 0; k < get_element_vectori(data->q, i); ++k) {
-      Wfull_data[idx + k * get_element_vectori(data->q, i) + k] = 1.0;
+    QOCOInt qi = get_element_vectori(data->q, i);
+    for (QOCOInt k = 0; k < qi; ++k) {
+      Wfull_data[idx + k * qi + k] = 1.0;
     }
-    idx += get_element_vectori(data->q, i) * get_element_vectori(data->q, i);
+    idx += qi * qi;
   }
 }
 
@@ -139,11 +140,12 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data)
 
     // Get a for second-order cone.
     for (QOCOInt i = 0; i < data->nsoc; ++i) {
-      QOCOFloat soc_res = soc_residual(&u[idx], get_element_vectori(data->q, i));
+      QOCOInt qi = get_element_vectori(data->q, i);
+      QOCOFloat soc_res = soc_residual(&u[idx], qi);
       if (soc_res > 0 && soc_res > a) {
         a = soc_res;
       }
-      idx += get_element_vectori(data->q, i);
+      idx += qi;
     }
 
     // Compute u + (1 + a) * e for LP cone.
@@ -212,36 +214,37 @@ void compute_nt_scaling(QOCOWorkspace* work)
   QOCOInt nt_idx = idx;
   QOCOInt nt_idx_full = idx;
   for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
+    QOCOInt qi = get_element_vectori(work->data->q, i);
     // Compute normalized vectors.
     QOCOFloat s_scal =
-        soc_residual2(get_pointer_vectorf(work->s, idx), get_element_vectori(work->data->q, i));
+        soc_residual2(get_pointer_vectorf(work->s, idx), qi);
     s_scal = qoco_sqrt(s_scal);
     QOCOFloat f = safe_div(1.0, s_scal);
     scale_arrayf(get_pointer_vectorf(work->s, idx), sbar, f,
-                 get_element_vectori(work->data->q, i));
+                 qi);
 
     QOCOFloat z_scal =
-        soc_residual2(get_pointer_vectorf(work->z, idx), get_element_vectori(work->data->q, i));
+        soc_residual2(get_pointer_vectorf(work->z, idx), qi);
     z_scal = qoco_sqrt(z_scal);
     f = safe_div(1.0, z_scal);
     scale_arrayf(get_pointer_vectorf(work->z, idx), zbar, f,
-                 get_element_vectori(work->data->q, i));
+                 qi);
 
     QOCOFloat gamma = qoco_sqrt(
-        0.5 * (1 + qoco_dot(sbar, zbar, get_element_vectori(work->data->q, i))));
+        0.5 * (1 + qoco_dot(sbar, zbar, qi)));
 
     f = safe_div(1.0, (2 * gamma));
 
     // Overwrite sbar with wbar.
     sbar[0] = f * (sbar[0] + zbar[0]);
-    for (QOCOInt j = 1; j < get_element_vectori(work->data->q, i); ++j) {
+    for (QOCOInt j = 1; j < qi; ++j) {
       sbar[j] = f * (sbar[j] - zbar[j]);
     }
 
     // Overwrite zbar with v.
     f = safe_div(1.0, qoco_sqrt(2 * (sbar[0] + 1)));
     zbar[0] = f * (sbar[0] + 1.0);
-    for (QOCOInt j = 1; j < get_element_vectori(work->data->q, i); ++j) {
+    for (QOCOInt j = 1; j < qi; ++j) {
       zbar[j] = f * sbar[j];
     }
 
@@ -249,10 +252,10 @@ void compute_nt_scaling(QOCOWorkspace* work)
     QOCOInt shift = 0;
     f = qoco_sqrt(safe_div(s_scal, z_scal));
     QOCOFloat finv = safe_div(1.0, f);
-    for (QOCOInt j = 0; j < get_element_vectori(work->data->q, i); ++j) {
+    for (QOCOInt j = 0; j < qi; ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
-        QOCOInt full_idx1 = nt_idx_full + j * get_element_vectori(work->data->q, i) + k;
-        QOCOInt full_idx2 = nt_idx_full + k * get_element_vectori(work->data->q, i) + j;
+        QOCOInt full_idx1 = nt_idx_full + j * qi + k;
+        QOCOInt full_idx2 = nt_idx_full + k * qi + j;
         W[nt_idx + shift] = 2 * (zbar[k] * zbar[j]);
         if (j != 0 && k == 0) {
           Winv[nt_idx + shift] = -W[nt_idx + shift];
@@ -280,18 +283,18 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
     // Compute WtW for second-order cones.
     shift = 0;
-    for (QOCOInt j = 0; j < get_element_vectori(work->data->q, i); ++j) {
+    for (QOCOInt j = 0; j < qi; ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
         WtW[nt_idx + shift] = qoco_dot(
-            &Wfull[nt_idx_full + j * get_element_vectori(work->data->q, i)],
-            &Wfull[nt_idx_full + k * get_element_vectori(work->data->q, i)], get_element_vectori(work->data->q, i));
+            &Wfull[nt_idx_full + j * qi],
+            &Wfull[nt_idx_full + k * qi], qi);
         shift += 1;
       }
     }
 
-    idx += get_element_vectori(work->data->q, i);
-    nt_idx += (get_element_vectori(work->data->q, i) * get_element_vectori(work->data->q, i) + get_element_vectori(work->data->q, i)) / 2;
-    nt_idx_full += get_element_vectori(work->data->q, i) * get_element_vectori(work->data->q, i);
+    idx += qi;
+    nt_idx += (qi * qi + qi) / 2;
+    nt_idx_full += qi * qi;
   }
 
   // Compute scaled variable lambda. lambda = W * z.
