@@ -329,7 +329,7 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
  * @brief Sparse matrix vector multiplication for CSC matrices where M is
  * symmetric and only the upper triangular part is given. Computes r = M * v
  *
- * @param M Upper triangular part of M in CSC form.
+ * @param M Upper triangular part of M.
  * @param v Vector.
  * @param r Result.
  */
@@ -339,21 +339,21 @@ void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
  * @brief Sparse matrix vector multiplication for CSC matrices. Computes r = M *
  * v.
  *
- * @param M Matrix in CSC form.
+ * @param M Matrix.
  * @param v Vector.
  * @param r Result.
  */
-void SpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
+void SpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices where M is first
  * transposed. Computes r = M^T * v.
  *
- * @param M Matrix in CSC form.
+ * @param M Matrix.
  * @param v Vector.
  * @param r Result.
  */
-void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
+void SpMtv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 
 /**
  * @brief Computes the infinity norm of x.

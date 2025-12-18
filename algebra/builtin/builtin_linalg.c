@@ -278,38 +278,38 @@ void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
   }
 }
 
-void SpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+void SpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
   qoco_assert(M);
   qoco_assert(v);
   qoco_assert(r);
 
   // Clear result buffer.
-  for (QOCOInt i = 0; i < M->m; ++i) {
+  for (QOCOInt i = 0; i < M->csc->m; ++i) {
     r[i] = 0.0;
   }
 
-  for (QOCOInt j = 0; j < M->n; j++) {
-    for (QOCOInt i = M->p[j]; i < M->p[j + 1]; i++) {
-      r[M->i[i]] += M->x[i] * v[j];
+  for (QOCOInt j = 0; j < M->csc->n; j++) {
+    for (QOCOInt i = M->csc->p[j]; i < M->csc->p[j + 1]; i++) {
+      r[M->csc->i[i]] += M->csc->x[i] * v[j];
     }
   }
 }
 
-void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+void SpMtv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
   qoco_assert(M);
   qoco_assert(v);
   qoco_assert(r);
 
   // Clear result buffer.
-  for (QOCOInt i = 0; i < M->n; ++i) {
+  for (QOCOInt i = 0; i < M->csc->n; ++i) {
     r[i] = 0.0;
   }
 
-  for (QOCOInt i = 0; i < M->n; i++) {
-    for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
-      r[i] += M->x[j] * v[M->i[j]];
+  for (QOCOInt i = 0; i < M->csc->n; i++) {
+    for (QOCOInt j = M->csc->p[i]; j < M->csc->p[i + 1]; j++) {
+      r[i] += M->csc->x[j] * v[M->csc->i[j]];
     }
   }
 }
@@ -326,7 +326,7 @@ void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 
 void SpMtv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  SpMtv(M->csc, v, r);
+  SpMtv(M, v, r);
 }
 
 QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)

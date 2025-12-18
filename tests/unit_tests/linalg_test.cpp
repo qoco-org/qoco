@@ -166,8 +166,9 @@ TEST(linalg, SpMv_test)
 
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+  QOCOMatrix* Amat = new_qoco_matrix(A);
 
-  SpMv(A, v, r);
+  SpMv(Amat, v, r);
 
   expect_eq_vectorf(r, rexpected, n, tol);
 
@@ -190,8 +191,9 @@ TEST(linalg, SpMtv_test)
 
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+  QOCOMatrix* Amat = new_qoco_matrix(A);
 
-  SpMtv(A, v, r);
+  SpMtv(Amat, v, r);
 
   expect_eq_vectorf(r, rexpected, n, tol);
 
