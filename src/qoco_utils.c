@@ -70,6 +70,7 @@ void print_arrayi(QOCOInt* x, QOCOInt n)
 
 void compute_scaling_statistics(QOCOProblemData* data)
 {
+  set_cpu_mode(1);
   // Initialize min/max values
   data->obj_range_min = QOCOFloat_MAX;
   data->obj_range_max = 0.0;
@@ -126,6 +127,7 @@ void compute_scaling_statistics(QOCOProblemData* data)
   if (data->rhs_range_min == QOCOFloat_MAX || data->rhs_range_min == 0.0) {
     data->rhs_range_min = 0.0;
   }
+  set_cpu_mode(0);
 }
 
 void print_header(QOCOSolver* solver)

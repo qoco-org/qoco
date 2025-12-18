@@ -77,6 +77,27 @@ __global__ void ew_product_kernel(const QOCOFloat* x, const QOCOFloat* y, QOCOFl
   }
 }
 
+__global__ void USpMv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+{
+  QOCOInt i = blockIdx.x;
+  if (i >= M->n) return;
+
+  // Process all nonzeros in column i
+  for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
+    int row = M->i[j];
+    QOCOFloat val = M->x[j] * v[i];
+
+    // Add to r[row] using atomic (multiple columns can write to same row)
+    atomicAdd(&r[row], val);
+
+    // If off-diagonal, also add to r[i] (symmetric part)
+    // Note: r[i] is only written by thread i, but we use atomic for safety
+    if (row != i) {
+      atomicAdd(&r[i], M->x[j] * v[row]);
+    }
+  }
+}
+
 // Construct A on CPU and create device copy.
 QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 {
@@ -105,39 +126,26 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     Mcsc->p = p;
     M->csc = Mcsc;
 
-    // Allocate device CSC matrix
-    // QOCOCscMatrix* d_Mcsc;
-    // CUDA_CHECK(cudaMalloc(&d_Mcsc, sizeof(QOCOCscMatrix)));
-    QOCOCscMatrix* d_Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
-    
-    QOCOFloat* d_x = NULL;
-    QOCOInt* d_p = NULL;
-    QOCOInt* d_i = NULL;
-    
-    if (nnz > 0) {
-      CUDA_CHECK(cudaMalloc(&d_x, nnz * sizeof(QOCOFloat)));
-      CUDA_CHECK(cudaMalloc(&d_i, nnz * sizeof(QOCOInt)));
-      // Copy data to device
-      CUDA_CHECK(cudaMemcpy(d_x, x, nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
-      CUDA_CHECK(cudaMemcpy(d_i, i, nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice));
-    }
-    
-    if (n > 0) {
-      CUDA_CHECK(cudaMalloc(&d_p, (n + 1) * sizeof(QOCOInt)));
-      CUDA_CHECK(cudaMemcpy(d_p, p, (n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice));
-    }
+    // Allocate device CSC matrix (host copy for freeing)
+    M->d_csc_host = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
 
-    // Set up device CSC matrix structure on host (with device pointers)
-    d_Mcsc->m = m;
-    d_Mcsc->n = n;
-    d_Mcsc->nnz = nnz;
-    d_Mcsc->x = d_x;
-    d_Mcsc->i = d_i;
-    d_Mcsc->p = d_p;
+    QOCOCscMatrix* d = M->d_csc_host;
+    d->m = m;
+    d->n = n;
+    d->nnz = nnz;
 
-    // Copy the device CSC matrix structure to device
-    // CUDA_CHECK(cudaMemcpy(d_Mcsc, &d_Mcsc_host, sizeof(QOCOCscMatrix), cudaMemcpyHostToDevice));
-    M->d_csc = d_Mcsc;
+    CUDA_CHECK(cudaMalloc(&d->x, nnz * sizeof(QOCOFloat)));
+    CUDA_CHECK(cudaMalloc(&d->i, nnz * sizeof(QOCOInt)));
+    CUDA_CHECK(cudaMalloc(&d->p, (n + 1) * sizeof(QOCOInt)));
+
+    CUDA_CHECK(cudaMemcpy(d->x, x, nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d->i, i, nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d->p, p, (n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+
+    // Allocate device struct itself and copy host struct into device
+    CUDA_CHECK(cudaMalloc(&M->d_csc, sizeof(QOCOCscMatrix)));
+    CUDA_CHECK(cudaMemcpy(M->d_csc, d, sizeof(QOCOCscMatrix), cudaMemcpyHostToDevice));
+
   }
   else {
     QOCOCscMatrix* Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
@@ -183,26 +191,24 @@ QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
 
 void free_qoco_matrix(QOCOMatrix* A)
 {
-  if (A) {
-    // Free host CSC matrix
+    if (!A) return;
+
+    // Free host CSC
     free_qoco_csc_matrix(A->csc);
-    
-    // Free device CSC matrix
-    if (A->d_csc) {     
-      if (A->d_csc->x) {
-        CUDA_CHECK(cudaFree(A->d_csc->x));
-      }
-      if (A->d_csc->i) {
-        CUDA_CHECK(cudaFree(A->d_csc->i));
-      }
-      if (A->d_csc->p) {
-        CUDA_CHECK(cudaFree(A->d_csc->p));
-      }
-      qoco_free(A->d_csc);
+
+    // Free device CSC
+    if (A->d_csc_host) {
+        CUDA_CHECK(cudaFree(A->d_csc_host->x));
+        CUDA_CHECK(cudaFree(A->d_csc_host->i));
+        CUDA_CHECK(cudaFree(A->d_csc_host->p));
+        qoco_free(A->d_csc_host);
     }
-    
+
+    if (A->d_csc) {
+        CUDA_CHECK(cudaFree(A->d_csc));
+    }
+
     qoco_free(A);
-  }
 }
 
 void free_qoco_vectorf(QOCOVectorf* x)
@@ -228,11 +234,6 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
   return &x->data[idx];
 }
 
-QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
-{
-  return x->d_data;
-}
-
 QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
 
 void sync_vector_to_host(QOCOVectorf* v)
@@ -249,6 +250,18 @@ void set_cpu_mode(int active)
 {
   in_cpu_mode = active;
   printf("set_cpu_mode: %d\n", active);
+}
+
+QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
+{
+  if (in_cpu_mode) {
+    printf("returning host vector\n");
+    return x->data;
+  }
+  else {
+    printf("returning device vector\n");
+    return x->d_data;
+  }
 }
 
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) {
@@ -542,21 +555,24 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
   }
 }
 
-void USpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
   qoco_assert(M);
   qoco_assert(v);
   qoco_assert(r);
-
-  for (QOCOInt i = 0; i < M->n; i++) {
-    r[i] = 0.0;
-    for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
-      int row = M->i[j];
-      r[row] += M->x[j] * v[i];
-      if (row != i)
-        r[i] += M->x[j] * v[row];
-    }
-  }
+  USpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
+  CUDA_CHECK(cudaDeviceSynchronize());
+  // r[0] = 0.0;
+  // exit(1);
+  // for (QOCOInt i = 0; i < M->n; i++) {
+  //   r[i] = 0.0;
+  //   for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
+  //     int row = M->i[j];
+  //     r[row] += M->x[j] * v[i];
+  //     if (row != i)
+  //       r[i] += M->x[j] * v[row];
+  //   }
+  // }
 }
 
 void SpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
@@ -595,7 +611,7 @@ void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 
 void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  USpMv(M->csc, v, r);
+  USpMv(M, v, r);
 }
 
 void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)

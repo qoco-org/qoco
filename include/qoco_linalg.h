@@ -333,7 +333,7 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
  * @param v Vector.
  * @param r Result.
  */
-void USpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
+void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices. Computes r = M *

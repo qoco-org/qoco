@@ -16,11 +16,15 @@
 #ifndef CUDA_TYPES_H
 #define CUDA_TYPES_H
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 #include "common_linalg.h"
 #include "definitions.h"
 #include "qoco_linalg.h"
+#ifdef __cplusplus
 }
+#endif
 #include <cuda_runtime.h>
 
 struct QOCOVectori_ {
@@ -37,7 +41,8 @@ struct QOCOVectorf_ {
 
 struct QOCOMatrix_ {
   QOCOCscMatrix* csc;   // Host pointer
-  QOCOCscMatrix* d_csc; // Host pointer, but csc arrays are on device.
+  QOCOCscMatrix* d_csc; // Device pointer with csc arrays on device.
+  QOCOCscMatrix* d_csc_host; // Host pointer with device csc arrays. (Needed to free device csc arrays)
 };
 
 #endif /* ifndef CUDA_TYPES_H */

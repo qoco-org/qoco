@@ -62,7 +62,7 @@ void soc_division(const QOCOFloat* lam, const QOCOFloat* v, QOCOFloat* d,
  * @return Residual: norm(u1) - u0. Negative if the vector is in the cone and
  * positive otherwise.
  */
-QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n);
+QOCO_HD QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n);
 
 /**
  * @brief Computes u0^2 - u1'*u1 of vector u with respect to the second order

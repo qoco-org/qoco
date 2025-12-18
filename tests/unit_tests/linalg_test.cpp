@@ -137,15 +137,17 @@ TEST(linalg, USpMv_test)
   QOCOInt Ai[] = {0, 0, 0, 1, 0, 1, 3, 1};
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+  QOCOMatrix* Amat = new_qoco_matrix(A);
 
   QOCOFloat v[] = {2.0, 4.0, 6.0, 8.0, 10.0};
   QOCOFloat rexpected[] = {60.0, 152.0, 26.0, 96.0, 28.0};
   QOCOFloat r[n];
   QOCOFloat tol = 1e-12;
 
-  USpMv(A, v, r);
+  USpMv(Amat, v, r);
   expect_eq_vectorf(r, rexpected, n, tol);
   free(A);
+  free_qoco_matrix(Amat);
 }
 
 TEST(linalg, SpMv_test)

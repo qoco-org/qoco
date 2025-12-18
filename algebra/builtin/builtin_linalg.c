@@ -261,19 +261,19 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
   }
 }
 
-void USpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
   qoco_assert(M);
   qoco_assert(v);
   qoco_assert(r);
 
-  for (QOCOInt i = 0; i < M->n; i++) {
+  for (QOCOInt i = 0; i < M->csc->n; i++) {
     r[i] = 0.0;
-    for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
-      int row = M->i[j];
-      r[row] += M->x[j] * v[i];
+    for (QOCOInt j = M->csc->p[i]; j < M->csc->p[i + 1]; j++) {
+      int row = M->csc->i[j];
+      r[row] += M->csc->x[j] * v[i];
       if (row != i)
-        r[i] += M->x[j] * v[row];
+        r[i] += M->csc->x[j] * v[row];
     }
   }
 }
@@ -316,7 +316,7 @@ void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 
 void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  USpMv(M->csc, v, r);
+  USpMv(M, v, r);
 }
 
 void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
