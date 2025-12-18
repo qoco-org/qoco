@@ -254,7 +254,7 @@ QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
 {
   QOCOFloat* cdata = get_data_vectorf(data->c);
   QOCOFloat obj = qoco_dot(x, cdata, data->n);
-  USpMv_matrix(data->P, x, nbuff);
+  USpMv(data->P, x, nbuff);
 
   // Correct for regularization in P.
   QOCOFloat regularization_correction = 0.0;
@@ -448,7 +448,7 @@ void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
 
   // Compute y[1:n] = P * x[1:n] + A^T * x[n+1:n+p] + G^T * x[n+p+1:n+p+m].
   if (data->P) {
-    USpMv_matrix(data->P, x, y);
+    USpMv(data->P, x, y);
   }
   else {
     for (QOCOInt i = 0; i < data->n; ++i) {
@@ -457,15 +457,15 @@ void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
   }
 
   if (data->p > 0) {
-    SpMtv_matrix(data->A, &x[data->n], nbuff);
+    SpMtv(data->A, &x[data->n], nbuff);
     qoco_axpy(y, nbuff, y, 1.0, data->n);
-    SpMv_matrix(data->A, x, &y[data->n]);
+    SpMv(data->A, x, &y[data->n]);
   }
 
   if (data->m > 0) {
-    SpMtv_matrix(data->G, &x[data->n + data->p], nbuff);
+    SpMtv(data->G, &x[data->n + data->p], nbuff);
     qoco_axpy(y, nbuff, y, 1.0, data->n);
-    SpMv_matrix(data->G, x, &y[data->n + data->p]);
+    SpMv(data->G, x, &y[data->n + data->p]);
   }
 
   if (Wfull) {

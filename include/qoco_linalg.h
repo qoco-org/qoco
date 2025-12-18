@@ -182,35 +182,6 @@ QOCOInt get_length_vectorf(const QOCOVectorf* x);
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M);
 
 /**
- * @brief Sparse matrix vector multiplication for QOCOMatrix where M is
- * symmetric and only the upper triangular part is given. Computes r = M * v
- *
- * @param M Upper triangular part of M.
- * @param v Vector.
- * @param r Result.
- */
-void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
-
-/**
- * @brief Sparse matrix vector multiplication for QOCOMatrix. Computes r = M * v.
- *
- * @param M Matrix.
- * @param v Vector.
- * @param r Result.
- */
-void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
-
-/**
- * @brief Sparse matrix vector multiplication for QOCOMatrix where M is first
- * transposed. Computes r = M^T * v.
- *
- * @param M Matrix.
- * @param v Vector.
- * @param r Result.
- */
-void SpMtv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
-
-/**
  * @brief Computes the infinity norm of each column (or equivalently row) of a
  * symmetric sparse matrix M where only the upper triangular portion of M is
  * given. Works with QOCOMatrix*.

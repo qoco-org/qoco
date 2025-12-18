@@ -229,19 +229,19 @@ unsigned char check_stopping(QOCOSolver* solver)
   // Compute ||A^T * y||_\infty. If equality constraints aren't present, A->m =
   // A->n = 0 and SpMtv is a nullop.
   QOCOFloat* ydata = get_data_vectorf(work->y);
-  SpMtv_matrix(data->A, ydata, xbuff);
+  SpMtv(data->A, ydata, xbuff);
   ew_product(xbuff, Dinvruiz_data, xbuff, data->n);
   QOCOFloat Atyinf = data->p ? inf_norm(xbuff, data->n) : 0;
 
   // Compute ||G^T * z||_\infty. If inequality constraints aren't present, G->m
   // = G->n = 0 and SpMtv is a nullop.
   QOCOFloat* zdata = get_data_vectorf(work->z);
-  SpMtv_matrix(data->G, zdata, xbuff);
+  SpMtv(data->G, zdata, xbuff);
   ew_product(xbuff, Dinvruiz_data, xbuff, data->n);
   QOCOFloat Gtzinf = data->m > 0 ? inf_norm(xbuff, data->n) : 0;
 
   // Compute ||P * x||_\infty
-  USpMv_matrix(data->P, xdata, xbuff);
+  USpMv(data->P, xdata, xbuff);
   for (QOCOInt i = 0; i < data->n; ++i) {
     xbuff[i] -= solver->settings->kkt_static_reg * xdata[i];
   }
@@ -250,12 +250,12 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat xPx = qoco_dot(xdata, xbuff, work->data->n);
 
   // Compute ||A * x||_\infty
-  SpMv_matrix(data->A, xdata, ybuff);
+  SpMv(data->A, xdata, ybuff);
   ew_product(ybuff, Einvruiz_data, ybuff, data->p);
   QOCOFloat Axinf = data->p ? inf_norm(ybuff, data->p) : 0;
 
   // Compute ||G * x||_\infty
-  SpMv_matrix(data->G, xdata, ubuff1);
+  SpMv(data->G, xdata, ubuff1);
   ew_product(ubuff1, Finvruiz_data, ubuff1, data->m);
   QOCOFloat Gxinf = data->m ? inf_norm(ubuff1, data->m) : 0;
 

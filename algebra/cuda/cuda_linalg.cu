@@ -479,16 +479,6 @@ QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
   // If either pointer check fails or one is on device, use CUDA
   if ((err_u == cudaSuccess && attrs_u.type == cudaMemoryTypeDevice) ||
       (err_v == cudaSuccess && attrs_v.type == cudaMemoryTypeDevice)) {
-    // Ensure CUDA libraries are loaded
-    // if (!load_cuda_libraries()) {
-    //   fprintf(stderr, "Failed to load CUDA libraries in qoco_dot\n");
-    //   // Fallback to CPU implementation
-    //   QOCOFloat x = 0.0;
-    //   for (QOCOInt i = 0; i < n; ++i) {
-    //     x += u[i] * v[i];
-    //   }
-    //   return x;
-    // }
     
     CudaLibFuncs* funcs = get_cuda_funcs();
     cublasHandle_t handle;
@@ -588,79 +578,23 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
 
 void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  qoco_assert(M);
-  qoco_assert(v);
-  qoco_assert(r);
   CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->n * sizeof(QOCOFloat)));
   USpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
   CUDA_CHECK(cudaDeviceSynchronize());
-  // r[0] = 0.0;
-  // exit(1);
-  // for (QOCOInt i = 0; i < M->n; i++) {
-  //   r[i] = 0.0;
-  //   for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
-  //     int row = M->i[j];
-  //     r[row] += M->x[j] * v[i];
-  //     if (row != i)
-  //       r[i] += M->x[j] * v[row];
-  //   }
-  // }
 }
 
 void SpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{
-  qoco_assert(M);
-  qoco_assert(v);
-  qoco_assert(r);
-  
+{  
   CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->n * sizeof(QOCOFloat)));
   SpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
   CUDA_CHECK(cudaDeviceSynchronize());
-
-  // for (QOCOInt i = 0; i < M->m; ++i) {
-  //   r[i] = 0.0;
-  // }
-
-  // for (QOCOInt j = 0; j < M->n; j++) {
-  //   for (QOCOInt i = M->p[j]; i < M->p[j + 1]; i++) {
-  //     r[M->i[i]] += M->x[i] * v[j];
-  //   }
-  // }
 }
 
 void SpMtv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  qoco_assert(M);
-  qoco_assert(v);
-  qoco_assert(r);
-
+  CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->n * sizeof(QOCOFloat)));
   SpMtv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
   CUDA_CHECK(cudaDeviceSynchronize());
-
-  // for (QOCOInt i = 0; i < M->n; ++i) {
-  //   r[i] = 0.0;
-  // }
-
-  // for (QOCOInt i = 0; i < M->n; i++) {
-  //   for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
-  //     r[i] += M->x[j] * v[M->i[j]];
-  //   }
-  // }
-}
-
-void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{
-  USpMv(M, v, r);
-}
-
-void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{
-  SpMv(M, v, r);
-}
-
-void SpMtv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{
-  SpMtv(M, v, r);
 }
 
 QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)

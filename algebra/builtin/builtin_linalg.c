@@ -314,21 +314,6 @@ void SpMtv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
   }
 }
 
-void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{
-  USpMv(M, v, r);
-}
-
-void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{
-  SpMv(M->csc, v, r);
-}
-
-void SpMtv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{
-  SpMtv(M, v, r);
-}
-
 QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
 {
   qoco_assert(x || n == 0);
