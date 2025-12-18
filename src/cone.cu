@@ -11,22 +11,59 @@
 #include "cone.h"
 #include "qoco_utils.h"
 
+__global__ void set_Wfull_linear(QOCOFloat* W, QOCOInt Wnnzfull, QOCOInt l)
+{
+    QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (i < Wnnzfull) {
+        W[i] = 0.0;
+    }
+    if (i < l) {
+        W[i] = 1.0;
+    }
+}
+
+__global__ void set_Wfull_soc(QOCOFloat* W, const QOCOInt* q, QOCOInt nsoc, QOCOInt l)
+{
+    QOCOInt soc = blockIdx.x;
+    if (soc >= nsoc) return;
+
+    QOCOInt dim = q[soc];
+    QOCOInt k = threadIdx.x;
+
+    if (k >= dim) return;
+
+    // compute starting offset of this SOC block
+    QOCOInt idx = l;
+    for (QOCOInt i = 0; i < soc; ++i) {
+        idx += q[i] * q[i];
+    }
+
+    // diagonal element
+    W[idx + k * dim + k] = 1.0;
+}
+
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* data)
 {
-  QOCOFloat* Wfull_data = get_data_vectorf(Wfull);
-  for (QOCOInt i = 0; i < Wnnzfull; ++i) {
-    Wfull_data[i] = 0.0;
-  }
-  for (QOCOInt i = 0; i < data->l; ++i) {
-    Wfull_data[i] = 1.0;
-  }
-  QOCOInt idx = data->l;
-  for (QOCOInt i = 0; i < data->nsoc; ++i) {
-    for (QOCOInt k = 0; k < data->q[i]; ++k) {
-      Wfull_data[idx + k * data->q[i] + k] = 1.0;
-    }
-    idx += data->q[i] * data->q[i];
-  }
+    QOCOFloat* W = get_data_vectorf(Wfull);
+
+    const int threads = 256;
+    const int blocks  = (Wnnzfull + threads - 1) / threads;
+
+    // kernel 1: zero + linear cone
+    set_Wfull_linear<<<blocks, threads>>>(
+        W,
+        Wnnzfull,
+        data->l
+    );
+
+    // kernel 2: SOC blocks
+    set_Wfull_soc<<<data->nsoc, 256>>>(
+        W,
+        data->q,
+        data->nsoc,
+        data->l
+    );
 }
 
 void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,

@@ -15,8 +15,20 @@
 #ifndef QOCO_CONE_H
 #define QOCO_CONE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "qoco_linalg.h"
 #include "structs.h"
+
+/**
+ * @brief Sets Wfull to I.
+ *
+ * @param Wfull Full NT scaling matrix.
+ * @param Wnnzfull Number of elements in Wfull.
+ * @param data Pointer to problem data.
+ */
+void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* data);
 
 /**
  * @brief Computes second-order cone product u * v = p.
@@ -184,5 +196,9 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
  */
 QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                            QOCOSolver* solver);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

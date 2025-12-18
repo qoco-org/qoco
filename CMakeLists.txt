@@ -80,7 +80,6 @@ set_property(GLOBAL APPEND PROPERTY QOCO_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/sr
     ${CMAKE_CURRENT_SOURCE_DIR}/src/input_validation.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/common_linalg.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/kkt.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/cone.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_status.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/equilibration.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_utils.c
@@ -136,6 +135,13 @@ get_property(qoco_include GLOBAL PROPERTY QOCO_INCLUDE)
 
 # Get CUDA libraries if using CUDA backend.
 get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
+
+# Select cone implementation based on backend
+if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    list(APPEND qoco_sources ${CMAKE_CURRENT_SOURCE_DIR}/src/cone.cu)
+else()
+    list(APPEND qoco_sources ${CMAKE_CURRENT_SOURCE_DIR}/src/cone.c)
+endif()
 
 # Build qoco shared library.
 add_library(qoco SHARED)
