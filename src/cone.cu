@@ -75,26 +75,63 @@ __global__ void cone_residual_kernel(const QOCOFloat* u,
                           const QOCOInt* q,
                           QOCOFloat* out)
 {
-  // // single thread
-  // if (threadIdx.x != 0 || blockIdx.x != 0) return;
+  // single thread
+  if (threadIdx.x != 0 || blockIdx.x != 0) return;
 
-  // QOCOFloat res = -1e7;
-  // QOCOInt idx = 0;
+  QOCOFloat res = -1e7;
+  QOCOInt idx = 0;
 
-  // // LP cone
-  // for (; idx < l; ++idx) {
-  //     res = qoco_max_dev(res, -u[idx]);
-  // }
+  // LP cone
+  for (; idx < l; ++idx) {
+      res = qoco_max_dev(res, -u[idx]);
+  }
 
-  // // SOC cones
-  // for (QOCOInt i = 0; i < nsoc; ++i) {
-  //     res = qoco_max_dev(res, soc_residual_dev(&u[idx], q[i]));
-  //     idx += q[i];
-  // }
+  // SOC cones
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+      res = qoco_max_dev(res, soc_residual_dev(&u[idx], q[i]));
+      idx += q[i];
+  }
 
-  *out = 0;
+  *out = res;
 }
 
+__global__ void bring2cone_kernel(QOCOFloat* u, QOCOInt* q, QOCOInt l, QOCOInt nsoc)
+{
+    // Single-thread kernel
+    if (threadIdx.x != 0 || blockIdx.x != 0) return;
+
+    QOCOFloat a = 0.0;
+    QOCOInt idx = 0;
+
+    /* ---------- LP cone ---------- */
+    for (idx = 0; idx < l; ++idx) {
+        a = qoco_max(a, -u[idx]);
+    }
+    a = qoco_max(a, (QOCOFloat)0.0);
+
+    /* ---------- SOC cones ---------- */
+    for (QOCOInt i = 0; i < nsoc; ++i) {
+        QOCOInt qi = q[i];
+        QOCOFloat soc_res = soc_residual_dev(&u[idx], qi);
+        if (soc_res > a) {
+            a = soc_res;
+        }
+        idx += qi;
+    }
+
+    QOCOFloat shift = (QOCOFloat)(1.0) + a;
+
+    /* ---------- Update LP cone ---------- */
+    for (idx = 0; idx < l; ++idx) {
+        u[idx] += shift;
+    }
+
+    /* ---------- Update SOC cones ---------- */
+    for (QOCOInt i = 0; i < nsoc; ++i) {
+        u[idx] += shift;
+        idx += q[i];
+    }
+}
 
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* data)
 {
@@ -126,22 +163,15 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* d
   CUDA_CHECK(cudaGetLastError());
 }
 
-QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc, const QOCOInt* q_host)
+QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
 {
-  QOCOInt* d_q = nullptr;
   QOCOFloat* d_out = nullptr;
   QOCOFloat h_out;
 
   // Allocate output
   CUDA_CHECK(cudaMalloc(&d_out, sizeof(QOCOFloat)));
 
-  if (nsoc > 0) {
-      CUDA_CHECK(cudaMalloc(&d_q, nsoc * sizeof(QOCOInt)));
-      CUDA_CHECK(cudaMemcpy(d_q, q_host,
-                            nsoc * sizeof(QOCOInt),
-                            cudaMemcpyHostToDevice));
-  }
-  cone_residual_kernel<<<1,1>>>(d_u, l, nsoc, d_q, d_out);
+  cone_residual_kernel<<<1,1>>>(d_u, l, nsoc, q, d_out);
 
   CUDA_CHECK(cudaGetLastError());
 
@@ -149,9 +179,7 @@ QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc, const QOC
                         sizeof(QOCOFloat),
                         cudaMemcpyDeviceToHost));
 
-  if (d_q) CUDA_CHECK(cudaFree(d_q));
   CUDA_CHECK(cudaFree(d_out));
-
   return h_out;
 }
 
@@ -232,36 +260,9 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
 
 void bring2cone(QOCOFloat* u, QOCOProblemData* data)
 {
-  if (cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q)) >= 0) {
-    QOCOFloat a = 0.0;
-
-    // Get a for for LP cone.
-    QOCOInt idx;
-    for (idx = 0; idx < data->l; ++idx) {
-      a = qoco_max(a, -u[idx]);
-    }
-    a = qoco_max(a, 0.0);
-
-    // Get a for second-order cone.
-    for (QOCOInt i = 0; i < data->nsoc; ++i) {
-      QOCOInt qi = get_element_vectori(data->q, i);
-      QOCOFloat soc_res = soc_residual(&u[idx], qi);
-      if (soc_res > 0 && soc_res > a) {
-        a = soc_res;
-      }
-      idx += qi;
-    }
-
-    // Compute u + (1 + a) * e for LP cone.
-    for (idx = 0; idx < data->l; ++idx) {
-      u[idx] += (1 + a);
-    }
-
-    // Compute u + (1 + a) * e for second-order cones.
-    for (QOCOInt i = 0; i < data->nsoc; ++i) {
-      u[idx] += (1 + a);
-      idx += get_element_vectori(data->q, i);
-    }
+  QOCOFloat res = cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q));
+  if (res >= 0) {
+    bring2cone_kernel<<<1,1>>>(u, get_data_vectori(data->q), data->l, data->nsoc);
   }
 }
 
