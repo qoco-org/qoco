@@ -279,6 +279,39 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
   }
 }
 
+__global__ void nt_multiply_kernel(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z,
+                                   QOCOInt l, QOCOInt m, QOCOInt nsoc,
+                                   QOCOInt* q)
+{
+  if (blockIdx.x != 0 || threadIdx.x != 0)
+    return;
+
+  /* ================= LP cone ================= */
+  for (QOCOInt i = 0; i < l; ++i) {
+    z[i] = W[i] * x[i];
+  }
+
+  /* ================= SOC cones ================= */
+  QOCOInt nt_idx = l;
+  QOCOInt idx = l;
+
+  /* zero output */
+  for (QOCOInt i = l; i < m; ++i) {
+    z[i] = 0.0;
+  }
+
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+    QOCOInt qi = q[i];
+
+    for (QOCOInt j = 0; j < qi; ++j) {
+      z[idx + j] += qoco_dot_dev(&W[nt_idx + j * qi], &x[idx], qi);
+    }
+
+    idx += qi;
+    nt_idx += qi * qi;
+  }
+}
+
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
                         QOCOProblemData* data)
 {
@@ -409,29 +442,7 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data)
 void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
                  QOCOInt nsoc, QOCOInt* q)
 {
-  // Compute product for LP cone part of W.
-  for (QOCOInt i = 0; i < l; ++i) {
-    z[i] = (W[i] * x[i]);
-  }
-
-  // Compute product for second-order cones.
-  QOCOInt nt_idx = l;
-  QOCOInt idx = l;
-
-  // Zero out second-order cone block of result z.
-  for (QOCOInt i = l; i < m; ++i) {
-    z[i] = 0;
-  }
-
-  // Loop over all second-order cones.
-  for (QOCOInt i = 0; i < nsoc; ++i) {
-    // Loop over elements within a second-order cone.
-    for (QOCOInt j = 0; j < q[i]; ++j) {
-      z[idx + j] += qoco_dot(&W[nt_idx + j * q[i]], &x[idx], q[i]);
-    }
-    idx += q[i];
-    nt_idx += q[i] * q[i];
-  }
+  nt_multiply_kernel<<<1, 1>>>(W, x, z, l, m, nsoc, q);
 }
 
 void compute_nt_scaling(QOCOWorkspace* work)
