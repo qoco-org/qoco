@@ -20,150 +20,289 @@
     }                                                                          \
   } while (0)
 
-
-__device__ __forceinline__
-QOCOFloat qoco_max_dev(QOCOFloat a, QOCOFloat b)
+__device__ __forceinline__ QOCOFloat qoco_max_dev(QOCOFloat a, QOCOFloat b)
 {
-    return a > b ? a : b;
+  return a > b ? a : b;
 }
 
-__device__ __forceinline__
-QOCOFloat soc_residual_dev(const QOCOFloat* u, QOCOInt n)
+__device__ QOCOFloat soc_residual_dev(const QOCOFloat* u, QOCOInt n)
 {
-    QOCOFloat sum = 0.0;
-    for (QOCOInt i = 1; i < n; ++i) {
-        sum += u[i] * u[i];
-    }
-    return sqrt(sum) - u[0];
+  QOCOFloat sum = 0.0;
+  for (QOCOInt i = 1; i < n; ++i) {
+    sum += u[i] * u[i];
+  }
+  return sqrt(sum) - u[0];
+}
+
+__device__ QOCOFloat soc_residual2_dev(const QOCOFloat* u, QOCOInt n)
+{
+  QOCOFloat res = u[0] * u[0];
+  for (QOCOInt i = 1; i < n; ++i) {
+    res -= u[i] * u[i];
+  }
+  return res;
+}
+
+__device__ void scale_arrayf_dev(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s,
+                                 QOCOInt n)
+{
+  for (QOCOInt i = 0; i < n; ++i) {
+    y[i] = s * x[i];
+  }
+}
+
+__device__ QOCOFloat qoco_dot_dev(const QOCOFloat* u, const QOCOFloat* v,
+                                  QOCOInt n)
+{
+  QOCOFloat x = 0.0;
+  for (QOCOInt i = 0; i < n; ++i) {
+    x += u[i] * v[i];
+  }
+  return x;
 }
 
 __global__ void set_Wfull_linear(QOCOFloat* W, QOCOInt Wnnzfull, QOCOInt l)
 {
-    QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
+  QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
 
-    if (i < Wnnzfull) {
-        W[i] = 0.0;
-    }
-    if (i < l) {
-        W[i] = 1.0;
-    }
+  if (i < Wnnzfull) {
+    W[i] = 0.0;
+  }
+  if (i < l) {
+    W[i] = 1.0;
+  }
 }
 
 __global__ void set_Wfull_soc(QOCOFloat* W, QOCOInt* q, QOCOInt nsoc, QOCOInt l)
 {
-    QOCOInt soc = blockIdx.x;
-    if (soc >= nsoc) return;
+  QOCOInt soc = blockIdx.x;
+  if (soc >= nsoc)
+    return;
 
-    QOCOInt dim = q[soc];
-    QOCOInt k = threadIdx.x;
+  QOCOInt dim = q[soc];
+  QOCOInt k = threadIdx.x;
 
-    if (k >= dim) return;
+  if (k >= dim)
+    return;
 
-    // compute starting offset of this SOC block
-    QOCOInt idx = l;
-    for (QOCOInt i = 0; i < soc; ++i) {
-        idx += q[i] * q[i];
-    }
+  // compute starting offset of this SOC block
+  QOCOInt idx = l;
+  for (QOCOInt i = 0; i < soc; ++i) {
+    idx += q[i] * q[i];
+  }
 
-    // diagonal element
-    W[idx + k * dim + k] = 1.0;
+  // diagonal element
+  W[idx + k * dim + k] = 1.0;
 }
 
-__global__ void cone_residual_kernel(const QOCOFloat* u,
-                          QOCOInt l,
-                          QOCOInt nsoc,
-                          const QOCOInt* q,
-                          QOCOFloat* out)
+__global__ void cone_residual_kernel(const QOCOFloat* u, QOCOInt l,
+                                     QOCOInt nsoc, const QOCOInt* q,
+                                     QOCOFloat* out)
 {
   // single thread
-  if (threadIdx.x != 0 || blockIdx.x != 0) return;
+  if (threadIdx.x != 0 || blockIdx.x != 0)
+    return;
 
   QOCOFloat res = -1e7;
   QOCOInt idx = 0;
 
   // LP cone
   for (; idx < l; ++idx) {
-      res = qoco_max_dev(res, -u[idx]);
+    res = qoco_max_dev(res, -u[idx]);
   }
 
   // SOC cones
   for (QOCOInt i = 0; i < nsoc; ++i) {
-      res = qoco_max_dev(res, soc_residual_dev(&u[idx], q[i]));
-      idx += q[i];
+    res = qoco_max_dev(res, soc_residual_dev(&u[idx], q[i]));
+    idx += q[i];
   }
 
   *out = res;
 }
 
-__global__ void bring2cone_kernel(QOCOFloat* u, QOCOInt* q, QOCOInt l, QOCOInt nsoc)
+__global__ void bring2cone_kernel(QOCOFloat* u, QOCOInt* q, QOCOInt l,
+                                  QOCOInt nsoc)
 {
-    // Single-thread kernel
-    if (threadIdx.x != 0 || blockIdx.x != 0) return;
+  // Single-thread kernel
+  if (threadIdx.x != 0 || blockIdx.x != 0)
+    return;
 
-    QOCOFloat a = 0.0;
-    QOCOInt idx = 0;
+  QOCOFloat a = 0.0;
+  QOCOInt idx = 0;
 
-    /* ---------- LP cone ---------- */
-    for (idx = 0; idx < l; ++idx) {
-        a = qoco_max(a, -u[idx]);
+  /* ---------- LP cone ---------- */
+  for (idx = 0; idx < l; ++idx) {
+    a = qoco_max(a, -u[idx]);
+  }
+  a = qoco_max(a, (QOCOFloat)0.0);
+
+  /* ---------- SOC cones ---------- */
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+    QOCOInt qi = q[i];
+    QOCOFloat soc_res = soc_residual_dev(&u[idx], qi);
+    if (soc_res > a) {
+      a = soc_res;
     }
-    a = qoco_max(a, (QOCOFloat)0.0);
+    idx += qi;
+  }
 
-    /* ---------- SOC cones ---------- */
-    for (QOCOInt i = 0; i < nsoc; ++i) {
-        QOCOInt qi = q[i];
-        QOCOFloat soc_res = soc_residual_dev(&u[idx], qi);
-        if (soc_res > a) {
-            a = soc_res;
-        }
-        idx += qi;
-    }
+  QOCOFloat shift = (QOCOFloat)(1.0) + a;
 
-    QOCOFloat shift = (QOCOFloat)(1.0) + a;
+  /* ---------- Update LP cone ---------- */
+  for (idx = 0; idx < l; ++idx) {
+    u[idx] += shift;
+  }
 
-    /* ---------- Update LP cone ---------- */
-    for (idx = 0; idx < l; ++idx) {
-        u[idx] += shift;
-    }
-
-    /* ---------- Update SOC cones ---------- */
-    for (QOCOInt i = 0; i < nsoc; ++i) {
-        u[idx] += shift;
-        idx += q[i];
-    }
+  /* ---------- Update SOC cones ---------- */
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+    u[idx] += shift;
+    idx += q[i];
+  }
 }
 
-void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* data)
+__global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
+                                          QOCOFloat* Wfull, QOCOFloat* Winv,
+                                          QOCOFloat* Winvfull, QOCOFloat* s,
+                                          QOCOFloat* z, QOCOFloat* sbar,
+                                          QOCOFloat* zbar, QOCOInt l,
+                                          QOCOInt nsoc, QOCOInt* q)
 {
-  CUDA_CHECK(cudaGetLastError()); 
+  if (blockIdx.x != 0 || threadIdx.x != 0)
+    return;
+
+  QOCOInt idx;
+
+  /* ================= LP cone ================= */
+  for (idx = 0; idx < l; ++idx) {
+    WtW[idx] = safe_div(s[idx], z[idx]);
+    W[idx] = qoco_sqrt(WtW[idx]);
+    Wfull[idx] = W[idx];
+
+    Winv[idx] = safe_div((QOCOFloat)1.0, W[idx]);
+    Winvfull[idx] = Winv[idx];
+  }
+
+  /* ================= SOC cones ================= */
+  QOCOInt nt_idx = idx;
+  QOCOInt nt_idx_full = idx;
+
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+
+    QOCOInt qi = q[i];
+
+    /* --- normalize s --- */
+    QOCOFloat s_scal = soc_residual2_dev(&s[idx], qi);
+    s_scal = qoco_sqrt(s_scal);
+    QOCOFloat f = safe_div((QOCOFloat)1.0, s_scal);
+    scale_arrayf_dev(&s[idx], sbar, f, qi);
+
+    /* --- normalize z --- */
+    QOCOFloat z_scal = soc_residual2_dev(&z[idx], qi);
+    z_scal = qoco_sqrt(z_scal);
+    f = safe_div((QOCOFloat)1.0, z_scal);
+    scale_arrayf_dev(&z[idx], zbar, f, qi);
+
+    /* --- compute gamma --- */
+    QOCOFloat gamma = qoco_sqrt(
+        (QOCOFloat)0.5 * ((QOCOFloat)1.0 + qoco_dot_dev(sbar, zbar, qi)));
+
+    f = safe_div((QOCOFloat)1.0, (QOCOFloat)2.0 * gamma);
+
+    /* overwrite sbar with wbar */
+    sbar[0] = f * (sbar[0] + zbar[0]);
+    for (QOCOInt j = 1; j < qi; ++j) {
+      sbar[j] = f * (sbar[j] - zbar[j]);
+    }
+
+    /* overwrite zbar with v */
+    f = safe_div((QOCOFloat)1.0,
+                 qoco_sqrt((QOCOFloat)2.0 * (sbar[0] + (QOCOFloat)1.0)));
+
+    zbar[0] = f * (sbar[0] + (QOCOFloat)1.0);
+    for (QOCOInt j = 1; j < qi; ++j) {
+      zbar[j] = f * sbar[j];
+    }
+
+    /* --- build W and Winv --- */
+    QOCOInt shift = 0;
+    QOCOFloat fwd = qoco_sqrt(safe_div(s_scal, z_scal));
+    QOCOFloat finv = safe_div((QOCOFloat)1.0, fwd);
+
+    for (QOCOInt j = 0; j < qi; ++j) {
+      for (QOCOInt k = 0; k <= j; ++k) {
+
+        QOCOInt full1 = nt_idx_full + j * qi + k;
+        QOCOInt full2 = nt_idx_full + k * qi + j;
+
+        QOCOFloat val = (QOCOFloat)2.0 * zbar[k] * zbar[j];
+
+        QOCOFloat winv_val = val;
+        if (j != 0 && k == 0)
+          winv_val = -val;
+
+        if (j == 0 && k == 0) {
+          val -= (QOCOFloat)1.0;
+          winv_val -= (QOCOFloat)1.0;
+        }
+        else if (j == k) {
+          val += (QOCOFloat)1.0;
+          winv_val += (QOCOFloat)1.0;
+        }
+
+        val *= fwd;
+        winv_val *= finv;
+
+        W[nt_idx + shift] = val;
+        Winv[nt_idx + shift] = winv_val;
+        Wfull[full1] = val;
+        Wfull[full2] = val;
+        Winvfull[full1] = winv_val;
+        Winvfull[full2] = winv_val;
+
+        shift++;
+      }
+    }
+
+    /* --- compute WtW --- */
+    shift = 0;
+    for (QOCOInt j = 0; j < qi; ++j) {
+      for (QOCOInt k = 0; k <= j; ++k) {
+        WtW[nt_idx + shift] = qoco_dot_dev(&Wfull[nt_idx_full + j * qi],
+                                           &Wfull[nt_idx_full + k * qi], qi);
+        shift++;
+      }
+    }
+
+    idx += qi;
+    nt_idx += (qi * qi + qi) / 2;
+    nt_idx_full += qi * qi;
+  }
+}
+
+void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
+                        QOCOProblemData* data)
+{
+  CUDA_CHECK(cudaGetLastError());
   QOCOFloat* W = get_data_vectorf(Wfull);
 
   const int threads = 256;
-  const int blocks  = (Wnnzfull + threads - 1) / threads;
+  const int blocks = (Wnnzfull + threads - 1) / threads;
 
   // kernel 1: zero + linear cone
-  set_Wfull_linear<<<blocks, threads>>>(
-      W,
-      Wnnzfull,
-      data->l
-  );
+  set_Wfull_linear<<<blocks, threads>>>(W, Wnnzfull, data->l);
   CUDA_CHECK(cudaGetLastError());
 
   // kernel 2: SOC blocks
   const int blocks2 = data->nsoc;
-  if (data->nsoc > 0)
-  {
-    set_Wfull_soc<<<blocks2, 256>>>(
-        W,
-        get_data_vectori(data->q),
-        data->nsoc,
-        data->l
-    );
+  if (data->nsoc > 0) {
+    set_Wfull_soc<<<blocks2, 256>>>(W, get_data_vectori(data->q), data->nsoc,
+                                    data->l);
   }
   CUDA_CHECK(cudaGetLastError());
 }
 
-QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
+QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc,
+                        const QOCOInt* q)
 {
   QOCOFloat* d_out = nullptr;
   QOCOFloat h_out;
@@ -171,13 +310,12 @@ QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc, const QOC
   // Allocate output
   CUDA_CHECK(cudaMalloc(&d_out, sizeof(QOCOFloat)));
 
-  cone_residual_kernel<<<1,1>>>(d_u, l, nsoc, q, d_out);
+  cone_residual_kernel<<<1, 1>>>(d_u, l, nsoc, q, d_out);
 
   CUDA_CHECK(cudaGetLastError());
 
-  CUDA_CHECK(cudaMemcpy(&h_out, d_out,
-                        sizeof(QOCOFloat),
-                        cudaMemcpyDeviceToHost));
+  CUDA_CHECK(
+      cudaMemcpy(&h_out, d_out, sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
 
   CUDA_CHECK(cudaFree(d_out));
   return h_out;
@@ -260,9 +398,11 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
 
 void bring2cone(QOCOFloat* u, QOCOProblemData* data)
 {
-  QOCOFloat res = cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q));
+  QOCOFloat res =
+      cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q));
   if (res >= 0) {
-    bring2cone_kernel<<<1,1>>>(u, get_data_vectori(data->q), data->l, data->nsoc);
+    bring2cone_kernel<<<1, 1>>>(u, get_data_vectori(data->q), data->l,
+                                data->nsoc);
   }
 }
 
@@ -301,110 +441,19 @@ void compute_nt_scaling(QOCOWorkspace* work)
   QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
   QOCOFloat* Winv = get_data_vectorf(work->Winv);
   QOCOFloat* Winvfull = get_data_vectorf(work->Winvfull);
+  QOCOFloat* s = get_data_vectorf(work->s);
+  QOCOFloat* z = get_data_vectorf(work->z);
   QOCOFloat* sbar = get_data_vectorf(work->sbar);
   QOCOFloat* zbar = get_data_vectorf(work->zbar);
   QOCOFloat* lambda = get_data_vectorf(work->lambda);
-  // Compute Nesterov-Todd scaling for LP cone.
-  QOCOInt idx;
-  for (idx = 0; idx < work->data->l; ++idx) {
-    WtW[idx] =
-        safe_div(get_element_vectorf(work->s, idx), get_element_vectorf(work->z, idx));
-    W[idx] = qoco_sqrt(WtW[idx]);
-    Wfull[idx] = W[idx];
-    Winv[idx] = safe_div(1.0, W[idx]);
-    Winvfull[idx] = Winv[idx];
-  }
+  QOCOInt* q = get_data_vectori(work->data->q);
 
-  // Compute Nesterov-Todd scaling for second-order cones.
-  QOCOInt nt_idx = idx;
-  QOCOInt nt_idx_full = idx;
-  for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
-    QOCOInt qi = get_element_vectori(work->data->q, i);
-    // Compute normalized vectors.
-    QOCOFloat s_scal =
-        soc_residual2(get_pointer_vectorf(work->s, idx), qi);
-    s_scal = qoco_sqrt(s_scal);
-    QOCOFloat f = safe_div(1.0, s_scal);
-    scale_arrayf(get_pointer_vectorf(work->s, idx), sbar, f,
-                 qi);
+  compute_nt_scaling_kernel<<<1, 1>>>(W, WtW, Wfull, Winv, Winvfull, s, z, sbar,
+                                      zbar, work->data->l, work->data->nsoc, q);
 
-    QOCOFloat z_scal =
-        soc_residual2(get_pointer_vectorf(work->z, idx), qi);
-    z_scal = qoco_sqrt(z_scal);
-    f = safe_div(1.0, z_scal);
-    scale_arrayf(get_pointer_vectorf(work->z, idx), zbar, f,
-                 qi);
-
-    QOCOFloat gamma = qoco_sqrt(
-        0.5 * (1 + qoco_dot(sbar, zbar, qi)));
-
-    f = safe_div(1.0, (2 * gamma));
-
-    // Overwrite sbar with wbar.
-    sbar[0] = f * (sbar[0] + zbar[0]);
-    for (QOCOInt j = 1; j < qi; ++j) {
-      sbar[j] = f * (sbar[j] - zbar[j]);
-    }
-
-    // Overwrite zbar with v.
-    f = safe_div(1.0, qoco_sqrt(2 * (sbar[0] + 1)));
-    zbar[0] = f * (sbar[0] + 1.0);
-    for (QOCOInt j = 1; j < qi; ++j) {
-      zbar[j] = f * sbar[j];
-    }
-
-    // Compute W for second-order cones.
-    QOCOInt shift = 0;
-    f = qoco_sqrt(safe_div(s_scal, z_scal));
-    QOCOFloat finv = safe_div(1.0, f);
-    for (QOCOInt j = 0; j < qi; ++j) {
-      for (QOCOInt k = 0; k <= j; ++k) {
-        QOCOInt full_idx1 = nt_idx_full + j * qi + k;
-        QOCOInt full_idx2 = nt_idx_full + k * qi + j;
-        W[nt_idx + shift] = 2 * (zbar[k] * zbar[j]);
-        if (j != 0 && k == 0) {
-          Winv[nt_idx + shift] = -W[nt_idx + shift];
-        }
-        else {
-          Winv[nt_idx + shift] = W[nt_idx + shift];
-        }
-        if (j == k && j == 0) {
-          W[nt_idx + shift] -= 1;
-          Winv[nt_idx + shift] -= 1;
-        }
-        else if (j == k) {
-          W[nt_idx + shift] += 1;
-          Winv[nt_idx + shift] += 1;
-        }
-        W[nt_idx + shift] *= f;
-        Winv[nt_idx + shift] *= finv;
-        Wfull[full_idx1] = W[nt_idx + shift];
-        Wfull[full_idx2] = W[nt_idx + shift];
-        Winvfull[full_idx1] = Winv[nt_idx + shift];
-        Winvfull[full_idx2] = Winv[nt_idx + shift];
-        shift += 1;
-      }
-    }
-
-    // Compute WtW for second-order cones.
-    shift = 0;
-    for (QOCOInt j = 0; j < qi; ++j) {
-      for (QOCOInt k = 0; k <= j; ++k) {
-        WtW[nt_idx + shift] = qoco_dot(
-            &Wfull[nt_idx_full + j * qi],
-            &Wfull[nt_idx_full + k * qi], qi);
-        shift += 1;
-      }
-    }
-
-    idx += qi;
-    nt_idx += (qi * qi + qi) / 2;
-    nt_idx_full += qi * qi;
-  }
-
-  // Compute scaled variable lambda. lambda = W * z.
-  nt_multiply(Wfull, get_pointer_vectorf(work->z, 0), lambda,
-              work->data->l, work->data->m, work->data->nsoc, get_data_vectori(work->data->q));
+  /* ================= lambda = W * z ================= */
+  nt_multiply(Wfull, z, lambda, work->data->l, work->data->m, work->data->nsoc,
+              q);
 }
 
 void compute_centering(QOCOSolver* solver)
@@ -415,15 +464,13 @@ void compute_centering(QOCOSolver* solver)
   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
   QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
-  QOCOFloat a = qoco_min(
-      linesearch(get_pointer_vectorf(work->z, 0), Dzaff, 1.0, solver),
-      linesearch(get_pointer_vectorf(work->s, 0), Ds, 1.0, solver));
+  QOCOFloat a =
+      qoco_min(linesearch(get_pointer_vectorf(work->z, 0), Dzaff, 1.0, solver),
+               linesearch(get_pointer_vectorf(work->s, 0), Ds, 1.0, solver));
 
   // Compute rho. rho = ((s + a * Ds)'*(z + a * Dz)) / (s'*z).
-  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), ubuff1, a,
-            work->data->m);
-  qoco_axpy(Ds, get_pointer_vectorf(work->s, 0), ubuff2, a,
-            work->data->m);
+  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), ubuff1, a, work->data->m);
+  qoco_axpy(Ds, get_pointer_vectorf(work->s, 0), ubuff2, a, work->data->m);
   QOCOFloat rho = qoco_dot(ubuff1, ubuff2, work->data->m) /
                   qoco_dot(get_pointer_vectorf(work->z, 0),
                            get_pointer_vectorf(work->s, 0), work->data->m);

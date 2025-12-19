@@ -298,11 +298,6 @@ QOCOFloat get_element_vectorf(const QOCOVectorf* x, QOCOInt idx)
   return x->data[idx];
 }
 
-QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
-{
-  return &x->data[idx];
-}
-
 QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
 
 void sync_vector_to_host(QOCOVectorf* v)
@@ -340,6 +335,19 @@ QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
     return x->d_data;
   }
 }
+
+QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
+{
+  if (in_cpu_mode) {
+    printf("returning host vectorf\n");
+    return &x->data[idx];
+  }
+  else {
+    printf("returning device vectorf\n");
+    return &x->d_data[idx];
+  }
+}
+
 
 QOCOInt* get_data_vectori(const QOCOVectori* x)
 {
