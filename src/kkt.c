@@ -165,7 +165,8 @@ void initialize_ipm(QOCOSolver* solver)
 
   // Set Nesterov-Todd block in Wfull to -I (need for kkt_multiply in iterative
   // refinement).
-  set_Wfull_identity(solver->work->Wfull, solver->work->Wnnzfull, solver->work->data);
+  set_Wfull_identity(solver->work->Wfull, solver->work->Wnnzfull,
+                     solver->work->data);
 
   // solver->linsys->linsys_initialize_nt(solver->linsys_data,
   //                                      solver->work->data->m);
@@ -277,8 +278,8 @@ void construct_kkt_aff_rhs(QOCOWorkspace* work)
                          work->data->n + work->data->p + work->data->m);
 
   // Compute W*lambda
-  nt_multiply(Wfull, lambda, ubuff1, work->data->l,
-              work->data->m, work->data->nsoc, q);
+  nt_multiply(Wfull, lambda, ubuff1, work->data->l, work->data->m,
+              work->data->nsoc, q);
 
   // Add W*lambda to z portion of rhs.
   qoco_axpy(ubuff1, &rhs[work->data->n + work->data->p],
@@ -307,8 +308,8 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
   /// cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
 
   // ubuff1 = Winv * Dsaff.
-  nt_multiply(Winvfull, Ds, ubuff1, work->data->l,
-              work->data->m, work->data->nsoc, q);
+  nt_multiply(Winvfull, Ds, ubuff1, work->data->l, work->data->m,
+              work->data->nsoc, q);
 
   // ubuff2 = W * Dzaff.
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
@@ -316,8 +317,7 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
               work->data->nsoc, q);
 
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata).
-  cone_product(ubuff1, ubuff2, ubuff3, work->data->l,
-               work->data->nsoc, q);
+  cone_product(ubuff1, ubuff2, ubuff3, work->data->l, work->data->nsoc, q);
 
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata) - sigma * mu * e.
   QOCOFloat sm = work->sigma * work->mu;
@@ -330,8 +330,7 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
     idx += get_element_vectori(work->data->q, i);
   }
   // ubuff1 = lambda * lambda.
-  cone_product(lambda, lambda, ubuff1, work->data->l,
-               work->data->nsoc, q);
+  cone_product(lambda, lambda, ubuff1, work->data->l, work->data->nsoc, q);
 
   // Ds = -cone_product(lambda, lambda) - settings.mehrotra *
   // cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
@@ -340,12 +339,11 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
   qoco_axpy(ubuff3, Ds, Ds, -1.0, work->data->m);
 
   // ubuff2 = cone_division(lambda, ds).
-  cone_division(lambda, Ds, ubuff2, work->data->l,
-                work->data->nsoc, q);
+  cone_division(lambda, Ds, ubuff2, work->data->l, work->data->nsoc, q);
 
   // ubuff1 = W * cone_division(lambda, ds).
-  nt_multiply(Wfull, ubuff2, ubuff1, work->data->l,
-              work->data->m, work->data->nsoc, q);
+  nt_multiply(Wfull, ubuff2, ubuff1, work->data->l, work->data->m,
+              work->data->nsoc, q);
 
   // rhs = [dx;dy;dz-W'*cone_division(lambda, ds, pdata)];
   qoco_axpy(ubuff1, &rhs[work->data->n + work->data->p],
@@ -366,7 +364,6 @@ void predictor_corrector(QOCOSolver* solver)
   // Factor KKT matrix.
   solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
                                 solver->settings->kkt_dynamic_reg);
-
   // Construct rhs for affine scaling direction.
   construct_kkt_aff_rhs(work);
 
@@ -380,11 +377,10 @@ void predictor_corrector(QOCOSolver* solver)
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
   nt_multiply(Wfull, Dzaff, ubuff1, work->data->l, work->data->m,
               work->data->nsoc, q);
-  for (QOCOInt i = 0; i < work->data->m; ++i) {
-    ubuff1[i] = -lambda[i] - ubuff1[i];
-  }
-  nt_multiply(Wfull, ubuff1, Ds, work->data->l, work->data->m,
-              work->data->nsoc, q);
+  copy_and_negate_arrayf(ubuff1, ubuff1, work->data->m);
+  qoco_axpy(lambda, ubuff1, ubuff1, -1.0, work->data->m);
+  nt_multiply(Wfull, ubuff1, Ds, work->data->l, work->data->m, work->data->nsoc,
+              q);
 
   // Compute centering parameter.
   compute_centering(solver);
@@ -410,14 +406,13 @@ void predictor_corrector(QOCOSolver* solver)
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
   // computed in construct_kkt_comb_rhs() and stored in work->Ds.
   QOCOFloat* Dz = &xyz[work->data->n + work->data->p];
-  cone_division(lambda, Ds, ubuff1, work->data->l,
-                work->data->nsoc, q);
-  nt_multiply(Wfull, Dz, ubuff2, work->data->l, work->data->m,
-              work->data->nsoc, q);
+  cone_division(lambda, Ds, ubuff1, work->data->l, work->data->nsoc, q);
+  nt_multiply(Wfull, Dz, ubuff2, work->data->l, work->data->m, work->data->nsoc,
+              q);
 
   qoco_axpy(ubuff2, ubuff1, ubuff3, -1.0, work->data->m);
-  nt_multiply(Wfull, ubuff3, Ds, work->data->l, work->data->m,
-              work->data->nsoc, q);
+  nt_multiply(Wfull, ubuff3, Ds, work->data->l, work->data->m, work->data->nsoc,
+              q);
 
   // Compute step-size.
   QOCOFloat a =
@@ -471,7 +466,8 @@ void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
   if (Wfull) {
     nt_multiply(Wfull, &x[data->n + data->p], mbuff1, data->l, data->m,
                 data->nsoc, get_data_vectori(data->q));
-    nt_multiply(Wfull, mbuff1, mbuff2, data->l, data->m, data->nsoc, get_data_vectori(data->q));
+    nt_multiply(Wfull, mbuff1, mbuff2, data->l, data->m, data->nsoc,
+                get_data_vectori(data->q));
     qoco_axpy(mbuff2, &y[data->n + data->p], &y[data->n + data->p], -1.0,
               data->m);
   }

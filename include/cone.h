@@ -19,8 +19,8 @@
 extern "C" {
 #endif
 #include "qoco_linalg.h"
-#include "structs.h"
 #include "qoco_utils.h"
+#include "structs.h"
 
 /**
  * @brief Sets Wfull to I.
@@ -29,7 +29,8 @@ extern "C" {
  * @param Wnnzfull Number of elements in Wfull.
  * @param data Pointer to problem data.
  */
-void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* data);
+void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
+                        QOCOProblemData* data);
 
 /**
  * @brief Computes second-order cone product u * v = p.
