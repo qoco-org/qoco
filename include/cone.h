@@ -169,36 +169,6 @@ void compute_centering(QOCOSolver* solver);
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                      QOCOSolver* solver);
 
-/**
- * @brief Conducts linesearch by bisection to compute a \in (0, 1] such that
- * u + (a / f) * Du \in C
- * Warning: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du.
- * Consider a dedicated buffer for linesearch.
- *
- * @param u Initial vector.
- * @param Du Search direction.
- * @param f Conservatism factor.
- * @param solver Pointer to solver.
- * @return Step-size.
- */
-
-QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
-                           QOCOSolver* solver);
-
-/**
- * @brief Conducts exact linesearch to compute the largest a \in (0, 1] such
- * that u + (a / f) * Du \in C. Currently only works for LP cone.
- * @todo get exact_linesearch working for SOCs.
- *
- * @param u Initial vector.
- * @param Du Search direction.
- * @param f Conservatism factor.
- * @param solver Pointer to solver.
- * @return Step-size.
- */
-QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
-                           QOCOSolver* solver);
-
 #ifdef __cplusplus
 }
 #endif

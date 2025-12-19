@@ -493,31 +493,27 @@ void compute_centering(QOCOSolver* solver)
   solver->work->sigma = sigma;
 }
 
-QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
-                     QOCOSolver* solver)
-{
-  if (solver->work->data->nsoc == 0) {
-    return exact_linesearch(u, Du, f, solver);
-  }
-  else {
-    return bisection_search(u, Du, f, solver);
-  }
-}
-
+/**
+ * @brief Conducts linesearch by bisection to compute a \in (0, 1] such that
+ * u + (a / f) * Du \in C
+ * Warning: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du.
+ * Consider a dedicated buffer for linesearch.
+ */
 QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
-                           QOCOSolver* solver)
+                           QOCOFloat* ubuff, QOCOInt m, QOCOInt l, QOCOInt nsoc,
+                           QOCOInt* q, QOCOFloat* out_a, QOCOInt bisect_iters)
 {
-  QOCOWorkspace* work = solver->work;
-  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
-
+  // Single thread only
   QOCOFloat al = 0.0;
   QOCOFloat au = 1.0;
   QOCOFloat a = 0.0;
-  for (QOCOInt i = 0; i < solver->settings->bisect_iters; ++i) {
+
+  for (QOCOInt i = 0; i < bisect_iters; ++i) {
     a = 0.5 * (al + au);
-    qoco_axpy(Du, u, ubuff1, safe_div(a, f), work->data->m);
-    if (cone_residual(ubuff1, work->data->l, work->data->nsoc,
-                      get_data_vectori(work->data->q)) >= 0) {
+
+    qoco_axpy(Du, u, ubuff, safe_div(a, f), m);
+
+    if (cone_residual(ubuff, l, nsoc, q) >= 0) {
       au = a;
     }
     else {
@@ -527,24 +523,52 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   return al;
 }
 
-QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
-                           QOCOSolver* solver)
+/**
+ * @brief Conducts exact linesearch to compute the largest a \in (0, 1] such
+ * that u + (a / f) * Du \in C. Currently only works for LP cone.
+ */
+__global__ void exact_linesearch(const QOCOFloat* u, const QOCOFloat* Du,
+                                 QOCOFloat f, QOCOInt l, QOCOFloat* out_a)
 {
-  QOCOWorkspace* work = solver->work;
+  // Only one thread executes
+  QOCOFloat minval = 0.0;
 
-  QOCOFloat a = 1.0;
-  QOCOFloat minval = 0;
-
-  // Compute a for LP cones.
-  for (QOCOInt i = 0; i < work->data->l; ++i) {
-    if (Du[i] < minval * u[i])
+  for (QOCOInt i = 0; i < l; ++i) {
+    if (Du[i] < minval * u[i]) {
       minval = Du[i] / u[i];
+    }
   }
 
-  if (-f < minval)
-    a = f;
-  else
-    a = -f / minval;
+  if (-f < minval) {
+    *out_a = f;
+  }
+  else {
+    *out_a = -f / minval;
+  }
+}
 
-  return a;
+QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
+                     QOCOSolver* solver)
+{
+  QOCOFloat a_host;
+  QOCOFloat* d_linesearch_a;
+  cudaMalloc(&d_linesearch_a, sizeof(QOCOFloat));
+
+  if (solver->work->data->nsoc == 0) {
+    exact_linesearch<<<1, 1>>>(u, Du, f, solver->work->data->l, d_linesearch_a);
+    cudaMemcpy(&a_host, d_linesearch_a, sizeof(QOCOFloat),
+               cudaMemcpyDeviceToHost);
+    cudaFree(d_linesearch_a);
+  }
+  else {
+    QOCOFloat* ubuff = get_data_vectorf(solver->work->ubuff1);
+    QOCOInt m = solver->work->data->m;
+    QOCOInt l = solver->work->data->l;
+    QOCOInt nsoc = solver->work->data->nsoc;
+    QOCOInt* q = get_data_vectori(solver->work->data->q);
+    QOCOInt bisect_iters = solver->settings->bisect_iters;
+    a_host = bisection_search(u, Du, f, ubuff, m, l, nsoc, q, d_linesearch_a,
+                              solver->settings->bisect_iters);
+  }
+  return a_host;
 }

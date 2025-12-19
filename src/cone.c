@@ -11,7 +11,8 @@
 #include "cone.h"
 #include "qoco_utils.h"
 
-void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull, QOCOProblemData* data)
+void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
+                        QOCOProblemData* data)
 {
   QOCOFloat* Wfull_data = get_data_vectorf(Wfull);
   for (QOCOInt i = 0; i < Wnnzfull; ++i) {
@@ -202,8 +203,8 @@ void compute_nt_scaling(QOCOWorkspace* work)
   // Compute Nesterov-Todd scaling for LP cone.
   QOCOInt idx;
   for (idx = 0; idx < work->data->l; ++idx) {
-    WtW[idx] =
-        safe_div(get_element_vectorf(work->s, idx), get_element_vectorf(work->z, idx));
+    WtW[idx] = safe_div(get_element_vectorf(work->s, idx),
+                        get_element_vectorf(work->z, idx));
     W[idx] = qoco_sqrt(WtW[idx]);
     Wfull[idx] = W[idx];
     Winv[idx] = safe_div(1.0, W[idx]);
@@ -216,22 +217,17 @@ void compute_nt_scaling(QOCOWorkspace* work)
   for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
     QOCOInt qi = get_element_vectori(work->data->q, i);
     // Compute normalized vectors.
-    QOCOFloat s_scal =
-        soc_residual2(get_pointer_vectorf(work->s, idx), qi);
+    QOCOFloat s_scal = soc_residual2(get_pointer_vectorf(work->s, idx), qi);
     s_scal = qoco_sqrt(s_scal);
     QOCOFloat f = safe_div(1.0, s_scal);
-    scale_arrayf(get_pointer_vectorf(work->s, idx), sbar, f,
-                 qi);
+    scale_arrayf(get_pointer_vectorf(work->s, idx), sbar, f, qi);
 
-    QOCOFloat z_scal =
-        soc_residual2(get_pointer_vectorf(work->z, idx), qi);
+    QOCOFloat z_scal = soc_residual2(get_pointer_vectorf(work->z, idx), qi);
     z_scal = qoco_sqrt(z_scal);
     f = safe_div(1.0, z_scal);
-    scale_arrayf(get_pointer_vectorf(work->z, idx), zbar, f,
-                 qi);
+    scale_arrayf(get_pointer_vectorf(work->z, idx), zbar, f, qi);
 
-    QOCOFloat gamma = qoco_sqrt(
-        0.5 * (1 + qoco_dot(sbar, zbar, qi)));
+    QOCOFloat gamma = qoco_sqrt(0.5 * (1 + qoco_dot(sbar, zbar, qi)));
 
     f = safe_div(1.0, (2 * gamma));
 
@@ -285,9 +281,8 @@ void compute_nt_scaling(QOCOWorkspace* work)
     shift = 0;
     for (QOCOInt j = 0; j < qi; ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
-        WtW[nt_idx + shift] = qoco_dot(
-            &Wfull[nt_idx_full + j * qi],
-            &Wfull[nt_idx_full + k * qi], qi);
+        WtW[nt_idx + shift] = qoco_dot(&Wfull[nt_idx_full + j * qi],
+                                       &Wfull[nt_idx_full + k * qi], qi);
         shift += 1;
       }
     }
@@ -298,8 +293,8 @@ void compute_nt_scaling(QOCOWorkspace* work)
   }
 
   // Compute scaled variable lambda. lambda = W * z.
-  nt_multiply(Wfull, get_pointer_vectorf(work->z, 0), lambda,
-              work->data->l, work->data->m, work->data->nsoc, get_data_vectori(work->data->q));
+  nt_multiply(Wfull, get_pointer_vectorf(work->z, 0), lambda, work->data->l,
+              work->data->m, work->data->nsoc, get_data_vectori(work->data->q));
 }
 
 void compute_centering(QOCOSolver* solver)
@@ -310,15 +305,13 @@ void compute_centering(QOCOSolver* solver)
   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
   QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
-  QOCOFloat a = qoco_min(
-      linesearch(get_pointer_vectorf(work->z, 0), Dzaff, 1.0, solver),
-      linesearch(get_pointer_vectorf(work->s, 0), Ds, 1.0, solver));
+  QOCOFloat a =
+      qoco_min(linesearch(get_pointer_vectorf(work->z, 0), Dzaff, 1.0, solver),
+               linesearch(get_pointer_vectorf(work->s, 0), Ds, 1.0, solver));
 
   // Compute rho. rho = ((s + a * Ds)'*(z + a * Dz)) / (s'*z).
-  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), ubuff1, a,
-            work->data->m);
-  qoco_axpy(Ds, get_pointer_vectorf(work->s, 0), ubuff2, a,
-            work->data->m);
+  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), ubuff1, a, work->data->m);
+  qoco_axpy(Ds, get_pointer_vectorf(work->s, 0), ubuff2, a, work->data->m);
   QOCOFloat rho = qoco_dot(ubuff1, ubuff2, work->data->m) /
                   qoco_dot(get_pointer_vectorf(work->z, 0),
                            get_pointer_vectorf(work->s, 0), work->data->m);
@@ -330,17 +323,12 @@ void compute_centering(QOCOSolver* solver)
   solver->work->sigma = sigma;
 }
 
-QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
-                     QOCOSolver* solver)
-{
-  if (solver->work->data->nsoc == 0) {
-    return exact_linesearch(u, Du, f, solver);
-  }
-  else {
-    return bisection_search(u, Du, f, solver);
-  }
-}
-
+/**
+ * @brief Conducts linesearch by bisection to compute a \in (0, 1] such that
+ * u + (a / f) * Du \in C
+ * Warning: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du.
+ * Consider a dedicated buffer for linesearch.
+ */
 QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                            QOCOSolver* solver)
 {
@@ -364,6 +352,10 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   return al;
 }
 
+/**
+ * @brief Conducts exact linesearch to compute the largest a \in (0, 1] such
+ * that u + (a / f) * Du \in C. Currently only works for LP cone.
+ */
 QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                            QOCOSolver* solver)
 {
@@ -384,4 +376,15 @@ QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
     a = -f / minval;
 
   return a;
+}
+
+QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
+                     QOCOSolver* solver)
+{
+  if (solver->work->data->nsoc == 0) {
+    return exact_linesearch(u, Du, f, solver);
+  }
+  else {
+    return bisection_search(u, Du, f, solver);
+  }
 }
