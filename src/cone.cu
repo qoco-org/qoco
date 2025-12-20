@@ -350,57 +350,80 @@ __global__ void cone_product_kernel(const QOCOFloat* u, const QOCOFloat* v,
                                     QOCOFloat* p, QOCOInt l, QOCOInt nsoc,
                                     const QOCOInt* q)
 {
-  QOCOInt idx = 0;
+  QOCOInt tid = blockIdx.x * blockDim.x + threadIdx.x;
 
-  // LP cone product
-  for (QOCOInt i = 0; i < l; ++i) {
-    p[idx] = u[idx] * v[idx];
-    idx++;
+  /* ================= LP cone ================= */
+  if (tid < l) {
+    p[tid] = u[tid] * v[tid];
+    return;
   }
 
-  // SOC cone products
-  for (QOCOInt i = 0; i < nsoc; ++i) {
-    soc_product(&u[idx], &v[idx], &p[idx], q[i]);
-    idx += q[i];
+  /* ================= SOC cones ================= */
+  QOCOInt soc_tid = tid - l;
+  if (soc_tid >= nsoc)
+    return;
+
+  /* compute starting index of SOC cone soc_tid */
+  QOCOInt idx = l;
+  for (QOCOInt k = 0; k < soc_tid; ++k) {
+    idx += q[k];
   }
+
+  /* one thread computes one SOC cone product */
+  soc_product(&u[idx], &v[idx], &p[idx], q[soc_tid]);
 }
 
 __global__ void cone_division_kernel(const QOCOFloat* lambda,
                                      const QOCOFloat* v, QOCOFloat* d,
                                      QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
 {
-  QOCOInt idx = 0;
+  QOCOInt tid = blockIdx.x * blockDim.x + threadIdx.x;
 
-  // LP cone division
-  for (QOCOInt i = 0; i < l; ++i) {
-    d[idx] = safe_div(v[idx], lambda[idx]);
-    idx++;
+  /* ================= LP cone ================= */
+  if (tid < l) {
+    d[tid] = safe_div(v[tid], lambda[tid]);
+    return;
   }
 
-  // SOC cone division
-  for (QOCOInt i = 0; i < nsoc; ++i) {
-    soc_division(&lambda[idx], &v[idx], &d[idx], q[i]);
-    idx += q[i];
+  /* ================= SOC cones ================= */
+  QOCOInt soc_tid = tid - l;
+  if (soc_tid >= nsoc)
+    return;
+
+  /* compute starting index of SOC cone soc_tid */
+  QOCOInt idx = l;
+  for (QOCOInt k = 0; k < soc_tid; ++k) {
+    idx += q[k];
   }
+
+  /* one thread handles one SOC cone */
+  soc_division(&lambda[idx], &v[idx], &d[idx], q[soc_tid]);
 }
 
-__global__ void add_e_kernel(QOCOFloat* x, QOCOFloat a, QOCOFloat l,
-                             QOCOInt nsoc, QOCOInt* q)
+__global__ void add_e_kernel(QOCOFloat* x, QOCOFloat a, QOCOInt l, QOCOInt nsoc,
+                             const QOCOInt* q)
 {
-  // Single thread only
-  QOCOInt idx = 0;
+  QOCOInt tid = blockIdx.x * blockDim.x + threadIdx.x;
 
-  // LP cone part
-  for (QOCOInt i = 0; i < l; ++i) {
-    x[idx] -= a;
-    idx++;
+  /* ================= LP cone ================= */
+  if (tid < l) {
+    x[tid] -= a;
+    return;
   }
 
-  // SOC cone parts
-  for (QOCOInt i = 0; i < nsoc; ++i) {
-    x[idx] -= a;
-    idx += q[i];
+  /* ================= SOC cones ================= */
+  QOCOInt soc_tid = tid - l;
+  if (soc_tid >= nsoc)
+    return;
+
+  /* compute starting index of SOC cone soc_tid */
+  QOCOInt idx = l;
+  for (QOCOInt k = 0; k < soc_tid; ++k) {
+    idx += q[k];
   }
+
+  /* subtract a from the cone "scalar" entry */
+  x[idx] -= a;
 }
 
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
@@ -448,13 +471,21 @@ QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc,
 void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
 {
-  cone_product_kernel<<<1, 1>>>(u, v, p, l, nsoc, q);
+  QOCOInt total_threads = l + nsoc;
+  QOCOInt block = 256;
+  QOCOInt grid = (total_threads + block - 1) / block;
+
+  cone_product_kernel<<<grid, block>>>(u, v, p, l, nsoc, q);
 }
 
 void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
                    QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
 {
-  cone_division_kernel<<<1, 1>>>(lambda, v, d, l, nsoc, q);
+  QOCOInt total_threads = l + nsoc;
+  QOCOInt block = 256;
+  QOCOInt grid = (total_threads + block - 1) / block;
+
+  cone_division_kernel<<<grid, block>>>(lambda, v, d, l, nsoc, q);
 }
 
 void bring2cone(QOCOFloat* u, QOCOProblemData* data)
@@ -694,5 +725,9 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
 
 void add_e(QOCOFloat* x, QOCOFloat a, QOCOFloat l, QOCOInt nsoc, QOCOVectori* q)
 {
-  add_e_kernel<<<1, 1>>>(x, a, l, nsoc, get_data_vectori(q));
+  QOCOInt total_threads = l + nsoc;
+  QOCOInt block = 256;
+  QOCOInt grid = (total_threads + block - 1) / block;
+
+  add_e_kernel<<<grid, block>>>(x, a, l, nsoc, get_data_vectori(q));
 }
