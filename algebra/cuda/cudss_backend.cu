@@ -49,12 +49,11 @@ static void* g_cublas_handle = NULL;
 static int g_libs_loaded = 0;
 
 // Global accessor for function pointers (for use in cuda_linalg.cu)
-CudaLibFuncs* get_cuda_funcs(void) {
-  return &g_cuda_funcs;
-}
+CudaLibFuncs* get_cuda_funcs(void) { return &g_cuda_funcs; }
 
 // Load CUDA libraries using dlopen
-int load_cuda_libraries(void) {
+int load_cuda_libraries(void)
+{
   if (g_libs_loaded) {
     return 1; // Already loaded
   }
@@ -99,22 +98,41 @@ int load_cuda_libraries(void) {
   }
 
   // Load cuDSS functions
-  g_cuda_funcs.cudssCreate = (typeof(g_cuda_funcs.cudssCreate))dlsym(g_cudss_handle, "cudssCreate");
-  g_cuda_funcs.cudssConfigCreate = (typeof(g_cuda_funcs.cudssConfigCreate))dlsym(g_cudss_handle, "cudssConfigCreate");
-  g_cuda_funcs.cudssDataCreate = (typeof(g_cuda_funcs.cudssDataCreate))dlsym(g_cudss_handle, "cudssDataCreate");
-  g_cuda_funcs.cudssMatrixCreateCsr = (typeof(g_cuda_funcs.cudssMatrixCreateCsr))dlsym(g_cudss_handle, "cudssMatrixCreateCsr");
-  g_cuda_funcs.cudssExecute = (typeof(g_cuda_funcs.cudssExecute))dlsym(g_cudss_handle, "cudssExecute");
-  g_cuda_funcs.cudssMatrixCreateDn = (typeof(g_cuda_funcs.cudssMatrixCreateDn))dlsym(g_cudss_handle, "cudssMatrixCreateDn");
-  g_cuda_funcs.cudssMatrixSetValues = (typeof(g_cuda_funcs.cudssMatrixSetValues))dlsym(g_cudss_handle, "cudssMatrixSetValues");
-  g_cuda_funcs.cudssMatrixDestroy = (typeof(g_cuda_funcs.cudssMatrixDestroy))dlsym(g_cudss_handle, "cudssMatrixDestroy");
-  g_cuda_funcs.cudssDataDestroy = (typeof(g_cuda_funcs.cudssDataDestroy))dlsym(g_cudss_handle, "cudssDataDestroy");
-  g_cuda_funcs.cudssConfigDestroy = (typeof(g_cuda_funcs.cudssConfigDestroy))dlsym(g_cudss_handle, "cudssConfigDestroy");
-  g_cuda_funcs.cudssDestroy = (typeof(g_cuda_funcs.cudssDestroy))dlsym(g_cudss_handle, "cudssDestroy");
+  g_cuda_funcs.cudssCreate =
+      (typeof(g_cuda_funcs.cudssCreate))dlsym(g_cudss_handle, "cudssCreate");
+  g_cuda_funcs.cudssConfigCreate =
+      (typeof(g_cuda_funcs.cudssConfigCreate))dlsym(g_cudss_handle,
+                                                    "cudssConfigCreate");
+  g_cuda_funcs.cudssDataCreate = (typeof(g_cuda_funcs.cudssDataCreate))dlsym(
+      g_cudss_handle, "cudssDataCreate");
+  g_cuda_funcs.cudssMatrixCreateCsr =
+      (typeof(g_cuda_funcs.cudssMatrixCreateCsr))dlsym(g_cudss_handle,
+                                                       "cudssMatrixCreateCsr");
+  g_cuda_funcs.cudssExecute =
+      (typeof(g_cuda_funcs.cudssExecute))dlsym(g_cudss_handle, "cudssExecute");
+  g_cuda_funcs.cudssMatrixCreateDn =
+      (typeof(g_cuda_funcs.cudssMatrixCreateDn))dlsym(g_cudss_handle,
+                                                      "cudssMatrixCreateDn");
+  g_cuda_funcs.cudssMatrixSetValues =
+      (typeof(g_cuda_funcs.cudssMatrixSetValues))dlsym(g_cudss_handle,
+                                                       "cudssMatrixSetValues");
+  g_cuda_funcs.cudssMatrixDestroy =
+      (typeof(g_cuda_funcs.cudssMatrixDestroy))dlsym(g_cudss_handle,
+                                                     "cudssMatrixDestroy");
+  g_cuda_funcs.cudssDataDestroy = (typeof(g_cuda_funcs.cudssDataDestroy))dlsym(
+      g_cudss_handle, "cudssDataDestroy");
+  g_cuda_funcs.cudssConfigDestroy =
+      (typeof(g_cuda_funcs.cudssConfigDestroy))dlsym(g_cudss_handle,
+                                                     "cudssConfigDestroy");
+  g_cuda_funcs.cudssDestroy =
+      (typeof(g_cuda_funcs.cudssDestroy))dlsym(g_cudss_handle, "cudssDestroy");
 
-  if (!g_cuda_funcs.cudssCreate || !g_cuda_funcs.cudssConfigCreate || !g_cuda_funcs.cudssDataCreate ||
-      !g_cuda_funcs.cudssMatrixCreateCsr || !g_cuda_funcs.cudssExecute || !g_cuda_funcs.cudssMatrixCreateDn ||
+  if (!g_cuda_funcs.cudssCreate || !g_cuda_funcs.cudssConfigCreate ||
+      !g_cuda_funcs.cudssDataCreate || !g_cuda_funcs.cudssMatrixCreateCsr ||
+      !g_cuda_funcs.cudssExecute || !g_cuda_funcs.cudssMatrixCreateDn ||
       !g_cuda_funcs.cudssMatrixSetValues || !g_cuda_funcs.cudssMatrixDestroy ||
-      !g_cuda_funcs.cudssDataDestroy || !g_cuda_funcs.cudssConfigDestroy || !g_cuda_funcs.cudssDestroy) {
+      !g_cuda_funcs.cudssDataDestroy || !g_cuda_funcs.cudssConfigDestroy ||
+      !g_cuda_funcs.cudssDestroy) {
     fprintf(stderr, "Failed to resolve cuDSS symbols: %s\n", dlerror());
     dlclose(g_cudss_handle);
     dlclose(g_cusparse_handle);
@@ -122,16 +140,27 @@ int load_cuda_libraries(void) {
   }
 
   // Load cuSPARSE functions
-  g_cuda_funcs.cusparseCreate = (typeof(g_cuda_funcs.cusparseCreate))dlsym(g_cusparse_handle, "cusparseCreate");
-  g_cuda_funcs.cusparseCreateMatDescr = (typeof(g_cuda_funcs.cusparseCreateMatDescr))dlsym(g_cusparse_handle, "cusparseCreateMatDescr");
-  g_cuda_funcs.cusparseSetMatType = (typeof(g_cuda_funcs.cusparseSetMatType))dlsym(g_cusparse_handle, "cusparseSetMatType");
-  g_cuda_funcs.cusparseSetMatIndexBase = (typeof(g_cuda_funcs.cusparseSetMatIndexBase))dlsym(g_cusparse_handle, "cusparseSetMatIndexBase");
-  g_cuda_funcs.cusparseDestroy = (typeof(g_cuda_funcs.cusparseDestroy))dlsym(g_cusparse_handle, "cusparseDestroy");
-  g_cuda_funcs.cusparseDestroyMatDescr = (typeof(g_cuda_funcs.cusparseDestroyMatDescr))dlsym(g_cusparse_handle, "cusparseDestroyMatDescr");
+  g_cuda_funcs.cusparseCreate = (typeof(g_cuda_funcs.cusparseCreate))dlsym(
+      g_cusparse_handle, "cusparseCreate");
+  g_cuda_funcs.cusparseCreateMatDescr =
+      (typeof(g_cuda_funcs.cusparseCreateMatDescr))dlsym(
+          g_cusparse_handle, "cusparseCreateMatDescr");
+  g_cuda_funcs.cusparseSetMatType =
+      (typeof(g_cuda_funcs.cusparseSetMatType))dlsym(g_cusparse_handle,
+                                                     "cusparseSetMatType");
+  g_cuda_funcs.cusparseSetMatIndexBase =
+      (typeof(g_cuda_funcs.cusparseSetMatIndexBase))dlsym(
+          g_cusparse_handle, "cusparseSetMatIndexBase");
+  g_cuda_funcs.cusparseDestroy = (typeof(g_cuda_funcs.cusparseDestroy))dlsym(
+      g_cusparse_handle, "cusparseDestroy");
+  g_cuda_funcs.cusparseDestroyMatDescr =
+      (typeof(g_cuda_funcs.cusparseDestroyMatDescr))dlsym(
+          g_cusparse_handle, "cusparseDestroyMatDescr");
 
   if (!g_cuda_funcs.cusparseCreate || !g_cuda_funcs.cusparseCreateMatDescr ||
-      !g_cuda_funcs.cusparseSetMatType || !g_cuda_funcs.cusparseSetMatIndexBase ||
-      !g_cuda_funcs.cusparseDestroy || !g_cuda_funcs.cusparseDestroyMatDescr) {
+      !g_cuda_funcs.cusparseSetMatType ||
+      !g_cuda_funcs.cusparseSetMatIndexBase || !g_cuda_funcs.cusparseDestroy ||
+      !g_cuda_funcs.cusparseDestroyMatDescr) {
     fprintf(stderr, "Failed to resolve cuSPARSE symbols: %s\n", dlerror());
     dlclose(g_cudss_handle);
     dlclose(g_cusparse_handle);
@@ -140,29 +169,40 @@ int load_cuda_libraries(void) {
   }
 
   // Load cuBLAS functions
-  g_cuda_funcs.cublasCreate = (typeof(g_cuda_funcs.cublasCreate))dlsym(g_cublas_handle, "cublasCreate_v2");
+  g_cuda_funcs.cublasCreate = (typeof(g_cuda_funcs.cublasCreate))dlsym(
+      g_cublas_handle, "cublasCreate_v2");
   if (!g_cuda_funcs.cublasCreate) {
-    g_cuda_funcs.cublasCreate = (typeof(g_cuda_funcs.cublasCreate))dlsym(g_cublas_handle, "cublasCreate");
+    g_cuda_funcs.cublasCreate = (typeof(g_cuda_funcs.cublasCreate))dlsym(
+        g_cublas_handle, "cublasCreate");
   }
-  g_cuda_funcs.cublasDdot = (typeof(g_cuda_funcs.cublasDdot))dlsym(g_cublas_handle, "cublasDdot_v2");
+  g_cuda_funcs.cublasDdot =
+      (typeof(g_cuda_funcs.cublasDdot))dlsym(g_cublas_handle, "cublasDdot_v2");
   if (!g_cuda_funcs.cublasDdot) {
-    g_cuda_funcs.cublasDdot = (typeof(g_cuda_funcs.cublasDdot))dlsym(g_cublas_handle, "cublasDdot");
+    g_cuda_funcs.cublasDdot =
+        (typeof(g_cuda_funcs.cublasDdot))dlsym(g_cublas_handle, "cublasDdot");
   }
-  g_cuda_funcs.cublasDestroy = (typeof(g_cuda_funcs.cublasDestroy))dlsym(g_cublas_handle, "cublasDestroy_v2");
+  g_cuda_funcs.cublasDestroy = (typeof(g_cuda_funcs.cublasDestroy))dlsym(
+      g_cublas_handle, "cublasDestroy_v2");
   if (!g_cuda_funcs.cublasDestroy) {
-    g_cuda_funcs.cublasDestroy = (typeof(g_cuda_funcs.cublasDestroy))dlsym(g_cublas_handle, "cublasDestroy");
+    g_cuda_funcs.cublasDestroy = (typeof(g_cuda_funcs.cublasDestroy))dlsym(
+        g_cublas_handle, "cublasDestroy");
   }
-  g_cuda_funcs.cublasIdamin = (typeof(g_cuda_funcs.cublasIdamin))dlsym(g_cublas_handle, "cublasIdamin_v2");
+  g_cuda_funcs.cublasIdamin = (typeof(g_cuda_funcs.cublasIdamin))dlsym(
+      g_cublas_handle, "cublasIdamin_v2");
   if (!g_cuda_funcs.cublasIdamin) {
-    g_cuda_funcs.cublasIdamin = (typeof(g_cuda_funcs.cublasIdamin))dlsym(g_cublas_handle, "cublasIdamin");
+    g_cuda_funcs.cublasIdamin = (typeof(g_cuda_funcs.cublasIdamin))dlsym(
+        g_cublas_handle, "cublasIdamin");
   }
-  g_cuda_funcs.cublasIdamax = (typeof(g_cuda_funcs.cublasIdamax))dlsym(g_cublas_handle, "cublasIdamax_v2");
+  g_cuda_funcs.cublasIdamax = (typeof(g_cuda_funcs.cublasIdamax))dlsym(
+      g_cublas_handle, "cublasIdamax_v2");
   if (!g_cuda_funcs.cublasIdamax) {
-    g_cuda_funcs.cublasIdamax = (typeof(g_cuda_funcs.cublasIdamax))dlsym(g_cublas_handle, "cublasIdamax");
+    g_cuda_funcs.cublasIdamax = (typeof(g_cuda_funcs.cublasIdamax))dlsym(
+        g_cublas_handle, "cublasIdamax");
   }
 
-  if (!g_cuda_funcs.cublasCreate || !g_cuda_funcs.cublasDdot || !g_cuda_funcs.cublasDestroy ||
-      !g_cuda_funcs.cublasIdamin || !g_cuda_funcs.cublasIdamax) {
+  if (!g_cuda_funcs.cublasCreate || !g_cuda_funcs.cublasDdot ||
+      !g_cuda_funcs.cublasDestroy || !g_cuda_funcs.cublasIdamin ||
+      !g_cuda_funcs.cublasIdamax) {
     fprintf(stderr, "Failed to resolve cuBLAS symbols: %s\n", dlerror());
     dlclose(g_cudss_handle);
     dlclose(g_cusparse_handle);
@@ -245,7 +285,6 @@ struct LinSysData {
   QOCOInt* d_PregtoKKTcsr;
   QOCOInt* d_AttoKKTcsr;
   QOCOInt* d_GttoKKTcsr;
-
 };
 
 // Convert CSC to CSR on CPU and copy to GPU
@@ -357,17 +396,22 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   // Initialize cuDSS
   CUDSS_CHECK(g_cuda_funcs.cudssCreate(&linsys_data->handle));
   CUDSS_CHECK(g_cuda_funcs.cudssConfigCreate(&linsys_data->config));
-  CUDSS_CHECK(g_cuda_funcs.cudssDataCreate(linsys_data->handle, &linsys_data->data));
+  CUDSS_CHECK(
+      g_cuda_funcs.cudssDataCreate(linsys_data->handle, &linsys_data->data));
 
   // Initialize cuSPARSE
   g_cuda_funcs.cusparseCreate(&linsys_data->cusparse_handle);
   g_cuda_funcs.cusparseCreateMatDescr(&linsys_data->descr);
-  g_cuda_funcs.cusparseSetMatType(linsys_data->descr, CUSPARSE_MATRIX_TYPE_GENERAL);
-  g_cuda_funcs.cusparseSetMatIndexBase(linsys_data->descr, CUSPARSE_INDEX_BASE_ZERO);
+  g_cuda_funcs.cusparseSetMatType(linsys_data->descr,
+                                  CUSPARSE_MATRIX_TYPE_GENERAL);
+  g_cuda_funcs.cusparseSetMatIndexBase(linsys_data->descr,
+                                       CUSPARSE_INDEX_BASE_ZERO);
 
   // Allocate vector buffers
-  CUDA_CHECK(cudaMalloc(&linsys_data->d_rhs_matrix_data, sizeof(QOCOFloat) * linsys_data->Kn));
-  CUDA_CHECK(cudaMalloc(&linsys_data->d_xyz_matrix_data, sizeof(QOCOFloat) * linsys_data->Kn));
+  CUDA_CHECK(cudaMalloc(&linsys_data->d_rhs_matrix_data,
+                        sizeof(QOCOFloat) * linsys_data->Kn));
+  CUDA_CHECK(cudaMalloc(&linsys_data->d_xyz_matrix_data,
+                        sizeof(QOCOFloat) * linsys_data->Kn));
   linsys_data->Wnnz = Wnnz;
 
   // Allocate memory for mappings to KKT matrix
@@ -381,15 +425,15 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       (QOCOInt*)qoco_calloc(get_nnz(data->G), sizeof(QOCOInt));
 
   // Construct KKT matrix (no permutation for CUDA backend).
-  // Need to set CPU mode to 1 so get_csc_matrix returns host pointers, since construct_kkt is a host function.
+  // Need to set CPU mode to 1 so get_csc_matrix returns host pointers, since
+  // construct_kkt is a host function.
   set_cpu_mode(1);
   QOCOCscMatrix* Kcsc = construct_kkt(
-      get_csc_matrix(data->P), get_csc_matrix(data->A),
-      get_csc_matrix(data->G), get_csc_matrix(data->At),
-      get_csc_matrix(data->Gt), settings->kkt_static_reg, data->n, data->m,
-      data->p, data->l, data->nsoc, get_data_vectori(data->q), linsys_data->PregtoKKT,
-      linsys_data->AttoKKT, linsys_data->GttoKKT, linsys_data->nt2kkt,
-      linsys_data->ntdiag2kkt, Wnnz);
+      get_csc_matrix(data->P), get_csc_matrix(data->A), get_csc_matrix(data->G),
+      get_csc_matrix(data->At), get_csc_matrix(data->Gt),
+      settings->kkt_static_reg, data->n, data->m, data->p, data->l, data->nsoc,
+      get_data_vectori(data->q), linsys_data->PregtoKKT, linsys_data->AttoKKT,
+      linsys_data->GttoKKT, linsys_data->nt2kkt, linsys_data->ntdiag2kkt, Wnnz);
   set_cpu_mode(0);
 
   // Convert KKT matrix from CSC (CPU) to CSR (GPU) for cuDSS
@@ -456,15 +500,15 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   // KKT matrix is symmetric (upper triangular stored)
   CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateCsr(
       &linsys_data->K_csr, (int64_t)linsys_data->Kn, (int64_t)linsys_data->Kn,
-      (int64_t)Kcsc->nnz, csr_row_ptr, NULL, csr_col_ind, csr_val,
-      indexType, valueType_setup, CUDSS_MTYPE_SYMMETRIC, CUDSS_MVIEW_UPPER,
+      (int64_t)Kcsc->nnz, csr_row_ptr, NULL, csr_col_ind, csr_val, indexType,
+      valueType_setup, CUDSS_MTYPE_SYMMETRIC, CUDSS_MVIEW_UPPER,
       CUDSS_BASE_ZERO));
 
   // Run analysis phase.
-  CUDSS_CHECK(g_cuda_funcs.cudssExecute(linsys_data->handle, CUDSS_PHASE_ANALYSIS,
-                           linsys_data->config, linsys_data->data,
-                           linsys_data->K_csr, linsys_data->d_xyz_matrix,
-                           linsys_data->d_rhs_matrix));
+  CUDSS_CHECK(g_cuda_funcs.cudssExecute(
+      linsys_data->handle, CUDSS_PHASE_ANALYSIS, linsys_data->config,
+      linsys_data->data, linsys_data->K_csr, linsys_data->d_xyz_matrix,
+      linsys_data->d_rhs_matrix));
 
   // Free CSR structure arrays - cuDSS uses them during analysis
   cudaFree(csr_row_ptr);
@@ -484,11 +528,10 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   }
   // Only allocate ntdiag2kktcsr if m > 0 (i.e. if there are conic constraints)
   if (data->m > 0) {
-    CUDA_CHECK(cudaMalloc(&linsys_data->d_ntdiag2kktcsr,
-      data->m * sizeof(QOCOInt)));
+    CUDA_CHECK(
+        cudaMalloc(&linsys_data->d_ntdiag2kktcsr, data->m * sizeof(QOCOInt)));
     CUDA_CHECK(cudaMemcpy(linsys_data->d_ntdiag2kktcsr, ntdiag2kktcsr,
-      data->m * sizeof(QOCOInt),
-                          cudaMemcpyHostToDevice));
+                          data->m * sizeof(QOCOInt), cudaMemcpyHostToDevice));
   }
   else {
     linsys_data->d_ntdiag2kktcsr = NULL;
@@ -525,27 +568,27 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   qoco_free(csc2csr);
 
   // Create dense matrix wrappers for solution and RHS vectors (column vectors)
-  // Note: d_rhs_matrix wraps d_rhs_matrix_data, d_xyz_matrix wraps d_xyz_matrix_data
-  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateDn(&linsys_data->d_rhs_matrix, (int64_t)linsys_data->Kn, 1,
-                                  (int64_t)linsys_data->Kn, linsys_data->d_rhs_matrix_data,
-                                  valueType_setup, CUDSS_LAYOUT_COL_MAJOR));
-  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateDn(&linsys_data->d_xyz_matrix, (int64_t)linsys_data->Kn, 1,
-                                  (int64_t)linsys_data->Kn, linsys_data->d_xyz_matrix_data,
-                                  valueType_setup, CUDSS_LAYOUT_COL_MAJOR));
+  // Note: d_rhs_matrix wraps d_rhs_matrix_data, d_xyz_matrix wraps
+  // d_xyz_matrix_data
+  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateDn(
+      &linsys_data->d_rhs_matrix, (int64_t)linsys_data->Kn, 1,
+      (int64_t)linsys_data->Kn, linsys_data->d_rhs_matrix_data, valueType_setup,
+      CUDSS_LAYOUT_COL_MAJOR));
+  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateDn(
+      &linsys_data->d_xyz_matrix, (int64_t)linsys_data->Kn, 1,
+      (int64_t)linsys_data->Kn, linsys_data->d_xyz_matrix_data, valueType_setup,
+      CUDSS_LAYOUT_COL_MAJOR));
 
   return linsys_data;
 }
 
 // CUDA kernel to directly update CSR values for NT blocks
-__global__ void update_csr_nt_blocks_kernel(
-    const QOCOFloat* WtW,     // NT block values (on GPU)
-    QOCOFloat* csr_val,       // CSR values to update (on GPU)
-    const QOCOInt* nt2kktcsr,
-    const QOCOInt*
-        ntdiag2kktcsr,
-    QOCOFloat kkt_static_reg,
-    QOCOInt Wnnz,
-    QOCOInt m)
+__global__ void
+update_csr_nt_blocks_kernel(const QOCOFloat* WtW, // NT block values (on GPU)
+                            QOCOFloat* csr_val, // CSR values to update (on GPU)
+                            const QOCOInt* nt2kktcsr,
+                            const QOCOInt* ntdiag2kktcsr,
+                            QOCOFloat kkt_static_reg, QOCOInt Wnnz, QOCOInt m)
 {
   QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -557,12 +600,10 @@ __global__ void update_csr_nt_blocks_kernel(
 }
 
 // CUDA kernel to update NT diagonal regularization
-__global__ void update_csr_nt_diag_kernel(
-    QOCOFloat* csr_val, // CSR values to update (on GPU)
-    const QOCOInt*
-        ntdiag2kktcsr,
-    QOCOFloat kkt_static_reg,
-    QOCOInt m)
+__global__ void
+update_csr_nt_diag_kernel(QOCOFloat* csr_val, // CSR values to update (on GPU)
+                          const QOCOInt* ntdiag2kktcsr,
+                          QOCOFloat kkt_static_reg, QOCOInt m)
 {
   QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
   if (idx < m) {
@@ -575,8 +616,7 @@ __global__ void update_csr_nt_diag_kernel(
 __global__ void update_csr_matrix_data_kernel(
     const QOCOFloat* matrix_val, // New matrix values (on GPU)
     QOCOFloat* csr_val,          // CSR values to update (on GPU)
-    const QOCOInt* mat2kktcsr,
-    QOCOInt nnz)
+    const QOCOInt* mat2kktcsr, QOCOInt nnz)
 {
   QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
   if (idx < nnz) {
@@ -588,37 +628,39 @@ __global__ void update_csr_matrix_data_kernel(
 static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
                          QOCOFloat kkt_dynamic_reg)
 {
-  CUDSS_CHECK(g_cuda_funcs.cudssExecute(linsys_data->handle, CUDSS_PHASE_FACTORIZATION,
-                           linsys_data->config, linsys_data->data,
-                           linsys_data->K_csr, linsys_data->d_xyz_matrix,
-                           linsys_data->d_rhs_matrix));
+  CUDSS_CHECK(g_cuda_funcs.cudssExecute(
+      linsys_data->handle, CUDSS_PHASE_FACTORIZATION, linsys_data->config,
+      linsys_data->data, linsys_data->K_csr, linsys_data->d_xyz_matrix,
+      linsys_data->d_rhs_matrix));
 }
 
-// TODO: Remove cudaMemcpy, now we need it since rhs and solution is copied to and from GPU respectively.
 static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters)
 {
   (void)iter_ref_iters; // No iterative refinement for CUDA backend
 
   // Copy b from CPU to GPU.
-  CUDA_CHECK(cudaMemcpy(linsys_data->d_rhs_matrix_data, b, linsys_data->Kn * sizeof(QOCOFloat),
-                          cudaMemcpyHostToDevice));
+  CUDA_CHECK(cudaMemcpy(linsys_data->d_rhs_matrix_data, b,
+                        linsys_data->Kn * sizeof(QOCOFloat),
+                        cudaMemcpyDeviceToDevice));
 
   // Clear solution buffer (d_xyz_matrix points to d_xyz_matrix_data)
-  CUDA_CHECK(cudaMemset(linsys_data->d_xyz_matrix_data, 0, linsys_data->Kn * sizeof(QOCOFloat)));
+  CUDA_CHECK(cudaMemset(linsys_data->d_xyz_matrix_data, 0,
+                        linsys_data->Kn * sizeof(QOCOFloat)));
 
-  // d_rhs_matrix points to d_rhs_matrix_data, d_xyz_matrix points to d_xyz_matrix_data
-  CUDSS_CHECK(g_cuda_funcs.cudssExecute(linsys_data->handle, CUDSS_PHASE_SOLVE,
-                           linsys_data->config, linsys_data->data,
-                           linsys_data->K_csr, linsys_data->d_xyz_matrix,
-                           linsys_data->d_rhs_matrix));
+  // d_rhs_matrix points to d_rhs_matrix_data, d_xyz_matrix points to
+  // d_xyz_matrix_data
+  CUDSS_CHECK(g_cuda_funcs.cudssExecute(
+      linsys_data->handle, CUDSS_PHASE_SOLVE, linsys_data->config,
+      linsys_data->data, linsys_data->K_csr, linsys_data->d_xyz_matrix,
+      linsys_data->d_rhs_matrix));
 
   // Copy x from GPU to CPU.
-  CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyz_matrix_data, linsys_data->Kn * sizeof(QOCOFloat),
-                        cudaMemcpyDeviceToHost));
+  CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyz_matrix_data,
+                        linsys_data->Kn * sizeof(QOCOFloat),
+                        cudaMemcpyDeviceToDevice));
 }
 
-// TODO: Remove cudaMemcpy, now we need it since NT computation is done on the CPU.
 static void cudss_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
                             QOCOFloat kkt_static_reg, QOCOInt m)
 {
@@ -627,7 +669,7 @@ static void cudss_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
     // Copy WtW to device from host
     CUDA_CHECK(cudaMemcpy(linsys_data->d_WtW, WtW,
                           linsys_data->Wnnz * sizeof(QOCOFloat),
-                          cudaMemcpyHostToDevice));
+                          cudaMemcpyDeviceToDevice));
 
     // Update NT blocks directly in CSR
     QOCOInt threadsPerBlock = 256;
@@ -642,15 +684,14 @@ static void cudss_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
   // Update diagonal regularization separately
   if (m > 0 && linsys_data->d_ntdiag2kktcsr) {
     QOCOInt threadsPerBlock = 256;
-    QOCOInt numBlocks_diag =
-        (m + threadsPerBlock - 1) /
-        threadsPerBlock;
+    QOCOInt numBlocks_diag = (m + threadsPerBlock - 1) / threadsPerBlock;
     update_csr_nt_diag_kernel<<<numBlocks_diag, threadsPerBlock>>>(
         linsys_data->d_csr_val, linsys_data->d_ntdiag2kktcsr, kkt_static_reg,
         m);
     CUDA_CHECK(cudaGetLastError());
   }
-  CUDSS_CHECK(g_cuda_funcs.cudssMatrixSetValues(linsys_data->K_csr, linsys_data->d_csr_val));
+  CUDSS_CHECK(g_cuda_funcs.cudssMatrixSetValues(linsys_data->K_csr,
+                                                linsys_data->d_csr_val));
   CUDA_CHECK(cudaDeviceSynchronize());
 }
 
