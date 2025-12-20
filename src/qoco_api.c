@@ -46,7 +46,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   data->p = p;
   data->A = new_qoco_matrix(A);
   data->G = new_qoco_matrix(G);
-  data->q = new_qoco_vectori(q, n);
+  data->q = new_qoco_vectori(q, nsoc);
   data->c = new_qoco_vectorf(c, n);
   data->b = new_qoco_vectorf(b, p);
   data->h = new_qoco_vectorf(h, m);
