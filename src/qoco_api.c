@@ -151,10 +151,6 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
     Wnnzfull +=
         get_element_vectori(data->q, i) * get_element_vectori(data->q, i);
   }
-  QOCOInt qmax = 0;
-  if (solver->work->data->nsoc) {
-    qmax = max_arrayi(get_data_vectori(data->q), solver->work->data->nsoc);
-  }
   set_cpu_mode(0);
 
   solver->work->W = new_qoco_vectorf(NULL, solver->work->Wnnz);
@@ -165,8 +161,13 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->WtW = new_qoco_vectorf(NULL, solver->work->Wnnz);
   solver->work->lambda = new_qoco_vectorf(NULL, m);
 
-  solver->work->sbar = new_qoco_vectorf(NULL, qmax);
-  solver->work->zbar = new_qoco_vectorf(NULL, qmax);
+  // For serial implementations of compute_nt scaling, sbar/zbar only need to be
+  // of length max(q), since we process one SOC at a time, but for concurrent
+  // implementations, we need each the kth SOC to have its own buffer of length
+  // q[k].
+  solver->work->sbar = new_qoco_vectorf(NULL, m);
+  solver->work->zbar = new_qoco_vectorf(NULL, m);
+
   solver->work->xbuff = new_qoco_vectorf(NULL, n);
   solver->work->ybuff = new_qoco_vectorf(NULL, p);
   solver->work->ubuff1 = new_qoco_vectorf(NULL, m);

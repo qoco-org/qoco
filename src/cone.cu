@@ -189,121 +189,125 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
                                           QOCOFloat* Winvfull, QOCOFloat* s,
                                           QOCOFloat* z, QOCOFloat* sbar,
                                           QOCOFloat* zbar, QOCOInt l,
-                                          QOCOInt nsoc, QOCOInt* q)
+                                          QOCOInt nsoc, const QOCOInt* q)
 {
-  if (blockIdx.x != 0 || threadIdx.x != 0)
-    return;
-
-  QOCOInt idx;
+  QOCOInt tid = blockIdx.x * blockDim.x + threadIdx.x;
 
   /* ================= LP cone ================= */
-  for (idx = 0; idx < l; ++idx) {
-    WtW[idx] = safe_div(s[idx], z[idx]);
-    W[idx] = qoco_sqrt(WtW[idx]);
-    Wfull[idx] = W[idx];
+  if (tid < l) {
+    QOCOFloat val = safe_div(s[tid], z[tid]);
+    WtW[tid] = val;
+    QOCOFloat w = qoco_sqrt(val);
 
-    Winv[idx] = safe_div((QOCOFloat)1.0, W[idx]);
-    Winvfull[idx] = Winv[idx];
+    W[tid] = w;
+    Wfull[tid] = w;
+
+    QOCOFloat winv = safe_div((QOCOFloat)1.0, w);
+    Winv[tid] = winv;
+    Winvfull[tid] = winv;
+    return;
   }
 
   /* ================= SOC cones ================= */
-  QOCOInt nt_idx = idx;
-  QOCOInt nt_idx_full = idx;
+  QOCOInt soc_id = tid - l;
+  if (soc_id >= nsoc)
+    return;
 
-  for (QOCOInt i = 0; i < nsoc; ++i) {
+  /* ---- compute SOC offsets ---- */
+  QOCOInt idx = l;
+  QOCOInt nt_idx = l;
+  QOCOInt nt_idx_full = l;
 
-    QOCOInt qi = q[i];
+  for (QOCOInt k = 0; k < soc_id; ++k) {
+    idx += q[k];
+    nt_idx += (q[k] * q[k] + q[k]) / 2;
+    nt_idx_full += q[k] * q[k];
+  }
 
-    /* --- normalize s --- */
-    QOCOFloat s_scal = soc_residual2(&s[idx], qi);
-    s_scal = qoco_sqrt(s_scal);
-    QOCOFloat f = safe_div((QOCOFloat)1.0, s_scal);
-    scale_arrayf_dev(&s[idx], sbar, f, qi);
+  QOCOInt qi = q[soc_id];
 
-    /* --- normalize z --- */
-    QOCOFloat z_scal = soc_residual2(&z[idx], qi);
-    z_scal = qoco_sqrt(z_scal);
-    f = safe_div((QOCOFloat)1.0, z_scal);
-    scale_arrayf_dev(&z[idx], zbar, f, qi);
+  /* --- normalize s --- */
+  QOCOFloat s_scal = qoco_sqrt(soc_residual2(&s[idx], qi));
+  QOCOFloat f = safe_div((QOCOFloat)1.0, s_scal);
+  scale_arrayf_dev(&s[idx], &sbar[idx], f, qi);
 
-    /* --- compute gamma --- */
-    QOCOFloat gamma = qoco_sqrt(
-        (QOCOFloat)0.5 * ((QOCOFloat)1.0 + qoco_dot_dev(sbar, zbar, qi)));
+  /* --- normalize z --- */
+  QOCOFloat z_scal = qoco_sqrt(soc_residual2(&z[idx], qi));
+  f = safe_div((QOCOFloat)1.0, z_scal);
+  scale_arrayf_dev(&z[idx], &zbar[idx], f, qi);
 
-    // For some unknown reason, when I replace the line below with
-    // safe_div(1.0, 2.0 * gamma), when gamma=1.001301, we expect f=0.499350,
-    // but we get f=0.500650, so safe_div is not used here. When safe_div is
-    // used, all SOCP unit tests fail. Likely some GPU weirdness.
-    f = 1.0 / (2.0 * gamma);
+  QOCOFloat gamma =
+      qoco_sqrt((QOCOFloat)0.5 *
+                ((QOCOFloat)1.0 + qoco_dot_dev(&sbar[idx], &zbar[idx], qi)));
 
-    /* overwrite sbar with wbar */
-    sbar[0] = f * (sbar[0] + zbar[0]);
-    for (QOCOInt j = 1; j < qi; ++j) {
-      sbar[j] = f * (sbar[j] - zbar[j]);
-    }
+  // For some unknown reason, when I replace the line below with
+  // safe_div(1.0, 2.0 * gamma), when gamma=1.001301, we expect f=0.499350,
+  // but we get f=0.500650, so safe_div is not used here. When safe_div is
+  // used, all SOCP unit tests fail. Likely some GPU weirdness.
+  f = 1.0 / (2.0 * gamma);
 
-    /* overwrite zbar with v */
-    f = safe_div((QOCOFloat)1.0,
-                 qoco_sqrt((QOCOFloat)2.0 * (sbar[0] + (QOCOFloat)1.0)));
+  /* overwrite sbar with wbar */
+  sbar[idx + 0] = f * (sbar[idx + 0] + zbar[idx + 0]);
+  for (QOCOInt j = 1; j < qi; ++j)
+    sbar[idx + j] = f * (sbar[idx + j] - zbar[idx + j]);
 
-    zbar[0] = f * (sbar[0] + (QOCOFloat)1.0);
-    for (QOCOInt j = 1; j < qi; ++j) {
-      zbar[j] = f * sbar[j];
-    }
+  /* overwrite zbar with v */
+  f = safe_div((QOCOFloat)1.0,
+               qoco_sqrt((QOCOFloat)2.0 * (sbar[idx + 0] + (QOCOFloat)1.0)));
 
-    /* --- build W and Winv --- */
-    QOCOInt shift = 0;
-    QOCOFloat fwd = qoco_sqrt(safe_div(s_scal, z_scal));
-    QOCOFloat finv = safe_div((QOCOFloat)1.0, fwd);
+  zbar[idx + 0] = f * (sbar[idx + 0] + (QOCOFloat)1.0);
+  for (QOCOInt j = 1; j < qi; ++j)
+    zbar[idx + j] = f * sbar[idx + j];
 
-    for (QOCOInt j = 0; j < qi; ++j) {
-      for (QOCOInt k = 0; k <= j; ++k) {
+  /* --- build W and Winv --- */
+  QOCOFloat fwd = qoco_sqrt(safe_div(s_scal, z_scal));
+  QOCOFloat finv = 1.0 / fwd;
 
-        QOCOInt full1 = nt_idx_full + j * qi + k;
-        QOCOInt full2 = nt_idx_full + k * qi + j;
+  QOCOInt shift = 0;
+  for (QOCOInt j = 0; j < qi; ++j) {
+    for (QOCOInt k = 0; k <= j; ++k) {
 
-        QOCOFloat val = (QOCOFloat)2.0 * zbar[k] * zbar[j];
+      QOCOFloat val = (QOCOFloat)2.0 * zbar[idx + k] * zbar[idx + j];
+      QOCOFloat winv_val = val;
 
-        QOCOFloat winv_val = val;
-        if (j != 0 && k == 0)
-          winv_val = -val;
+      if (j != 0 && k == 0)
+        winv_val = -val;
 
-        if (j == 0 && k == 0) {
-          val -= (QOCOFloat)1.0;
-          winv_val -= (QOCOFloat)1.0;
-        }
-        else if (j == k) {
-          val += (QOCOFloat)1.0;
-          winv_val += (QOCOFloat)1.0;
-        }
-
-        val *= fwd;
-        winv_val *= finv;
-
-        W[nt_idx + shift] = val;
-        Winv[nt_idx + shift] = winv_val;
-        Wfull[full1] = val;
-        Wfull[full2] = val;
-        Winvfull[full1] = winv_val;
-        Winvfull[full2] = winv_val;
-
-        shift++;
+      if (j == 0 && k == 0) {
+        val -= (QOCOFloat)1.0;
+        winv_val -= (QOCOFloat)1.0;
       }
-    }
-
-    /* --- compute WtW --- */
-    shift = 0;
-    for (QOCOInt j = 0; j < qi; ++j) {
-      for (QOCOInt k = 0; k <= j; ++k) {
-        WtW[nt_idx + shift] = qoco_dot_dev(&Wfull[nt_idx_full + j * qi],
-                                           &Wfull[nt_idx_full + k * qi], qi);
-        shift++;
+      else if (j == k) {
+        val += (QOCOFloat)1.0;
+        winv_val += (QOCOFloat)1.0;
       }
-    }
 
-    idx += qi;
-    nt_idx += (qi * qi + qi) / 2;
-    nt_idx_full += qi * qi;
+      val *= fwd;
+      winv_val *= finv;
+
+      QOCOInt full1 = nt_idx_full + j * qi + k;
+      QOCOInt full2 = nt_idx_full + k * qi + j;
+
+      W[nt_idx + shift] = val;
+      Winv[nt_idx + shift] = winv_val;
+
+      Wfull[full1] = val;
+      Wfull[full2] = val;
+      Winvfull[full1] = winv_val;
+      Winvfull[full2] = winv_val;
+
+      shift++;
+    }
+  }
+
+  /* --- compute WtW --- */
+  shift = 0;
+  for (QOCOInt j = 0; j < qi; ++j) {
+    for (QOCOInt k = 0; k <= j; ++k) {
+      WtW[nt_idx + shift] = qoco_dot_dev(&Wfull[nt_idx_full + j * qi],
+                                         &Wfull[nt_idx_full + k * qi], qi);
+      shift++;
+    }
   }
 }
 
@@ -522,9 +526,15 @@ void compute_nt_scaling(QOCOWorkspace* work)
   QOCOFloat* zbar = get_data_vectorf(work->zbar);
   QOCOFloat* lambda = get_data_vectorf(work->lambda);
   QOCOInt* q = get_data_vectori(work->data->q);
+  QOCOInt l = work->data->l;
+  QOCOInt nsoc = work->data->nsoc;
 
-  compute_nt_scaling_kernel<<<1, 1>>>(W, WtW, Wfull, Winv, Winvfull, s, z, sbar,
-                                      zbar, work->data->l, work->data->nsoc, q);
+  QOCOInt total_threads = l + nsoc;
+  QOCOInt block = 128; // SOC threads are heavy; don't oversubscribe
+  QOCOInt grid = (total_threads + block - 1) / block;
+
+  compute_nt_scaling_kernel<<<grid, block>>>(W, WtW, Wfull, Winv, Winvfull, s,
+                                             z, sbar, zbar, l, nsoc, q);
 
   /* ================= lambda = W * z ================= */
   nt_multiply(Wfull, z, lambda, work->data->l, work->data->m, work->data->nsoc,
