@@ -335,12 +335,13 @@ unsigned char check_stopping(QOCOSolver* solver)
       return 1;
     }
   }
-  printf("pres: %f, pres_rel: %f, eabs: %f, erel: %f\n", pres, pres_rel, eabs,
-         erel);
-  printf("dres: %f, dres_rel: %f, eabsinacc: %f, erelinacc: %f\n", dres,
-         dres_rel, eabsinacc, erelinacc);
-  printf("solver->sol->gap: %f, gap_rel: %f, eabsinacc: %f, erelinacc: %f\n",
-         solver->sol->gap, gap_rel, eabsinacc, erelinacc);
+  // printf("pres: %f, pres_rel: %f, eabs: %f, erel: %f\n", pres, pres_rel,
+  // eabs,
+  //        erel);
+  // printf("dres: %f, dres_rel: %f, eabsinacc: %f, erelinacc: %f\n", dres,
+  //        dres_rel, eabsinacc, erelinacc);
+  // printf("solver->sol->gap: %f, gap_rel: %f, eabsinacc: %f, erelinacc: %f\n",
+  //        solver->sol->gap, gap_rel, eabsinacc, erelinacc);
   if (pres < eabs + erel * pres_rel && dres < eabs + erel * dres_rel &&
       solver->sol->gap < eabs + erel * gap_rel) {
     solver->sol->status = QOCO_SOLVED;

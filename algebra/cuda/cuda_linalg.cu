@@ -139,7 +139,6 @@ __global__ void SpMv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v,
 // Construct A on CPU and create device copy.
 QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 {
-  printf("Called\n");
   CUDA_CHECK(cudaGetLastError());
   QOCOMatrix* M = (QOCOMatrix*)qoco_malloc(sizeof(QOCOMatrix));
 
@@ -201,6 +200,13 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     M->csc->x = NULL;
     M->csc->i = NULL;
     M->csc->p = NULL;
+
+    M->d_csc_host->m = 0;
+    M->d_csc_host->n = 0;
+    M->d_csc_host->nnz = 0;
+    M->d_csc_host->x = NULL;
+    M->d_csc_host->i = NULL;
+    M->d_csc_host->p = NULL;
   }
   CUDA_CHECK(cudaGetLastError());
 
@@ -425,7 +431,6 @@ void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data)
 
 void reciprocal_vectorf(const QOCOVectorf* input, QOCOVectorf* output)
 {
-  printf("Call reciprocal\n");
   CUDA_CHECK(cudaGetLastError());
   // Called during equilibration on CPU
   for (QOCOInt i = 0; i < input->len; ++i) {
@@ -484,6 +489,10 @@ void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
   qoco_assert(x || n == 0);
   qoco_assert(y || n == 0);
 
+  if (n <= 0) {
+    return;
+  }
+
   const QOCOInt blockSize = 256;
   const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
 
@@ -497,6 +506,7 @@ void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
       (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
     copy_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, n);
     CUDA_CHECK(cudaDeviceSynchronize());
+    CUDA_CHECK(cudaGetLastError());
   }
   else {
     // If both pointers are on host, use CPU.
@@ -510,6 +520,7 @@ void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
 {
   qoco_assert(x || n == 0);
   qoco_assert(y || n == 0);
+  CUDA_CHECK(cudaGetLastError());
 
   const QOCOInt blockSize = 256;
   const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
@@ -525,6 +536,7 @@ void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
     copy_and_negate_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y,
                                                             n);
     CUDA_CHECK(cudaDeviceSynchronize());
+    CUDA_CHECK(cudaGetLastError());
   }
   else {
     // If both pointers are on host, use CPU.
@@ -670,23 +682,29 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
 
 void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->n * sizeof(QOCOFloat)));
-  USpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
-  CUDA_CHECK(cudaDeviceSynchronize());
+  if (M->d_csc_host->n > 0) {
+    CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->n * sizeof(QOCOFloat)));
+    USpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
+    CUDA_CHECK(cudaDeviceSynchronize());
+  }
 }
 
 void SpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->m * sizeof(QOCOFloat)));
-  SpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
-  CUDA_CHECK(cudaDeviceSynchronize());
+  if (M->d_csc_host->m > 0) {
+    CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->m * sizeof(QOCOFloat)));
+    SpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
+    CUDA_CHECK(cudaDeviceSynchronize());
+  }
 }
 
 void SpMtv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
-  CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->n * sizeof(QOCOFloat)));
-  SpMtv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
-  CUDA_CHECK(cudaDeviceSynchronize());
+  if (M->d_csc_host->n > 0) {
+    CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->n * sizeof(QOCOFloat)));
+    SpMtv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
+    CUDA_CHECK(cudaDeviceSynchronize());
+  }
 }
 
 QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)

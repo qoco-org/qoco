@@ -421,19 +421,17 @@ QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc,
                         const QOCOInt* q)
 {
   QOCOFloat* d_out = nullptr;
-  QOCOFloat h_out;
-
+  QOCOFloat h_out = -1e7;
   // Allocate output
-  CUDA_CHECK(cudaMalloc(&d_out, sizeof(QOCOFloat)));
+  if (l > 0 || nsoc > 0) {
+    CUDA_CHECK(cudaMalloc(&d_out, sizeof(QOCOFloat)));
+    cone_residual_kernel<<<1, 1>>>(d_u, l, nsoc, q, d_out);
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(
+        cudaMemcpy(&h_out, d_out, sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
 
-  cone_residual_kernel<<<1, 1>>>(d_u, l, nsoc, q, d_out);
-
-  CUDA_CHECK(cudaGetLastError());
-
-  CUDA_CHECK(
-      cudaMemcpy(&h_out, d_out, sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
-
-  CUDA_CHECK(cudaFree(d_out));
+    CUDA_CHECK(cudaFree(d_out));
+  }
   return h_out;
 }
 
@@ -470,11 +468,13 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
 
 void bring2cone(QOCOFloat* u, QOCOProblemData* data)
 {
+  CUDA_CHECK(cudaGetLastError());
   QOCOFloat res =
       cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q));
   if (res >= 0) {
     bring2cone_kernel<<<1, 1>>>(u, get_data_vectori(data->q), data->l,
                                 data->nsoc);
+    CUDA_CHECK(cudaGetLastError());
   }
 }
 
