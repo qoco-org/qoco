@@ -31,6 +31,14 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
   }
 }
 
+/**
+ * @brief Computes second-order cone product u * v = p.
+ *
+ * @param u u = (u0, u1) is a vector in second-order cone of dimension n.
+ * @param v v = (v0, v1) is a vector in second-order cone of dimension n.
+ * @param p Cone product of u and v.
+ * @param n Dimension of second-order cone.
+ */
 void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
                  QOCOInt n)
 {
@@ -40,6 +48,15 @@ void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
   }
 }
 
+/**
+ * @brief Commpues second-order cone division lambda # v = d
+ *
+ * @param lam lam = (lam0, lam1) is a vector in second-order cone of dimension
+ * n.
+ * @param v v = (v0, v1) is a vector in second-order cone of dimension n.
+ * @param d Cone divisin of lam and v.
+ * @param n Dimension of second-order cone.
+ */
 void soc_division(const QOCOFloat* lam, const QOCOFloat* v, QOCOFloat* d,
                   QOCOInt n)
 {
@@ -55,6 +72,15 @@ void soc_division(const QOCOFloat* lam, const QOCOFloat* v, QOCOFloat* d,
   }
 }
 
+/**
+ * @brief Computes residual of vector u with respect to the second order cone of
+ * dimension n.
+ *
+ * @param u u = (u0, u1) is a vector in second-order cone of dimension n.
+ * @param n Dimension of second order cone.
+ * @return Residual: norm(u1) - u0. Negative if the vector is in the cone and
+ * positive otherwise.
+ */
 QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n)
 {
   QOCOFloat res = 0;
@@ -65,6 +91,14 @@ QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n)
   return res;
 }
 
+/**
+ * @brief Computes u0^2 - u1'*u1 of vector u with respect to the second order
+ * cone of dimension n.
+ *
+ * @param u u = (u0, u1) is a vector in second order cone of dimension n.
+ * @param n Dimension of second order cone.
+ * @return Residual: u0^2 - u1'*u1.
+ */
 QOCOFloat soc_residual2(const QOCOFloat* u, QOCOInt n)
 {
   QOCOFloat res = u[0] * u[0];
@@ -106,6 +140,16 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
   }
 }
 
+/**
+ * @brief Computes residual of vector u with respect to cone C.
+ *
+ * @param u Vector to be tested.
+ * @param l Dimension of LP cone.
+ * @param nsoc Number of second-order cones.
+ * @param q Dimension of each second-order cone.
+ * @return Residual: Negative if the vector is in the cone and positive
+ * otherwise.
+ */
 QOCOFloat cone_residual(const QOCOFloat* u, QOCOInt l, QOCOInt nsoc,
                         const QOCOInt* q)
 {

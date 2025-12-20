@@ -25,7 +25,7 @@ __device__ __forceinline__ QOCOFloat qoco_max_dev(QOCOFloat a, QOCOFloat b)
   return a > b ? a : b;
 }
 
-__device__ QOCOFloat soc_residual_dev(const QOCOFloat* u, QOCOInt n)
+__device__ QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n)
 {
   QOCOFloat sum = 0.0;
   for (QOCOInt i = 1; i < n; ++i) {
@@ -34,7 +34,7 @@ __device__ QOCOFloat soc_residual_dev(const QOCOFloat* u, QOCOInt n)
   return sqrt(sum) - u[0];
 }
 
-__device__ QOCOFloat soc_residual2_dev(const QOCOFloat* u, QOCOInt n)
+__device__ QOCOFloat soc_residual2(const QOCOFloat* u, QOCOInt n)
 {
   QOCOFloat res = u[0] * u[0];
   for (QOCOInt i = 1; i < n; ++i) {
@@ -137,7 +137,7 @@ __global__ void cone_residual_kernel(const QOCOFloat* u, QOCOInt l,
 
   // SOC cones
   for (QOCOInt i = 0; i < nsoc; ++i) {
-    res = qoco_max_dev(res, soc_residual_dev(&u[idx], q[i]));
+    res = qoco_max_dev(res, soc_residual(&u[idx], q[i]));
     idx += q[i];
   }
 
@@ -163,7 +163,7 @@ __global__ void bring2cone_kernel(QOCOFloat* u, QOCOInt* q, QOCOInt l,
   /* ---------- SOC cones ---------- */
   for (QOCOInt i = 0; i < nsoc; ++i) {
     QOCOInt qi = q[i];
-    QOCOFloat soc_res = soc_residual_dev(&u[idx], qi);
+    QOCOFloat soc_res = soc_residual(&u[idx], qi);
     if (soc_res > a) {
       a = soc_res;
     }
@@ -215,13 +215,13 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
     QOCOInt qi = q[i];
 
     /* --- normalize s --- */
-    QOCOFloat s_scal = soc_residual2_dev(&s[idx], qi);
+    QOCOFloat s_scal = soc_residual2(&s[idx], qi);
     s_scal = qoco_sqrt(s_scal);
     QOCOFloat f = safe_div((QOCOFloat)1.0, s_scal);
     scale_arrayf_dev(&s[idx], sbar, f, qi);
 
     /* --- normalize z --- */
-    QOCOFloat z_scal = soc_residual2_dev(&z[idx], qi);
+    QOCOFloat z_scal = soc_residual2(&z[idx], qi);
     z_scal = qoco_sqrt(z_scal);
     f = safe_div((QOCOFloat)1.0, z_scal);
     scale_arrayf_dev(&z[idx], zbar, f, qi);
@@ -437,25 +437,6 @@ QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc,
     CUDA_CHECK(cudaFree(d_out));
   }
   return h_out;
-}
-
-QOCO_HD QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n)
-{
-  QOCOFloat res = 0;
-  for (QOCOInt i = 1; i < n; ++i) {
-    res += u[i] * u[i];
-  }
-  res = qoco_sqrt(res) - u[0];
-  return res;
-}
-
-QOCOFloat soc_residual2(const QOCOFloat* u, QOCOInt n)
-{
-  QOCOFloat res = u[0] * u[0];
-  for (QOCOInt i = 1; i < n; ++i) {
-    res -= u[i] * u[i];
-  }
-  return res;
 }
 
 void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,

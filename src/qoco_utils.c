@@ -137,12 +137,22 @@ void compute_scaling_statistics(QOCOProblemData* data)
   if (data->obj_range_min == QOCOFloat_MAX || data->obj_range_min == 0.0) {
     data->obj_range_min = 0.0;
   }
+  if (data->obj_range_max == QOCOFloat_MAX || data->obj_range_max == 0.0) {
+    data->obj_range_max = 0.0;
+  }
   if (data->constraint_range_min == QOCOFloat_MAX ||
       data->constraint_range_min == 0.0) {
     data->constraint_range_min = 0.0;
   }
+  if (data->constraint_range_max == QOCOFloat_MAX ||
+      data->constraint_range_max == 0.0) {
+    data->constraint_range_max = 0.0;
+  }
   if (data->rhs_range_min == QOCOFloat_MAX || data->rhs_range_min == 0.0) {
     data->rhs_range_min = 0.0;
+  }
+  if (data->rhs_range_max == QOCOFloat_MAX || data->rhs_range_max == 0.0) {
+    data->rhs_range_max = 0.0;
   }
   set_cpu_mode(0);
 }
