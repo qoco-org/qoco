@@ -146,12 +146,12 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   // Allocate Nesterov-Todd scalings and scaled variables.
   QOCOInt Wnnzfull = data->l;
+  set_cpu_mode(1);
   for (QOCOInt i = 0; i < data->nsoc; ++i) {
     Wnnzfull +=
         get_element_vectori(data->q, i) * get_element_vectori(data->q, i);
   }
   QOCOInt qmax = 0;
-  set_cpu_mode(1);
   if (solver->work->data->nsoc) {
     qmax = max_arrayi(get_data_vectori(data->q), solver->work->data->nsoc);
   }

@@ -403,7 +403,9 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
   const int blocks = (Wnnzfull + threads - 1) / threads;
 
   // kernel 1: zero + linear cone
-  set_Wfull_linear<<<blocks, threads>>>(W, Wnnzfull, data->l);
+  if (data->l > 0) {
+    set_Wfull_linear<<<blocks, threads>>>(W, Wnnzfull, data->l);
+  }
   CUDA_CHECK(cudaGetLastError());
 
   // kernel 2: SOC blocks

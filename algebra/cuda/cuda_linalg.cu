@@ -139,6 +139,8 @@ __global__ void SpMv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v,
 // Construct A on CPU and create device copy.
 QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 {
+  printf("Called\n");
+  CUDA_CHECK(cudaGetLastError());
   QOCOMatrix* M = (QOCOMatrix*)qoco_malloc(sizeof(QOCOMatrix));
 
   if (A) {
@@ -189,16 +191,18 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
         cudaMemcpy(M->d_csc, d, sizeof(QOCOCscMatrix), cudaMemcpyHostToDevice));
   }
   else {
-    QOCOCscMatrix* Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
-    Mcsc->m = 0;
-    Mcsc->n = 0;
-    Mcsc->nnz = 0;
-    Mcsc->x = NULL;
-    Mcsc->i = NULL;
-    Mcsc->p = NULL;
-    M->csc = Mcsc;
-    M->d_csc = NULL;
+    M->csc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
+    M->d_csc_host = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
+    CUDA_CHECK(cudaMalloc(&M->d_csc, sizeof(QOCOCscMatrix)));
+
+    M->csc->m = 0;
+    M->csc->n = 0;
+    M->csc->nnz = 0;
+    M->csc->x = NULL;
+    M->csc->i = NULL;
+    M->csc->p = NULL;
   }
+  CUDA_CHECK(cudaGetLastError());
 
   return M;
 }
@@ -206,6 +210,7 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 // Construct x on CPU copy vector to GPU.
 QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
 {
+  CUDA_CHECK(cudaGetLastError());
   QOCOVectorf* v = (QOCOVectorf*)qoco_malloc(sizeof(QOCOVectorf));
   QOCOFloat* vdata = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * n);
 
@@ -259,6 +264,7 @@ QOCOVectori* new_qoco_vectori(const QOCOInt* x, QOCOInt n)
 
 void free_qoco_matrix(QOCOMatrix* A)
 {
+  CUDA_CHECK(cudaGetLastError());
   if (!A)
     return;
 
@@ -278,6 +284,7 @@ void free_qoco_matrix(QOCOMatrix* A)
   }
 
   qoco_free(A);
+  CUDA_CHECK(cudaGetLastError());
 }
 
 void free_qoco_vectorf(QOCOVectorf* x)
@@ -304,11 +311,6 @@ void free_qoco_vectori(QOCOVectori* x)
 
 QOCOInt get_nnz(const QOCOMatrix* A) { return A->csc->nnz; }
 
-QOCOFloat get_element_vectorf(const QOCOVectorf* x, QOCOInt idx)
-{
-  return x->data[idx];
-}
-
 QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
 
 void sync_vector_to_host(QOCOVectorf* v)
@@ -329,32 +331,34 @@ void sync_vector_to_device(QOCOVectorf* v)
 
 static int in_cpu_mode = 0;
 
-void set_cpu_mode(int active)
-{
-  in_cpu_mode = active;
-  printf("set_cpu_mode: %d\n", active);
-}
+void set_cpu_mode(int active) { in_cpu_mode = active; }
 
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
 {
   if (in_cpu_mode) {
-    printf("returning host vectorf\n");
     return x->data;
   }
   else {
-    printf("returning device vectorf\n");
     return x->d_data;
+  }
+}
+
+QOCOFloat get_element_vectorf(const QOCOVectorf* x, QOCOInt idx)
+{
+  if (in_cpu_mode) {
+    return x->data[idx];
+  }
+  else {
+    return x->d_data[idx];
   }
 }
 
 QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
 {
   if (in_cpu_mode) {
-    printf("returning host vectorf\n");
     return &x->data[idx];
   }
   else {
-    printf("returning device vectorf\n");
     return &x->d_data[idx];
   }
 }
@@ -362,11 +366,9 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
 QOCOInt* get_data_vectori(const QOCOVectori* x)
 {
   if (in_cpu_mode) {
-    printf("returning host vectori\n");
     return x->data;
   }
   else {
-    printf("returning device vectori\n");
     return x->d_data;
   }
 }
@@ -374,11 +376,9 @@ QOCOInt* get_data_vectori(const QOCOVectori* x)
 QOCOInt get_element_vectori(const QOCOVectori* x, QOCOInt idx)
 {
   if (in_cpu_mode) {
-    printf("returning host element\n");
     return x->data[idx];
   }
   else {
-    printf("returning device element\n");
     return x->d_data[idx];
   }
 }
@@ -386,11 +386,9 @@ QOCOInt get_element_vectori(const QOCOVectori* x, QOCOInt idx)
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M)
 {
   if (in_cpu_mode) {
-    printf("returning host csc matrix\n");
     return M->csc;
   }
   else {
-    printf("returning device csc matrix\n");
     return M->d_csc;
   }
 }
@@ -427,6 +425,8 @@ void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data)
 
 void reciprocal_vectorf(const QOCOVectorf* input, QOCOVectorf* output)
 {
+  printf("Call reciprocal\n");
+  CUDA_CHECK(cudaGetLastError());
   // Called during equilibration on CPU
   for (QOCOInt i = 0; i < input->len; ++i) {
     output->data[i] = safe_div(1.0, input->data[i]);
@@ -546,7 +546,9 @@ void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
 {
   const int threads = 256;
   const int blocks = (n + threads - 1) / threads;
-  ew_product_kernel<<<blocks, threads>>>(x, y, z, n);
+  if (n > 0) {
+    ew_product_kernel<<<blocks, threads>>>(x, y, z, n);
+  }
   CUDA_CHECK(cudaDeviceSynchronize());
 }
 
@@ -699,7 +701,6 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
   cudaError_t err = cudaPointerGetAttributes(&attrs, x);
 
   if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
-    printf("Using cuBLAS in inf_norm\n");
     // Load CUDA libraries dynamically. TODO: This should be done in qoco_setup.
     if (!load_cuda_libraries()) {
       fprintf(stderr, "Failed to load CUDA libraries\n");
@@ -722,7 +723,6 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
     return qoco_abs(max_val);
   }
   else {
-    printf("Using CPU in inf_norm\n");
     QOCOFloat norm = 0.0;
     QOCOFloat xi;
     for (QOCOInt i = 0; i < n; ++i) {
@@ -747,7 +747,6 @@ QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
   // If pointer check fails, it might be a host pointer or CUDA not initialized
   // If it succeeds and is on device, use cuBLAS
   if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
-    printf("Using cuBLAS in min_abs_val\n");
     // Load CUDA libraries dynamically. TODO: This should be done in qoco_setup.
     if (!load_cuda_libraries()) {
       fprintf(stderr, "Failed to load CUDA libraries\n");
@@ -770,7 +769,6 @@ QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
     return qoco_abs(min_val);
   }
   else {
-    printf("Using CPU in min_abs_val\n");
     QOCOFloat min_val = QOCOFloat_MAX;
     QOCOFloat xi;
     for (QOCOInt i = 0; i < n; ++i) {
