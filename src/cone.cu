@@ -556,6 +556,77 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   return al;
 }
 
+__global__ void exact_linesearch_stage1(const QOCOFloat* u, const QOCOFloat* Du,
+                                        QOCOInt l, QOCOFloat* block_mins)
+{
+  extern __shared__ QOCOFloat sdata[];
+
+  QOCOInt tid = threadIdx.x;
+  QOCOInt gid = blockIdx.x * blockDim.x + tid;
+
+  /* Initialize with neutral element */
+  QOCOFloat local_min = 0.0;
+
+  if (gid < l && Du[gid] < 0.0) {
+    local_min = Du[gid] / u[gid]; // negative
+  }
+
+  sdata[tid] = local_min;
+  __syncthreads();
+
+  /* Block-level min reduction */
+  for (QOCOInt s = blockDim.x >> 1; s > 0; s >>= 1) {
+    if (tid < s) {
+      if (sdata[tid + s] < sdata[tid]) {
+        sdata[tid] = sdata[tid + s];
+      }
+    }
+    __syncthreads();
+  }
+
+  /* Write block result */
+  if (tid == 0) {
+    block_mins[blockIdx.x] = sdata[0];
+  }
+}
+
+__global__ void exact_linesearch_stage2(const QOCOFloat* block_mins,
+                                        QOCOInt nblocks, QOCOFloat f,
+                                        QOCOFloat* out_a)
+{
+  extern __shared__ QOCOFloat sdata[];
+
+  QOCOInt tid = threadIdx.x;
+
+  QOCOFloat local_min = 0.0;
+  if (tid < nblocks) {
+    local_min = block_mins[tid];
+  }
+
+  sdata[tid] = local_min;
+  __syncthreads();
+
+  for (QOCOInt s = blockDim.x >> 1; s > 0; s >>= 1) {
+    if (tid < s) {
+      if (sdata[tid + s] < sdata[tid]) {
+        sdata[tid] = sdata[tid + s];
+      }
+    }
+    __syncthreads();
+  }
+
+  if (tid == 0) {
+    QOCOFloat minval = sdata[0];
+
+    if (-f < minval) {
+      *out_a = f;
+    }
+    else {
+      *out_a = -f / minval;
+    }
+  }
+}
+
 /**
  * @brief Conducts exact linesearch to compute the largest a \in (0, 1] such
  * that u + (a / f) * Du \in C. Currently only works for LP cone.
@@ -588,10 +659,25 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   cudaMalloc(&d_linesearch_a, sizeof(QOCOFloat));
 
   if (solver->work->data->nsoc == 0) {
-    exact_linesearch<<<1, 1>>>(u, Du, f, solver->work->data->l, d_linesearch_a);
+    int threads = 256;
+    int blocks = (solver->work->data->l + threads - 1) / threads;
+    QOCOFloat* block_mins;
+    cudaMalloc(&block_mins, blocks * sizeof(QOCOFloat));
+
+    exact_linesearch_stage1<<<blocks, threads, threads * sizeof(QOCOFloat)>>>(
+        u, Du, solver->work->data->l, block_mins);
+
+    int threads2 = 1;
+    while (threads2 < blocks)
+      threads2 <<= 1;
+
+    exact_linesearch_stage2<<<1, threads2, threads2 * sizeof(QOCOFloat)>>>(
+        block_mins, blocks, f, d_linesearch_a);
+
     cudaMemcpy(&a_host, d_linesearch_a, sizeof(QOCOFloat),
                cudaMemcpyDeviceToHost);
     cudaFree(d_linesearch_a);
+    cudaFree(block_mins);
   }
   else {
     QOCOFloat* ubuff = get_data_vectorf(solver->work->ubuff1);
