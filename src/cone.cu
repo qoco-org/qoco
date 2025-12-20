@@ -230,7 +230,11 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
     QOCOFloat gamma = qoco_sqrt(
         (QOCOFloat)0.5 * ((QOCOFloat)1.0 + qoco_dot_dev(sbar, zbar, qi)));
 
-    f = safe_div((QOCOFloat)1.0, (QOCOFloat)2.0 * gamma);
+    // For some unknown reason, when I replace the line below with
+    // safe_div(1.0, 2.0 * gamma), when gamma=1.001301, we expect f=0.499350,
+    // but we get f=0.500650, so safe_div is not used here. When safe_div is
+    // used, all SOCP unit tests fail. Likely some GPU weirdness.
+    f = 1.0 / (2.0 * gamma);
 
     /* overwrite sbar with wbar */
     sbar[0] = f * (sbar[0] + zbar[0]);

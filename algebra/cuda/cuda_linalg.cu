@@ -335,6 +335,21 @@ void sync_vector_to_device(QOCOVectorf* v)
   }
 }
 
+void sync_matrix_to_device(QOCOMatrix* M)
+{
+  if (M->csc && M->d_csc) {
+    CUDA_CHECK(cudaMemcpy(M->d_csc_host->x, M->csc->x,
+                          M->csc->nnz * sizeof(QOCOFloat),
+                          cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(M->d_csc_host->i, M->csc->i,
+                          M->csc->nnz * sizeof(QOCOInt),
+                          cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(M->d_csc_host->p, M->csc->p,
+                          (M->csc->n + 1) * sizeof(QOCOInt),
+                          cudaMemcpyHostToDevice));
+  }
+}
+
 static int in_cpu_mode = 0;
 
 void set_cpu_mode(int active) { in_cpu_mode = active; }
@@ -395,7 +410,7 @@ QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M)
     return M->csc;
   }
   else {
-    return M->d_csc;
+    return M->d_csc_host;
   }
 }
 
@@ -562,6 +577,7 @@ void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
     ew_product_kernel<<<blocks, threads>>>(x, y, z, n);
   }
   CUDA_CHECK(cudaDeviceSynchronize());
+  CUDA_CHECK(cudaGetLastError());
 }
 
 // TODO: Don't create and destroy cublas handle for each dot product. One way

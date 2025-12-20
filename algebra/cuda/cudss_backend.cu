@@ -705,58 +705,38 @@ static void cudss_update_data(LinSysData* linsys_data, QOCOProblemData* data)
     QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
     QOCOInt Pnnz = get_nnz(data->P);
 
-    // Copy P values to device
-    QOCOFloat* d_Pval;
-    CUDA_CHECK(cudaMalloc(&d_Pval, Pnnz * sizeof(QOCOFloat)));
-    CUDA_CHECK(cudaMemcpy(d_Pval, Pcsc->x, Pnnz * sizeof(QOCOFloat),
-                          cudaMemcpyHostToDevice));
-
-    // Update CSR values directly
+    // Update CSR KKT matrix
     QOCOInt numBlocks = (Pnnz + threadsPerBlock - 1) / threadsPerBlock;
     update_csr_matrix_data_kernel<<<numBlocks, threadsPerBlock>>>(
-        d_Pval, linsys_data->d_csr_val, linsys_data->d_PregtoKKTcsr, Pnnz);
+        Pcsc->x, linsys_data->d_csr_val, linsys_data->d_PregtoKKTcsr, Pnnz);
     CUDA_CHECK(cudaGetLastError());
-
-    cudaFree(d_Pval);
   }
 
   // Update A in CSR matrix
-  QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
-  QOCOInt Annz = get_nnz(data->A);
+  if (data->p > 0) {
+    QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
+    QOCOInt Annz = get_nnz(data->A);
 
-  // Copy A values to device
-  QOCOFloat* d_Aval;
-  CUDA_CHECK(cudaMalloc(&d_Aval, Annz * sizeof(QOCOFloat)));
-  CUDA_CHECK(cudaMemcpy(d_Aval, Acsc->x, Annz * sizeof(QOCOFloat),
-                        cudaMemcpyHostToDevice));
-
-  // Update CSR values directly
-  QOCOInt numBlocksA = (Annz + threadsPerBlock - 1) / threadsPerBlock;
-  update_csr_matrix_data_kernel<<<numBlocksA, threadsPerBlock>>>(
-      d_Aval, linsys_data->d_csr_val, linsys_data->d_AttoKKTcsr, Annz);
-  CUDA_CHECK(cudaGetLastError());
-
-  cudaFree(d_Aval);
+    // Update CSR KKT matrix
+    QOCOInt numBlocksA = (Annz + threadsPerBlock - 1) / threadsPerBlock;
+    update_csr_matrix_data_kernel<<<numBlocksA, threadsPerBlock>>>(
+        Acsc->x, linsys_data->d_csr_val, linsys_data->d_AttoKKTcsr, Annz);
+    CUDA_CHECK(cudaGetLastError());
+  }
 
   // Update G in CSR matrix
-  QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
-  QOCOInt Gnnz = get_nnz(data->G);
+  if (data->p > 0) {
 
-  // Copy G values to device
-  QOCOFloat* d_Gval;
-  CUDA_CHECK(cudaMalloc(&d_Gval, Gnnz * sizeof(QOCOFloat)));
-  CUDA_CHECK(cudaMemcpy(d_Gval, Gcsc->x, Gnnz * sizeof(QOCOFloat),
-                        cudaMemcpyHostToDevice));
+    QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
+    QOCOInt Gnnz = get_nnz(data->G);
 
-  // Update CSR values directly
-  QOCOInt numBlocksG = (Gnnz + threadsPerBlock - 1) / threadsPerBlock;
-  update_csr_matrix_data_kernel<<<numBlocksG, threadsPerBlock>>>(
-      d_Gval, linsys_data->d_csr_val, linsys_data->d_GttoKKTcsr, Gnnz);
-  CUDA_CHECK(cudaGetLastError());
-
-  cudaFree(d_Gval);
-
-  CUDA_CHECK(cudaDeviceSynchronize());
+    // Update CSR KKT matrix
+    QOCOInt numBlocksG = (Gnnz + threadsPerBlock - 1) / threadsPerBlock;
+    update_csr_matrix_data_kernel<<<numBlocksG, threadsPerBlock>>>(
+        Gcsc->x, linsys_data->d_csr_val, linsys_data->d_GttoKKTcsr, Gnnz);
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaDeviceSynchronize());
+  }
 }
 
 static void cudss_cleanup(LinSysData* linsys_data)

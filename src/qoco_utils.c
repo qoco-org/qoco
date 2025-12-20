@@ -84,7 +84,9 @@ void print_vectorf(QOCOVectorf* v)
 
 void compute_scaling_statistics(QOCOProblemData* data)
 {
+  // This function runs on the CPU.
   set_cpu_mode(1);
+
   // Initialize min/max values
   data->obj_range_min = QOCOFloat_MAX;
   data->obj_range_max = 0.0;

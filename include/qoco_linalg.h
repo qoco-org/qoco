@@ -206,6 +206,16 @@ void sync_vector_to_host(QOCOVectorf* v);
 void sync_vector_to_device(QOCOVectorf* v);
 
 /**
+ * @brief Syncs Matrix data from device to host if needed (CUDA backend only).
+ * This is a no-op for non-CUDA backends.
+ * Note: This should NOT be called during qoco_solve to avoid CPU-GPU copies.
+ *
+ * @param M Input vector.
+ */
+
+void sync_matrix_to_device(QOCOMatrix* M);
+
+/**
  * @brief Returns the length of a QOCOVectorf.
  *
  * @param x Input vector.

@@ -143,6 +143,9 @@ void sync_vector_to_host(QOCOVectorf* v) {}
 // No-op for builtin backend
 void sync_vector_to_device(QOCOVectorf* v) {}
 
+// No-op for builtin backend
+void sync_matrix_to_device(QOCOMatrix* M) {}
+
 void set_cpu_mode(int active) {}
 
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }

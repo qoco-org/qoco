@@ -248,6 +248,8 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
   solver->sol->status = QOCO_UNSOLVED;
   QOCOProblemData* data = solver->work->data;
 
+  // Copy new data into CPU buffer.
+  set_cpu_mode(1);
   if (cnew) {
     copy_arrayf(cnew, get_data_vectorf(data->c), data->n);
   }
@@ -257,35 +259,41 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
   if (hnew) {
     copy_arrayf(hnew, get_data_vectorf(data->h), data->m);
   }
+  QOCOFloat* Druiz_data = get_data_vectorf(solver->work->scaling->Druiz);
+  QOCOFloat* Eruiz_data = get_data_vectorf(solver->work->scaling->Eruiz);
+  QOCOFloat* Fruiz_data = get_data_vectorf(solver->work->scaling->Fruiz);
+  QOCOFloat* cdata = get_data_vectorf(data->c);
+  QOCOFloat* bdata = get_data_vectorf(data->b);
+  QOCOFloat* hdata = get_data_vectorf(data->h);
+  set_cpu_mode(0);
 
   compute_scaling_statistics(data);
 
-  // Update cost vector.
+  // Update cost vector on CPU.
   if (cnew) {
-    QOCOFloat* cdata = get_data_vectorf(data->c);
-    QOCOFloat* Druiz_data = get_data_vectorf(solver->work->scaling->Druiz);
     for (QOCOInt i = 0; i < data->n; ++i) {
       cdata[i] = solver->work->scaling->k * Druiz_data[i] * cdata[i];
     }
   }
 
-  // Update equality constraint vector.
+  // Update equality constraint vector on CPU.
   if (bnew) {
-    QOCOFloat* bdata = get_data_vectorf(data->b);
-    QOCOFloat* Eruiz_data = get_data_vectorf(solver->work->scaling->Eruiz);
     for (QOCOInt i = 0; i < data->p; ++i) {
       bdata[i] = Eruiz_data[i] * bdata[i];
     }
   }
 
-  // Update conic constraint vector.
+  // Update conic constraint vector on CPU.
   if (hnew) {
-    QOCOFloat* hdata = get_data_vectorf(data->h);
-    QOCOFloat* Fruiz_data = get_data_vectorf(solver->work->scaling->Fruiz);
     for (QOCOInt i = 0; i < data->m; ++i) {
       hdata[i] = Fruiz_data[i] * hdata[i];
     }
   }
+
+  // Sync the new data to the GPU.
+  sync_vector_to_device(data->c);
+  sync_vector_to_device(data->b);
+  sync_vector_to_device(data->h);
 }
 
 void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
@@ -295,6 +303,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   QOCOProblemData* data = solver->work->data;
   QOCOScaling* scaling = solver->work->scaling;
 
+  set_cpu_mode(1);
   // Undo regularization.
   QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
   unregularize(Pcsc, solver->settings->kkt_static_reg);
@@ -309,7 +318,9 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   // Unequilibrate c.
   QOCOFloat* cdata = get_data_vectorf(data->c);
   scale_arrayf(cdata, cdata, scaling->kinv, data->n);
-  ew_product(cdata, Dinvruiz_data, cdata, data->n);
+  for (QOCOInt i = 0; i < data->n; ++i) {
+    cdata[i] = Dinvruiz_data[i] * cdata[i];
+  }
 
   // Unequilibrate A.
   QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
@@ -323,11 +334,15 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
 
   // Unequilibrate b.
   QOCOFloat* bdata = get_data_vectorf(data->b);
-  ew_product(bdata, Einvruiz_data, bdata, data->p);
+  for (QOCOInt i = 0; i < data->p; ++i) {
+    bdata[i] = Einvruiz_data[i] * bdata[i];
+  }
 
   // Unequilibrate h.
   QOCOFloat* hdata = get_data_vectorf(data->h);
-  ew_product(hdata, Finvruiz_data, hdata, data->m);
+  for (QOCOInt i = 0; i < data->m; ++i) {
+    hdata[i] = Finvruiz_data[i] * hdata[i];
+  }
 
   // Update P and avoid nonzeros that were added for regularization.
   if (Pxnew) {
@@ -375,7 +390,13 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
                      solver->settings->ruiz_iters);
 
   // Regularize P.
-  unregularize(get_csc_matrix(data->P), -solver->settings->kkt_static_reg);
+  unregularize(Pcsc, -solver->settings->kkt_static_reg);
+  set_cpu_mode(0);
+
+  // Sync the new data to the GPU.
+  sync_matrix_to_device(data->P);
+  sync_matrix_to_device(data->A);
+  sync_matrix_to_device(data->G);
 
   solver->linsys->linsys_update_data(solver->linsys_data, solver->work->data);
 }
@@ -422,7 +443,6 @@ QOCOInt qoco_solve(QOCOSolver* solver)
 
     // Check stopping criteria.
     if (check_stopping(solver)) {
-      printf("Solved");
       stop_timer(&(work->solve_timer));
       unscale_variables(work);
       copy_solution(solver);
