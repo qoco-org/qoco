@@ -61,6 +61,15 @@ __device__ QOCOFloat qoco_dot_dev(const QOCOFloat* u, const QOCOFloat* v,
   return x;
 }
 
+__device__ void soc_product(const QOCOFloat* u, const QOCOFloat* v,
+                            QOCOFloat* p, QOCOInt n)
+{
+  p[0] = qoco_dot_dev(u, v, n);
+  for (QOCOInt i = 1; i < n; ++i) {
+    p[i] = u[0] * v[i] + v[0] * u[i];
+  }
+}
+
 __global__ void set_Wfull_linear(QOCOFloat* W, QOCOInt Wnnzfull, QOCOInt l)
 {
   QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -312,6 +321,44 @@ __global__ void nt_multiply_kernel(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z,
   }
 }
 
+__global__ void cone_product_kernel(const QOCOFloat* u, const QOCOFloat* v,
+                                    QOCOFloat* p, QOCOInt l, QOCOInt nsoc,
+                                    const QOCOInt* q)
+{
+  QOCOInt idx = 0;
+
+  // LP cone product
+  for (QOCOInt i = 0; i < l; ++i) {
+    p[idx] = u[idx] * v[idx];
+    idx++;
+  }
+
+  // SOC cone products
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+    soc_product(&u[idx], &v[idx], &p[idx], q[i]);
+    idx += q[i];
+  }
+}
+
+__global__ void add_e_kernel(QOCOFloat* x, QOCOFloat a, QOCOFloat l,
+                             QOCOInt nsoc, QOCOInt* q)
+{
+  // Single thread only
+  QOCOInt idx = 0;
+
+  // LP cone part
+  for (QOCOInt i = 0; i < l; ++i) {
+    x[idx] -= a;
+    idx++;
+  }
+
+  // SOC cone parts
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+    x[idx] -= a;
+    idx += q[i];
+  }
+}
+
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
                         QOCOProblemData* data)
 {
@@ -354,15 +401,6 @@ QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc,
   return h_out;
 }
 
-void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
-                 QOCOInt n)
-{
-  p[0] = qoco_dot(u, v, n);
-  for (QOCOInt i = 1; i < n; ++i) {
-    p[i] = u[0] * v[i] + v[0] * u[i];
-  }
-}
-
 void soc_division(const QOCOFloat* lam, const QOCOFloat* v, QOCOFloat* d,
                   QOCOInt n)
 {
@@ -400,17 +438,18 @@ QOCOFloat soc_residual2(const QOCOFloat* u, QOCOInt n)
 void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
 {
-  QOCOInt idx;
-  // Compute LP cone product.
-  for (idx = 0; idx < l; ++idx) {
-    p[idx] = u[idx] * v[idx];
-  }
+  // QOCOInt idx;
+  // // Compute LP cone product.
+  // for (idx = 0; idx < l; ++idx) {
+  //   p[idx] = u[idx] * v[idx];
+  // }
 
-  // Compute second-order cone product.
-  for (QOCOInt i = 0; i < nsoc; ++i) {
-    soc_product(&u[idx], &v[idx], &p[idx], q[i]);
-    idx += q[i];
-  }
+  // // Compute second-order cone product.
+  // for (QOCOInt i = 0; i < nsoc; ++i) {
+  //   soc_product(&u[idx], &v[idx], &p[idx], q[i]);
+  //   idx += q[i];
+  // }
+  cone_product_kernel<<<1, 1>>>(u, v, p, l, nsoc, q);
 }
 
 void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
@@ -568,7 +607,12 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
     QOCOInt* q = get_data_vectori(solver->work->data->q);
     QOCOInt bisect_iters = solver->settings->bisect_iters;
     a_host = bisection_search(u, Du, f, ubuff, m, l, nsoc, q, d_linesearch_a,
-                              solver->settings->bisect_iters);
+                              bisect_iters);
   }
   return a_host;
+}
+
+void add_e(QOCOFloat* x, QOCOFloat a, QOCOFloat l, QOCOInt nsoc, QOCOVectori* q)
+{
+  add_e_kernel<<<1, 1>>>(x, a, l, nsoc, get_data_vectori(q));
 }

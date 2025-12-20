@@ -40,8 +40,8 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
  * @param p Cone product of u and v.
  * @param n Dimension of second-order cone.
  */
-void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
-                 QOCOInt n);
+// void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
+//                  QOCOInt n);
 
 /**
  * @brief Commpues second-order cone division lambda # v = d
@@ -168,6 +168,18 @@ void compute_centering(QOCOSolver* solver);
  */
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                      QOCOSolver* solver);
+
+/**
+ * @brief Computes x = x + a*e where e is the cannonical vector for the cone.
+ *
+ * @param x Vector.
+ * @param a Scaling factor.
+ * @param l Dimension of LP cone.
+ * @param nsoc Number of second-order cones.
+ * @param q Dimensions of SOCs.
+ */
+void add_e(QOCOFloat* x, QOCOFloat a, QOCOFloat l, QOCOInt nsoc,
+           QOCOVectori* q);
 
 #ifdef __cplusplus
 }

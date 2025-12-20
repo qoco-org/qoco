@@ -119,7 +119,6 @@ QOCOInt get_element_vectori(const QOCOVectori* x, QOCOInt idx)
   return x->data[idx];
 }
 
-
 QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
 {
   return &x->data[idx];

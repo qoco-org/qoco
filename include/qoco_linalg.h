@@ -47,8 +47,8 @@ typedef struct {
 
 /**
  * @brief Sets the CPU mode flag (CUDA backend only).
- * During scaling statistics computation, get_data_vectorf returns host pointers.
- * This allows CPU access to vector data for statistics computation.
+ * During scaling statistics computation, get_data_vectorf returns host
+ * pointers. This allows CPU access to vector data for statistics computation.
  *
  * @param active 1 if CPU mode is active, 0 otherwise.
  */
@@ -108,7 +108,6 @@ void free_qoco_vectorf(QOCOVectorf* x);
  * @param x Vector to free.
  */
 void free_qoco_vectori(QOCOVectori* x);
-
 
 /**
  * @brief Returns the number of nonzeros in a QOCOMatrix.
@@ -260,7 +259,8 @@ void row_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm);
  * @param E Vector of length m.
  * @param D Vector of length n.
  */
-void row_col_scale_matrix(QOCOMatrix* M, const QOCOFloat* E, const QOCOFloat* D);
+void row_col_scale_matrix(QOCOMatrix* M, const QOCOFloat* E,
+                          const QOCOFloat* D);
 
 /**
  * @brief Frees all the internal arrays and the pointer to the QOCOCscMatrix.

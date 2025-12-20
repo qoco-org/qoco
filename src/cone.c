@@ -388,3 +388,15 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
     return bisection_search(u, Du, f, solver);
   }
 }
+
+void add_e(QOCOFloat* x, QOCOFloat a, QOCOFloat l, QOCOInt nsoc, QOCOVectori* q)
+{
+  QOCOInt idx = 0;
+  for (idx = 0; idx < l; ++idx) {
+    x[idx] -= a;
+  }
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+    x[idx] -= a;
+    idx += get_element_vectori(q, i);
+  }
+}
