@@ -135,7 +135,8 @@ void compute_scaling_statistics(QOCOProblemData* data)
   if (data->obj_range_min == QOCOFloat_MAX || data->obj_range_min == 0.0) {
     data->obj_range_min = 0.0;
   }
-  if (data->constraint_range_min == QOCOFloat_MAX || data->constraint_range_min == 0.0) {
+  if (data->constraint_range_min == QOCOFloat_MAX ||
+      data->constraint_range_min == 0.0) {
     data->constraint_range_min = 0.0;
   }
   if (data->rhs_range_min == QOCOFloat_MAX || data->rhs_range_min == 0.0) {
@@ -334,9 +335,12 @@ unsigned char check_stopping(QOCOSolver* solver)
       return 1;
     }
   }
-  printf("pres: %f, pres_rel: %f, eabs: %f, erel: %f\n", pres, pres_rel, eabs, erel);
-  printf("dres: %f, dres_rel: %f, eabsinacc: %f, erelinacc: %f\n", dres, dres_rel, eabsinacc, erelinacc);
-  printf("solver->sol->gap: %f, gap_rel: %f, eabsinacc: %f, erelinacc: %f\n", solver->sol->gap, gap_rel, eabsinacc, erelinacc);
+  printf("pres: %f, pres_rel: %f, eabs: %f, erel: %f\n", pres, pres_rel, eabs,
+         erel);
+  printf("dres: %f, dres_rel: %f, eabsinacc: %f, erelinacc: %f\n", dres,
+         dres_rel, eabsinacc, erelinacc);
+  printf("solver->sol->gap: %f, gap_rel: %f, eabsinacc: %f, erelinacc: %f\n",
+         solver->sol->gap, gap_rel, eabsinacc, erelinacc);
   if (pres < eabs + erel * pres_rel && dres < eabs + erel * dres_rel &&
       solver->sol->gap < eabs + erel * gap_rel) {
     solver->sol->status = QOCO_SOLVED;
@@ -348,12 +352,14 @@ unsigned char check_stopping(QOCOSolver* solver)
 void copy_solution(QOCOSolver* solver)
 {
   // Copy optimization variables from device to host (CUDA backend).
-#ifdef QOCO_ALGEBRA_BACKEND_CUDA
+  // No-op for builtin backend.
   sync_vector_to_host(solver->work->x);
   sync_vector_to_host(solver->work->s);
   sync_vector_to_host(solver->work->y);
   sync_vector_to_host(solver->work->z);
-#endif
+
+  // Set cpu mode to 1 so get_data_vectorf return host pointer.
+  set_cpu_mode(1);
   copy_arrayf(get_data_vectorf(solver->work->x), solver->sol->x,
               solver->work->data->n);
   copy_arrayf(get_data_vectorf(solver->work->s), solver->sol->s,
@@ -362,6 +368,7 @@ void copy_solution(QOCOSolver* solver)
               solver->work->data->p);
   copy_arrayf(get_data_vectorf(solver->work->z), solver->sol->z,
               solver->work->data->m);
+  set_cpu_mode(0);
 
   solver->sol->solve_time_sec =
       get_elapsed_time_sec(&(solver->work->solve_timer));

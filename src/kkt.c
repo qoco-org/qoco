@@ -397,11 +397,9 @@ void predictor_corrector(QOCOSolver* solver)
 
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
-  for (QOCOInt i = 0; i < work->data->n + work->data->p + work->data->m; ++i) {
-    if (isnan(xyz[i])) {
-      work->a = 0.0;
-      return;
-    }
+  if (check_nan(work->xyz)) {
+    work->a = 0.0;
+    return;
   }
 
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds

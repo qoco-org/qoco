@@ -70,6 +70,21 @@ __device__ void soc_product(const QOCOFloat* u, const QOCOFloat* v,
   }
 }
 
+__device__ void soc_division(const QOCOFloat* lam, const QOCOFloat* v,
+                             QOCOFloat* d, QOCOInt n)
+{
+  QOCOFloat f = lam[0] * lam[0] - qoco_dot_dev(&lam[1], &lam[1], n - 1);
+  QOCOFloat finv = safe_div(1.0, f);
+  QOCOFloat lam0inv = safe_div(1.0, lam[0]);
+  QOCOFloat lam1dv1 = qoco_dot_dev(&lam[1], &v[1], n - 1);
+
+  d[0] = finv * (lam[0] * v[0] - qoco_dot_dev(&lam[1], &v[1], n - 1));
+  for (QOCOInt i = 1; i < n; ++i) {
+    d[i] = finv *
+           (-lam[i] * v[0] + lam0inv * f * v[i] + lam0inv * lam1dv1 * lam[i]);
+  }
+}
+
 __global__ void set_Wfull_linear(QOCOFloat* W, QOCOInt Wnnzfull, QOCOInt l)
 {
   QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -340,6 +355,25 @@ __global__ void cone_product_kernel(const QOCOFloat* u, const QOCOFloat* v,
   }
 }
 
+__global__ void cone_division_kernel(const QOCOFloat* lambda,
+                                     const QOCOFloat* v, QOCOFloat* d,
+                                     QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
+{
+  QOCOInt idx = 0;
+
+  // LP cone division
+  for (QOCOInt i = 0; i < l; ++i) {
+    d[idx] = safe_div(v[idx], lambda[idx]);
+    idx++;
+  }
+
+  // SOC cone division
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+    soc_division(&lambda[idx], &v[idx], &d[idx], q[i]);
+    idx += q[i];
+  }
+}
+
 __global__ void add_e_kernel(QOCOFloat* x, QOCOFloat a, QOCOFloat l,
                              QOCOInt nsoc, QOCOInt* q)
 {
@@ -401,21 +435,6 @@ QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc,
   return h_out;
 }
 
-void soc_division(const QOCOFloat* lam, const QOCOFloat* v, QOCOFloat* d,
-                  QOCOInt n)
-{
-  QOCOFloat f = lam[0] * lam[0] - qoco_dot(&lam[1], &lam[1], n - 1);
-  QOCOFloat finv = safe_div(1.0, f);
-  QOCOFloat lam0inv = safe_div(1.0, lam[0]);
-  QOCOFloat lam1dv1 = qoco_dot(&lam[1], &v[1], n - 1);
-
-  d[0] = finv * (lam[0] * v[0] - qoco_dot(&lam[1], &v[1], n - 1));
-  for (QOCOInt i = 1; i < n; ++i) {
-    d[i] = finv *
-           (-lam[i] * v[0] + lam0inv * f * v[i] + lam0inv * lam1dv1 * lam[i]);
-  }
-}
-
 QOCO_HD QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n)
 {
   QOCOFloat res = 0;
@@ -438,34 +457,13 @@ QOCOFloat soc_residual2(const QOCOFloat* u, QOCOInt n)
 void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
 {
-  // QOCOInt idx;
-  // // Compute LP cone product.
-  // for (idx = 0; idx < l; ++idx) {
-  //   p[idx] = u[idx] * v[idx];
-  // }
-
-  // // Compute second-order cone product.
-  // for (QOCOInt i = 0; i < nsoc; ++i) {
-  //   soc_product(&u[idx], &v[idx], &p[idx], q[i]);
-  //   idx += q[i];
-  // }
   cone_product_kernel<<<1, 1>>>(u, v, p, l, nsoc, q);
 }
 
 void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
                    QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
 {
-  QOCOInt idx;
-  // Compute LP cone division.
-  for (idx = 0; idx < l; ++idx) {
-    d[idx] = safe_div(v[idx], lambda[idx]);
-  }
-
-  // Compute second-order cone division.
-  for (QOCOInt i = 0; i < nsoc; ++i) {
-    soc_division(&lambda[idx], &v[idx], &d[idx], q[i]);
-    idx += q[i];
-  }
+  cone_division_kernel<<<1, 1>>>(lambda, v, d, l, nsoc, q);
 }
 
 void bring2cone(QOCOFloat* u, QOCOProblemData* data)

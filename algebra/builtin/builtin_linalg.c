@@ -378,3 +378,13 @@ QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
   }
   return min_val;
 }
+
+QOCOInt check_nan(const QOCOVectorf* x)
+{
+  for (QOCOInt i = 0; i < x->len; ++i) {
+    if (isnan(x->data[i])) {
+      return 1;
+    }
+  }
+  return 0;
+}

@@ -387,4 +387,12 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n);
  */
 QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n);
 
+/**
+ * @brief Returns 1 if x contains nans, 0 otherwise.
+ *
+ * @param x Input vector.
+ * @return Minimum absolute value of x.
+ */
+QOCOInt check_nan(const QOCOVectorf* x);
+
 #endif /* #ifndef QOCO_LINALG_H*/

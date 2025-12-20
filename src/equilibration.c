@@ -28,7 +28,8 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
   QOCOFloat* bdata = get_data_vectorf(data->b);
   QOCOFloat* hdata = get_data_vectorf(data->h);
 
-  // TODO: Set ruiz_iters >0 and test. Will call col_inf_norm and such which should error when given GPU pointers.
+  // TODO: Set ruiz_iters >0 and test. Will call col_inf_norm and such which
+  // should error when given GPU pointers.
   for (QOCOInt i = 0; i < ruiz_iters; ++i) {
 
     // Compute infinity norm of rows of [P A' G']
@@ -115,7 +116,8 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     // Make scalings for all variables in a second-order cone equal.
     QOCOInt idx = data->l;
     for (QOCOInt j = 0; j < data->nsoc; ++j) {
-      for (QOCOInt k = idx + 1; k < idx + get_element_vectori(data->q, j); ++k) {
+      for (QOCOInt k = idx + 1; k < idx + get_element_vectori(data->q, j);
+           ++k) {
         F[k] = F[idx];
       }
       idx += get_element_vectori(data->q, j);
@@ -170,23 +172,20 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
 
 void unscale_variables(QOCOWorkspace* work)
 {
-  ew_product(get_pointer_vectorf(work->x, 0),
-             get_pointer_vectorf(work->scaling->Druiz, 0),
-             get_pointer_vectorf(work->x, 0), work->data->n);
+  ew_product(get_data_vectorf(work->x), get_data_vectorf(work->scaling->Druiz),
+             get_data_vectorf(work->x), work->data->n);
 
-  ew_product(get_pointer_vectorf(work->s, 0),
-             get_pointer_vectorf(work->scaling->Finvruiz, 0),
-             get_pointer_vectorf(work->s, 0), work->data->m);
+  ew_product(get_data_vectorf(work->s),
+             get_data_vectorf(work->scaling->Finvruiz),
+             get_data_vectorf(work->s), work->data->m);
 
-  ew_product(get_pointer_vectorf(work->y, 0),
-             get_pointer_vectorf(work->scaling->Eruiz, 0),
-             get_pointer_vectorf(work->y, 0), work->data->p);
-  scale_arrayf(get_pointer_vectorf(work->y, 0), get_pointer_vectorf(work->y, 0),
+  ew_product(get_data_vectorf(work->y), get_data_vectorf(work->scaling->Eruiz),
+             get_data_vectorf(work->y), work->data->p);
+  scale_arrayf(get_data_vectorf(work->y), get_data_vectorf(work->y),
                work->scaling->kinv, work->data->p);
 
-  ew_product(get_pointer_vectorf(work->z, 0),
-             get_pointer_vectorf(work->scaling->Fruiz, 0),
-             get_pointer_vectorf(work->z, 0), work->data->m);
-  scale_arrayf(get_pointer_vectorf(work->z, 0), get_pointer_vectorf(work->z, 0),
+  ew_product(get_data_vectorf(work->z), get_data_vectorf(work->scaling->Fruiz),
+             get_data_vectorf(work->z), work->data->m);
+  scale_arrayf(get_data_vectorf(work->z), get_data_vectorf(work->z),
                work->scaling->kinv, work->data->m);
 }

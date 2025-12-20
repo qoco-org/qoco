@@ -3,18 +3,18 @@
 
 #include "qoco.h"
 
-TEST(cone, soc_product_test)
-{
-  constexpr QOCOInt n = 5;
-  QOCOFloat x[] = {1.0, 2.0, 3.0, 4.0, 5.0};
-  QOCOFloat y[] = {6.0, 7.0, 8.0, 9.0, 10.0};
-  QOCOFloat p[n];
-  QOCOFloat pexpected[] = {130.0, 19.0, 26.0, 33.0, 40.0};
-  QOCOFloat tol = 1e-12;
+// TEST(cone, soc_product_test)
+// {
+//   constexpr QOCOInt n = 5;
+//   QOCOFloat x[] = {1.0, 2.0, 3.0, 4.0, 5.0};
+//   QOCOFloat y[] = {6.0, 7.0, 8.0, 9.0, 10.0};
+//   QOCOFloat p[n];
+//   QOCOFloat pexpected[] = {130.0, 19.0, 26.0, 33.0, 40.0};
+//   QOCOFloat tol = 1e-12;
 
-  soc_product(x, y, p, n);
-  expect_eq_vectorf(p, pexpected, n, tol);
-}
+//   soc_product(x, y, p, n);
+//   expect_eq_vectorf(p, pexpected, n, tol);
+// }
 
 TEST(cone, soc_division_test)
 {

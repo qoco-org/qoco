@@ -76,7 +76,8 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->work->data->AtoAt = qoco_malloc(Annz * sizeof(QOCOInt));
   solver->work->data->GtoGt = qoco_malloc(Gnnz * sizeof(QOCOInt));
 
-  // When creating transposed matrices, get_csc_matrix should return host pointers, since create_transposed_matrix is a host function.
+  // When creating transposed matrices, get_csc_matrix should return host
+  // pointers, since create_transposed_matrix is a host function.
   set_cpu_mode(1);
   QOCOCscMatrix* Atcsc =
       create_transposed_matrix(get_csc_matrix(data->A), data->AtoAt);
@@ -146,7 +147,8 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   // Allocate Nesterov-Todd scalings and scaled variables.
   QOCOInt Wnnzfull = data->l;
   for (QOCOInt i = 0; i < data->nsoc; ++i) {
-    Wnnzfull += get_element_vectori(data->q, i) * get_element_vectori(data->q, i);
+    Wnnzfull +=
+        get_element_vectori(data->q, i) * get_element_vectori(data->q, i);
   }
   QOCOInt qmax = 0;
   set_cpu_mode(1);
@@ -407,10 +409,9 @@ QOCOInt qoco_solve(QOCOSolver* solver)
         get_data_vectorf(work->ubuff1), get_data_vectorf(work->ubuff2));
 
     // Compute objective function.
-    solver->sol->obj =
-        compute_objective(data, get_data_vectorf(work->x),
-                          get_data_vectorf(work->xbuff),
-                          solver->settings->kkt_static_reg, work->scaling->k);
+    solver->sol->obj = compute_objective(
+        data, get_data_vectorf(work->x), get_data_vectorf(work->xbuff),
+        solver->settings->kkt_static_reg, work->scaling->k);
 
     // Compute mu = s'*z / m.
     work->mu = (data->m > 0)
@@ -421,6 +422,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
 
     // Check stopping criteria.
     if (check_stopping(solver)) {
+      printf("Solved");
       stop_timer(&(work->solve_timer));
       unscale_variables(work);
       copy_solution(solver);

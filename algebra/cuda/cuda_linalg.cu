@@ -69,18 +69,21 @@ __global__ void axpy_kernel(const QOCOFloat* x, const QOCOFloat* y,
   }
 }
 
-__global__ void ew_product_kernel(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
+__global__ void ew_product_kernel(const QOCOFloat* x, const QOCOFloat* y,
+                                  QOCOFloat* z, QOCOInt n)
 {
   QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
   if (i < n) {
-      z[i] = x[i] * y[i];
+    z[i] = x[i] * y[i];
   }
 }
 
-__global__ void USpMv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+__global__ void USpMv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v,
+                             QOCOFloat* r)
 {
   QOCOInt i = blockIdx.x;
-  if (i >= M->n) return;
+  if (i >= M->n)
+    return;
 
   // Process all nonzeros in column i
   for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
@@ -98,10 +101,12 @@ __global__ void USpMv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFlo
   }
 }
 
-__global__ void SpMtv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+__global__ void SpMtv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v,
+                             QOCOFloat* r)
 {
   QOCOInt col = blockIdx.x;
-  if (col >= M->n) return;
+  if (col >= M->n)
+    return;
 
   QOCOFloat sum = 0.0;
 
@@ -114,10 +119,12 @@ __global__ void SpMtv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFlo
   r[col] = sum;
 }
 
-__global__ void SpMv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+__global__ void SpMv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v,
+                            QOCOFloat* r)
 {
   QOCOInt col = blockIdx.x;
-  if (col >= M->n) return;
+  if (col >= M->n)
+    return;
 
   // Process all nonzeros in column col
   for (QOCOInt idx = M->p[col]; idx < M->p[col + 1]; idx++) {
@@ -169,14 +176,17 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
     CUDA_CHECK(cudaMalloc(&d->i, nnz * sizeof(QOCOInt)));
     CUDA_CHECK(cudaMalloc(&d->p, (n + 1) * sizeof(QOCOInt)));
 
-    CUDA_CHECK(cudaMemcpy(d->x, x, nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
-    CUDA_CHECK(cudaMemcpy(d->i, i, nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice));
-    CUDA_CHECK(cudaMemcpy(d->p, p, (n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+    CUDA_CHECK(
+        cudaMemcpy(d->x, x, nnz * sizeof(QOCOFloat), cudaMemcpyHostToDevice));
+    CUDA_CHECK(
+        cudaMemcpy(d->i, i, nnz * sizeof(QOCOInt), cudaMemcpyHostToDevice));
+    CUDA_CHECK(
+        cudaMemcpy(d->p, p, (n + 1) * sizeof(QOCOInt), cudaMemcpyHostToDevice));
 
     // Allocate device struct itself and copy host struct into device
     CUDA_CHECK(cudaMalloc(&M->d_csc, sizeof(QOCOCscMatrix)));
-    CUDA_CHECK(cudaMemcpy(M->d_csc, d, sizeof(QOCOCscMatrix), cudaMemcpyHostToDevice));
-
+    CUDA_CHECK(
+        cudaMemcpy(M->d_csc, d, sizeof(QOCOCscMatrix), cudaMemcpyHostToDevice));
   }
   else {
     QOCOCscMatrix* Mcsc = (QOCOCscMatrix*)qoco_malloc(sizeof(QOCOCscMatrix));
@@ -237,8 +247,8 @@ QOCOVectori* new_qoco_vectori(const QOCOInt* x, QOCOInt n)
 
   QOCOInt* d_vdata;
   CUDA_CHECK(cudaMalloc(&d_vdata, sizeof(QOCOInt) * n));
-  CUDA_CHECK(cudaMemcpy(d_vdata, vdata, sizeof(QOCOInt) * n,
-                        cudaMemcpyHostToDevice));
+  CUDA_CHECK(
+      cudaMemcpy(d_vdata, vdata, sizeof(QOCOInt) * n, cudaMemcpyHostToDevice));
 
   v->len = n;
   v->data = vdata;
@@ -249,24 +259,25 @@ QOCOVectori* new_qoco_vectori(const QOCOInt* x, QOCOInt n)
 
 void free_qoco_matrix(QOCOMatrix* A)
 {
-    if (!A) return;
+  if (!A)
+    return;
 
-    // Free host CSC
-    free_qoco_csc_matrix(A->csc);
+  // Free host CSC
+  free_qoco_csc_matrix(A->csc);
 
-    // Free device CSC
-    if (A->d_csc_host) {
-        CUDA_CHECK(cudaFree(A->d_csc_host->x));
-        CUDA_CHECK(cudaFree(A->d_csc_host->i));
-        CUDA_CHECK(cudaFree(A->d_csc_host->p));
-        qoco_free(A->d_csc_host);
-    }
+  // Free device CSC
+  if (A->d_csc_host) {
+    CUDA_CHECK(cudaFree(A->d_csc_host->x));
+    CUDA_CHECK(cudaFree(A->d_csc_host->i));
+    CUDA_CHECK(cudaFree(A->d_csc_host->p));
+    qoco_free(A->d_csc_host);
+  }
 
-    if (A->d_csc) {
-        CUDA_CHECK(cudaFree(A->d_csc));
-    }
+  if (A->d_csc) {
+    CUDA_CHECK(cudaFree(A->d_csc));
+  }
 
-    qoco_free(A);
+  qoco_free(A);
 }
 
 void free_qoco_vectorf(QOCOVectorf* x)
@@ -348,7 +359,6 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
   }
 }
 
-
 QOCOInt* get_data_vectori(const QOCOVectori* x)
 {
   if (in_cpu_mode) {
@@ -373,8 +383,8 @@ QOCOInt get_element_vectori(const QOCOVectori* x, QOCOInt idx)
   }
 }
 
-
-QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) {
+QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M)
+{
   if (in_cpu_mode) {
     printf("returning host csc matrix\n");
     return M->csc;
@@ -535,13 +545,13 @@ void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
 void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
 {
   const int threads = 256;
-  const int blocks  = (n + threads - 1) / threads;
+  const int blocks = (n + threads - 1) / threads;
   ew_product_kernel<<<blocks, threads>>>(x, y, z, n);
   CUDA_CHECK(cudaDeviceSynchronize());
 }
 
-
-// TODO: Don't create and destroy cublas handle for each dot product. One way around this is to create a custom kernel for the dot product. 
+// TODO: Don't create and destroy cublas handle for each dot product. One way
+// around this is to create a custom kernel for the dot product.
 QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
 {
   qoco_assert(u || n == 0);
@@ -558,12 +568,13 @@ QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
   // If either pointer check fails or one is on device, use CUDA
   if ((err_u == cudaSuccess && attrs_u.type == cudaMemoryTypeDevice) ||
       (err_v == cudaSuccess && attrs_v.type == cudaMemoryTypeDevice)) {
-    
+
     CudaLibFuncs* funcs = get_cuda_funcs();
     cublasHandle_t handle;
     funcs->cublasCreate(&handle);
     QOCOFloat result;
-    funcs->cublasDdot(handle, n, (const double*)u, 1, (const double*)v, 1, (double*)&result);
+    funcs->cublasDdot(handle, n, (const double*)u, 1, (const double*)v, 1,
+                      (double*)&result);
     funcs->cublasDestroy(handle);
     return result;
   }
@@ -663,7 +674,7 @@ void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 }
 
 void SpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{  
+{
   CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->m * sizeof(QOCOFloat)));
   SpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
   CUDA_CHECK(cudaDeviceSynchronize());
@@ -697,15 +708,16 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
     CudaLibFuncs* funcs = get_cuda_funcs();
     cublasHandle_t handle;
     funcs->cublasCreate(&handle);
-    
+
     int idx_max;
     QOCOFloat max_val;
-    
+
     funcs->cublasIdamax(handle, n, (const double*)x, 1, &idx_max);
     // Note: cuBLAS uses 1-based indexing, so subtract 1
     idx_max -= 1;
-    CUDA_CHECK(cudaMemcpy(&max_val, &x[idx_max], sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
-    
+    CUDA_CHECK(cudaMemcpy(&max_val, &x[idx_max], sizeof(QOCOFloat),
+                          cudaMemcpyDeviceToHost));
+
     funcs->cublasDestroy(handle);
     return qoco_abs(max_val);
   }
@@ -741,18 +753,19 @@ QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
       fprintf(stderr, "Failed to load CUDA libraries\n");
       exit(1);
     }
-    CudaLibFuncs* funcs = get_cuda_funcs();    
+    CudaLibFuncs* funcs = get_cuda_funcs();
     cublasHandle_t handle;
     funcs->cublasCreate(&handle);
-    
+
     int idx_min;
     QOCOFloat min_val;
-    
+
     funcs->cublasIdamin(handle, n, (const double*)x, 1, &idx_min);
     // Note: cuBLAS uses 1-based indexing, so subtract 1
     idx_min -= 1;
-    CUDA_CHECK(cudaMemcpy(&min_val, &x[idx_min], sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
-    
+    CUDA_CHECK(cudaMemcpy(&min_val, &x[idx_min], sizeof(QOCOFloat),
+                          cudaMemcpyDeviceToHost));
+
     funcs->cublasDestroy(handle);
     return qoco_abs(min_val);
   }
@@ -766,4 +779,14 @@ QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
     }
     return min_val;
   }
+}
+
+QOCOInt check_nan(const QOCOVectorf* x)
+{
+  for (QOCOInt i = 0; i < x->len; ++i) {
+    if (isnan(x->data[i])) {
+      return 1;
+    }
+  }
+  return 0;
 }
