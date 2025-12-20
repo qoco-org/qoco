@@ -307,37 +307,43 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
   }
 }
 
-__global__ void nt_multiply_kernel(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z,
-                                   QOCOInt l, QOCOInt m, QOCOInt nsoc,
-                                   QOCOInt* q)
+__global__ void nt_multiply_kernel(const QOCOFloat* W, const QOCOFloat* x,
+                                   QOCOFloat* z, QOCOInt l, QOCOInt m,
+                                   QOCOInt nsoc, const QOCOInt* q)
 {
-  if (blockIdx.x != 0 || threadIdx.x != 0)
+  QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
+  if (i >= m)
     return;
 
   /* ================= LP cone ================= */
-  for (QOCOInt i = 0; i < l; ++i) {
+  if (i < l) {
     z[i] = W[i] * x[i];
+    return;
   }
 
   /* ================= SOC cones ================= */
-  QOCOInt nt_idx = l;
-  QOCOInt idx = l;
+  /* Find which SOC block index i belongs to */
+  QOCOInt idx = l;    // start of SOC variables
+  QOCOInt nt_idx = l; // start of SOC NT blocks
 
-  /* zero output */
-  for (QOCOInt i = l; i < m; ++i) {
-    z[i] = 0.0;
-  }
+  for (QOCOInt soc = 0; soc < nsoc; ++soc) {
+    QOCOInt qi = q[soc];
 
-  for (QOCOInt i = 0; i < nsoc; ++i) {
-    QOCOInt qi = q[i];
+    if (i < idx + qi) {
+      /* i is inside this SOC */
+      QOCOInt j = i - idx;
 
-    for (QOCOInt j = 0; j < qi; ++j) {
-      z[idx + j] += qoco_dot_dev(&W[nt_idx + j * qi], &x[idx], qi);
+      /* j-th row of qi x qi NT block times x[idx:idx+qi] */
+      z[i] = qoco_dot_dev(&W[nt_idx + j * qi], &x[idx], qi);
+      return;
     }
 
     idx += qi;
     nt_idx += qi * qi;
   }
+
+  /* Safety (should not happen) */
+  z[i] = 0.0;
 }
 
 __global__ void cone_product_kernel(const QOCOFloat* u, const QOCOFloat* v,
@@ -466,7 +472,10 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data)
 void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
                  QOCOInt nsoc, QOCOInt* q)
 {
-  nt_multiply_kernel<<<1, 1>>>(W, x, z, l, m, nsoc, q);
+  int threads = 256;
+  int blocks = (m + threads - 1) / threads;
+
+  nt_multiply_kernel<<<blocks, threads>>>(W, x, z, l, m, nsoc, q);
 }
 
 void compute_nt_scaling(QOCOWorkspace* work)
