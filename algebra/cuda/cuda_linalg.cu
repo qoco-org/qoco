@@ -356,6 +356,7 @@ void set_cpu_mode(int active) { in_cpu_mode = active; }
 
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
 {
+  CUDA_CHECK(cudaGetLastError());
   if (in_cpu_mode) {
     return x->data;
   }
@@ -649,6 +650,7 @@ void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n)
         attrs_x.type == cudaMemoryTypeDevice &&
         attrs_y.type == cudaMemoryTypeDevice) {
       scale_arrayf_kernel<<<numBlocks, blockSize>>>(x, y, s, n);
+      CUDA_CHECK(cudaGetLastError());
     }
     CUDA_CHECK(cudaDeviceSynchronize());
   }
@@ -686,6 +688,7 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
         attrs_y.type == cudaMemoryTypeDevice &&
         attrs_z.type == cudaMemoryTypeDevice) {
       axpy_kernel<<<numBlocks, blockSize>>>(x, y, z, a, n);
+      CUDA_CHECK(cudaGetLastError());
     }
     CUDA_CHECK(cudaDeviceSynchronize());
   }
@@ -701,6 +704,7 @@ void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
   if (M->d_csc_host->n > 0) {
     CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->n * sizeof(QOCOFloat)));
     USpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
+    CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
   }
 }
@@ -710,6 +714,7 @@ void SpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
   if (M->d_csc_host->m > 0) {
     CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->m * sizeof(QOCOFloat)));
     SpMv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
+    CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
   }
 }
@@ -719,6 +724,7 @@ void SpMtv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
   if (M->d_csc_host->n > 0) {
     CUDA_CHECK(cudaMemset(r, 0, M->d_csc_host->n * sizeof(QOCOFloat)));
     SpMtv_kernel<<<M->d_csc_host->n, 1>>>(M->d_csc, v, r);
+    CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
   }
 }

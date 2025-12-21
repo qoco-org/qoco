@@ -442,16 +442,16 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
   // kernel 1: zero + linear cone
   if (data->l > 0) {
     set_Wfull_linear<<<blocks, threads>>>(W, Wnnzfull, data->l);
+    CUDA_CHECK(cudaGetLastError());
   }
-  CUDA_CHECK(cudaGetLastError());
 
   // kernel 2: SOC blocks
   const int blocks2 = data->nsoc;
   if (data->nsoc > 0) {
     set_Wfull_soc<<<blocks2, 256>>>(W, get_data_vectori(data->q), data->nsoc,
                                     data->l);
+    CUDA_CHECK(cudaGetLastError());
   }
-  CUDA_CHECK(cudaGetLastError());
 }
 
 QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc,
@@ -480,6 +480,7 @@ void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
   QOCOInt grid = (total_threads + block - 1) / block;
 
   cone_product_kernel<<<grid, block>>>(u, v, p, l, nsoc, q);
+  CUDA_CHECK(cudaGetLastError());
 }
 
 void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
@@ -490,6 +491,7 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
   QOCOInt grid = (total_threads + block - 1) / block;
 
   cone_division_kernel<<<grid, block>>>(lambda, v, d, l, nsoc, q);
+  CUDA_CHECK(cudaGetLastError());
 }
 
 void bring2cone(QOCOFloat* u, QOCOProblemData* data)
@@ -511,6 +513,7 @@ void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
   int blocks = (m + threads - 1) / threads;
 
   nt_multiply_kernel<<<blocks, threads>>>(W, x, z, l, m, nsoc, q);
+  CUDA_CHECK(cudaGetLastError());
 }
 
 void compute_nt_scaling(QOCOWorkspace* work)
@@ -535,6 +538,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
   compute_nt_scaling_kernel<<<grid, block>>>(W, WtW, Wfull, Winv, Winvfull, s,
                                              z, sbar, zbar, l, nsoc, q);
+  CUDA_CHECK(cudaGetLastError());
 
   /* ================= lambda = W * z ================= */
   nt_multiply(Wfull, z, lambda, work->data->l, work->data->m, work->data->nsoc,
@@ -543,6 +547,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
 void compute_centering(QOCOSolver* solver)
 {
+
   QOCOWorkspace* work = solver->work;
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
   QOCOFloat* Ds = get_data_vectorf(work->Ds);
@@ -550,15 +555,15 @@ void compute_centering(QOCOSolver* solver)
   QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
   QOCOFloat a =
-      qoco_min(linesearch(get_pointer_vectorf(work->z, 0), Dzaff, 1.0, solver),
-               linesearch(get_pointer_vectorf(work->s, 0), Ds, 1.0, solver));
+      qoco_min(linesearch(get_data_vectorf(work->z), Dzaff, 1.0, solver),
+               linesearch(get_data_vectorf(work->s), Ds, 1.0, solver));
 
   // Compute rho. rho = ((s + a * Ds)'*(z + a * Dz)) / (s'*z).
-  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), ubuff1, a, work->data->m);
-  qoco_axpy(Ds, get_pointer_vectorf(work->s, 0), ubuff2, a, work->data->m);
+  qoco_axpy(Dzaff, get_data_vectorf(work->z), ubuff1, a, work->data->m);
+  qoco_axpy(Ds, get_data_vectorf(work->s), ubuff2, a, work->data->m);
   QOCOFloat rho = qoco_dot(ubuff1, ubuff2, work->data->m) /
-                  qoco_dot(get_pointer_vectorf(work->z, 0),
-                           get_pointer_vectorf(work->s, 0), work->data->m);
+                  qoco_dot(get_data_vectorf(work->z), get_data_vectorf(work->s),
+                           work->data->m);
 
   // Compute sigma. sigma = max(0, min(1, rho))^3.
   QOCOFloat sigma = qoco_min(1.0, rho);
@@ -700,13 +705,17 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   cudaMalloc(&d_linesearch_a, sizeof(QOCOFloat));
 
   if (solver->work->data->nsoc == 0) {
-    int threads = 256;
+    // Note: this two stage reduction can fail if l is sufficiently large that
+    // threads2 exceeds 1024. (l >= 1024^2 = 1,048,576)
+
+    int threads = 1024;
     int blocks = (solver->work->data->l + threads - 1) / threads;
     QOCOFloat* block_mins;
     cudaMalloc(&block_mins, blocks * sizeof(QOCOFloat));
 
     exact_linesearch_stage1<<<blocks, threads, threads * sizeof(QOCOFloat)>>>(
         u, Du, solver->work->data->l, block_mins);
+    CUDA_CHECK(cudaGetLastError());
 
     int threads2 = 1;
     while (threads2 < blocks)
@@ -714,6 +723,7 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
 
     exact_linesearch_stage2<<<1, threads2, threads2 * sizeof(QOCOFloat)>>>(
         block_mins, blocks, f, d_linesearch_a);
+    CUDA_CHECK(cudaGetLastError());
 
     cudaMemcpy(&a_host, d_linesearch_a, sizeof(QOCOFloat),
                cudaMemcpyDeviceToHost);
@@ -740,4 +750,5 @@ void add_e(QOCOFloat* x, QOCOFloat a, QOCOFloat l, QOCOInt nsoc, QOCOVectori* q)
   QOCOInt grid = (total_threads + block - 1) / block;
 
   add_e_kernel<<<grid, block>>>(x, a, l, nsoc, get_data_vectori(q));
+  CUDA_CHECK(cudaGetLastError());
 }
