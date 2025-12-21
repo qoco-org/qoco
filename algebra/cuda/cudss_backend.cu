@@ -105,6 +105,8 @@ int load_cuda_libraries(void)
                                                     "cudssConfigCreate");
   g_cuda_funcs.cudssDataCreate = (typeof(g_cuda_funcs.cudssDataCreate))dlsym(
       g_cudss_handle, "cudssDataCreate");
+  g_cuda_funcs.cudssConfigSet = (typeof(g_cuda_funcs.cudssConfigSet))dlsym(
+      g_cudss_handle, "cudssConfigSet");
   g_cuda_funcs.cudssMatrixCreateCsr =
       (typeof(g_cuda_funcs.cudssMatrixCreateCsr))dlsym(g_cudss_handle,
                                                        "cudssMatrixCreateCsr");
@@ -132,7 +134,7 @@ int load_cuda_libraries(void)
       !g_cuda_funcs.cudssExecute || !g_cuda_funcs.cudssMatrixCreateDn ||
       !g_cuda_funcs.cudssMatrixSetValues || !g_cuda_funcs.cudssMatrixDestroy ||
       !g_cuda_funcs.cudssDataDestroy || !g_cuda_funcs.cudssConfigDestroy ||
-      !g_cuda_funcs.cudssDestroy) {
+      !g_cuda_funcs.cudssDestroy || !g_cuda_funcs.cudssConfigSet) {
     fprintf(stderr, "Failed to resolve cuDSS symbols: %s\n", dlerror());
     dlclose(g_cudss_handle);
     dlclose(g_cusparse_handle);
@@ -398,6 +400,10 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   CUDSS_CHECK(g_cuda_funcs.cudssConfigCreate(&linsys_data->config));
   CUDSS_CHECK(
       g_cuda_funcs.cudssDataCreate(linsys_data->handle, &linsys_data->data));
+  int value = 0;
+  CUDSS_CHECK(g_cuda_funcs.cudssConfigSet(linsys_data->config,
+                                          CUDSS_CONFIG_USE_SUPERPANELS,
+                                          (void*)&value, sizeof(int)));
 
   // Initialize cuSPARSE
   g_cuda_funcs.cusparseCreate(&linsys_data->cusparse_handle);
