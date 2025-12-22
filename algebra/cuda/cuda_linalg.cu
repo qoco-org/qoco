@@ -25,6 +25,23 @@
     }                                                                          \
   } while (0)
 
+static inline bool is_device_pointer(const void* ptr)
+{
+  cudaPointerAttributes attr;
+  cudaError_t err = cudaPointerGetAttributes(&attr, ptr);
+
+  if (err != cudaSuccess) {
+    cudaGetLastError(); // clear error
+    return false;
+  }
+
+#if CUDART_VERSION >= 10000
+  return (attr.type == cudaMemoryTypeDevice);
+#else
+  return (attr.memoryType == cudaMemoryTypeDevice);
+#endif
+}
+
 // CUDA kernels
 __global__ void copy_arrayf_kernel(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
 {
@@ -572,13 +589,27 @@ void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
 
 void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
 {
-  const int threads = 256;
-  const int blocks = (n + threads - 1) / threads;
-  if (n > 0) {
+  if (n <= 0)
+    return;
+
+  bool x_dev = is_device_pointer(x);
+  bool y_dev = is_device_pointer(y);
+  bool z_dev = is_device_pointer(z);
+
+  if (x_dev && y_dev && z_dev) {
+    const int threads = 256;
+    const int blocks = (n + threads - 1) / threads;
+
     ew_product_kernel<<<blocks, threads>>>(x, y, z, n);
+
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaDeviceSynchronize());
   }
-  CUDA_CHECK(cudaDeviceSynchronize());
-  CUDA_CHECK(cudaGetLastError());
+  else {
+    for (QOCOInt i = 0; i < n; ++i) {
+      z[i] = x[i] * y[i];
+    }
+  }
 }
 
 // TODO: Don't create and destroy cublas handle for each dot product. One way

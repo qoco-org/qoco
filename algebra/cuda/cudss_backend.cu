@@ -10,7 +10,6 @@
 
 #include "cudss_backend.h"
 #include <dlfcn.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #define CUDA_CHECK(call)                                                       \
