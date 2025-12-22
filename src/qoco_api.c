@@ -210,7 +210,7 @@ void set_default_settings(QOCOSettings* settings)
 {
   settings->max_iters = 200;
   settings->bisect_iters = 5;
-  settings->ruiz_iters = 1;
+  settings->ruiz_iters = 0;
   settings->iter_ref_iters = 1;
   settings->kkt_static_reg = 1e-8;
   settings->kkt_dynamic_reg = 1e-8;
