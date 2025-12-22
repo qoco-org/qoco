@@ -673,30 +673,6 @@ __global__ void exact_linesearch_stage2(const QOCOFloat* block_mins,
   }
 }
 
-/**
- * @brief Conducts exact linesearch to compute the largest a \in (0, 1] such
- * that u + (a / f) * Du \in C. Currently only works for LP cone.
- */
-__global__ void exact_linesearch(const QOCOFloat* u, const QOCOFloat* Du,
-                                 QOCOFloat f, QOCOInt l, QOCOFloat* out_a)
-{
-  // Only one thread executes
-  QOCOFloat minval = 0.0;
-
-  for (QOCOInt i = 0; i < l; ++i) {
-    if (Du[i] < minval * u[i]) {
-      minval = Du[i] / u[i];
-    }
-  }
-
-  if (-f < minval) {
-    *out_a = f;
-  }
-  else {
-    *out_a = -f / minval;
-  }
-}
-
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                      QOCOSolver* solver)
 {
