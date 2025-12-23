@@ -319,9 +319,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   // Unequilibrate c.
   QOCOFloat* cdata = get_data_vectorf(data->c);
   scale_arrayf(cdata, cdata, scaling->kinv, data->n);
-  for (QOCOInt i = 0; i < data->n; ++i) {
-    cdata[i] = Dinvruiz_data[i] * cdata[i];
-  }
+  ew_product(cdata, Dinvruiz_data, cdata, data->n);
 
   // Unequilibrate A.
   QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
@@ -335,15 +333,11 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
 
   // Unequilibrate b.
   QOCOFloat* bdata = get_data_vectorf(data->b);
-  for (QOCOInt i = 0; i < data->p; ++i) {
-    bdata[i] = Einvruiz_data[i] * bdata[i];
-  }
+  ew_product(bdata, Einvruiz_data, bdata, data->p);
 
   // Unequilibrate h.
   QOCOFloat* hdata = get_data_vectorf(data->h);
-  for (QOCOInt i = 0; i < data->m; ++i) {
-    hdata[i] = Finvruiz_data[i] * hdata[i];
-  }
+  ew_product(hdata, Finvruiz_data, hdata, data->m);
 
   // Update P and avoid nonzeros that were added for regularization.
   if (Pxnew) {
