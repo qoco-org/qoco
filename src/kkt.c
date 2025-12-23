@@ -168,12 +168,9 @@ void initialize_ipm(QOCOSolver* solver)
   set_Wfull_identity(solver->work->Wfull, solver->work->Wnnzfull,
                      solver->work->data);
 
-  // solver->linsys->linsys_initialize_nt(solver->linsys_data,
-  //                                      solver->work->data->m);
-
-  // Need to be set to 1.0 not 0.0 due to low tolerance stopping criteria checks
-  // which only occur when a = 0.0. If a is set to 0.0 then the low tolerance
-  // stopping criteria check would be triggered.
+  // Needs to be set to 1.0 not 0.0 due to low tolerance stopping criteria
+  // checks which only occur when a = 0.0. If a is set to 0.0 then the low
+  // tolerance stopping criteria check would be triggered.
   solver->work->a = 1.0;
 
   // Construct rhs of KKT system.
