@@ -339,14 +339,7 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata) - sigma * mu * e.
   QOCOFloat sm = work->sigma * work->mu;
   add_e(ubuff3, sm, work->data->l, work->data->nsoc, work->data->q);
-  // QOCOInt idx = 0;
-  // for (idx = 0; idx < work->data->l; ++idx) {
-  //   ubuff3[idx] -= sm;
-  // }
-  // for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
-  //   ubuff3[idx] -= sm;
-  //   idx += get_element_vectori(work->data->q, i);
-  // }
+
   // ubuff1 = lambda * lambda.
   cone_product(lambda, lambda, ubuff1, work->data->l, work->data->nsoc, q);
 
