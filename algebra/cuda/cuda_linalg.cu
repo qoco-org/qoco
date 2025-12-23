@@ -850,12 +850,35 @@ QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
   }
 }
 
-QOCOInt check_nan(const QOCOVectorf* x)
+__global__ void check_nan_kernel(const QOCOFloat* x, QOCOInt n, QOCOInt* found)
 {
-  for (QOCOInt i = 0; i < x->len; ++i) {
-    if (isnan(x->data[i])) {
-      return 1;
+  QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
+  if (i < n) {
+    if (isnan(x[i])) {
+      atomicExch(found, 1);
     }
   }
-  return 0;
+}
+
+QOCOInt check_nan(const QOCOVectorf* x)
+{
+  if (x->len == 0) {
+    return 0;
+  }
+
+  const int threads = 256;
+  const int blocks = (x->len + threads - 1) / threads;
+
+  QOCOInt* d_found;
+  QOCOInt h_found = 0;
+
+  cudaMalloc((void**)&d_found, sizeof(QOCOInt));
+  cudaMemcpy(d_found, &h_found, sizeof(QOCOInt), cudaMemcpyHostToDevice);
+
+  check_nan_kernel<<<blocks, threads>>>(x->d_data, x->len, d_found);
+
+  cudaMemcpy(&h_found, d_found, sizeof(QOCOInt), cudaMemcpyDeviceToHost);
+  cudaFree(d_found);
+
+  return h_found;
 }
