@@ -417,24 +417,17 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
     // Compute kkt residual.
-    compute_kkt_residual(
-        data, get_data_vectorf(work->x), get_data_vectorf(work->y),
-        get_data_vectorf(work->s), get_data_vectorf(work->z),
-        get_data_vectorf(work->kktres), solver->settings->kkt_static_reg,
-        get_data_vectorf(work->xyzbuff1), get_data_vectorf(work->xbuff),
-        get_data_vectorf(work->ubuff1), get_data_vectorf(work->ubuff2));
+    compute_kkt_residual(data, work->x, work->y, work->s, work->z, work->kktres,
+                         solver->settings->kkt_static_reg, work->xyzbuff1,
+                         work->xbuff, work->ubuff1);
 
     // Compute objective function.
-    solver->sol->obj = compute_objective(
-        data, get_data_vectorf(work->x), get_data_vectorf(work->xbuff),
-        solver->settings->kkt_static_reg, work->scaling->k);
+    solver->sol->obj =
+        compute_objective(data, work->x, work->xbuff,
+                          solver->settings->kkt_static_reg, work->scaling->k);
 
     // Compute mu = s'*z / m.
-    work->mu = (data->m > 0)
-                   ? safe_div(qoco_dot(get_data_vectorf(work->s),
-                                       get_data_vectorf(work->z), data->m),
-                              data->m)
-                   : 0;
+    work->mu = compute_mu(work->s, work->z, data->m);
 
     // Check stopping criteria.
     if (check_stopping(solver)) {

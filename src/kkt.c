@@ -214,12 +214,21 @@ void initialize_ipm(QOCOSolver* solver)
   bring2cone(get_data_vectorf(solver->work->z), solver->work->data);
 }
 
-void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
-                          QOCOFloat* s, QOCOFloat* z, QOCOFloat* kktres,
-                          QOCOFloat static_reg, QOCOFloat* xyzbuff,
-                          QOCOFloat* nbuff, QOCOFloat* mbuff1,
-                          QOCOFloat* mbuff2)
+void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,
+                          QOCOVectorf* y_vec, QOCOVectorf* s_vec,
+                          QOCOVectorf* z_vec, QOCOVectorf* kktres_vec,
+                          QOCOFloat static_reg, QOCOVectorf* xyzbuff_vec,
+                          QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec)
 {
+
+  QOCOFloat* x = get_data_vectorf(x_vec);
+  QOCOFloat* y = get_data_vectorf(y_vec);
+  QOCOFloat* s = get_data_vectorf(s_vec);
+  QOCOFloat* z = get_data_vectorf(z_vec);
+  QOCOFloat* kktres = get_data_vectorf(kktres_vec);
+  QOCOFloat* xyzbuff = get_data_vectorf(xyzbuff_vec);
+  QOCOFloat* nbuff = get_data_vectorf(nbuff_vec);
+  QOCOFloat* mbuff = get_data_vectorf(mbuff_vec);
 
   // Set xyzbuff to [x;y;z]
   copy_arrayf(x, xyzbuff, data->n);
@@ -227,7 +236,7 @@ void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
   copy_arrayf(z, &xyzbuff[data->n + data->p], data->m);
 
   // Compute K*[x;y;z] with a zero'd out NT block.
-  kkt_multiply(xyzbuff, kktres, data, NULL, nbuff, mbuff1, mbuff1);
+  kkt_multiply(xyzbuff, kktres, data, NULL, nbuff, mbuff, mbuff);
 
   // rhs += [c;-b;-h+s]
   // Add c and account for regularization of P.
@@ -247,9 +256,22 @@ void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
             data->m);
 }
 
-QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
-                            QOCOFloat* nbuff, QOCOFloat static_reg, QOCOFloat k)
+QOCOFloat compute_mu(QOCOVectorf* s_vec, QOCOVectorf* z_vec, QOCOInt m)
 {
+  if (m > 0) {
+    QOCOFloat* s = get_data_vectorf(s_vec);
+    QOCOFloat* z = get_data_vectorf(z_vec);
+    return safe_div(qoco_dot(s, z, m), m);
+  }
+  return 0;
+}
+
+QOCOFloat compute_objective(QOCOProblemData* data, QOCOVectorf* x_vec,
+                            QOCOVectorf* nbuff_vec, QOCOFloat static_reg,
+                            QOCOFloat k)
+{
+  QOCOFloat* x = get_data_vectorf(x_vec);
+  QOCOFloat* nbuff = get_data_vectorf(nbuff_vec);
   QOCOFloat* cdata = get_data_vectorf(data->c);
   QOCOFloat obj = qoco_dot(x, cdata, data->n);
   USpMv(data->P, x, nbuff);

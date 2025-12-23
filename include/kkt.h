@@ -76,35 +76,45 @@ void initialize_ipm(QOCOSolver* solver);
  *
  * clang-format on
  * @param data Pointer to problem data
- * @param x Primal iterate.
- * @param y Dual iterate.
- * @param s Slack iterate.
- * @param z Dual iterate.
- * @param kktres Computed residual is stored here.
+ * @param x_vec Primal iterate.
+ * @param y_vec Dual iterate.
+ * @param s_vec Slack iterate.
+ * @param z_vec Dual iterate.
+ * @param kktres_vec Computed residual is stored here.
  * @param static_reg Static regularization parameter.
- * @param xyzbuff Buffer of length n+p+m.
- * @param nbuff Buffer of length n.
- * @param mbuff1 Buffer of length m.
- * @param mbuff2 Buffer of length m.
+ * @param xyzbuff_vec Buffer of length n+p+m.
+ * @param nbuff_vec Buffer of length n.
+ * @param mbuff_vec Buffer of length m.
  */
-void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
-                          QOCOFloat* s, QOCOFloat* z, QOCOFloat* kktres,
-                          QOCOFloat static_reg, QOCOFloat* xyzbuff,
-                          QOCOFloat* nbuff, QOCOFloat* mbuff1,
-                          QOCOFloat* mbuff2);
+void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,
+                          QOCOVectorf* y_vec, QOCOVectorf* s_vec,
+                          QOCOVectorf* z_vec, QOCOVectorf* kktres_vec,
+                          QOCOFloat static_reg, QOCOVectorf* xyzbuff_vec,
+                          QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec);
+
+/**
+ * @brief Computes mu = s'*z / m.
+ *
+ * @param s_vec slack iterate.
+ * @param z_vec dual iterate.
+ * @param m Length of s and z.
+ * @return mu
+ */
+QOCOFloat compute_mu(QOCOVectorf* s_vec, QOCOVectorf* z_vec, QOCOInt m);
+
 /**
  * @brief Computes the objective
  * obj = (1/2)*x'*P*x + c'*x
  *
  * @param data Pointer to problem data.
- * @param x Primal solution at current iterate.
- * @param nbuff Buffer of length n.
+ * @param x_vec Primal solution at current iterate.
+ * @param nbuff_vec Buffer of length n.
  * @param static_reg Static regularization value;
  * @param k Objective scaling from ruiz equilibration.
  * @return Computed objective
  */
-QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
-                            QOCOFloat* nbuff, QOCOFloat static_reg,
+QOCOFloat compute_objective(QOCOProblemData* data, QOCOVectorf* x_vec,
+                            QOCOVectorf* nbuff_vec, QOCOFloat static_reg,
                             QOCOFloat k);
 /**
  * @brief Constructs rhs for the affine scaling KKT system.
