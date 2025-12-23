@@ -653,31 +653,9 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
 
   const QOCOInt blockSize = 256;
   const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
-
-  // Check if pointers are on device - handle errors gracefully
-  cudaPointerAttributes attrs_x, attrs_y, attrs_z;
-  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
-  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
-  cudaError_t err_z = cudaPointerGetAttributes(&attrs_z, z);
-
-  // If any pointer check succeeds and indicates device memory, use CUDA
-  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
-      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice) ||
-      (err_z == cudaSuccess && attrs_z.type == cudaMemoryTypeDevice)) {
-    if (err_x == cudaSuccess && err_y == cudaSuccess && err_z == cudaSuccess &&
-        attrs_x.type == cudaMemoryTypeDevice &&
-        attrs_y.type == cudaMemoryTypeDevice &&
-        attrs_z.type == cudaMemoryTypeDevice) {
-      axpy_kernel<<<numBlocks, blockSize>>>(x, y, z, a, n);
-      CUDA_CHECK(cudaGetLastError());
-    }
-    CUDA_CHECK(cudaDeviceSynchronize());
-  }
-  else {
-    for (QOCOInt i = 0; i < n; ++i) {
-      z[i] = a * x[i] + y[i];
-    }
-  }
+  axpy_kernel<<<numBlocks, blockSize>>>(x, y, z, a, n);
+  CUDA_CHECK(cudaGetLastError());
+  CUDA_CHECK(cudaDeviceSynchronize());
 }
 
 void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
@@ -717,11 +695,7 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
   if (n == 0)
     return 0.0;
 
-  // Check if pointer is on device - handle errors gracefully
-  cudaPointerAttributes attrs;
-  cudaError_t err = cudaPointerGetAttributes(&attrs, x);
-
-  if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
+  if (is_device_pointer(x)) {
     // Load CUDA libraries dynamically. TODO: This should be done in qoco_setup.
     if (!load_cuda_libraries()) {
       fprintf(stderr, "Failed to load CUDA libraries\n");
@@ -761,13 +735,7 @@ QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
   if (n == 0)
     return QOCOFloat_MAX;
 
-  // Check if pointer is on device - handle errors gracefully
-  cudaPointerAttributes attrs;
-  cudaError_t err = cudaPointerGetAttributes(&attrs, x);
-
-  // If pointer check fails, it might be a host pointer or CUDA not initialized
-  // If it succeeds and is on device, use cuBLAS
-  if (err == cudaSuccess && attrs.type == cudaMemoryTypeDevice) {
+  if (is_device_pointer(x)) {
     // Load CUDA libraries dynamically. TODO: This should be done in qoco_setup.
     if (!load_cuda_libraries()) {
       fprintf(stderr, "Failed to load CUDA libraries\n");
