@@ -156,7 +156,6 @@ __global__ void SpMv_kernel(const QOCOCscMatrix* M, const QOCOFloat* v,
 // Construct A on CPU and create device copy.
 QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 {
-  CUDA_CHECK(cudaGetLastError());
   QOCOMatrix* M = (QOCOMatrix*)qoco_malloc(sizeof(QOCOMatrix));
 
   if (A) {
@@ -233,7 +232,6 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A)
 // Construct x on CPU copy vector to GPU.
 QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
 {
-  CUDA_CHECK(cudaGetLastError());
   QOCOVectorf* v = (QOCOVectorf*)qoco_malloc(sizeof(QOCOVectorf));
   QOCOFloat* vdata = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * n);
 
@@ -287,7 +285,6 @@ QOCOVectori* new_qoco_vectori(const QOCOInt* x, QOCOInt n)
 
 void free_qoco_matrix(QOCOMatrix* A)
 {
-  CUDA_CHECK(cudaGetLastError());
   if (!A)
     return;
 
@@ -373,7 +370,6 @@ void set_cpu_mode(int active) { in_cpu_mode = active; }
 
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x)
 {
-  CUDA_CHECK(cudaGetLastError());
   if (in_cpu_mode) {
     return x->data;
   }
@@ -464,7 +460,6 @@ void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data)
 
 void reciprocal_vectorf(const QOCOVectorf* input, QOCOVectorf* output)
 {
-  CUDA_CHECK(cudaGetLastError());
   // Called during equilibration on CPU
   for (QOCOInt i = 0; i < input->len; ++i) {
     output->data[i] = safe_div(1.0, input->data[i]);
@@ -566,9 +561,7 @@ void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
   if (is_device_pointer(x) && is_device_pointer(y) && is_device_pointer(z)) {
     const int threads = 256;
     const int blocks = (n + threads - 1) / threads;
-
     ew_product_kernel<<<blocks, threads>>>(x, y, z, n);
-
     CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
   }
@@ -589,12 +582,6 @@ QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
   if (n == 0)
     return 0.0;
 
-  // Check if pointers are on device - handle errors gracefully
-  cudaPointerAttributes attrs_u, attrs_v;
-  cudaError_t err_u = cudaPointerGetAttributes(&attrs_u, u);
-  cudaError_t err_v = cudaPointerGetAttributes(&attrs_v, v);
-
-  // If either pointer check fails or one is on device, use CUDA
   if (is_device_pointer(u) && is_device_pointer(v)) {
 
     CudaLibFuncs* funcs = get_cuda_funcs();
