@@ -579,7 +579,7 @@ void compute_centering(QOCOSolver* solver)
  */
 QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                            QOCOFloat* ubuff, QOCOInt m, QOCOInt l, QOCOInt nsoc,
-                           QOCOInt* q, QOCOFloat* out_a, QOCOInt bisect_iters)
+                           QOCOInt* q, QOCOInt bisect_iters)
 {
   // Single thread only
   QOCOFloat al = 0.0;
@@ -635,43 +635,6 @@ __global__ void exact_linesearch_stage1(const QOCOFloat* u, const QOCOFloat* Du,
   }
 }
 
-__global__ void exact_linesearch_stage2(const QOCOFloat* block_mins,
-                                        QOCOInt nblocks, QOCOFloat f,
-                                        QOCOFloat* out_a)
-{
-  extern __shared__ QOCOFloat sdata[];
-
-  QOCOInt tid = threadIdx.x;
-
-  QOCOFloat local_min = 0.0;
-  if (tid < nblocks) {
-    local_min = block_mins[tid];
-  }
-
-  sdata[tid] = local_min;
-  __syncthreads();
-
-  for (QOCOInt s = blockDim.x >> 1; s > 0; s >>= 1) {
-    if (tid < s) {
-      if (sdata[tid + s] < sdata[tid]) {
-        sdata[tid] = sdata[tid + s];
-      }
-    }
-    __syncthreads();
-  }
-
-  if (tid == 0) {
-    QOCOFloat minval = sdata[0];
-
-    if (-f < minval) {
-      *out_a = f;
-    }
-    else {
-      *out_a = -f / minval;
-    }
-  }
-}
-
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                      QOCOSolver* solver)
 {
@@ -679,33 +642,28 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   QOCOProblemData* data = solver->work->data;
 
   QOCOFloat a_host;
-  QOCOFloat* d_linesearch_a;
-  cudaMalloc(&d_linesearch_a, sizeof(QOCOFloat));
 
   if (data->nsoc == 0) {
-    // Note: this two stage reduction can fail if l is sufficiently large that
-    // threads2 exceeds 1024. (l >= 1024^2 = 1,048,576)
-
     int threads = 1024;
     int blocks = (data->l + threads - 1) / threads;
     QOCOFloat* block_mins;
     cudaMalloc(&block_mins, blocks * sizeof(QOCOFloat));
 
+    // Produces an array of blocks elements with the min -Du[i]/u[i] for each
+    // block.
     exact_linesearch_stage1<<<blocks, threads, threads * sizeof(QOCOFloat)>>>(
         u, Du, data->l, block_mins);
     CUDA_CHECK(cudaGetLastError());
 
-    int threads2 = 1;
-    while (threads2 < blocks)
-      threads2 <<= 1;
-
-    exact_linesearch_stage2<<<1, threads2, threads2 * sizeof(QOCOFloat)>>>(
-        block_mins, blocks, f, d_linesearch_a);
-    CUDA_CHECK(cudaGetLastError());
-
-    cudaMemcpy(&a_host, d_linesearch_a, sizeof(QOCOFloat),
-               cudaMemcpyDeviceToHost);
-    cudaFree(d_linesearch_a);
+    // Since every element of block_mins is negative, the minimum value is
+    // -inf_norm(block_mins)
+    QOCOFloat a = -inf_norm(block_mins, blocks);
+    if (-f < a) {
+      a_host = f;
+    }
+    else {
+      a_host = -f / a;
+    }
     cudaFree(block_mins);
   }
   else {
@@ -713,7 +671,7 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
     QOCOInt* q = get_data_vectori(data->q);
     QOCOInt bisect_iters = solver->settings->bisect_iters;
     a_host = bisection_search(u, Du, f, ubuff, data->m, data->l, data->nsoc, q,
-                              d_linesearch_a, bisect_iters);
+                              bisect_iters);
   }
   return a_host;
 }
