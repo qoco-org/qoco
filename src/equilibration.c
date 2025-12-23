@@ -3,6 +3,7 @@
 void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
                         QOCOInt ruiz_iters)
 {
+  // This function runs on the CPU.
   set_cpu_mode(1);
   // Initialize ruiz data.
   for (QOCOInt i = 0; i < data->n; ++i) {
@@ -29,8 +30,6 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
   QOCOFloat* bdata = get_data_vectorf(data->b);
   QOCOFloat* hdata = get_data_vectorf(data->h);
 
-  // TODO: Set ruiz_iters >0 and test. Will call col_inf_norm and such which
-  // should error when given GPU pointers.
   for (QOCOInt i = 0; i < ruiz_iters; ++i) {
 
     // Compute infinity norm of rows of [P A' G']
