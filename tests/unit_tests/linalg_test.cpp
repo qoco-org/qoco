@@ -132,20 +132,22 @@ TEST(linalg, USpMv_test)
   constexpr QOCOInt m = 5;
   constexpr QOCOInt n = 5;
   QOCOFloat Ax[] = {1, 2, 3, 5, 4, 6, 8, 7};
-  QOCOInt Annz = 12;
+  QOCOInt Annz = 8;
   QOCOInt Ap[] = {0, 1, 2, 4, 7, 8};
   QOCOInt Ai[] = {0, 0, 0, 1, 0, 1, 3, 1};
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+  QOCOMatrix* Amat = new_qoco_matrix(A);
 
   QOCOFloat v[] = {2.0, 4.0, 6.0, 8.0, 10.0};
   QOCOFloat rexpected[] = {60.0, 152.0, 26.0, 96.0, 28.0};
   QOCOFloat r[n];
   QOCOFloat tol = 1e-12;
 
-  USpMv(A, v, r);
+  USpMv(Amat, v, r);
   expect_eq_vectorf(r, rexpected, n, tol);
   free(A);
+  free_qoco_matrix(Amat);
 }
 
 TEST(linalg, SpMv_test)
@@ -164,12 +166,14 @@ TEST(linalg, SpMv_test)
 
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+  QOCOMatrix* Amat = new_qoco_matrix(A);
 
-  SpMv(A, v, r);
+  SpMv(Amat, v, r);
 
   expect_eq_vectorf(r, rexpected, n, tol);
 
   free(A);
+  free_qoco_matrix(Amat);
 }
 
 TEST(linalg, SpMtv_test)
@@ -188,12 +192,14 @@ TEST(linalg, SpMtv_test)
 
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(A, m, n, Annz, Ax, Ap, Ai);
+  QOCOMatrix* Amat = new_qoco_matrix(A);
 
-  SpMtv(A, v, r);
+  SpMtv(Amat, v, r);
 
   expect_eq_vectorf(r, rexpected, n, tol);
 
   free(A);
+  free_qoco_matrix(Amat);
 }
 
 TEST(linalg, inf_norm_test)
@@ -409,9 +415,12 @@ TEST(linalg, ruiz_test)
 
   qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
 
-  expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Druiz), Dexp, n, tol);
-  expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Eruiz), Eexp, p, tol);
-  expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Fruiz), Fexp, m, tol);
+  expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Druiz), Dexp, n,
+                    tol);
+  expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Eruiz), Eexp, p,
+                    tol);
+  expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Fruiz), Fexp, m,
+                    tol);
   EXPECT_NEAR(solver->work->scaling->k, kexp, tol);
 
   qoco_cleanup(solver);

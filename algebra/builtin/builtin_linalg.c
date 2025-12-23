@@ -69,6 +69,26 @@ QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n)
   return v;
 }
 
+QOCOVectori* new_qoco_vectori(const QOCOInt* x, QOCOInt n)
+{
+  QOCOVectori* v = qoco_malloc(sizeof(QOCOVectori));
+  QOCOInt* vdata = qoco_malloc(sizeof(QOCOInt) * n);
+  if (x) {
+    copy_arrayi(x, vdata, n);
+  }
+  else {
+    // Initialize to zero if x is NULL
+    for (QOCOInt i = 0; i < n; ++i) {
+      vdata[i] = 0;
+    }
+  }
+
+  v->len = n;
+  v->data = vdata;
+
+  return v;
+}
+
 void free_qoco_matrix(QOCOMatrix* A)
 {
   free_qoco_csc_matrix(A->csc);
@@ -81,9 +101,20 @@ void free_qoco_vectorf(QOCOVectorf* x)
   qoco_free(x);
 }
 
+void free_qoco_vectori(QOCOVectori* x)
+{
+  qoco_free(x->data);
+  qoco_free(x);
+}
+
 QOCOInt get_nnz(const QOCOMatrix* A) { return A->csc->nnz; }
 
 QOCOFloat get_element_vectorf(const QOCOVectorf* x, QOCOInt idx)
+{
+  return x->data[idx];
+}
+
+QOCOInt get_element_vectori(const QOCOVectori* x, QOCOInt idx)
 {
   return x->data[idx];
 }
@@ -93,12 +124,29 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx)
   return &x->data[idx];
 }
 
+void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
+{
+  for (QOCOInt i = 0; i < n; ++i) {
+    z[i] = x[i] * y[i];
+  }
+}
+
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x) { return x->data; }
+
+QOCOInt* get_data_vectori(const QOCOVectori* x) { return x->data; }
 
 QOCOInt get_length_vectorf(const QOCOVectorf* x) { return x->len; }
 
 // No-op for builtin backend
 void sync_vector_to_host(QOCOVectorf* v) {}
+
+// No-op for builtin backend
+void sync_vector_to_device(QOCOVectorf* v) {}
+
+// No-op for builtin backend
+void sync_matrix_to_device(QOCOMatrix* M) {}
+
+void set_cpu_mode(int active) {}
 
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }
 
@@ -252,72 +300,57 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
   }
 }
 
-void USpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
   qoco_assert(M);
   qoco_assert(v);
   qoco_assert(r);
 
-  for (QOCOInt i = 0; i < M->n; i++) {
+  for (QOCOInt i = 0; i < M->csc->n; i++) {
     r[i] = 0.0;
-    for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
-      int row = M->i[j];
-      r[row] += M->x[j] * v[i];
+    for (QOCOInt j = M->csc->p[i]; j < M->csc->p[i + 1]; j++) {
+      int row = M->csc->i[j];
+      r[row] += M->csc->x[j] * v[i];
       if (row != i)
-        r[i] += M->x[j] * v[row];
+        r[i] += M->csc->x[j] * v[row];
     }
   }
 }
 
-void SpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+void SpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
   qoco_assert(M);
   qoco_assert(v);
   qoco_assert(r);
 
   // Clear result buffer.
-  for (QOCOInt i = 0; i < M->m; ++i) {
+  for (QOCOInt i = 0; i < M->csc->m; ++i) {
     r[i] = 0.0;
   }
 
-  for (QOCOInt j = 0; j < M->n; j++) {
-    for (QOCOInt i = M->p[j]; i < M->p[j + 1]; i++) {
-      r[M->i[i]] += M->x[i] * v[j];
+  for (QOCOInt j = 0; j < M->csc->n; j++) {
+    for (QOCOInt i = M->csc->p[j]; i < M->csc->p[j + 1]; i++) {
+      r[M->csc->i[i]] += M->csc->x[i] * v[j];
     }
   }
 }
 
-void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r)
+void SpMtv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
 {
   qoco_assert(M);
   qoco_assert(v);
   qoco_assert(r);
 
   // Clear result buffer.
-  for (QOCOInt i = 0; i < M->n; ++i) {
+  for (QOCOInt i = 0; i < M->csc->n; ++i) {
     r[i] = 0.0;
   }
 
-  for (QOCOInt i = 0; i < M->n; i++) {
-    for (QOCOInt j = M->p[i]; j < M->p[i + 1]; j++) {
-      r[i] += M->x[j] * v[M->i[j]];
+  for (QOCOInt i = 0; i < M->csc->n; i++) {
+    for (QOCOInt j = M->csc->p[i]; j < M->csc->p[i + 1]; j++) {
+      r[i] += M->csc->x[j] * v[M->csc->i[j]];
     }
   }
-}
-
-void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{
-  USpMv(M->csc, v, r);
-}
-
-void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{
-  SpMv(M->csc, v, r);
-}
-
-void SpMtv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r)
-{
-  SpMtv(M->csc, v, r);
 }
 
 QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
@@ -331,4 +364,30 @@ QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n)
     norm = qoco_max(norm, xi);
   }
   return norm;
+}
+
+QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n)
+{
+  qoco_assert(x || n == 0);
+
+  if (n == 0)
+    return QOCOFloat_MAX;
+
+  QOCOFloat min_val = QOCOFloat_MAX;
+  QOCOFloat xi;
+  for (QOCOInt i = 0; i < n; ++i) {
+    xi = qoco_abs(x[i]);
+    min_val = qoco_min(min_val, xi);
+  }
+  return min_val;
+}
+
+QOCOInt check_nan(const QOCOVectorf* x)
+{
+  for (QOCOInt i = 0; i < x->len; ++i) {
+    if (isnan(x->data[i])) {
+      return 1;
+    }
+  }
+  return 0;
 }

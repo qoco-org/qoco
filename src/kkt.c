@@ -163,79 +163,70 @@ void initialize_ipm(QOCOSolver* solver)
   // TODO: Should we modify the KKT matrix in the kkt struct and in the
   // linsys_data struct?.
 
+  QOCOWorkspace* work = solver->work;
+  QOCOProblemData* data = solver->work->data;
+
   // Set Nesterov-Todd block in Wfull to -I (need for kkt_multiply in iterative
   // refinement).
-  for (QOCOInt i = 0; i < solver->work->Wnnzfull; ++i) {
-    solver->work->Wfull[i] = 0.0;
-  }
-  for (QOCOInt i = 0; i < solver->work->data->l; ++i) {
-    solver->work->Wfull[i] = 1.0;
-  }
-  QOCOInt idx = solver->work->data->l;
-  for (QOCOInt i = 0; i < solver->work->data->nsoc; ++i) {
-    for (QOCOInt k = 0; k < solver->work->data->q[i]; ++k) {
-      for (QOCOInt l = 0; l < solver->work->data->q[i]; ++l) {
-        solver->work->Wfull[idx + k * solver->work->data->q[i] + k] = 1.0;
-      }
-    }
-    idx += solver->work->data->q[i] * solver->work->data->q[i];
-  }
+  set_Wfull_identity(work->Wfull, work->Wnnzfull, data);
 
-  // solver->linsys->linsys_initialize_nt(solver->linsys_data,
-  //                                      solver->work->data->m);
-
-  // Need to be set to 1.0 not 0.0 due to low tolerance stopping criteria checks
-  // which only occur when a = 0.0. If a is set to 0.0 then the low tolerance
-  // stopping criteria check would be triggered.
-  solver->work->a = 1.0;
+  // Needs to be set to 1.0 not 0.0 due to low tolerance stopping criteria
+  // checks which only occur when a = 0.0. If a is set to 0.0 then the low
+  // tolerance stopping criteria check would be triggered.
+  work->a = 1.0;
 
   // Construct rhs of KKT system.
   // Construct rhs of KKT system = [-c;b;h].
-  QOCOProblemData* data = solver->work->data;
   QOCOFloat* cdata = get_data_vectorf(data->c);
   QOCOFloat* bdata = get_data_vectorf(data->b);
   QOCOFloat* hdata = get_data_vectorf(data->h);
-  QOCOFloat* rhs = get_data_vectorf(solver->work->rhs);
-  QOCOFloat* xyz = get_data_vectorf(solver->work->xyz);
+  QOCOFloat* rhs = get_data_vectorf(work->rhs);
+  QOCOFloat* xyz = get_data_vectorf(work->xyz);
   copy_and_negate_arrayf(cdata, rhs, data->n);
   copy_arrayf(bdata, &rhs[data->n], data->p);
   copy_arrayf(hdata, &rhs[data->n + data->p], data->m);
 
   // Factor KKT matrix.
-  solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
+  solver->linsys->linsys_factor(solver->linsys_data, data->n,
                                 solver->settings->kkt_dynamic_reg);
 
   // Solve KKT system.
-  solver->linsys->linsys_solve(solver->linsys_data, solver->work, rhs, xyz,
+  solver->linsys->linsys_solve(solver->linsys_data, work, work->rhs, work->xyz,
                                solver->settings->iter_ref_iters);
 
   // Copy x part of solution to x.
-  copy_arrayf(xyz, get_data_vectorf(solver->work->x), solver->work->data->n);
+  copy_arrayf(xyz, get_data_vectorf(work->x), work->data->n);
 
   // Copy y part of solution to y.
-  copy_arrayf(&xyz[solver->work->data->n], get_data_vectorf(solver->work->y),
-              solver->work->data->p);
+  copy_arrayf(&xyz[data->n], get_data_vectorf(work->y), data->p);
 
   // Copy z part of solution to z.
-  copy_arrayf(&xyz[solver->work->data->n + solver->work->data->p],
-              get_data_vectorf(solver->work->z), solver->work->data->m);
+  copy_arrayf(&xyz[data->n + data->p], get_data_vectorf(work->z), data->m);
 
   // Copy and negate z part of solution to s.
-  copy_and_negate_arrayf(&xyz[solver->work->data->n + solver->work->data->p],
-                         get_data_vectorf(solver->work->s),
-                         solver->work->data->m);
+  copy_and_negate_arrayf(&xyz[data->n + data->p], get_data_vectorf(work->s),
+                         data->m);
 
   // Bring s and z to cone C.
-  bring2cone(get_data_vectorf(solver->work->s), solver->work->data);
-  bring2cone(get_data_vectorf(solver->work->z), solver->work->data);
+  bring2cone(get_data_vectorf(work->s), data);
+  bring2cone(get_data_vectorf(work->z), data);
 }
 
-void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
-                          QOCOFloat* s, QOCOFloat* z, QOCOFloat* kktres,
-                          QOCOFloat static_reg, QOCOFloat* xyzbuff,
-                          QOCOFloat* nbuff, QOCOFloat* mbuff1,
-                          QOCOFloat* mbuff2)
+void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,
+                          QOCOVectorf* y_vec, QOCOVectorf* s_vec,
+                          QOCOVectorf* z_vec, QOCOVectorf* kktres_vec,
+                          QOCOFloat static_reg, QOCOVectorf* xyzbuff_vec,
+                          QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec)
 {
+
+  QOCOFloat* x = get_data_vectorf(x_vec);
+  QOCOFloat* y = get_data_vectorf(y_vec);
+  QOCOFloat* s = get_data_vectorf(s_vec);
+  QOCOFloat* z = get_data_vectorf(z_vec);
+  QOCOFloat* kktres = get_data_vectorf(kktres_vec);
+  QOCOFloat* xyzbuff = get_data_vectorf(xyzbuff_vec);
+  QOCOFloat* nbuff = get_data_vectorf(nbuff_vec);
+  QOCOFloat* mbuff = get_data_vectorf(mbuff_vec);
 
   // Set xyzbuff to [x;y;z]
   copy_arrayf(x, xyzbuff, data->n);
@@ -243,7 +234,7 @@ void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
   copy_arrayf(z, &xyzbuff[data->n + data->p], data->m);
 
   // Compute K*[x;y;z] with a zero'd out NT block.
-  kkt_multiply(xyzbuff, kktres, data, NULL, nbuff, mbuff1, mbuff1);
+  kkt_multiply(xyzbuff, kktres, data, NULL, nbuff, mbuff, mbuff);
 
   // rhs += [c;-b;-h+s]
   // Add c and account for regularization of P.
@@ -263,18 +254,28 @@ void compute_kkt_residual(QOCOProblemData* data, QOCOFloat* x, QOCOFloat* y,
             data->m);
 }
 
-QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
-                            QOCOFloat* nbuff, QOCOFloat static_reg, QOCOFloat k)
+QOCOFloat compute_mu(QOCOVectorf* s_vec, QOCOVectorf* z_vec, QOCOInt m)
 {
+  if (m > 0) {
+    QOCOFloat* s = get_data_vectorf(s_vec);
+    QOCOFloat* z = get_data_vectorf(z_vec);
+    return safe_div(qoco_dot(s, z, m), m);
+  }
+  return 0;
+}
+
+QOCOFloat compute_objective(QOCOProblemData* data, QOCOVectorf* x_vec,
+                            QOCOVectorf* nbuff_vec, QOCOFloat static_reg,
+                            QOCOFloat k)
+{
+  QOCOFloat* x = get_data_vectorf(x_vec);
+  QOCOFloat* nbuff = get_data_vectorf(nbuff_vec);
   QOCOFloat* cdata = get_data_vectorf(data->c);
   QOCOFloat obj = qoco_dot(x, cdata, data->n);
-  USpMv_matrix(data->P, x, nbuff);
+  USpMv(data->P, x, nbuff);
 
   // Correct for regularization in P.
-  QOCOFloat regularization_correction = 0.0;
-  for (QOCOInt i = 0; i < data->n; ++i) {
-    regularization_correction += static_reg * x[i] * x[i];
-  }
+  QOCOFloat regularization_correction = static_reg * qoco_dot(x, x, data->n);
   obj += 0.5 * (qoco_dot(nbuff, x, data->n) - regularization_correction);
   obj = safe_div(obj, k);
   return obj;
@@ -283,17 +284,22 @@ QOCOFloat compute_objective(QOCOProblemData* data, QOCOFloat* x,
 void construct_kkt_aff_rhs(QOCOWorkspace* work)
 {
   QOCOFloat* rhs = get_data_vectorf(work->rhs);
+  QOCOFloat* kktres = get_data_vectorf(work->kktres);
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* lambda = get_data_vectorf(work->lambda);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOInt* q = get_data_vectori(work->data->q);
 
   // Negate the kkt residual and store in rhs.
-  copy_and_negate_arrayf(work->kktres, rhs,
+  copy_and_negate_arrayf(kktres, rhs,
                          work->data->n + work->data->p + work->data->m);
 
   // Compute W*lambda
-  nt_multiply(work->Wfull, work->lambda, work->ubuff1, work->data->l,
-              work->data->m, work->data->nsoc, work->data->q);
+  nt_multiply(Wfull, lambda, ubuff1, work->data->l, work->data->m,
+              work->data->nsoc, q);
 
   // Add W*lambda to z portion of rhs.
-  qoco_axpy(work->ubuff1, &rhs[work->data->n + work->data->p],
+  qoco_axpy(ubuff1, &rhs[work->data->n + work->data->p],
             &rhs[work->data->n + work->data->p], 1.0, work->data->m);
 }
 
@@ -301,86 +307,90 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
 {
   QOCOFloat* rhs = get_data_vectorf(work->rhs);
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
+  QOCOFloat* kktres = get_data_vectorf(work->kktres);
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* Winvfull = get_data_vectorf(work->Winvfull);
+  QOCOFloat* Ds = get_data_vectorf(work->Ds);
+  QOCOFloat* lambda = get_data_vectorf(work->lambda);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
+  QOCOFloat* ubuff3 = get_data_vectorf(work->ubuff3);
+  QOCOInt* q = get_data_vectori(work->data->q);
 
   // Negate the kkt residual and store in rhs.
-  copy_and_negate_arrayf(work->kktres, rhs,
+  copy_and_negate_arrayf(kktres, rhs,
                          work->data->n + work->data->p + work->data->m);
 
   /// ds = -cone_product(lambda, lambda) - settings.mehrotra *
   /// cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
 
   // ubuff1 = Winv * Dsaff.
-  nt_multiply(work->Winvfull, work->Ds, work->ubuff1, work->data->l,
-              work->data->m, work->data->nsoc, work->data->q);
+  nt_multiply(Winvfull, Ds, ubuff1, work->data->l, work->data->m,
+              work->data->nsoc, q);
 
   // ubuff2 = W * Dzaff.
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
-  nt_multiply(work->Wfull, Dzaff, work->ubuff2, work->data->l, work->data->m,
-              work->data->nsoc, work->data->q);
+  nt_multiply(Wfull, Dzaff, ubuff2, work->data->l, work->data->m,
+              work->data->nsoc, q);
 
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata).
-  cone_product(work->ubuff1, work->ubuff2, work->ubuff3, work->data->l,
-               work->data->nsoc, work->data->q);
+  cone_product(ubuff1, ubuff2, ubuff3, work->data->l, work->data->nsoc, q);
 
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata) - sigma * mu * e.
   QOCOFloat sm = work->sigma * work->mu;
-  QOCOInt idx = 0;
-  for (idx = 0; idx < work->data->l; ++idx) {
-    work->ubuff3[idx] -= sm;
-  }
-  for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
-    work->ubuff3[idx] -= sm;
-    idx += work->data->q[i];
-  }
+  add_e(ubuff3, sm, work->data->l, work->data->nsoc, work->data->q);
+
   // ubuff1 = lambda * lambda.
-  cone_product(work->lambda, work->lambda, work->ubuff1, work->data->l,
-               work->data->nsoc, work->data->q);
+  cone_product(lambda, lambda, ubuff1, work->data->l, work->data->nsoc, q);
 
   // Ds = -cone_product(lambda, lambda) - settings.mehrotra *
   // cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
 
-  copy_and_negate_arrayf(work->ubuff1, work->Ds, work->data->m);
-  qoco_axpy(work->ubuff3, work->Ds, work->Ds, -1.0, work->data->m);
+  copy_and_negate_arrayf(ubuff1, Ds, work->data->m);
+  qoco_axpy(ubuff3, Ds, Ds, -1.0, work->data->m);
 
   // ubuff2 = cone_division(lambda, ds).
-  cone_division(work->lambda, work->Ds, work->ubuff2, work->data->l,
-                work->data->nsoc, work->data->q);
+  cone_division(lambda, Ds, ubuff2, work->data->l, work->data->nsoc, q);
 
   // ubuff1 = W * cone_division(lambda, ds).
-  nt_multiply(work->Wfull, work->ubuff2, work->ubuff1, work->data->l,
-              work->data->m, work->data->nsoc, work->data->q);
+  nt_multiply(Wfull, ubuff2, ubuff1, work->data->l, work->data->m,
+              work->data->nsoc, q);
 
   // rhs = [dx;dy;dz-W'*cone_division(lambda, ds, pdata)];
-  qoco_axpy(work->ubuff1, &rhs[work->data->n + work->data->p],
+  qoco_axpy(ubuff1, &rhs[work->data->n + work->data->p],
             &rhs[work->data->n + work->data->p], -1.0, work->data->m);
 }
 
 void predictor_corrector(QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
+  QOCOProblemData* data = solver->work->data;
+
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* lambda = get_data_vectorf(work->lambda);
+  QOCOFloat* Ds = get_data_vectorf(work->Ds);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
+  QOCOFloat* ubuff3 = get_data_vectorf(work->ubuff3);
+  QOCOInt* q = get_data_vectori(work->data->q);
 
   // Factor KKT matrix.
-  solver->linsys->linsys_factor(solver->linsys_data, solver->work->data->n,
+  solver->linsys->linsys_factor(solver->linsys_data, data->n,
                                 solver->settings->kkt_dynamic_reg);
-
   // Construct rhs for affine scaling direction.
   construct_kkt_aff_rhs(work);
 
   // Solve to get affine scaling direction.
-  QOCOFloat* rhs = get_data_vectorf(work->rhs);
-  QOCOFloat* xyz = get_data_vectorf(work->xyz);
-  solver->linsys->linsys_solve(solver->linsys_data, solver->work, rhs, xyz,
+  solver->linsys->linsys_solve(solver->linsys_data, work, work->rhs, work->xyz,
                                solver->settings->iter_ref_iters);
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
-  QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
-  nt_multiply(work->Wfull, Dzaff, work->ubuff1, work->data->l, work->data->m,
-              work->data->nsoc, work->data->q);
-  for (QOCOInt i = 0; i < work->data->m; ++i) {
-    work->ubuff1[i] = -work->lambda[i] - work->ubuff1[i];
-  }
-  nt_multiply(work->Wfull, work->ubuff1, work->Ds, work->data->l, work->data->m,
-              work->data->nsoc, work->data->q);
+  QOCOFloat* xyz = get_data_vectorf(work->xyz);
+  QOCOFloat* Dzaff = &xyz[data->n + data->p];
+  nt_multiply(Wfull, Dzaff, ubuff1, data->l, data->m, data->nsoc, q);
+  copy_and_negate_arrayf(ubuff1, ubuff1, data->m);
+  qoco_axpy(lambda, ubuff1, ubuff1, -1.0, data->m);
+  nt_multiply(Wfull, ubuff1, Ds, data->l, data->m, data->nsoc, q);
 
   // Compute centering parameter.
   compute_centering(solver);
@@ -389,35 +399,28 @@ void predictor_corrector(QOCOSolver* solver)
   construct_kkt_comb_rhs(work);
 
   // Solve to get combined direction.
-  rhs = get_data_vectorf(work->rhs);
-  xyz = get_data_vectorf(work->xyz);
-  solver->linsys->linsys_solve(solver->linsys_data, solver->work, rhs, xyz,
+  solver->linsys->linsys_solve(solver->linsys_data, work, work->rhs, work->xyz,
                                solver->settings->iter_ref_iters);
 
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
-  for (QOCOInt i = 0; i < work->data->n + work->data->p + work->data->m; ++i) {
-    if (isnan(xyz[i])) {
-      work->a = 0.0;
-      return;
-    }
+  if (check_nan(work->xyz)) {
+    work->a = 0.0;
+    return;
   }
 
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
   // computed in construct_kkt_comb_rhs() and stored in work->Ds.
-  QOCOFloat* Dz = &xyz[work->data->n + work->data->p];
-  cone_division(work->lambda, work->Ds, work->ubuff1, work->data->l,
-                work->data->nsoc, work->data->q);
-  nt_multiply(work->Wfull, Dz, work->ubuff2, work->data->l, work->data->m,
-              work->data->nsoc, work->data->q);
+  QOCOFloat* Dz = &xyz[data->n + data->p];
+  cone_division(lambda, Ds, ubuff1, data->l, data->nsoc, q);
+  nt_multiply(Wfull, Dz, ubuff2, data->l, data->m, data->nsoc, q);
 
-  qoco_axpy(work->ubuff2, work->ubuff1, work->ubuff3, -1.0, work->data->m);
-  nt_multiply(work->Wfull, work->ubuff3, work->Ds, work->data->l, work->data->m,
-              work->data->nsoc, work->data->q);
+  qoco_axpy(ubuff2, ubuff1, ubuff3, -1.0, data->m);
+  nt_multiply(Wfull, ubuff3, Ds, data->l, data->m, data->nsoc, q);
 
   // Compute step-size.
   QOCOFloat a =
-      qoco_min(linesearch(get_data_vectorf(work->s), work->Ds, 0.99, solver),
+      qoco_min(linesearch(get_data_vectorf(work->s), Ds, 0.99, solver),
                linesearch(get_data_vectorf(work->z), Dz, 0.99, solver));
 
   // Save step-size.
@@ -425,17 +428,16 @@ void predictor_corrector(QOCOSolver* solver)
 
   // Update iterates.
   QOCOFloat* Dx = xyz;
-  QOCOFloat* Dy = &xyz[work->data->n];
-  QOCOFloat* Ds = work->Ds;
+  QOCOFloat* Dy = &xyz[data->n];
 
   qoco_axpy(Dx, get_data_vectorf(work->x), get_data_vectorf(work->x), a,
-            work->data->n);
+            data->n);
   qoco_axpy(Ds, get_data_vectorf(work->s), get_data_vectorf(work->s), a,
-            work->data->m);
+            data->m);
   qoco_axpy(Dy, get_data_vectorf(work->y), get_data_vectorf(work->y), a,
-            work->data->p);
+            data->p);
   qoco_axpy(Dz, get_data_vectorf(work->z), get_data_vectorf(work->z), a,
-            work->data->m);
+            data->m);
 }
 
 void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
@@ -445,7 +447,7 @@ void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
 
   // Compute y[1:n] = P * x[1:n] + A^T * x[n+1:n+p] + G^T * x[n+p+1:n+p+m].
   if (data->P) {
-    USpMv_matrix(data->P, x, y);
+    USpMv(data->P, x, y);
   }
   else {
     for (QOCOInt i = 0; i < data->n; ++i) {
@@ -454,21 +456,22 @@ void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
   }
 
   if (data->p > 0) {
-    SpMtv_matrix(data->A, &x[data->n], nbuff);
+    SpMtv(data->A, &x[data->n], nbuff);
     qoco_axpy(y, nbuff, y, 1.0, data->n);
-    SpMv_matrix(data->A, x, &y[data->n]);
+    SpMv(data->A, x, &y[data->n]);
   }
 
   if (data->m > 0) {
-    SpMtv_matrix(data->G, &x[data->n + data->p], nbuff);
+    SpMtv(data->G, &x[data->n + data->p], nbuff);
     qoco_axpy(y, nbuff, y, 1.0, data->n);
-    SpMv_matrix(data->G, x, &y[data->n + data->p]);
+    SpMv(data->G, x, &y[data->n + data->p]);
   }
 
   if (Wfull) {
     nt_multiply(Wfull, &x[data->n + data->p], mbuff1, data->l, data->m,
-                data->nsoc, data->q);
-    nt_multiply(Wfull, mbuff1, mbuff2, data->l, data->m, data->nsoc, data->q);
+                data->nsoc, get_data_vectori(data->q));
+    nt_multiply(Wfull, mbuff1, mbuff2, data->l, data->m, data->nsoc,
+                get_data_vectori(data->q));
     qoco_axpy(mbuff2, &y[data->n + data->p], &y[data->n + data->p], -1.0,
               data->m);
   }

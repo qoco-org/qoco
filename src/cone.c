@@ -11,6 +11,34 @@
 #include "cone.h"
 #include "qoco_utils.h"
 
+void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
+                        QOCOProblemData* data)
+{
+  QOCOFloat* Wfull_data = get_data_vectorf(Wfull);
+  for (QOCOInt i = 0; i < Wnnzfull; ++i) {
+    Wfull_data[i] = 0.0;
+  }
+  for (QOCOInt i = 0; i < data->l; ++i) {
+    Wfull_data[i] = 1.0;
+  }
+  QOCOInt idx = data->l;
+  for (QOCOInt i = 0; i < data->nsoc; ++i) {
+    QOCOInt qi = get_element_vectori(data->q, i);
+    for (QOCOInt k = 0; k < qi; ++k) {
+      Wfull_data[idx + k * qi + k] = 1.0;
+    }
+    idx += qi * qi;
+  }
+}
+
+/**
+ * @brief Computes second-order cone product u * v = p.
+ *
+ * @param u u = (u0, u1) is a vector in second-order cone of dimension n.
+ * @param v v = (v0, v1) is a vector in second-order cone of dimension n.
+ * @param p Cone product of u and v.
+ * @param n Dimension of second-order cone.
+ */
 void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
                  QOCOInt n)
 {
@@ -20,6 +48,15 @@ void soc_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
   }
 }
 
+/**
+ * @brief Commpues second-order cone division lambda # v = d
+ *
+ * @param lam lam = (lam0, lam1) is a vector in second-order cone of dimension
+ * n.
+ * @param v v = (v0, v1) is a vector in second-order cone of dimension n.
+ * @param d Cone divisin of lam and v.
+ * @param n Dimension of second-order cone.
+ */
 void soc_division(const QOCOFloat* lam, const QOCOFloat* v, QOCOFloat* d,
                   QOCOInt n)
 {
@@ -35,6 +72,15 @@ void soc_division(const QOCOFloat* lam, const QOCOFloat* v, QOCOFloat* d,
   }
 }
 
+/**
+ * @brief Computes residual of vector u with respect to the second order cone of
+ * dimension n.
+ *
+ * @param u u = (u0, u1) is a vector in second-order cone of dimension n.
+ * @param n Dimension of second order cone.
+ * @return Residual: norm(u1) - u0. Negative if the vector is in the cone and
+ * positive otherwise.
+ */
 QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n)
 {
   QOCOFloat res = 0;
@@ -45,6 +91,14 @@ QOCOFloat soc_residual(const QOCOFloat* u, QOCOInt n)
   return res;
 }
 
+/**
+ * @brief Computes u0^2 - u1'*u1 of vector u with respect to the second order
+ * cone of dimension n.
+ *
+ * @param u u = (u0, u1) is a vector in second order cone of dimension n.
+ * @param n Dimension of second order cone.
+ * @return Residual: u0^2 - u1'*u1.
+ */
 QOCOFloat soc_residual2(const QOCOFloat* u, QOCOInt n)
 {
   QOCOFloat res = u[0] * u[0];
@@ -86,6 +140,16 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
   }
 }
 
+/**
+ * @brief Computes residual of vector u with respect to cone C.
+ *
+ * @param u Vector to be tested.
+ * @param l Dimension of LP cone.
+ * @param nsoc Number of second-order cones.
+ * @param q Dimension of each second-order cone.
+ * @return Residual: Negative if the vector is in the cone and positive
+ * otherwise.
+ */
 QOCOFloat cone_residual(const QOCOFloat* u, QOCOInt l, QOCOInt nsoc,
                         const QOCOInt* q)
 {
@@ -109,7 +173,7 @@ QOCOFloat cone_residual(const QOCOFloat* u, QOCOInt l, QOCOInt nsoc,
 
 void bring2cone(QOCOFloat* u, QOCOProblemData* data)
 {
-  if (cone_residual(u, data->l, data->nsoc, data->q) >= 0) {
+  if (cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q)) >= 0) {
     QOCOFloat a = 0.0;
 
     // Get a for for LP cone.
@@ -121,11 +185,12 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data)
 
     // Get a for second-order cone.
     for (QOCOInt i = 0; i < data->nsoc; ++i) {
-      QOCOFloat soc_res = soc_residual(&u[idx], data->q[i]);
+      QOCOInt qi = get_element_vectori(data->q, i);
+      QOCOFloat soc_res = soc_residual(&u[idx], qi);
       if (soc_res > 0 && soc_res > a) {
         a = soc_res;
       }
-      idx += data->q[i];
+      idx += qi;
     }
 
     // Compute u + (1 + a) * e for LP cone.
@@ -136,7 +201,7 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data)
     // Compute u + (1 + a) * e for second-order cones.
     for (QOCOInt i = 0; i < data->nsoc; ++i) {
       u[idx] += (1 + a);
-      idx += data->q[i];
+      idx += get_element_vectori(data->q, i);
     }
   }
 }
@@ -171,157 +236,156 @@ void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
 
 void compute_nt_scaling(QOCOWorkspace* work)
 {
+  QOCOFloat* W = get_data_vectorf(work->W);
+  QOCOFloat* WtW = get_data_vectorf(work->WtW);
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* Winv = get_data_vectorf(work->Winv);
+  QOCOFloat* Winvfull = get_data_vectorf(work->Winvfull);
+  QOCOFloat* sbar = get_data_vectorf(work->sbar);
+  QOCOFloat* zbar = get_data_vectorf(work->zbar);
+  QOCOFloat* lambda = get_data_vectorf(work->lambda);
   // Compute Nesterov-Todd scaling for LP cone.
   QOCOInt idx;
   for (idx = 0; idx < work->data->l; ++idx) {
-    work->WtW[idx] = safe_div(get_element_vectorf(work->s, idx),
-                              get_element_vectorf(work->z, idx));
-    work->W[idx] = qoco_sqrt(work->WtW[idx]);
-    work->Wfull[idx] = work->W[idx];
-    work->Winv[idx] = safe_div(1.0, work->W[idx]);
-    work->Winvfull[idx] = work->Winv[idx];
+    WtW[idx] = safe_div(get_element_vectorf(work->s, idx),
+                        get_element_vectorf(work->z, idx));
+    W[idx] = qoco_sqrt(WtW[idx]);
+    Wfull[idx] = W[idx];
+    Winv[idx] = safe_div(1.0, W[idx]);
+    Winvfull[idx] = Winv[idx];
   }
 
   // Compute Nesterov-Todd scaling for second-order cones.
   QOCOInt nt_idx = idx;
   QOCOInt nt_idx_full = idx;
   for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
+    QOCOInt qi = get_element_vectori(work->data->q, i);
     // Compute normalized vectors.
-    QOCOFloat s_scal =
-        soc_residual2(get_pointer_vectorf(work->s, idx), work->data->q[i]);
+    QOCOFloat s_scal = soc_residual2(get_pointer_vectorf(work->s, idx), qi);
     s_scal = qoco_sqrt(s_scal);
     QOCOFloat f = safe_div(1.0, s_scal);
-    scale_arrayf(get_pointer_vectorf(work->s, idx), work->sbar, f,
-                 work->data->q[i]);
+    scale_arrayf(get_pointer_vectorf(work->s, idx), sbar, f, qi);
 
-    QOCOFloat z_scal =
-        soc_residual2(get_pointer_vectorf(work->z, idx), work->data->q[i]);
+    QOCOFloat z_scal = soc_residual2(get_pointer_vectorf(work->z, idx), qi);
     z_scal = qoco_sqrt(z_scal);
     f = safe_div(1.0, z_scal);
-    scale_arrayf(get_pointer_vectorf(work->z, idx), work->zbar, f,
-                 work->data->q[i]);
+    scale_arrayf(get_pointer_vectorf(work->z, idx), zbar, f, qi);
 
-    QOCOFloat gamma = qoco_sqrt(
-        0.5 * (1 + qoco_dot(work->sbar, work->zbar, work->data->q[i])));
+    QOCOFloat gamma = qoco_sqrt(0.5 * (1 + qoco_dot(sbar, zbar, qi)));
 
     f = safe_div(1.0, (2 * gamma));
 
     // Overwrite sbar with wbar.
-    work->sbar[0] = f * (work->sbar[0] + work->zbar[0]);
-    for (QOCOInt j = 1; j < work->data->q[i]; ++j) {
-      work->sbar[j] = f * (work->sbar[j] - work->zbar[j]);
+    sbar[0] = f * (sbar[0] + zbar[0]);
+    for (QOCOInt j = 1; j < qi; ++j) {
+      sbar[j] = f * (sbar[j] - zbar[j]);
     }
 
     // Overwrite zbar with v.
-    f = safe_div(1.0, qoco_sqrt(2 * (work->sbar[0] + 1)));
-    work->zbar[0] = f * (work->sbar[0] + 1.0);
-    for (QOCOInt j = 1; j < work->data->q[i]; ++j) {
-      work->zbar[j] = f * work->sbar[j];
+    f = safe_div(1.0, qoco_sqrt(2 * (sbar[0] + 1)));
+    zbar[0] = f * (sbar[0] + 1.0);
+    for (QOCOInt j = 1; j < qi; ++j) {
+      zbar[j] = f * sbar[j];
     }
 
     // Compute W for second-order cones.
     QOCOInt shift = 0;
     f = qoco_sqrt(safe_div(s_scal, z_scal));
     QOCOFloat finv = safe_div(1.0, f);
-    for (QOCOInt j = 0; j < work->data->q[i]; ++j) {
+    for (QOCOInt j = 0; j < qi; ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
-        QOCOInt full_idx1 = nt_idx_full + j * work->data->q[i] + k;
-        QOCOInt full_idx2 = nt_idx_full + k * work->data->q[i] + j;
-        work->W[nt_idx + shift] = 2 * (work->zbar[k] * work->zbar[j]);
+        QOCOInt full_idx1 = nt_idx_full + j * qi + k;
+        QOCOInt full_idx2 = nt_idx_full + k * qi + j;
+        W[nt_idx + shift] = 2 * (zbar[k] * zbar[j]);
         if (j != 0 && k == 0) {
-          work->Winv[nt_idx + shift] = -work->W[nt_idx + shift];
+          Winv[nt_idx + shift] = -W[nt_idx + shift];
         }
         else {
-          work->Winv[nt_idx + shift] = work->W[nt_idx + shift];
+          Winv[nt_idx + shift] = W[nt_idx + shift];
         }
         if (j == k && j == 0) {
-          work->W[nt_idx + shift] -= 1;
-          work->Winv[nt_idx + shift] -= 1;
+          W[nt_idx + shift] -= 1;
+          Winv[nt_idx + shift] -= 1;
         }
         else if (j == k) {
-          work->W[nt_idx + shift] += 1;
-          work->Winv[nt_idx + shift] += 1;
+          W[nt_idx + shift] += 1;
+          Winv[nt_idx + shift] += 1;
         }
-        work->W[nt_idx + shift] *= f;
-        work->Winv[nt_idx + shift] *= finv;
-        work->Wfull[full_idx1] = work->W[nt_idx + shift];
-        work->Wfull[full_idx2] = work->W[nt_idx + shift];
-        work->Winvfull[full_idx1] = work->Winv[nt_idx + shift];
-        work->Winvfull[full_idx2] = work->Winv[nt_idx + shift];
+        W[nt_idx + shift] *= f;
+        Winv[nt_idx + shift] *= finv;
+        Wfull[full_idx1] = W[nt_idx + shift];
+        Wfull[full_idx2] = W[nt_idx + shift];
+        Winvfull[full_idx1] = Winv[nt_idx + shift];
+        Winvfull[full_idx2] = Winv[nt_idx + shift];
         shift += 1;
       }
     }
 
     // Compute WtW for second-order cones.
     shift = 0;
-    for (QOCOInt j = 0; j < work->data->q[i]; ++j) {
+    for (QOCOInt j = 0; j < qi; ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
-        work->WtW[nt_idx + shift] = qoco_dot(
-            &work->Wfull[nt_idx_full + j * work->data->q[i]],
-            &work->Wfull[nt_idx_full + k * work->data->q[i]], work->data->q[i]);
+        WtW[nt_idx + shift] = qoco_dot(&Wfull[nt_idx_full + j * qi],
+                                       &Wfull[nt_idx_full + k * qi], qi);
         shift += 1;
       }
     }
 
-    idx += work->data->q[i];
-    nt_idx += (work->data->q[i] * work->data->q[i] + work->data->q[i]) / 2;
-    nt_idx_full += work->data->q[i] * work->data->q[i];
+    idx += qi;
+    nt_idx += (qi * qi + qi) / 2;
+    nt_idx_full += qi * qi;
   }
 
   // Compute scaled variable lambda. lambda = W * z.
-  nt_multiply(work->Wfull, get_pointer_vectorf(work->z, 0), work->lambda,
-              work->data->l, work->data->m, work->data->nsoc, work->data->q);
+  nt_multiply(Wfull, get_pointer_vectorf(work->z, 0), lambda, work->data->l,
+              work->data->m, work->data->nsoc, get_data_vectori(work->data->q));
 }
 
 void compute_centering(QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
+  QOCOFloat* Ds = get_data_vectorf(work->Ds);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
   QOCOFloat* Dzaff = &xyz[work->data->n + work->data->p];
-  QOCOFloat a = qoco_min(
-      linesearch(get_pointer_vectorf(work->z, 0), Dzaff, 1.0, solver),
-      linesearch(get_pointer_vectorf(work->s, 0), work->Ds, 1.0, solver));
+  QOCOFloat a =
+      qoco_min(linesearch(get_pointer_vectorf(work->z, 0), Dzaff, 1.0, solver),
+               linesearch(get_pointer_vectorf(work->s, 0), Ds, 1.0, solver));
 
   // Compute rho. rho = ((s + a * Ds)'*(z + a * Dz)) / (s'*z).
-  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), work->ubuff1, a,
-            work->data->m);
-  qoco_axpy(work->Ds, get_pointer_vectorf(work->s, 0), work->ubuff2, a,
-            work->data->m);
-  QOCOFloat rho = qoco_dot(work->ubuff1, work->ubuff2, work->data->m) /
+  qoco_axpy(Dzaff, get_pointer_vectorf(work->z, 0), ubuff1, a, work->data->m);
+  qoco_axpy(Ds, get_pointer_vectorf(work->s, 0), ubuff2, a, work->data->m);
+  QOCOFloat rho = qoco_dot(ubuff1, ubuff2, work->data->m) /
                   qoco_dot(get_pointer_vectorf(work->z, 0),
                            get_pointer_vectorf(work->s, 0), work->data->m);
 
   // Compute sigma. sigma = max(0, min(1, rho))^3.
   QOCOFloat sigma = qoco_min(1.0, rho);
   sigma = qoco_max(0.0, sigma);
-  sigma = sigma * sigma * sigma;
-  solver->work->sigma = sigma;
+  work->sigma = sigma * sigma * sigma;
 }
 
-QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
-                     QOCOSolver* solver)
-{
-  if (solver->work->data->nsoc == 0) {
-    return exact_linesearch(u, Du, f, solver);
-  }
-  else {
-    return bisection_search(u, Du, f, solver);
-  }
-}
-
+/**
+ * @brief Conducts linesearch by bisection to compute a \in (0, 1] such that
+ * u + (a / f) * Du \in C
+ * Warning: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du.
+ * Consider a dedicated buffer for linesearch.
+ */
 QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                            QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
 
   QOCOFloat al = 0.0;
   QOCOFloat au = 1.0;
   QOCOFloat a = 0.0;
   for (QOCOInt i = 0; i < solver->settings->bisect_iters; ++i) {
     a = 0.5 * (al + au);
-    qoco_axpy(Du, u, work->ubuff1, safe_div(a, f), work->data->m);
-    if (cone_residual(work->ubuff1, work->data->l, work->data->nsoc,
-                      work->data->q) >= 0) {
+    qoco_axpy(Du, u, ubuff1, safe_div(a, f), work->data->m);
+    if (cone_residual(ubuff1, work->data->l, work->data->nsoc,
+                      get_data_vectori(work->data->q)) >= 0) {
       au = a;
     }
     else {
@@ -331,6 +395,10 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   return al;
 }
 
+/**
+ * @brief Conducts exact linesearch to compute the largest a \in (0, 1] such
+ * that u + (a / f) * Du \in C. Currently only works for LP cone.
+ */
 QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                            QOCOSolver* solver)
 {
@@ -351,4 +419,27 @@ QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
     a = -f / minval;
 
   return a;
+}
+
+QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
+                     QOCOSolver* solver)
+{
+  if (solver->work->data->nsoc == 0) {
+    return exact_linesearch(u, Du, f, solver);
+  }
+  else {
+    return bisection_search(u, Du, f, solver);
+  }
+}
+
+void add_e(QOCOFloat* x, QOCOFloat a, QOCOFloat l, QOCOInt nsoc, QOCOVectori* q)
+{
+  QOCOInt idx = 0;
+  for (idx = 0; idx < l; ++idx) {
+    x[idx] -= a;
+  }
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+    x[idx] -= a;
+    idx += get_element_vectori(q, i);
+  }
 }

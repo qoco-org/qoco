@@ -24,4 +24,7 @@
 
 extern LinSysBackend backend;
 
+// No-op for builtin backend (CUDA library loading only needed for CUDA backend)
+static inline int load_cuda_libraries(void) { return 1; }
+
 #endif /* #ifndef QDLDL_BACKEND_H */

@@ -61,7 +61,7 @@ typedef struct {
   QOCOInt nsoc;
 
   /** Dimension of each second-order cone (length of nsoc)*/
-  QOCOInt* q;
+  QOCOVectori* q;
 
   /** Number of primal variables. */
   QOCOInt n;
@@ -78,10 +78,12 @@ typedef struct {
   /** Number of elements of P->x that were added due to regularization. */
   QOCOInt Pnum_nzadded;
 
-  /** Scaling statistics: minimum absolute value in P (prior to regularization) and c. */
+  /** Scaling statistics: minimum absolute value in P (prior to regularization)
+   * and c. */
   QOCOFloat obj_range_min;
 
-  /** Scaling statistics: maximum absolute value in P (prior to regularization) and c. */
+  /** Scaling statistics: maximum absolute value in P (prior to regularization)
+   * and c. */
   QOCOFloat obj_range_max;
 
   /** Scaling statistics: minimum absolute value in A and G. */
@@ -213,48 +215,48 @@ typedef struct {
   QOCOInt Wnnzfull;
 
   /** Upper triangular part of Nesterov-Todd Scaling */
-  QOCOFloat* W;
+  QOCOVectorf* W;
 
   /** Full Nesterov-Todd Scaling */
-  QOCOFloat* Wfull;
+  QOCOVectorf* Wfull;
 
   /** Upper triangular part of inverse of Nesterov-Todd Scaling */
-  QOCOFloat* Winv;
+  QOCOVectorf* Winv;
 
   /** Full inverse of Nesterov-Todd Scaling */
-  QOCOFloat* Winvfull;
+  QOCOVectorf* Winvfull;
 
   /** Nesterov-Todd Scaling squared */
-  QOCOFloat* WtW;
+  QOCOVectorf* WtW;
 
   /** Scaled variables. */
-  QOCOFloat* lambda;
+  QOCOVectorf* lambda;
 
   /** Temporary array needed in Nesterov-Todd scaling calculations. Length of
    * max(q). */
-  QOCOFloat* sbar;
+  QOCOVectorf* sbar;
 
   /** Temporary array needed in Nesterov-Todd scaling calculations. Length of
    * max(q). */
-  QOCOFloat* zbar;
+  QOCOVectorf* zbar;
 
   /** Temporary variable of length n. */
-  QOCOFloat* xbuff;
+  QOCOVectorf* xbuff;
 
   /** Temporary variable of length p. */
-  QOCOFloat* ybuff;
+  QOCOVectorf* ybuff;
 
   /** Temporary variable of length m. */
-  QOCOFloat* ubuff1;
+  QOCOVectorf* ubuff1;
 
   /** Temporary variable of length m. */
-  QOCOFloat* ubuff2;
+  QOCOVectorf* ubuff2;
 
   /** Temporary variable of length m. */
-  QOCOFloat* ubuff3;
+  QOCOVectorf* ubuff3;
 
   /** Search direction for slack variables. Length of m. */
-  QOCOFloat* Ds;
+  QOCOVectorf* Ds;
 
   /** RHS of KKT system. */
   QOCOVectorf* rhs;
@@ -263,13 +265,13 @@ typedef struct {
   QOCOVectorf* xyz;
 
   /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff1;
+  QOCOVectorf* xyzbuff1;
 
   /** Buffer of size n + m + p. */
-  QOCOFloat* xyzbuff2;
+  QOCOVectorf* xyzbuff2;
 
   /** Residual of KKT condition. */
-  QOCOFloat* kktres;
+  QOCOVectorf* kktres;
 
 } QOCOWorkspace;
 
@@ -319,13 +321,14 @@ typedef struct {
   const char* (*linsys_name)();
   LinSysData* (*linsys_setup)(QOCOProblemData* data, QOCOSettings* settings,
                               QOCOInt Wnnz);
-  void (*linsys_update_nt)(LinSysData* linsys_data, QOCOFloat* WtW,
+  void (*linsys_update_nt)(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
                            QOCOFloat kkt_static_reg, QOCOInt m);
   void (*linsys_update_data)(LinSysData* linsys_data, QOCOProblemData* data);
   void (*linsys_factor)(LinSysData* linsys_data, QOCOInt n,
                         QOCOFloat kkt_dynamic_reg);
   void (*linsys_solve)(LinSysData* linsys_data, QOCOWorkspace* work,
-                       QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters);
+                       QOCOVectorf* b_vec, QOCOVectorf* x_vec,
+                       QOCOInt iter_ref_iters);
   void (*linsys_cleanup)(LinSysData* linsys_data);
 } LinSysBackend;
 

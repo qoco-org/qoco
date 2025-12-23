@@ -3,6 +3,8 @@
 void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
                         QOCOInt ruiz_iters)
 {
+  // This function runs on the CPU.
+  set_cpu_mode(1);
   // Initialize ruiz data.
   for (QOCOInt i = 0; i < data->n; ++i) {
     set_element_vectorf(scaling->Druiz, i, 1.0);
@@ -114,10 +116,11 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     // Make scalings for all variables in a second-order cone equal.
     QOCOInt idx = data->l;
     for (QOCOInt j = 0; j < data->nsoc; ++j) {
-      for (QOCOInt k = idx + 1; k < idx + data->q[j]; ++k) {
+      QOCOInt qj = get_element_vectori(data->q, j);
+      for (QOCOInt k = idx + 1; k < idx + qj; ++k) {
         F[k] = F[idx];
       }
-      idx += data->q[j];
+      idx += qj;
     }
 
     // Scale P.
@@ -154,27 +157,44 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
   reciprocal_vectorf(scaling->Eruiz, scaling->Einvruiz);
   reciprocal_vectorf(scaling->Fruiz, scaling->Finvruiz);
   scaling->kinv = safe_div(1.0, scaling->k);
+  set_cpu_mode(0);
+
+  // Sync updated scaling vectors and scaled data to device (CUDA backend).
+  if (data->P) {
+    sync_matrix_to_device(data->P);
+  }
+  if (data->p > 0) {
+    sync_matrix_to_device(data->A);
+    sync_matrix_to_device(data->At);
+  }
+  if (data->m > 0) {
+    sync_matrix_to_device(data->G);
+    sync_matrix_to_device(data->Gt);
+  }
+  sync_vector_to_device(scaling->Druiz);
+  sync_vector_to_device(scaling->Eruiz);
+  sync_vector_to_device(scaling->Fruiz);
+  sync_vector_to_device(scaling->Dinvruiz);
+  sync_vector_to_device(scaling->Einvruiz);
+  sync_vector_to_device(scaling->Finvruiz);
 }
 
 void unscale_variables(QOCOWorkspace* work)
 {
-  ew_product(get_pointer_vectorf(work->x, 0),
-             get_pointer_vectorf(work->scaling->Druiz, 0),
-             get_pointer_vectorf(work->x, 0), work->data->n);
+  ew_product(get_data_vectorf(work->x), get_data_vectorf(work->scaling->Druiz),
+             get_data_vectorf(work->x), work->data->n);
 
-  ew_product(get_pointer_vectorf(work->s, 0),
-             get_pointer_vectorf(work->scaling->Finvruiz, 0),
-             get_pointer_vectorf(work->s, 0), work->data->m);
+  ew_product(get_data_vectorf(work->s),
+             get_data_vectorf(work->scaling->Finvruiz),
+             get_data_vectorf(work->s), work->data->m);
 
-  ew_product(get_pointer_vectorf(work->y, 0),
-             get_pointer_vectorf(work->scaling->Eruiz, 0),
-             get_pointer_vectorf(work->y, 0), work->data->p);
-  scale_arrayf(get_pointer_vectorf(work->y, 0), get_pointer_vectorf(work->y, 0),
+  ew_product(get_data_vectorf(work->y), get_data_vectorf(work->scaling->Eruiz),
+             get_data_vectorf(work->y), work->data->p);
+  scale_arrayf(get_data_vectorf(work->y), get_data_vectorf(work->y),
                work->scaling->kinv, work->data->p);
 
-  ew_product(get_pointer_vectorf(work->z, 0),
-             get_pointer_vectorf(work->scaling->Fruiz, 0),
-             get_pointer_vectorf(work->z, 0), work->data->m);
-  scale_arrayf(get_pointer_vectorf(work->z, 0), get_pointer_vectorf(work->z, 0),
+  ew_product(get_data_vectorf(work->z), get_data_vectorf(work->scaling->Fruiz),
+             get_data_vectorf(work->z), work->data->m);
+  scale_arrayf(get_data_vectorf(work->z), get_data_vectorf(work->z),
                work->scaling->kinv, work->data->m);
 }

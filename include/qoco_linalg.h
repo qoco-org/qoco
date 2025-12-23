@@ -46,6 +46,15 @@ typedef struct {
 } QOCOCscMatrix;
 
 /**
+ * @brief Sets the CPU mode flag (CUDA backend only).
+ * During CPU mode, get_... functions returns host
+ * pointers, otherwise device pointers are returned.
+ *
+ * @param active 1 if CPU mode is active, 0 otherwise.
+ */
+void set_cpu_mode(int active);
+
+/**
  * @brief Allocates a new csc matrix and copies A to it.
  *
  * @param A Matrix to copy.
@@ -69,7 +78,7 @@ QOCOMatrix* new_qoco_matrix(const QOCOCscMatrix* A);
 void free_qoco_matrix(QOCOMatrix* A);
 
 /**
- * @brief Allocates a new QOCOVectorf and copies A to it.
+ * @brief Allocates a new QOCOVectorf and copies x to it.
  *
  * @param x vector to copy.
  * @param n length of vector.
@@ -78,11 +87,27 @@ void free_qoco_matrix(QOCOMatrix* A);
 QOCOVectorf* new_qoco_vectorf(const QOCOFloat* x, QOCOInt n);
 
 /**
+ * @brief Allocates a new QOCOVectori and copies x to it.
+ *
+ * @param x vector to copy.
+ * @param n length of vector.
+ * @return Pointer to new constructed vector.
+ */
+QOCOVectori* new_qoco_vectori(const QOCOInt* x, QOCOInt n);
+
+/**
  * @brief Frees QOCOVectorf.
  *
  * @param x Vector to free.
  */
 void free_qoco_vectorf(QOCOVectorf* x);
+
+/**
+ * @brief Frees QOCOVectori.
+ *
+ * @param x Vector to free.
+ */
+void free_qoco_vectori(QOCOVectori* x);
 
 /**
  * @brief Returns the number of nonzeros in a QOCOMatrix.
@@ -93,6 +118,16 @@ void free_qoco_vectorf(QOCOVectorf* x);
 QOCOInt get_nnz(const QOCOMatrix* A);
 
 /**
+ * @brief Computes elementwise product z = x .* y
+ *
+ * @param x Input array.
+ * @param y Input array.
+ * @param z Output array.
+ * @param n Length of arrays.
+ */
+void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n);
+
+/**
  * @brief Returns x[idx].
  *
  * @param x Input vector.
@@ -100,6 +135,15 @@ QOCOInt get_nnz(const QOCOMatrix* A);
  * @return x[idx].
  */
 QOCOFloat get_element_vectorf(const QOCOVectorf* x, QOCOInt idx);
+
+/**
+ * @brief Returns x[idx].
+ *
+ * @param x Input vector.
+ * @param idx Index.
+ * @return x[idx].
+ */
+QOCOInt get_element_vectori(const QOCOVectori* x, QOCOInt idx);
 
 /**
  * @brief Performs x[idx] = data.
@@ -136,6 +180,14 @@ QOCOFloat* get_pointer_vectorf(const QOCOVectorf* x, QOCOInt idx);
 QOCOFloat* get_data_vectorf(const QOCOVectorf* x);
 
 /**
+ * @brief Returns the underlying data array of a QOCOVectori.
+ *
+ * @param x Input vector.
+ * @return Pointer to underlying data array.
+ */
+QOCOInt* get_data_vectori(const QOCOVectori* x);
+
+/**
  * @brief Syncs vector data from host to device if needed (CUDA backend only).
  * This is a no-op for non-CUDA backends.
  * Note: This should NOT be called during qoco_solve to avoid CPU-GPU copies.
@@ -143,6 +195,25 @@ QOCOFloat* get_data_vectorf(const QOCOVectorf* x);
  * @param v Input vector.
  */
 void sync_vector_to_host(QOCOVectorf* v);
+
+/**
+ * @brief Syncs vector data from device to host if needed (CUDA backend only).
+ * This is a no-op for non-CUDA backends.
+ * Note: This should NOT be called during qoco_solve to avoid CPU-GPU copies.
+ *
+ * @param v Input vector.
+ */
+void sync_vector_to_device(QOCOVectorf* v);
+
+/**
+ * @brief Syncs Matrix data from device to host if needed (CUDA backend only).
+ * This is a no-op for non-CUDA backends.
+ * Note: This should NOT be called during qoco_solve to avoid CPU-GPU copies.
+ *
+ * @param M Input vector.
+ */
+
+void sync_matrix_to_device(QOCOMatrix* M);
 
 /**
  * @brief Returns the length of a QOCOVectorf.
@@ -161,35 +232,6 @@ QOCOInt get_length_vectorf(const QOCOVectorf* x);
  * @return Pointer to underlying CSC matrix.
  */
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M);
-
-/**
- * @brief Sparse matrix vector multiplication for QOCOMatrix where M is
- * symmetric and only the upper triangular part is given. Computes r = M * v
- *
- * @param M Upper triangular part of M.
- * @param v Vector.
- * @param r Result.
- */
-void USpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
-
-/**
- * @brief Sparse matrix vector multiplication for QOCOMatrix. Computes r = M * v.
- *
- * @param M Matrix.
- * @param v Vector.
- * @param r Result.
- */
-void SpMv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
-
-/**
- * @brief Sparse matrix vector multiplication for QOCOMatrix where M is first
- * transposed. Computes r = M^T * v.
- *
- * @param M Matrix.
- * @param v Vector.
- * @param r Result.
- */
-void SpMtv_matrix(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 
 /**
  * @brief Computes the infinity norm of each column (or equivalently row) of a
@@ -227,7 +269,8 @@ void row_inf_norm_matrix(const QOCOMatrix* M, QOCOFloat* norm);
  * @param E Vector of length m.
  * @param D Vector of length n.
  */
-void row_col_scale_matrix(QOCOMatrix* M, const QOCOFloat* E, const QOCOFloat* D);
+void row_col_scale_matrix(QOCOMatrix* M, const QOCOFloat* E,
+                          const QOCOFloat* D);
 
 /**
  * @brief Frees all the internal arrays and the pointer to the QOCOCscMatrix.
@@ -310,31 +353,31 @@ void qoco_axpy(const QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z,
  * @brief Sparse matrix vector multiplication for CSC matrices where M is
  * symmetric and only the upper triangular part is given. Computes r = M * v
  *
- * @param M Upper triangular part of M in CSC form.
+ * @param M Upper triangular part of M.
  * @param v Vector.
  * @param r Result.
  */
-void USpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
+void USpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices. Computes r = M *
  * v.
  *
- * @param M Matrix in CSC form.
+ * @param M Matrix.
  * @param v Vector.
  * @param r Result.
  */
-void SpMv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
+void SpMv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 
 /**
  * @brief Sparse matrix vector multiplication for CSC matrices where M is first
  * transposed. Computes r = M^T * v.
  *
- * @param M Matrix in CSC form.
+ * @param M Matrix.
  * @param v Vector.
  * @param r Result.
  */
-void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
+void SpMtv(const QOCOMatrix* M, const QOCOFloat* v, QOCOFloat* r);
 
 /**
  * @brief Computes the infinity norm of x.
@@ -344,5 +387,22 @@ void SpMtv(const QOCOCscMatrix* M, const QOCOFloat* v, QOCOFloat* r);
  * @return Infinity norm of x.
  */
 QOCOFloat inf_norm(const QOCOFloat* x, QOCOInt n);
+
+/**
+ * @brief Computes the minimum absolute value of x.
+ *
+ * @param x Input vector.
+ * @param n Length of input vector.
+ * @return Minimum absolute value of x.
+ */
+QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n);
+
+/**
+ * @brief Returns 1 if x contains nans, 0 otherwise.
+ *
+ * @param x Input vector.
+ * @return Minimum absolute value of x.
+ */
+QOCOInt check_nan(const QOCOVectorf* x);
 
 #endif /* #ifndef QOCO_LINALG_H*/

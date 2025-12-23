@@ -70,6 +70,9 @@ void print_arrayi(QOCOInt* x, QOCOInt n)
 
 void compute_scaling_statistics(QOCOProblemData* data)
 {
+  // This function runs on the CPU.
+  set_cpu_mode(1);
+
   // Initialize min/max values
   data->obj_range_min = QOCOFloat_MAX;
   data->obj_range_max = 0.0;
@@ -82,73 +85,62 @@ void compute_scaling_statistics(QOCOProblemData* data)
   // Note: This is called before regularization, so P is in its original form
   if (data->P) {
     QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
-    for (QOCOInt j = 0; j < Pcsc->nnz; ++j) {
-      QOCOFloat abs_val = qoco_abs(Pcsc->x[j]);
-      data->obj_range_min = qoco_min(data->obj_range_min, abs_val);
-      data->obj_range_max = qoco_max(data->obj_range_max, abs_val);
-    }
+    data->obj_range_min = min_abs_val(Pcsc->x, Pcsc->nnz);
+    data->obj_range_max = inf_norm(Pcsc->x, Pcsc->nnz);
   }
 
   // Add c to objective range
   QOCOFloat* cdata = get_data_vectorf(data->c);
-  for (QOCOInt i = 0; i < data->n; ++i) {
-    QOCOFloat abs_val = qoco_abs(cdata[i]);
-    data->obj_range_min = qoco_min(data->obj_range_min, abs_val);
-    data->obj_range_max = qoco_max(data->obj_range_max, abs_val);
-  }
+  data->obj_range_min = min_abs_val(cdata, data->n);
+  data->obj_range_max = inf_norm(cdata, data->n);
 
   // Compute Constraint range: A and G
   if (data->A && get_nnz(data->A) > 0) {
     QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
-    for (QOCOInt j = 0; j < Acsc->nnz; ++j) {
-      QOCOFloat abs_val = qoco_abs(Acsc->x[j]);
-      data->constraint_range_min =
-          qoco_min(data->constraint_range_min, abs_val);
-      data->constraint_range_max =
-          qoco_max(data->constraint_range_max, abs_val);
-    }
+    data->constraint_range_min = min_abs_val(Acsc->x, Acsc->nnz);
+    data->constraint_range_max = inf_norm(Acsc->x, Acsc->nnz);
   }
 
   if (data->G && get_nnz(data->G) > 0) {
     QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
-    for (QOCOInt j = 0; j < Gcsc->nnz; ++j) {
-      QOCOFloat abs_val = qoco_abs(Gcsc->x[j]);
-      data->constraint_range_min =
-          qoco_min(data->constraint_range_min, abs_val);
-      data->constraint_range_max =
-          qoco_max(data->constraint_range_max, abs_val);
-    }
+    data->constraint_range_min = min_abs_val(Gcsc->x, Gcsc->nnz);
+    data->constraint_range_max = inf_norm(Gcsc->x, Gcsc->nnz);
   }
 
   // Compute RHS range: b and h
   if (data->p > 0) {
     QOCOFloat* bdata = get_data_vectorf(data->b);
-    for (QOCOInt i = 0; i < data->p; ++i) {
-      QOCOFloat abs_val = qoco_abs(bdata[i]);
-      data->rhs_range_min = qoco_min(data->rhs_range_min, abs_val);
-      data->rhs_range_max = qoco_max(data->rhs_range_max, abs_val);
-    }
+    data->rhs_range_min = min_abs_val(bdata, data->p);
+    data->rhs_range_max = inf_norm(bdata, data->p);
   }
 
   if (data->m > 0) {
     QOCOFloat* hdata = get_data_vectorf(data->h);
-    for (QOCOInt i = 0; i < data->m; ++i) {
-      QOCOFloat abs_val = qoco_abs(hdata[i]);
-      data->rhs_range_min = qoco_min(data->rhs_range_min, abs_val);
-      data->rhs_range_max = qoco_max(data->rhs_range_max, abs_val);
-    }
+    data->rhs_range_min = min_abs_val(hdata, data->m);
+    data->rhs_range_max = inf_norm(hdata, data->m);
   }
-
   // Handle case where all values are zero or value is -0.0 (set to 0.0)
   if (data->obj_range_min == QOCOFloat_MAX || data->obj_range_min == 0.0) {
     data->obj_range_min = 0.0;
   }
-  if (data->constraint_range_min == QOCOFloat_MAX || data->constraint_range_min == 0.0) {
+  if (data->obj_range_max == QOCOFloat_MAX || data->obj_range_max == 0.0) {
+    data->obj_range_max = 0.0;
+  }
+  if (data->constraint_range_min == QOCOFloat_MAX ||
+      data->constraint_range_min == 0.0) {
     data->constraint_range_min = 0.0;
+  }
+  if (data->constraint_range_max == QOCOFloat_MAX ||
+      data->constraint_range_max == 0.0) {
+    data->constraint_range_max = 0.0;
   }
   if (data->rhs_range_min == QOCOFloat_MAX || data->rhs_range_min == 0.0) {
     data->rhs_range_min = 0.0;
   }
+  if (data->rhs_range_max == QOCOFloat_MAX || data->rhs_range_max == 0.0) {
+    data->rhs_range_max = 0.0;
+  }
+  set_cpu_mode(0);
 }
 
 void print_header(QOCOSolver* solver)
@@ -220,81 +212,84 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat erel = solver->settings->reltol;
   QOCOFloat eabsinacc = solver->settings->abstol_inacc;
   QOCOFloat erelinacc = solver->settings->reltol_inacc;
+  QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
+  QOCOFloat* ybuff = get_data_vectorf(work->ybuff);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
+  QOCOFloat* ubuff3 = get_data_vectorf(work->ubuff3);
+  QOCOFloat* kktres = get_data_vectorf(work->kktres);
 
   QOCOFloat* Einvruiz_data = get_data_vectorf(work->scaling->Einvruiz);
   QOCOFloat* bdata = get_data_vectorf(data->b);
-  ew_product(Einvruiz_data, bdata, work->ybuff, data->p);
-  QOCOFloat binf = data->p > 0 ? inf_norm(work->ybuff, data->p) : 0;
+  ew_product(Einvruiz_data, bdata, ybuff, data->p);
+  QOCOFloat binf = data->p > 0 ? inf_norm(ybuff, data->p) : 0;
 
   QOCOFloat* Fruiz_data = get_data_vectorf(work->scaling->Fruiz);
   QOCOFloat* sdata = get_data_vectorf(work->s);
-  ew_product(Fruiz_data, sdata, work->ubuff1, data->m);
-  QOCOFloat sinf = data->m > 0 ? inf_norm(work->ubuff1, data->m) : 0;
+  ew_product(Fruiz_data, sdata, ubuff1, data->m);
+  QOCOFloat sinf = data->m > 0 ? inf_norm(ubuff1, data->m) : 0;
 
   QOCOFloat* Dinvruiz_data = get_data_vectorf(work->scaling->Dinvruiz);
   QOCOFloat* xdata = get_data_vectorf(work->x);
-  ew_product(Dinvruiz_data, xdata, work->xbuff, data->n);
-  QOCOFloat cinf = inf_norm(work->xbuff, data->n);
+  ew_product(Dinvruiz_data, xdata, xbuff, data->n);
+  QOCOFloat cinf = inf_norm(xbuff, data->n);
 
   QOCOFloat* Finvruiz_data = get_data_vectorf(work->scaling->Finvruiz);
   QOCOFloat* hdata = get_data_vectorf(data->h);
-  ew_product(Finvruiz_data, hdata, work->ubuff3, data->m);
-  QOCOFloat hinf = data->m > 0 ? inf_norm(work->ubuff3, data->m) : 0;
+  ew_product(Finvruiz_data, hdata, ubuff3, data->m);
+  QOCOFloat hinf = data->m > 0 ? inf_norm(ubuff3, data->m) : 0;
 
   // Compute ||A^T * y||_\infty. If equality constraints aren't present, A->m =
   // A->n = 0 and SpMtv is a nullop.
   QOCOFloat* ydata = get_data_vectorf(work->y);
-  SpMtv_matrix(data->A, ydata, work->xbuff);
-  ew_product(work->xbuff, Dinvruiz_data, work->xbuff, data->n);
-  QOCOFloat Atyinf = data->p ? inf_norm(work->xbuff, data->n) : 0;
+  SpMtv(data->A, ydata, xbuff);
+  ew_product(xbuff, Dinvruiz_data, xbuff, data->n);
+  QOCOFloat Atyinf = data->p ? inf_norm(xbuff, data->n) : 0;
 
   // Compute ||G^T * z||_\infty. If inequality constraints aren't present, G->m
   // = G->n = 0 and SpMtv is a nullop.
   QOCOFloat* zdata = get_data_vectorf(work->z);
-  SpMtv_matrix(data->G, zdata, work->xbuff);
-  ew_product(work->xbuff, Dinvruiz_data, work->xbuff, data->n);
-  QOCOFloat Gtzinf = data->m > 0 ? inf_norm(work->xbuff, data->n) : 0;
+  SpMtv(data->G, zdata, xbuff);
+  ew_product(xbuff, Dinvruiz_data, xbuff, data->n);
+  QOCOFloat Gtzinf = data->m > 0 ? inf_norm(xbuff, data->n) : 0;
 
   // Compute ||P * x||_\infty
-  USpMv_matrix(data->P, xdata, work->xbuff);
-  for (QOCOInt i = 0; i < data->n; ++i) {
-    work->xbuff[i] -= solver->settings->kkt_static_reg * xdata[i];
-  }
-  ew_product(work->xbuff, Dinvruiz_data, work->xbuff, data->n);
-  QOCOFloat Pxinf = inf_norm(work->xbuff, data->n);
-  QOCOFloat xPx = qoco_dot(xdata, work->xbuff, work->data->n);
+  USpMv(data->P, xdata, xbuff);
+  qoco_axpy(xdata, xbuff, xbuff, -solver->settings->kkt_static_reg, data->n);
+  ew_product(xbuff, Dinvruiz_data, xbuff, data->n);
+  QOCOFloat Pxinf = inf_norm(xbuff, data->n);
+  QOCOFloat xPx = qoco_dot(xdata, xbuff, work->data->n);
 
   // Compute ||A * x||_\infty
-  SpMv_matrix(data->A, xdata, work->ybuff);
-  ew_product(work->ybuff, Einvruiz_data, work->ybuff, data->p);
-  QOCOFloat Axinf = data->p ? inf_norm(work->ybuff, data->p) : 0;
+  SpMv(data->A, xdata, ybuff);
+  ew_product(ybuff, Einvruiz_data, ybuff, data->p);
+  QOCOFloat Axinf = data->p ? inf_norm(ybuff, data->p) : 0;
 
   // Compute ||G * x||_\infty
-  SpMv_matrix(data->G, xdata, work->ubuff1);
-  ew_product(work->ubuff1, Finvruiz_data, work->ubuff1, data->m);
-  QOCOFloat Gxinf = data->m ? inf_norm(work->ubuff1, data->m) : 0;
+  SpMv(data->G, xdata, ubuff1);
+  ew_product(ubuff1, Finvruiz_data, ubuff1, data->m);
+  QOCOFloat Gxinf = data->m ? inf_norm(ubuff1, data->m) : 0;
 
   // Compute primal residual.
-  ew_product(&work->kktres[data->n], Einvruiz_data, work->ybuff, data->p);
-  QOCOFloat eq_res = inf_norm(work->ybuff, data->p);
+  ew_product(&kktres[data->n], Einvruiz_data, ybuff, data->p);
+  QOCOFloat eq_res = inf_norm(ybuff, data->p);
 
-  ew_product(&work->kktres[data->n + data->p], Finvruiz_data, work->ubuff1,
-             data->m);
-  QOCOFloat conic_res = inf_norm(work->ubuff1, data->m);
+  ew_product(&kktres[data->n + data->p], Finvruiz_data, ubuff1, data->m);
+  QOCOFloat conic_res = inf_norm(ubuff1, data->m);
 
   QOCOFloat pres = qoco_max(eq_res, conic_res);
   solver->sol->pres = pres;
 
   // Compute dual residual.
-  ew_product(work->kktres, Dinvruiz_data, work->xbuff, data->n);
-  scale_arrayf(work->xbuff, work->xbuff, work->scaling->kinv, data->n);
-  QOCOFloat dres = inf_norm(work->xbuff, data->n);
+  ew_product(kktres, Dinvruiz_data, xbuff, data->n);
+  scale_arrayf(xbuff, xbuff, work->scaling->kinv, data->n);
+  QOCOFloat dres = inf_norm(xbuff, data->n);
   solver->sol->dres = dres;
 
   // Compute complementary slackness residual.
-  ew_product(sdata, Fruiz_data, work->ubuff1, data->m);
-  ew_product(zdata, Fruiz_data, work->ubuff2, data->m);
-  QOCOFloat gap = qoco_dot(work->ubuff1, work->ubuff2, data->m);
+  ew_product(sdata, Fruiz_data, ubuff1, data->m);
+  ew_product(zdata, Fruiz_data, ubuff2, data->m);
+  QOCOFloat gap = qoco_dot(ubuff1, ubuff2, data->m);
   gap *= work->scaling->kinv;
   solver->sol->gap = gap;
 
@@ -350,12 +345,14 @@ unsigned char check_stopping(QOCOSolver* solver)
 void copy_solution(QOCOSolver* solver)
 {
   // Copy optimization variables from device to host (CUDA backend).
-#ifdef QOCO_ALGEBRA_BACKEND_CUDA
+  // No-op for builtin backend.
   sync_vector_to_host(solver->work->x);
   sync_vector_to_host(solver->work->s);
   sync_vector_to_host(solver->work->y);
   sync_vector_to_host(solver->work->z);
-#endif
+
+  // Set cpu mode to 1 so get_data_vectorf returns host pointer.
+  set_cpu_mode(1);
   copy_arrayf(get_data_vectorf(solver->work->x), solver->sol->x,
               solver->work->data->n);
   copy_arrayf(get_data_vectorf(solver->work->s), solver->sol->s,
@@ -364,6 +361,7 @@ void copy_solution(QOCOSolver* solver)
               solver->work->data->p);
   copy_arrayf(get_data_vectorf(solver->work->z), solver->sol->z,
               solver->work->data->m);
+  set_cpu_mode(0);
 
   solver->sol->solve_time_sec =
       get_elapsed_time_sec(&(solver->work->solve_timer));
