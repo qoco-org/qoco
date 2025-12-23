@@ -522,21 +522,10 @@ void copy_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
   qoco_assert(x || n == 0);
   qoco_assert(y || n == 0);
 
-  if (n <= 0) {
-    return;
-  }
-
-  const QOCOInt blockSize = 256;
-  const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
-
-  // Check if pointers are on device - handle errors gracefully
-  cudaPointerAttributes attrs_x, attrs_y;
-  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
-  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
-
   // If either pointer check succeeds and one is on device, use CUDA kernel.
-  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
-      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
+  if (is_device_pointer(x) && is_device_pointer(y)) {
+    const QOCOInt blockSize = 256;
+    const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
     copy_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, n);
     CUDA_CHECK(cudaDeviceSynchronize());
     CUDA_CHECK(cudaGetLastError());
@@ -553,30 +542,15 @@ void copy_and_negate_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOInt n)
 {
   qoco_assert(x || n == 0);
   qoco_assert(y || n == 0);
-  CUDA_CHECK(cudaGetLastError());
+
+  if (n == 0)
+    return;
 
   const QOCOInt blockSize = 256;
   const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
-
-  // Check if pointers are on device - handle errors gracefully
-  cudaPointerAttributes attrs_x, attrs_y;
-  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
-  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
-
-  // If either pointer check succeeds and one is on device, use CUDA kernel.
-  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
-      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
-    copy_and_negate_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y,
-                                                            n);
-    CUDA_CHECK(cudaDeviceSynchronize());
-    CUDA_CHECK(cudaGetLastError());
-  }
-  else {
-    // If both pointers are on host, use CPU.
-    for (QOCOInt i = 0; i < n; ++i) {
-      y[i] = -x[i];
-    }
-  }
+  copy_and_negate_arrayf_kernel<<<numBlocks, blockSize>>>(x, (QOCOFloat*)y, n);
+  CUDA_CHECK(cudaDeviceSynchronize());
+  CUDA_CHECK(cudaGetLastError());
 }
 
 // Only called by CPU during setup.
@@ -589,14 +563,7 @@ void copy_arrayi(const QOCOInt* x, QOCOInt* y, QOCOInt n)
 
 void ew_product(QOCOFloat* x, const QOCOFloat* y, QOCOFloat* z, QOCOInt n)
 {
-  if (n <= 0)
-    return;
-
-  bool x_dev = is_device_pointer(x);
-  bool y_dev = is_device_pointer(y);
-  bool z_dev = is_device_pointer(z);
-
-  if (x_dev && y_dev && z_dev) {
+  if (is_device_pointer(x) && is_device_pointer(y) && is_device_pointer(z)) {
     const int threads = 256;
     const int blocks = (n + threads - 1) / threads;
 
@@ -628,8 +595,7 @@ QOCOFloat qoco_dot(const QOCOFloat* u, const QOCOFloat* v, QOCOInt n)
   cudaError_t err_v = cudaPointerGetAttributes(&attrs_v, v);
 
   // If either pointer check fails or one is on device, use CUDA
-  if ((err_u == cudaSuccess && attrs_u.type == cudaMemoryTypeDevice) ||
-      (err_v == cudaSuccess && attrs_v.type == cudaMemoryTypeDevice)) {
+  if (is_device_pointer(u) && is_device_pointer(v)) {
 
     CudaLibFuncs* funcs = get_cuda_funcs();
     cublasHandle_t handle;
@@ -666,29 +632,13 @@ void scale_arrayf(const QOCOFloat* x, QOCOFloat* y, QOCOFloat s, QOCOInt n)
   if (n == 0)
     return;
 
-  const QOCOInt blockSize = 256;
-  const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
-
-  // Check if pointers are on device - handle errors gracefully
-  cudaPointerAttributes attrs_x, attrs_y;
-  cudaError_t err_x = cudaPointerGetAttributes(&attrs_x, x);
-  cudaError_t err_y = cudaPointerGetAttributes(&attrs_y, y);
-
   // If either pointer check succeeds and one is on device, use CUDA
-  if ((err_x == cudaSuccess && attrs_x.type == cudaMemoryTypeDevice) ||
-      (err_y == cudaSuccess && attrs_y.type == cudaMemoryTypeDevice)) {
-    if (err_x == cudaSuccess && err_y == cudaSuccess &&
-        attrs_x.type == cudaMemoryTypeDevice &&
-        attrs_y.type == cudaMemoryTypeDevice) {
-      scale_arrayf_kernel<<<numBlocks, blockSize>>>(x, y, s, n);
-      CUDA_CHECK(cudaGetLastError());
-    }
+  if (is_device_pointer(x) && is_device_pointer(y)) {
+    const QOCOInt blockSize = 256;
+    const QOCOInt numBlocks = (n + blockSize - 1) / blockSize;
+    scale_arrayf_kernel<<<numBlocks, blockSize>>>(x, y, s, n);
+    CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
-  }
-  else {
-    for (QOCOInt i = 0; i < n; ++i) {
-      y[i] = s * x[i];
-    }
   }
 }
 
