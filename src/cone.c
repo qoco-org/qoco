@@ -363,8 +363,7 @@ void compute_centering(QOCOSolver* solver)
   // Compute sigma. sigma = max(0, min(1, rho))^3.
   QOCOFloat sigma = qoco_min(1.0, rho);
   sigma = qoco_max(0.0, sigma);
-  sigma = sigma * sigma * sigma;
-  solver->work->sigma = sigma;
+  work->sigma = sigma * sigma * sigma;
 }
 
 /**

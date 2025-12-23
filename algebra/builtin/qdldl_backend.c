@@ -109,8 +109,8 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
       data->P ? get_csc_matrix(data->P) : NULL, get_csc_matrix(data->A),
       get_csc_matrix(data->G), get_csc_matrix(data->At),
       get_csc_matrix(data->Gt), settings->kkt_static_reg, data->n, data->m,
-      data->p, data->l, data->nsoc, get_data_vectori(data->q), PregtoKKT_temp, AttoKKT_temp,
-      GttoKKT_temp, nt2kkt_temp, ntdiag2kkt_temp, Wnnz);
+      data->p, data->l, data->nsoc, get_data_vectori(data->q), PregtoKKT_temp,
+      AttoKKT_temp, GttoKKT_temp, nt2kkt_temp, ntdiag2kkt_temp, Wnnz);
 
   // Compute AMD ordering.
   linsys_data->p = qoco_malloc(linsys_data->K->n * sizeof(QOCOInt));
@@ -183,8 +183,12 @@ static void qdldl_factor(LinSysData* linsys_data, QOCOInt n,
 }
 
 static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
-                        QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters)
+                        QOCOVectorf* b_vec, QOCOVectorf* x_vec,
+                        QOCOInt iter_ref_iters)
 {
+  QOCOFloat* b = get_data_vectorf(b_vec);
+  QOCOFloat* x = get_data_vectorf(x_vec);
+
   // Permute b and store in xyzbuff.
   for (QOCOInt i = 0; i < linsys_data->K->n; ++i) {
     linsys_data->xyzbuff1[i] = b[linsys_data->p[i]];
@@ -233,9 +237,10 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   }
 }
 
-static void qdldl_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
+static void qdldl_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
                             QOCOFloat kkt_static_reg, QOCOInt m)
 {
+  QOCOFloat* WtW = get_data_vectorf(WtW_vec);
   for (QOCOInt i = 0; i < linsys_data->Wnnz; ++i) {
     linsys_data->K->x[linsys_data->nt2kkt[i]] = -WtW[i];
   }
@@ -294,10 +299,7 @@ static void qdldl_cleanup(LinSysData* linsys_data)
   qoco_free(linsys_data);
 }
 
-static const char* qdldl_name()
-{
-  return "builtin/qdldl";
-}
+static const char* qdldl_name() { return "builtin/qdldl"; }
 
 // Export the backend struct
 LinSysBackend backend = {.linsys_name = qdldl_name,

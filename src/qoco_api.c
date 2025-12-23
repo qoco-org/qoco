@@ -35,6 +35,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   // Allocate workspace.
   solver->work = qoco_malloc(sizeof(QOCOWorkspace));
+  QOCOWorkspace* work = solver->work;
 
   // Allocate problem data.
   solver->work->data = qoco_malloc(sizeof(QOCOProblemData));
@@ -65,34 +66,34 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   QOCOInt Annz = A ? get_nnz(data->A) : 0;
   QOCOInt Gnnz = G ? get_nnz(data->G) : 0;
 
-  solver->work->scaling = qoco_malloc(sizeof(QOCOScaling));
-  solver->work->scaling->delta = new_qoco_vectorf(NULL, n + p + m);
-  solver->work->scaling->Druiz = new_qoco_vectorf(NULL, n);
-  solver->work->scaling->Eruiz = new_qoco_vectorf(NULL, p);
-  solver->work->scaling->Fruiz = new_qoco_vectorf(NULL, m);
-  solver->work->scaling->Dinvruiz = new_qoco_vectorf(NULL, n);
-  solver->work->scaling->Einvruiz = new_qoco_vectorf(NULL, p);
-  solver->work->scaling->Finvruiz = new_qoco_vectorf(NULL, m);
-  solver->work->data->AtoAt = qoco_malloc(Annz * sizeof(QOCOInt));
-  solver->work->data->GtoGt = qoco_malloc(Gnnz * sizeof(QOCOInt));
+  work->scaling = qoco_malloc(sizeof(QOCOScaling));
+  work->scaling->delta = new_qoco_vectorf(NULL, n + p + m);
+  work->scaling->Druiz = new_qoco_vectorf(NULL, n);
+  work->scaling->Eruiz = new_qoco_vectorf(NULL, p);
+  work->scaling->Fruiz = new_qoco_vectorf(NULL, m);
+  work->scaling->Dinvruiz = new_qoco_vectorf(NULL, n);
+  work->scaling->Einvruiz = new_qoco_vectorf(NULL, p);
+  work->scaling->Finvruiz = new_qoco_vectorf(NULL, m);
+  work->data->AtoAt = qoco_malloc(Annz * sizeof(QOCOInt));
+  work->data->GtoGt = qoco_malloc(Gnnz * sizeof(QOCOInt));
 
   // When creating transposed matrices, get_csc_matrix should return host
   // pointers, since create_transposed_matrix is a host function.
   set_cpu_mode(1);
   QOCOCscMatrix* Atcsc =
       create_transposed_matrix(get_csc_matrix(data->A), data->AtoAt);
-  solver->work->data->At = new_qoco_matrix(Atcsc);
+  data->At = new_qoco_matrix(Atcsc);
   free_qoco_csc_matrix(Atcsc);
   QOCOCscMatrix* Gtcsc =
       create_transposed_matrix(get_csc_matrix(data->G), data->GtoGt);
-  solver->work->data->Gt = new_qoco_matrix(Gtcsc);
+  data->Gt = new_qoco_matrix(Gtcsc);
   free_qoco_csc_matrix(Gtcsc);
   set_cpu_mode(0);
 
   // Compute scaling statistics before equilibration and regularization.
   compute_scaling_statistics(data);
 
-  ruiz_equilibration(data, solver->work->scaling, solver->settings->ruiz_iters);
+  ruiz_equilibration(data, work->scaling, solver->settings->ruiz_iters);
 
   // Regularize P.
   set_cpu_mode(1);
@@ -126,7 +127,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   }
   Wsoc_nnz /= 2;
   QOCOInt Wnnz = m + Wsoc_nnz;
-  solver->work->Wnnz = Wnnz;
+  work->Wnnz = Wnnz;
 
   solver->linsys = &backend;
 
@@ -138,11 +139,11 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   }
 
   // Allocate primal and dual variables.
-  solver->work->x = new_qoco_vectorf(NULL, n);
-  solver->work->s = new_qoco_vectorf(NULL, m);
-  solver->work->y = new_qoco_vectorf(NULL, p);
-  solver->work->z = new_qoco_vectorf(NULL, m);
-  solver->work->mu = 0.0;
+  work->x = new_qoco_vectorf(NULL, n);
+  work->s = new_qoco_vectorf(NULL, m);
+  work->y = new_qoco_vectorf(NULL, p);
+  work->z = new_qoco_vectorf(NULL, m);
+  work->mu = 0.0;
 
   // Allocate Nesterov-Todd scalings and scaled variables.
   QOCOInt Wnnzfull = data->l;
@@ -153,32 +154,32 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   }
   set_cpu_mode(0);
 
-  solver->work->W = new_qoco_vectorf(NULL, solver->work->Wnnz);
-  solver->work->Wfull = new_qoco_vectorf(NULL, Wnnzfull);
-  solver->work->Wnnzfull = Wnnzfull;
-  solver->work->Winv = new_qoco_vectorf(NULL, solver->work->Wnnz);
-  solver->work->Winvfull = new_qoco_vectorf(NULL, Wnnzfull);
-  solver->work->WtW = new_qoco_vectorf(NULL, solver->work->Wnnz);
-  solver->work->lambda = new_qoco_vectorf(NULL, m);
+  work->W = new_qoco_vectorf(NULL, work->Wnnz);
+  work->Wfull = new_qoco_vectorf(NULL, Wnnzfull);
+  work->Wnnzfull = Wnnzfull;
+  work->Winv = new_qoco_vectorf(NULL, work->Wnnz);
+  work->Winvfull = new_qoco_vectorf(NULL, Wnnzfull);
+  work->WtW = new_qoco_vectorf(NULL, work->Wnnz);
+  work->lambda = new_qoco_vectorf(NULL, m);
 
   // For serial implementations of compute_nt scaling, sbar/zbar only need to be
   // of length max(q), since we process one SOC at a time, but for concurrent
   // implementations, we need each the kth SOC to have its own buffer of length
   // q[k].
-  solver->work->sbar = new_qoco_vectorf(NULL, m);
-  solver->work->zbar = new_qoco_vectorf(NULL, m);
+  work->sbar = new_qoco_vectorf(NULL, m);
+  work->zbar = new_qoco_vectorf(NULL, m);
 
-  solver->work->xbuff = new_qoco_vectorf(NULL, n);
-  solver->work->ybuff = new_qoco_vectorf(NULL, p);
-  solver->work->ubuff1 = new_qoco_vectorf(NULL, m);
-  solver->work->ubuff2 = new_qoco_vectorf(NULL, m);
-  solver->work->ubuff3 = new_qoco_vectorf(NULL, m);
-  solver->work->Ds = new_qoco_vectorf(NULL, m);
-  solver->work->rhs = new_qoco_vectorf(NULL, n + m + p);
-  solver->work->kktres = new_qoco_vectorf(NULL, n + m + p);
-  solver->work->xyz = new_qoco_vectorf(NULL, n + m + p);
-  solver->work->xyzbuff1 = new_qoco_vectorf(NULL, n + m + p);
-  solver->work->xyzbuff2 = new_qoco_vectorf(NULL, n + m + p);
+  work->xbuff = new_qoco_vectorf(NULL, n);
+  work->ybuff = new_qoco_vectorf(NULL, p);
+  work->ubuff1 = new_qoco_vectorf(NULL, m);
+  work->ubuff2 = new_qoco_vectorf(NULL, m);
+  work->ubuff3 = new_qoco_vectorf(NULL, m);
+  work->Ds = new_qoco_vectorf(NULL, m);
+  work->rhs = new_qoco_vectorf(NULL, n + m + p);
+  work->kktres = new_qoco_vectorf(NULL, n + m + p);
+  work->xyz = new_qoco_vectorf(NULL, n + m + p);
+  work->xyzbuff1 = new_qoco_vectorf(NULL, n + m + p);
+  work->xyzbuff2 = new_qoco_vectorf(NULL, n + m + p);
 
   // Allocate solution struct.
   solver->sol = qoco_malloc(sizeof(QOCOSolution));
@@ -248,6 +249,7 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
 {
   solver->sol->status = QOCO_UNSOLVED;
   QOCOProblemData* data = solver->work->data;
+  QOCOScaling* scaling = solver->work->scaling;
 
   // Copy new data into CPU buffer.
   set_cpu_mode(1);
@@ -260,9 +262,9 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
   if (hnew) {
     copy_arrayf(hnew, get_data_vectorf(data->h), data->m);
   }
-  QOCOFloat* Druiz_data = get_data_vectorf(solver->work->scaling->Druiz);
-  QOCOFloat* Eruiz_data = get_data_vectorf(solver->work->scaling->Eruiz);
-  QOCOFloat* Fruiz_data = get_data_vectorf(solver->work->scaling->Fruiz);
+  QOCOFloat* Druiz_data = get_data_vectorf(scaling->Druiz);
+  QOCOFloat* Eruiz_data = get_data_vectorf(scaling->Eruiz);
+  QOCOFloat* Fruiz_data = get_data_vectorf(scaling->Fruiz);
   QOCOFloat* cdata = get_data_vectorf(data->c);
   QOCOFloat* bdata = get_data_vectorf(data->b);
   QOCOFloat* hdata = get_data_vectorf(data->h);
@@ -273,7 +275,7 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
   // Update cost vector on CPU.
   if (cnew) {
     for (QOCOInt i = 0; i < data->n; ++i) {
-      cdata[i] = solver->work->scaling->k * Druiz_data[i] * cdata[i];
+      cdata[i] = scaling->k * Druiz_data[i] * cdata[i];
     }
   }
 
@@ -381,8 +383,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   compute_scaling_statistics(data);
 
   // Equilibrate new matrix data.
-  ruiz_equilibration(solver->work->data, solver->work->scaling,
-                     solver->settings->ruiz_iters);
+  ruiz_equilibration(data, scaling, solver->settings->ruiz_iters);
 
   // Regularize P.
   unregularize(Pcsc, -solver->settings->kkt_static_reg);
@@ -393,7 +394,7 @@ void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
   sync_matrix_to_device(data->A);
   sync_matrix_to_device(data->G);
 
-  solver->linsys->linsys_update_data(solver->linsys_data, solver->work->data);
+  solver->linsys->linsys_update_data(solver->linsys_data, data);
 }
 
 QOCOInt qoco_solve(QOCOSolver* solver)
@@ -444,8 +445,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     compute_nt_scaling(work);
 
     // Update Nestrov-Todd block of KKT matrix.
-    solver->linsys->linsys_update_nt(solver->linsys_data,
-                                     get_data_vectorf(work->WtW),
+    solver->linsys->linsys_update_nt(solver->linsys_data, work->WtW,
                                      solver->settings->kkt_static_reg, data->m);
 
     // Perform predictor-corrector.

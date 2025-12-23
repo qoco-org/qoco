@@ -568,8 +568,7 @@ void compute_centering(QOCOSolver* solver)
   // Compute sigma. sigma = max(0, min(1, rho))^3.
   QOCOFloat sigma = qoco_min(1.0, rho);
   sigma = qoco_max(0.0, sigma);
-  sigma = sigma * sigma * sigma;
-  solver->work->sigma = sigma;
+  work->sigma = sigma * sigma * sigma;
 }
 
 /**
@@ -676,21 +675,24 @@ __global__ void exact_linesearch_stage2(const QOCOFloat* block_mins,
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                      QOCOSolver* solver)
 {
+  QOCOWorkspace* work = solver->work;
+  QOCOProblemData* data = solver->work->data;
+
   QOCOFloat a_host;
   QOCOFloat* d_linesearch_a;
   cudaMalloc(&d_linesearch_a, sizeof(QOCOFloat));
 
-  if (solver->work->data->nsoc == 0) {
+  if (data->nsoc == 0) {
     // Note: this two stage reduction can fail if l is sufficiently large that
     // threads2 exceeds 1024. (l >= 1024^2 = 1,048,576)
 
     int threads = 1024;
-    int blocks = (solver->work->data->l + threads - 1) / threads;
+    int blocks = (data->l + threads - 1) / threads;
     QOCOFloat* block_mins;
     cudaMalloc(&block_mins, blocks * sizeof(QOCOFloat));
 
     exact_linesearch_stage1<<<blocks, threads, threads * sizeof(QOCOFloat)>>>(
-        u, Du, solver->work->data->l, block_mins);
+        u, Du, data->l, block_mins);
     CUDA_CHECK(cudaGetLastError());
 
     int threads2 = 1;
@@ -707,14 +709,11 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
     cudaFree(block_mins);
   }
   else {
-    QOCOFloat* ubuff = get_data_vectorf(solver->work->ubuff1);
-    QOCOInt m = solver->work->data->m;
-    QOCOInt l = solver->work->data->l;
-    QOCOInt nsoc = solver->work->data->nsoc;
-    QOCOInt* q = get_data_vectori(solver->work->data->q);
+    QOCOFloat* ubuff = get_data_vectorf(work->ubuff1);
+    QOCOInt* q = get_data_vectori(data->q);
     QOCOInt bisect_iters = solver->settings->bisect_iters;
-    a_host = bisection_search(u, Du, f, ubuff, m, l, nsoc, q, d_linesearch_a,
-                              bisect_iters);
+    a_host = bisection_search(u, Du, f, ubuff, data->m, data->l, data->nsoc, q,
+                              d_linesearch_a, bisect_iters);
   }
   return a_host;
 }

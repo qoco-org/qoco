@@ -640,9 +640,13 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
 }
 
 static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
-                        QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters)
+                        QOCOVectorf* b_vec, QOCOVectorf* x_vec,
+                        QOCOInt iter_ref_iters)
 {
   (void)iter_ref_iters; // No iterative refinement for CUDA backend
+
+  QOCOFloat* x = get_data_vectorf(x_vec);
+  QOCOFloat* b = get_data_vectorf(b_vec);
 
   // Copy b from CPU to GPU.
   CUDA_CHECK(cudaMemcpy(linsys_data->d_rhs_matrix_data, b,
@@ -666,9 +670,10 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         cudaMemcpyDeviceToDevice));
 }
 
-static void cudss_update_nt(LinSysData* linsys_data, QOCOFloat* WtW,
+static void cudss_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
                             QOCOFloat kkt_static_reg, QOCOInt m)
 {
+  QOCOFloat* WtW = get_data_vectorf(WtW_vec);
   // Update CSR matrix values on GPU directly for NT blocks
   if (linsys_data->Wnnz > 0 && linsys_data->d_nt2kktcsr) {
     // Copy WtW to device from host

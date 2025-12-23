@@ -78,10 +78,12 @@ typedef struct {
   /** Number of elements of P->x that were added due to regularization. */
   QOCOInt Pnum_nzadded;
 
-  /** Scaling statistics: minimum absolute value in P (prior to regularization) and c. */
+  /** Scaling statistics: minimum absolute value in P (prior to regularization)
+   * and c. */
   QOCOFloat obj_range_min;
 
-  /** Scaling statistics: maximum absolute value in P (prior to regularization) and c. */
+  /** Scaling statistics: maximum absolute value in P (prior to regularization)
+   * and c. */
   QOCOFloat obj_range_max;
 
   /** Scaling statistics: minimum absolute value in A and G. */
@@ -319,13 +321,14 @@ typedef struct {
   const char* (*linsys_name)();
   LinSysData* (*linsys_setup)(QOCOProblemData* data, QOCOSettings* settings,
                               QOCOInt Wnnz);
-  void (*linsys_update_nt)(LinSysData* linsys_data, QOCOFloat* WtW,
+  void (*linsys_update_nt)(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
                            QOCOFloat kkt_static_reg, QOCOInt m);
   void (*linsys_update_data)(LinSysData* linsys_data, QOCOProblemData* data);
   void (*linsys_factor)(LinSysData* linsys_data, QOCOInt n,
                         QOCOFloat kkt_dynamic_reg);
   void (*linsys_solve)(LinSysData* linsys_data, QOCOWorkspace* work,
-                       QOCOFloat* b, QOCOFloat* x, QOCOInt iter_ref_iters);
+                       QOCOVectorf* b_vec, QOCOVectorf* x_vec,
+                       QOCOInt iter_ref_iters);
   void (*linsys_cleanup)(LinSysData* linsys_data);
 } LinSysBackend;
 
