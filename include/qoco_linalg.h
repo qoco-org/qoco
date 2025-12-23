@@ -47,8 +47,8 @@ typedef struct {
 
 /**
  * @brief Sets the CPU mode flag (CUDA backend only).
- * During scaling statistics computation, get_data_vectorf returns host
- * pointers. This allows CPU access to vector data for statistics computation.
+ * During CPU mode, get_... functions returns host
+ * pointers, otherwise device pointers are returned.
  *
  * @param active 1 if CPU mode is active, 0 otherwise.
  */

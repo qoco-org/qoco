@@ -47,11 +47,6 @@ void print_arrayf(QOCOFloat* x, QOCOInt n);
 void print_arrayi(QOCOInt* x, QOCOInt n);
 
 /**
- * @brief Syncs a vector to host and prints its contents.
- */
-void print_vectorf(QOCOVectorf* v);
-
-/**
  * @brief Computes scaling statistics (min/max absolute values) for objective,
  * constraint matrices, and RHS vectors. Stores results in data struct.
  * Should be called before regularization of P.

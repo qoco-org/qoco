@@ -68,20 +68,6 @@ void print_arrayi(QOCOInt* x, QOCOInt n)
   printf("}\n");
 }
 
-void print_vectorf(QOCOVectorf* v)
-{
-  if (!v) {
-    printf("vector is NULL\n");
-    return;
-  }
-  // Ensure host data is up to date (no-op on CPU backend)
-  sync_vector_to_host((QOCOVectorf*)v);
-  // Use host pointer via get_pointer_vectorf to avoid device pointer
-  QOCOFloat* data = get_pointer_vectorf(v, 0);
-  QOCOInt len = get_length_vectorf(v);
-  print_arrayf(data, len);
-}
-
 void compute_scaling_statistics(QOCOProblemData* data)
 {
   // This function runs on the CPU.

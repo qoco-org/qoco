@@ -178,9 +178,6 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
   sync_vector_to_device(scaling->Dinvruiz);
   sync_vector_to_device(scaling->Einvruiz);
   sync_vector_to_device(scaling->Finvruiz);
-  sync_vector_to_device(data->c);
-  sync_vector_to_device(data->b);
-  sync_vector_to_device(data->h);
 }
 
 void unscale_variables(QOCOWorkspace* work)
