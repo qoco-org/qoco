@@ -70,10 +70,4 @@ typedef double QOCOFloat;
 #define qoco_malloc malloc
 #define qoco_calloc calloc
 #define qoco_free free
-
-#ifdef __CUDACC__
-  #define QOCO_HD __host__ __device__
-#else
-  #define QOCO_HD
-#endif
 #endif /* ifndef QOCO_DEFINITIONS_H */
