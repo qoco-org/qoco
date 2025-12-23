@@ -478,9 +478,10 @@ void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
   QOCOInt total_threads = l + nsoc;
   QOCOInt block = 256;
   QOCOInt grid = (total_threads + block - 1) / block;
-
-  cone_product_kernel<<<grid, block>>>(u, v, p, l, nsoc, q);
-  CUDA_CHECK(cudaGetLastError());
+  if (l > 0 || nsoc > 0) {
+    cone_product_kernel<<<grid, block>>>(u, v, p, l, nsoc, q);
+    CUDA_CHECK(cudaGetLastError());
+  }
 }
 
 void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
@@ -489,9 +490,10 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
   QOCOInt total_threads = l + nsoc;
   QOCOInt block = 256;
   QOCOInt grid = (total_threads + block - 1) / block;
-
-  cone_division_kernel<<<grid, block>>>(lambda, v, d, l, nsoc, q);
-  CUDA_CHECK(cudaGetLastError());
+  if (l > 0 || nsoc > 0) {
+    cone_division_kernel<<<grid, block>>>(lambda, v, d, l, nsoc, q);
+    CUDA_CHECK(cudaGetLastError());
+  }
 }
 
 void bring2cone(QOCOFloat* u, QOCOProblemData* data)
@@ -512,7 +514,9 @@ void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
   int threads = 256;
   int blocks = (m + threads - 1) / threads;
 
-  nt_multiply_kernel<<<blocks, threads>>>(W, x, z, l, m, nsoc, q);
+  if (m > 0) {
+    nt_multiply_kernel<<<blocks, threads>>>(W, x, z, l, m, nsoc, q);
+  }
   CUDA_CHECK(cudaGetLastError());
 }
 
@@ -536,8 +540,10 @@ void compute_nt_scaling(QOCOWorkspace* work)
   QOCOInt block = 128; // SOC threads are heavy; don't oversubscribe
   QOCOInt grid = (total_threads + block - 1) / block;
 
-  compute_nt_scaling_kernel<<<grid, block>>>(W, WtW, Wfull, Winv, Winvfull, s,
-                                             z, sbar, zbar, l, nsoc, q);
+  if (work->data->m > 0) {
+    compute_nt_scaling_kernel<<<grid, block>>>(W, WtW, Wfull, Winv, Winvfull, s,
+                                               z, sbar, zbar, l, nsoc, q);
+  }
   CUDA_CHECK(cudaGetLastError());
 
   /* ================= lambda = W * z ================= */
@@ -641,9 +647,9 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   QOCOWorkspace* work = solver->work;
   QOCOProblemData* data = solver->work->data;
 
-  QOCOFloat a_host;
+  QOCOFloat a_host = 1.0;
 
-  if (data->nsoc == 0) {
+  if (data->nsoc == 0 && data->l > 0) {
     int threads = 1024;
     int blocks = (data->l + threads - 1) / threads;
     QOCOFloat* block_mins;
@@ -666,7 +672,7 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
     }
     cudaFree(block_mins);
   }
-  else {
+  else if (data->nsoc > 0) {
     QOCOFloat* ubuff = get_data_vectorf(work->ubuff1);
     QOCOInt* q = get_data_vectori(data->q);
     QOCOInt bisect_iters = solver->settings->bisect_iters;
@@ -682,6 +688,8 @@ void add_e(QOCOFloat* x, QOCOFloat a, QOCOFloat l, QOCOInt nsoc, QOCOVectori* q)
   QOCOInt block = 256;
   QOCOInt grid = (total_threads + block - 1) / block;
 
-  add_e_kernel<<<grid, block>>>(x, a, l, nsoc, get_data_vectori(q));
-  CUDA_CHECK(cudaGetLastError());
+  if (l > 0 || nsoc > 0) {
+    add_e_kernel<<<grid, block>>>(x, a, l, nsoc, get_data_vectori(q));
+    CUDA_CHECK(cudaGetLastError());
+  }
 }
