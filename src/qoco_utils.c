@@ -351,7 +351,7 @@ void copy_solution(QOCOSolver* solver)
   sync_vector_to_host(solver->work->y);
   sync_vector_to_host(solver->work->z);
 
-  // Set cpu mode to 1 so get_data_vectorf return host pointer.
+  // Set cpu mode to 1 so get_data_vectorf returns host pointer.
   set_cpu_mode(1);
   copy_arrayf(get_data_vectorf(solver->work->x), solver->sol->x,
               solver->work->data->n);
