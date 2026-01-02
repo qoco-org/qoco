@@ -103,8 +103,10 @@ void compute_scaling_statistics(QOCOProblemData* data)
 
   if (data->G && get_nnz(data->G) > 0) {
     QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
-    data->constraint_range_min = min_abs_val(Gcsc->x, Gcsc->nnz);
-    data->constraint_range_max = inf_norm(Gcsc->x, Gcsc->nnz);
+    data->constraint_range_min =
+        qoco_min(data->constraint_range_min, min_abs_val(Gcsc->x, Gcsc->nnz));
+    data->constraint_range_max =
+        qoco_max(data->constraint_range_max, inf_norm(Gcsc->x, Gcsc->nnz));
   }
 
   // Compute RHS range: b and h
