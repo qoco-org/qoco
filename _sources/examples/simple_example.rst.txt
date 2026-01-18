@@ -18,7 +18,7 @@ This problem can be written as
 
 .. math::
   \begin{array}{ll}
-    \mbox{minimize} & \frac{1}{2} x^T \begin{bmatrix}2 & 0 & 0 & 0\\ 0 & 2 & 0 & 0 \\  0 & 0 & 2 & 0 \\  0 & 0 & 0 & 2 \end{bmatrix} x + \begin{bmatrix}0 \\ 0 \\ 0 \\1\end{bmatrix}^T x \\ \\
+    \mbox{minimize} & \frac{1}{2} x^T \begin{bmatrix}2 & 0 & 0 & 0\\ 0 & 2 & 0 & 0 \\  0 & 0 & 2 & 0 \\  0 & 0 & 0 & 0 \end{bmatrix} x + \begin{bmatrix}0 \\ 0 \\ 0 \\1\end{bmatrix}^T x \\ \\
     \mbox{subject to} & \begin{bmatrix} 1 & 1 & 0 & 0\\ 0 & 1 & 1 & 0\end{bmatrix} x =  \begin{bmatrix}1 \\ 1 \end{bmatrix} \\
     & \begin{bmatrix} -1 & 0 & 0 & 0\\ 0 & -1 & 0 & 0 \\ 0 & 0 & -1 & 0\\ 0 & 0 & 0 & -1\\ \end{bmatrix} x \preceq_\mathcal{C}  \begin{bmatrix}0 \\ 0 \\ 0 \\ 0 \end{bmatrix} \\
   \end{array}
