@@ -354,12 +354,13 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
   }
 }
 
-__global__ void nt_multiply_kernel(const QOCOFloat* W, const QOCOFloat* x,
+__global__ void nt_multiply_kernel(const QOCOFloat* W, const QOCOInt* Wsoc_idx,
+                                   const QOCOInt* soc_idx, const QOCOFloat* x,
                                    QOCOFloat* z, QOCOInt l, QOCOInt m,
                                    QOCOInt nsoc, const QOCOInt* q)
 {
   QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
-  if (i >= m)
+  if (i >= l + nsoc)
     return;
 
   /* ================= LP cone ================= */
@@ -369,28 +370,12 @@ __global__ void nt_multiply_kernel(const QOCOFloat* W, const QOCOFloat* x,
   }
 
   /* ================= SOC cones ================= */
-  /* Find which SOC block index i belongs to */
-  QOCOInt idx = l;    // start of SOC variables
-  QOCOInt nt_idx = l; // start of SOC NT blocks
-
-  for (QOCOInt soc = 0; soc < nsoc; ++soc) {
-    QOCOInt qi = q[soc];
-
-    if (i < idx + qi) {
-      /* i is inside this SOC */
-      QOCOInt j = i - idx;
-
-      /* j-th row of qi x qi NT block times x[idx:idx+qi] */
-      z[i] = qoco_dot_dev(&W[nt_idx + j * qi], &x[idx], qi);
-      return;
-    }
-
-    idx += qi;
-    nt_idx += qi * qi;
+  QOCOInt soc = i - l;
+  QOCOInt qi = q[soc];
+  for (QOCOInt k = 0; k < qi; ++k) {
+    z[soc_idx[soc] + k] =
+        qoco_dot_dev(&W[Wsoc_idx[soc] + k * qi], &x[soc_idx[soc]], qi);
   }
-
-  /* Safety (should not happen) */
-  z[i] = 0.0;
 }
 
 __global__ void cone_product_kernel(const QOCOFloat* u, const QOCOFloat* v,
@@ -580,10 +565,40 @@ void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
                  QOCOInt nsoc, QOCOInt* q)
 {
   int threads = 256;
-  int blocks = (m + threads - 1) / threads;
+  int blocks = (l + nsoc + threads - 1) / threads;
+  QOCOInt* Wsoc_idx = NULL;
+  QOCOInt* h_q = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
+  CUDA_CHECK(
+      cudaMemcpy(h_q, q, nsoc * sizeof(QOCOInt), cudaMemcpyDeviceToHost));
+
+  QOCOInt* d_Wsoc_idx = nullptr;
+  QOCOInt* d_soc_idx = nullptr;
+
+  if (nsoc > 0) {
+    QOCOInt* Wsoc_idx = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
+    QOCOInt* soc_idx = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
+
+    Wsoc_idx[0] = l;
+    soc_idx[0] = l;
+    for (QOCOInt i = 1; i < nsoc; ++i) {
+      Wsoc_idx[i] = Wsoc_idx[i - 1] + h_q[i - 1] * h_q[i - 1];
+      soc_idx[i] = soc_idx[i - 1] + h_q[i - 1];
+    }
+    CUDA_CHECK(cudaMalloc(&d_Wsoc_idx, nsoc * sizeof(QOCOInt)));
+    CUDA_CHECK(cudaMemcpy(d_Wsoc_idx, Wsoc_idx, nsoc * sizeof(QOCOInt),
+                          cudaMemcpyHostToDevice));
+
+    CUDA_CHECK(cudaMalloc(&d_soc_idx, nsoc * sizeof(QOCOInt)));
+    CUDA_CHECK(cudaMemcpy(d_soc_idx, soc_idx, nsoc * sizeof(QOCOInt),
+                          cudaMemcpyHostToDevice));
+
+    qoco_free(Wsoc_idx);
+    qoco_free(soc_idx);
+  }
 
   if (m > 0) {
-    nt_multiply_kernel<<<blocks, threads>>>(W, x, z, l, m, nsoc, q);
+    nt_multiply_kernel<<<blocks, threads>>>(W, d_Wsoc_idx, d_soc_idx, x, z, l,
+                                            m, nsoc, q);
   }
   CUDA_CHECK(cudaGetLastError());
 }
