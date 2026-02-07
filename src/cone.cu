@@ -561,44 +561,15 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data)
   }
 }
 
-void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
-                 QOCOInt nsoc, QOCOInt* q)
+void nt_multiply(QOCOFloat* W, QOCOInt* Wsoc_idx, QOCOInt* soc_idx,
+                 QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m, QOCOInt nsoc,
+                 QOCOInt* q)
 {
   int threads = 256;
   int blocks = (l + nsoc + threads - 1) / threads;
-  QOCOInt* Wsoc_idx = NULL;
-  QOCOInt* h_q = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
-  CUDA_CHECK(
-      cudaMemcpy(h_q, q, nsoc * sizeof(QOCOInt), cudaMemcpyDeviceToHost));
-
-  QOCOInt* d_Wsoc_idx = nullptr;
-  QOCOInt* d_soc_idx = nullptr;
-
-  if (nsoc > 0) {
-    QOCOInt* Wsoc_idx = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
-    QOCOInt* soc_idx = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
-
-    Wsoc_idx[0] = l;
-    soc_idx[0] = l;
-    for (QOCOInt i = 1; i < nsoc; ++i) {
-      Wsoc_idx[i] = Wsoc_idx[i - 1] + h_q[i - 1] * h_q[i - 1];
-      soc_idx[i] = soc_idx[i - 1] + h_q[i - 1];
-    }
-    CUDA_CHECK(cudaMalloc(&d_Wsoc_idx, nsoc * sizeof(QOCOInt)));
-    CUDA_CHECK(cudaMemcpy(d_Wsoc_idx, Wsoc_idx, nsoc * sizeof(QOCOInt),
-                          cudaMemcpyHostToDevice));
-
-    CUDA_CHECK(cudaMalloc(&d_soc_idx, nsoc * sizeof(QOCOInt)));
-    CUDA_CHECK(cudaMemcpy(d_soc_idx, soc_idx, nsoc * sizeof(QOCOInt),
-                          cudaMemcpyHostToDevice));
-
-    qoco_free(Wsoc_idx);
-    qoco_free(soc_idx);
-  }
-
   if (m > 0) {
-    nt_multiply_kernel<<<blocks, threads>>>(W, d_Wsoc_idx, d_soc_idx, x, z, l,
-                                            m, nsoc, q);
+    nt_multiply_kernel<<<blocks, threads>>>(W, Wsoc_idx, soc_idx, x, z, l, m,
+                                            nsoc, q);
   }
   CUDA_CHECK(cudaGetLastError());
 }
@@ -610,6 +581,8 @@ void compute_nt_scaling(QOCOWorkspace* work)
   QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
   QOCOFloat* Winv = get_data_vectorf(work->Winv);
   QOCOFloat* Winvfull = get_data_vectorf(work->Winvfull);
+  QOCOInt* Wsoc_idx = get_data_vectori(work->Wsoc_idx);
+  QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
   QOCOFloat* s = get_data_vectorf(work->s);
   QOCOFloat* z = get_data_vectorf(work->z);
   QOCOFloat* sbar = get_data_vectorf(work->sbar);
@@ -630,8 +603,8 @@ void compute_nt_scaling(QOCOWorkspace* work)
   CUDA_CHECK(cudaGetLastError());
 
   /* ================= lambda = W * z ================= */
-  nt_multiply(Wfull, z, lambda, work->data->l, work->data->m, work->data->nsoc,
-              q);
+  nt_multiply(Wfull, Wsoc_idx, soc_idx, z, lambda, work->data->l, work->data->m,
+              work->data->nsoc, q);
 }
 
 void compute_centering(QOCOSolver* solver)

@@ -81,8 +81,9 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data);
  * @param nsoc Number of second-order cones in C.
  * @param q Array of second-order cone dimensions.
  */
-void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
-                 QOCOInt nsoc, QOCOInt* q);
+void nt_multiply(QOCOFloat* W, QOCOInt* Wsoc_idx, QOCOInt* soc_idx,
+                 QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m, QOCOInt nsoc,
+                 QOCOInt* q);
 
 /**
  * @brief Compute Nesterov-Todd scalings and scaled variables.

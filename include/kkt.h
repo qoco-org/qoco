@@ -90,7 +90,8 @@ void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,
                           QOCOVectorf* y_vec, QOCOVectorf* s_vec,
                           QOCOVectorf* z_vec, QOCOVectorf* kktres_vec,
                           QOCOFloat static_reg, QOCOVectorf* xyzbuff_vec,
-                          QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec);
+                          QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec,
+                          QOCOVectori* Wsoc_idx_vec, QOCOVectori* soc_idx_vec);
 
 /**
  * @brief Computes mu = s'*z / m.
@@ -158,6 +159,6 @@ void predictor_corrector(QOCOSolver* solver);
  * @param mbuff2 Temporary buffer of length m.
  */
 void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
-                  QOCOFloat* Wfull, QOCOFloat* nbuff, QOCOFloat* mbuff1,
-                  QOCOFloat* mbuff2);
+                  QOCOFloat* Wfull, QOCOInt* Wsoc_idx, QOCOInt* soc_idx,
+                  QOCOFloat* nbuff, QOCOFloat* mbuff1, QOCOFloat* mbuff2);
 #endif /* #ifndef QOCO_KKT_H */

@@ -229,6 +229,13 @@ typedef struct {
   /** Nesterov-Todd Scaling squared */
   QOCOVectorf* WtW;
 
+  /** Vector which points to the start of the ith soc block in Wfull */
+  QOCOVectori* Wsoc_idx;
+
+  /** Vector which points to the start of the start of the ith soc variable
+   * block */
+  QOCOVectori* soc_idx;
+
   /** Scaled variables. */
   QOCOVectorf* lambda;
 
