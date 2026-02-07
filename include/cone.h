@@ -30,7 +30,7 @@ extern "C" {
  * @param data Pointer to problem data.
  */
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
-                        QOCOProblemData* data);
+                        QOCOVectori* Wsoc_idx, QOCOProblemData* data);
 
 /**
  * @brief Computes cone product u * v = p with respect to C.
@@ -66,12 +66,12 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
  * @param u Vector to bring to cone.
  * @param data Pointer to problem data.
  */
-void bring2cone(QOCOFloat* u, QOCOProblemData* data);
+void bring2cone(QOCOFloat* u, QOCOInt* soc_idx, QOCOProblemData* data);
 
 /**
- * @brief Computes z = W * x where W is a full Nesterov-Todd scaling matrix. The
- * NT scaling array for the LP cones are stored first, then the NT scalings for
- * the second-order cones are stored in column major order.
+ * @brief Computes z = W * x where W is a full Nesterov-Todd scaling matrix.
+ * The NT scaling array for the LP cones are stored first, then the NT
+ * scalings for the second-order cones are stored in column major order.
  *
  * @param W Nesterov Todd scaling matrix.
  * @param x Input vector.

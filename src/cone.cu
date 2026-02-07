@@ -97,7 +97,8 @@ __global__ void set_Wfull_linear(QOCOFloat* W, QOCOInt Wnnzfull, QOCOInt l)
   }
 }
 
-__global__ void set_Wfull_soc(QOCOFloat* W, QOCOInt* q, QOCOInt nsoc, QOCOInt l)
+__global__ void set_Wfull_soc(QOCOFloat* W, QOCOInt* q, QOCOInt* Wsoc_idx,
+                              QOCOInt nsoc, QOCOInt l)
 {
   QOCOInt soc = blockIdx.x;
   if (soc >= nsoc)
@@ -109,19 +110,13 @@ __global__ void set_Wfull_soc(QOCOFloat* W, QOCOInt* q, QOCOInt nsoc, QOCOInt l)
   if (k >= dim)
     return;
 
-  // compute starting offset of this SOC block
-  QOCOInt idx = l;
-  for (QOCOInt i = 0; i < soc; ++i) {
-    idx += q[i] * q[i];
-  }
-
   // diagonal element
-  W[idx + k * dim + k] = 1.0;
+  W[Wsoc_idx[soc] + k * dim + k] = 1.0;
 }
 
 __global__ void cone_residual_stage1(const QOCOFloat* u, QOCOInt l,
                                      QOCOInt nsoc, const QOCOInt* q,
-                                     QOCOFloat* block_out)
+                                     QOCOInt* soc_idx, QOCOFloat* block_out)
 {
   extern __shared__ QOCOFloat sdata[];
 
@@ -137,12 +132,7 @@ __global__ void cone_residual_stage1(const QOCOFloat* u, QOCOInt l,
   else if (gid < l + nsoc) {
     // SOC cone: one thread per SOC
     QOCOInt soc = gid - l;
-
-    QOCOInt offset = l;
-    for (QOCOInt i = 0; i < soc; ++i)
-      offset += q[i];
-
-    val = soc_residual(&u[offset], q[soc]);
+    val = soc_residual(&u[soc_idx[soc]], q[soc]);
   }
 
   sdata[tid] = val;
@@ -459,7 +449,7 @@ __global__ void add_e_kernel(QOCOFloat* x, QOCOFloat a, QOCOInt l, QOCOInt nsoc,
 }
 
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
-                        QOCOProblemData* data)
+                        QOCOVectori* Wsoc_idx, QOCOProblemData* data)
 {
   CUDA_CHECK(cudaGetLastError());
   QOCOFloat* W = get_data_vectorf(Wfull);
@@ -476,14 +466,15 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
   // kernel 2: SOC blocks
   const int blocks2 = data->nsoc;
   if (data->nsoc > 0) {
-    set_Wfull_soc<<<blocks2, 256>>>(W, get_data_vectori(data->q), data->nsoc,
+    set_Wfull_soc<<<blocks2, 256>>>(W, get_data_vectori(data->q),
+                                    get_data_vectori(Wsoc_idx), data->nsoc,
                                     data->l);
     CUDA_CHECK(cudaGetLastError());
   }
 }
 
 QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc,
-                        const QOCOInt* q)
+                        const QOCOInt* q, QOCOInt* soc_idx)
 {
   QOCOInt total_threads = l + nsoc;
   if (total_threads == 0)
@@ -500,8 +491,8 @@ QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc,
   CUDA_CHECK(cudaMalloc(&d_out, sizeof(QOCOFloat)));
 
   // -------- stage 1 --------
-  cone_residual_stage1<<<grid, block, block * sizeof(QOCOFloat)>>>(d_u, l, nsoc,
-                                                                   q, d_block);
+  cone_residual_stage1<<<grid, block, block * sizeof(QOCOFloat)>>>(
+      d_u, l, nsoc, q, soc_idx, d_block);
 
   CUDA_CHECK(cudaGetLastError());
 
@@ -549,11 +540,11 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
   }
 }
 
-void bring2cone(QOCOFloat* u, QOCOProblemData* data)
+void bring2cone(QOCOFloat* u, QOCOInt* soc_idx, QOCOProblemData* data)
 {
   CUDA_CHECK(cudaGetLastError());
   QOCOFloat res =
-      cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q));
+      cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q), soc_idx);
   if (res >= 0) {
     bring2cone_kernel<<<1, 1>>>(u, get_data_vectori(data->q), data->l,
                                 data->nsoc);
@@ -641,7 +632,7 @@ void compute_centering(QOCOSolver* solver)
  */
 QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                            QOCOFloat* ubuff, QOCOInt m, QOCOInt l, QOCOInt nsoc,
-                           QOCOInt* q, QOCOInt bisect_iters)
+                           QOCOInt* q, QOCOInt* soc_idx, QOCOInt bisect_iters)
 {
   // Single thread only
   QOCOFloat al = 0.0;
@@ -653,7 +644,7 @@ QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
 
     qoco_axpy(Du, u, ubuff, safe_div(a, f), m);
 
-    if (cone_residual(ubuff, l, nsoc, q) >= 0) {
+    if (cone_residual(ubuff, l, nsoc, q, soc_idx) >= 0) {
       au = a;
     }
     else {
@@ -731,9 +722,10 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   else if (data->nsoc > 0) {
     QOCOFloat* ubuff = get_data_vectorf(work->ubuff1);
     QOCOInt* q = get_data_vectori(data->q);
+    QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
     QOCOInt bisect_iters = solver->settings->bisect_iters;
     a_host = bisection_search(u, Du, f, ubuff, data->m, data->l, data->nsoc, q,
-                              bisect_iters);
+                              soc_idx, bisect_iters);
   }
   return a_host;
 }

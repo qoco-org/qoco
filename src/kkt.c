@@ -168,7 +168,7 @@ void initialize_ipm(QOCOSolver* solver)
 
   // Set Nesterov-Todd block in Wfull to -I (need for kkt_multiply in iterative
   // refinement).
-  set_Wfull_identity(work->Wfull, work->Wnnzfull, data);
+  set_Wfull_identity(work->Wfull, work->Wnnzfull, work->Wsoc_idx, data);
 
   // Needs to be set to 1.0 not 0.0 due to low tolerance stopping criteria
   // checks which only occur when a = 0.0. If a is set to 0.0 then the low
@@ -208,8 +208,8 @@ void initialize_ipm(QOCOSolver* solver)
                          data->m);
 
   // Bring s and z to cone C.
-  bring2cone(get_data_vectorf(work->s), data);
-  bring2cone(get_data_vectorf(work->z), data);
+  bring2cone(get_data_vectorf(work->s), get_data_vectori(work->soc_idx), data);
+  bring2cone(get_data_vectorf(work->z), get_data_vectori(work->soc_idx), data);
 }
 
 void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,

@@ -12,7 +12,7 @@
 #include "qoco_utils.h"
 
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
-                        QOCOProblemData* data)
+                        QOCOVectori* Wsoc_idx, QOCOProblemData* data)
 {
   QOCOFloat* Wfull_data = get_data_vectorf(Wfull);
   for (QOCOInt i = 0; i < Wnnzfull; ++i) {
@@ -171,7 +171,7 @@ QOCOFloat cone_residual(const QOCOFloat* u, QOCOInt l, QOCOInt nsoc,
   return res;
 }
 
-void bring2cone(QOCOFloat* u, QOCOProblemData* data)
+void bring2cone(QOCOFloat* u, QOCOInt* soc_idx, QOCOProblemData* data)
 {
   if (cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q)) >= 0) {
     QOCOFloat a = 0.0;
