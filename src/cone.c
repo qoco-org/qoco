@@ -109,7 +109,8 @@ QOCOFloat soc_residual2(const QOCOFloat* u, QOCOInt n)
 }
 
 void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
-                  QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
+                  QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
+                  const QOCOInt* soc_idx)
 {
   QOCOInt idx;
   // Compute LP cone product.
@@ -125,7 +126,8 @@ void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
 }
 
 void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
-                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
+                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
+                   const QOCOInt* soc_idx)
 {
   QOCOInt idx;
   // Compute LP cone division.

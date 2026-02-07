@@ -339,14 +339,16 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
               work->data->m, work->data->nsoc, q);
 
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata).
-  cone_product(ubuff1, ubuff2, ubuff3, work->data->l, work->data->nsoc, q);
+  cone_product(ubuff1, ubuff2, ubuff3, work->data->l, work->data->nsoc, q,
+               soc_idx);
 
   // ubuff3 = cone_product((W' \ Dsaff), (W * Dzaff), pdata) - sigma * mu * e.
   QOCOFloat sm = work->sigma * work->mu;
   add_e(ubuff3, sm, work->data->l, work->data->nsoc, work->data->q);
 
   // ubuff1 = lambda * lambda.
-  cone_product(lambda, lambda, ubuff1, work->data->l, work->data->nsoc, q);
+  cone_product(lambda, lambda, ubuff1, work->data->l, work->data->nsoc, q,
+               soc_idx);
 
   // Ds = -cone_product(lambda, lambda) - settings.mehrotra *
   // cone_product((W' \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.
@@ -355,7 +357,8 @@ void construct_kkt_comb_rhs(QOCOWorkspace* work)
   qoco_axpy(ubuff3, Ds, Ds, -1.0, work->data->m);
 
   // ubuff2 = cone_division(lambda, ds).
-  cone_division(lambda, Ds, ubuff2, work->data->l, work->data->nsoc, q);
+  cone_division(lambda, Ds, ubuff2, work->data->l, work->data->nsoc, q,
+                soc_idx);
 
   // ubuff1 = W * cone_division(lambda, ds).
   nt_multiply(Wfull, Wsoc_idx, soc_idx, ubuff2, ubuff1, work->data->l,
@@ -421,7 +424,7 @@ void predictor_corrector(QOCOSolver* solver)
   // Compute Ds. Ds = W' * (cone_division(lambda, ds, pdata) - W * Dz). ds
   // computed in construct_kkt_comb_rhs() and stored in work->Ds.
   QOCOFloat* Dz = &xyz[data->n + data->p];
-  cone_division(lambda, Ds, ubuff1, data->l, data->nsoc, q);
+  cone_division(lambda, Ds, ubuff1, data->l, data->nsoc, q, soc_idx);
   nt_multiply(Wfull, Wsoc_idx, soc_idx, Dz, ubuff2, data->l, data->m,
               data->nsoc, q);
 

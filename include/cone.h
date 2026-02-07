@@ -43,7 +43,8 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
  * @param q Dimension of each second-order cone.
  */
 void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
-                  QOCOInt l, QOCOInt nsoc, const QOCOInt* q);
+                  QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
+                  const QOCOInt* soc_idx);
 
 /**
  * @brief Computed cone division lambda # v = d
@@ -56,7 +57,8 @@ void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
  * @param q Dimension of each second-order cone.
  */
 void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
-                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q);
+                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
+                   const QOCOInt* soc_idx);
 
 /**
  * @brief Performs u = u + (1 + a) * e where e is the cannonical vector for each

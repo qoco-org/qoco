@@ -370,7 +370,7 @@ __global__ void nt_multiply_kernel(const QOCOFloat* W, const QOCOInt* Wsoc_idx,
 
 __global__ void cone_product_kernel(const QOCOFloat* u, const QOCOFloat* v,
                                     QOCOFloat* p, QOCOInt l, QOCOInt nsoc,
-                                    const QOCOInt* q)
+                                    const QOCOInt* q, const QOCOInt* soc_idx)
 {
   QOCOInt tid = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -385,19 +385,15 @@ __global__ void cone_product_kernel(const QOCOFloat* u, const QOCOFloat* v,
   if (soc_tid >= nsoc)
     return;
 
-  /* compute starting index of SOC cone soc_tid */
-  QOCOInt idx = l;
-  for (QOCOInt k = 0; k < soc_tid; ++k) {
-    idx += q[k];
-  }
-
+  QOCOInt idx = soc_idx[soc_tid];
   /* one thread computes one SOC cone product */
   soc_product(&u[idx], &v[idx], &p[idx], q[soc_tid]);
 }
 
 __global__ void cone_division_kernel(const QOCOFloat* lambda,
                                      const QOCOFloat* v, QOCOFloat* d,
-                                     QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
+                                     QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
+                                     const QOCOInt* soc_idx)
 {
   QOCOInt tid = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -412,12 +408,7 @@ __global__ void cone_division_kernel(const QOCOFloat* lambda,
   if (soc_tid >= nsoc)
     return;
 
-  /* compute starting index of SOC cone soc_tid */
-  QOCOInt idx = l;
-  for (QOCOInt k = 0; k < soc_tid; ++k) {
-    idx += q[k];
-  }
-
+  QOCOInt idx = soc_idx[soc_tid];
   /* one thread handles one SOC cone */
   soc_division(&lambda[idx], &v[idx], &d[idx], q[soc_tid]);
 }
@@ -517,25 +508,27 @@ QOCOFloat cone_residual(const QOCOFloat* d_u, QOCOInt l, QOCOInt nsoc,
 }
 
 void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
-                  QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
+                  QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
+                  const QOCOInt* soc_idx)
 {
   QOCOInt total_threads = l + nsoc;
   QOCOInt block = 256;
   QOCOInt grid = (total_threads + block - 1) / block;
   if (l > 0 || nsoc > 0) {
-    cone_product_kernel<<<grid, block>>>(u, v, p, l, nsoc, q);
+    cone_product_kernel<<<grid, block>>>(u, v, p, l, nsoc, q, soc_idx);
     CUDA_CHECK(cudaGetLastError());
   }
 }
 
 void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
-                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
+                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
+                   const QOCOInt* soc_idx)
 {
   QOCOInt total_threads = l + nsoc;
   QOCOInt block = 256;
   QOCOInt grid = (total_threads + block - 1) / block;
   if (l > 0 || nsoc > 0) {
-    cone_division_kernel<<<grid, block>>>(lambda, v, d, l, nsoc, q);
+    cone_division_kernel<<<grid, block>>>(lambda, v, d, l, nsoc, q, soc_idx);
     CUDA_CHECK(cudaGetLastError());
   }
 }
