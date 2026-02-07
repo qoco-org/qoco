@@ -12,7 +12,7 @@
 #include "qoco_utils.h"
 
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
-                        QOCOProblemData* data)
+                        QOCOVectori* Wsoc_idx, QOCOProblemData* data)
 {
   QOCOFloat* Wfull_data = get_data_vectorf(Wfull);
   for (QOCOInt i = 0; i < Wnnzfull; ++i) {
@@ -109,7 +109,8 @@ QOCOFloat soc_residual2(const QOCOFloat* u, QOCOInt n)
 }
 
 void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
-                  QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
+                  QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
+                  const QOCOInt* soc_idx)
 {
   QOCOInt idx;
   // Compute LP cone product.
@@ -125,7 +126,8 @@ void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
 }
 
 void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
-                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q)
+                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
+                   const QOCOInt* soc_idx)
 {
   QOCOInt idx;
   // Compute LP cone division.
@@ -171,7 +173,7 @@ QOCOFloat cone_residual(const QOCOFloat* u, QOCOInt l, QOCOInt nsoc,
   return res;
 }
 
-void bring2cone(QOCOFloat* u, QOCOProblemData* data)
+void bring2cone(QOCOFloat* u, QOCOInt* soc_idx, QOCOProblemData* data)
 {
   if (cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q)) >= 0) {
     QOCOFloat a = 0.0;
@@ -206,8 +208,10 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data)
   }
 }
 
-void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
-                 QOCOInt nsoc, QOCOInt* q)
+// CPU code does not use Wsoc_idx and soc_idx.
+void nt_multiply(QOCOFloat* W, QOCOInt* Wsoc_idx, QOCOInt* soc_idx,
+                 QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m, QOCOInt nsoc,
+                 QOCOInt* q)
 {
   // Compute product for LP cone part of W.
   for (QOCOInt i = 0; i < l; ++i) {
@@ -337,8 +341,9 @@ void compute_nt_scaling(QOCOWorkspace* work)
   }
 
   // Compute scaled variable lambda. lambda = W * z.
-  nt_multiply(Wfull, get_pointer_vectorf(work->z, 0), lambda, work->data->l,
-              work->data->m, work->data->nsoc, get_data_vectori(work->data->q));
+  nt_multiply(Wfull, NULL, NULL, get_pointer_vectorf(work->z, 0), lambda,
+              work->data->l, work->data->m, work->data->nsoc,
+              get_data_vectori(work->data->q));
 }
 
 void compute_centering(QOCOSolver* solver)

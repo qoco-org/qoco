@@ -69,7 +69,7 @@ TEST(cone, cone_product_test)
                            40.0, 130.0, 19.0, 26.0,  33.0, 40.0};
   QOCOFloat tol = 1e-12;
 
-  cone_product(x, y, p, l, nsoc, q);
+  cone_product(x, y, p, l, nsoc, q, NULL);
   expect_eq_vectorf(p, pexpected, n, tol);
 }
 
@@ -99,7 +99,7 @@ TEST(cone, cone_division_test)
                            -1.1320754716981127};
   QOCOFloat tol = 1e-12;
 
-  cone_division(x, y, d, l, nsoc, q);
+  cone_division(x, y, d, l, nsoc, q, NULL);
   expect_eq_vectorf(d, dexpected, n, tol);
 }
 

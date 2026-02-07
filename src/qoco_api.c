@@ -129,6 +129,23 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   QOCOInt Wnnz = m + Wsoc_nnz;
   work->Wnnz = Wnnz;
 
+  QOCOInt* Wsoc_idx = NULL;
+  QOCOInt* soc_idx = NULL;
+  if (nsoc > 0) {
+    Wsoc_idx = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
+    soc_idx = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
+    Wsoc_idx[0] = l;
+    soc_idx[0] = l;
+    for (QOCOInt i = 1; i < nsoc; ++i) {
+      Wsoc_idx[i] = Wsoc_idx[i - 1] + q[i - 1] * q[i - 1];
+      soc_idx[i] = soc_idx[i - 1] + q[i - 1];
+    }
+  }
+  work->Wsoc_idx = new_qoco_vectori(Wsoc_idx, nsoc);
+  work->soc_idx = new_qoco_vectori(soc_idx, nsoc);
+  qoco_free(Wsoc_idx);
+  qoco_free(soc_idx);
+
   solver->linsys = &backend;
 
   // Set up linear system data.
@@ -420,7 +437,8 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     // Compute kkt residual.
     compute_kkt_residual(data, work->x, work->y, work->s, work->z, work->kktres,
                          solver->settings->kkt_static_reg, work->xyzbuff1,
-                         work->xbuff, work->ubuff1);
+                         work->xbuff, work->ubuff1, work->Wsoc_idx,
+                         work->soc_idx);
 
     // Compute objective function.
     solver->sol->obj =
@@ -509,6 +527,8 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   free_qoco_vectorf(solver->work->Winv);
   free_qoco_vectorf(solver->work->Winvfull);
   free_qoco_vectorf(solver->work->WtW);
+  free_qoco_vectori(solver->work->Wsoc_idx);
+  free_qoco_vectori(solver->work->soc_idx);
   free_qoco_vectorf(solver->work->lambda);
   free_qoco_vectorf(solver->work->sbar);
   free_qoco_vectorf(solver->work->zbar);
