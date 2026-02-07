@@ -206,8 +206,10 @@ void bring2cone(QOCOFloat* u, QOCOProblemData* data)
   }
 }
 
-void nt_multiply(QOCOFloat* W, QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m,
-                 QOCOInt nsoc, QOCOInt* q)
+// CPU code does not use Wsoc_idx and soc_idx.
+void nt_multiply(QOCOFloat* W, QOCOInt* Wsoc_idx, QOCOInt* soc_idx,
+                 QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m, QOCOInt nsoc,
+                 QOCOInt* q)
 {
   // Compute product for LP cone part of W.
   for (QOCOInt i = 0; i < l; ++i) {
@@ -337,8 +339,9 @@ void compute_nt_scaling(QOCOWorkspace* work)
   }
 
   // Compute scaled variable lambda. lambda = W * z.
-  nt_multiply(Wfull, get_pointer_vectorf(work->z, 0), lambda, work->data->l,
-              work->data->m, work->data->nsoc, get_data_vectori(work->data->q));
+  nt_multiply(Wfull, NULL, NULL, get_pointer_vectorf(work->z, 0), lambda,
+              work->data->l, work->data->m, work->data->nsoc,
+              get_data_vectori(work->data->q));
 }
 
 void compute_centering(QOCOSolver* solver)

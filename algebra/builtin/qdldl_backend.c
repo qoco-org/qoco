@@ -206,8 +206,7 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
   QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
-  QOCOFloat* Wsoc_idx = get_data_vectorf(work->Wsoc_idx);
-  QOCOFloat* soc_idx = get_data_vectorf(work->soc_idx);
+
   for (QOCOInt i = 0; i < iter_ref_iters; ++i) {
     // r = b - K * x
 
@@ -215,8 +214,9 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
       x[linsys_data->p[k]] = linsys_data->xyzbuff1[k];
     }
 
-    kkt_multiply(x, linsys_data->xyzbuff2, work->data, Wfull, Wsoc_idx, soc_idx,
-                 xbuff, ubuff1, ubuff2);
+    // CPU code does not use Wsoc_idx and soc_idx.
+    kkt_multiply(x, linsys_data->xyzbuff2, work->data, Wfull, NULL, NULL, xbuff,
+                 ubuff1, ubuff2);
     for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
       x[k] = linsys_data->xyzbuff2[linsys_data->p[k]];
     }
