@@ -524,6 +524,8 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   free_qoco_vectorf(solver->work->Winv);
   free_qoco_vectorf(solver->work->Winvfull);
   free_qoco_vectorf(solver->work->WtW);
+  free_qoco_vectori(solver->work->Wsoc_idx);
+  free_qoco_vectori(solver->work->soc_idx);
   free_qoco_vectorf(solver->work->lambda);
   free_qoco_vectorf(solver->work->sbar);
   free_qoco_vectorf(solver->work->zbar);
