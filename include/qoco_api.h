@@ -99,9 +99,10 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
  * @param cnew New c vector.
  * @param bnew New b vector.
  * @param hnew New h vector.
+ * @return Exitflag to check (0 for success, failure otherwise)
  */
-void qoco_update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
-                             QOCOFloat* hnew);
+QOCOInt qoco_update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
+                                QOCOFloat* hnew);
 
 /**
  * @brief Updates data matrices. NULL can be passed in for any matrix data
@@ -112,9 +113,10 @@ void qoco_update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bne
  * @param Pxnew New data for P->x.
  * @param Axnew New data for A->x.
  * @param Gxnew New data for G->x.
+ * @return Exitflag to check (0 for success, failure otherwise)
  */
-void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
-                             QOCOFloat* Gxnew);
+QOCOInt qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
+                                QOCOFloat* Gxnew);
 
 /**
  * @brief Solves SOCP.
