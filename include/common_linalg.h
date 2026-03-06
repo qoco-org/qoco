@@ -51,8 +51,8 @@ QOCOCscMatrix* regularize_P(QOCOInt num_diagP, QOCOCscMatrix* P, QOCOFloat reg,
 
 /**
  * @brief Subtracts lambda * I to a CSC matrix. Called on P when updating
- * matrix data in update_matrix_data(). This function does not allocate and must
- * be called after regularize.
+ * matrix data in qoco_update_matrix_data(). This function does not allocate 
+ * and must be called after regularize.
  *
  * @param M Matrix.
  * @param lambda Regularization.

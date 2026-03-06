@@ -261,8 +261,8 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
   return 0;
 }
 
-void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
-                        QOCOFloat* hnew)
+void qoco_update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
+                             QOCOFloat* hnew)
 {
   solver->sol->status = QOCO_UNSOLVED;
   QOCOProblemData* data = solver->work->data;
@@ -316,8 +316,8 @@ void update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
   sync_vector_to_device(data->h);
 }
 
-void update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
-                        QOCOFloat* Gxnew)
+void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
+                             QOCOFloat* Gxnew)
 {
   solver->sol->status = QOCO_UNSOLVED;
   QOCOProblemData* data = solver->work->data;
