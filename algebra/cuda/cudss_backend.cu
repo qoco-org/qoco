@@ -684,7 +684,7 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         cudaMemcpyDeviceToDevice));
 }
 
-void cudss_set_nt_identity_gpu(LinSysData* linsys_data, QOCOInt m)
+void cudss_set_nt_identity(LinSysData* linsys_data, QOCOInt m)
 {
   int Wnnz = linsys_data->Wnnz;
 
