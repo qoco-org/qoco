@@ -53,11 +53,8 @@ int main()
   // Solve problem.
   if (exit == QOCO_NO_ERROR) {
     exit = qoco_solve(solver);
+    // update_matrix_data(solver, Px, Ax, Gx);
+    // update_vector_data(solver, c, b, h);
+    exit = qoco_solve(solver);
   }
-
-  // Free allocated memory.
-  qoco_cleanup(solver);
-  free(P);
-  free(A);
-  free(G);
 }

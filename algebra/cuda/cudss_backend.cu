@@ -617,6 +617,20 @@ update_csr_nt_diag_kernel(QOCOFloat* csr_val, // CSR values to update (on GPU)
   }
 }
 
+__global__ void set_nt_identity_kernel(double* Kx, const int* nt2kkt,
+                                       const int* ntdiag2kkt, int Wnnz, int m)
+{
+  int tid = blockIdx.x * blockDim.x + threadIdx.x;
+
+  if (tid < Wnnz) {
+    Kx[nt2kkt[tid]] = 0.0;
+  }
+
+  if (tid < m) {
+    Kx[ntdiag2kkt[tid]] = -1.0;
+  }
+}
+
 // CUDA kernel to update CSR values for P, A, G matrices
 __global__ void update_csr_matrix_data_kernel(
     const QOCOFloat* matrix_val, // New matrix values (on GPU)
@@ -668,6 +682,19 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyz_matrix_data,
                         linsys_data->Kn * sizeof(QOCOFloat),
                         cudaMemcpyDeviceToDevice));
+}
+
+void cudss_set_nt_identity_gpu(LinSysData* linsys_data, QOCOInt m)
+{
+  int Wnnz = linsys_data->Wnnz;
+
+  int N = max(Wnnz, m);
+  int blockSize = 256;
+  int gridSize = (N + blockSize - 1) / blockSize;
+
+  set_nt_identity_kernel<<<gridSize, blockSize>>>(
+      linsys_data->d_csr_val, linsys_data->d_nt2kktcsr,
+      linsys_data->d_ntdiag2kktcsr, Wnnz, m);
 }
 
 static void cudss_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
@@ -782,6 +809,7 @@ static const char* cudss_name() { return "cuda/cuDSS"; }
 
 LinSysBackend backend = {.linsys_name = cudss_name,
                          .linsys_setup = cudss_setup,
+                         .linsys_set_nt_identity = cudss_set_nt_identity,
                          .linsys_update_nt = cudss_update_nt,
                          .linsys_update_data = cudss_update_data,
                          .linsys_factor = cudss_factor,

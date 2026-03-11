@@ -169,6 +169,7 @@ void initialize_ipm(QOCOSolver* solver)
   // Set Nesterov-Todd block in Wfull to -I (need for kkt_multiply in iterative
   // refinement).
   set_Wfull_identity(work->Wfull, work->Wnnzfull, work->Wsoc_idx, data);
+  solver->linsys->linsys_set_nt_identity(solver->linsys_data, data->m);
 
   // Needs to be set to 1.0 not 0.0 due to low tolerance stopping criteria
   // checks which only occur when a = 0.0. If a is set to 0.0 then the low
