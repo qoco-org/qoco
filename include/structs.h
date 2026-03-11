@@ -328,6 +328,7 @@ typedef struct {
   const char* (*linsys_name)();
   LinSysData* (*linsys_setup)(QOCOProblemData* data, QOCOSettings* settings,
                               QOCOInt Wnnz);
+  void (*linsys_set_nt_identity)(LinSysData* linsys_data, QOCOInt m);
   void (*linsys_update_nt)(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
                            QOCOFloat kkt_static_reg, QOCOInt m);
   void (*linsys_update_data)(LinSysData* linsys_data, QOCOProblemData* data);
