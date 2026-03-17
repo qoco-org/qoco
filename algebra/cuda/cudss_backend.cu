@@ -692,9 +692,11 @@ void cudss_set_nt_identity(LinSysData* linsys_data, QOCOInt m)
   int blockSize = 256;
   int gridSize = (N + blockSize - 1) / blockSize;
 
-  set_nt_identity_kernel<<<gridSize, blockSize>>>(
-      linsys_data->d_csr_val, linsys_data->d_nt2kktcsr,
-      linsys_data->d_ntdiag2kktcsr, Wnnz, m);
+  if (m > 0) {
+    set_nt_identity_kernel<<<gridSize, blockSize>>>(
+        linsys_data->d_csr_val, linsys_data->d_nt2kktcsr,
+        linsys_data->d_ntdiag2kktcsr, Wnnz, m);
+  }
 }
 
 static void cudss_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
