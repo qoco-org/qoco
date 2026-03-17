@@ -660,7 +660,7 @@ TEST(simple_socp_test, update_vector_data_test)
     exit = qoco_solve(solver);
   }
 
-  update_vector_data(solver, cnew, bnew, hnew);
+  qoco_update_vector_data(solver, cnew, bnew, hnew);
   exit = qoco_solve(solver);
 
   expect_eq_vectorf(solver->sol->x, xexp, n, tol);
@@ -731,7 +731,7 @@ TEST(simple_socp_test, update_constraint_data_test)
     exit = qoco_solve(solver);
   }
 
-  update_matrix_data(solver, NULL, Axnew, NULL);
+  qoco_update_matrix_data(solver, NULL, Axnew, NULL);
 
   exit = qoco_solve(solver);
 
@@ -799,7 +799,7 @@ TEST(simple_socp_test, update_cost_matrix_test)
     exit = qoco_solve(solver);
   }
 
-  update_matrix_data(solver, Pxnew, NULL, NULL);
+  qoco_update_matrix_data(solver, Pxnew, NULL, NULL);
 
   exit = qoco_solve(solver);
 
