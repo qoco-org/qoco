@@ -5,7 +5,7 @@ Python
 
 Pip
 ----
-QOCO is on PyPI and can be installed as follows
+QOCO is on PyPI and can be installed as follows. If on Windows, MSVC must be installed on your system
 
 .. code:: bash
 
