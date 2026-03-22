@@ -617,15 +617,20 @@ update_csr_nt_diag_kernel(QOCOFloat* csr_val, // CSR values to update (on GPU)
   }
 }
 
-__global__ void set_nt_identity_kernel(double* Kx, const int* nt2kkt,
-                                       const int* ntdiag2kkt, int Wnnz, int m)
+__global__ void set_nt_zero_kernel(double* Kx, const int* nt2kkt, int Wnnz,
+                                   int m)
 {
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
 
   if (tid < Wnnz) {
     Kx[nt2kkt[tid]] = 0.0;
   }
+}
 
+__global__ void set_nt_identity_kernel(double* Kx, const int* nt2kkt,
+                                       const int* ntdiag2kkt, int Wnnz, int m)
+{
+  int tid = blockIdx.x * blockDim.x + threadIdx.x;
   if (tid < m) {
     Kx[ntdiag2kkt[tid]] = -1.0;
   }
@@ -693,6 +698,11 @@ void cudss_set_nt_identity(LinSysData* linsys_data, QOCOInt m)
   int gridSize = (N + blockSize - 1) / blockSize;
 
   if (m > 0) {
+    set_nt_zero_kernel<<<gridSize, blockSize>>>(
+        linsys_data->d_csr_val, linsys_data->d_nt2kktcsr, Wnnz, m);
+
+    CUDA_CHECK(cudaDeviceSynchronize());
+
     set_nt_identity_kernel<<<gridSize, blockSize>>>(
         linsys_data->d_csr_val, linsys_data->d_nt2kktcsr,
         linsys_data->d_ntdiag2kktcsr, Wnnz, m);
