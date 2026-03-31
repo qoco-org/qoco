@@ -73,14 +73,16 @@ If you find QOCO useful please star the repository on `GitHub (QOCO) <https://gi
 
 .. code:: latex
 
-  @misc{chari2025qoco,
-    title         = {QOCO: A Quadratic Objective Conic Optimizer with Custom Solver Generation},
-    author        = {Chari, Govind M and A{\c{c}}{\i}kme{\c{s}}e, Beh{\c{c}}et},
-    year          = {2025},
-    eprint        = {2503.12658},
-    archiveprefix = {arXiv},
-    primaryclass  = {math.OC},
-    url           = {https://arxiv.org/abs/2503.12658}
+  @article{chari2026qoco,
+    title = {QOCO: a quadratic objective conic optimizer with custom solver generation},
+    author = {Chari, Govind M. and A\c{c}ıkmeşe, Beh\c{c}et},
+    journal = {Mathematical Programming Computation},
+    issn = {1867-2957},
+    url = {http://dx.doi.org/10.1007/s12532-026-00311-8},
+    doi = {10.1007/s12532-026-00311-8},
+    publisher = {Springer Science and Business Media LLC},
+    year = {2026},
+    month = mar,
   }
  
 .. toctree::
