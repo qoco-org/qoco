@@ -62,7 +62,7 @@ The main developer of QOCO is `Govind Chari <https://govindchari.com/>`_, who is
 QOCO is an adapted implementation of Lieven Vandenberghe's `coneqp <https://www.seas.ucla.edu/~vandenbe/publications/coneprog.pdf>`_ solver with various numerical enhancements for stable computation of search directions and is built on the following open-source libraries:
 
 * `qdldl <https://github.com/osqp/qdldl>`_: Responsible for solving the KKT system to compute search directions.
-* `OSQP <https://osqp.org/>`_: The C, Matlab, and Python interfaces were inspired by OSQP.
+* `OSQP <https://osqp.org/>`_: The C, Matlab, and Python interfaces were inspired by OSQP as well as the modular algebra backend.
 * `pybind11 <https://github.com/pybind/pybind11>`_: Used to generate QOCO's python wrapper.
 
 Thank you to `Srinidhi Chari <https://www.linkedin.com/in/srinidhi-chari>`_ for designing the QOCO logo.
