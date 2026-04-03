@@ -196,7 +196,6 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   work->kktres = new_qoco_vectorf(NULL, n + m + p);
   work->xyz = new_qoco_vectorf(NULL, n + m + p);
   work->xyzbuff1 = new_qoco_vectorf(NULL, n + m + p);
-  work->xyzbuff2 = new_qoco_vectorf(NULL, n + m + p);
 
   // Allocate solution struct.
   solver->sol = qoco_malloc(sizeof(QOCOSolution));
@@ -514,7 +513,6 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   free_qoco_vectorf(solver->work->kktres);
   free_qoco_vectorf(solver->work->xyz);
   free_qoco_vectorf(solver->work->xyzbuff1);
-  free_qoco_vectorf(solver->work->xyzbuff2);
   free_qoco_vectorf(solver->work->x);
   free_qoco_vectorf(solver->work->s);
   free_qoco_vectorf(solver->work->y);
