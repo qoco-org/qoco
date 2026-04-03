@@ -150,7 +150,7 @@ QOCOInt get_element_vectori(const QOCOVectori* x, QOCOInt idx);
  *
  * @param x Input vector.
  * @param idx Index.
- * @param idx data.
+ * @param data Element to set at index idx.
  */
 void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data);
 
@@ -158,7 +158,7 @@ void set_element_vectorf(QOCOVectorf* x, QOCOInt idx, QOCOFloat data);
  * @brief Performs output .= 1.0 ./ input.
  *
  * @param input Input vector.
- * @param output Input vector.
+ * @param output Output vector.
  */
 void reciprocal_vectorf(const QOCOVectorf* input, QOCOVectorf* output);
 
@@ -401,7 +401,7 @@ QOCOFloat min_abs_val(const QOCOFloat* x, QOCOInt n);
  * @brief Returns 1 if x contains nans, 0 otherwise.
  *
  * @param x Input vector.
- * @return Minimum absolute value of x.
+ * @return 1 if x contains NaNs, 0 otherwise.
  */
 QOCOInt check_nan(const QOCOVectorf* x);
 

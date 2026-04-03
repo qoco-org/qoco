@@ -63,6 +63,7 @@ void stop_timer(QOCOTimer* timer);
  * start_timer() and stop_timer().
  *
  * @param timer Pointer to timer struct.
+ * @return Elapsed time in seconds.
  */
 QOCOFloat get_elapsed_time_sec(QOCOTimer* timer);
 
