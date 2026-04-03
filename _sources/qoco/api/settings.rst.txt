@@ -18,9 +18,15 @@ The settings are defined in the :code:`include/structs.h` file.
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`iter_ref_iters`         |  :code:`QOCOInt`      | Number of iterative refinement iterations to perform       | :math:`(0, \infty)` | 1             |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`kkt_static_reg`         |  :code:`QOCOFloat`    | static regularization added to KKT system                  | :math:`(0, \infty)` | 1e-8          |
+| :code:`kkt_static_reg`         |  :code:`QOCOFloat`    | Positive constant added to the diagonal of the KKT system  | :math:`(0, \infty)` | 1e-8          |
+|                                |                       | before every solve to ensure it remains nonsingular.       |                     |               |
+|                                |                       | Increase if the solver reports numerical errors on         |                     |               |
+|                                |                       | ill-conditioned problems.                                  |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`kkt_dynamic_reg`        |  :code:`QOCOFloat`    | dynamic regularization added to KKT system                 | :math:`(0, \infty)` | 1e-8          |
+| :code:`kkt_dynamic_reg`        |  :code:`QOCOFloat`    | Additional regularization applied dynamically during KKT   | :math:`(0, \infty)` | 1e-8          |
+|                                |                       | factorization to any diagonal entry whose absolute value   |                     |               |
+|                                |                       | is below this threshold. Improves robustness on            |                     |               |
+|                                |                       | near-degenerate problems.                                  |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`abstol`                 |  :code:`QOCOFloat`    | absolute tolerance                                         | :math:`(0, \infty)` | 1e-7          |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+

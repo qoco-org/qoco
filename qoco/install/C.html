@@ -59,7 +59,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../api/index.html">API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cvxpy.html">CVXPY</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../qocogen/index.html">QOCOGEN</a></li>
@@ -125,15 +124,23 @@
 </dl>
 </li>
 </ol>
+<section id="cuda-backend">
+<h3>CUDA Backend<a class="headerlink" href="#cuda-backend" title="Link to this heading"></a></h3>
+<p>To build with GPU acceleration, pass <code class="code docutils literal notranslate"><span class="pre">-DQOCO_ALGEBRA_BACKEND=cuda</span></code> to CMake. This requires the <a class="reference external" href="https://developer.nvidia.com/cuda-downloads">CUDA Toolkit</a> to be installed and <code class="code docutils literal notranslate"><span class="pre">nvcc</span></code> to be on your <code class="code docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>..<span class="w"> </span>-DQOCO_ALGEBRA_BACKEND<span class="o">=</span>cuda<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make
+</pre></div>
+</div>
+<p><strong>Runtime requirements</strong>: The CUDA backend loads <a class="reference external" href="https://developer.nvidia.com/cudss">cuDSS</a> dynamically at runtime via <code class="code docutils literal notranslate"><span class="pre">dlopen</span></code>. cuDSS does not need to be present at build time, but it must be installed and findable on your system’s library path (<code class="code docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> on Linux, <code class="code docutils literal notranslate"><span class="pre">DYLD_LIBRARY_PATH</span></code> on macOS) before running any program linked against <code class="code docutils literal notranslate"><span class="pre">libqoco.so</span></code>.</p>
+</section>
 </section>
 <section id="use-with-cmake">
 <h2>Use with CMake<a class="headerlink" href="#use-with-cmake" title="Link to this heading"></a></h2>
 <p>To use in a CMake project add the following to your <code class="code docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>add_subdirectory<span class="o">(</span>QOCO_DIRECTORY<span class="o">)</span>
-target_link_libraries<span class="o">(</span>yourExecutable<span class="w"> </span>qoco<span class="o">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">QOCO_DIRECTORY</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">yourExecutable</span><span class="w"> </span><span class="s">qoco</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Where <code class="code docutils literal notranslate"><span class="pre">QOCO_DIRECTORY</span></code> is the location where  <code class="code docutils literal notranslate"><span class="pre">qoco</span></code> is cloned.</p>
+<p>Where <code class="code docutils literal notranslate"><span class="pre">QOCO_DIRECTORY</span></code> is the location where <code class="code docutils literal notranslate"><span class="pre">qoco</span></code> is cloned. To use the CUDA backend in your project, pass <code class="code docutils literal notranslate"><span class="pre">-DQOCO_ALGEBRA_BACKEND=cuda</span></code> when invoking CMake.</p>
 </section>
 </section>
 

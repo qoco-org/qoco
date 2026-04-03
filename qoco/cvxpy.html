@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="QOCOGEN" href="../qocogen/index.html" />
-    <link rel="prev" title="Exit flags" href="api/exit.html" /> 
+    <link rel="next" title="Settings" href="api/settings.html" />
+    <link rel="prev" title="Matlab" href="api/matlab.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,9 +49,18 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">QOCO</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="install/index.html">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/index.html">API</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">CVXPY</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#gpu-backend">GPU Backend</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="api/index.html">API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="api/C.html">C/C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/python.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/matlab.html">Matlab</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CVXPY</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gpu-backend">GPU Backend</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/settings.html">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/exit.html">Exit flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#direct-interfaces">Direct Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/index.html#modelling-interface">Modelling Interface</a></li>
 </ul>
 </li>
 </ul>
@@ -76,6 +85,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">QOCO</a></li>
+          <li class="breadcrumb-item"><a href="api/index.html">API</a></li>
       <li class="breadcrumb-item active">CVXPY</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/qoco/cvxpy.rst.txt" rel="nofollow"> View page source</a>
@@ -87,9 +97,9 @@
            <div itemprop="articleBody">
              
   <section id="cvxpy">
-<h1>CVXPY<a class="headerlink" href="#cvxpy" title="Link to this heading"></a></h1>
-<p>QOCO can be called from <a class="reference external" href="http://www.cvxpy.org/">CVXPY</a> from version 1.6.4 onwards.</p>
-<p>After <a class="reference internal" href="install/python.html#python-installation"><span class="std std-ref">installing QOCO</span></a> and defining your problem in CVXPY, QOCO can be called as follows</p>
+<span id="cvxpy-interface"></span><h1>CVXPY<a class="headerlink" href="#cvxpy" title="Link to this heading"></a></h1>
+<p>CVXPY is a modelling interface for QOCO, not a direct interface. Rather than constructing problem data in standard form yourself, you define your problem in CVXPY’s high-level syntax. CVXPY then parses and reduces the problem to QOCO’s standard form and calls the <a class="reference internal" href="api/python.html#python-interface"><span class="std std-ref">Python interface</span></a> internally.</p>
+<p>QOCO can be called from <a class="reference external" href="http://www.cvxpy.org/">CVXPY</a> from version 1.6.4 onwards. After <a class="reference internal" href="install/python.html#python-installation"><span class="std std-ref">installing QOCO</span></a> and defining your problem in CVXPY, QOCO can be called as follows</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">problem</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s1">&#39;QOCO&#39;</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -109,8 +119,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="api/exit.html" class="btn btn-neutral float-left" title="Exit flags" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../qocogen/index.html" class="btn btn-neutral float-right" title="QOCOGEN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api/matlab.html" class="btn btn-neutral float-left" title="Matlab" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/settings.html" class="btn btn-neutral float-right" title="Settings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

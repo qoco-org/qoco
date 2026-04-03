@@ -21,7 +21,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="CVXPY" href="../cvxpy.html" />
+    <link rel="next" title="QOCOGEN" href="../../qocogen/index.html" />
     <link rel="prev" title="Settings" href="settings.html" /> 
 </head>
 
@@ -50,12 +50,20 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">QOCO</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">API</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="interfaces.html">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C.html">C/C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matlab.html">Matlab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cvxpy.html">CVXPY</a></li>
 <li class="toctree-l3"><a class="reference internal" href="settings.html">Settings</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Exit flags</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Exit flags</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#status-descriptions">Status descriptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setup-error-codes">Setup error codes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../cvxpy.html">CVXPY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#direct-interfaces">Direct Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#modelling-interface">Modelling Interface</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../qocogen/index.html">QOCOGEN</a></li>
@@ -122,6 +130,59 @@
 </tr>
 </tbody>
 </table>
+<section id="status-descriptions">
+<h2>Status descriptions<a class="headerlink" href="#status-descriptions" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><strong>QOCO_SOLVED</strong></dt><dd><p>The problem was solved to the tolerances specified by <code class="code docutils literal notranslate"><span class="pre">abstol</span></code> and <code class="code docutils literal notranslate"><span class="pre">reltol</span></code>. The solution in <code class="code docutils literal notranslate"><span class="pre">results</span></code> is reliable.</p>
+</dd>
+<dt><strong>QOCO_SOLVED_INACCURATE</strong></dt><dd><p>The solver could not reach the primary tolerances (<code class="code docutils literal notranslate"><span class="pre">abstol</span></code>, <code class="code docutils literal notranslate"><span class="pre">reltol</span></code>) but the solution satisfies the looser tolerances <code class="code docutils literal notranslate"><span class="pre">abstol_inacc</span></code> and <code class="code docutils literal notranslate"><span class="pre">reltol_inacc</span></code>. The returned solution is an approximation and may be usable depending on the application.</p>
+</dd>
+<dt><strong>QOCO_NUMERICAL_ERROR</strong></dt><dd><p>The solver encountered a numerical failure (e.g. a singular KKT system) the problem is primal or dual infeasible. Check that the problem data is well-scaled. If the problem is feasible, try increasing <code class="code docutils literal notranslate"><span class="pre">kkt_static_reg</span></code> or <code class="code docutils literal notranslate"><span class="pre">kkt_dynamic_reg</span></code> to improve numerical stability.</p>
+</dd>
+<dt><strong>QOCO_MAX_ITER</strong></dt><dd><p>The solver reached the iteration limit set by <code class="code docutils literal notranslate"><span class="pre">max_iters</span></code> without converging. Try increasing <code class="code docutils literal notranslate"><span class="pre">max_iters</span></code>, enabling Ruiz equilibration with <code class="code docutils literal notranslate"><span class="pre">ruiz_iters</span></code>, or reformulating the problem to improve conditioning.</p>
+</dd>
+<dt><strong>QOCO_UNSOLVED</strong></dt><dd><p><code class="code docutils literal notranslate"><span class="pre">solve()</span></code> has not been called yet.</p>
+</dd>
+</dl>
+</section>
+<section id="setup-error-codes">
+<h2>Setup error codes<a class="headerlink" href="#setup-error-codes" title="Link to this heading"></a></h2>
+<p><code class="code docutils literal notranslate"><span class="pre">qoco_setup()</span></code> and <code class="code docutils literal notranslate"><span class="pre">qoco_update_settings()</span></code> return one of the following integer error codes:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Error Code</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">QOCO_NO_ERROR</span></code></p></td>
+<td><p>0</p></td>
+<td><p>Setup completed successfully.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">QOCO_DATA_VALIDATION_ERROR</span></code></p></td>
+<td><p>1</p></td>
+<td><p>Invalid problem data (e.g. wrong dimensions, null matrix).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">QOCO_SETTINGS_VALIDATION_ERROR</span></code></p></td>
+<td><p>2</p></td>
+<td><p>Invalid settings (e.g. non-positive tolerance).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">QOCO_SETUP_ERROR</span></code></p></td>
+<td><p>3</p></td>
+<td><p>Internal setup failure.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">QOCO_AMD_ERROR</span></code></p></td>
+<td><p>4</p></td>
+<td><p>Failure during AMD fill-reducing ordering.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">QOCO_MALLOC_ERROR</span></code></p></td>
+<td><p>5</p></td>
+<td><p>Memory allocation failure.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 
 
@@ -129,7 +190,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="settings.html" class="btn btn-neutral float-left" title="Settings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../cvxpy.html" class="btn btn-neutral float-right" title="CVXPY" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../../qocogen/index.html" class="btn btn-neutral float-right" title="QOCOGEN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

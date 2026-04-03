@@ -21,7 +21,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Interfaces" href="interfaces.html" />
+    <link rel="next" title="C/C++" href="C.html" />
     <link rel="prev" title="Matlab" href="../install/matlab.html" /> 
 </head>
 
@@ -50,12 +50,16 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">QOCO</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">API</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="interfaces.html">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C.html">C/C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matlab.html">Matlab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cvxpy.html">CVXPY</a></li>
 <li class="toctree-l3"><a class="reference internal" href="settings.html">Settings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="exit.html">Exit flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#direct-interfaces">Direct Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modelling-interface">Modelling Interface</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../cvxpy.html">CVXPY</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../qocogen/index.html">QOCOGEN</a></li>
@@ -89,10 +93,40 @@
            <div itemprop="articleBody">
              
   <section id="api">
-<h1>API<a class="headerlink" href="#api" title="Link to this heading"></a></h1>
+<span id="id1"></span><h1>API<a class="headerlink" href="#api" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p>This section describes the various <a class="reference internal" href="interfaces.html#interfaces"><span class="std std-ref">interfaces</span></a> to QOCO in different languages and describes the solver <a class="reference internal" href="settings.html#settings"><span class="std std-ref">settings</span></a> which can be changed, and the possible <a class="reference internal" href="exit.html#exit-flags"><span class="std std-ref">exit flags</span></a> the solver returns.</p>
+<section id="direct-interfaces">
+<h2>Direct Interfaces<a class="headerlink" href="#direct-interfaces" title="Link to this heading"></a></h2>
+<p>In the direct interfaces, the user constructs the problem data in standard form and passes it directly to QOCO. The links below describe how to set up and solve problems and change solver settings within each language.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Language</p></th>
+<th class="head"><p>Maintainer</p></th>
+<th class="head"><p>Repository</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="C.html#c-interface"><span class="std std-ref">C/C++</span></a></p></td>
+<td><p><a class="reference external" href="https://govindchari.com/">Govind Chari</a></p></td>
+<td><p><a class="reference external" href="https://github.com/qoco-org/qoco">qoco</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="python.html#python-interface"><span class="std std-ref">Python</span></a></p></td>
+<td><p><a class="reference external" href="https://govindchari.com/">Govind Chari</a></p></td>
+<td><p><a class="reference external" href="https://github.com/qoco-org/qoco-python">qoco-python</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="matlab.html#matlab-interface"><span class="std std-ref">Matlab</span></a></p></td>
+<td><p><a class="reference external" href="https://govindchari.com/">Govind Chari</a></p></td>
+<td><p><a class="reference external" href="https://github.com/qoco-org/qoco-matlab">qoco-matlab</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="modelling-interface">
+<h2>Modelling Interface<a class="headerlink" href="#modelling-interface" title="Link to this heading"></a></h2>
+<p><a class="reference internal" href="../cvxpy.html#cvxpy-interface"><span class="std std-ref">CVXPY</span></a> is a modelling interface, not a direct interface. The user defines a problem in CVXPY’s high-level syntax, which is then parsed and reduced to QOCO’s standard form automatically. CVXPY then calls the <a class="reference internal" href="python.html#python-interface"><span class="std std-ref">Python interface</span></a> to pass the problem data to QOCO.</p>
+<p>This section also describes the solver <a class="reference internal" href="settings.html#settings"><span class="std std-ref">settings</span></a> which can be changed, and the possible <a class="reference internal" href="exit.html#exit-flags"><span class="std std-ref">exit flags</span></a> the solver returns.</p>
+</section>
 </section>
 
 
@@ -100,7 +134,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../install/matlab.html" class="btn btn-neutral float-left" title="Matlab" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="interfaces.html" class="btn btn-neutral float-right" title="Interfaces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="C.html" class="btn btn-neutral float-right" title="C/C++" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

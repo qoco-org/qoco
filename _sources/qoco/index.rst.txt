@@ -8,5 +8,3 @@ QOCO
 
    install/index
    api/index
-   cvxpy
-   

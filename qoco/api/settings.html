@@ -23,7 +23,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Exit flags" href="exit.html" />
-    <link rel="prev" title="Matlab" href="matlab.html" /> 
+    <link rel="prev" title="CVXPY" href="../cvxpy.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,12 +51,16 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">QOCO</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">API</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="interfaces.html">Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C.html">C/C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python.html">Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="matlab.html">Matlab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cvxpy.html">CVXPY</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Settings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="exit.html">Exit flags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#direct-interfaces">Direct Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#modelling-interface">Modelling Interface</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../cvxpy.html">CVXPY</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../qocogen/index.html">QOCOGEN</a></li>
@@ -129,13 +133,19 @@
 </tr>
 <tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">kkt_static_reg</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
-<td><p>static regularization added to KKT system</p></td>
+<td><p>Positive constant added to the diagonal of the KKT system
+before every solve to ensure it remains nonsingular.
+Increase if the solver reports numerical errors on
+ill-conditioned problems.</p></td>
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>1e-8</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">kkt_dynamic_reg</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
-<td><p>dynamic regularization added to KKT system</p></td>
+<td><p>Additional regularization applied dynamically during KKT
+factorization to any diagonal entry whose absolute value
+is below this threshold. Improves robustness on
+near-degenerate problems.</p></td>
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>1e-8</p></td>
 </tr>
@@ -177,7 +187,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="matlab.html" class="btn btn-neutral float-left" title="Matlab" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../cvxpy.html" class="btn btn-neutral float-left" title="CVXPY" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="exit.html" class="btn btn-neutral float-right" title="Exit flags" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
