@@ -90,8 +90,7 @@ void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,
                           QOCOVectorf* y_vec, QOCOVectorf* s_vec,
                           QOCOVectorf* z_vec, QOCOVectorf* kktres_vec,
                           QOCOFloat static_reg, QOCOVectorf* xyzbuff_vec,
-                          QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec,
-                          QOCOVectori* Wsoc_idx_vec, QOCOVectori* soc_idx_vec);
+                          QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec);
 
 /**
  * @brief Computes mu = s'*z / m.
@@ -149,11 +148,12 @@ void predictor_corrector(QOCOSolver* solver);
  * K = | A    0         0       |
  *     [ G    0   -W'W - e * I  ]
  *
- * @param work Pointer to workspace.
  * @param x Pointer to input vector.
  * @param y Pointer to output vector.
  * @param data Pointer to problem data.
  * @param Wfull Pointer to full NT scaling matrix W.
+ * @param Wsoc_idx Vector pointing to the start of each SOC block in Wfull.
+ * @param soc_idx Array pointing to the start of each SOC block in x and y.
  * @param nbuff Temporary buffer of length n.
  * @param mbuff1 Temporary buffer of length m.
  * @param mbuff2 Temporary buffer of length m.

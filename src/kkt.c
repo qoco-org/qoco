@@ -217,8 +217,7 @@ void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,
                           QOCOVectorf* y_vec, QOCOVectorf* s_vec,
                           QOCOVectorf* z_vec, QOCOVectorf* kktres_vec,
                           QOCOFloat static_reg, QOCOVectorf* xyzbuff_vec,
-                          QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec,
-                          QOCOVectori* Wsoc_idx_vec, QOCOVectori* soc_idx_vec)
+                          QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec)
 {
 
   QOCOFloat* x = get_data_vectorf(x_vec);

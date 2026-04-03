@@ -95,11 +95,11 @@ QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A, QOCOInt* AtoAt);
 
 /**
  * @brief Scales the rows of M by E and columns of M by D.
- * M = diag(E) * M * diag(S)
+ * M = diag(E) * M * diag(D)
  *
  * @param M An m by n sparse matrix.
  * @param E Vector of length m.
- * @param D Vector of length m.
+ * @param D Vector of length n.
  */
 void row_col_scale(const QOCOCscMatrix* M, QOCOFloat* E, QOCOFloat* D);
 

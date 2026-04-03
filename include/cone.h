@@ -27,6 +27,8 @@ extern "C" {
  *
  * @param Wfull Full NT scaling matrix.
  * @param Wnnzfull Number of elements in Wfull.
+ * @param Wsoc_idx Vector pointing to the start of each SOC block in Wfull.
+ *                 Only used in the GPU (cone.cu) implementation.
  * @param data Pointer to problem data.
  */
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
@@ -41,6 +43,8 @@ void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
  * @param l Dimension of LP cone.
  * @param nsoc Number of second-order cones.
  * @param q Dimension of each second-order cone.
+ * @param soc_idx Array pointing to the start of each SOC block.
+ *                Only used in the GPU (cone.cu) implementation.
  */
 void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
                   QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
@@ -55,6 +59,8 @@ void cone_product(const QOCOFloat* u, const QOCOFloat* v, QOCOFloat* p,
  * @param l Dimension of LP cone.
  * @param nsoc Number of second-order cones.
  * @param q Dimension of each second-order cone.
+ * @param soc_idx Array pointing to the start of each SOC block.
+ *                Only used in the GPU (cone.cu) implementation.
  */
 void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
                    QOCOInt l, QOCOInt nsoc, const QOCOInt* q,
@@ -66,6 +72,8 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
  * minimum scalar value such that u + (1 + a) * e is in cone C.
  *
  * @param u Vector to bring to cone.
+ * @param soc_idx Array pointing to the start of each SOC block.
+ *                Only used in the GPU (cone.cu) implementation.
  * @param data Pointer to problem data.
  */
 void bring2cone(QOCOFloat* u, QOCOInt* soc_idx, QOCOProblemData* data);
@@ -76,6 +84,10 @@ void bring2cone(QOCOFloat* u, QOCOInt* soc_idx, QOCOProblemData* data);
  * scalings for the second-order cones are stored in column major order.
  *
  * @param W Nesterov Todd scaling matrix.
+ * @param Wsoc_idx Vector pointing to the start of each SOC block in W.
+ *                 Only used in the GPU (cone.cu) implementation.
+ * @param soc_idx Array pointing to the start of each SOC block in x and z.
+ *                Only used in the GPU (cone.cu) implementation.
  * @param x Input vector.
  * @param z Output vector.
  * @param l Dimension of LP cone.
@@ -116,7 +128,7 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                      QOCOSolver* solver);
 
 /**
- * @brief Computes x = x + a*e where e is the cannonical vector for the cone.
+ * @brief Computes x = x - a*e where e is the cannonical vector for the cone.
  *
  * @param x Vector.
  * @param a Scaling factor.

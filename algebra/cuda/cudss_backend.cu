@@ -291,7 +291,6 @@ struct LinSysData {
 // Convert CSC to CSR on CPU and copy to GPU
 static void csc_to_csr_device(const QOCOCscMatrix* csc, QOCOInt** csr_row_ptr,
                               QOCOInt** csr_col_ind, QOCOFloat** csr_val,
-                              cusparseHandle_t handle,
                               QOCOInt** h_csr_row_ptr_out,
                               QOCOInt** h_csr_col_ind_out,
                               QOCOInt** csc2csr_out)
@@ -450,8 +449,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   QOCOInt* csc2csr;
 
   csc_to_csr_device(Kcsc, &csr_row_ptr, &csr_col_ind, &csr_val,
-                    linsys_data->cusparse_handle, &h_csr_row_ptr,
-                    &h_csr_col_ind, &csc2csr);
+                    &h_csr_row_ptr, &h_csr_col_ind, &csc2csr);
 
   // Build nt2kktcsr and ntdiag2kktcsr mappings (CSR indices instead of CSC)
   QOCOInt* nt2kktcsr = NULL;
@@ -592,8 +590,7 @@ __global__ void
 update_csr_nt_blocks_kernel(const QOCOFloat* WtW, // NT block values (on GPU)
                             QOCOFloat* csr_val, // CSR values to update (on GPU)
                             const QOCOInt* nt2kktcsr,
-                            const QOCOInt* ntdiag2kktcsr,
-                            QOCOFloat kkt_static_reg, QOCOInt Wnnz, QOCOInt m)
+                            QOCOInt Wnnz)
 {
   QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -726,7 +723,7 @@ static void cudss_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
         (linsys_data->Wnnz + threadsPerBlock - 1) / threadsPerBlock;
     update_csr_nt_blocks_kernel<<<numBlocks_nt, threadsPerBlock>>>(
         linsys_data->d_WtW, linsys_data->d_csr_val, linsys_data->d_nt2kktcsr,
-        linsys_data->d_ntdiag2kktcsr, kkt_static_reg, linsys_data->Wnnz, m);
+        linsys_data->Wnnz);
     CUDA_CHECK(cudaGetLastError());
   }
 

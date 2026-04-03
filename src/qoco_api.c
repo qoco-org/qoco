@@ -437,8 +437,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     // Compute kkt residual.
     compute_kkt_residual(data, work->x, work->y, work->s, work->z, work->kktres,
                          solver->settings->kkt_static_reg, work->xyzbuff1,
-                         work->xbuff, work->ubuff1, work->Wsoc_idx,
-                         work->soc_idx);
+                         work->xbuff, work->ubuff1);
 
     // Compute objective function.
     solver->sol->obj =
