@@ -255,7 +255,7 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
   solver->settings->abstol = new_settings->abstol;
   solver->settings->reltol = new_settings->reltol;
   solver->settings->abstol_inacc = new_settings->abstol_inacc;
-  solver->settings->abstol_inacc = new_settings->abstol_inacc;
+  solver->settings->reltol_inacc = new_settings->reltol_inacc;
   solver->settings->verbose = new_settings->verbose;
 
   return 0;
@@ -365,7 +365,7 @@ void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Ax
     for (QOCOInt i = 0; i < Pnnz - data->Pnum_nzadded; ++i) {
       if (i == avoid) {
         offset++;
-        avoid = data->Pnzadded_idx[offset];
+        avoid = (offset < data->Pnum_nzadded) ? data->Pnzadded_idx[offset] : Pnnz + 1;
       }
       else {
         Px[i + offset] = Pxnew[i];
