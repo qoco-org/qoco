@@ -8,16 +8,16 @@ Setup
 
 QOCO is initialized by creating a QOCO object as follows
 
-.. code:: python
+.. code:: matlab
 
-    solver = qoco
+    solver = qoco()
 
 The problem is specified in the setup phase by running
 
-.. code:: python
+.. code:: matlab
 
-    settings.verbose = 1 # Can modify any settings prior to setup.
-    solver.setup(n, m, p, P, c, A, b, G, h, l, nsoc, q, settings)
+    settings.verbose = 1; % Can modify any settings prior to setup.
+    solver.setup(n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
 
 The arguments :code:`c`, :code:`b` and :code:`q` are Matlab arrays, and :code:`P`, :code:`A`, and :code:`G` are Matlab matrices. The matrix :code:`P` can be either complete or just the upper triangular part, but QOCO will only use the upper triangular part. 
 
@@ -28,9 +28,9 @@ The struct :code:`settings` specifies the solver settings. If no settings struct
 Solve
 -----
 
-.. code:: python
-   
-   results = solver.solve()
+.. code:: matlab
+
+   results = solver.solve();
 
 The :code:`results` struct contains the following
 

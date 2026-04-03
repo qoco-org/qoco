@@ -22,8 +22,8 @@ Helper functions
 .. doxygenfunction:: qoco_set_csc
 .. doxygenfunction:: set_default_settings
 .. doxygenfunction:: qoco_update_settings
-.. doxygenfunction:: update_vector_data
-.. doxygenfunction:: update_matrix_data
+.. doxygenfunction:: qoco_update_vector_data
+.. doxygenfunction:: qoco_update_matrix_data
 
 QOCO data types
 ---------------
@@ -32,8 +32,6 @@ QOCO data types
 .. doxygenstruct:: QOCOSettings
    :members:
 .. doxygenstruct:: QOCOWorkspace
-   :members:
-.. doxygenstruct:: QOCOKKT
    :members:
 .. doxygenstruct:: QOCOCscMatrix
    :members:

@@ -525,9 +525,9 @@
       </memberdef>
       <memberdef kind="function" id="qoco__api_8h_1a525738f05532dce21ec82ee7c3cf4138" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void update_vector_data</definition>
+        <definition>void qoco_update_vector_data</definition>
         <argsstring>(QOCOSolver *solver, QOCOFloat *cnew, QOCOFloat *bnew, QOCOFloat *hnew)</argsstring>
-        <name>update_vector_data</name>
+        <name>qoco_update_vector_data</name>
         <param>
           <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
           <declname>solver</declname>
@@ -589,9 +589,9 @@
       </memberdef>
       <memberdef kind="function" id="qoco__api_8h_1ae144e269bd46cb81ae3e1eab33a69915" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void update_matrix_data</definition>
+        <definition>void qoco_update_matrix_data</definition>
         <argsstring>(QOCOSolver *solver, QOCOFloat *Pxnew, QOCOFloat *Axnew, QOCOFloat *Gxnew)</argsstring>
-        <name>update_matrix_data</name>
+        <name>qoco_update_matrix_data</name>
         <param>
           <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
           <declname>solver</declname>
@@ -765,10 +765,10 @@
 <codeline lineno="90"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="qoco__api_8h_1ae907f556c8bd418aa91069c064229675" kindref="member">qoco_update_settings</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver,</highlight></codeline>
 <codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref>*<sp/>new_settings);</highlight></codeline>
 <codeline lineno="92"><highlight class="normal"></highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__api_8h_1a525738f05532dce21ec82ee7c3cf4138" kindref="member">update_vector_data</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>cnew,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>bnew,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__api_8h_1a525738f05532dce21ec82ee7c3cf4138" kindref="member">qoco_update_vector_data</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>cnew,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>bnew,</highlight></codeline>
 <codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>hnew);</highlight></codeline>
 <codeline lineno="104"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__api_8h_1ae144e269bd46cb81ae3e1eab33a69915" kindref="member">update_matrix_data</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Pxnew,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Axnew,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__api_8h_1ae144e269bd46cb81ae3e1eab33a69915" kindref="member">qoco_update_matrix_data</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Pxnew,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Axnew,</highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Gxnew);</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"></highlight></codeline>
 <codeline lineno="124"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="qoco__api_8h_1a12ff54d8eb71178436b015cd3a485815" kindref="member">qoco_solve</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>

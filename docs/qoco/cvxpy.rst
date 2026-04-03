@@ -1,9 +1,11 @@
+.. _cvxpy_interface:
+
 CVXPY
 =====
 
-QOCO can be called from `CVXPY <http://www.cvxpy.org/>`_ from version 1.6.4 onwards.
+CVXPY is a modelling interface for QOCO, not a direct interface. Rather than constructing problem data in standard form yourself, you define your problem in CVXPY's high-level syntax. CVXPY then parses and reduces the problem to QOCO's standard form and calls the :ref:`Python interface <python_interface>` internally.
 
-After :ref:`installing QOCO <python_installation>` and defining your problem in CVXPY, QOCO can be called as follows
+QOCO can be called from `CVXPY <http://www.cvxpy.org/>`_ from version 1.6.4 onwards. After :ref:`installing QOCO <python_installation>` and defining your problem in CVXPY, QOCO can be called as follows
 
 .. code:: python
 

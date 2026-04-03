@@ -223,8 +223,8 @@
     <member refid="qoco__api_8h_1a4924aaa44b38370e774f3754f404145a" kind="function"><name>qoco_set_csc</name></member>
     <member refid="qoco__api_8h_1a3b5424d92406d0dbdbecf126b8970625" kind="function"><name>set_default_settings</name></member>
     <member refid="qoco__api_8h_1ae907f556c8bd418aa91069c064229675" kind="function"><name>qoco_update_settings</name></member>
-    <member refid="qoco__api_8h_1a525738f05532dce21ec82ee7c3cf4138" kind="function"><name>update_vector_data</name></member>
-    <member refid="qoco__api_8h_1ae144e269bd46cb81ae3e1eab33a69915" kind="function"><name>update_matrix_data</name></member>
+    <member refid="qoco__api_8h_1a525738f05532dce21ec82ee7c3cf4138" kind="function"><name>qoco_update_vector_data</name></member>
+    <member refid="qoco__api_8h_1ae144e269bd46cb81ae3e1eab33a69915" kind="function"><name>qoco_update_matrix_data</name></member>
     <member refid="qoco__api_8h_1a12ff54d8eb71178436b015cd3a485815" kind="function"><name>qoco_solve</name></member>
     <member refid="qoco__api_8h_1adf388119bb41bbc683e099321879eebd" kind="function"><name>qoco_cleanup</name></member>
   </compound>
@@ -318,8 +318,8 @@
     <member refid="qoco__api_8c_1a4924aaa44b38370e774f3754f404145a" kind="function"><name>qoco_set_csc</name></member>
     <member refid="qoco__api_8c_1a3b5424d92406d0dbdbecf126b8970625" kind="function"><name>set_default_settings</name></member>
     <member refid="qoco__api_8c_1ae907f556c8bd418aa91069c064229675" kind="function"><name>qoco_update_settings</name></member>
-    <member refid="qoco__api_8c_1a525738f05532dce21ec82ee7c3cf4138" kind="function"><name>update_vector_data</name></member>
-    <member refid="qoco__api_8c_1ae144e269bd46cb81ae3e1eab33a69915" kind="function"><name>update_matrix_data</name></member>
+    <member refid="qoco__api_8c_1a525738f05532dce21ec82ee7c3cf4138" kind="function"><name>qoco_update_vector_data</name></member>
+    <member refid="qoco__api_8c_1ae144e269bd46cb81ae3e1eab33a69915" kind="function"><name>qoco_update_matrix_data</name></member>
     <member refid="qoco__api_8c_1a12ff54d8eb71178436b015cd3a485815" kind="function"><name>qoco_solve</name></member>
     <member refid="qoco__api_8c_1adf388119bb41bbc683e099321879eebd" kind="function"><name>qoco_cleanup</name></member>
   </compound>

@@ -811,7 +811,7 @@
           <declname>lambda</declname>
         </param>
         <briefdescription>
-<para>Subtracts lambda * I to a CSC matrix. Called on P when updating matrix data in <ref refid="qoco__api_8h_1ae144e269bd46cb81ae3e1eab33a69915" kindref="member">update_matrix_data()</ref>. This function does not allocate and must be called after regularize. </para>
+<para>Subtracts lambda * I to a CSC matrix. Called on P when updating matrix data in <ref refid="qoco__api_8h_1ae144e269bd46cb81ae3e1eab33a69915" kindref="member">qoco_update_matrix_data()</ref>. This function does not allocate and must be called after regularize. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
