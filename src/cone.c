@@ -177,6 +177,7 @@ QOCOFloat cone_residual(const QOCOFloat* u, QOCOInt l, QOCOInt nsoc,
 
 void bring2cone(QOCOFloat* u, QOCOInt* soc_idx, QOCOProblemData* data)
 {
+  (void)soc_idx;
   if (cone_residual(u, data->l, data->nsoc, get_data_vectori(data->q)) >= 0) {
     QOCOFloat a = 0.0;
 
@@ -440,7 +441,7 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   }
 }
 
-void add_e(QOCOFloat* x, QOCOFloat a, QOCOFloat l, QOCOInt nsoc, QOCOVectori* q)
+void add_e(QOCOFloat* x, QOCOFloat a, QOCOInt l, QOCOInt nsoc, QOCOVectori* q)
 {
   QOCOInt idx = 0;
   for (idx = 0; idx < l; ++idx) {
