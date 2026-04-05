@@ -38,6 +38,7 @@ $$\mathcal{Q}^{q_i}_i = \\{(t,x)  \in \mathbb{R} \times \mathbb{R}^{q_i - 1} \\;
 File any issues or bug reports using the [issue tracker](https://github.com/qoco-org/qoco/issues).
 
 ## Citing
+If you find QOCO useful please cite the [QOCO paper](https://arxiv.org/abs/2503.12658) as follows
 ```
 @article{chari2026qoco,
   title = {QOCO: a quadratic objective conic optimizer with custom solver generation},
@@ -49,6 +50,18 @@ File any issues or bug reports using the [issue tracker](https://github.com/qoco
   publisher = {Springer Science and Business Media LLC},
   year = {2026},
   month = mar,
+}
+```
+
+If you find the GPU backend useful please cite the [QOCO-GPU](https://arxiv.org/abs/2603.29197) paper as follows
+```
+@misc{chari2026qocogpu,
+  title = {QOCO-GPU: a quadratic objective conic optimizer with {GPU} acceleration},
+  author = {Chari, Govind M and A{\c{c}}{\i}kme{\c{s}}e, Beh{\c{c}}et},
+  year = {2026},
+  eprint = {2603.29197},
+  archiveprefix = {arXiv},
+  primaryclass = {math.OC},
 }
 ```
 
