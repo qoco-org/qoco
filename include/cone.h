@@ -136,7 +136,7 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
  * @param nsoc Number of second-order cones.
  * @param q Dimensions of SOCs.
  */
-void add_e(QOCOFloat* x, QOCOFloat a, QOCOFloat l, QOCOInt nsoc,
+void add_e(QOCOFloat* x, QOCOFloat a, QOCOInt l, QOCOInt nsoc,
            QOCOVectori* q);
 
 #ifdef __cplusplus

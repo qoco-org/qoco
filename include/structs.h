@@ -274,9 +274,6 @@ typedef struct {
   /** Buffer of size n + m + p. */
   QOCOVectorf* xyzbuff1;
 
-  /** Buffer of size n + m + p. */
-  QOCOVectorf* xyzbuff2;
-
   /** Residual of KKT condition. */
   QOCOVectorf* kktres;
 

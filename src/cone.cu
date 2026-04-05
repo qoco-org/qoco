@@ -723,7 +723,7 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   return a_host;
 }
 
-void add_e(QOCOFloat* x, QOCOFloat a, QOCOFloat l, QOCOInt nsoc, QOCOVectori* q)
+void add_e(QOCOFloat* x, QOCOFloat a, QOCOInt l, QOCOInt nsoc, QOCOVectori* q)
 {
   QOCOInt total_threads = l + nsoc;
   QOCOInt block = 256;

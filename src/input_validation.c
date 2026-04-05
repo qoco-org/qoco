@@ -38,7 +38,7 @@ QOCOInt qoco_validate_settings(const QOCOSettings* settings)
 
   // reltol must be non-negative.
   if (settings->reltol < 0) {
-    printf("reltol must be positive.\n");
+    printf("reltol must be non-negative.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 
@@ -50,7 +50,7 @@ QOCOInt qoco_validate_settings(const QOCOSettings* settings)
 
   // reltol_inaccurate must be non-negative.
   if (settings->reltol_inacc < 0) {
-    printf("reltol_inacc must be positive.\n");
+    printf("reltol_inacc must be non-negative.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 

@@ -196,7 +196,6 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   work->kktres = new_qoco_vectorf(NULL, n + m + p);
   work->xyz = new_qoco_vectorf(NULL, n + m + p);
   work->xyzbuff1 = new_qoco_vectorf(NULL, n + m + p);
-  work->xyzbuff2 = new_qoco_vectorf(NULL, n + m + p);
 
   // Allocate solution struct.
   solver->sol = qoco_malloc(sizeof(QOCOSolution));
@@ -255,7 +254,7 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
   solver->settings->abstol = new_settings->abstol;
   solver->settings->reltol = new_settings->reltol;
   solver->settings->abstol_inacc = new_settings->abstol_inacc;
-  solver->settings->abstol_inacc = new_settings->abstol_inacc;
+  solver->settings->reltol_inacc = new_settings->reltol_inacc;
   solver->settings->verbose = new_settings->verbose;
 
   return 0;
@@ -365,7 +364,7 @@ void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Ax
     for (QOCOInt i = 0; i < Pnnz - data->Pnum_nzadded; ++i) {
       if (i == avoid) {
         offset++;
-        avoid = data->Pnzadded_idx[offset];
+        avoid = (offset < data->Pnum_nzadded) ? data->Pnzadded_idx[offset] : Pnnz + 1;
       }
       else {
         Px[i + offset] = Pxnew[i];
@@ -514,7 +513,6 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   free_qoco_vectorf(solver->work->kktres);
   free_qoco_vectorf(solver->work->xyz);
   free_qoco_vectorf(solver->work->xyzbuff1);
-  free_qoco_vectorf(solver->work->xyzbuff2);
   free_qoco_vectorf(solver->work->x);
   free_qoco_vectorf(solver->work->s);
   free_qoco_vectorf(solver->work->y);
