@@ -14,6 +14,7 @@
 void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
                         QOCOVectori* Wsoc_idx, QOCOProblemData* data)
 {
+  (void)Wsoc_idx;
   QOCOFloat* Wfull_data = get_data_vectorf(Wfull);
   for (QOCOInt i = 0; i < Wnnzfull; ++i) {
     Wfull_data[i] = 0.0;

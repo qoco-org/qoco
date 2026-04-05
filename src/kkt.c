@@ -33,17 +33,23 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
   QOCOInt nz = 0;
   QOCOInt col = 0;
   // Add P block
-  for (QOCOInt k = 0; k < P->nnz; ++k) {
-    if (PregtoKKT) {
-      PregtoKKT[k] = nz;
+  if (P) {
+    for (QOCOInt k = 0; k < P->nnz; ++k) {
+      if (PregtoKKT) {
+        PregtoKKT[k] = nz;
+      }
+      KKT->x[nz] = P->x[k];
+      KKT->i[nz] = P->i[k];
+      nz += 1;
     }
-    KKT->x[nz] = P->x[k];
-    KKT->i[nz] = P->i[k];
-    nz += 1;
+    for (QOCOInt k = 0; k < P->n + 1; ++k) {
+      KKT->p[col] = P->p[k];
+      col += 1;
+    }
   }
-  for (QOCOInt k = 0; k < P->n + 1; ++k) {
-    KKT->p[col] = P->p[k];
-    col += 1;
+  else {
+    // No quadratic term; KKT->p[0..n] already zero from calloc.
+    col = n + 1;
   }
 
   // Add A^T block

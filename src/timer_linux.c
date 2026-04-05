@@ -16,7 +16,7 @@ QOCOFloat get_elapsed_time_sec(QOCOTimer* timer)
 
   if ((timer->toc.tv_nsec - timer->tic.tv_nsec) < 0) {
     temp.tv_sec = timer->toc.tv_sec - timer->tic.tv_sec - 1;
-    temp.tv_nsec = 1e9 + timer->toc.tv_nsec - timer->tic.tv_nsec;
+    temp.tv_nsec = 1000000000L + timer->toc.tv_nsec - timer->tic.tv_nsec;
   }
   else {
     temp.tv_sec = timer->toc.tv_sec - timer->tic.tv_sec;
