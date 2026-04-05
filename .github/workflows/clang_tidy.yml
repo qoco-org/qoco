@@ -1,0 +1,47 @@
+name: clang-tidy
+
+on:
+  push:
+    branches:
+      - "*"
+      - "*/*"
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+    types:
+      - opened
+      - synchronize
+      - reopened
+  workflow_dispatch:
+
+jobs:
+  clang-tidy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang and clang-tidy
+        run: sudo apt-get install -y clang clang-tidy
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: "3.28.x"
+
+      - name: Configure CMake
+        run: >
+          cmake -B build
+          -DCMAKE_C_COMPILER=clang
+          -DCMAKE_CXX_COMPILER=clang++
+          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          -DQOCO_BUILD_TYPE=Debug
+          -S .
+
+      - name: Run clang-tidy
+        run: |
+          find src -name "*.c" \
+            ! -name "timer_macos.c" \
+            ! -name "timer_windows.c" \
+          | xargs clang-tidy -p build --config-file=.clang-tidy

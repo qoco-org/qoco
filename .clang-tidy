@@ -1,0 +1,10 @@
+Checks: >
+  bugprone-*,
+  clang-analyzer-*,
+  misc-unused-parameters,
+  -bugprone-easily-swappable-parameters,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
+
+WarningsAsErrors: "*"
+
+HeaderFilterRegex: "include/.*"
