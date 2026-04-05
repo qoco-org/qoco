@@ -66,6 +66,9 @@ struct LinSysData {
   QOCOInt* GttoKKT;
 
   QOCOInt Wnnz;
+
+  /** Static regularization parameter. */
+  QOCOFloat kkt_static_reg;
 };
 
 static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
@@ -80,6 +83,7 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   linsys_data->xyzbuff1 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->xyzbuff2 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->Wnnz = Wnnz;
+  linsys_data->kkt_static_reg = settings->kkt_static_reg;
 
   // Allocate memory for QDLDL.
   linsys_data->etree = qoco_malloc(sizeof(QOCOInt) * Kn);
@@ -182,6 +186,56 @@ static void qdldl_factor(LinSysData* linsys_data, QOCOInt n,
                kkt_dynamic_reg);
 }
 
+#ifdef QOCO_LOGGING
+/**
+ * @brief Logs the linear system solve error norm(K*x - b, inf) to f.
+ * Only compiled when QOCO_LOGGING is defined.
+ *
+ * Uses x_scratch (size n+p+m) as a temporary buffer. xyzbuff1 (the current
+ * solution in permuted space) and b (the permuted RHS) are not modified.
+ */
+static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
+                             QOCOFloat* b, QOCOFloat* x_scratch,
+                             const char* label, FILE* f)
+{
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
+  QOCOInt n = work->data->n;
+  QOCOInt p = work->data->p;
+  QOCOInt m = work->data->m;
+  QOCOInt N = linsys_data->K->n;
+
+  // Unscramble solution from permuted space into x_scratch.
+  for (QOCOInt k = 0; k < N; ++k) {
+    x_scratch[linsys_data->p[k]] = linsys_data->xyzbuff1[k];
+  }
+
+  // Compute K * x_scratch -> xyzbuff2 (CPU code does not use Wsoc_idx/soc_idx).
+  kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, Wfull, NULL, NULL,
+               xbuff, ubuff1, ubuff2);
+
+  // Add -eps*I terms on equality and NT block diagonals omitted by
+  // kkt_multiply.
+  QOCOFloat reg = linsys_data->kkt_static_reg;
+  for (QOCOInt k = n; k < n + p; ++k) {
+    linsys_data->xyzbuff2[k] -= reg * x_scratch[k];
+  }
+  for (QOCOInt k = n + p; k < n + p + m; ++k) {
+    linsys_data->xyzbuff2[k] -= reg * x_scratch[k];
+  }
+
+  // Compute r = b_perm - P*(K*x). Since P is a permutation, norm(P*v, inf) =
+  // norm(v, inf), so this equals norm(K*x - b, inf).
+  for (QOCOInt k = 0; k < N; ++k) {
+    x_scratch[k] = b[k] - linsys_data->xyzbuff2[linsys_data->p[k]];
+  }
+
+  fprintf(f, "  (%s): %.4e\n", label, inf_norm(x_scratch, N));
+}
+#endif
+
 static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         QOCOVectorf* b_vec, QOCOVectorf* x_vec,
                         QOCOInt iter_ref_iters)
@@ -201,6 +255,15 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   QDLDL_solve(linsys_data->K->n, linsys_data->Lp, linsys_data->Li,
               linsys_data->Lx, linsys_data->Dinv, linsys_data->xyzbuff1);
 
+#ifdef QOCO_LOGGING
+  static QOCOInt solve_count = 0;
+  FILE* log_f = fopen("qoco_linsys_errors.txt", solve_count == 0 ? "w" : "a");
+  if (log_f) {
+    fprintf(log_f, "Iteration: %d\n", solve_count);
+    log_linsys_error(linsys_data, work, b, x, "initial solve", log_f);
+  }
+#endif
+
   // Iterative refinement.
   QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
   QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
@@ -217,6 +280,7 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
     // CPU code does not use Wsoc_idx and soc_idx.
     kkt_multiply(x, linsys_data->xyzbuff2, work->data, Wfull, NULL, NULL, xbuff,
                  ubuff1, ubuff2);
+
     for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
       x[k] = linsys_data->xyzbuff2[linsys_data->p[k]];
     }
@@ -232,7 +296,19 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
     // x = x + dx.
     qoco_axpy(linsys_data->xyzbuff1, x, linsys_data->xyzbuff1, 1.0,
               linsys_data->K->n);
+
+#ifdef QOCO_LOGGING
+    // x holds dx which is no longer needed; safe to use as scratch here.
+    if (log_f) {
+      log_linsys_error(linsys_data, work, b, x, "refinement", log_f);
+    }
+#endif
   }
+
+#ifdef QOCO_LOGGING
+  if (log_f) fclose(log_f);
+  solve_count++;
+#endif
 
   for (QOCOInt i = 0; i < linsys_data->K->n; ++i) {
     x[linsys_data->p[i]] = linsys_data->xyzbuff1[i];

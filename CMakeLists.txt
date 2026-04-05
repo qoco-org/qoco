@@ -49,6 +49,13 @@ set(QDLDL_LONG OFF)
 # Option for single precision floating point.
 option(QOCO_SINGLE_PRECISION "Use single precision (float) instead of double precision" OFF)
 
+# Option to enable linear system solve error logging.
+option(QOCO_LOGGING "Print linear system solve errors (norm(Kx-b, inf)) to stdout" OFF)
+if(QOCO_LOGGING)
+    add_compile_definitions(QOCO_LOGGING)
+    message(STATUS "QOCO logging: ON")
+endif()
+
 # Set floating points precision.
 if(QOCO_SINGLE_PRECISION)
     message(STATUS "Using single precision floating point")
