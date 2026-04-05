@@ -1,0 +1,31 @@
+name: clang-format
+
+on:
+  push:
+    branches:
+      - "*"
+      - "*/*"
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+    types:
+      - opened
+      - synchronize
+      - reopened
+  workflow_dispatch:
+
+jobs:
+  clang-format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
+
+      - name: Check formatting
+        run: |
+          find src include algebra/builtin -name "*.c" -o -name "*.h" \
+          | xargs clang-format --dry-run --Werror

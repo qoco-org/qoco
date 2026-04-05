@@ -74,8 +74,12 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   work->scaling->Dinvruiz = new_qoco_vectorf(NULL, n);
   work->scaling->Einvruiz = new_qoco_vectorf(NULL, p);
   work->scaling->Finvruiz = new_qoco_vectorf(NULL, m);
-  work->data->AtoAt = qoco_malloc(Annz * sizeof(QOCOInt)); // NOLINT(clang-analyzer-optin.portability.UnixAPI)
-  work->data->GtoGt = qoco_malloc(Gnnz * sizeof(QOCOInt)); // NOLINT(clang-analyzer-optin.portability.UnixAPI)
+  work->data->AtoAt = qoco_malloc(
+      Annz *
+      sizeof(QOCOInt)); // NOLINT(clang-analyzer-optin.portability.UnixAPI)
+  work->data->GtoGt = qoco_malloc(
+      Gnnz *
+      sizeof(QOCOInt)); // NOLINT(clang-analyzer-optin.portability.UnixAPI)
 
   // When creating transposed matrices, get_csc_matrix should return host
   // pointers, since create_transposed_matrix is a host function.
@@ -260,8 +264,8 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
   return 0;
 }
 
-void qoco_update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bnew,
-                             QOCOFloat* hnew)
+void qoco_update_vector_data(QOCOSolver* solver, QOCOFloat* cnew,
+                             QOCOFloat* bnew, QOCOFloat* hnew)
 {
   solver->sol->status = QOCO_UNSOLVED;
   QOCOProblemData* data = solver->work->data;
@@ -315,8 +319,8 @@ void qoco_update_vector_data(QOCOSolver* solver, QOCOFloat* cnew, QOCOFloat* bne
   sync_vector_to_device(data->h);
 }
 
-void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Axnew,
-                             QOCOFloat* Gxnew)
+void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew,
+                             QOCOFloat* Axnew, QOCOFloat* Gxnew)
 {
   solver->sol->status = QOCO_UNSOLVED;
   QOCOProblemData* data = solver->work->data;
@@ -364,7 +368,8 @@ void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew, QOCOFloat* Ax
     for (QOCOInt i = 0; i < Pnnz - data->Pnum_nzadded; ++i) {
       if (i == avoid) {
         offset++;
-        avoid = (offset < data->Pnum_nzadded) ? data->Pnzadded_idx[offset] : Pnnz + 1;
+        avoid = (offset < data->Pnum_nzadded) ? data->Pnzadded_idx[offset]
+                                              : Pnnz + 1;
       }
       else {
         Px[i + offset] = Pxnew[i];
