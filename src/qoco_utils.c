@@ -91,7 +91,8 @@ void compute_scaling_statistics(QOCOProblemData* data)
 
   // Add c to objective range
   QOCOFloat* cdata = get_data_vectorf(data->c);
-  data->obj_range_min = qoco_min(data->obj_range_min, min_abs_val(cdata, data->n));
+  data->obj_range_min =
+      qoco_min(data->obj_range_min, min_abs_val(cdata, data->n));
   data->obj_range_max = qoco_max(data->obj_range_max, inf_norm(cdata, data->n));
 
   // Compute Constraint range: A and G
@@ -118,8 +119,10 @@ void compute_scaling_statistics(QOCOProblemData* data)
 
   if (data->m > 0) {
     QOCOFloat* hdata = get_data_vectorf(data->h);
-    data->rhs_range_min = qoco_min(data->rhs_range_min, min_abs_val(hdata, data->m));
-    data->rhs_range_max = qoco_max(data->rhs_range_max, inf_norm(hdata, data->m));
+    data->rhs_range_min =
+        qoco_min(data->rhs_range_min, min_abs_val(hdata, data->m));
+    data->rhs_range_max =
+        qoco_max(data->rhs_range_max, inf_norm(hdata, data->m));
   }
   // Handle case where all values are zero or value is -0.0 (set to 0.0)
   if (data->obj_range_min == QOCOFloat_MAX || data->obj_range_min == 0.0) {
