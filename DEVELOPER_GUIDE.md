@@ -155,6 +155,7 @@ GPU kernel launches use `set_cpu_mode(0)`.
 in `cudss_setup()` rather than linked at build time. This allows the binary to
 run on systems without a GPU (returning a graceful error) and avoids mandatory
 CUDA toolkit installation for users of the CPU backend. The libraries loaded are:
+
 - `libcudss.so` — NVIDIA cuDSS sparse direct solver
 - `libcusparse.so` — Sparse matrix operations
 - `libcublas.so` — Dense linear algebra
@@ -208,14 +209,14 @@ cmake --build build -j$(nproc)
 
 ### CMake options
 
-| Option | Default | Description |
-|--------|---------|-------------|
-| `QOCO_ALGEBRA_BACKEND` | `builtin` | Backend: `builtin` or `cuda` |
-| `QOCO_BUILD_TYPE` | `Release` | `Debug` (adds `-g`, ASAN/UBSAN on Unix) or `Release` (`-O3`) |
-| `QOCO_SINGLE_PRECISION` | `OFF` | Use `float` instead of `double` |
-| `ENABLE_TESTING` | `OFF` | Build and register test suite |
-| `BUILD_QOCO_DEMO` | `OFF` | Build `examples/qoco_demo` |
-| `BUILD_QOCO_BENCHMARK_RUNNER` | `OFF` | Build benchmark runner |
+| Option                        | Default   | Description                                                  |
+| ----------------------------- | --------- | ------------------------------------------------------------ |
+| `QOCO_ALGEBRA_BACKEND`        | `builtin` | Backend: `builtin` or `cuda`                                 |
+| `QOCO_BUILD_TYPE`             | `Release` | `Debug` (adds `-g`, ASAN/UBSAN on Unix) or `Release` (`-O3`) |
+| `QOCO_SINGLE_PRECISION`       | `OFF`     | Use `float` instead of `double`                              |
+| `ENABLE_TESTING`              | `OFF`     | Build and register test suite                                |
+| `BUILD_QOCO_DEMO`             | `OFF`     | Build `examples/qoco_demo`                                   |
+| `BUILD_QOCO_BENCHMARK_RUNNER` | `OFF`     | Build benchmark runner                                       |
 
 ---
 
@@ -226,25 +227,28 @@ Tests use Google Test and are run with `ctest`. All test executables link agains
 
 ### Test categories
 
-| Directory | Executable(s) | What it covers |
-|-----------|--------------|----------------|
-| `tests/unit_tests/` | `linalg_test`, `cone_test`, `input_validation_test` | Individual components |
-| `tests/simple_tests/` | `missing_constraints_test` | End-to-end with missing constraint types (LP-only, SOC-only) |
-| `tests/ocp/` | `lcvx_test`, `lcvx_bad_scaling_test`, `pdg_test` | Optimal control problems |
-| `tests/portfolio/` | `markowitz_test` | Portfolio optimization (Markowitz) |
+| Directory             | Executable(s)                                       | What it covers                                               |
+| --------------------- | --------------------------------------------------- | ------------------------------------------------------------ |
+| `tests/unit_tests/`   | `linalg_test`, `cone_test`, `input_validation_test` | Individual components                                        |
+| `tests/simple_tests/` | `missing_constraints_test`                          | End-to-end with missing constraint types (LP-only, SOC-only) |
+| `tests/ocp/`          | `lcvx_test`, `lcvx_bad_scaling_test`, `pdg_test`    | Optimal control problems                                     |
+| `tests/portfolio/`    | `markowitz_test`                                    | Portfolio optimization (Markowitz)                           |
 
 ### Unit test details
 
 **`linalg_test`** — covers the linalg layer:
+
 - CSC matrix creation and copying
 - Array copy / negate / scale
 - Dot products, sparse matrix-vector products
 
 **`cone_test`** — covers `src/cone.c`:
+
 - Cone products and divisions for LP and SOC cones
 - Mixed LP + SOC problems
 
 **`input_validation_test`** — covers `src/input_validation.c`:
+
 - Rejects invalid settings (tolerances, iteration counts, etc.)
 
 ### Integration tests
@@ -284,17 +288,17 @@ Triggers on every push and pull request.
 
 Runs the full test matrix in parallel (`fail-fast: false`):
 
-| OS | Compiler | Build types |
-|----|----------|-------------|
-| ubuntu-latest | clang | Debug, Release |
-| ubuntu-latest | gcc | Debug, Release |
-| macos-latest | clang | Debug, Release |
-| windows-latest | MSVC | Debug, Release |
+| OS             | Compiler | Build types    |
+| -------------- | -------- | -------------- |
+| ubuntu-latest  | clang    | Debug, Release |
+| macos-latest   | clang    | Debug, Release |
+| windows-latest | MSVC     | Debug, Release |
 
 The Debug build enables `-fsanitize=address,undefined` on Linux and macOS, so
 memory errors and undefined behaviour are caught automatically.
 
 **To reproduce a CI failure locally (e.g. ubuntu clang Debug):**
+
 ```bash
 cmake -B build -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
       -DQOCO_BUILD_TYPE=Debug -DENABLE_TESTING=True -S .
@@ -315,6 +319,7 @@ Disabled: `bugprone-easily-swappable-parameters`,
 All warnings are treated as errors.
 
 **To reproduce locally:**
+
 ```bash
 devtools/run_clang_tidy.sh
 ```
@@ -328,6 +333,7 @@ Runs `clang-format --dry-run --Werror` on all `.c` and `.h` files under
 formatted according to `.clang-format`.
 
 **To reproduce locally:**
+
 ```bash
 devtools/run_clang_format.sh --check   # check only (same as CI)
 devtools/run_clang_format.sh           # fix in place
