@@ -74,12 +74,8 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   work->scaling->Dinvruiz = new_qoco_vectorf(NULL, n);
   work->scaling->Einvruiz = new_qoco_vectorf(NULL, p);
   work->scaling->Finvruiz = new_qoco_vectorf(NULL, m);
-  work->data->AtoAt = qoco_malloc(
-      Annz *
-      sizeof(QOCOInt)); // NOLINT(clang-analyzer-optin.portability.UnixAPI)
-  work->data->GtoGt = qoco_malloc(
-      Gnnz *
-      sizeof(QOCOInt)); // NOLINT(clang-analyzer-optin.portability.UnixAPI)
+  work->data->AtoAt = Annz > 0 ? qoco_malloc(Annz * sizeof(QOCOInt)) : NULL;
+  work->data->GtoGt = Gnnz > 0 ? qoco_malloc(Gnnz * sizeof(QOCOInt)) : NULL;
 
   // When creating transposed matrices, get_csc_matrix should return host
   // pointers, since create_transposed_matrix is a host function.
