@@ -74,7 +74,7 @@ If you find QOCO useful please star the repository on `GitHub (QOCO) <https://gi
 .. code:: latex
 
   @article{chari2026qoco,
-    title = {QOCO: a quadratic objective conic optimizer with custom solver generation},
+    title = {{QOCO}: a quadratic objective conic optimizer with custom solver generation},
     author = {Chari, Govind M. and A\c{c}ıkmeşe, Beh\c{c}et},
     journal = {Mathematical Programming Computation},
     issn = {1867-2957},
@@ -89,7 +89,7 @@ If you find the GPU backend useful please cite the `QOCO GPU paper <https://arxi
 
 .. code:: latex
 
-  @article{chari2026qoco,
+  @article{chari2026gpu,
     title={{QOCO}-{GPU}: A Quadratic Objective Conic Optimizer with GPU Acceleration},
     author={Chari, Govind M and A{\c{c}}{\i}kme{\c{s}}e, Beh{\c{c}}et},
     journal={arXiv preprint arXiv:2603.29197},
