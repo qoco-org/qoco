@@ -32,27 +32,16 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
 
   for (QOCOInt i = 0; i < ruiz_iters; ++i) {
 
-    // Compute infinity norm of rows of [P A' G']
+    // --- Step 1: Compute D = diag(delta[0..n-1]) ---
+    // d(j) = 1 / sqrt(max(||col j of P||_inf, ||col j of A||_inf, ||col j of
+    // G||_inf))
     for (QOCOInt j = 0; j < data->n; ++j) {
       set_element_vectorf(scaling->delta, j, 0.0);
     }
-    g = inf_norm(cdata, data->n);
-    QOCOFloat Pinf_mean = 0.0;
     if (data->P) {
       col_inf_norm_USymm_matrix(data->P, delta_data);
-      for (QOCOInt j = 0; j < data->n; ++j) {
-        Pinf_mean += get_element_vectorf(scaling->delta, j);
-      }
-      Pinf_mean /= data->n;
     }
 
-    // g = 1 / max(mean(Pinf), norm(c, "inf"));
-    g = qoco_max(Pinf_mean, g);
-    g = safe_div(1.0, g);
-    scaling->k *= g;
-
-    // Compute column infinity norms of A and G
-    // For CSC format, column norms are computed efficiently
     QOCOFloat* Anorm = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * data->n);
     QOCOFloat* Gnorm = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * data->n);
     if (get_nnz(data->A) > 0) {
@@ -74,19 +63,16 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     qoco_free(Anorm);
     qoco_free(Gnorm);
 
-    // d(i) = 1 / sqrt(max([Pinf(i), Atinf(i), Gtinf(i)]));
     for (QOCOInt j = 0; j < data->n; ++j) {
       QOCOFloat temp = qoco_sqrt(get_element_vectorf(scaling->delta, j));
       temp = safe_div(1.0, temp);
       set_element_vectorf(scaling->delta, j, temp);
     }
 
-    // Compute infinity norm of rows of [A 0 0].
-    // For row norms, compute column norms of the transpose (At is stored in CSC
-    // format)
+    // --- Step 2: Compute E = diag(delta[n..n+p-1]) ---
+    // e(k) = 1 / sqrt(||row k of A||_inf)
     if (get_nnz(data->A) > 0) {
       col_inf_norm_matrix(data->At, &delta_data[data->n]);
-      // d(i) = 1 / sqrt(Ainf(i));
       for (QOCOInt k = 0; k < data->p; ++k) {
         QOCOFloat temp =
             qoco_sqrt(get_element_vectorf(scaling->delta, data->n + k));
@@ -95,12 +81,10 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
       }
     }
 
-    // Compute infinity norm of rows of [G 0 0].
-    // For row norms, compute column norms of the transpose (Gt is stored in CSC
-    // format)
+    // --- Step 3: Compute F = diag(delta[n+p..n+p+m-1]) ---
+    // f(k) = 1 / sqrt(||row k of G||_inf)
     if (get_nnz(data->G) > 0) {
       col_inf_norm_matrix(data->Gt, &delta_data[data->n + data->p]);
-      // d(i) = 1 / sqrt(Ginf(i));
       for (QOCOInt k = 0; k < data->m; ++k) {
         QOCOFloat temp = qoco_sqrt(
             get_element_vectorf(scaling->delta, data->n + data->p + k));
@@ -123,15 +107,13 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
       idx += qj;
     }
 
-    // Scale P.
+    // --- Step 4: Apply Ruiz step (D, E, F scaling) to all matrices ---
+    // Scale P by D*P*D.
     if (data->P) {
-      QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
-      scale_arrayf(Pcsc->x, Pcsc->x, g, get_nnz(data->P));
       row_col_scale_matrix(data->P, D, D);
     }
 
-    // Scale c.
-    scale_arrayf(cdata, cdata, g, data->n);
+    // Scale c by D.
     ew_product(cdata, D, cdata, data->n);
 
     // Scale A and G.
@@ -140,10 +122,35 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
     row_col_scale_matrix(data->At, D, E);
     row_col_scale_matrix(data->Gt, D, F);
 
-    // Update scaling matrices with delta.
+    // Update cumulative scaling matrices.
     ew_product(Druiz_data, D, Druiz_data, data->n);
     ew_product(Eruiz_data, E, Eruiz_data, data->p);
     ew_product(Fruiz_data, F, Fruiz_data, data->m);
+
+    // --- Step 5: Compute cost scaling g from the now-D-scaled P and c ---
+    // As per Algorithm 2 of the OSQP paper, gamma is computed after the Ruiz
+    // step so that it normalises the already-scaled quantities.
+    // delta[0..n-1] is no longer needed for D, so reuse it as scratch.
+    QOCOFloat Pinf_mean = 0.0;
+    if (data->P) {
+      col_inf_norm_USymm_matrix(data->P, delta_data);
+      for (QOCOInt j = 0; j < data->n; ++j) {
+        Pinf_mean += delta_data[j];
+      }
+      Pinf_mean /= data->n;
+    }
+
+    // g = 1 / max(mean(||P_i||_inf), ||c||_inf)
+    g = qoco_max(Pinf_mean, inf_norm(cdata, data->n));
+    g = safe_div(1.0, g);
+    scaling->k *= g;
+
+    // --- Step 6: Apply cost scaling g to P and c ---
+    if (data->P) {
+      QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
+      scale_arrayf(Pcsc->x, Pcsc->x, g, get_nnz(data->P));
+    }
+    scale_arrayf(cdata, cdata, g, data->n);
   }
 
   // Scale b.
