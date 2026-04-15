@@ -618,109 +618,213 @@ void compute_centering(QOCOSolver* solver)
 }
 
 /**
- * @brief Conducts linesearch by bisection to compute a \in (0, 1] such that
- * u + (a / f) * Du \in C
- * Warning: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du.
- * Consider a dedicated buffer for linesearch.
+ * @brief Compute maximum step length alpha >= 0 such that
+ * x + alpha * dx remains in the second-order cone.
  */
-QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
-                           QOCOFloat* ubuff, QOCOInt m, QOCOInt l, QOCOInt nsoc,
-                           QOCOInt* q, QOCOInt* soc_idx, QOCOInt bisect_iters)
+__device__ QOCOFloat soc_step_length_dev(const QOCOFloat* x, const QOCOFloat* dx,
+                                          QOCOInt n, QOCOFloat alpha_max)
 {
-  // Single thread only
-  QOCOFloat al = 0.0;
-  QOCOFloat au = 1.0;
-  QOCOFloat a = 0.0;
+  const QOCOFloat two = 2.0;
+  const QOCOFloat four = 4.0;
 
-  for (QOCOInt i = 0; i < bisect_iters; ++i) {
-    a = 0.5 * (al + au);
+  QOCOFloat alpha = alpha_max;
 
-    qoco_axpy(Du, u, ubuff, safe_div(a, f), m);
-
-    if (cone_residual(ubuff, l, nsoc, q, soc_idx) >= 0) {
-      au = a;
-    }
-    else {
-      al = a;
-    }
+  // ----------------------------------
+  // Scalar safeguard: x0 + alpha dx0 >= 0
+  // ----------------------------------
+  if (x[0] >= 0.0 && dx[0] < 0.0) {
+    QOCOFloat a = -x[0] / dx[0];
+    if (a < alpha)
+      alpha = a;
   }
-  return al;
+
+  // ----------------------------------
+  // Compute quadratic coefficients
+  // ----------------------------------
+
+  // a = dx0^2 - ||dx1||^2
+  QOCOFloat dx1_norm2 = 0.0;
+  for (QOCOInt i = 1; i < n; ++i)
+    dx1_norm2 += dx[i] * dx[i];
+  QOCOFloat a = dx[0] * dx[0] - dx1_norm2;
+
+  // b = 2*(x0*dx0 - x1^T dx1)
+  QOCOFloat x1dx1 = 0.0;
+  for (QOCOInt i = 1; i < n; ++i)
+    x1dx1 += x[i] * dx[i];
+  QOCOFloat b = two * (x[0] * dx[0] - x1dx1);
+
+  // c = x0^2 - ||x1||^2
+  QOCOFloat x1_norm2 = 0.0;
+  for (QOCOInt i = 1; i < n; ++i)
+    x1_norm2 += x[i] * x[i];
+  QOCOFloat c = x[0] * x[0] - x1_norm2;
+
+  if (c < 0.0)
+    c = 0.0; // numerical safeguard
+
+  // ----------------------------------
+  // Discriminant
+  // ----------------------------------
+  QOCOFloat d = b * b - four * a * c;
+
+  // ----------------------------------
+  // Case analysis (same as Clarabel)
+  // ----------------------------------
+
+  // No positive root → no restriction
+  if ((a > 0.0 && b > 0.0) || d < 0.0)
+    return alpha;
+
+  // Linear case
+  if (qoco_abs(a) < 1e-14)
+    return alpha;
+
+  // Boundary case
+  if (c == 0.0) {
+    if (a >= 0.0)
+      return alpha;
+    else
+      return 0.0;
+  }
+
+  // ----------------------------------
+  // Stable quadratic root computation
+  // ----------------------------------
+  QOCOFloat sqrt_d = qoco_sqrt(d);
+
+  QOCOFloat t;
+  if (b >= 0.0)
+    t = -b - sqrt_d;
+  else
+    t = -b + sqrt_d;
+
+  QOCOFloat r1 = (two * c) / t;
+  QOCOFloat r2 = t / (two * a);
+
+  // Keep only positive roots
+  if (r1 < 0.0)
+    r1 = QOCOFloat_MAX;
+  if (r2 < 0.0)
+    r2 = QOCOFloat_MAX;
+
+  QOCOFloat r = qoco_min(r1, r2);
+
+  if (r < alpha)
+    alpha = r;
+
+  return alpha;
 }
 
-__global__ void exact_linesearch_stage1(const QOCOFloat* u, const QOCOFloat* Du,
-                                        QOCOInt l, QOCOFloat* block_mins)
+/**
+ * @brief Parallel min reduction kernel: computes min(-x[i]/dx[i]) for dx[i] < 0
+ * over the LP cone. Each block writes its local minimum to block_out.
+ */
+__global__ void lp_step_length_kernel(const QOCOFloat* x, const QOCOFloat* dx,
+                                       QOCOInt n, QOCOFloat* block_out)
 {
   extern __shared__ QOCOFloat sdata[];
 
   QOCOInt tid = threadIdx.x;
   QOCOInt gid = blockIdx.x * blockDim.x + tid;
 
-  /* Initialize with neutral element */
-  QOCOFloat local_min = 0.0;
+  QOCOFloat val = QOCOFloat_MAX;
+  if (gid < n && dx[gid] < 0.0)
+    val = -x[gid] / dx[gid];
 
-  if (gid < l && Du[gid] < 0.0) {
-    local_min = Du[gid] / u[gid]; // negative
-  }
-
-  sdata[tid] = local_min;
+  sdata[tid] = val;
   __syncthreads();
 
-  /* Block-level min reduction */
   for (QOCOInt s = blockDim.x >> 1; s > 0; s >>= 1) {
-    if (tid < s) {
-      if (sdata[tid + s] < sdata[tid]) {
-        sdata[tid] = sdata[tid + s];
-      }
-    }
+    if (tid < s && sdata[tid + s] < sdata[tid])
+      sdata[tid] = sdata[tid + s];
     __syncthreads();
   }
 
-  /* Write block result */
-  if (tid == 0) {
-    block_mins[blockIdx.x] = sdata[0];
+  if (tid == 0)
+    block_out[blockIdx.x] = sdata[0];
+}
+
+/**
+ * @brief Single-thread kernel that sequentially applies the closed-form SOC
+ * step length to every second-order cone and writes the minimum into alpha_inout.
+ */
+__global__ void soc_step_length_kernel(const QOCOFloat* u, const QOCOFloat* Du,
+                                        const QOCOInt* q, QOCOInt nsoc, QOCOInt l,
+                                        QOCOFloat* alpha_inout)
+{
+  if (threadIdx.x != 0 || blockIdx.x != 0)
+    return;
+
+  QOCOFloat alpha = *alpha_inout;
+  QOCOInt idx = l;
+
+  for (QOCOInt i = 0; i < nsoc; ++i) {
+    QOCOInt qi = q[i];
+    QOCOFloat a = soc_step_length_dev(&u[idx], &Du[idx], qi, alpha);
+    if (a < alpha)
+      alpha = a;
+    idx += qi;
   }
+
+  *alpha_inout = alpha;
 }
 
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                      QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
-  QOCOProblemData* data = solver->work->data;
+  QOCOProblemData* data = work->data;
 
-  QOCOFloat a_host = 1.0;
+  QOCOFloat alpha = 1.0;
 
-  if (data->nsoc == 0 && data->l > 0) {
+  // ---------------------------
+  // LP cone
+  // ---------------------------
+  if (data->l > 0) {
     int threads = 1024;
     int blocks = (data->l + threads - 1) / threads;
-    QOCOFloat* block_mins;
-    cudaMalloc(&block_mins, blocks * sizeof(QOCOFloat));
 
-    // Produces an array of blocks elements with the min -Du[i]/u[i] for each
-    // block.
-    exact_linesearch_stage1<<<blocks, threads, threads * sizeof(QOCOFloat)>>>(
-        u, Du, data->l, block_mins);
+    QOCOFloat* d_block;
+    CUDA_CHECK(cudaMalloc(&d_block, blocks * sizeof(QOCOFloat)));
+
+    lp_step_length_kernel<<<blocks, threads, threads * sizeof(QOCOFloat)>>>(
+        u, Du, data->l, d_block);
     CUDA_CHECK(cudaGetLastError());
 
-    // Since every element of block_mins is negative, the minimum value is
-    // -inf_norm(block_mins)
-    QOCOFloat a = -inf_norm(block_mins, blocks);
-    if (-f < a) {
-      a_host = f;
+    // Final reduction over blocks on host
+    QOCOFloat* h_block = (QOCOFloat*)malloc(blocks * sizeof(QOCOFloat));
+    CUDA_CHECK(cudaMemcpy(h_block, d_block, blocks * sizeof(QOCOFloat),
+                          cudaMemcpyDeviceToHost));
+
+    for (int i = 0; i < blocks; ++i) {
+      if (h_block[i] < alpha)
+        alpha = h_block[i];
     }
-    else {
-      a_host = -f / a;
-    }
-    cudaFree(block_mins);
+
+    free(h_block);
+    CUDA_CHECK(cudaFree(d_block));
   }
-  else if (data->nsoc > 0) {
-    QOCOFloat* ubuff = get_data_vectorf(work->ubuff1);
-    QOCOInt* q = get_data_vectori(data->q);
-    QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
-    QOCOInt bisect_iters = solver->settings->bisect_iters;
-    a_host = bisection_search(u, Du, f, ubuff, data->m, data->l, data->nsoc, q,
-                              soc_idx, bisect_iters);
+
+  // ---------------------------
+  // SOC cones
+  // ---------------------------
+  if (data->nsoc > 0) {
+    QOCOFloat* d_alpha;
+    CUDA_CHECK(cudaMalloc(&d_alpha, sizeof(QOCOFloat)));
+    CUDA_CHECK(
+        cudaMemcpy(d_alpha, &alpha, sizeof(QOCOFloat), cudaMemcpyHostToDevice));
+
+    soc_step_length_kernel<<<1, 1>>>(u, Du, get_data_vectori(data->q),
+                                     data->nsoc, data->l, d_alpha);
+    CUDA_CHECK(cudaGetLastError());
+
+    CUDA_CHECK(
+        cudaMemcpy(&alpha, d_alpha, sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
+    CUDA_CHECK(cudaFree(d_alpha));
   }
-  return a_host;
+
+  return f * alpha;
 }
 
 void add_e(QOCOFloat* x, QOCOFloat a, QOCOInt l, QOCOInt nsoc, QOCOVectori* q)
