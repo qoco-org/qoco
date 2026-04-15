@@ -375,70 +375,223 @@ void compute_centering(QOCOSolver* solver)
   work->sigma = sigma * sigma * sigma;
 }
 
-/**
- * @brief Conducts linesearch by bisection to compute a \in (0, 1] such that
- * u + (a / f) * Du \in C
- * Warning: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du.
- * Consider a dedicated buffer for linesearch.
- */
-QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
-                           QOCOSolver* solver)
-{
-  QOCOWorkspace* work = solver->work;
-  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+// /**
+//  * @brief Conducts linesearch by bisection to compute a \in (0, 1] such that
+//  * u + (a / f) * Du \in C
+//  * Warning: linesearch overwrites ubuff1. Do not pass in ubuff1 into u or Du.
+//  * Consider a dedicated buffer for linesearch.
+//  */
+// QOCOFloat bisection_search(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
+//                            QOCOSolver* solver)
+// {
+//   QOCOWorkspace* work = solver->work;
+//   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
 
-  QOCOFloat al = 0.0;
-  QOCOFloat au = 1.0;
-  QOCOFloat a = 0.0;
-  for (QOCOInt i = 0; i < solver->settings->bisect_iters; ++i) {
-    a = 0.5 * (al + au);
-    qoco_axpy(Du, u, ubuff1, safe_div(a, f), work->data->m);
-    if (cone_residual(ubuff1, work->data->l, work->data->nsoc,
-                      get_data_vectori(work->data->q)) >= 0) {
-      au = a;
-    }
-    else {
-      al = a;
+//   QOCOFloat al = 0.0;
+//   QOCOFloat au = 1.0;
+//   QOCOFloat a = 0.0;
+//   for (QOCOInt i = 0; i < solver->settings->bisect_iters; ++i) {
+//     a = 0.5 * (al + au);
+//     qoco_axpy(Du, u, ubuff1, safe_div(a, f), work->data->m);
+//     if (cone_residual(ubuff1, work->data->l, work->data->nsoc,
+//                       get_data_vectori(work->data->q)) >= 0) {
+//       au = a;
+//     }
+//     else {
+//       al = a;
+//     }
+//   }
+//   return al;
+// }
+
+// /**
+//  * @brief Conducts exact linesearch to compute the largest a \in (0, 1] such
+//  * that u + (a / f) * Du \in C. Currently only works for LP cone.
+//  */
+// QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
+//                            QOCOSolver* solver)
+// {
+//   QOCOWorkspace* work = solver->work;
+
+//   QOCOFloat a = 1.0;
+//   QOCOFloat minval = 0;
+
+//   // Compute a for LP cones.
+//   for (QOCOInt i = 0; i < work->data->l; ++i) {
+//     if (Du[i] < minval * u[i])
+//       minval = Du[i] / u[i];
+//   }
+
+//   if (-f < minval)
+//     a = f;
+//   else
+//     a = -f / minval;
+
+//   return a;
+// }
+
+/**
+ * @brief Compute maximum step length alpha >= 0 such that
+ * x + alpha * dx remains in the nonnegative orthant.
+ */
+QOCOFloat lp_step_length(const QOCOFloat* x, const QOCOFloat* dx, QOCOInt n,
+                         QOCOFloat alpha_max)
+{
+  QOCOFloat alpha = alpha_max;
+
+  for (QOCOInt i = 0; i < n; ++i) {
+    if (dx[i] < 0.0) {
+      alpha = qoco_min(alpha, -x[i] / dx[i]);
     }
   }
-  return al;
+
+  return alpha;
 }
 
 /**
- * @brief Conducts exact linesearch to compute the largest a \in (0, 1] such
- * that u + (a / f) * Du \in C. Currently only works for LP cone.
+ * @brief Compute maximum step length alpha >= 0 such that
+ * x + alpha * dx remains in the second-order cone.
  */
-QOCOFloat exact_linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
-                           QOCOSolver* solver)
+QOCOFloat soc_step_length(const QOCOFloat* x, const QOCOFloat* dx, QOCOInt n,
+                          QOCOFloat alpha_max)
 {
-  QOCOWorkspace* work = solver->work;
+  const QOCOFloat two = 2.0;
+  const QOCOFloat four = 4.0;
 
-  QOCOFloat a = 1.0;
-  QOCOFloat minval = 0;
+  QOCOFloat alpha = alpha_max;
 
-  // Compute a for LP cones.
-  for (QOCOInt i = 0; i < work->data->l; ++i) {
-    if (Du[i] < minval * u[i])
-      minval = Du[i] / u[i];
+  // ----------------------------------
+  // Scalar safeguard: x0 + alpha dx0 >= 0
+  // ----------------------------------
+  if (x[0] >= 0.0 && dx[0] < 0.0) {
+    QOCOFloat a = -x[0] / dx[0];
+    if (a < alpha)
+      alpha = a;
   }
 
-  if (-f < minval)
-    a = f;
-  else
-    a = -f / minval;
+  // ----------------------------------
+  // Compute quadratic coefficients
+  // ----------------------------------
 
-  return a;
+  // a = dx0^2 - ||dx1||^2
+  QOCOFloat dx1_norm2 = 0.0;
+  for (QOCOInt i = 1; i < n; ++i) {
+    dx1_norm2 += dx[i] * dx[i];
+  }
+  QOCOFloat a = dx[0] * dx[0] - dx1_norm2;
+
+  // b = 2*(x0*dx0 - x1^T dx1)
+  QOCOFloat x1dx1 = 0.0;
+  for (QOCOInt i = 1; i < n; ++i) {
+    x1dx1 += x[i] * dx[i];
+  }
+  QOCOFloat b = two * (x[0] * dx[0] - x1dx1);
+
+  // c = x0^2 - ||x1||^2
+  QOCOFloat x1_norm2 = 0.0;
+  for (QOCOInt i = 1; i < n; ++i) {
+    x1_norm2 += x[i] * x[i];
+  }
+  QOCOFloat c = x[0] * x[0] - x1_norm2;
+
+  if (c < 0.0)
+    c = 0.0; // numerical safeguard
+
+  // ----------------------------------
+  // Discriminant
+  // ----------------------------------
+  QOCOFloat d = b * b - four * a * c;
+
+  // ----------------------------------
+  // Case analysis (same as Clarabel)
+  // ----------------------------------
+
+  // No positive root → no restriction
+  if ((a > 0.0 && b > 0.0) || d < 0.0) {
+    return alpha;
+  }
+
+  // Linear case
+  if (qoco_abs(a) < 1e-14) {
+    return alpha;
+  }
+
+  // Boundary case
+  if (c == 0.0) {
+    if (a >= 0.0)
+      return alpha;
+    else
+      return 0.0;
+  }
+
+  // ----------------------------------
+  // Stable quadratic root computation
+  // ----------------------------------
+
+  QOCOFloat sqrt_d = qoco_sqrt(d);
+
+  QOCOFloat t;
+  if (b >= 0.0) {
+    t = -b - sqrt_d;
+  }
+  else {
+    t = -b + sqrt_d;
+  }
+
+  QOCOFloat r1 = (two * c) / t;
+  QOCOFloat r2 = t / (two * a);
+
+  // Keep only positive roots
+  if (r1 < 0.0)
+    r1 = QOCOFloat_MAX;
+  if (r2 < 0.0)
+    r2 = QOCOFloat_MAX;
+
+  QOCOFloat r = qoco_min(r1, r2);
+
+  if (r < alpha)
+    alpha = r;
+
+  return alpha;
+}
+
+QOCOFloat cone_step_length(QOCOFloat* u, QOCOFloat* Du, QOCOProblemData* data)
+{
+  QOCOFloat alpha = 1.0;
+
+  QOCOInt idx = 0;
+
+  // ---------------------------
+  // LP cone
+  // ---------------------------
+  alpha = lp_step_length(&u[idx], &Du[idx], data->l, alpha);
+  idx += data->l;
+
+  // ---------------------------
+  // SOC cones
+  // ---------------------------
+  for (QOCOInt i = 0; i < data->nsoc; ++i) {
+    QOCOInt qi = get_element_vectori(data->q, i);
+
+    QOCOFloat a = soc_step_length(&u[idx], &Du[idx], qi, alpha);
+
+    if (a < alpha)
+      alpha = a;
+
+    idx += qi;
+  }
+
+  return alpha;
 }
 
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
                      QOCOSolver* solver)
 {
-  if (solver->work->data->nsoc == 0) {
-    return exact_linesearch(u, Du, f, solver);
-  }
-  else {
-    return bisection_search(u, Du, f, solver);
-  }
+  QOCOWorkspace* work = solver->work;
+
+  QOCOFloat alpha = cone_step_length(u, Du, work->data);
+
+  return f * alpha;
 }
 
 void add_e(QOCOFloat* x, QOCOFloat a, QOCOInt l, QOCOInt nsoc, QOCOVectori* q)
