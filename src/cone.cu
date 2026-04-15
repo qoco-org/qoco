@@ -748,18 +748,35 @@ __global__ void lp_step_length_kernel(const QOCOFloat* x, const QOCOFloat* dx,
 
 /**
  * @brief Parallel kernel: one thread per SOC cone computes the closed-form step
- * length and writes it to alpha_out[tid]. Launch with blockDim.x == nsoc.
+ * length, then a shared-memory min-reduction writes each block's minimum to
+ * block_out. Launch with blockDim.x == 1024.
  */
 __global__ void soc_step_length_kernel(const QOCOFloat* u, const QOCOFloat* Du,
                                        const QOCOInt* q, const QOCOInt* soc_idx,
                                        QOCOInt nsoc, QOCOFloat alpha_lp,
-                                       QOCOFloat* alpha_out)
+                                       QOCOFloat* block_out)
 {
-  QOCOInt tid = threadIdx.x;
+  extern __shared__ QOCOFloat sdata[];
 
-  if (tid < nsoc)
-    alpha_out[tid] = soc_step_length_dev(&u[soc_idx[tid]], &Du[soc_idx[tid]],
-                                         q[tid], alpha_lp);
+  QOCOInt tid = threadIdx.x;
+  QOCOInt gid = blockIdx.x * blockDim.x + tid;
+
+  QOCOFloat val = QOCOFloat_MAX;
+  if (gid < nsoc)
+    val = soc_step_length_dev(&u[soc_idx[gid]], &Du[soc_idx[gid]], q[gid],
+                              alpha_lp);
+
+  sdata[tid] = val;
+  __syncthreads();
+
+  for (QOCOInt s = blockDim.x >> 1; s > 0; s >>= 1) {
+    if (tid < s && sdata[tid + s] < sdata[tid])
+      sdata[tid] = sdata[tid + s];
+    __syncthreads();
+  }
+
+  if (tid == 0)
+    block_out[blockIdx.x] = sdata[0];
 }
 
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
@@ -802,28 +819,29 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   // SOC cones
   // ---------------------------
   if (data->nsoc > 0) {
-    QOCOFloat* d_soc_alphas;
-    CUDA_CHECK(cudaMalloc(&d_soc_alphas, data->nsoc * sizeof(QOCOFloat)));
+    int threads = 1024;
+    int blocks = (data->nsoc + threads - 1) / threads;
 
-    soc_step_length_kernel<<<1, data->nsoc>>>(
+    QOCOFloat* d_block;
+    CUDA_CHECK(cudaMalloc(&d_block, blocks * sizeof(QOCOFloat)));
+
+    soc_step_length_kernel<<<blocks, threads, threads * sizeof(QOCOFloat)>>>(
         u, Du, get_data_vectori(data->q), get_data_vectori(work->soc_idx),
-        data->nsoc, alpha, d_soc_alphas);
+        data->nsoc, alpha, d_block);
     CUDA_CHECK(cudaGetLastError());
 
-    // Copy per-SOC step lengths to host and take the minimum.
-    QOCOFloat* h_soc_alphas =
-        (QOCOFloat*)malloc(data->nsoc * sizeof(QOCOFloat));
-    CUDA_CHECK(cudaMemcpy(h_soc_alphas, d_soc_alphas,
-                          data->nsoc * sizeof(QOCOFloat),
+    // Final reduction over blocks on host.
+    QOCOFloat* h_block = (QOCOFloat*)malloc(blocks * sizeof(QOCOFloat));
+    CUDA_CHECK(cudaMemcpy(h_block, d_block, blocks * sizeof(QOCOFloat),
                           cudaMemcpyDeviceToHost));
 
-    for (int i = 0; i < data->nsoc; ++i) {
-      if (h_soc_alphas[i] < alpha)
-        alpha = h_soc_alphas[i];
+    for (int i = 0; i < blocks; ++i) {
+      if (h_block[i] < alpha)
+        alpha = h_block[i];
     }
 
-    free(h_soc_alphas);
-    CUDA_CHECK(cudaFree(d_soc_alphas));
+    free(h_block);
+    CUDA_CHECK(cudaFree(d_block));
   }
 
   // Safeguard against step-sizes which are too small.
