@@ -1,7 +1,11 @@
 <map id="/home/govind/Desktop/git/qoco/include/input_validation.h" name="/home/govind/Desktop/git/qoco/include/input_validation.h">
-<area shape="rect" id="node1" title=" " alt="" coords="226,5,395,61"/>
-<area shape="rect" id="node2" href="$qoco__api_8h.html" title=" " alt="" coords="92,109,295,151"/>
-<area shape="rect" id="node5" href="$input__validation_8c.html" title=" " alt="" coords="319,109,540,151"/>
-<area shape="rect" id="node3" href="$qoco_8h.html" title=" " alt="" coords="5,199,181,240"/>
-<area shape="rect" id="node4" href="$qoco__api_8c.html" title=" " alt="" coords="206,199,381,240"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="226,5,395,60"/>
+<area shape="rect" id="Node000002" href="$qoco__api_8h.html" title=" " alt="" coords="92,108,295,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,71,219,110,215,106,265,67"/>
+<area shape="rect" id="Node000005" href="$input__validation_8c.html" title=" " alt="" coords="319,108,540,148"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="357,67,407,106,404,110,354,71"/>
+<area shape="rect" id="Node000003" href="$qoco_8h.html" title=" " alt="" coords="5,196,181,236"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="163,159,117,198,114,194,159,155"/>
+<area shape="rect" id="Node000004" href="$qoco__api_8c.html" title=" " alt="" coords="206,196,381,236"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="228,155,273,194,269,198,224,159"/>
 </map>

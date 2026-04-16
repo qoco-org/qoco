@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dot_285',['dot',['../linalg_8h.html#af6aa23417cb2b6b034862e9c268876fb',1,'dot(const QOCOFloat *u, const QOCOFloat *v, QOCOInt n):&#160;linalg.c'],['../linalg_8c.html#af6aa23417cb2b6b034862e9c268876fb',1,'dot(const QOCOFloat *u, const QOCOFloat *v, QOCOInt n):&#160;linalg.c']]]
+  ['ew_5fproduct_0',['ew_product',['../qoco__linalg_8h.html#ada738414c28d331a24f6095fafebe1c9',1,'qoco_linalg.h']]]
 ];

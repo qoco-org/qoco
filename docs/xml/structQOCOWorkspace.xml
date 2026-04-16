@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="structQOCOWorkspace" kind="struct" language="C++" prot="public">
     <compoundname>QOCOWorkspace</compoundname>
     <includes refid="structs_8h" local="no">structs.h</includes>
-      <sectiondef kind="public-attrib">
+    <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" prot="public" static="no" mutable="no">
         <type><ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref> *</type>
         <definition>QOCOProblemData* QOCOWorkspace::data</definition>
         <argsstring></argsstring>
         <name>data</name>
+        <qualifiedname>QOCOWorkspace::data</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -16,13 +17,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="242" column="19" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="242" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="179" column="19" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="179" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOWorkspace_1a1e42af4dbb27330568497c58e92cfea2" prot="public" static="no" mutable="no">
-        <type>QOCOTimer</type>
+        <type><ref refid="structQOCOTimer" kindref="compound">QOCOTimer</ref></type>
         <definition>QOCOTimer QOCOWorkspace::solve_timer</definition>
         <argsstring></argsstring>
         <name>solve_timer</name>
+        <qualifiedname>QOCOWorkspace::solve_timer</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -30,27 +32,29 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="245" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="245" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="182" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="182" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" prot="public" static="no" mutable="no">
-        <type><ref refid="structQOCOKKT" kindref="compound">QOCOKKT</ref> *</type>
-        <definition>QOCOKKT* QOCOWorkspace::kkt</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a4583ac450199045eaaf9e1eec2c94787" prot="public" static="no" mutable="no">
+        <type><ref refid="structQOCOScaling" kindref="compound">QOCOScaling</ref> *</type>
+        <definition>QOCOScaling* QOCOWorkspace::scaling</definition>
         <argsstring></argsstring>
-        <name>kkt</name>
+        <name>scaling</name>
+        <qualifiedname>QOCOWorkspace::scaling</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>Contains all data related to KKT system. </para>
+<para>Contains all data related problem scaling. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="248" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="248" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="185" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="185" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::x</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a30928c4b06196be4fef0d922ddfcc7c3" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::x</definition>
         <argsstring></argsstring>
         <name>x</name>
+        <qualifiedname>QOCOWorkspace::x</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -58,13 +62,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="251" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="251" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="188" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="188" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a002ae166cc6aecae4752707d5d363b4f" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::s</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a14c8f516c5fe9eb4af0aaf5f26d33a9c" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::s</definition>
         <argsstring></argsstring>
         <name>s</name>
+        <qualifiedname>QOCOWorkspace::s</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -72,13 +77,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="254" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="254" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="191" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="191" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1ac41c22bfe9821570218e52e527b90b9e" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::y</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a3ede9ce91deb30cac4acb61050f3c783" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::y</definition>
         <argsstring></argsstring>
         <name>y</name>
+        <qualifiedname>QOCOWorkspace::y</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -86,13 +92,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="257" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="257" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="194" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="194" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a6ebb2d02f31c2a1866076b4165f07a54" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::z</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a6922f90b08638739b8ab12d891d92f14" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::z</definition>
         <argsstring></argsstring>
         <name>z</name>
+        <qualifiedname>QOCOWorkspace::z</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -100,13 +107,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="260" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="260" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="197" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="197" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOWorkspace_1a24869d9e9aa5cbcfd7451ab6219a011f" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
         <definition>QOCOFloat QOCOWorkspace::mu</definition>
         <argsstring></argsstring>
         <name>mu</name>
+        <qualifiedname>QOCOWorkspace::mu</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -114,13 +122,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="263" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="263" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="200" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="200" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOWorkspace_1a04dfe46d9df29667a1241255569456d0" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
         <definition>QOCOFloat QOCOWorkspace::a</definition>
         <argsstring></argsstring>
         <name>a</name>
+        <qualifiedname>QOCOWorkspace::a</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -128,13 +137,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="266" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="266" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="203" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="203" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOWorkspace_1aec13ff096706e16f9458c354dede1dab" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
         <definition>QOCOFloat QOCOWorkspace::sigma</definition>
         <argsstring></argsstring>
         <name>sigma</name>
+        <qualifiedname>QOCOWorkspace::sigma</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -142,13 +152,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="269" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="269" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="206" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="206" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOWorkspace_1aa43b26d800f4371c0ddf16d22978b94c" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
         <definition>QOCOInt QOCOWorkspace::Wnnz</definition>
         <argsstring></argsstring>
         <name>Wnnz</name>
+        <qualifiedname>QOCOWorkspace::Wnnz</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -156,13 +167,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="272" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="272" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="209" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="209" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOWorkspace_1a266fcd28cf2cfd16369a1f3e7f55bc38" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
         <definition>QOCOInt QOCOWorkspace::Wnnzfull</definition>
         <argsstring></argsstring>
         <name>Wnnzfull</name>
+        <qualifiedname>QOCOWorkspace::Wnnzfull</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -170,13 +182,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="275" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="275" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="212" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="212" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a090e9a2bda01d9afaeb6d723012c0c0b" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::W</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1aa094f791b64b15638d2529b5b257440b" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::W</definition>
         <argsstring></argsstring>
         <name>W</name>
+        <qualifiedname>QOCOWorkspace::W</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -184,13 +197,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="278" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="278" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="215" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="215" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1ac6167675f75b92721d71e26f7438a29e" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::Wfull</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a2783299c20c4a9b9e9cfd7826fe12663" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::Wfull</definition>
         <argsstring></argsstring>
         <name>Wfull</name>
+        <qualifiedname>QOCOWorkspace::Wfull</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -198,13 +212,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="281" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="281" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="218" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="218" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a6967ce11381cadffa62570866eee2c09" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::Winv</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1ae38a797e1db7c3704cded158275e5111" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::Winv</definition>
         <argsstring></argsstring>
         <name>Winv</name>
+        <qualifiedname>QOCOWorkspace::Winv</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -212,13 +227,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="284" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="284" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="221" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="221" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a29bea851e0fff76a4173b777eb263d41" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::Winvfull</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a1fb66a45700355299f1bb7ab982d34bc" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::Winvfull</definition>
         <argsstring></argsstring>
         <name>Winvfull</name>
+        <qualifiedname>QOCOWorkspace::Winvfull</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -226,13 +242,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="287" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="287" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="224" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="224" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a058dfbd7bf8f83c61e81d9985ec1a0ff" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::WtW</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a3861100e66e84d8ef41a4f9aaed0ad42" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::WtW</definition>
         <argsstring></argsstring>
         <name>WtW</name>
+        <qualifiedname>QOCOWorkspace::WtW</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -240,13 +257,44 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="290" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="290" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="227" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="227" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1ae51fe619a4326ae51b2058838e1aa2ae" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::lambda</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a4f5f84c9ecd0b710f5faff71f855117c" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref> *</type>
+        <definition>QOCOVectori* QOCOWorkspace::Wsoc_idx</definition>
+        <argsstring></argsstring>
+        <name>Wsoc_idx</name>
+        <qualifiedname>QOCOWorkspace::Wsoc_idx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Vector which points to the start of the ith soc block in Wfull </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="230" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a94466bf08d01d93faf9d1e0d3f2580f0" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref> *</type>
+        <definition>QOCOVectori* QOCOWorkspace::soc_idx</definition>
+        <argsstring></argsstring>
+        <name>soc_idx</name>
+        <qualifiedname>QOCOWorkspace::soc_idx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Vector which points to the start of the start of the ith soc variable block </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="234" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a5c92f05a611c038abc1de2162a4dd933" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::lambda</definition>
         <argsstring></argsstring>
         <name>lambda</name>
+        <qualifiedname>QOCOWorkspace::lambda</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -254,13 +302,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="293" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="293" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="237" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="237" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a48685f3f6a25e3f6f9d052a04ecad1dc" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::sbar</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a47a9699123dd010eec49d0ff3836a411" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::sbar</definition>
         <argsstring></argsstring>
         <name>sbar</name>
+        <qualifiedname>QOCOWorkspace::sbar</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -268,13 +317,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="297" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="297" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="241" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="241" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a2f5ae5af745301de6b8bcaa455279e80" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::zbar</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1ac6da0bca203267cd36c44680d0a70e54" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::zbar</definition>
         <argsstring></argsstring>
         <name>zbar</name>
+        <qualifiedname>QOCOWorkspace::zbar</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -282,13 +332,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="301" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="301" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="245" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="245" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::xbuff</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1ab57502774ed32ecfb2962918134d71d5" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::xbuff</definition>
         <argsstring></argsstring>
         <name>xbuff</name>
+        <qualifiedname>QOCOWorkspace::xbuff</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -296,13 +347,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="304" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="304" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="248" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="248" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::ybuff</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1aaff384efaf15c562e24ed372cfe503ad" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::ybuff</definition>
         <argsstring></argsstring>
         <name>ybuff</name>
+        <qualifiedname>QOCOWorkspace::ybuff</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -310,13 +362,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="307" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="307" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="251" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="251" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::ubuff1</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a3f6aea0073617905a48fd5a4939bb85b" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::ubuff1</definition>
         <argsstring></argsstring>
         <name>ubuff1</name>
+        <qualifiedname>QOCOWorkspace::ubuff1</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -324,13 +377,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="310" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="310" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="254" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="254" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a69686f6f9be8831adc15b675c9a8901b" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::ubuff2</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a5afb44f83a267a2c0ebdb7776cf183da" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::ubuff2</definition>
         <argsstring></argsstring>
         <name>ubuff2</name>
+        <qualifiedname>QOCOWorkspace::ubuff2</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -338,13 +392,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="313" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="313" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="257" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="257" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1ac6d7f378e50078c8df22229a64f63335" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::ubuff3</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a5f0fbf7c496c89aa650c8d9bf60305e1" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::ubuff3</definition>
         <argsstring></argsstring>
         <name>ubuff3</name>
+        <qualifiedname>QOCOWorkspace::ubuff3</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -352,13 +407,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="316" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="316" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="260" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="260" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structQOCOWorkspace_1a2152c26a211c0054631fcfdc22c84bc2" prot="public" static="no" mutable="no">
-        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-        <definition>QOCOFloat* QOCOWorkspace::Ds</definition>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a05ad3b6cf854c94bc15f058dc7bd6764" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::Ds</definition>
         <argsstring></argsstring>
         <name>Ds</name>
+        <qualifiedname>QOCOWorkspace::Ds</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -366,32 +422,86 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="319" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="319" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="263" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="263" bodyend="-1"/>
       </memberdef>
-      </sectiondef>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a97655951b8e53329f2030b03e0a21b4d" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::rhs</definition>
+        <argsstring></argsstring>
+        <name>rhs</name>
+        <qualifiedname>QOCOWorkspace::rhs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RHS of KKT system. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="266" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a3bdc3e951631fcf44f0d957c84912b5d" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::xyz</definition>
+        <argsstring></argsstring>
+        <name>xyz</name>
+        <qualifiedname>QOCOWorkspace::xyz</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Solution of KKT system. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="269" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOWorkspace_1a21755dbb4f418600fa4bdfeec4b01d6b" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::xyzbuff1</definition>
+        <argsstring></argsstring>
+        <name>xyzbuff1</name>
+        <qualifiedname>QOCOWorkspace::xyzbuff1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Buffer of size n + m + p. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="272" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOWorkspace_1ad07be1b7e3b9e3f01330bad1496a6e1e" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOWorkspace::kktres</definition>
+        <argsstring></argsstring>
+        <name>kktres</name>
+        <qualifiedname>QOCOWorkspace::kktres</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Residual of KKT condition. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="275" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <briefdescription>
 <para>QOCO Workspace. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="4">
-        <label>QOCOKKT</label>
-        <link refid="structQOCOKKT"/>
-        <childnode refid="3" relation="usage">
-          <edgelabel>K</edgelabel>
-        </childnode>
-      </node>
       <node id="2">
         <label>QOCOProblemData</label>
         <link refid="structQOCOProblemData"/>
-        <childnode refid="3" relation="usage">
-          <edgelabel>A</edgelabel>
-          <edgelabel>At</edgelabel>
-          <edgelabel>G</edgelabel>
-          <edgelabel>Gt</edgelabel>
-          <edgelabel>P</edgelabel>
-        </childnode>
+      </node>
+      <node id="4">
+        <label>QOCOScaling</label>
+        <link refid="structQOCOScaling"/>
+      </node>
+      <node id="3">
+        <label>QOCOTimer</label>
+        <link refid="structQOCOTimer"/>
       </node>
       <node id="1">
         <label>QOCOWorkspace</label>
@@ -399,43 +509,48 @@
         <childnode refid="2" relation="usage">
           <edgelabel>data</edgelabel>
         </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>solve_timer</edgelabel>
+        </childnode>
         <childnode refid="4" relation="usage">
-          <edgelabel>kkt</edgelabel>
+          <edgelabel>scaling</edgelabel>
         </childnode>
       </node>
-      <node id="3">
-        <label>QOCOCscMatrix</label>
-        <link refid="structQOCOCscMatrix"/>
-      </node>
     </collaborationgraph>
-    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="240" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="240" bodyend="321"/>
+    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="177" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="177" bodyend="277"/>
     <listofallmembers>
       <member refid="structQOCOWorkspace_1a04dfe46d9df29667a1241255569456d0" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>a</name></member>
       <member refid="structQOCOWorkspace_1af43c13687a7775620c8f817a076227a2" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>data</name></member>
-      <member refid="structQOCOWorkspace_1a2152c26a211c0054631fcfdc22c84bc2" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Ds</name></member>
-      <member refid="structQOCOWorkspace_1ac24765599d57154f6018a884b48844ce" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>kkt</name></member>
-      <member refid="structQOCOWorkspace_1ae51fe619a4326ae51b2058838e1aa2ae" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>lambda</name></member>
+      <member refid="structQOCOWorkspace_1a05ad3b6cf854c94bc15f058dc7bd6764" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Ds</name></member>
+      <member refid="structQOCOWorkspace_1ad07be1b7e3b9e3f01330bad1496a6e1e" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>kktres</name></member>
+      <member refid="structQOCOWorkspace_1a5c92f05a611c038abc1de2162a4dd933" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>lambda</name></member>
       <member refid="structQOCOWorkspace_1a24869d9e9aa5cbcfd7451ab6219a011f" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>mu</name></member>
-      <member refid="structQOCOWorkspace_1a002ae166cc6aecae4752707d5d363b4f" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>s</name></member>
-      <member refid="structQOCOWorkspace_1a48685f3f6a25e3f6f9d052a04ecad1dc" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>sbar</name></member>
+      <member refid="structQOCOWorkspace_1a97655951b8e53329f2030b03e0a21b4d" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>rhs</name></member>
+      <member refid="structQOCOWorkspace_1a14c8f516c5fe9eb4af0aaf5f26d33a9c" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>s</name></member>
+      <member refid="structQOCOWorkspace_1a47a9699123dd010eec49d0ff3836a411" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>sbar</name></member>
+      <member refid="structQOCOWorkspace_1a4583ac450199045eaaf9e1eec2c94787" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>scaling</name></member>
       <member refid="structQOCOWorkspace_1aec13ff096706e16f9458c354dede1dab" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>sigma</name></member>
+      <member refid="structQOCOWorkspace_1a94466bf08d01d93faf9d1e0d3f2580f0" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>soc_idx</name></member>
       <member refid="structQOCOWorkspace_1a1e42af4dbb27330568497c58e92cfea2" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>solve_timer</name></member>
-      <member refid="structQOCOWorkspace_1a7369470409a139d98b2078a8ba11a45a" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>ubuff1</name></member>
-      <member refid="structQOCOWorkspace_1a69686f6f9be8831adc15b675c9a8901b" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>ubuff2</name></member>
-      <member refid="structQOCOWorkspace_1ac6d7f378e50078c8df22229a64f63335" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>ubuff3</name></member>
-      <member refid="structQOCOWorkspace_1a090e9a2bda01d9afaeb6d723012c0c0b" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>W</name></member>
-      <member refid="structQOCOWorkspace_1ac6167675f75b92721d71e26f7438a29e" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Wfull</name></member>
-      <member refid="structQOCOWorkspace_1a6967ce11381cadffa62570866eee2c09" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Winv</name></member>
-      <member refid="structQOCOWorkspace_1a29bea851e0fff76a4173b777eb263d41" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Winvfull</name></member>
+      <member refid="structQOCOWorkspace_1a3f6aea0073617905a48fd5a4939bb85b" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>ubuff1</name></member>
+      <member refid="structQOCOWorkspace_1a5afb44f83a267a2c0ebdb7776cf183da" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>ubuff2</name></member>
+      <member refid="structQOCOWorkspace_1a5f0fbf7c496c89aa650c8d9bf60305e1" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>ubuff3</name></member>
+      <member refid="structQOCOWorkspace_1aa094f791b64b15638d2529b5b257440b" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>W</name></member>
+      <member refid="structQOCOWorkspace_1a2783299c20c4a9b9e9cfd7826fe12663" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Wfull</name></member>
+      <member refid="structQOCOWorkspace_1ae38a797e1db7c3704cded158275e5111" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Winv</name></member>
+      <member refid="structQOCOWorkspace_1a1fb66a45700355299f1bb7ab982d34bc" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Winvfull</name></member>
       <member refid="structQOCOWorkspace_1aa43b26d800f4371c0ddf16d22978b94c" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Wnnz</name></member>
       <member refid="structQOCOWorkspace_1a266fcd28cf2cfd16369a1f3e7f55bc38" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Wnnzfull</name></member>
-      <member refid="structQOCOWorkspace_1a058dfbd7bf8f83c61e81d9985ec1a0ff" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>WtW</name></member>
-      <member refid="structQOCOWorkspace_1aa41f5e07236e756b74cc5a8a19645917" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>x</name></member>
-      <member refid="structQOCOWorkspace_1aa134684318c23648ab32df1b09547b1f" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>xbuff</name></member>
-      <member refid="structQOCOWorkspace_1ac41c22bfe9821570218e52e527b90b9e" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>y</name></member>
-      <member refid="structQOCOWorkspace_1a92d74672f162a42197b232bf07c4c3c7" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>ybuff</name></member>
-      <member refid="structQOCOWorkspace_1a6ebb2d02f31c2a1866076b4165f07a54" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>z</name></member>
-      <member refid="structQOCOWorkspace_1a2f5ae5af745301de6b8bcaa455279e80" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>zbar</name></member>
+      <member refid="structQOCOWorkspace_1a4f5f84c9ecd0b710f5faff71f855117c" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>Wsoc_idx</name></member>
+      <member refid="structQOCOWorkspace_1a3861100e66e84d8ef41a4f9aaed0ad42" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>WtW</name></member>
+      <member refid="structQOCOWorkspace_1a30928c4b06196be4fef0d922ddfcc7c3" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>x</name></member>
+      <member refid="structQOCOWorkspace_1ab57502774ed32ecfb2962918134d71d5" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>xbuff</name></member>
+      <member refid="structQOCOWorkspace_1a3bdc3e951631fcf44f0d957c84912b5d" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>xyz</name></member>
+      <member refid="structQOCOWorkspace_1a21755dbb4f418600fa4bdfeec4b01d6b" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>xyzbuff1</name></member>
+      <member refid="structQOCOWorkspace_1a3ede9ce91deb30cac4acb61050f3c783" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>y</name></member>
+      <member refid="structQOCOWorkspace_1aaff384efaf15c562e24ed372cfe503ad" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>ybuff</name></member>
+      <member refid="structQOCOWorkspace_1a6922f90b08638739b8ab12d891d92f14" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>z</name></member>
+      <member refid="structQOCOWorkspace_1ac6da0bca203267cd36c44680d0a70e54" prot="public" virt="non-virtual"><scope>QOCOWorkspace</scope><name>zbar</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

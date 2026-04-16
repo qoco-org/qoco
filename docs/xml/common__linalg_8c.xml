@@ -1,0 +1,912 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="common__linalg_8c" kind="file" language="C++">
+    <compoundname>common_linalg.c</compoundname>
+    <includes refid="common__linalg_8h" local="yes">common_linalg.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>common_linalg.h</label>
+        <link refid="common__linalg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>qoco_config.h</label>
+        <link refid="qoco__config_8h"/>
+      </node>
+      <node id="8">
+        <label>qoco_linalg.h</label>
+        <link refid="qoco__linalg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/src/common_linalg.c</label>
+        <link refid="common__linalg_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>limits.h</label>
+      </node>
+      <node id="6">
+        <label>math.h</label>
+      </node>
+      <node id="7">
+        <label>stdlib.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="common__linalg_8c_1aee3e38a0a2ca8e152d295f6eb4930eb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix * construct_identity</definition>
+        <argsstring>(QOCOInt n, QOCOFloat lambda)</argsstring>
+        <name>construct_identity</name>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>lambda</declname>
+        </param>
+        <briefdescription>
+<para>Allocates a new csc matrix that is lambda * I. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of identity matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lambda</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scaling factor for identity. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to new constructed matrix. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="13" column="15" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="13" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1a3a69bdbcd3432b9ee2690798a89322ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt count_diag</definition>
+        <argsstring>(QOCOCscMatrix *M)</argsstring>
+        <name>count_diag</name>
+        <param>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <briefdescription>
+<para>Counts the number of diagonal elements in upper triangular CSC matrix M. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input matrix. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of nonzeros on the diagonal of M. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="39" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="39" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1a654736a13e5ca7ff1d9155196c2ebff2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix * regularize_P</definition>
+        <argsstring>(QOCOInt num_diagP, QOCOCscMatrix *P, QOCOFloat reg, QOCOInt *nzadded_idx)</argsstring>
+        <name>regularize_P</name>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>num_diagP</declname>
+        </param>
+        <param>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>P</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>nzadded_idx</declname>
+        </param>
+        <briefdescription>
+<para>Adds reg * I to a CSC matrix. Called on P prior to construction of KKT system in <ref refid="qoco__api_8h_1ace38c86b1bc257945fe160f54b354b23" kindref="member">qoco_setup()</ref>. This function calls realloc() when adding new nonzeros. Matrix P is freed using free_qoco_csc_matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>num_diagP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of new element added to diagonal. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>P</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Matrix to be regularized. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Regularization factor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nzadded_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Indices of elements of M-&gt;x that are added. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>P + reg * I. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="52" column="15" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="52" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1ad6f0a241171053d252ef5ff6c7cdf53a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void unregularize</definition>
+        <argsstring>(QOCOCscMatrix *M, QOCOFloat lambda)</argsstring>
+        <name>unregularize</name>
+        <param>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>lambda</declname>
+        </param>
+        <briefdescription>
+<para>Subtracts lambda * I from a CSC matrix. Called on P when updating matrix data in <ref refid="qoco__api_8h_1a3ad5090a130a314458cd1105bc6585b2" kindref="member">qoco_update_matrix_data()</ref>. This function does not allocate and must be called after regularize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lambda</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Regularization. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="112" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="112" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1a824536c623fa28c6bbe4b820ab6ba65a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void col_inf_norm_USymm</definition>
+        <argsstring>(const QOCOCscMatrix *M, QOCOFloat *norm)</argsstring>
+        <name>col_inf_norm_USymm</name>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>norm</declname>
+        </param>
+        <briefdescription>
+<para>Computes the infinity norm of each column (or equivalently row) of a symmetric sparse matrix M where only the upper triangular portion of M is given. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper triangular part of sparse symmetric matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>norm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result vector of length n. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="133" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="133" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1abf6e8c0cf0e159a274a22f192246dd50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void col_inf_norm</definition>
+        <argsstring>(const QOCOCscMatrix *M, QOCOFloat *norm)</argsstring>
+        <name>col_inf_norm</name>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>norm</declname>
+        </param>
+        <briefdescription>
+<para>Computes the infinity norm of each column of M and stores in norm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An m by n sparse matrix in CSC format. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>norm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result vector of length n. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="153" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="153" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1a0b420ad549447d77bf28bf2732108203" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void row_inf_norm</definition>
+        <argsstring>(const QOCOCscMatrix *M, QOCOFloat *norm)</argsstring>
+        <name>row_inf_norm</name>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>norm</declname>
+        </param>
+        <briefdescription>
+<para>Computes the infinity norm of each row of M and stores in norm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An m by n sparse matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>norm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result vector of length m. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="172" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="172" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1a82ac590ae06d9452239c13448e267578" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix * create_transposed_matrix</definition>
+        <argsstring>(const QOCOCscMatrix *A, QOCOInt *AtoAt)</argsstring>
+        <name>create_transposed_matrix</name>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>AtoAt</declname>
+        </param>
+        <briefdescription>
+<para>Allocates and computes A^T. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>AtoAt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mapping from A to At. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="187" column="15" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="187" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1a2fae5e0df1f9fb3d70115f91a74c9e99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void row_col_scale</definition>
+        <argsstring>(const QOCOCscMatrix *M, QOCOFloat *E, QOCOFloat *D)</argsstring>
+        <name>row_col_scale</name>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>E</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>D</declname>
+        </param>
+        <briefdescription>
+<para>Scales the rows of M by E and columns of M by D. M = diag(E) * M * diag(D) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An m by n sparse matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>E</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of length m. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>D</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of length n. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="232" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="232" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1a9399c635b5b4fb0e61f186adfc1d0df2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void invert_permutation</definition>
+        <argsstring>(const QOCOInt *p, QOCOInt *pinv, QOCOInt n)</argsstring>
+        <name>invert_permutation</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>pinv</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Inverts permutation vector p and stores inverse in pinv. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input permutation vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pinv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inverse of permutation vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of vectors. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="241" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="241" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1a26c94e421ef7f9b5895f6b040069c631" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt cumsum</definition>
+        <argsstring>(QOCOInt *p, QOCOInt *c, QOCOInt n)</argsstring>
+        <name>cumsum</name>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Computes cumulative sum of c. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Cumulative sum of c. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="248" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="248" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="common__linalg_8c_1ad7c4cf626ccc5e582d4081ef08803667" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix * csc_symperm</definition>
+        <argsstring>(const QOCOCscMatrix *A, const QOCOInt *pinv, QOCOInt *AtoC)</argsstring>
+        <name>csc_symperm</name>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>pinv</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>AtoC</declname>
+        </param>
+        <briefdescription>
+<para>C = A(p,p) = PAP&apos; where A and C are symmetric and the upper triangular part is stored. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pinv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>AtoC</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>QOCOCscMatrix* </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c" line="263" column="15" bodyfile="/home/govind/Desktop/git/qoco/src/common_linalg.c" bodystart="263" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="qoco__api_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2025, Govind M. Chari This source code is licensed under the BSD 3-Clause License </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="common__linalg_8h" kindref="compound">common_linalg.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/><ref refid="common__linalg_8c_1aee3e38a0a2ca8e152d295f6eb4930eb1" kindref="member">construct_identity</ref>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>lambda)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>M<sp/>=<sp/><ref refid="definitions_8h_1a152b57b6c087787118c75653da56d76b" kindref="member">qoco_malloc</ref>(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>));</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x<sp/>=<sp/><ref refid="definitions_8h_1a152b57b6c087787118c75653da56d76b" kindref="member">qoco_malloc</ref>(n<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>));</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>p<sp/>=<sp/><ref refid="definitions_8h_1a152b57b6c087787118c75653da56d76b" kindref="member">qoco_malloc</ref>((n<sp/>+<sp/>1)<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>));</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>i<sp/>=<sp/><ref refid="definitions_8h_1a152b57b6c087787118c75653da56d76b" kindref="member">qoco_malloc</ref>(n<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>));</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref><sp/>=<sp/>n;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref><sp/>=<sp/>n;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref><sp/>=<sp/>n;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref><sp/>=<sp/>x;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref><sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref><sp/>=<sp/>p;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/>n;<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[k]<sp/>=<sp/>k;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>[k]<sp/>=<sp/>lambda;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/>n<sp/>+<sp/>1;<sp/>++k)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[k]<sp/>=<sp/>k;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>M;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="common__linalg_8c_1a3a69bdbcd3432b9ee2690798a89322ff" kindref="member">count_diag</ref>(<ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>M)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>look<sp/>for<sp/>nonempty<sp/>columns<sp/>with<sp/>final<sp/>element</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>on<sp/>the<sp/>diagonal.<sp/><sp/>Assumes<sp/>triu<sp/>format.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j<sp/>+<sp/>1]<sp/>!=<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j])<sp/>&amp;&amp;<sp/>(M-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j<sp/>+<sp/>1]<sp/>-<sp/>1]<sp/>==<sp/>j))<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>count++;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/><ref refid="common__linalg_8c_1a654736a13e5ca7ff1d9155196c2ebff2" kindref="member">regularize_P</ref>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>num_diagP,<sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>P,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>reg,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>nzadded_idx)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n<sp/>=<sp/>P-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>orig_nnz<sp/>=<sp/>P-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>new_nnz<sp/>=</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>orig_nnz<sp/>+<sp/>(n<sp/>-<sp/>num_diagP);<sp/></highlight><highlight class="comment">//<sp/>We<sp/>insert<sp/>one<sp/>element<sp/>per<sp/>missing<sp/>diagonal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocate<sp/>new<sp/>matrix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>Preg<sp/>=<sp/>(<ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*)malloc(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/>Preg-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref><sp/>=<sp/>n;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/>Preg-&gt;n<sp/>=<sp/>n;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>Preg-&gt;nnz<sp/>=<sp/>new_nnz;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/>Preg-&gt;x<sp/>=<sp/>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*)malloc(new_nnz<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>Preg-&gt;i<sp/>=<sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*)malloc(new_nnz<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/>Preg-&gt;p<sp/>=<sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*)malloc((n<sp/>+<sp/>1)<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>orig_pos,<sp/>new_pos<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/>Preg-&gt;p[0]<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>num_nz<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>n;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>inserted_diag<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(orig_pos<sp/>=<sp/>P-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j];<sp/>orig_pos<sp/>&lt;<sp/>P-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j<sp/>+<sp/>1];<sp/>++orig_pos)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>row<sp/>=<sp/>P-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[orig_pos];</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!inserted_diag<sp/>&amp;&amp;<sp/>row<sp/>&gt;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>missing<sp/>diagonal<sp/>before<sp/>this<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Preg-&gt;i[new_pos]<sp/>=<sp/>j;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Preg-&gt;x[new_pos]<sp/>=<sp/>reg;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++new_pos;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inserted_diag<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>Preg-&gt;i[new_pos]<sp/>=<sp/>row;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>Preg-&gt;x[new_pos]<sp/>=<sp/>(row<sp/>==<sp/>j)<sp/>?<sp/>P-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>[orig_pos]<sp/>+<sp/>reg<sp/>:<sp/>P-&gt;x[orig_pos];</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(row<sp/>==<sp/>j)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inserted_diag<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>++new_pos;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>entries<sp/>or<sp/>diagonal<sp/>still<sp/>missing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!inserted_diag)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>Preg-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[new_pos]<sp/>=<sp/>j;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>Preg-&gt;x[new_pos]<sp/>=<sp/>reg;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(nzadded_idx)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nzadded_idx[num_nz]<sp/>=<sp/>new_pos;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>num_nz++;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>++new_pos;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>Preg-&gt;p[j<sp/>+<sp/>1]<sp/>=<sp/>new_pos;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><ref refid="qoco__linalg_8h_1a4e4c7c1df7c224d28c9ee82553cfda94" kindref="member">free_qoco_csc_matrix</ref>(P);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Preg;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="common__linalg_8c_1ad6f0a241171053d252ef5ff6c7cdf53a" kindref="member">unregularize</ref>(<ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>M,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>lambda)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Iterate<sp/>over<sp/>each<sp/>column.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>col<sp/>=<sp/>0;<sp/>col<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;<sp/>col++)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>start<sp/>=<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[col];</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>end<sp/>=<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[col<sp/>+<sp/>1];</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Iterate<sp/>over<sp/>the<sp/>elements<sp/>in<sp/>the<sp/>current<sp/>column.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>insert_set<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>start;<sp/>i<sp/>&lt;<sp/>end;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!insert_set<sp/>&amp;&amp;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[i]<sp/>&gt;<sp/>col)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>insert_set<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(M-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[i]<sp/>==<sp/>col)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>[i]<sp/>-=<sp/>lambda;<sp/></highlight><highlight class="comment">//<sp/>Add<sp/>lambda<sp/>to<sp/>the<sp/>diagonal<sp/>element.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="common__linalg_8c_1a824536c623fa28c6bbe4b820ab6ba65a" kindref="member">col_inf_norm_USymm</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>M,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>norm)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>idx<sp/>=<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j];<sp/>idx<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j<sp/>+<sp/>1];<sp/>idx++)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>row<sp/>=<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[idx];</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>val<sp/>=<sp/><ref refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" kindref="member">qoco_abs</ref>(M-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>[idx]);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val<sp/>&gt;<sp/>norm[j])<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>norm[j]<sp/>=<sp/>val;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(row<sp/>!=<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val<sp/>&gt;<sp/>norm[row])<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>norm[row]<sp/>=<sp/>val;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="common__linalg_8c_1abf6e8c0cf0e159a274a22f192246dd50" kindref="member">col_inf_norm</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>M,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>norm)</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>norm<sp/>array<sp/>to<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>norm[j]<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>CSC<sp/>format,<sp/>column<sp/>norms<sp/>are<sp/>computed<sp/>efficiently<sp/>by<sp/>iterating<sp/>over</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>columns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>idx<sp/>=<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j];<sp/>idx<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j<sp/>+<sp/>1];<sp/>idx++)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>val<sp/>=<sp/><ref refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" kindref="member">qoco_abs</ref>(M-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>[idx]);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(val<sp/>&gt;<sp/>norm[j])<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>norm[j]<sp/>=<sp/>val;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="common__linalg_8c_1a0b420ad549447d77bf28bf2732108203" kindref="member">row_inf_norm</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>M,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>norm)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref>;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>nrm<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>xi;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>nz<sp/>=<sp/>0;<sp/>nz<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref>;<sp/>++nz)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>==<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[nz])<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xi<sp/>=<sp/><ref refid="definitions_8h_1ac4f16c2e8de46f259db17adff54309ed" kindref="member">qoco_abs</ref>(M-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>[nz]);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nrm<sp/>=<sp/><ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(nrm,<sp/>xi);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>norm[i]<sp/>=<sp/>nrm;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/><ref refid="common__linalg_8c_1a82ac590ae06d9452239c13448e267578" kindref="member">create_transposed_matrix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>A,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>AtoAt)</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>B<sp/>=<sp/><ref refid="definitions_8h_1a152b57b6c087787118c75653da56d76b" kindref="member">qoco_malloc</ref>(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/>B-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref><sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/>B-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref><sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/>B-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref><sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref>;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocate<sp/>memory<sp/>for<sp/>the<sp/>transpose<sp/>matrix.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/>B-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref><sp/>=<sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*)<ref refid="definitions_8h_1a152b57b6c087787118c75653da56d76b" kindref="member">qoco_malloc</ref>((A-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref><sp/>+<sp/>1)<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(int));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/>B-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref><sp/>=<sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*)<ref refid="definitions_8h_1a152b57b6c087787118c75653da56d76b" kindref="member">qoco_malloc</ref>(A-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref><sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/>B-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref><sp/>=<sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*)<ref refid="definitions_8h_1a152b57b6c087787118c75653da56d76b" kindref="member">qoco_malloc</ref>(A-&gt;<ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref><sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Count<sp/>the<sp/>number<sp/>of<sp/>non-zeros<sp/>in<sp/>each<sp/>row.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>row_counts<sp/>=<sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*)calloc(A-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref>,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>));</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j];<sp/>i<sp/>&lt;<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j<sp/>+<sp/>1];<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>row_counts[A-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[i]]++;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/>B-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[0]<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref>;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>B-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[i<sp/>+<sp/>1]<sp/>=<sp/>B-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[i]<sp/>+<sp/>row_counts[i];</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>temp<sp/>=<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">*)calloc(</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>A-&gt;<ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref>,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">));<sp/></highlight><highlight class="comment">//<sp/>To<sp/>track<sp/>the<sp/>insertion<sp/>position<sp/>for<sp/>each<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j];<sp/>i<sp/>&lt;<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j<sp/>+<sp/>1];<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>row<sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[i];</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dest_pos<sp/>=<sp/>B-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[row]<sp/>+<sp/>temp[row];</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>B-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[dest_pos]<sp/>=<sp/>j;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Column<sp/>index<sp/>becomes<sp/>row<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>B-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>[dest_pos]<sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>[i];<sp/></highlight><highlight class="comment">//<sp/>Value<sp/>remains<sp/>the<sp/>same</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>AtoAt[i]<sp/>=<sp/>dest_pos;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>temp[row]++;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a1796cf4b640966b437f6f89369303dd7" kindref="member">qoco_free</ref>(row_counts);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a1796cf4b640966b437f6f89369303dd7" kindref="member">qoco_free</ref>(temp);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>B;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="common__linalg_8c_1a2fae5e0df1f9fb3d70115f91a74c9e99" kindref="member">row_col_scale</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>M,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>E,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>D)</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j];<sp/>i<sp/>&lt;<sp/>M-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>[j<sp/>+<sp/>1];<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>M-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>[i]<sp/>*=<sp/>(D[j]<sp/>*<sp/>E[M-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>[i]]);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="common__linalg_8c_1a9399c635b5b4fb0e61f186adfc1d0df2" kindref="member">invert_permutation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>p,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>pinv,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n)</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>pinv[p[i]]<sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="common__linalg_8c_1a26c94e421ef7f9b5895f6b040069c631" kindref="member">cumsum</ref>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>p,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>c,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n)</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aa543bca1d1ce32c19086397f611075fe" kindref="member">qoco_assert</ref>(p);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aa543bca1d1ce32c19086397f611075fe" kindref="member">qoco_assert</ref>(c);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>nz<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>p[i]<sp/>=<sp/>nz;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>nz<sp/>+=<sp/>c[i];</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>c[i]<sp/>=<sp/>p[i];</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/>p[n]<sp/>=<sp/>nz;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nz;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/><ref refid="common__linalg_8c_1ad7c4cf626ccc5e582d4081ef08803667" kindref="member">csc_symperm</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>A,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>pinv,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>AtoC)</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>i,<sp/>j,<sp/>p,<sp/>q,<sp/>i2,<sp/>j2,<sp/>n;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>Ap;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>Ai;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>Cp;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>Ci;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>w;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Cx;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Ax;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>C;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/>n<sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/>Ap<sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/>Ai<sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/>Ax<sp/>=<sp/>A-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/>C<sp/>=<sp/><ref refid="qoco__linalg_8h_1af97e3ab5938ed2924134c4239ec109f3" kindref="member">new_qoco_csc_matrix</ref>(A);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/>w<sp/>=<sp/><ref refid="definitions_8h_1a44ae01b192007f6085a5097b15752094" kindref="member">qoco_calloc</ref>(n,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>));</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aa543bca1d1ce32c19086397f611075fe" kindref="member">qoco_assert</ref>(C);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aa543bca1d1ce32c19086397f611075fe" kindref="member">qoco_assert</ref>(w);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/>Cp<sp/>=<sp/>C-&gt;<ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/>Ci<sp/>=<sp/>C-&gt;<ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/>Cx<sp/>=<sp/>C-&gt;<ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>n;<sp/>j++)<sp/></highlight><highlight class="comment">/*<sp/>count<sp/>entries<sp/>in<sp/>each<sp/>column<sp/>of<sp/>C<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>j2<sp/>=<sp/>pinv<sp/>?<sp/>pinv[j]<sp/>:<sp/>j;<sp/></highlight><highlight class="comment">/*<sp/>column<sp/>j<sp/>of<sp/>A<sp/>is<sp/>column<sp/>j2<sp/>of<sp/>C<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(p<sp/>=<sp/>Ap[j];<sp/>p<sp/>&lt;<sp/>Ap[j<sp/>+<sp/>1];<sp/>p++)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>i<sp/>=<sp/>Ai[p];</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;<sp/>j)</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>skip<sp/>lower<sp/>triangular<sp/>part<sp/>of<sp/>A<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>i2<sp/>=<sp/>pinv<sp/>?<sp/>pinv[i]<sp/>:<sp/>i;<sp/></highlight><highlight class="comment">/*<sp/>row<sp/>i<sp/>of<sp/>A<sp/>is<sp/>row<sp/>i2<sp/>of<sp/>C<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>w[<ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(i2,<sp/>j2)]++;<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>column<sp/>count<sp/>of<sp/>C<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><ref refid="common__linalg_8c_1a26c94e421ef7f9b5895f6b040069c631" kindref="member">cumsum</ref>(Cp,<sp/>w,<sp/>n);<sp/></highlight><highlight class="comment">/*<sp/>compute<sp/>column<sp/>pointers<sp/>of<sp/>C<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>n;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>j2<sp/>=<sp/>pinv<sp/>?<sp/>pinv[j]<sp/>:<sp/>j;<sp/></highlight><highlight class="comment">/*<sp/>column<sp/>j<sp/>of<sp/>A<sp/>is<sp/>column<sp/>j2<sp/>of<sp/>C<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(p<sp/>=<sp/>Ap[j];<sp/>p<sp/>&lt;<sp/>Ap[j<sp/>+<sp/>1];<sp/>p++)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>i<sp/>=<sp/>Ai[p];</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;<sp/>j)</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>skip<sp/>lower<sp/>triangular</highlight></codeline>
+<codeline lineno="313"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>part<sp/>of<sp/>A*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>i2<sp/>=<sp/>pinv<sp/>?<sp/>pinv[i]<sp/>:<sp/>i;<sp/></highlight><highlight class="comment">/*<sp/>row<sp/>i<sp/>of<sp/>A<sp/>is<sp/>row<sp/>i2</highlight></codeline>
+<codeline lineno="315"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>of<sp/>C<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>Ci[q<sp/>=<sp/>w[<ref refid="definitions_8h_1aef7019cb0e7922c31100c20048252108" kindref="member">qoco_max</ref>(i2,<sp/>j2)]++]<sp/>=<sp/><ref refid="definitions_8h_1a428961e6b5fcdacdfee91ea6be5cc0ca" kindref="member">qoco_min</ref>(i2,<sp/>j2);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(Cx)</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Cx[q]<sp/>=<sp/>Ax[p];</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>AtoC[p]<sp/>=<sp/>q;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a1796cf4b640966b437f6f89369303dd7" kindref="member">qoco_free</ref>(w);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>C;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/src/common_linalg.c"/>
+  </compounddef>
+</doxygen>

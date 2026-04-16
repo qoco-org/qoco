@@ -1,0 +1,46 @@
+\doxysection{timer.\+h}
+\hypertarget{timer_8h_source}{}\label{timer_8h_source}\index{/home/govind/Desktop/git/qoco/include/timer.h@{/home/govind/Desktop/git/qoco/include/timer.h}}
+\mbox{\hyperlink{timer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ QOCO\_TIMER\_H}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ QOCO\_TIMER\_H}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{definitions_8h}{definitions.h}}"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#ifdef\ IS\_LINUX}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00023\ \ \ \textcolor{keyword}{struct\ }timespec\ tic;}
+\DoxyCodeLine{00024\ \ \ \textcolor{keyword}{struct\ }timespec\ toc;}
+\DoxyCodeLine{00025\ \}\ \mbox{\hyperlink{structQOCOTimer}{QOCOTimer}};}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#ifdef\ IS\_MACOS}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <mach/mach\_time.h>}}
+\DoxyCodeLine{00030\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00031\ \ \ uint64\_t\ tic;}
+\DoxyCodeLine{00032\ \ \ uint64\_t\ toc;}
+\DoxyCodeLine{00033\ \ \ mach\_timebase\_info\_data\_t\ tinfo;}
+\DoxyCodeLine{00034\ \}\ \mbox{\hyperlink{structQOCOTimer}{QOCOTimer}};}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#ifdef\ IS\_WINDOWS}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ NOGDI}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#include\ <windows.h>}}
+\DoxyCodeLine{00040\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00041\ \ \ LARGE\_INTEGER\ tic;}
+\DoxyCodeLine{00042\ \ \ LARGE\_INTEGER\ toc;}
+\DoxyCodeLine{00043\ \ \ LARGE\_INTEGER\ freq;}
+\DoxyCodeLine{00044\ \}\ \mbox{\hyperlink{structQOCOTimer}{QOCOTimer}};}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{timer_8h_a7469e0d577f6670cfd46b636d47a6e82}{start\_timer}}(\mbox{\hyperlink{structQOCOTimer}{QOCOTimer}}*\ timer);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00059\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{timer_8h_acfd10eed45b36f806cb9f6da35044e8e}{stop\_timer}}(\mbox{\hyperlink{structQOCOTimer}{QOCOTimer}}*\ timer);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00068\ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{timer_8h_a4ea3627b111cae5ddb7b1bc76a113eb5}{get\_elapsed\_time\_sec}}(\mbox{\hyperlink{structQOCOTimer}{QOCOTimer}}*\ timer);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ \#ifndef\ QOCO\_TIMER\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

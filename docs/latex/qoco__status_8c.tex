@@ -1,0 +1,80 @@
+\doxysection{/home/govind/\+Desktop/git/qoco/src/qoco\+\_\+status.c File Reference}
+\hypertarget{qoco__status_8c}{}\label{qoco__status_8c}\index{/home/govind/Desktop/git/qoco/src/qoco\_status.c@{/home/govind/Desktop/git/qoco/src/qoco\_status.c}}
+{\ttfamily \#include "{}qoco\+\_\+status.\+h"{}}\newline
+Include dependency graph for qoco\+\_\+status.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{qoco__status_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{qoco__status_8c_ad7b3a55bfa4f5de621ac7fb6bccf1732}{qoco\+\_\+error}} (enum \mbox{\hyperlink{enums_8h_a39468918ae64e75b2f3b79b76fb752e5}{qoco\+\_\+error\+\_\+code}} error\+\_\+code)
+\begin{DoxyCompactList}\small\item\em Function to print error messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{qoco__status_8c_a37259e919d1dac6865b8ee674e8b7568}{QOCO\+\_\+\+ERROR\+\_\+\+MESSAGE}} \mbox{[}$\,$\mbox{]}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{qoco__status_8c_aaba44f3a663e3fdffab51406a5f9f85f}{QOCO\+\_\+\+SOLVE\+\_\+\+STATUS\+\_\+\+MESSAGE}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{qoco__status_8c_ad7b3a55bfa4f5de621ac7fb6bccf1732}\label{qoco__status_8c_ad7b3a55bfa4f5de621ac7fb6bccf1732} 
+\index{qoco\_status.c@{qoco\_status.c}!qoco\_error@{qoco\_error}}
+\index{qoco\_error@{qoco\_error}!qoco\_status.c@{qoco\_status.c}}
+\doxysubsubsection{\texorpdfstring{qoco\_error()}{qoco\_error()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} qoco\+\_\+error (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{enums_8h_a39468918ae64e75b2f3b79b76fb752e5}{qoco\+\_\+error\+\_\+code}}}]{error\+\_\+code }\end{DoxyParamCaption})}
+
+
+
+Function to print error messages. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em error\+\_\+code} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code as an QOCOInt. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{qoco__status_8c_a37259e919d1dac6865b8ee674e8b7568}\label{qoco__status_8c_a37259e919d1dac6865b8ee674e8b7568} 
+\index{qoco\_status.c@{qoco\_status.c}!QOCO\_ERROR\_MESSAGE@{QOCO\_ERROR\_MESSAGE}}
+\index{QOCO\_ERROR\_MESSAGE@{QOCO\_ERROR\_MESSAGE}!qoco\_status.c@{qoco\_status.c}}
+\doxysubsubsection{\texorpdfstring{QOCO\_ERROR\_MESSAGE}{QOCO\_ERROR\_MESSAGE}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} QOCO\+\_\+\+ERROR\+\_\+\+MESSAGE\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \textcolor{stringliteral}{"{}"{}},\ }
+\DoxyCodeLine{\ \ \textcolor{stringliteral}{"{}data\ validation\ error"{}},}
+\DoxyCodeLine{\ \ \textcolor{stringliteral}{"{}settings\ validation\ error"{}},}
+\DoxyCodeLine{\ \ \textcolor{stringliteral}{"{}amd\ error"{}},}
+\DoxyCodeLine{\ \ \textcolor{stringliteral}{"{}memory\ allocation\ error"{}}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{qoco__status_8c_aaba44f3a663e3fdffab51406a5f9f85f}\label{qoco__status_8c_aaba44f3a663e3fdffab51406a5f9f85f} 
+\index{qoco\_status.c@{qoco\_status.c}!QOCO\_SOLVE\_STATUS\_MESSAGE@{QOCO\_SOLVE\_STATUS\_MESSAGE}}
+\index{QOCO\_SOLVE\_STATUS\_MESSAGE@{QOCO\_SOLVE\_STATUS\_MESSAGE}!qoco\_status.c@{qoco\_status.c}}
+\doxysubsubsection{\texorpdfstring{QOCO\_SOLVE\_STATUS\_MESSAGE}{QOCO\_SOLVE\_STATUS\_MESSAGE}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} QOCO\+\_\+\+SOLVE\+\_\+\+STATUS\+\_\+\+MESSAGE\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \textcolor{stringliteral}{"{}unsolved"{}},\ }
+\DoxyCodeLine{\ \ \textcolor{stringliteral}{"{}solved"{}},}
+\DoxyCodeLine{\ \ \textcolor{stringliteral}{"{}solved\ inaccurately"{}},}
+\DoxyCodeLine{\ \ \textcolor{stringliteral}{"{}numerical\ error"{}},}
+\DoxyCodeLine{\ \ \textcolor{stringliteral}{"{}maximum\ iterations\ reached"{}},}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

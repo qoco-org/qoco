@@ -1,0 +1,877 @@
+\doxysection{/home/govind/\+Desktop/git/qoco/include/qoco\+\_\+linalg.h File Reference}
+\hypertarget{qoco__linalg_8h}{}\label{qoco__linalg_8h}\index{/home/govind/Desktop/git/qoco/include/qoco\_linalg.h@{/home/govind/Desktop/git/qoco/include/qoco\_linalg.h}}
+{\ttfamily \#include "{}definitions.\+h"{}}\newline
+Include dependency graph for qoco\+\_\+linalg.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{qoco__linalg_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{qoco__linalg_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}}
+\begin{DoxyCompactList}\small\item\em Compressed sparse column format matrices. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct QOCOMatrix\+\_\+ \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}}
+\item 
+typedef struct QOCOVectorf\+\_\+ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}
+\item 
+typedef struct QOCOVectori\+\_\+ \mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a24b40500c9bfa96f5038a51acedc8b4e}{set\+\_\+cpu\+\_\+mode}} (int active)
+\begin{DoxyCompactList}\small\item\em Sets the CPU mode flag (CUDA backend only). During CPU mode, get\+\_\+... functions returns host pointers, otherwise device pointers are returned. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{qoco__linalg_8h_af97e3ab5938ed2924134c4239ec109f3}{new\+\_\+qoco\+\_\+csc\+\_\+matrix}} (const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}A)
+\begin{DoxyCompactList}\small\item\em Allocates a new csc matrix and copies A to it. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{qoco__linalg_8h_a0b1d7dcd153c5b594e896092638f39cd}{new\+\_\+qoco\+\_\+matrix}} (const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}A)
+\begin{DoxyCompactList}\small\item\em Allocates a new QOCOMatrix and copies A to it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a759a18e640a746004804562dce3ea204}{free\+\_\+qoco\+\_\+matrix}} (\mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}A)
+\begin{DoxyCompactList}\small\item\em Frees QOCOMatrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{qoco__linalg_8h_adb28b0f965091f5fc7f80a71546eb186}{new\+\_\+qoco\+\_\+vectorf}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Allocates a new QOCOVectorf and copies x to it. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{qoco__linalg_8h_a9e158865766c60cd31a6c4d16c34d7be}{new\+\_\+qoco\+\_\+vectori}} (const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Allocates a new QOCOVectori and copies x to it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a39f7d558d7047ea8b5900f29e1ec5020}{free\+\_\+qoco\+\_\+vectorf}} (\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}x)
+\begin{DoxyCompactList}\small\item\em Frees QOCOVectorf. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a9faf830a2fc47109254244428073a13a}{free\+\_\+qoco\+\_\+vectori}} (\mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}} \texorpdfstring{$\ast$}{*}x)
+\begin{DoxyCompactList}\small\item\em Frees QOCOVectori. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{qoco__linalg_8h_a41f4b043e4f5727f92c1fbc1db80da72}{get\+\_\+nnz}} (const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}A)
+\begin{DoxyCompactList}\small\item\em Returns the number of nonzeros in a QOCOMatrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_ada738414c28d331a24f6095fafebe1c9}{ew\+\_\+product}} (\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}x, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}y, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}z, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Computes elementwise product z = x .\texorpdfstring{$\ast$}{*} y. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{qoco__linalg_8h_ad2d7fbe920ed0f3027eca62dc550aa7b}{get\+\_\+element\+\_\+vectorf}} (const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} idx)
+\begin{DoxyCompactList}\small\item\em Returns x\mbox{[}idx\mbox{]}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{qoco__linalg_8h_af56f3f0e910ed7161660ebff06b9139e}{get\+\_\+element\+\_\+vectori}} (const \mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} idx)
+\begin{DoxyCompactList}\small\item\em Returns x\mbox{[}idx\mbox{]}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a18cc5474b5a74bc07955ed4e517894d2}{set\+\_\+element\+\_\+vectorf}} (\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} idx, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} data)
+\begin{DoxyCompactList}\small\item\em Performs x\mbox{[}idx\mbox{]} = data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a9f1b79bc02158a0d5c55e218ff4684b1}{reciprocal\+\_\+vectorf}} (const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}input, \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}output)
+\begin{DoxyCompactList}\small\item\em Performs output .= 1.\+0 ./ input. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{qoco__linalg_8h_acdfba283a2e8c9daac9a5e3f0eac512e}{get\+\_\+pointer\+\_\+vectorf}} (const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} idx)
+\begin{DoxyCompactList}\small\item\em Returns \&x\mbox{[}idx\mbox{]}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{qoco__linalg_8h_a8343aad952146f8f866e6c6be549d2bf}{get\+\_\+data\+\_\+vectorf}} (const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}x)
+\begin{DoxyCompactList}\small\item\em Returns the underlying data array of a QOCOVectorf. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{qoco__linalg_8h_a49935d57bc6c625e38428669d43638e0}{get\+\_\+data\+\_\+vectori}} (const \mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}} \texorpdfstring{$\ast$}{*}x)
+\begin{DoxyCompactList}\small\item\em Returns the underlying data array of a QOCOVectori. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_ad1c960ec0b53cec54c5b76e8de289a76}{sync\+\_\+vector\+\_\+to\+\_\+host}} (\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}v)
+\begin{DoxyCompactList}\small\item\em Syncs vector data from host to device if needed (CUDA backend only). This is a no-\/op for non-\/\+CUDA backends. Note\+: This should NOT be called during qoco\+\_\+solve to avoid CPU-\/\+GPU copies. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_acecbbbab8158096ff1c6bde017cc1aaf}{sync\+\_\+vector\+\_\+to\+\_\+device}} (\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}v)
+\begin{DoxyCompactList}\small\item\em Syncs vector data from device to host if needed (CUDA backend only). This is a no-\/op for non-\/\+CUDA backends. Note\+: This should NOT be called during qoco\+\_\+solve to avoid CPU-\/\+GPU copies. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a9b09944c9118ce3d3d5851ce4e75fde2}{sync\+\_\+matrix\+\_\+to\+\_\+device}} (\mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}M)
+\begin{DoxyCompactList}\small\item\em Syncs Matrix data from device to host if needed (CUDA backend only). This is a no-\/op for non-\/\+CUDA backends. Note\+: This should NOT be called during qoco\+\_\+solve to avoid CPU-\/\+GPU copies. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{qoco__linalg_8h_a08e079e41e6ddc607a538c89f4a16573}{get\+\_\+length\+\_\+vectorf}} (const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}x)
+\begin{DoxyCompactList}\small\item\em Returns the length of a QOCOVectorf. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{qoco__linalg_8h_a50024d02db9a130f68f6da914f4440e9}{get\+\_\+csc\+\_\+matrix}} (const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}M)
+\begin{DoxyCompactList}\small\item\em Returns the underlying CSC matrix from a QOCOMatrix. This function provides access to implementation-\/specific data. For builtin implementation, returns the internal CSC matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a0f8ec01c9c0b2c62499f807dc52e5288}{col\+\_\+inf\+\_\+norm\+\_\+\+USymm\+\_\+matrix}} (const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}M, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}norm)
+\begin{DoxyCompactList}\small\item\em Computes the infinity norm of each column (or equivalently row) of a symmetric sparse matrix M where only the upper triangular portion of M is given. Works with QOCOMatrix\texorpdfstring{$\ast$}{*}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a10a920e334221357bb8991b41602e54d}{col\+\_\+inf\+\_\+norm\+\_\+matrix}} (const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}M, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}norm)
+\begin{DoxyCompactList}\small\item\em Computes the infinity norm of each column of M and stores in norm. Works with QOCOMatrix\texorpdfstring{$\ast$}{*}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_ac563a3a0f208d65cebef78584e3cc347}{row\+\_\+inf\+\_\+norm\+\_\+matrix}} (const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}M, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}norm)
+\begin{DoxyCompactList}\small\item\em Computes the infinity norm of each row of M and stores in norm. Works with QOCOMatrix\texorpdfstring{$\ast$}{*}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a2c9e4485260d7f3e83589255a1be2b76}{row\+\_\+col\+\_\+scale\+\_\+matrix}} (\mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}M, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}E, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}D)
+\begin{DoxyCompactList}\small\item\em Scales the rows of M by E and columns of M by D. M = diag(\+E) \texorpdfstring{$\ast$}{*} M \texorpdfstring{$\ast$}{*} diag(\+D). Works with QOCOMatrix\texorpdfstring{$\ast$}{*}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a4e4c7c1df7c224d28c9ee82553cfda94}{free\+\_\+qoco\+\_\+csc\+\_\+matrix}} (\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}A)
+\begin{DoxyCompactList}\small\item\em Frees all the internal arrays and the pointer to the \doxylink{structQOCOCscMatrix}{QOCOCsc\+Matrix}. Should only be used if \doxylink{structQOCOCscMatrix}{QOCOCsc\+Matrix} and all internal arrays were malloc\textquotesingle{}ed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a298815cf49d7a35894fd063fb3f59d07}{copy\+\_\+arrayf}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}y, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Copies array of QOCOFloats from x to array y. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a01e27f9edf9e2cae2032501a56a0b5f9}{copy\+\_\+and\+\_\+negate\+\_\+arrayf}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}y, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Copies and negates array of QOCOFloats from x to array y. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a2ce684c84dfdc8c000a2aaa88487c4cf}{copy\+\_\+arrayi}} (const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}y, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Copies array of QOCOInts from x to array y. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{qoco__linalg_8h_a3d8a23216fff4fb100298aadacab5ea5}{qoco\+\_\+dot}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}u, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}v, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Computes dot product of u and v. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{qoco__linalg_8h_ab5f0f37d238fd5f833e790474d6429be}{max\+\_\+arrayi}} (const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Computes maximum element of array of QOCOInts. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_aed2caeb493cbf251a8d9e446a3d19fc6}{scale\+\_\+arrayf}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}y, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} s, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Scales array x by s and stores result in y. y = s \texorpdfstring{$\ast$}{*} x. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a382675ecd8040ba1cc558068f0069914}{qoco\+\_\+axpy}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}x, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}y, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}z, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} a, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Computes z = a \texorpdfstring{$\ast$}{*} x + y. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_a32dac02ef5fe5649b95e6d7cb904cb9d}{USp\+Mv}} (const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}M, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}v, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}r)
+\begin{DoxyCompactList}\small\item\em Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M \texorpdfstring{$\ast$}{*} v. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_aa3f58fbfc9dc71f5117e1dd65144206d}{Sp\+Mv}} (const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}M, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}v, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}r)
+\begin{DoxyCompactList}\small\item\em Sparse matrix vector multiplication for CSC matrices. Computes r = M \texorpdfstring{$\ast$}{*} v. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{qoco__linalg_8h_afbdb7c0bac4ac5a38fca809e3b696094}{Sp\+Mtv}} (const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}M, const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}v, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}r)
+\begin{DoxyCompactList}\small\item\em Sparse matrix vector multiplication for CSC matrices where M is first transposed. Computes r = M\texorpdfstring{$^\wedge$}{\string^}T \texorpdfstring{$\ast$}{*} v. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{qoco__linalg_8h_a8bc5eb1d540eaf36dcb07c5da089f7b2}{inf\+\_\+norm}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Computes the infinity norm of x. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \mbox{\hyperlink{qoco__linalg_8h_ad64d674d87134c6a3ca4e5d1c2ab1d10}{min\+\_\+abs\+\_\+val}} (const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}x, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Computes the minimum absolute value of x. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{qoco__linalg_8h_a00ecbd01463b62bf976553d82b21a8bf}{check\+\_\+nan}} (const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}x)
+\begin{DoxyCompactList}\small\item\em Returns 1 if x contains nans, 0 otherwise. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{qoco__api_8c_LICENSE}{}\doxysubsection{\texorpdfstring{LICENSE}{LICENSE}}\label{qoco__api_8c_LICENSE}
+Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-\/Clause License\hypertarget{timer_8h_DESCRIPTION}{}\doxysubsection{\texorpdfstring{DESCRIPTION}{DESCRIPTION}}\label{timer_8h_DESCRIPTION}
+Provides various linear algebra operations. 
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}\label{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!QOCOMatrix@{QOCOMatrix}}
+\index{QOCOMatrix@{QOCOMatrix}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{QOCOMatrix}{QOCOMatrix}}
+{\footnotesize\ttfamily typedef struct QOCOMatrix\+\_\+ \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}}}
+
+\Hypertarget{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}\label{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!QOCOVectorf@{QOCOVectorf}}
+\index{QOCOVectorf@{QOCOVectorf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{QOCOVectorf}{QOCOVectorf}}
+{\footnotesize\ttfamily typedef struct QOCOVectorf\+\_\+ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}}
+
+\Hypertarget{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}\label{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!QOCOVectori@{QOCOVectori}}
+\index{QOCOVectori@{QOCOVectori}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{QOCOVectori}{QOCOVectori}}
+{\footnotesize\ttfamily typedef struct QOCOVectori\+\_\+ \mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}}}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{qoco__linalg_8h_a00ecbd01463b62bf976553d82b21a8bf}\label{qoco__linalg_8h_a00ecbd01463b62bf976553d82b21a8bf} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!check\_nan@{check\_nan}}
+\index{check\_nan@{check\_nan}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{check\_nan()}{check\_nan()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} check\+\_\+nan (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{x }\end{DoxyParamCaption})}
+
+
+
+Returns 1 if x contains nans, 0 otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if x contains Na\+Ns, 0 otherwise. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_a10a920e334221357bb8991b41602e54d}\label{qoco__linalg_8h_a10a920e334221357bb8991b41602e54d} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!col\_inf\_norm\_matrix@{col\_inf\_norm\_matrix}}
+\index{col\_inf\_norm\_matrix@{col\_inf\_norm\_matrix}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{col\_inf\_norm\_matrix()}{col\_inf\_norm\_matrix()}}
+{\footnotesize\ttfamily void col\+\_\+inf\+\_\+norm\+\_\+matrix (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{norm }\end{DoxyParamCaption})}
+
+
+
+Computes the infinity norm of each column of M and stores in norm. Works with QOCOMatrix\texorpdfstring{$\ast$}{*}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & An m by n sparse matrix. \\
+\hline
+{\em norm} & Result vector of length n. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a0f8ec01c9c0b2c62499f807dc52e5288}\label{qoco__linalg_8h_a0f8ec01c9c0b2c62499f807dc52e5288} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!col\_inf\_norm\_USymm\_matrix@{col\_inf\_norm\_USymm\_matrix}}
+\index{col\_inf\_norm\_USymm\_matrix@{col\_inf\_norm\_USymm\_matrix}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{col\_inf\_norm\_USymm\_matrix()}{col\_inf\_norm\_USymm\_matrix()}}
+{\footnotesize\ttfamily void col\+\_\+inf\+\_\+norm\+\_\+\+USymm\+\_\+matrix (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{norm }\end{DoxyParamCaption})}
+
+
+
+Computes the infinity norm of each column (or equivalently row) of a symmetric sparse matrix M where only the upper triangular portion of M is given. Works with QOCOMatrix\texorpdfstring{$\ast$}{*}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Upper triangular part of sparse symmetric matrix. \\
+\hline
+{\em norm} & Result vector of length n. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a01e27f9edf9e2cae2032501a56a0b5f9}\label{qoco__linalg_8h_a01e27f9edf9e2cae2032501a56a0b5f9} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!copy\_and\_negate\_arrayf@{copy\_and\_negate\_arrayf}}
+\index{copy\_and\_negate\_arrayf@{copy\_and\_negate\_arrayf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{copy\_and\_negate\_arrayf()}{copy\_and\_negate\_arrayf()}}
+{\footnotesize\ttfamily void copy\+\_\+and\+\_\+negate\+\_\+arrayf (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{y,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Copies and negates array of QOCOFloats from x to array y. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Source array. \\
+\hline
+{\em y} & Destination array. \\
+\hline
+{\em n} & Length of arrays. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a298815cf49d7a35894fd063fb3f59d07}\label{qoco__linalg_8h_a298815cf49d7a35894fd063fb3f59d07} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!copy\_arrayf@{copy\_arrayf}}
+\index{copy\_arrayf@{copy\_arrayf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{copy\_arrayf()}{copy\_arrayf()}}
+{\footnotesize\ttfamily void copy\+\_\+arrayf (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{y,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Copies array of QOCOFloats from x to array y. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Source array. \\
+\hline
+{\em y} & Destination array. \\
+\hline
+{\em n} & Length of arrays. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a2ce684c84dfdc8c000a2aaa88487c4cf}\label{qoco__linalg_8h_a2ce684c84dfdc8c000a2aaa88487c4cf} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!copy\_arrayi@{copy\_arrayi}}
+\index{copy\_arrayi@{copy\_arrayi}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{copy\_arrayi()}{copy\_arrayi()}}
+{\footnotesize\ttfamily void copy\+\_\+arrayi (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{y,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Copies array of QOCOInts from x to array y. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Source array. \\
+\hline
+{\em y} & Destination array. \\
+\hline
+{\em n} & Length of arrays. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_ada738414c28d331a24f6095fafebe1c9}\label{qoco__linalg_8h_ada738414c28d331a24f6095fafebe1c9} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!ew\_product@{ew\_product}}
+\index{ew\_product@{ew\_product}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{ew\_product()}{ew\_product()}}
+{\footnotesize\ttfamily void ew\+\_\+product (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{y,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{z,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes elementwise product z = x .\texorpdfstring{$\ast$}{*} y. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input array. \\
+\hline
+{\em y} & Input array. \\
+\hline
+{\em z} & Output array. \\
+\hline
+{\em n} & Length of arrays. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a4e4c7c1df7c224d28c9ee82553cfda94}\label{qoco__linalg_8h_a4e4c7c1df7c224d28c9ee82553cfda94} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!free\_qoco\_csc\_matrix@{free\_qoco\_csc\_matrix}}
+\index{free\_qoco\_csc\_matrix@{free\_qoco\_csc\_matrix}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{free\_qoco\_csc\_matrix()}{free\_qoco\_csc\_matrix()}}
+{\footnotesize\ttfamily void free\+\_\+qoco\+\_\+csc\+\_\+matrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{A }\end{DoxyParamCaption})}
+
+
+
+Frees all the internal arrays and the pointer to the \doxylink{structQOCOCscMatrix}{QOCOCsc\+Matrix}. Should only be used if \doxylink{structQOCOCscMatrix}{QOCOCsc\+Matrix} and all internal arrays were malloc\textquotesingle{}ed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Pointer to \doxylink{structQOCOCscMatrix}{QOCOCsc\+Matrix}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a759a18e640a746004804562dce3ea204}\label{qoco__linalg_8h_a759a18e640a746004804562dce3ea204} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!free\_qoco\_matrix@{free\_qoco\_matrix}}
+\index{free\_qoco\_matrix@{free\_qoco\_matrix}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{free\_qoco\_matrix()}{free\_qoco\_matrix()}}
+{\footnotesize\ttfamily void free\+\_\+qoco\+\_\+matrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{A }\end{DoxyParamCaption})}
+
+
+
+Frees QOCOMatrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Matrix to free. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a39f7d558d7047ea8b5900f29e1ec5020}\label{qoco__linalg_8h_a39f7d558d7047ea8b5900f29e1ec5020} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!free\_qoco\_vectorf@{free\_qoco\_vectorf}}
+\index{free\_qoco\_vectorf@{free\_qoco\_vectorf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{free\_qoco\_vectorf()}{free\_qoco\_vectorf()}}
+{\footnotesize\ttfamily void free\+\_\+qoco\+\_\+vectorf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{x }\end{DoxyParamCaption})}
+
+
+
+Frees QOCOVectorf. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Vector to free. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a9faf830a2fc47109254244428073a13a}\label{qoco__linalg_8h_a9faf830a2fc47109254244428073a13a} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!free\_qoco\_vectori@{free\_qoco\_vectori}}
+\index{free\_qoco\_vectori@{free\_qoco\_vectori}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{free\_qoco\_vectori()}{free\_qoco\_vectori()}}
+{\footnotesize\ttfamily void free\+\_\+qoco\+\_\+vectori (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}} \texorpdfstring{$\ast$}{*}}]{x }\end{DoxyParamCaption})}
+
+
+
+Frees QOCOVectori. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Vector to free. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a50024d02db9a130f68f6da914f4440e9}\label{qoco__linalg_8h_a50024d02db9a130f68f6da914f4440e9} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!get\_csc\_matrix@{get\_csc\_matrix}}
+\index{get\_csc\_matrix@{get\_csc\_matrix}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{get\_csc\_matrix()}{get\_csc\_matrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} get\+\_\+csc\+\_\+matrix (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{M }\end{DoxyParamCaption})}
+
+
+
+Returns the underlying CSC matrix from a QOCOMatrix. This function provides access to implementation-\/specific data. For builtin implementation, returns the internal CSC matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Input matrix. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to underlying CSC matrix. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_a8343aad952146f8f866e6c6be549d2bf}\label{qoco__linalg_8h_a8343aad952146f8f866e6c6be549d2bf} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!get\_data\_vectorf@{get\_data\_vectorf}}
+\index{get\_data\_vectorf@{get\_data\_vectorf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{get\_data\_vectorf()}{get\_data\_vectorf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*} get\+\_\+data\+\_\+vectorf (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{x }\end{DoxyParamCaption})}
+
+
+
+Returns the underlying data array of a QOCOVectorf. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to underlying data array. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_a49935d57bc6c625e38428669d43638e0}\label{qoco__linalg_8h_a49935d57bc6c625e38428669d43638e0} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!get\_data\_vectori@{get\_data\_vectori}}
+\index{get\_data\_vectori@{get\_data\_vectori}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{get\_data\_vectori()}{get\_data\_vectori()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*} get\+\_\+data\+\_\+vectori (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}} \texorpdfstring{$\ast$}{*}}]{x }\end{DoxyParamCaption})}
+
+
+
+Returns the underlying data array of a QOCOVectori. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to underlying data array. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_ad2d7fbe920ed0f3027eca62dc550aa7b}\label{qoco__linalg_8h_ad2d7fbe920ed0f3027eca62dc550aa7b} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!get\_element\_vectorf@{get\_element\_vectorf}}
+\index{get\_element\_vectorf@{get\_element\_vectorf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{get\_element\_vectorf()}{get\_element\_vectorf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} get\+\_\+element\+\_\+vectorf (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{idx }\end{DoxyParamCaption})}
+
+
+
+Returns x\mbox{[}idx\mbox{]}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+{\em idx} & Index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+x\mbox{[}idx\mbox{]}. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_af56f3f0e910ed7161660ebff06b9139e}\label{qoco__linalg_8h_af56f3f0e910ed7161660ebff06b9139e} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!get\_element\_vectori@{get\_element\_vectori}}
+\index{get\_element\_vectori@{get\_element\_vectori}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{get\_element\_vectori()}{get\_element\_vectori()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} get\+\_\+element\+\_\+vectori (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{idx }\end{DoxyParamCaption})}
+
+
+
+Returns x\mbox{[}idx\mbox{]}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+{\em idx} & Index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+x\mbox{[}idx\mbox{]}. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_a08e079e41e6ddc607a538c89f4a16573}\label{qoco__linalg_8h_a08e079e41e6ddc607a538c89f4a16573} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!get\_length\_vectorf@{get\_length\_vectorf}}
+\index{get\_length\_vectorf@{get\_length\_vectorf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{get\_length\_vectorf()}{get\_length\_vectorf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} get\+\_\+length\+\_\+vectorf (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{x }\end{DoxyParamCaption})}
+
+
+
+Returns the length of a QOCOVectorf. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Length of vector. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_a41f4b043e4f5727f92c1fbc1db80da72}\label{qoco__linalg_8h_a41f4b043e4f5727f92c1fbc1db80da72} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!get\_nnz@{get\_nnz}}
+\index{get\_nnz@{get\_nnz}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{get\_nnz()}{get\_nnz()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} get\+\_\+nnz (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{A }\end{DoxyParamCaption})}
+
+
+
+Returns the number of nonzeros in a QOCOMatrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Input matrix. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of nonzeros. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_acdfba283a2e8c9daac9a5e3f0eac512e}\label{qoco__linalg_8h_acdfba283a2e8c9daac9a5e3f0eac512e} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!get\_pointer\_vectorf@{get\_pointer\_vectorf}}
+\index{get\_pointer\_vectorf@{get\_pointer\_vectorf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{get\_pointer\_vectorf()}{get\_pointer\_vectorf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*} get\+\_\+pointer\+\_\+vectorf (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{idx }\end{DoxyParamCaption})}
+
+
+
+Returns \&x\mbox{[}idx\mbox{]}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+{\em idx} & Index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\&x\mbox{[}idx\mbox{]}. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_a8bc5eb1d540eaf36dcb07c5da089f7b2}\label{qoco__linalg_8h_a8bc5eb1d540eaf36dcb07c5da089f7b2} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!inf\_norm@{inf\_norm}}
+\index{inf\_norm@{inf\_norm}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{inf\_norm()}{inf\_norm()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} inf\+\_\+norm (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes the infinity norm of x. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+{\em n} & Length of input vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Infinity norm of x. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_ab5f0f37d238fd5f833e790474d6429be}\label{qoco__linalg_8h_ab5f0f37d238fd5f833e790474d6429be} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!max\_arrayi@{max\_arrayi}}
+\index{max\_arrayi@{max\_arrayi}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{max\_arrayi()}{max\_arrayi()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} max\+\_\+arrayi (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes maximum element of array of QOCOInts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input array. \\
+\hline
+{\em n} & Length of array. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Maximum element of x. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_ad64d674d87134c6a3ca4e5d1c2ab1d10}\label{qoco__linalg_8h_ad64d674d87134c6a3ca4e5d1c2ab1d10} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!min\_abs\_val@{min\_abs\_val}}
+\index{min\_abs\_val@{min\_abs\_val}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{min\_abs\_val()}{min\_abs\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} min\+\_\+abs\+\_\+val (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes the minimum absolute value of x. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+{\em n} & Length of input vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Minimum absolute value of x. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_af97e3ab5938ed2924134c4239ec109f3}\label{qoco__linalg_8h_af97e3ab5938ed2924134c4239ec109f3} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!new\_qoco\_csc\_matrix@{new\_qoco\_csc\_matrix}}
+\index{new\_qoco\_csc\_matrix@{new\_qoco\_csc\_matrix}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{new\_qoco\_csc\_matrix()}{new\_qoco\_csc\_matrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} new\+\_\+qoco\+\_\+csc\+\_\+matrix (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{A }\end{DoxyParamCaption})}
+
+
+
+Allocates a new csc matrix and copies A to it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Matrix to copy. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to new constructed matrix. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_a0b1d7dcd153c5b594e896092638f39cd}\label{qoco__linalg_8h_a0b1d7dcd153c5b594e896092638f39cd} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!new\_qoco\_matrix@{new\_qoco\_matrix}}
+\index{new\_qoco\_matrix@{new\_qoco\_matrix}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{new\_qoco\_matrix()}{new\_qoco\_matrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*} new\+\_\+qoco\+\_\+matrix (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{A }\end{DoxyParamCaption})}
+
+
+
+Allocates a new QOCOMatrix and copies A to it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Matrix to copy. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to new constructed matrix. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_adb28b0f965091f5fc7f80a71546eb186}\label{qoco__linalg_8h_adb28b0f965091f5fc7f80a71546eb186} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!new\_qoco\_vectorf@{new\_qoco\_vectorf}}
+\index{new\_qoco\_vectorf@{new\_qoco\_vectorf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{new\_qoco\_vectorf()}{new\_qoco\_vectorf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*} new\+\_\+qoco\+\_\+vectorf (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Allocates a new QOCOVectorf and copies x to it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & vector to copy. \\
+\hline
+{\em n} & length of vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to new constructed vector. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_a9e158865766c60cd31a6c4d16c34d7be}\label{qoco__linalg_8h_a9e158865766c60cd31a6c4d16c34d7be} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!new\_qoco\_vectori@{new\_qoco\_vectori}}
+\index{new\_qoco\_vectori@{new\_qoco\_vectori}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{new\_qoco\_vectori()}{new\_qoco\_vectori()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}} \texorpdfstring{$\ast$}{*} new\+\_\+qoco\+\_\+vectori (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Allocates a new QOCOVectori and copies x to it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & vector to copy. \\
+\hline
+{\em n} & length of vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to new constructed vector. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_a382675ecd8040ba1cc558068f0069914}\label{qoco__linalg_8h_a382675ecd8040ba1cc558068f0069914} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!qoco\_axpy@{qoco\_axpy}}
+\index{qoco\_axpy@{qoco\_axpy}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_axpy()}{qoco\_axpy()}}
+{\footnotesize\ttfamily void qoco\+\_\+axpy (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{y,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{z,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}}]{a,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes z = a \texorpdfstring{$\ast$}{*} x + y. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+{\em y} & Input vector. \\
+\hline
+{\em z} & Result vector. \\
+\hline
+{\em a} & Scaling factor. \\
+\hline
+{\em n} & Length of vectors. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a3d8a23216fff4fb100298aadacab5ea5}\label{qoco__linalg_8h_a3d8a23216fff4fb100298aadacab5ea5} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!qoco\_dot@{qoco\_dot}}
+\index{qoco\_dot@{qoco\_dot}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{qoco\_dot()}{qoco\_dot()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} qoco\+\_\+dot (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{u,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{v,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes dot product of u and v. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em u} & Input vector. \\
+\hline
+{\em v} & Input vector. \\
+\hline
+{\em n} & Length of vectors. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dot product of u and v. 
+\end{DoxyReturn}
+\Hypertarget{qoco__linalg_8h_a9f1b79bc02158a0d5c55e218ff4684b1}\label{qoco__linalg_8h_a9f1b79bc02158a0d5c55e218ff4684b1} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!reciprocal\_vectorf@{reciprocal\_vectorf}}
+\index{reciprocal\_vectorf@{reciprocal\_vectorf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{reciprocal\_vectorf()}{reciprocal\_vectorf()}}
+{\footnotesize\ttfamily void reciprocal\+\_\+vectorf (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{input,  }\item[{\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{output }\end{DoxyParamCaption})}
+
+
+
+Performs output .= 1.\+0 ./ input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Input vector. \\
+\hline
+{\em output} & Output vector. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a2c9e4485260d7f3e83589255a1be2b76}\label{qoco__linalg_8h_a2c9e4485260d7f3e83589255a1be2b76} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!row\_col\_scale\_matrix@{row\_col\_scale\_matrix}}
+\index{row\_col\_scale\_matrix@{row\_col\_scale\_matrix}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{row\_col\_scale\_matrix()}{row\_col\_scale\_matrix()}}
+{\footnotesize\ttfamily void row\+\_\+col\+\_\+scale\+\_\+matrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{E,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{D }\end{DoxyParamCaption})}
+
+
+
+Scales the rows of M by E and columns of M by D. M = diag(\+E) \texorpdfstring{$\ast$}{*} M \texorpdfstring{$\ast$}{*} diag(\+D). Works with QOCOMatrix\texorpdfstring{$\ast$}{*}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & An m by n sparse matrix. \\
+\hline
+{\em E} & Vector of length m. \\
+\hline
+{\em D} & Vector of length n. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_ac563a3a0f208d65cebef78584e3cc347}\label{qoco__linalg_8h_ac563a3a0f208d65cebef78584e3cc347} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!row\_inf\_norm\_matrix@{row\_inf\_norm\_matrix}}
+\index{row\_inf\_norm\_matrix@{row\_inf\_norm\_matrix}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{row\_inf\_norm\_matrix()}{row\_inf\_norm\_matrix()}}
+{\footnotesize\ttfamily void row\+\_\+inf\+\_\+norm\+\_\+matrix (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{norm }\end{DoxyParamCaption})}
+
+
+
+Computes the infinity norm of each row of M and stores in norm. Works with QOCOMatrix\texorpdfstring{$\ast$}{*}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & An m by n sparse matrix. \\
+\hline
+{\em norm} & Result vector of length m. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_aed2caeb493cbf251a8d9e446a3d19fc6}\label{qoco__linalg_8h_aed2caeb493cbf251a8d9e446a3d19fc6} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!scale\_arrayf@{scale\_arrayf}}
+\index{scale\_arrayf@{scale\_arrayf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{scale\_arrayf()}{scale\_arrayf()}}
+{\footnotesize\ttfamily void scale\+\_\+arrayf (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{y,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}}]{s,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Scales array x by s and stores result in y. y = s \texorpdfstring{$\ast$}{*} x. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input array. \\
+\hline
+{\em y} & Output array. \\
+\hline
+{\em s} & Scaling factor. \\
+\hline
+{\em n} & Length of arrays. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a24b40500c9bfa96f5038a51acedc8b4e}\label{qoco__linalg_8h_a24b40500c9bfa96f5038a51acedc8b4e} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!set\_cpu\_mode@{set\_cpu\_mode}}
+\index{set\_cpu\_mode@{set\_cpu\_mode}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{set\_cpu\_mode()}{set\_cpu\_mode()}}
+{\footnotesize\ttfamily void set\+\_\+cpu\+\_\+mode (\begin{DoxyParamCaption}\item[{int}]{active }\end{DoxyParamCaption})}
+
+
+
+Sets the CPU mode flag (CUDA backend only). During CPU mode, get\+\_\+... functions returns host pointers, otherwise device pointers are returned. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em active} & 1 if CPU mode is active, 0 otherwise. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a18cc5474b5a74bc07955ed4e517894d2}\label{qoco__linalg_8h_a18cc5474b5a74bc07955ed4e517894d2} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!set\_element\_vectorf@{set\_element\_vectorf}}
+\index{set\_element\_vectorf@{set\_element\_vectorf}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{set\_element\_vectorf()}{set\_element\_vectorf()}}
+{\footnotesize\ttfamily void set\+\_\+element\+\_\+vectorf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{x,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{idx,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}}]{data }\end{DoxyParamCaption})}
+
+
+
+Performs x\mbox{[}idx\mbox{]} = data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Input vector. \\
+\hline
+{\em idx} & Index. \\
+\hline
+{\em data} & Element to set at index idx. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_afbdb7c0bac4ac5a38fca809e3b696094}\label{qoco__linalg_8h_afbdb7c0bac4ac5a38fca809e3b696094} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!SpMtv@{SpMtv}}
+\index{SpMtv@{SpMtv}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{SpMtv()}{SpMtv()}}
+{\footnotesize\ttfamily void Sp\+Mtv (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{v,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{r }\end{DoxyParamCaption})}
+
+
+
+Sparse matrix vector multiplication for CSC matrices where M is first transposed. Computes r = M\texorpdfstring{$^\wedge$}{\string^}T \texorpdfstring{$\ast$}{*} v. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Matrix. \\
+\hline
+{\em v} & Vector. \\
+\hline
+{\em r} & Result. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_aa3f58fbfc9dc71f5117e1dd65144206d}\label{qoco__linalg_8h_aa3f58fbfc9dc71f5117e1dd65144206d} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!SpMv@{SpMv}}
+\index{SpMv@{SpMv}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{SpMv()}{SpMv()}}
+{\footnotesize\ttfamily void Sp\+Mv (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{v,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{r }\end{DoxyParamCaption})}
+
+
+
+Sparse matrix vector multiplication for CSC matrices. Computes r = M \texorpdfstring{$\ast$}{*} v. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Matrix. \\
+\hline
+{\em v} & Vector. \\
+\hline
+{\em r} & Result. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a9b09944c9118ce3d3d5851ce4e75fde2}\label{qoco__linalg_8h_a9b09944c9118ce3d3d5851ce4e75fde2} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!sync\_matrix\_to\_device@{sync\_matrix\_to\_device}}
+\index{sync\_matrix\_to\_device@{sync\_matrix\_to\_device}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{sync\_matrix\_to\_device()}{sync\_matrix\_to\_device()}}
+{\footnotesize\ttfamily void sync\+\_\+matrix\+\_\+to\+\_\+device (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{M }\end{DoxyParamCaption})}
+
+
+
+Syncs Matrix data from device to host if needed (CUDA backend only). This is a no-\/op for non-\/\+CUDA backends. Note\+: This should NOT be called during qoco\+\_\+solve to avoid CPU-\/\+GPU copies. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Input vector. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_acecbbbab8158096ff1c6bde017cc1aaf}\label{qoco__linalg_8h_acecbbbab8158096ff1c6bde017cc1aaf} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!sync\_vector\_to\_device@{sync\_vector\_to\_device}}
+\index{sync\_vector\_to\_device@{sync\_vector\_to\_device}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{sync\_vector\_to\_device()}{sync\_vector\_to\_device()}}
+{\footnotesize\ttfamily void sync\+\_\+vector\+\_\+to\+\_\+device (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{v }\end{DoxyParamCaption})}
+
+
+
+Syncs vector data from device to host if needed (CUDA backend only). This is a no-\/op for non-\/\+CUDA backends. Note\+: This should NOT be called during qoco\+\_\+solve to avoid CPU-\/\+GPU copies. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & Input vector. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_ad1c960ec0b53cec54c5b76e8de289a76}\label{qoco__linalg_8h_ad1c960ec0b53cec54c5b76e8de289a76} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!sync\_vector\_to\_host@{sync\_vector\_to\_host}}
+\index{sync\_vector\_to\_host@{sync\_vector\_to\_host}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{sync\_vector\_to\_host()}{sync\_vector\_to\_host()}}
+{\footnotesize\ttfamily void sync\+\_\+vector\+\_\+to\+\_\+host (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}}]{v }\end{DoxyParamCaption})}
+
+
+
+Syncs vector data from host to device if needed (CUDA backend only). This is a no-\/op for non-\/\+CUDA backends. Note\+: This should NOT be called during qoco\+\_\+solve to avoid CPU-\/\+GPU copies. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & Input vector. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{qoco__linalg_8h_a32dac02ef5fe5649b95e6d7cb904cb9d}\label{qoco__linalg_8h_a32dac02ef5fe5649b95e6d7cb904cb9d} 
+\index{qoco\_linalg.h@{qoco\_linalg.h}!USpMv@{USpMv}}
+\index{USpMv@{USpMv}!qoco\_linalg.h@{qoco\_linalg.h}}
+\doxysubsubsection{\texorpdfstring{USpMv()}{USpMv()}}
+{\footnotesize\ttfamily void USp\+Mv (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{const \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{v,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{r }\end{DoxyParamCaption})}
+
+
+
+Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M \texorpdfstring{$\ast$}{*} v. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Upper triangular part of M. \\
+\hline
+{\em v} & Vector. \\
+\hline
+{\em r} & Result. \\
+\hline
+\end{DoxyParams}

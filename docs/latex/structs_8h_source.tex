@@ -1,0 +1,236 @@
+\doxysection{structs.\+h}
+\hypertarget{structs_8h_source}{}\label{structs_8h_source}\index{/home/govind/Desktop/git/qoco/include/structs.h@{/home/govind/Desktop/git/qoco/include/structs.h}}
+\mbox{\hyperlink{structs_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ QOCO\_STRUCTS\_H}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ QOCO\_STRUCTS\_H}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{definitions_8h}{definitions.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{qoco__linalg_8h}{qoco\_linalg.h}}"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{timer_8h}{timer.h}}"{}}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00028\ \ \ \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}}*\ \mbox{\hyperlink{structQOCOProblemData_a207e11f12564a74f3fa98d52ab224ec5}{P}};\ \textcolor{comment}{//}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00031\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOProblemData_a4d04fc20853a03a120725989d94b39d4}{c}};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ \ \ \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}}*\ \mbox{\hyperlink{structQOCOProblemData_a132d0ec2760056f5337de48179321414}{A}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00037\ \ \ \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}}*\ \mbox{\hyperlink{structQOCOProblemData_a0dd11e332bd464a16542a5eafc0249c7}{At}};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00040\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOProblemData_a694bfd51de7f9e35aff6a3d6558c5943}{b}};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00043\ \ \ \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}}*\ \mbox{\hyperlink{structQOCOProblemData_a5ec65f326636e0e8d43049a99ac18441}{G}};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00046\ \ \ \mbox{\hyperlink{qoco__linalg_8h_ae5f66fc0a9e1e68247c9dbdd76d3e4b2}{QOCOMatrix}}*\ \mbox{\hyperlink{structQOCOProblemData_a742f83af3843979942295f660beba546}{Gt}};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00049\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ \mbox{\hyperlink{structQOCOProblemData_a34270dd9709ee532166e14ad52ccf2cb}{AtoAt}};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00052\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ \mbox{\hyperlink{structQOCOProblemData_ac1fd949c952a3e070e36e4afab08ce6a}{GtoGt}};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00055\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOProblemData_af440af1e80bc33b052fc6d3d6a82fac2}{h}};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00058\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOProblemData_a9d6633850372ce5c5e852aca470138ae}{l}};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00061\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOProblemData_a980efff44ee3906ba6d866df9067e9d6}{nsoc}};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00064\ \ \ \mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}}*\ \mbox{\hyperlink{structQOCOProblemData_a683e04d685b73fad1082303ce1e312e7}{q}};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00067\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOProblemData_aa0cf719a1ff80e6f1851e03a04ac454d}{n}};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00070\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOProblemData_a05c227cb935c10b07ddb8c2a1fd56bdc}{m}};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00073\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOProblemData_ac8ab25686747edb154cab71cacb08517}{p}};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00076\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ \mbox{\hyperlink{structQOCOProblemData_a60485d9b9f1213a09ada07d710bca961}{Pnzadded\_idx}};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00079\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOProblemData_aef34fc248addf8661b203199ad6197ff}{Pnum\_nzadded}};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00083\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOProblemData_a933f8e35016f8a7f36344e10ece6cb40}{obj\_range\_min}};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00087\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOProblemData_ac1b19dd82bb7fdcd12e000bb86721544}{obj\_range\_max}};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00090\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOProblemData_a1fe942a5d7a8f9e410f13f0c20e6e62c}{constraint\_range\_min}};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00093\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOProblemData_a9364d8f0a741924849e12cd9ad45ae7f}{constraint\_range\_max}};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00096\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOProblemData_ad302df199af9ca69303bcbf7457953b3}{rhs\_range\_min}};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00099\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOProblemData_a55ded4f611aa2a23f90a00116cf3e243}{rhs\_range\_max}};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \}\ \mbox{\hyperlink{structQOCOProblemData}{QOCOProblemData}};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00107\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00109\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOSettings_ad024407378c8232511ffc8775e6d92a7}{max\_iters}};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00112\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOSettings_af252771d1771c37f794a6d5c385ce66d}{ruiz\_iters}};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00115\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOSettings_afd5bc6a556931668265c2e47270e8278}{iter\_ref\_iters}};}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00118\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSettings_a11f48d67a5626431c077ad30c84433df}{kkt\_static\_reg}};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00121\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSettings_ad635ca462b97c3f0978b755ce2ce763c}{kkt\_dynamic\_reg}};}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00124\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSettings_a7d62b01403b7572ee0d1ebaaab45c9d0}{abstol}};}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00127\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSettings_a9924681488237bcc446854964f3b5012}{reltol}};}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00130\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSettings_a92cdec007c0b9a4392d3036e97012492}{abstol\_inacc}};}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00133\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSettings_a13d27ddfaba9c83983090fba602ab2b4}{reltol\_inacc}};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00136\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{structQOCOSettings_a1a566c8aa840eaaf69e3070060a0ab5a}{verbose}};}
+\DoxyCodeLine{00137\ \}\ \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}};}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00143\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00146\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOScaling_a948128d3dbcf46bb7b809fe8ce2ad15b}{delta}};}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00149\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOScaling_a2f9cb034c28859f104ef58e961fd0eab}{Druiz}};}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00152\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOScaling_ac86c408d8d53ac69ecb39f50e7c340d3}{Eruiz}};}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00155\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOScaling_ad9bb63c95703f2f468f4afcd7fd4d181}{Fruiz}};}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00158\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOScaling_a04082a4313376044d700d368a58c7fcb}{Dinvruiz}};}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00161\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOScaling_af4dbdd03e56f45afe5b138e0c2705428}{Einvruiz}};}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00164\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOScaling_abf605c640207d4200dcea40aa2f5330c}{Finvruiz}};}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00167\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOScaling_ad8983780b7fd5d4180a40f9c598247ef}{k}};}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00170\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOScaling_a98fa232a9a67726dc9abfa198421dfe4}{kinv}};}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \}\ \mbox{\hyperlink{structQOCOScaling}{QOCOScaling}};}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00177\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00179\ \ \ \mbox{\hyperlink{structQOCOProblemData}{QOCOProblemData}}*\ \mbox{\hyperlink{structQOCOWorkspace_af43c13687a7775620c8f817a076227a2}{data}};}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00182\ \ \ \mbox{\hyperlink{structQOCOTimer}{QOCOTimer}}\ \mbox{\hyperlink{structQOCOWorkspace_a1e42af4dbb27330568497c58e92cfea2}{solve\_timer}};}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00185\ \ \ \mbox{\hyperlink{structQOCOScaling}{QOCOScaling}}*\ \mbox{\hyperlink{structQOCOWorkspace_a4583ac450199045eaaf9e1eec2c94787}{scaling}};}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00188\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a30928c4b06196be4fef0d922ddfcc7c3}{x}};}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00191\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a14c8f516c5fe9eb4af0aaf5f26d33a9c}{s}};}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00194\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a3ede9ce91deb30cac4acb61050f3c783}{y}};}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00197\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a6922f90b08638739b8ab12d891d92f14}{z}};}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00200\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOWorkspace_a24869d9e9aa5cbcfd7451ab6219a011f}{mu}};}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00203\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOWorkspace_a04dfe46d9df29667a1241255569456d0}{a}};}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00206\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOWorkspace_aec13ff096706e16f9458c354dede1dab}{sigma}};}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00209\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOWorkspace_aa43b26d800f4371c0ddf16d22978b94c}{Wnnz}};}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00212\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOWorkspace_a266fcd28cf2cfd16369a1f3e7f55bc38}{Wnnzfull}};}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00215\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_aa094f791b64b15638d2529b5b257440b}{W}};}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00218\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a2783299c20c4a9b9e9cfd7826fe12663}{Wfull}};}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00221\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_ae38a797e1db7c3704cded158275e5111}{Winv}};}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00224\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a1fb66a45700355299f1bb7ab982d34bc}{Winvfull}};}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00227\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a3861100e66e84d8ef41a4f9aaed0ad42}{WtW}};}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00230\ \ \ \mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}}*\ \mbox{\hyperlink{structQOCOWorkspace_a4f5f84c9ecd0b710f5faff71f855117c}{Wsoc\_idx}};}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00234\ \ \ \mbox{\hyperlink{qoco__linalg_8h_ad47eb70bf163e4fa22ce24053d743886}{QOCOVectori}}*\ \mbox{\hyperlink{structQOCOWorkspace_a94466bf08d01d93faf9d1e0d3f2580f0}{soc\_idx}};}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00237\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a5c92f05a611c038abc1de2162a4dd933}{lambda}};}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00241\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a47a9699123dd010eec49d0ff3836a411}{sbar}};}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00245\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_ac6da0bca203267cd36c44680d0a70e54}{zbar}};}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00248\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_ab57502774ed32ecfb2962918134d71d5}{xbuff}};}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00251\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_aaff384efaf15c562e24ed372cfe503ad}{ybuff}};}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00254\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a3f6aea0073617905a48fd5a4939bb85b}{ubuff1}};}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00257\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a5afb44f83a267a2c0ebdb7776cf183da}{ubuff2}};}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00260\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a5f0fbf7c496c89aa650c8d9bf60305e1}{ubuff3}};}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00263\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a05ad3b6cf854c94bc15f058dc7bd6764}{Ds}};}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00266\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a97655951b8e53329f2030b03e0a21b4d}{rhs}};}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00269\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a3bdc3e951631fcf44f0d957c84912b5d}{xyz}};}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00272\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_a21755dbb4f418600fa4bdfeec4b01d6b}{xyzbuff1}};}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00275\ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ \mbox{\hyperlink{structQOCOWorkspace_ad07be1b7e3b9e3f01330bad1496a6e1e}{kktres}};}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \}\ \mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}};}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00281\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}*\ \mbox{\hyperlink{structQOCOSolution_a989c1156c8a3019bfd101141d067b27f}{x}};}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00284\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}*\ \mbox{\hyperlink{structQOCOSolution_a79f89645c7b39a9c4d4c8380e7129213}{s}};}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00287\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}*\ \mbox{\hyperlink{structQOCOSolution_a27cf10ad9a7474d9fd6b418110fc904f}{y}};}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00290\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}*\ \mbox{\hyperlink{structQOCOSolution_a44f6e311adc9af5956dc65c9b6722957}{z}};}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00293\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOSolution_af22ee3af705035ac8049c32ba6445975}{iters}};}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00296\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSolution_a75eacd22010e7a6c349fad37d8a1a768}{setup\_time\_sec}};}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00299\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSolution_afc8c9f62bffbf4557635d69bfc2f2188}{solve\_time\_sec}};}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00302\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSolution_a382db943a6d77679838a47df7d1591f9}{obj}};}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00305\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSolution_a0885d2735b7586aed3ccc8a81acda625}{pres}};}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00308\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSolution_a5e063df676903dfe0f5b26411824263c}{dres}};}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00311\ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{structQOCOSolution_aa96bc0b7bc5ccaf1e40f36fdb5bd0638}{gap}};}
+\DoxyCodeLine{00312\ }
+\DoxyCodeLine{00314\ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ \mbox{\hyperlink{structQOCOSolution_ace095bf7a10b6e36e707583772499f3b}{status}};}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \}\ \mbox{\hyperlink{structQOCOSolution}{QOCOSolution}};}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00318\ \textcolor{comment}{//\ Linear\ system\ data\ structs\ for\ backends\ to\ define.}}
+\DoxyCodeLine{00319\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{LinSysData}}\ \mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{LinSysData}};}
+\DoxyCodeLine{00320\ }
+\DoxyCodeLine{00321\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00322\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ (*linsys\_name)();}
+\DoxyCodeLine{00323\ \ \ \mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{LinSysData}}*\ (*linsys\_setup)(\mbox{\hyperlink{structQOCOProblemData}{QOCOProblemData}}*\ data,\ \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}}*\ settings,}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ Wnnz);}
+\DoxyCodeLine{00325\ \ \ void\ (*linsys\_set\_nt\_identity)(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{LinSysData}}*\ linsys\_data,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ m);}
+\DoxyCodeLine{00326\ \ \ void\ (*linsys\_update\_nt)(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{LinSysData}}*\ linsys\_data,\ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ WtW\_vec,}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ kkt\_static\_reg,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ m);}
+\DoxyCodeLine{00328\ \ \ void\ (*linsys\_update\_data)(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{LinSysData}}*\ linsys\_data,\ \mbox{\hyperlink{structQOCOProblemData}{QOCOProblemData}}*\ data);}
+\DoxyCodeLine{00329\ \ \ void\ (*linsys\_factor)(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{LinSysData}}*\ linsys\_data,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ n,}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ kkt\_dynamic\_reg);}
+\DoxyCodeLine{00331\ \ \ void\ (*linsys\_solve)(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{LinSysData}}*\ linsys\_data,\ \mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}}*\ work,}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ b\_vec,\ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ x\_vec,}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ iter\_ref\_iters);}
+\DoxyCodeLine{00334\ \ \ void\ (*linsys\_cleanup)(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{LinSysData}}*\ linsys\_data);}
+\DoxyCodeLine{00335\ \}\ \mbox{\hyperlink{structLinSysBackend}{LinSysBackend}};}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00342\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00344\ \ \ \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}}*\ \mbox{\hyperlink{structQOCOSolver_a74a794b01773f869a491cacdb6fc21b3}{settings}};}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00347\ \ \ \mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}}*\ \mbox{\hyperlink{structQOCOSolver_a1fff4710076ad15378db81e9fdc83fb3}{work}};}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00350\ \ \ \mbox{\hyperlink{structLinSysBackend}{LinSysBackend}}*\ \mbox{\hyperlink{structQOCOSolver_ab8980cadd953a996c3410b58c1379671}{linsys}};}
+\DoxyCodeLine{00351\ }
+\DoxyCodeLine{00353\ \ \ \mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{LinSysData}}*\ \mbox{\hyperlink{structQOCOSolver_a164e05e65a6bce5352c8d5e1ef2f6617}{linsys\_data}};}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00356\ \ \ \mbox{\hyperlink{structQOCOSolution}{QOCOSolution}}*\ \mbox{\hyperlink{structQOCOSolver_a8ce63094ab43c6ece3a393fa4e5b1702}{sol}};}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00358\ \}\ \mbox{\hyperlink{structQOCOSolver}{QOCOSolver}};}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ \#ifndef\ QOCO\_STRUCTS\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

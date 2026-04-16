@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['einvruiz_353',['Einvruiz',['../structQOCOKKT.html#aae616bb46f059dc575ca1bb2d5f4fa27',1,'QOCOKKT']]],
-  ['eruiz_354',['Eruiz',['../structQOCOKKT.html#a02dcddeb25f2e5faa1a28167c2bde732',1,'QOCOKKT']]],
-  ['etree_355',['etree',['../structQOCOKKT.html#acf1f241dff0d6bda8ae0c54319eb5e9e',1,'QOCOKKT']]]
+  ['einvruiz_0',['Einvruiz',['../structQOCOScaling.html#af4dbdd03e56f45afe5b138e0c2705428',1,'QOCOScaling']]],
+  ['eruiz_1',['Eruiz',['../structQOCOScaling.html#ac86c408d8d53ac69ecb39f50e7c340d3',1,'QOCOScaling']]]
 ];

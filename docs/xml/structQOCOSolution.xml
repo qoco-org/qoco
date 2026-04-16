@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="structQOCOSolution" kind="struct" language="C++" prot="public">
     <compoundname>QOCOSolution</compoundname>
     <includes refid="structs_8h" local="no">structs.h</includes>
-      <sectiondef kind="public-attrib">
+    <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="structQOCOSolution_1a989c1156c8a3019bfd101141d067b27f" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
         <definition>QOCOFloat* QOCOSolution::x</definition>
         <argsstring></argsstring>
         <name>x</name>
+        <qualifiedname>QOCOSolution::x</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -16,13 +17,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="325" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="325" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="281" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="281" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1a79f89645c7b39a9c4d4c8380e7129213" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
         <definition>QOCOFloat* QOCOSolution::s</definition>
         <argsstring></argsstring>
         <name>s</name>
+        <qualifiedname>QOCOSolution::s</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -30,13 +32,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="328" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="328" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="284" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="284" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1a27cf10ad9a7474d9fd6b418110fc904f" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
         <definition>QOCOFloat* QOCOSolution::y</definition>
         <argsstring></argsstring>
         <name>y</name>
+        <qualifiedname>QOCOSolution::y</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -44,13 +47,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="331" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="331" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="287" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="287" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1a44f6e311adc9af5956dc65c9b6722957" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
         <definition>QOCOFloat* QOCOSolution::z</definition>
         <argsstring></argsstring>
         <name>z</name>
+        <qualifiedname>QOCOSolution::z</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -58,13 +62,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="334" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="334" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="290" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="290" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1af22ee3af705035ac8049c32ba6445975" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
         <definition>QOCOInt QOCOSolution::iters</definition>
         <argsstring></argsstring>
         <name>iters</name>
+        <qualifiedname>QOCOSolution::iters</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -72,13 +77,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="337" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="337" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="293" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="293" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1a75eacd22010e7a6c349fad37d8a1a768" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
         <definition>QOCOFloat QOCOSolution::setup_time_sec</definition>
         <argsstring></argsstring>
         <name>setup_time_sec</name>
+        <qualifiedname>QOCOSolution::setup_time_sec</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -86,13 +92,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="340" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="340" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="296" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="296" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1afc8c9f62bffbf4557635d69bfc2f2188" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
         <definition>QOCOFloat QOCOSolution::solve_time_sec</definition>
         <argsstring></argsstring>
         <name>solve_time_sec</name>
+        <qualifiedname>QOCOSolution::solve_time_sec</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -100,13 +107,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="343" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="343" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="299" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="299" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1a382db943a6d77679838a47df7d1591f9" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
         <definition>QOCOFloat QOCOSolution::obj</definition>
         <argsstring></argsstring>
         <name>obj</name>
+        <qualifiedname>QOCOSolution::obj</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -114,13 +122,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="346" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="346" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="302" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="302" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1a0885d2735b7586aed3ccc8a81acda625" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
         <definition>QOCOFloat QOCOSolution::pres</definition>
         <argsstring></argsstring>
         <name>pres</name>
+        <qualifiedname>QOCOSolution::pres</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -128,13 +137,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="349" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="349" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="305" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="305" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1a5e063df676903dfe0f5b26411824263c" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
         <definition>QOCOFloat QOCOSolution::dres</definition>
         <argsstring></argsstring>
         <name>dres</name>
+        <qualifiedname>QOCOSolution::dres</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -142,13 +152,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="352" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="352" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="308" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="308" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1aa96bc0b7bc5ccaf1e40f36fdb5bd0638" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
         <definition>QOCOFloat QOCOSolution::gap</definition>
         <argsstring></argsstring>
         <name>gap</name>
+        <qualifiedname>QOCOSolution::gap</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -156,13 +167,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="355" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="355" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="311" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="311" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolution_1ace095bf7a10b6e36e707583772499f3b" prot="public" static="no" mutable="no">
         <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
         <definition>QOCOInt QOCOSolution::status</definition>
         <argsstring></argsstring>
         <name>status</name>
+        <qualifiedname>QOCOSolution::status</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -170,14 +182,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="358" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="358" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="314" column="11" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="314" bodyend="-1"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="323" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="323" bodyend="360"/>
+    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="279" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="279" bodyend="316"/>
     <listofallmembers>
       <member refid="structQOCOSolution_1a5e063df676903dfe0f5b26411824263c" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>dres</name></member>
       <member refid="structQOCOSolution_1aa96bc0b7bc5ccaf1e40f36fdb5bd0638" prot="public" virt="non-virtual"><scope>QOCOSolution</scope><name>gap</name></member>

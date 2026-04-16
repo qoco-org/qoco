@@ -1,9 +1,16 @@
 <map id="/home/govind/Desktop/git/qoco/include/cone.h" name="/home/govind/Desktop/git/qoco/include/cone.h">
-<area shape="rect" id="node1" title=" " alt="" coords="352,5,528,47"/>
-<area shape="rect" id="node2" href="$kkt_8h.html" title=" " alt="" coords="233,95,402,136"/>
-<area shape="rect" id="node4" href="$qoco_8h.html" title=" " alt="" coords="285,273,461,315"/>
-<area shape="rect" id="node7" href="$cone_8c.html" title=" " alt="" coords="478,95,647,136"/>
-<area shape="rect" id="node3" href="$qoco__api_8h.html" title=" " alt="" coords="5,184,208,225"/>
-<area shape="rect" id="node6" href="$kkt_8c.html" title=" " alt="" coords="233,184,402,225"/>
-<area shape="rect" id="node5" href="$qoco__api_8c.html" title=" " alt="" coords="19,273,194,315"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="352,5,528,45"/>
+<area shape="rect" id="Node000002" href="$kkt_8h.html" title=" " alt="" coords="233,93,402,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="403,55,346,95,343,91,400,51"/>
+<area shape="rect" id="Node000004" href="$qoco_8h.html" title=" " alt="" coords="285,269,461,309"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="442,59,436,135,428,179,416,222,404,248,390,271,385,268,399,246,411,220,423,178,430,134,437,59"/>
+<area shape="rect" id="Node000007" href="$cone_8c.html" title=" " alt="" coords="478,93,647,133"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="480,51,537,91,534,95,477,55"/>
+<area shape="rect" id="Node000003" href="$qoco__api_8h.html" title=" " alt="" coords="5,181,208,221"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="260,141,154,184,152,179,258,136"/>
+<area shape="rect" id="Node000006" href="$kkt_8c.html" title=" " alt="" coords="233,181,402,221"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="320,147,320,181,315,181,315,147"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="179,223,316,267,314,272,177,228"/>
+<area shape="rect" id="Node000005" href="$qoco__api_8c.html" title=" " alt="" coords="19,269,194,309"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="109,235,109,269,104,269,104,235"/>
 </map>

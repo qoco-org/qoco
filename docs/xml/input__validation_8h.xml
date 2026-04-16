@@ -1,28 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="input__validation_8h" kind="file" language="C++">
     <compoundname>input_validation.h</compoundname>
     <includes refid="enums_8h" local="yes">enums.h</includes>
-    <includes refid="qoco__error_8h" local="yes">qoco_error.h</includes>
+    <includes refid="qoco__status_8h" local="yes">qoco_status.h</includes>
     <includes refid="structs_8h" local="yes">structs.h</includes>
     <includes local="no">stdio.h</includes>
     <includedby refid="qoco__api_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_api.h</includedby>
     <includedby refid="input__validation_8c" local="yes">/home/govind/Desktop/git/qoco/src/input_validation.c</includedby>
     <incdepgraph>
-      <node id="7">
-        <label>stdlib.h</label>
-      </node>
-      <node id="9">
-        <label>structs.h</label>
-        <link refid="structs_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-      </node>
-      <node id="5">
-        <label>limits.h</label>
-      </node>
       <node id="4">
         <label>definitions.h</label>
         <link refid="definitions_8h"/>
@@ -32,16 +18,12 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-      </node>
-      <node id="3">
-        <label>qoco_error.h</label>
-        <link refid="qoco__error_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="2" relation="include">
-        </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+      </node>
+      <node id="2">
+        <label>enums.h</label>
+        <link refid="enums_8h"/>
       </node>
       <node id="1">
         <label>/home/govind/Desktop/git/qoco/include/input_validation.h</label>
@@ -50,29 +32,74 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+      </node>
+      <node id="5">
+        <label>qoco_config.h</label>
+        <link refid="qoco__config_8h"/>
+      </node>
+      <node id="11">
+        <label>qoco_linalg.h</label>
+        <link refid="qoco__linalg_8h"/>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>math.h</label>
-      </node>
-      <node id="2">
-        <label>enums.h</label>
-        <link refid="enums_8h"/>
+      <node id="3">
+        <label>qoco_status.h</label>
+        <link refid="qoco__status_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
       <node id="10">
+        <label>structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
         <label>timer.h</label>
         <link refid="timer_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>limits.h</label>
+      </node>
+      <node id="7">
+        <label>math.h</label>
+      </node>
+      <node id="9">
+        <label>stdio.h</label>
       </node>
       <node id="8">
-        <label>stdio.h</label>
+        <label>stdlib.h</label>
+      </node>
+      <node id="13">
+        <label>time.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/input_validation.h</label>
+        <link refid="input__validation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
       <node id="3">
         <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
         <link refid="qoco_8h"/>
@@ -85,14 +112,6 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="1">
-        <label>/home/govind/Desktop/git/qoco/include/input_validation.h</label>
-        <link refid="input__validation_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
       <node id="5">
         <label>/home/govind/Desktop/git/qoco/src/input_validation.c</label>
         <link refid="input__validation_8c"/>
@@ -102,7 +121,7 @@
         <link refid="qoco__api_8c"/>
       </node>
     </invincdepgraph>
-      <sectiondef kind="func">
+    <sectiondef kind="func">
       <memberdef kind="function" id="input__validation_8h_1a1bfb924cde6bff6810d49cea5e0a2e4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
         <definition>QOCOInt qoco_validate_settings</definition>
@@ -131,7 +150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/input_validation.h" line="29" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/input_validation.c" bodystart="13" bodyend="70" declfile="/home/govind/Desktop/git/qoco/include/input_validation.h" declline="29" declcolumn="9"/>
+        <location file="/home/govind/Desktop/git/qoco/include/input_validation.h" line="29" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/input_validation.c" bodystart="13" bodyend="64" declfile="/home/govind/Desktop/git/qoco/include/input_validation.h" declline="29" declcolumn="9"/>
       </memberdef>
       <memberdef kind="function" id="input__validation_8h_1a26e99d040f1360a2c17d86709fe0302f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
@@ -257,31 +276,31 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/input_validation.h" line="45" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/input_validation.c" bodystart="72" bodyend="153" declfile="/home/govind/Desktop/git/qoco/include/input_validation.h" declline="45" declcolumn="9"/>
+        <location file="/home/govind/Desktop/git/qoco/include/input_validation.h" line="45" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/input_validation.c" bodystart="66" bodyend="147" declfile="/home/govind/Desktop/git/qoco/include/input_validation.h" declline="45" declcolumn="9"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
 </simplesect>
 </para>
-<sect1 id="utils_8c_1LICENSE">
+<sect1 id="qoco__api_8c_1LICENSE">
 <title>LICENSE</title>
 <para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License</para>
 </sect1>
-<sect1 id="utils_8h_1DESCRIPTION">
+<sect1 id="timer_8h_1DESCRIPTION">
 <title>DESCRIPTION</title>
 <para>Includes functions that validate any user-provided data. </para>
 </sect1>
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>INPUT_VALIDATION_H</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INPUT_VALIDATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>QOCO_INPUT_VALIDATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QOCO_INPUT_VALIDATION_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="enums_8h" kindref="compound">enums.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="qoco__error_8h" kindref="compound">qoco_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="qoco__status_8h" kindref="compound">qoco_status.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="structs_8h" kindref="compound">structs.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight></codeline>
@@ -293,7 +312,7 @@
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>l,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>nsoc,</highlight></codeline>
 <codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>q);</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>INPUT_VALIDATION_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>QOCO_INPUT_VALIDATION_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
     </programlisting>
     <location file="/home/govind/Desktop/git/qoco/include/input_validation.h"/>
   </compounddef>

@@ -1,52 +1,30 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="enums_8h" kind="file" language="C++">
     <compoundname>enums.h</compoundname>
     <includedby refid="input__validation_8h" local="yes">/home/govind/Desktop/git/qoco/include/input_validation.h</includedby>
     <includedby refid="qoco__api_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_api.h</includedby>
-    <includedby refid="qoco__error_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_error.h</includedby>
-    <includedby refid="utils_8h" local="yes">/home/govind/Desktop/git/qoco/include/utils.h</includedby>
+    <includedby refid="qoco__status_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_status.h</includedby>
+    <includedby refid="qoco__utils_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_utils.h</includedby>
     <invincdepgraph>
-      <node id="4">
-        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
-        <link refid="qoco_8h"/>
-      </node>
       <node id="9">
-        <label>/home/govind/Desktop/git/qoco/include/utils.h</label>
-        <link refid="utils_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
+        <label>/home/govind/Desktop/git/qoco/include/cone.h</label>
+        <link refid="cone_8h"/>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="3">
-        <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
-        <link refid="qoco__api_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>/home/govind/Desktop/git/qoco/src/cone.c</label>
-        <link refid="cone_8c"/>
-      </node>
-      <node id="8">
-        <label>/home/govind/Desktop/git/qoco/src/qoco_error.c</label>
-        <link refid="qoco__error_8c"/>
-      </node>
-      <node id="7">
-        <label>/home/govind/Desktop/git/qoco/include/qoco_error.h</label>
-        <link refid="qoco__error_8h"/>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/enums.h</label>
+        <link refid="enums_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -59,36 +37,80 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="1">
-        <label>/home/govind/Desktop/git/qoco/include/enums.h</label>
-        <link refid="enums_8h"/>
+      <node id="10">
+        <label>/home/govind/Desktop/git/qoco/include/kkt.h</label>
+        <link refid="kkt_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
+        <link refid="qoco_8h"/>
+      </node>
+      <node id="3">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
+        <link refid="qoco__api_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_status.h</label>
+        <link refid="qoco__status_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
-      <node id="11">
-        <label>/home/govind/Desktop/git/qoco/src/kkt.c</label>
-        <link refid="kkt_8c"/>
+      <node id="8">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_utils.h</label>
+        <link refid="qoco__utils_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>/home/govind/Desktop/git/qoco/src/cone.c</label>
+        <link refid="cone_8c"/>
       </node>
       <node id="6">
         <label>/home/govind/Desktop/git/qoco/src/input_validation.c</label>
         <link refid="input__validation_8c"/>
       </node>
-      <node id="12">
-        <label>/home/govind/Desktop/git/qoco/src/utils.c</label>
-        <link refid="utils_8c"/>
+      <node id="11">
+        <label>/home/govind/Desktop/git/qoco/src/kkt.c</label>
+        <link refid="kkt_8c"/>
       </node>
       <node id="5">
         <label>/home/govind/Desktop/git/qoco/src/qoco_api.c</label>
         <link refid="qoco__api_8c"/>
       </node>
+      <node id="14">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_status.c</label>
+        <link refid="qoco__status_8c"/>
+      </node>
+      <node id="13">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_utils.c</label>
+        <link refid="qoco__utils_8c"/>
+      </node>
     </invincdepgraph>
-      <sectiondef kind="enum">
+    <sectiondef kind="enum">
       <memberdef kind="enum" id="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5" prot="public" static="no" strong="no">
         <type></type>
         <name>qoco_error_code</name>
@@ -193,56 +215,14 @@
         </inbodydescription>
         <location file="/home/govind/Desktop/git/qoco/include/enums.h" line="31" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/enums.h" bodystart="31" bodyend="47"/>
       </memberdef>
-      </sectiondef>
-      <sectiondef kind="var">
-      <memberdef kind="variable" id="enums_8h_1a37259e919d1dac6865b8ee674e8b7568" prot="public" static="yes" mutable="no">
-        <type>const char *</type>
-        <definition>const char* QOCO_ERROR_MESSAGE[]</definition>
-        <argsstring>[]</argsstring>
-        <name>QOCO_ERROR_MESSAGE</name>
-        <initializer>= {
-    &quot;&quot;, 
-    &quot;data validation error&quot;,
-    &quot;settings validation error&quot;,
-    &quot;amd error&quot;,
-    &quot;memory allocation error&quot;
-}</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/enums.h" line="50" column="19" bodyfile="/home/govind/Desktop/git/qoco/include/enums.h" bodystart="50" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="enums_8h_1aaba44f3a663e3fdffab51406a5f9f85f" prot="public" static="yes" mutable="no">
-        <type>const char *</type>
-        <definition>const char* QOCO_SOLVE_STATUS_MESSAGE[]</definition>
-        <argsstring>[]</argsstring>
-        <name>QOCO_SOLVE_STATUS_MESSAGE</name>
-        <initializer>= {
-    &quot;unsolved&quot;, 
-    &quot;solved&quot;,
-    &quot;solved inaccurately&quot;,
-    &quot;numerical error&quot;,
-    &quot;maximum iterations reached&quot;,
-}</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/enums.h" line="59" column="19" bodyfile="/home/govind/Desktop/git/qoco/include/enums.h" bodystart="59" bodyend="-1"/>
-      </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>ENUMS_H</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>ENUMS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>QOCO_ENUMS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QOCO_ENUMS_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
 <codeline lineno="8" refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5" kindref="member">qoco_error_code</ref><sp/>{</highlight></codeline>
 <codeline lineno="9" refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a0269eec742bc0e16495df7d802951cfe" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5a0269eec742bc0e16495df7d802951cfe" kindref="member">QOCO_NO_ERROR</ref><sp/>=<sp/>0,</highlight></codeline>
@@ -281,26 +261,7 @@
 <codeline lineno="46" refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844afde4613894c23ff4f17b54030dd4b3a2" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="enums_8h_1aa172e8d3d8d92e128f1bcca12f536844afde4613894c23ff4f17b54030dd4b3a2" kindref="member">QOCO_MAX_ITER</ref>,</highlight></codeline>
 <codeline lineno="47"><highlight class="normal">};</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>clang-format<sp/>off</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*QOCO_ERROR_MESSAGE[]<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">//<sp/>Error<sp/>codes<sp/>start<sp/>from<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;data<sp/>validation<sp/>error&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;settings<sp/>validation<sp/>error&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;amd<sp/>error&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;memory<sp/>allocation<sp/>error&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*QOCO_SOLVE_STATUS_MESSAGE[]<sp/>=<sp/>{</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;unsolved&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">//<sp/>Solver<sp/>not<sp/>run.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;solved&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;solved<sp/>inaccurately&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;numerical<sp/>error&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;maximum<sp/>iterations<sp/>reached&quot;</highlight><highlight class="normal">,</highlight></codeline>
-<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>clang-format<sp/>on</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>ENUMS_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>QOCO_ENUMS_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
     </programlisting>
     <location file="/home/govind/Desktop/git/qoco/include/enums.h"/>
   </compounddef>

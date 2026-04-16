@@ -1,9 +1,17 @@
 <map id="QOCOSolver" name="QOCOSolver">
-<area shape="rect" id="node1" title="QOCO Solver struct. Contains all information about the state of the solver." alt="" coords="246,332,349,359"/>
-<area shape="rect" id="node2" href="$structQOCOWorkspace.html" title="QOCO Workspace." alt="" coords="83,243,215,269"/>
-<area shape="rect" id="node3" href="$structQOCOProblemData.html" title="SOCP problem data." alt="" coords="5,153,152,180"/>
-<area shape="rect" id="node4" href="$structQOCOCscMatrix.html" title="Compressed sparse column format matrices." alt="" coords="85,5,211,32"/>
-<area shape="rect" id="node5" href="$structQOCOKKT.html" title="Contains all data needed for constructing and modifying KKT matrix and performing predictor&#45;corrector..." alt="" coords="177,153,263,180"/>
-<area shape="rect" id="node6" href="$structQOCOSolution.html" title=" " alt="" coords="240,243,355,269"/>
-<area shape="rect" id="node7" href="$structQOCOSettings.html" title="QOCO solver settings." alt="" coords="379,243,493,269"/>
+<area shape="rect" id="Node000001" title="QOCO Solver struct. Contains all information about the state of the solver." alt="" coords="286,181,389,207"/>
+<area shape="rect" id="Node000002" href="$structQOCOSettings.html" title="QOCO solver settings." alt="" coords="20,93,135,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,121,213,155,294,179,293,184,211,160,118,126"/>
+<area shape="rect" id="Node000003" href="$structQOCOWorkspace.html" title="QOCO Workspace." alt="" coords="159,93,291,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,125,324,179,320,183,250,129"/>
+<area shape="rect" id="Node000004" href="$structQOCOProblemData.html" title="SOCP problem data." alt="" coords="5,5,152,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="112,35,207,91,204,95,109,40"/>
+<area shape="rect" id="Node000005" href="$structQOCOTimer.html" title=" " alt="" coords="176,5,275,31"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="228,45,228,93,223,93,223,45"/>
+<area shape="rect" id="Node000006" href="$structQOCOScaling.html" title="Contains all data related to problem scaling and equilibration." alt="" coords="299,5,407,31"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="340,44,314,71,290,85,266,96,264,91,288,81,310,67,336,40"/>
+<area shape="rect" id="Node000007" href="$structLinSysBackend.html" title=" " alt="" coords="315,93,434,119"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="367,132,345,182,340,180,362,130"/>
+<area shape="rect" id="Node000008" href="$structQOCOSolution.html" title=" " alt="" coords="459,93,573,119"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="481,127,363,183,360,179,479,122"/>
 </map>

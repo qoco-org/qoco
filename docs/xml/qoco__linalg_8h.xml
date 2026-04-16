@@ -1,0 +1,1990 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="qoco__linalg_8h" kind="file" language="C++">
+    <compoundname>qoco_linalg.h</compoundname>
+    <includes refid="definitions_8h" local="yes">definitions.h</includes>
+    <includedby refid="common__linalg_8h" local="yes">/home/govind/Desktop/git/qoco/include/common_linalg.h</includedby>
+    <includedby refid="cone_8h" local="yes">/home/govind/Desktop/git/qoco/include/cone.h</includedby>
+    <includedby refid="equilibration_8h" local="yes">/home/govind/Desktop/git/qoco/include/equilibration.h</includedby>
+    <includedby refid="kkt_8h" local="yes">/home/govind/Desktop/git/qoco/include/kkt.h</includedby>
+    <includedby refid="qoco__api_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_api.h</includedby>
+    <includedby refid="qoco__utils_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_utils.h</includedby>
+    <includedby refid="structs_8h" local="yes">/home/govind/Desktop/git/qoco/include/structs.h</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>qoco_config.h</label>
+        <link refid="qoco__config_8h"/>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_linalg.h</label>
+        <link refid="qoco__linalg_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>limits.h</label>
+      </node>
+      <node id="5">
+        <label>math.h</label>
+      </node>
+      <node id="6">
+        <label>stdlib.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>/home/govind/Desktop/git/qoco/include/common_linalg.h</label>
+        <link refid="common__linalg_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>/home/govind/Desktop/git/qoco/include/cone.h</label>
+        <link refid="cone_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/home/govind/Desktop/git/qoco/include/equilibration.h</label>
+        <link refid="equilibration_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>/home/govind/Desktop/git/qoco/include/input_validation.h</label>
+        <link refid="input__validation_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>/home/govind/Desktop/git/qoco/include/kkt.h</label>
+        <link refid="kkt_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
+        <link refid="qoco_8h"/>
+      </node>
+      <node id="4">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
+        <link refid="qoco__api_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_linalg.h</label>
+        <link refid="qoco__linalg_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>/home/govind/Desktop/git/qoco/include/qoco_utils.h</label>
+        <link refid="qoco__utils_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>/home/govind/Desktop/git/qoco/include/structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>/home/govind/Desktop/git/qoco/src/common_linalg.c</label>
+        <link refid="common__linalg_8c"/>
+      </node>
+      <node id="12">
+        <label>/home/govind/Desktop/git/qoco/src/cone.c</label>
+        <link refid="cone_8c"/>
+      </node>
+      <node id="7">
+        <label>/home/govind/Desktop/git/qoco/src/equilibration.c</label>
+        <link refid="equilibration_8c"/>
+      </node>
+      <node id="17">
+        <label>/home/govind/Desktop/git/qoco/src/input_validation.c</label>
+        <link refid="input__validation_8c"/>
+      </node>
+      <node id="11">
+        <label>/home/govind/Desktop/git/qoco/src/kkt.c</label>
+        <link refid="kkt_8c"/>
+      </node>
+      <node id="6">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_api.c</label>
+        <link refid="qoco__api_8c"/>
+      </node>
+      <node id="13">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_utils.c</label>
+        <link refid="qoco__utils_8c"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structQOCOCscMatrix" prot="public">QOCOCscMatrix</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" prot="public" static="no">
+        <type>struct QOCOMatrix_</type>
+        <definition>typedef struct QOCOMatrix_ QOCOMatrix</definition>
+        <argsstring></argsstring>
+        <name>QOCOMatrix</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="19" column="26" bodyfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" prot="public" static="no">
+        <type>struct QOCOVectorf_</type>
+        <definition>typedef struct QOCOVectorf_ QOCOVectorf</definition>
+        <argsstring></argsstring>
+        <name>QOCOVectorf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="20" column="27" bodyfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" prot="public" static="no">
+        <type>struct QOCOVectori_</type>
+        <definition>typedef struct QOCOVectori_ QOCOVectori</definition>
+        <argsstring></argsstring>
+        <name>QOCOVectori</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="21" column="27" bodyfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="qoco__linalg_8h_1a24b40500c9bfa96f5038a51acedc8b4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void set_cpu_mode</definition>
+        <argsstring>(int active)</argsstring>
+        <name>set_cpu_mode</name>
+        <param>
+          <type>int</type>
+          <declname>active</declname>
+        </param>
+        <briefdescription>
+<para>Sets the CPU mode flag (CUDA backend only). During CPU mode, get_... functions returns host pointers, otherwise device pointers are returned. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>active</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>1 if CPU mode is active, 0 otherwise. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="55" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="55" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1af97e3ab5938ed2924134c4239ec109f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix * new_qoco_csc_matrix</definition>
+        <argsstring>(const QOCOCscMatrix *A)</argsstring>
+        <name>new_qoco_csc_matrix</name>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+<para>Allocates a new csc matrix and copies A to it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Matrix to copy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to new constructed matrix. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="63" column="15" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="63" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a0b1d7dcd153c5b594e896092638f39cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+        <definition>QOCOMatrix * new_qoco_matrix</definition>
+        <argsstring>(const QOCOCscMatrix *A)</argsstring>
+        <name>new_qoco_matrix</name>
+        <param>
+          <type>const <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+<para>Allocates a new QOCOMatrix and copies A to it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Matrix to copy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to new constructed matrix. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="71" column="12" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="71" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a759a18e640a746004804562dce3ea204" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void free_qoco_matrix</definition>
+        <argsstring>(QOCOMatrix *A)</argsstring>
+        <name>free_qoco_matrix</name>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+<para>Frees QOCOMatrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Matrix to free. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="78" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="78" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1adb28b0f965091f5fc7f80a71546eb186" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf * new_qoco_vectorf</definition>
+        <argsstring>(const QOCOFloat *x, QOCOInt n)</argsstring>
+        <name>new_qoco_vectorf</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Allocates a new QOCOVectorf and copies x to it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector to copy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>length of vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to new constructed vector. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="87" column="13" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="87" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a9e158865766c60cd31a6c4d16c34d7be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref> *</type>
+        <definition>QOCOVectori * new_qoco_vectori</definition>
+        <argsstring>(const QOCOInt *x, QOCOInt n)</argsstring>
+        <name>new_qoco_vectori</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Allocates a new QOCOVectori and copies x to it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector to copy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>length of vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to new constructed vector. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="96" column="13" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="96" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a39f7d558d7047ea8b5900f29e1ec5020" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void free_qoco_vectorf</definition>
+        <argsstring>(QOCOVectorf *x)</argsstring>
+        <name>free_qoco_vectorf</name>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Frees QOCOVectorf. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector to free. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="103" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="103" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a9faf830a2fc47109254244428073a13a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void free_qoco_vectori</definition>
+        <argsstring>(QOCOVectori *x)</argsstring>
+        <name>free_qoco_vectori</name>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Frees QOCOVectori. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector to free. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="110" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="110" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a41f4b043e4f5727f92c1fbc1db80da72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt get_nnz</definition>
+        <argsstring>(const QOCOMatrix *A)</argsstring>
+        <name>get_nnz</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+<para>Returns the number of nonzeros in a QOCOMatrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input matrix. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of nonzeros. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="118" column="9" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="118" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1ada738414c28d331a24f6095fafebe1c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ew_product</definition>
+        <argsstring>(QOCOFloat *x, const QOCOFloat *y, QOCOFloat *z, QOCOInt n)</argsstring>
+        <name>ew_product</name>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Computes elementwise product z = x .* y. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of arrays. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="128" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="128" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1ad2d7fbe920ed0f3027eca62dc550aa7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat get_element_vectorf</definition>
+        <argsstring>(const QOCOVectorf *x, QOCOInt idx)</argsstring>
+        <name>get_element_vectorf</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Returns x[idx]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>x[idx]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="137" column="11" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="137" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1af56f3f0e910ed7161660ebff06b9139e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt get_element_vectori</definition>
+        <argsstring>(const QOCOVectori *x, QOCOInt idx)</argsstring>
+        <name>get_element_vectori</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Returns x[idx]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>x[idx]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="146" column="9" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="146" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a18cc5474b5a74bc07955ed4e517894d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void set_element_vectorf</definition>
+        <argsstring>(QOCOVectorf *x, QOCOInt idx, QOCOFloat data)</argsstring>
+        <name>set_element_vectorf</name>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>idx</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Performs x[idx] = data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element to set at index idx. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="155" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="155" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a9f1b79bc02158a0d5c55e218ff4684b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void reciprocal_vectorf</definition>
+        <argsstring>(const QOCOVectorf *input, QOCOVectorf *output)</argsstring>
+        <name>reciprocal_vectorf</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Performs output .= 1.0 ./ input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="163" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="163" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1acdfba283a2e8c9daac9a5e3f0eac512e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+        <definition>QOCOFloat * get_pointer_vectorf</definition>
+        <argsstring>(const QOCOVectorf *x, QOCOInt idx)</argsstring>
+        <name>get_pointer_vectorf</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Returns &amp;x[idx]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>&amp;x[idx]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="172" column="11" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="172" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a8343aad952146f8f866e6c6be549d2bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+        <definition>QOCOFloat * get_data_vectorf</definition>
+        <argsstring>(const QOCOVectorf *x)</argsstring>
+        <name>get_data_vectorf</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Returns the underlying data array of a QOCOVectorf. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to underlying data array. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="180" column="11" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="180" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a49935d57bc6c625e38428669d43638e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+        <definition>QOCOInt * get_data_vectori</definition>
+        <argsstring>(const QOCOVectori *x)</argsstring>
+        <name>get_data_vectori</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Returns the underlying data array of a QOCOVectori. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to underlying data array. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="188" column="9" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="188" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1ad1c960ec0b53cec54c5b76e8de289a76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sync_vector_to_host</definition>
+        <argsstring>(QOCOVectorf *v)</argsstring>
+        <name>sync_vector_to_host</name>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Syncs vector data from host to device if needed (CUDA backend only). This is a no-op for non-CUDA backends. Note: This should NOT be called during qoco_solve to avoid CPU-GPU copies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="197" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="197" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1acecbbbab8158096ff1c6bde017cc1aaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sync_vector_to_device</definition>
+        <argsstring>(QOCOVectorf *v)</argsstring>
+        <name>sync_vector_to_device</name>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Syncs vector data from device to host if needed (CUDA backend only). This is a no-op for non-CUDA backends. Note: This should NOT be called during qoco_solve to avoid CPU-GPU copies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="206" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="206" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a9b09944c9118ce3d3d5851ce4e75fde2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sync_matrix_to_device</definition>
+        <argsstring>(QOCOMatrix *M)</argsstring>
+        <name>sync_matrix_to_device</name>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <briefdescription>
+<para>Syncs Matrix data from device to host if needed (CUDA backend only). This is a no-op for non-CUDA backends. Note: This should NOT be called during qoco_solve to avoid CPU-GPU copies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="216" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="216" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a08e079e41e6ddc607a538c89f4a16573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt get_length_vectorf</definition>
+        <argsstring>(const QOCOVectorf *x)</argsstring>
+        <name>get_length_vectorf</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Returns the length of a QOCOVectorf. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Length of vector. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="224" column="9" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="224" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a50024d02db9a130f68f6da914f4440e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix * get_csc_matrix</definition>
+        <argsstring>(const QOCOMatrix *M)</argsstring>
+        <name>get_csc_matrix</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <briefdescription>
+<para>Returns the underlying CSC matrix from a QOCOMatrix. This function provides access to implementation-specific data. For builtin implementation, returns the internal CSC matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input matrix. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to underlying CSC matrix. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="234" column="15" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="234" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a0f8ec01c9c0b2c62499f807dc52e5288" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void col_inf_norm_USymm_matrix</definition>
+        <argsstring>(const QOCOMatrix *M, QOCOFloat *norm)</argsstring>
+        <name>col_inf_norm_USymm_matrix</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>norm</declname>
+        </param>
+        <briefdescription>
+<para>Computes the infinity norm of each column (or equivalently row) of a symmetric sparse matrix M where only the upper triangular portion of M is given. Works with QOCOMatrix*. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper triangular part of sparse symmetric matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>norm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result vector of length n. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="244" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="244" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a10a920e334221357bb8991b41602e54d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void col_inf_norm_matrix</definition>
+        <argsstring>(const QOCOMatrix *M, QOCOFloat *norm)</argsstring>
+        <name>col_inf_norm_matrix</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>norm</declname>
+        </param>
+        <briefdescription>
+<para>Computes the infinity norm of each column of M and stores in norm. Works with QOCOMatrix*. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An m by n sparse matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>norm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result vector of length n. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="253" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="253" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1ac563a3a0f208d65cebef78584e3cc347" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void row_inf_norm_matrix</definition>
+        <argsstring>(const QOCOMatrix *M, QOCOFloat *norm)</argsstring>
+        <name>row_inf_norm_matrix</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>norm</declname>
+        </param>
+        <briefdescription>
+<para>Computes the infinity norm of each row of M and stores in norm. Works with QOCOMatrix*. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An m by n sparse matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>norm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result vector of length m. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="262" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="262" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a2c9e4485260d7f3e83589255a1be2b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void row_col_scale_matrix</definition>
+        <argsstring>(QOCOMatrix *M, const QOCOFloat *E, const QOCOFloat *D)</argsstring>
+        <name>row_col_scale_matrix</name>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>E</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>D</declname>
+        </param>
+        <briefdescription>
+<para>Scales the rows of M by E and columns of M by D. M = diag(E) * M * diag(D). Works with QOCOMatrix*. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An m by n sparse matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>E</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of length m. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>D</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of length n. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="272" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="272" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a4e4c7c1df7c224d28c9ee82553cfda94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void free_qoco_csc_matrix</definition>
+        <argsstring>(QOCOCscMatrix *A)</argsstring>
+        <name>free_qoco_csc_matrix</name>
+        <param>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>A</declname>
+        </param>
+        <briefdescription>
+<para>Frees all the internal arrays and the pointer to the <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>. Should only be used if <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> and all internal arrays were malloc&apos;ed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to <ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="281" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="281" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a298815cf49d7a35894fd063fb3f59d07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void copy_arrayf</definition>
+        <argsstring>(const QOCOFloat *x, QOCOFloat *y, QOCOInt n)</argsstring>
+        <name>copy_arrayf</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Copies array of QOCOFloats from x to array y. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of arrays. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="290" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="290" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a01e27f9edf9e2cae2032501a56a0b5f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void copy_and_negate_arrayf</definition>
+        <argsstring>(const QOCOFloat *x, QOCOFloat *y, QOCOInt n)</argsstring>
+        <name>copy_and_negate_arrayf</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Copies and negates array of QOCOFloats from x to array y. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of arrays. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="299" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="299" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a2ce684c84dfdc8c000a2aaa88487c4cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void copy_arrayi</definition>
+        <argsstring>(const QOCOInt *x, QOCOInt *y, QOCOInt n)</argsstring>
+        <name>copy_arrayi</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Copies array of QOCOInts from x to array y. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of arrays. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="308" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="308" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a3d8a23216fff4fb100298aadacab5ea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat qoco_dot</definition>
+        <argsstring>(const QOCOFloat *u, const QOCOFloat *v, QOCOInt n)</argsstring>
+        <name>qoco_dot</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Computes dot product of u and v. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>u</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of vectors. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dot product of u and v. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="318" column="11" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="318" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1ab5f0f37d238fd5f833e790474d6429be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt max_arrayi</definition>
+        <argsstring>(const QOCOInt *x, QOCOInt n)</argsstring>
+        <name>max_arrayi</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Computes maximum element of array of QOCOInts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of array. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Maximum element of x. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="327" column="9" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="327" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1aed2caeb493cbf251a8d9e446a3d19fc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void scale_arrayf</definition>
+        <argsstring>(const QOCOFloat *x, QOCOFloat *y, QOCOFloat s, QOCOInt n)</argsstring>
+        <name>scale_arrayf</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Scales array x by s and stores result in y. y = s * x. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output array. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scaling factor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of arrays. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="338" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="338" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a382675ecd8040ba1cc558068f0069914" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void qoco_axpy</definition>
+        <argsstring>(const QOCOFloat *x, const QOCOFloat *y, QOCOFloat *z, QOCOFloat a, QOCOInt n)</argsstring>
+        <name>qoco_axpy</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Computes z = a * x + y. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scaling factor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of vectors. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="349" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="349" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a32dac02ef5fe5649b95e6d7cb904cb9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void USpMv</definition>
+        <argsstring>(const QOCOMatrix *M, const QOCOFloat *v, QOCOFloat *r)</argsstring>
+        <name>USpMv</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Sparse matrix vector multiplication for CSC matrices where M is symmetric and only the upper triangular part is given. Computes r = M * v. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper triangular part of M. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="360" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="360" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1aa3f58fbfc9dc71f5117e1dd65144206d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpMv</definition>
+        <argsstring>(const QOCOMatrix *M, const QOCOFloat *v, QOCOFloat *r)</argsstring>
+        <name>SpMv</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Sparse matrix vector multiplication for CSC matrices. Computes r = M * v. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="370" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="370" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1afbdb7c0bac4ac5a38fca809e3b696094" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpMtv</definition>
+        <argsstring>(const QOCOMatrix *M, const QOCOFloat *v, QOCOFloat *r)</argsstring>
+        <name>SpMtv</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref> *</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Sparse matrix vector multiplication for CSC matrices where M is first transposed. Computes r = M^T * v. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>M</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Result. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="380" column="6" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="380" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat inf_norm</definition>
+        <argsstring>(const QOCOFloat *x, QOCOInt n)</argsstring>
+        <name>inf_norm</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Computes the infinity norm of x. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of input vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Infinity norm of x. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="389" column="11" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="389" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1ad64d674d87134c6a3ca4e5d1c2ab1d10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat min_abs_val</definition>
+        <argsstring>(const QOCOFloat *x, QOCOInt n)</argsstring>
+        <name>min_abs_val</name>
+        <param>
+          <type>const <ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Computes the minimum absolute value of x. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of input vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Minimum absolute value of x. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="398" column="11" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="398" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="qoco__linalg_8h_1a00ecbd01463b62bf976553d82b21a8bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt check_nan</definition>
+        <argsstring>(const QOCOVectorf *x)</argsstring>
+        <name>check_nan</name>
+        <param>
+          <type>const <ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+<para>Returns 1 if x contains nans, 0 otherwise. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>1 if x contains NaNs, 0 otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" line="406" column="9" declfile="/home/govind/Desktop/git/qoco/include/qoco_linalg.h" declline="406" declcolumn="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
+</simplesect>
+</para>
+<sect1 id="qoco__api_8c_1LICENSE">
+<title>LICENSE</title>
+<para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License</para>
+</sect1>
+<sect1 id="timer_8h_1DESCRIPTION">
+<title>DESCRIPTION</title>
+<para>Provides various linear algebra operations. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>QOCO_LINALG_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QOCO_LINALG_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="definitions_8h" kindref="compound">definitions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">QOCOMatrix_<sp/><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>;</highlight></codeline>
+<codeline lineno="20" refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">QOCOVectorf_<sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>;</highlight></codeline>
+<codeline lineno="21" refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">QOCOVectori_<sp/><ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structQOCOCscMatrix" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29" refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="structQOCOCscMatrix_1a327e8b9e4295284efb5652d25a1e9bbd" kindref="member">m</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="structQOCOCscMatrix_1acd4820c353d8a89cdb6539e7e10d0d21" kindref="member">n</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="structQOCOCscMatrix_1ac9fc0f50af06e588ef4431b77044342d" kindref="member">nnz</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/><ref refid="structQOCOCscMatrix_1a02dde3f329f8f44bdb592a6715f8e8f1" kindref="member">i</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/><ref refid="structQOCOCscMatrix_1aec1440d28be057713cfa7a8655d28a71" kindref="member">p</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/><ref refid="structQOCOCscMatrix_1a4ea542f0db4ad47d3a66b544df108f10" kindref="member">x</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}<sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="qoco__linalg_8h_1a24b40500c9bfa96f5038a51acedc8b4e" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a24b40500c9bfa96f5038a51acedc8b4e" kindref="member">set_cpu_mode</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>active);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="qoco__linalg_8h_1af97e3ab5938ed2924134c4239ec109f3" refkind="member"><highlight class="normal"><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/><ref refid="qoco__linalg_8h_1af97e3ab5938ed2924134c4239ec109f3" kindref="member">new_qoco_csc_matrix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>A);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="qoco__linalg_8h_1a0b1d7dcd153c5b594e896092638f39cd" refkind="member"><highlight class="normal"><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/><ref refid="qoco__linalg_8h_1a0b1d7dcd153c5b594e896092638f39cd" kindref="member">new_qoco_matrix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>A);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="qoco__linalg_8h_1a759a18e640a746004804562dce3ea204" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a759a18e640a746004804562dce3ea204" kindref="member">free_qoco_matrix</ref>(<ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>A);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="qoco__linalg_8h_1adb28b0f965091f5fc7f80a71546eb186" refkind="member"><highlight class="normal"><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/><ref refid="qoco__linalg_8h_1adb28b0f965091f5fc7f80a71546eb186" kindref="member">new_qoco_vectorf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="qoco__linalg_8h_1a9e158865766c60cd31a6c4d16c34d7be" refkind="member"><highlight class="normal"><ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref>*<sp/><ref refid="qoco__linalg_8h_1a9e158865766c60cd31a6c4d16c34d7be" kindref="member">new_qoco_vectori</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="qoco__linalg_8h_1a39f7d558d7047ea8b5900f29e1ec5020" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a39f7d558d7047ea8b5900f29e1ec5020" kindref="member">free_qoco_vectorf</ref>(<ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>x);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="qoco__linalg_8h_1a9faf830a2fc47109254244428073a13a" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a9faf830a2fc47109254244428073a13a" kindref="member">free_qoco_vectori</ref>(<ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref>*<sp/>x);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="qoco__linalg_8h_1a41f4b043e4f5727f92c1fbc1db80da72" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="qoco__linalg_8h_1a41f4b043e4f5727f92c1fbc1db80da72" kindref="member">get_nnz</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>A);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="qoco__linalg_8h_1ada738414c28d331a24f6095fafebe1c9" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ada738414c28d331a24f6095fafebe1c9" kindref="member">ew_product</ref>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>y,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>z,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="qoco__linalg_8h_1ad2d7fbe920ed0f3027eca62dc550aa7b" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="qoco__linalg_8h_1ad2d7fbe920ed0f3027eca62dc550aa7b" kindref="member">get_element_vectorf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>idx);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="qoco__linalg_8h_1af56f3f0e910ed7161660ebff06b9139e" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="qoco__linalg_8h_1af56f3f0e910ed7161660ebff06b9139e" kindref="member">get_element_vectori</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>idx);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="qoco__linalg_8h_1a18cc5474b5a74bc07955ed4e517894d2" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a18cc5474b5a74bc07955ed4e517894d2" kindref="member">set_element_vectorf</ref>(<ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>idx,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>data);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="qoco__linalg_8h_1a9f1b79bc02158a0d5c55e218ff4684b1" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a9f1b79bc02158a0d5c55e218ff4684b1" kindref="member">reciprocal_vectorf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>input,<sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>output);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="qoco__linalg_8h_1acdfba283a2e8c9daac9a5e3f0eac512e" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/><ref refid="qoco__linalg_8h_1acdfba283a2e8c9daac9a5e3f0eac512e" kindref="member">get_pointer_vectorf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>idx);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="qoco__linalg_8h_1a8343aad952146f8f866e6c6be549d2bf" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/><ref refid="qoco__linalg_8h_1a8343aad952146f8f866e6c6be549d2bf" kindref="member">get_data_vectorf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>x);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="qoco__linalg_8h_1a49935d57bc6c625e38428669d43638e0" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/><ref refid="qoco__linalg_8h_1a49935d57bc6c625e38428669d43638e0" kindref="member">get_data_vectori</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ad47eb70bf163e4fa22ce24053d743886" kindref="member">QOCOVectori</ref>*<sp/>x);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="qoco__linalg_8h_1ad1c960ec0b53cec54c5b76e8de289a76" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ad1c960ec0b53cec54c5b76e8de289a76" kindref="member">sync_vector_to_host</ref>(<ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>v);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="qoco__linalg_8h_1acecbbbab8158096ff1c6bde017cc1aaf" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1acecbbbab8158096ff1c6bde017cc1aaf" kindref="member">sync_vector_to_device</ref>(<ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>v);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="qoco__linalg_8h_1a9b09944c9118ce3d3d5851ce4e75fde2" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a9b09944c9118ce3d3d5851ce4e75fde2" kindref="member">sync_matrix_to_device</ref>(<ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>M);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="qoco__linalg_8h_1a08e079e41e6ddc607a538c89f4a16573" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="qoco__linalg_8h_1a08e079e41e6ddc607a538c89f4a16573" kindref="member">get_length_vectorf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>x);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="qoco__linalg_8h_1a50024d02db9a130f68f6da914f4440e9" refkind="member"><highlight class="normal"><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/><ref refid="qoco__linalg_8h_1a50024d02db9a130f68f6da914f4440e9" kindref="member">get_csc_matrix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>M);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="qoco__linalg_8h_1a0f8ec01c9c0b2c62499f807dc52e5288" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a0f8ec01c9c0b2c62499f807dc52e5288" kindref="member">col_inf_norm_USymm_matrix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>M,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>norm);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="qoco__linalg_8h_1a10a920e334221357bb8991b41602e54d" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a10a920e334221357bb8991b41602e54d" kindref="member">col_inf_norm_matrix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>M,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>norm);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="qoco__linalg_8h_1ac563a3a0f208d65cebef78584e3cc347" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ac563a3a0f208d65cebef78584e3cc347" kindref="member">row_inf_norm_matrix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>M,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>norm);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272" refid="qoco__linalg_8h_1a2c9e4485260d7f3e83589255a1be2b76" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a2c9e4485260d7f3e83589255a1be2b76" kindref="member">row_col_scale_matrix</ref>(<ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>M,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>E,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>D);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281" refid="qoco__linalg_8h_1a4e4c7c1df7c224d28c9ee82553cfda94" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a4e4c7c1df7c224d28c9ee82553cfda94" kindref="member">free_qoco_csc_matrix</ref>(<ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>A);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="qoco__linalg_8h_1a298815cf49d7a35894fd063fb3f59d07" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a298815cf49d7a35894fd063fb3f59d07" kindref="member">copy_arrayf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>y,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299" refid="qoco__linalg_8h_1a01e27f9edf9e2cae2032501a56a0b5f9" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a01e27f9edf9e2cae2032501a56a0b5f9" kindref="member">copy_and_negate_arrayf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>y,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308" refid="qoco__linalg_8h_1a2ce684c84dfdc8c000a2aaa88487c4cf" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a2ce684c84dfdc8c000a2aaa88487c4cf" kindref="member">copy_arrayi</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>y,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318" refid="qoco__linalg_8h_1a3d8a23216fff4fb100298aadacab5ea5" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="qoco__linalg_8h_1a3d8a23216fff4fb100298aadacab5ea5" kindref="member">qoco_dot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>u,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>v,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327" refid="qoco__linalg_8h_1ab5f0f37d238fd5f833e790474d6429be" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="qoco__linalg_8h_1ab5f0f37d238fd5f833e790474d6429be" kindref="member">max_arrayi</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338" refid="qoco__linalg_8h_1aed2caeb493cbf251a8d9e446a3d19fc6" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1aed2caeb493cbf251a8d9e446a3d19fc6" kindref="member">scale_arrayf</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>y,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>s,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349" refid="qoco__linalg_8h_1a382675ecd8040ba1cc558068f0069914" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a382675ecd8040ba1cc558068f0069914" kindref="member">qoco_axpy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>y,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>z,</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>a,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360" refid="qoco__linalg_8h_1a32dac02ef5fe5649b95e6d7cb904cb9d" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a32dac02ef5fe5649b95e6d7cb904cb9d" kindref="member">USpMv</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>M,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>v,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>r);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370" refid="qoco__linalg_8h_1aa3f58fbfc9dc71f5117e1dd65144206d" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1aa3f58fbfc9dc71f5117e1dd65144206d" kindref="member">SpMv</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>M,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>v,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>r);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380" refid="qoco__linalg_8h_1afbdb7c0bac4ac5a38fca809e3b696094" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1afbdb7c0bac4ac5a38fca809e3b696094" kindref="member">SpMtv</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1ae5f66fc0a9e1e68247c9dbdd76d3e4b2" kindref="member">QOCOMatrix</ref>*<sp/>M,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>v,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>r);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389" refid="qoco__linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="qoco__linalg_8h_1a8bc5eb1d540eaf36dcb07c5da089f7b2" kindref="member">inf_norm</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398" refid="qoco__linalg_8h_1ad64d674d87134c6a3ca4e5d1c2ab1d10" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="qoco__linalg_8h_1ad64d674d87134c6a3ca4e5d1c2ab1d10" kindref="member">min_abs_val</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406" refid="qoco__linalg_8h_1a00ecbd01463b62bf976553d82b21a8bf" refkind="member"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="qoco__linalg_8h_1a00ecbd01463b62bf976553d82b21a8bf" kindref="member">check_nan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>x);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>QOCO_LINALG_H*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/include/qoco_linalg.h"/>
+  </compounddef>
+</doxygen>

@@ -1,11 +1,30 @@
 <map id="/home/govind/Desktop/git/qoco/src/equilibration.c" name="/home/govind/Desktop/git/qoco/src/equilibration.c">
-<area shape="rect" id="node1" title=" " alt="" coords="24,5,223,47"/>
-<area shape="rect" id="node2" href="$equilibration_8h.html" title=" " alt="" coords="65,95,181,121"/>
-<area shape="rect" id="node3" href="$linalg_8h.html" title=" " alt="" coords="52,169,123,196"/>
-<area shape="rect" id="node8" href="$structs_8h.html" title=" " alt="" coords="121,244,200,271"/>
-<area shape="rect" id="node4" href="$definitions_8h.html" title=" " alt="" coords="83,393,185,420"/>
-<area shape="rect" id="node5" title=" " alt="" coords="5,468,76,495"/>
-<area shape="rect" id="node6" title=" " alt="" coords="100,468,168,495"/>
-<area shape="rect" id="node7" title=" " alt="" coords="192,468,263,495"/>
-<area shape="rect" id="node9" href="$timer_8h.html" title=" " alt="" coords="172,319,240,345"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="108,5,307,45"/>
+<area shape="rect" id="Node000002" href="$equilibration_8h.html" title=" " alt="" coords="149,93,265,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,46,210,79,205,79,205,46"/>
+<area shape="rect" id="Node000003" href="$common__linalg_8h.html" title=" " alt="" coords="35,167,169,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="192,121,132,161,129,157,189,116"/>
+<area shape="rect" id="Node000009" href="$qoco__linalg_8h.html" title=" " alt="" coords="140,240,248,265"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="209,119,199,227,194,226,204,119"/>
+<area shape="rect" id="Node000010" href="$structs_8h.html" title=" " alt="" coords="245,167,324,192"/>
+<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="222,117,264,155,260,159,218,121"/>
+<area shape="rect" id="Node000004" href="$definitions_8h.html" title=" " alt="" coords="171,313,273,339"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="106,192,112,226,119,246,129,264,154,287,182,305,179,309,151,291,125,267,114,248,107,228,100,193"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="118,190,170,229,167,234,115,194"/>
+<area shape="rect" id="Node000005" href="$qoco__config_8h.html" title=" " alt="" coords="5,387,116,412"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="197,341,101,383,98,379,195,336"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="140,387,211,412"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="217,340,193,377,188,374,212,338"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="235,387,303,412"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="232,338,256,374,251,377,227,340"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="327,387,397,412"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="246,336,328,378,326,383,243,341"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="201,265,215,300,210,302,196,267"/>
+<area shape="poly" id="edge12_Node000010_Node000004" title=" " alt="" coords="285,193,277,226,263,266,241,304,237,301,258,264,272,225,280,191"/>
+<area shape="poly" id="edge13_Node000010_Node000009" title=" " alt="" coords="272,194,221,233,218,229,268,190"/>
+<area shape="rect" id="Node000011" href="$timer_8h.html" title=" " alt="" coords="324,240,392,265"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="299,190,338,228,334,232,295,194"/>
+<area shape="poly" id="edge15_Node000011_Node000004" title=" " alt="" coords="337,268,257,309,255,305,335,263"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="326,313,390,339"/>
+<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="361,266,361,300,355,300,355,266"/>
 </map>

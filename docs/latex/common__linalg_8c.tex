@@ -1,0 +1,267 @@
+\doxysection{/home/govind/\+Desktop/git/qoco/src/common\+\_\+linalg.c File Reference}
+\hypertarget{common__linalg_8c}{}\label{common__linalg_8c}\index{/home/govind/Desktop/git/qoco/src/common\_linalg.c@{/home/govind/Desktop/git/qoco/src/common\_linalg.c}}
+{\ttfamily \#include "{}common\+\_\+linalg.\+h"{}}\newline
+Include dependency graph for common\+\_\+linalg.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{common__linalg_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{common__linalg_8c_aee3e38a0a2ca8e152d295f6eb4930eb1}{construct\+\_\+identity}} (\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} lambda)
+\begin{DoxyCompactList}\small\item\em Allocates a new csc matrix that is lambda \texorpdfstring{$\ast$}{*} I. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{common__linalg_8c_a3a69bdbcd3432b9ee2690798a89322ff}{count\+\_\+diag}} (\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}M)
+\begin{DoxyCompactList}\small\item\em Counts the number of diagonal elements in upper triangular CSC matrix M. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{common__linalg_8c_a654736a13e5ca7ff1d9155196c2ebff2}{regularize\+\_\+P}} (\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} num\+\_\+diagP, \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}P, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} reg, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}nzadded\+\_\+idx)
+\begin{DoxyCompactList}\small\item\em Adds reg \texorpdfstring{$\ast$}{*} I to a CSC matrix. Called on P prior to construction of KKT system in \doxylink{qoco__api_8h_ace38c86b1bc257945fe160f54b354b23}{qoco\+\_\+setup()}. This function calls realloc() when adding new nonzeros. Matrix P is freed using free\+\_\+qoco\+\_\+csc\+\_\+matrix. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{common__linalg_8c_ad6f0a241171053d252ef5ff6c7cdf53a}{unregularize}} (\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}M, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} lambda)
+\begin{DoxyCompactList}\small\item\em Subtracts lambda \texorpdfstring{$\ast$}{*} I from a CSC matrix. Called on P when updating matrix data in \doxylink{qoco__api_8h_a3ad5090a130a314458cd1105bc6585b2}{qoco\+\_\+update\+\_\+matrix\+\_\+data()}. This function does not allocate and must be called after regularize. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{common__linalg_8c_a824536c623fa28c6bbe4b820ab6ba65a}{col\+\_\+inf\+\_\+norm\+\_\+\+USymm}} (const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}M, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}norm)
+\begin{DoxyCompactList}\small\item\em Computes the infinity norm of each column (or equivalently row) of a symmetric sparse matrix M where only the upper triangular portion of M is given. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{common__linalg_8c_abf6e8c0cf0e159a274a22f192246dd50}{col\+\_\+inf\+\_\+norm}} (const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}M, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}norm)
+\begin{DoxyCompactList}\small\item\em Computes the infinity norm of each column of M and stores in norm. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{common__linalg_8c_a0b420ad549447d77bf28bf2732108203}{row\+\_\+inf\+\_\+norm}} (const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}M, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}norm)
+\begin{DoxyCompactList}\small\item\em Computes the infinity norm of each row of M and stores in norm. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{common__linalg_8c_a82ac590ae06d9452239c13448e267578}{create\+\_\+transposed\+\_\+matrix}} (const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}A, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}Ato\+At)
+\begin{DoxyCompactList}\small\item\em Allocates and computes A\texorpdfstring{$^\wedge$}{\string^}T. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{common__linalg_8c_a2fae5e0df1f9fb3d70115f91a74c9e99}{row\+\_\+col\+\_\+scale}} (const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}M, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}E, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}D)
+\begin{DoxyCompactList}\small\item\em Scales the rows of M by E and columns of M by D. M = diag(\+E) \texorpdfstring{$\ast$}{*} M \texorpdfstring{$\ast$}{*} diag(\+D) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{common__linalg_8c_a9399c635b5b4fb0e61f186adfc1d0df2}{invert\+\_\+permutation}} (const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}pinv, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Inverts permutation vector p and stores inverse in pinv. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \mbox{\hyperlink{common__linalg_8c_a26c94e421ef7f9b5895f6b040069c631}{cumsum}} (\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}p, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}c, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n)
+\begin{DoxyCompactList}\small\item\em Computes cumulative sum of c. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{common__linalg_8c_ad7c4cf626ccc5e582d4081ef08803667}{csc\+\_\+symperm}} (const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}A, const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}pinv, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}AtoC)
+\begin{DoxyCompactList}\small\item\em C = A(p,p) = PAP\textquotesingle{} where A and C are symmetric and the upper triangular part is stored. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Govind M. Chari \href{mailto:govindchari1@gmail.com}{\texttt{ govindchari1@gmail.\+com}}
+\end{DoxyAuthor}
+\hypertarget{qoco__api_8c_LICENSE}{}\doxysubsection{\texorpdfstring{LICENSE}{LICENSE}}\label{qoco__api_8c_LICENSE}
+Copyright (c) 2025, Govind M. Chari This source code is licensed under the BSD 3-\/Clause License 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{common__linalg_8c_abf6e8c0cf0e159a274a22f192246dd50}\label{common__linalg_8c_abf6e8c0cf0e159a274a22f192246dd50} 
+\index{common\_linalg.c@{common\_linalg.c}!col\_inf\_norm@{col\_inf\_norm}}
+\index{col\_inf\_norm@{col\_inf\_norm}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{col\_inf\_norm()}{col\_inf\_norm()}}
+{\footnotesize\ttfamily void col\+\_\+inf\+\_\+norm (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{norm }\end{DoxyParamCaption})}
+
+
+
+Computes the infinity norm of each column of M and stores in norm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & An m by n sparse matrix in CSC format. \\
+\hline
+{\em norm} & Result vector of length n. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{common__linalg_8c_a824536c623fa28c6bbe4b820ab6ba65a}\label{common__linalg_8c_a824536c623fa28c6bbe4b820ab6ba65a} 
+\index{common\_linalg.c@{common\_linalg.c}!col\_inf\_norm\_USymm@{col\_inf\_norm\_USymm}}
+\index{col\_inf\_norm\_USymm@{col\_inf\_norm\_USymm}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{col\_inf\_norm\_USymm()}{col\_inf\_norm\_USymm()}}
+{\footnotesize\ttfamily void col\+\_\+inf\+\_\+norm\+\_\+\+USymm (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{norm }\end{DoxyParamCaption})}
+
+
+
+Computes the infinity norm of each column (or equivalently row) of a symmetric sparse matrix M where only the upper triangular portion of M is given. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Upper triangular part of sparse symmetric matrix. \\
+\hline
+{\em norm} & Result vector of length n. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{common__linalg_8c_aee3e38a0a2ca8e152d295f6eb4930eb1}\label{common__linalg_8c_aee3e38a0a2ca8e152d295f6eb4930eb1} 
+\index{common\_linalg.c@{common\_linalg.c}!construct\_identity@{construct\_identity}}
+\index{construct\_identity@{construct\_identity}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{construct\_identity()}{construct\_identity()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} construct\+\_\+identity (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}}]{lambda }\end{DoxyParamCaption})}
+
+
+
+Allocates a new csc matrix that is lambda \texorpdfstring{$\ast$}{*} I. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & Size of identity matrix. \\
+\hline
+{\em lambda} & Scaling factor for identity. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to new constructed matrix. 
+\end{DoxyReturn}
+\Hypertarget{common__linalg_8c_a3a69bdbcd3432b9ee2690798a89322ff}\label{common__linalg_8c_a3a69bdbcd3432b9ee2690798a89322ff} 
+\index{common\_linalg.c@{common\_linalg.c}!count\_diag@{count\_diag}}
+\index{count\_diag@{count\_diag}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{count\_diag()}{count\_diag()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} count\+\_\+diag (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{M }\end{DoxyParamCaption})}
+
+
+
+Counts the number of diagonal elements in upper triangular CSC matrix M. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Input matrix. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of nonzeros on the diagonal of M. 
+\end{DoxyReturn}
+\Hypertarget{common__linalg_8c_a82ac590ae06d9452239c13448e267578}\label{common__linalg_8c_a82ac590ae06d9452239c13448e267578} 
+\index{common\_linalg.c@{common\_linalg.c}!create\_transposed\_matrix@{create\_transposed\_matrix}}
+\index{create\_transposed\_matrix@{create\_transposed\_matrix}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{create\_transposed\_matrix()}{create\_transposed\_matrix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} create\+\_\+transposed\+\_\+matrix (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{A,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{Ato\+At }\end{DoxyParamCaption})}
+
+
+
+Allocates and computes A\texorpdfstring{$^\wedge$}{\string^}T. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & Input matrix. \\
+\hline
+{\em Ato\+At} & Mapping from A to At. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{common__linalg_8c_ad7c4cf626ccc5e582d4081ef08803667}\label{common__linalg_8c_ad7c4cf626ccc5e582d4081ef08803667} 
+\index{common\_linalg.c@{common\_linalg.c}!csc\_symperm@{csc\_symperm}}
+\index{csc\_symperm@{csc\_symperm}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{csc\_symperm()}{csc\_symperm()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} csc\+\_\+symperm (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{A,  }\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{pinv,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{AtoC }\end{DoxyParamCaption})}
+
+
+
+C = A(p,p) = PAP\textquotesingle{} where A and C are symmetric and the upper triangular part is stored. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A} & \\
+\hline
+{\em pinv} & \\
+\hline
+{\em AtoC} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+QOCOCsc\+Matrix\texorpdfstring{$\ast$}{*} 
+\end{DoxyReturn}
+\Hypertarget{common__linalg_8c_a26c94e421ef7f9b5895f6b040069c631}\label{common__linalg_8c_a26c94e421ef7f9b5895f6b040069c631} 
+\index{common\_linalg.c@{common\_linalg.c}!cumsum@{cumsum}}
+\index{cumsum@{cumsum}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{cumsum()}{cumsum()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} cumsum (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{p,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{c,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Computes cumulative sum of c. 
+
+\begin{DoxyReturn}{Returns}
+Cumulative sum of c. 
+\end{DoxyReturn}
+\Hypertarget{common__linalg_8c_a9399c635b5b4fb0e61f186adfc1d0df2}\label{common__linalg_8c_a9399c635b5b4fb0e61f186adfc1d0df2} 
+\index{common\_linalg.c@{common\_linalg.c}!invert\_permutation@{invert\_permutation}}
+\index{invert\_permutation@{invert\_permutation}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{invert\_permutation()}{invert\_permutation()}}
+{\footnotesize\ttfamily void invert\+\_\+permutation (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{p,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{pinv,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{n }\end{DoxyParamCaption})}
+
+
+
+Inverts permutation vector p and stores inverse in pinv. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & Input permutation vector. \\
+\hline
+{\em pinv} & Inverse of permutation vector. \\
+\hline
+{\em n} & Length of vectors. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{common__linalg_8c_a654736a13e5ca7ff1d9155196c2ebff2}\label{common__linalg_8c_a654736a13e5ca7ff1d9155196c2ebff2} 
+\index{common\_linalg.c@{common\_linalg.c}!regularize\_P@{regularize\_P}}
+\index{regularize\_P@{regularize\_P}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{regularize\_P()}{regularize\_P()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*} regularize\+\_\+P (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}}]{num\+\_\+diagP,  }\item[{\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{P,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}}]{reg,  }\item[{\mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} \texorpdfstring{$\ast$}{*}}]{nzadded\+\_\+idx }\end{DoxyParamCaption})}
+
+
+
+Adds reg \texorpdfstring{$\ast$}{*} I to a CSC matrix. Called on P prior to construction of KKT system in \doxylink{qoco__api_8h_ace38c86b1bc257945fe160f54b354b23}{qoco\+\_\+setup()}. This function calls realloc() when adding new nonzeros. Matrix P is freed using free\+\_\+qoco\+\_\+csc\+\_\+matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+\_\+diagP} & Number of new element added to diagonal. \\
+\hline
+{\em P} & Matrix to be regularized. \\
+\hline
+{\em reg} & Regularization factor. \\
+\hline
+{\em nzadded\+\_\+idx} & Indices of elements of M-\/\texorpdfstring{$>$}{>}x that are added. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+P + reg \texorpdfstring{$\ast$}{*} I. 
+\end{DoxyReturn}
+\Hypertarget{common__linalg_8c_a2fae5e0df1f9fb3d70115f91a74c9e99}\label{common__linalg_8c_a2fae5e0df1f9fb3d70115f91a74c9e99} 
+\index{common\_linalg.c@{common\_linalg.c}!row\_col\_scale@{row\_col\_scale}}
+\index{row\_col\_scale@{row\_col\_scale}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{row\_col\_scale()}{row\_col\_scale()}}
+{\footnotesize\ttfamily void row\+\_\+col\+\_\+scale (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{E,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{D }\end{DoxyParamCaption})}
+
+
+
+Scales the rows of M by E and columns of M by D. M = diag(\+E) \texorpdfstring{$\ast$}{*} M \texorpdfstring{$\ast$}{*} diag(\+D) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & An m by n sparse matrix. \\
+\hline
+{\em E} & Vector of length m. \\
+\hline
+{\em D} & Vector of length n. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{common__linalg_8c_a0b420ad549447d77bf28bf2732108203}\label{common__linalg_8c_a0b420ad549447d77bf28bf2732108203} 
+\index{common\_linalg.c@{common\_linalg.c}!row\_inf\_norm@{row\_inf\_norm}}
+\index{row\_inf\_norm@{row\_inf\_norm}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{row\_inf\_norm()}{row\_inf\_norm()}}
+{\footnotesize\ttfamily void row\+\_\+inf\+\_\+norm (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} \texorpdfstring{$\ast$}{*}}]{norm }\end{DoxyParamCaption})}
+
+
+
+Computes the infinity norm of each row of M and stores in norm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & An m by n sparse matrix. \\
+\hline
+{\em norm} & Result vector of length m. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{common__linalg_8c_ad6f0a241171053d252ef5ff6c7cdf53a}\label{common__linalg_8c_ad6f0a241171053d252ef5ff6c7cdf53a} 
+\index{common\_linalg.c@{common\_linalg.c}!unregularize@{unregularize}}
+\index{unregularize@{unregularize}!common\_linalg.c@{common\_linalg.c}}
+\doxysubsubsection{\texorpdfstring{unregularize()}{unregularize()}}
+{\footnotesize\ttfamily void unregularize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCsc\+Matrix}} \texorpdfstring{$\ast$}{*}}]{M,  }\item[{\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}}]{lambda }\end{DoxyParamCaption})}
+
+
+
+Subtracts lambda \texorpdfstring{$\ast$}{*} I from a CSC matrix. Called on P when updating matrix data in \doxylink{qoco__api_8h_a3ad5090a130a314458cd1105bc6585b2}{qoco\+\_\+update\+\_\+matrix\+\_\+data()}. This function does not allocate and must be called after regularize. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em M} & Matrix. \\
+\hline
+{\em lambda} & Regularization. \\
+\hline
+\end{DoxyParams}

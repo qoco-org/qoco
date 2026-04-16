@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['finvruiz_55',['Finvruiz',['../structQOCOKKT.html#a9f2b26ac858146f3571c071a55aa7be2',1,'QOCOKKT']]],
-  ['free_5fqoco_5fcsc_5fmatrix_56',['free_qoco_csc_matrix',['../linalg_8h.html#a4e4c7c1df7c224d28c9ee82553cfda94',1,'free_qoco_csc_matrix(QOCOCscMatrix *A):&#160;linalg.c'],['../linalg_8c.html#a4e4c7c1df7c224d28c9ee82553cfda94',1,'free_qoco_csc_matrix(QOCOCscMatrix *A):&#160;linalg.c']]],
-  ['fruiz_57',['Fruiz',['../structQOCOKKT.html#adb853bd2760ba9c0af0d9b6d5738f9ae',1,'QOCOKKT']]],
-  ['fwork_58',['fwork',['../structQOCOKKT.html#a4b7208b5657c7306580065b6e046c41b',1,'QOCOKKT']]]
+  ['finvruiz_0',['Finvruiz',['../structQOCOScaling.html#abf605c640207d4200dcea40aa2f5330c',1,'QOCOScaling']]],
+  ['free_5fqoco_5fcsc_5fmatrix_1',['free_qoco_csc_matrix',['../qoco__linalg_8h.html#a4e4c7c1df7c224d28c9ee82553cfda94',1,'qoco_linalg.h']]],
+  ['free_5fqoco_5fmatrix_2',['free_qoco_matrix',['../qoco__linalg_8h.html#a759a18e640a746004804562dce3ea204',1,'qoco_linalg.h']]],
+  ['free_5fqoco_5fvectorf_3',['free_qoco_vectorf',['../qoco__linalg_8h.html#a39f7d558d7047ea8b5900f29e1ec5020',1,'qoco_linalg.h']]],
+  ['free_5fqoco_5fvectori_4',['free_qoco_vectori',['../qoco__linalg_8h.html#a9faf830a2fc47109254244428073a13a',1,'qoco_linalg.h']]],
+  ['fruiz_5',['Fruiz',['../structQOCOScaling.html#ad9bb63c95703f2f468f4afcd7fd4d181',1,'QOCOScaling']]]
 ];

@@ -1,0 +1,81 @@
+\doxysection{Lin\+Sys\+Backend Struct Reference}
+\hypertarget{structLinSysBackend}{}\label{structLinSysBackend}\index{LinSysBackend@{LinSysBackend}}
+
+
+{\ttfamily \#include $<$structs.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structLinSysBackend_a229b266933154bf25bb4898d4824a6d7}{linsys\+\_\+name}} )()
+\item 
+\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structLinSysBackend_ac27e381b21fb4dc36ceb2b5ad0bea472}{linsys\+\_\+setup}} )(\mbox{\hyperlink{structQOCOProblemData}{QOCOProblem\+Data}} \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} \texorpdfstring{$\ast$}{*}settings, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} Wnnz)
+\item 
+void(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structLinSysBackend_a73fc0f3eff46face60bb2629e90145af}{linsys\+\_\+set\+\_\+nt\+\_\+identity}} )(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} m)
+\item 
+void(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structLinSysBackend_a5c8a218ab30e712c13a79a44527b3e99}{linsys\+\_\+update\+\_\+nt}} )(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data, \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}Wt\+W\+\_\+vec, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} kkt\+\_\+static\+\_\+reg, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} m)
+\item 
+void(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structLinSysBackend_a665202e452947c8cdf0c92db3db38a77}{linsys\+\_\+update\+\_\+data}} )(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data, \mbox{\hyperlink{structQOCOProblemData}{QOCOProblem\+Data}} \texorpdfstring{$\ast$}{*}data)
+\item 
+void(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structLinSysBackend_abcfecdea2c0b51abb41d5b1dd9ff32f5}{linsys\+\_\+factor}} )(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} kkt\+\_\+dynamic\+\_\+reg)
+\item 
+void(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structLinSysBackend_ae3dfb8b31be6b7876a72bf5c6faaa5a1}{linsys\+\_\+solve}} )(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data, \mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} \texorpdfstring{$\ast$}{*}work, \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}b\+\_\+vec, \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}x\+\_\+vec, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} iter\+\_\+ref\+\_\+iters)
+\item 
+void(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structLinSysBackend_abdb9ed4ef8e2cc49b51c10feed937657}{linsys\+\_\+cleanup}} )(\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structLinSysBackend_abdb9ed4ef8e2cc49b51c10feed937657}\label{structLinSysBackend_abdb9ed4ef8e2cc49b51c10feed937657} 
+\index{LinSysBackend@{LinSysBackend}!linsys\_cleanup@{linsys\_cleanup}}
+\index{linsys\_cleanup@{linsys\_cleanup}!LinSysBackend@{LinSysBackend}}
+\doxysubsubsection{\texorpdfstring{linsys\_cleanup}{linsys\_cleanup}}
+{\footnotesize\ttfamily void(\texorpdfstring{$\ast$}{*} Lin\+Sys\+Backend\+::linsys\+\_\+cleanup) (\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data)}
+
+\Hypertarget{structLinSysBackend_abcfecdea2c0b51abb41d5b1dd9ff32f5}\label{structLinSysBackend_abcfecdea2c0b51abb41d5b1dd9ff32f5} 
+\index{LinSysBackend@{LinSysBackend}!linsys\_factor@{linsys\_factor}}
+\index{linsys\_factor@{linsys\_factor}!LinSysBackend@{LinSysBackend}}
+\doxysubsubsection{\texorpdfstring{linsys\_factor}{linsys\_factor}}
+{\footnotesize\ttfamily void(\texorpdfstring{$\ast$}{*} Lin\+Sys\+Backend\+::linsys\+\_\+factor) (\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} n, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} kkt\+\_\+dynamic\+\_\+reg)}
+
+\Hypertarget{structLinSysBackend_a229b266933154bf25bb4898d4824a6d7}\label{structLinSysBackend_a229b266933154bf25bb4898d4824a6d7} 
+\index{LinSysBackend@{LinSysBackend}!linsys\_name@{linsys\_name}}
+\index{linsys\_name@{linsys\_name}!LinSysBackend@{LinSysBackend}}
+\doxysubsubsection{\texorpdfstring{linsys\_name}{linsys\_name}}
+{\footnotesize\ttfamily const char \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*} Lin\+Sys\+Backend\+::linsys\+\_\+name) ()}
+
+\Hypertarget{structLinSysBackend_a73fc0f3eff46face60bb2629e90145af}\label{structLinSysBackend_a73fc0f3eff46face60bb2629e90145af} 
+\index{LinSysBackend@{LinSysBackend}!linsys\_set\_nt\_identity@{linsys\_set\_nt\_identity}}
+\index{linsys\_set\_nt\_identity@{linsys\_set\_nt\_identity}!LinSysBackend@{LinSysBackend}}
+\doxysubsubsection{\texorpdfstring{linsys\_set\_nt\_identity}{linsys\_set\_nt\_identity}}
+{\footnotesize\ttfamily void(\texorpdfstring{$\ast$}{*} Lin\+Sys\+Backend\+::linsys\+\_\+set\+\_\+nt\+\_\+identity) (\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} m)}
+
+\Hypertarget{structLinSysBackend_ac27e381b21fb4dc36ceb2b5ad0bea472}\label{structLinSysBackend_ac27e381b21fb4dc36ceb2b5ad0bea472} 
+\index{LinSysBackend@{LinSysBackend}!linsys\_setup@{linsys\_setup}}
+\index{linsys\_setup@{linsys\_setup}!LinSysBackend@{LinSysBackend}}
+\doxysubsubsection{\texorpdfstring{linsys\_setup}{linsys\_setup}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*} Lin\+Sys\+Backend\+::linsys\+\_\+setup) (\mbox{\hyperlink{structQOCOProblemData}{QOCOProblem\+Data}} \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} \texorpdfstring{$\ast$}{*}settings, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} Wnnz)}
+
+\Hypertarget{structLinSysBackend_ae3dfb8b31be6b7876a72bf5c6faaa5a1}\label{structLinSysBackend_ae3dfb8b31be6b7876a72bf5c6faaa5a1} 
+\index{LinSysBackend@{LinSysBackend}!linsys\_solve@{linsys\_solve}}
+\index{linsys\_solve@{linsys\_solve}!LinSysBackend@{LinSysBackend}}
+\doxysubsubsection{\texorpdfstring{linsys\_solve}{linsys\_solve}}
+{\footnotesize\ttfamily void(\texorpdfstring{$\ast$}{*} Lin\+Sys\+Backend\+::linsys\+\_\+solve) (\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data, \mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} \texorpdfstring{$\ast$}{*}work, \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}b\+\_\+vec, \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}x\+\_\+vec, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} iter\+\_\+ref\+\_\+iters)}
+
+\Hypertarget{structLinSysBackend_a665202e452947c8cdf0c92db3db38a77}\label{structLinSysBackend_a665202e452947c8cdf0c92db3db38a77} 
+\index{LinSysBackend@{LinSysBackend}!linsys\_update\_data@{linsys\_update\_data}}
+\index{linsys\_update\_data@{linsys\_update\_data}!LinSysBackend@{LinSysBackend}}
+\doxysubsubsection{\texorpdfstring{linsys\_update\_data}{linsys\_update\_data}}
+{\footnotesize\ttfamily void(\texorpdfstring{$\ast$}{*} Lin\+Sys\+Backend\+::linsys\+\_\+update\+\_\+data) (\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data, \mbox{\hyperlink{structQOCOProblemData}{QOCOProblem\+Data}} \texorpdfstring{$\ast$}{*}data)}
+
+\Hypertarget{structLinSysBackend_a5c8a218ab30e712c13a79a44527b3e99}\label{structLinSysBackend_a5c8a218ab30e712c13a79a44527b3e99} 
+\index{LinSysBackend@{LinSysBackend}!linsys\_update\_nt@{linsys\_update\_nt}}
+\index{linsys\_update\_nt@{linsys\_update\_nt}!LinSysBackend@{LinSysBackend}}
+\doxysubsubsection{\texorpdfstring{linsys\_update\_nt}{linsys\_update\_nt}}
+{\footnotesize\ttfamily void(\texorpdfstring{$\ast$}{*} Lin\+Sys\+Backend\+::linsys\+\_\+update\+\_\+nt) (\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*}linsys\+\_\+data, \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}} \texorpdfstring{$\ast$}{*}Wt\+W\+\_\+vec, \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}} kkt\+\_\+static\+\_\+reg, \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}} m)}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/govind/\+Desktop/git/qoco/include/\mbox{\hyperlink{structs_8h}{structs.\+h}}\end{DoxyCompactItemize}

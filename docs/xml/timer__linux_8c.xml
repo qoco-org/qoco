@@ -1,15 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="timer__linux_8c" kind="file" language="C++">
     <compoundname>timer_linux.c</compoundname>
     <includes refid="timer_8h" local="yes">timer.h</includes>
     <incdepgraph>
-      <node id="6">
-        <label>stdlib.h</label>
-      </node>
-      <node id="4">
-        <label>limits.h</label>
-      </node>
       <node id="3">
         <label>definitions.h</label>
         <link refid="definitions_8h"/>
@@ -19,9 +13,20 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
-      <node id="5">
-        <label>math.h</label>
+      <node id="4">
+        <label>qoco_config.h</label>
+        <link refid="qoco__config_8h"/>
+      </node>
+      <node id="2">
+        <label>timer.h</label>
+        <link refid="timer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>/home/govind/Desktop/git/qoco/src/timer_linux.c</label>
@@ -29,21 +34,27 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>timer.h</label>
-        <link refid="timer_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
+      <node id="5">
+        <label>limits.h</label>
+      </node>
+      <node id="6">
+        <label>math.h</label>
+      </node>
+      <node id="7">
+        <label>stdlib.h</label>
+      </node>
+      <node id="8">
+        <label>time.h</label>
       </node>
     </incdepgraph>
-      <sectiondef kind="func">
+    <sectiondef kind="func">
       <memberdef kind="function" id="timer__linux_8c_1a7469e0d577f6670cfd46b636d47a6e82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void start_timer</definition>
         <argsstring>(QOCOTimer *timer)</argsstring>
         <name>start_timer</name>
         <param>
-          <type>QOCOTimer *</type>
+          <type><ref refid="structQOCOTimer" kindref="compound">QOCOTimer</ref> *</type>
           <declname>timer</declname>
         </param>
         <briefdescription>
@@ -71,7 +82,7 @@
         <argsstring>(QOCOTimer *timer)</argsstring>
         <name>stop_timer</name>
         <param>
-          <type>QOCOTimer *</type>
+          <type><ref refid="structQOCOTimer" kindref="compound">QOCOTimer</ref> *</type>
           <declname>timer</declname>
         </param>
         <briefdescription>
@@ -99,7 +110,7 @@
         <argsstring>(QOCOTimer *timer)</argsstring>
         <name>get_elapsed_time_sec</name>
         <param>
-          <type>QOCOTimer *</type>
+          <type><ref refid="structQOCOTimer" kindref="compound">QOCOTimer</ref> *</type>
           <declname>timer</declname>
         </param>
         <briefdescription>
@@ -115,13 +126,15 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>Elapsed time in seconds. </para>
+</simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
         <location file="/home/govind/Desktop/git/qoco/src/timer_linux.c" line="13" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/timer_linux.c" bodystart="13" bodyend="26"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -129,27 +142,27 @@
     <programlisting>
 <codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="timer_8h" kindref="compound">timer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
-<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timer__linux_8c_1a7469e0d577f6670cfd46b636d47a6e82" kindref="member">start_timer</ref>(QOCOTimer*<sp/>timer)</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timer__linux_8c_1a7469e0d577f6670cfd46b636d47a6e82" kindref="member">start_timer</ref>(<ref refid="structQOCOTimer" kindref="compound">QOCOTimer</ref>*<sp/>timer)</highlight></codeline>
 <codeline lineno="4"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="5"><highlight class="normal"><sp/><sp/>clock_gettime(CLOCK_MONOTONIC,<sp/>&amp;timer-&gt;tic);</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/>clock_gettime(CLOCK_MONOTONIC,<sp/>&amp;timer-&gt;<ref refid="structQOCOTimer_1ab6fdd04f3b936bb1515937c26f69ef6f" kindref="member">tic</ref>);</highlight></codeline>
 <codeline lineno="6"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="7"><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timer__linux_8c_1acfd10eed45b36f806cb9f6da35044e8e" kindref="member">stop_timer</ref>(QOCOTimer*<sp/>timer)</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timer__linux_8c_1acfd10eed45b36f806cb9f6da35044e8e" kindref="member">stop_timer</ref>(<ref refid="structQOCOTimer" kindref="compound">QOCOTimer</ref>*<sp/>timer)</highlight></codeline>
 <codeline lineno="9"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"><sp/><sp/>clock_gettime(CLOCK_MONOTONIC,<sp/>&amp;timer-&gt;toc);</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/>clock_gettime(CLOCK_MONOTONIC,<sp/>&amp;timer-&gt;<ref refid="structQOCOTimer_1a6fb9e99cff37aa620c0ec0a63311f1c1" kindref="member">toc</ref>);</highlight></codeline>
 <codeline lineno="11"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="timer__linux_8c_1a4ea3627b111cae5ddb7b1bc76a113eb5" kindref="member">get_elapsed_time_sec</ref>(QOCOTimer*<sp/>timer)</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="timer__linux_8c_1a4ea3627b111cae5ddb7b1bc76a113eb5" kindref="member">get_elapsed_time_sec</ref>(<ref refid="structQOCOTimer" kindref="compound">QOCOTimer</ref>*<sp/>timer)</highlight></codeline>
 <codeline lineno="14"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="15"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">timespec<sp/>temp;</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((timer-&gt;toc.tv_nsec<sp/>-<sp/>timer-&gt;tic.tv_nsec)<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
-<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_sec<sp/>=<sp/>timer-&gt;toc.tv_sec<sp/>-<sp/>timer-&gt;tic.tv_sec<sp/>-<sp/>1;</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_nsec<sp/>=<sp/>1e9<sp/>+<sp/>timer-&gt;toc.tv_nsec<sp/>-<sp/>timer-&gt;tic.tv_nsec;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((timer-&gt;<ref refid="structQOCOTimer_1a6fb9e99cff37aa620c0ec0a63311f1c1" kindref="member">toc</ref>.tv_nsec<sp/>-<sp/>timer-&gt;<ref refid="structQOCOTimer_1ab6fdd04f3b936bb1515937c26f69ef6f" kindref="member">tic</ref>.tv_nsec)<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_sec<sp/>=<sp/>timer-&gt;<ref refid="structQOCOTimer_1a6fb9e99cff37aa620c0ec0a63311f1c1" kindref="member">toc</ref>.tv_sec<sp/>-<sp/>timer-&gt;<ref refid="structQOCOTimer_1ab6fdd04f3b936bb1515937c26f69ef6f" kindref="member">tic</ref>.tv_sec<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_nsec<sp/>=<sp/>1000000000L<sp/>+<sp/>timer-&gt;<ref refid="structQOCOTimer_1a6fb9e99cff37aa620c0ec0a63311f1c1" kindref="member">toc</ref>.tv_nsec<sp/>-<sp/>timer-&gt;<ref refid="structQOCOTimer_1ab6fdd04f3b936bb1515937c26f69ef6f" kindref="member">tic</ref>.tv_nsec;</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_sec<sp/>=<sp/>timer-&gt;toc.tv_sec<sp/>-<sp/>timer-&gt;tic.tv_sec;</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_nsec<sp/>=<sp/>timer-&gt;toc.tv_nsec<sp/>-<sp/>timer-&gt;tic.tv_nsec;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_sec<sp/>=<sp/>timer-&gt;<ref refid="structQOCOTimer_1a6fb9e99cff37aa620c0ec0a63311f1c1" kindref="member">toc</ref>.tv_sec<sp/>-<sp/>timer-&gt;<ref refid="structQOCOTimer_1ab6fdd04f3b936bb1515937c26f69ef6f" kindref="member">tic</ref>.tv_sec;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>temp.tv_nsec<sp/>=<sp/>timer-&gt;<ref refid="structQOCOTimer_1a6fb9e99cff37aa620c0ec0a63311f1c1" kindref="member">toc</ref>.tv_nsec<sp/>-<sp/>timer-&gt;<ref refid="structQOCOTimer_1ab6fdd04f3b936bb1515937c26f69ef6f" kindref="member">tic</ref>.tv_nsec;</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
 <codeline lineno="25"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>)temp.tv_sec<sp/>+<sp/>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>)temp.tv_nsec<sp/>/<sp/>1e9;</highlight></codeline>
 <codeline lineno="26"><highlight class="normal">}</highlight></codeline>
