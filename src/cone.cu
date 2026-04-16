@@ -621,8 +621,9 @@ void compute_centering(QOCOSolver* solver)
  * @brief Compute maximum step length alpha >= 0 such that
  * x + alpha * dx remains in the second-order cone.
  */
-__device__ QOCOFloat soc_step_length_dev(const QOCOFloat* x, const QOCOFloat* dx,
-                                          QOCOInt n, QOCOFloat alpha_max)
+__device__ QOCOFloat soc_step_length_dev(const QOCOFloat* x,
+                                         const QOCOFloat* dx, QOCOInt n,
+                                         QOCOFloat alpha_max)
 {
   const QOCOFloat two = 2.0;
   const QOCOFloat four = 4.0;
@@ -721,7 +722,7 @@ __device__ QOCOFloat soc_step_length_dev(const QOCOFloat* x, const QOCOFloat* dx
  * over the LP cone. Each block writes its local minimum to block_out.
  */
 __global__ void lp_step_length_kernel(const QOCOFloat* x, const QOCOFloat* dx,
-                                       QOCOInt n, QOCOFloat* block_out)
+                                      QOCOInt n, QOCOFloat* block_out)
 {
   extern __shared__ QOCOFloat sdata[];
 
@@ -746,28 +747,36 @@ __global__ void lp_step_length_kernel(const QOCOFloat* x, const QOCOFloat* dx,
 }
 
 /**
- * @brief Single-thread kernel that sequentially applies the closed-form SOC
- * step length to every second-order cone and writes the minimum into alpha_inout.
+ * @brief Parallel kernel: one thread per SOC cone computes the closed-form step
+ * length, then a shared-memory min-reduction writes each block's minimum to
+ * block_out. Launch with blockDim.x == 1024.
  */
 __global__ void soc_step_length_kernel(const QOCOFloat* u, const QOCOFloat* Du,
-                                        const QOCOInt* q, QOCOInt nsoc, QOCOInt l,
-                                        QOCOFloat* alpha_inout)
+                                       const QOCOInt* q, const QOCOInt* soc_idx,
+                                       QOCOInt nsoc, QOCOFloat alpha_lp,
+                                       QOCOFloat* block_out)
 {
-  if (threadIdx.x != 0 || blockIdx.x != 0)
-    return;
+  extern __shared__ QOCOFloat sdata[];
 
-  QOCOFloat alpha = *alpha_inout;
-  QOCOInt idx = l;
+  QOCOInt tid = threadIdx.x;
+  QOCOInt gid = blockIdx.x * blockDim.x + tid;
 
-  for (QOCOInt i = 0; i < nsoc; ++i) {
-    QOCOInt qi = q[i];
-    QOCOFloat a = soc_step_length_dev(&u[idx], &Du[idx], qi, alpha);
-    if (a < alpha)
-      alpha = a;
-    idx += qi;
+  QOCOFloat val = QOCOFloat_MAX;
+  if (gid < nsoc)
+    val = soc_step_length_dev(&u[soc_idx[gid]], &Du[soc_idx[gid]], q[gid],
+                              alpha_lp);
+
+  sdata[tid] = val;
+  __syncthreads();
+
+  for (QOCOInt s = blockDim.x >> 1; s > 0; s >>= 1) {
+    if (tid < s && sdata[tid + s] < sdata[tid])
+      sdata[tid] = sdata[tid + s];
+    __syncthreads();
   }
 
-  *alpha_inout = alpha;
+  if (tid == 0)
+    block_out[blockIdx.x] = sdata[0];
 }
 
 QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
@@ -810,18 +819,34 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
   // SOC cones
   // ---------------------------
   if (data->nsoc > 0) {
-    QOCOFloat* d_alpha;
-    CUDA_CHECK(cudaMalloc(&d_alpha, sizeof(QOCOFloat)));
-    CUDA_CHECK(
-        cudaMemcpy(d_alpha, &alpha, sizeof(QOCOFloat), cudaMemcpyHostToDevice));
+    int threads = 1024;
+    int blocks = (data->nsoc + threads - 1) / threads;
 
-    soc_step_length_kernel<<<1, 1>>>(u, Du, get_data_vectori(data->q),
-                                     data->nsoc, data->l, d_alpha);
+    QOCOFloat* d_block;
+    CUDA_CHECK(cudaMalloc(&d_block, blocks * sizeof(QOCOFloat)));
+
+    soc_step_length_kernel<<<blocks, threads, threads * sizeof(QOCOFloat)>>>(
+        u, Du, get_data_vectori(data->q), get_data_vectori(work->soc_idx),
+        data->nsoc, alpha, d_block);
     CUDA_CHECK(cudaGetLastError());
 
-    CUDA_CHECK(
-        cudaMemcpy(&alpha, d_alpha, sizeof(QOCOFloat), cudaMemcpyDeviceToHost));
-    CUDA_CHECK(cudaFree(d_alpha));
+    // Final reduction over blocks on host.
+    QOCOFloat* h_block = (QOCOFloat*)malloc(blocks * sizeof(QOCOFloat));
+    CUDA_CHECK(cudaMemcpy(h_block, d_block, blocks * sizeof(QOCOFloat),
+                          cudaMemcpyDeviceToHost));
+
+    for (int i = 0; i < blocks; ++i) {
+      if (h_block[i] < alpha)
+        alpha = h_block[i];
+    }
+
+    free(h_block);
+    CUDA_CHECK(cudaFree(d_block));
+  }
+
+  // Safeguard against step-sizes which are too small.
+  if (alpha < 1e-12) {
+    return 0;
   }
 
   return f * alpha;
