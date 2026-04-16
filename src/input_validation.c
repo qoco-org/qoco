@@ -24,12 +24,6 @@ QOCOInt qoco_validate_settings(const QOCOSettings* settings)
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 
-  // bisection_iters must be positive.
-  if (settings->bisect_iters <= 0) {
-    printf("bisect_iters must be positive.\n");
-    return QOCO_SETTINGS_VALIDATION_ERROR;
-  }
-
   // abstol must be positive.
   if (settings->abstol <= 0) {
     printf("abstol must be positive.\n");

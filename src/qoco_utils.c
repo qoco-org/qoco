@@ -178,9 +178,8 @@ void print_header(QOCOSolver* solver)
   printf("|     algebra: %-27s              |\n", solver->linsys->linsys_name());
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
-  printf("|     bisect_iters: %-2d iter_ref_iters: %-2d               |\n", settings->bisect_iters, settings->iter_ref_iters);
-  printf("|     ruiz_iters: %-2d kkt_static_reg: %3.2e           |\n", settings->ruiz_iters, settings->kkt_static_reg);
-  printf("|     kkt_dynamic_reg: %3.2e                         |\n", settings->kkt_dynamic_reg);
+  printf("|     ruiz_iters: %-2d iter_ref_iters: %-2d               |\n", settings->ruiz_iters, settings->iter_ref_iters);
+  printf("|     kkt_static_reg: %3.2e kkt_dynamic_reg: %3.2e           |\n", settings->kkt_static_reg, settings->kkt_dynamic_reg);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
   printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
@@ -377,7 +376,6 @@ QOCOSettings* copy_settings(QOCOSettings* settings)
   QOCOSettings* new_settings = malloc(sizeof(QOCOSettings));
   new_settings->abstol = settings->abstol;
   new_settings->abstol_inacc = settings->abstol_inacc;
-  new_settings->bisect_iters = settings->bisect_iters;
   new_settings->iter_ref_iters = settings->iter_ref_iters;
   new_settings->max_iters = settings->max_iters;
   new_settings->kkt_static_reg = settings->kkt_static_reg;
