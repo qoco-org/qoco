@@ -233,7 +233,7 @@ therefore the smallest positive real root of the quadratic :math:`a \alpha^2 + b
    only feasible point.
 
 **Numerically stable root computation.** When none of the degenerate cases applies,
-Vieta's substitution is used to avoid catastrophic cancellation. Let
+the citardauq formula is used to avoid catastrophic cancellation. Let
 :math:`\sqrt{d} = \sqrt{b^2 - 4ac}`. Define
 
 .. math::
