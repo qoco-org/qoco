@@ -12,8 +12,6 @@ The settings are defined in the :code:`include/structs.h` file.
 +================================+=======================+============================================================+=====================+===============+
 | :code:`max_iters`              |  :code:`QOCOInt`      | Maximum number of iterations                               | :math:`(0, \infty)` | 200           |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`bisect_iters`           |  :code:`QOCOInt`      | Number of bisection iterations to perform during linesearch| :math:`(0, \infty)` | 5             |
-+--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`ruiz_iters`             |  :code:`QOCOInt`      | Number of Ruiz equilibration iterations performed          | :math:`(0, \infty)` | 0             |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`iter_ref_iters`         |  :code:`QOCOInt`      | Number of iterative refinement iterations to perform       | :math:`(0, \infty)` | 1             |

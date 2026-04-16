@@ -182,6 +182,79 @@ The file is selected at build time — only one is ever compiled. The CUDA versi
 implements the same logic as CUDA kernels dispatched via the same function
 signatures.
 
+Closed-Form SOC Step Length
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The linesearch for the second-order cone (``soc_step_length`` in ``src/cone.c``)
+computes the maximum step length :math:`\alpha \ge 0` such that
+:math:`x + \alpha \, dx` remains in the second-order cone
+
+.. math::
+
+   \mathcal{Q}^n = \{ (x_0, x_1) \in \mathbb{R} \times \mathbb{R}^{n-1} :
+   x_0 \ge \|x_1\| \}
+
+rather than performing a bisection search.
+
+**Derivation.** The membership condition for :math:`x + \alpha \, dx` is
+
+.. math::
+
+   (x_0 + \alpha \, dx_0)^2 \ge \|x_1 + \alpha \, dx_1\|^2.
+
+Expanding and collecting by powers of :math:`\alpha`:
+
+.. math::
+
+   \underbrace{(dx_0^2 - \|dx_1\|^2)}_{a} \, \alpha^2
+   + \underbrace{2(x_0 \, dx_0 - x_1^\top dx_1)}_{b} \, \alpha
+   + \underbrace{(x_0^2 - \|x_1\|^2)}_{c} \ge 0.
+
+Because :math:`x` is already in the cone, :math:`c = \det(x) = x_0^2 - \|x_1\|^2 \ge 0`,
+so :math:`\alpha = 0` is always feasible. The maximum feasible :math:`\alpha` is
+therefore the smallest positive real root of the quadratic :math:`a \alpha^2 + b \alpha + c = 0`.
+
+**Case analysis.** Before solving the quadratic the code handles four degenerate cases:
+
+1. **Scalar safeguard.** If :math:`dx_0 < 0`, the first component could go negative.
+   An independent upper bound :math:`-x_0 / dx_0` is applied first.
+
+2. **No positive root** (:math:`a > 0` and :math:`b > 0`, or discriminant :math:`d = b^2 - 4ac < 0`).
+   The parabola either opens upward with a positive vertex shift or has no real roots.
+   Either way the quadratic stays non-negative for all :math:`\alpha \ge 0`, so the
+   current bound is returned unchanged.
+
+3. **Linear case** (:math:`|a| < 10^{-14}`). The leading term vanishes; the constraint
+   is linear in :math:`\alpha`. With :math:`c \ge 0` and the sign structure this
+   imposes no additional restriction, so the bound is returned unchanged.
+
+4. **Boundary case** (:math:`c = 0`, i.e. :math:`x` is on the cone boundary). If
+   :math:`a \ge 0` there is no positive root; otherwise :math:`\alpha = 0` is the
+   only feasible point.
+
+**Numerically stable root computation.** When none of the degenerate cases applies,
+the citardauq formula is used to avoid catastrophic cancellation. Let
+:math:`\sqrt{d} = \sqrt{b^2 - 4ac}`. Define
+
+.. math::
+
+   t = \begin{cases}
+       -b - \sqrt{d} & \text{if } b \ge 0 \\
+       -b + \sqrt{d} & \text{if } b < 0
+   \end{cases}
+
+Then the two roots are computed as
+
+.. math::
+
+   r_1 = \frac{2c}{t}, \qquad r_2 = \frac{t}{2a}.
+
+This form ensures that both :math:`r_1` and :math:`r_2` are computed by dividing
+two numbers of the same sign, avoiding the large relative error that arises when
+subtracting nearly equal quantities. Negative roots are discarded (replaced by
+:math:`+\infty`), and the smaller of :math:`r_1`, :math:`r_2` is taken as the
+step-length restriction for this cone.
+
 Building
 --------
 

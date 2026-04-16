@@ -18,6 +18,7 @@
       <script src="../_static/documentation_options.js?v=5929fcd5"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -338,6 +339,58 @@ explicitly when the CPU needs to read the result.</p>
 The file is selected at build time — only one is ever compiled. The CUDA version
 implements the same logic as CUDA kernels dispatched via the same function
 signatures.</p>
+<section id="closed-form-soc-step-length">
+<h4>Closed-Form SOC Step Length<a class="headerlink" href="#closed-form-soc-step-length" title="Link to this heading"></a></h4>
+<p>The linesearch for the second-order cone (<code class="docutils literal notranslate"><span class="pre">soc_step_length</span></code> in <code class="docutils literal notranslate"><span class="pre">src/cone.c</span></code>)
+computes the maximum step length <span class="math notranslate nohighlight">\(\alpha \ge 0\)</span> such that
+<span class="math notranslate nohighlight">\(x + \alpha \, dx\)</span> remains in the second-order cone</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{Q}^n = \{ (x_0, x_1) \in \mathbb{R} \times \mathbb{R}^{n-1} :
+x_0 \ge \|x_1\| \}\]</div>
+<p>rather than performing a bisection search.</p>
+<p><strong>Derivation.</strong> The membership condition for <span class="math notranslate nohighlight">\(x + \alpha \, dx\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[(x_0 + \alpha \, dx_0)^2 \ge \|x_1 + \alpha \, dx_1\|^2.\]</div>
+<p>Expanding and collecting by powers of <span class="math notranslate nohighlight">\(\alpha\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\underbrace{(dx_0^2 - \|dx_1\|^2)}_{a} \, \alpha^2
++ \underbrace{2(x_0 \, dx_0 - x_1^\top dx_1)}_{b} \, \alpha
++ \underbrace{(x_0^2 - \|x_1\|^2)}_{c} \ge 0.\]</div>
+<p>Because <span class="math notranslate nohighlight">\(x\)</span> is already in the cone, <span class="math notranslate nohighlight">\(c = \det(x) = x_0^2 - \|x_1\|^2 \ge 0\)</span>,
+so <span class="math notranslate nohighlight">\(\alpha = 0\)</span> is always feasible. The maximum feasible <span class="math notranslate nohighlight">\(\alpha\)</span> is
+therefore the smallest positive real root of the quadratic <span class="math notranslate nohighlight">\(a \alpha^2 + b \alpha + c = 0\)</span>.</p>
+<p><strong>Case analysis.</strong> Before solving the quadratic the code handles four degenerate cases:</p>
+<ol class="arabic simple">
+<li><p><strong>Scalar safeguard.</strong> If <span class="math notranslate nohighlight">\(dx_0 &lt; 0\)</span>, the first component could go negative.
+An independent upper bound <span class="math notranslate nohighlight">\(-x_0 / dx_0\)</span> is applied first.</p></li>
+<li><p><strong>No positive root</strong> (<span class="math notranslate nohighlight">\(a &gt; 0\)</span> and <span class="math notranslate nohighlight">\(b &gt; 0\)</span>, or discriminant <span class="math notranslate nohighlight">\(d = b^2 - 4ac &lt; 0\)</span>).
+The parabola either opens upward with a positive vertex shift or has no real roots.
+Either way the quadratic stays non-negative for all <span class="math notranslate nohighlight">\(\alpha \ge 0\)</span>, so the
+current bound is returned unchanged.</p></li>
+<li><p><strong>Linear case</strong> (<span class="math notranslate nohighlight">\(|a| &lt; 10^{-14}\)</span>). The leading term vanishes; the constraint
+is linear in <span class="math notranslate nohighlight">\(\alpha\)</span>. With <span class="math notranslate nohighlight">\(c \ge 0\)</span> and the sign structure this
+imposes no additional restriction, so the bound is returned unchanged.</p></li>
+<li><p><strong>Boundary case</strong> (<span class="math notranslate nohighlight">\(c = 0\)</span>, i.e. <span class="math notranslate nohighlight">\(x\)</span> is on the cone boundary). If
+<span class="math notranslate nohighlight">\(a \ge 0\)</span> there is no positive root; otherwise <span class="math notranslate nohighlight">\(\alpha = 0\)</span> is the
+only feasible point.</p></li>
+</ol>
+<p><strong>Numerically stable root computation.</strong> When none of the degenerate cases applies,
+the citardauq formula is used to avoid catastrophic cancellation. Let
+<span class="math notranslate nohighlight">\(\sqrt{d} = \sqrt{b^2 - 4ac}\)</span>. Define</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}t = \begin{cases}
+    -b - \sqrt{d} &amp; \text{if } b \ge 0 \\
+    -b + \sqrt{d} &amp; \text{if } b &lt; 0
+\end{cases}\end{split}\]</div>
+<p>Then the two roots are computed as</p>
+<div class="math notranslate nohighlight">
+\[r_1 = \frac{2c}{t}, \qquad r_2 = \frac{t}{2a}.\]</div>
+<p>This form ensures that both <span class="math notranslate nohighlight">\(r_1\)</span> and <span class="math notranslate nohighlight">\(r_2\)</span> are computed by dividing
+two numbers of the same sign, avoiding the large relative error that arises when
+subtracting nearly equal quantities. Negative roots are discarded (replaced by
+<span class="math notranslate nohighlight">\(+\infty\)</span>), and the smaller of <span class="math notranslate nohighlight">\(r_1\)</span>, <span class="math notranslate nohighlight">\(r_2\)</span> is taken as the
+step-length restriction for this cone.</p>
+</section>
 </section>
 </section>
 <section id="building">

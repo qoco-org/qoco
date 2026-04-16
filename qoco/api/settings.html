@@ -113,25 +113,19 @@
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>200</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">bisect_iters</span></code></p></td>
-<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOInt</span></code></p></td>
-<td><p>Number of bisection iterations to perform during linesearch</p></td>
-<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
-<td><p>5</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">ruiz_iters</span></code></p></td>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">ruiz_iters</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">QOCOInt</span></code></p></td>
 <td><p>Number of Ruiz equilibration iterations performed</p></td>
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">iter_ref_iters</span></code></p></td>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">iter_ref_iters</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">QOCOInt</span></code></p></td>
 <td><p>Number of iterative refinement iterations to perform</p></td>
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>1</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">kkt_static_reg</span></code></p></td>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">kkt_static_reg</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
 <td><p>Positive constant added to the diagonal of the KKT system
 before every solve to ensure it remains nonsingular.
@@ -140,7 +134,7 @@ ill-conditioned problems.</p></td>
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>1e-8</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">kkt_dynamic_reg</span></code></p></td>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">kkt_dynamic_reg</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
 <td><p>Additional regularization applied dynamically during KKT
 factorization to any diagonal entry whose absolute value
@@ -149,31 +143,31 @@ near-degenerate problems.</p></td>
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>1e-8</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">abstol</span></code></p></td>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">abstol</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
 <td><p>absolute tolerance</p></td>
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>1e-7</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">reltol</span></code></p></td>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">reltol</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
 <td><p>relative tolerance</p></td>
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>1e-7</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">abstol_inacc</span></code></p></td>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">abstol_inacc</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
 <td><p>low accuracy absolute tolerance</p></td>
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>1e-5</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">reltol_inacc</span></code></p></td>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">reltol_inacc</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
 <td><p>low accuracy relative tolerance</p></td>
 <td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
 <td><p>1e-5</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">verbose</span></code></p></td>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">verbose</span></code></p></td>
 <td><p><code class="code docutils literal notranslate"><span class="pre">unsigned_char</span></code></p></td>
 <td><p>should the solver print progress</p></td>
 <td><p>0 or 1</p></td>
