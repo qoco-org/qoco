@@ -178,8 +178,8 @@ void print_header(QOCOSolver* solver)
   printf("|     algebra: %-27s              |\n", solver->linsys->linsys_name());
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
-  printf("|     ruiz_iters: %-2d iter_ref_iters: %-2d               |\n", settings->ruiz_iters, settings->iter_ref_iters);
-  printf("|     kkt_static_reg: %3.2e kkt_dynamic_reg: %3.2e           |\n", settings->kkt_static_reg, settings->kkt_dynamic_reg);
+  printf("|     kkt_static_reg: %3.2e ruiz_iters: %-2d           |\n", settings->kkt_static_reg, settings->ruiz_iters);
+  printf("|     kkt_dynamic_reg: %3.2e iter_ref_iters: %-2d      |\n", settings->kkt_dynamic_reg, settings->iter_ref_iters);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
   printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
