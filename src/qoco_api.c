@@ -226,7 +226,6 @@ void qoco_set_csc(QOCOCscMatrix* A, QOCOInt m, QOCOInt n, QOCOInt Annz,
 void set_default_settings(QOCOSettings* settings)
 {
   settings->max_iters = 200;
-  settings->bisect_iters = 5;
   settings->ruiz_iters = 0;
   settings->iter_ref_iters = 1;
   settings->kkt_static_reg = 1e-8;
@@ -246,7 +245,6 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
   }
 
   solver->settings->max_iters = new_settings->max_iters;
-  solver->settings->bisect_iters = new_settings->bisect_iters;
   solver->settings->ruiz_iters = new_settings->ruiz_iters;
   solver->settings->iter_ref_iters = new_settings->iter_ref_iters;
   solver->settings->kkt_static_reg = new_settings->kkt_static_reg;

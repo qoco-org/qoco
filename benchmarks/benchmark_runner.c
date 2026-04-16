@@ -16,9 +16,6 @@ static void apply_setting(QOCOSettings* settings, const char* arg)
   if (strcmp(key, "max_iters") == 0) {
     settings->max_iters = atoi(val);
   }
-  else if (strcmp(key, "bisect_iters") == 0) {
-    settings->bisect_iters = atoi(val);
-  }
   else if (strcmp(key, "ruiz_iters") == 0) {
     settings->ruiz_iters = atoi(val);
   }
