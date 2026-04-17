@@ -305,7 +305,8 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   }
 
 #ifdef QOCO_LOGGING
-  if (log_f) fclose(log_f);
+  if (log_f)
+    fclose(log_f);
   solve_count++;
 #endif
 

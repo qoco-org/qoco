@@ -50,7 +50,7 @@ set(QDLDL_LONG OFF)
 option(QOCO_SINGLE_PRECISION "Use single precision (float) instead of double precision" OFF)
 
 # Option to enable linear system solve error logging.
-option(QOCO_LOGGING "Print linear system solve errors (norm(Kx-b, inf)) to stdout" OFF)
+option(QOCO_LOGGING "Log linear system solve errors (norm(Kx-b, inf))" OFF)
 if(QOCO_LOGGING)
     add_compile_definitions(QOCO_LOGGING)
     message(STATUS "QOCO logging: ON")

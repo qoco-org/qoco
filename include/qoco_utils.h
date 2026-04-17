@@ -103,7 +103,8 @@ QOCOSettings* copy_settings(QOCOSettings* settings);
 
 /**
  * @brief Logs the current IPM iteration number to the linear system error file.
- * Only active when QOCO_LOGGING is defined. Opens the file fresh on iteration 0.
+ * Only active when QOCO_LOGGING is defined. Opens the file fresh on iteration
+ * 0.
  *
  * @param iter IPM iteration number (0 = initialization).
  */
