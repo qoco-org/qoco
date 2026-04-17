@@ -429,6 +429,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   }
 
   // Get initializations for primal and dual variables.
+  log_ipm_iter(0);
   initialize_ipm(solver);
   for (QOCOInt i = 1; i <= solver->settings->max_iters; ++i) {
 
@@ -455,6 +456,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
       }
       return solver->sol->status;
     }
+    log_ipm_iter(i);
 
     // Compute Nesterov-Todd scalings.
     compute_nt_scaling(work);

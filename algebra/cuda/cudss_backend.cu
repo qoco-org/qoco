@@ -261,6 +261,9 @@ struct LinSysData {
   /** Number of constraints (m) - stored for use in factor */
   QOCOInt m;
 
+  /** Static regularization parameter. */
+  QOCOFloat kkt_static_reg;
+
   /** cuSPARSE handle. */
   cusparseHandle_t cusparse_handle;
 
@@ -417,6 +420,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   CUDA_CHECK(cudaMalloc(&linsys_data->d_xyz_matrix_data,
                         sizeof(QOCOFloat) * linsys_data->Kn));
   linsys_data->Wnnz = Wnnz;
+  linsys_data->kkt_static_reg = settings->kkt_static_reg;
 
   // Allocate memory for mappings to KKT matrix
   linsys_data->nt2kkt = (QOCOInt*)qoco_calloc(Wnnz, sizeof(QOCOInt));
@@ -646,6 +650,45 @@ __global__ void update_csr_matrix_data_kernel(
   }
 }
 
+#ifdef QOCO_LOGGING
+/**
+ * @brief Logs the linear system solve error norm(K*x - b, inf) to f.
+ * Only compiled when QOCO_LOGGING is defined.
+ */
+static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
+                             QOCOVectorf* b_vec, QOCOVectorf* x_vec,
+                             const char* label, FILE* f)
+{
+  QOCOFloat* b = get_data_vectorf(b_vec);
+  QOCOFloat* x = get_data_vectorf(x_vec);
+  QOCOFloat* scratch = get_data_vectorf(work->xyzbuff1);
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOInt* Wsoc_idx = get_data_vectori(work->Wsoc_idx);
+  QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
+  QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
+  QOCOInt n = work->data->n;
+  QOCOInt p = work->data->p;
+  QOCOInt m = work->data->m;
+  QOCOInt N = n + m + p;
+
+  // Compute K * x -> scratch (without static regularization diagonal).
+  kkt_multiply(x, scratch, work->data, Wfull, Wsoc_idx, soc_idx, xbuff,
+               ubuff1, ubuff2);
+
+  // Add -reg*I correction on equality and NT block diagonals omitted by
+  // kkt_multiply.
+  qoco_axpy(&x[n], &scratch[n], &scratch[n], -linsys_data->kkt_static_reg,
+            p + m);
+
+  // scratch = b - K*x.
+  qoco_axpy(scratch, b, scratch, -1.0, N);
+
+  fprintf(f, "  (%s): %.4e\n", label, inf_norm(scratch, N));
+}
+#endif
+
 static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
                          QOCOFloat kkt_dynamic_reg)
 {
@@ -684,6 +727,14 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
   CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyz_matrix_data,
                         linsys_data->Kn * sizeof(QOCOFloat),
                         cudaMemcpyDeviceToDevice));
+
+#ifdef QOCO_LOGGING
+  FILE* log_f = fopen("qoco_linsys_errors.txt", "a");
+  if (log_f) {
+    log_linsys_error(linsys_data, work, b_vec, x_vec, "initial solve", log_f);
+    fclose(log_f);
+  }
+#endif
 }
 
 void cudss_set_nt_identity(LinSysData* linsys_data, QOCOInt m)
