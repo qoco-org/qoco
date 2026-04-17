@@ -224,7 +224,7 @@ void row_normalization(QOCOProblemData* data, QOCOScaling* scaling)
   if (get_nnz(data->G) > 0 && data->l > 0) {
     row_inf_norm_matrix(data->G, Fruiz_data);
     for (QOCOInt i = 0; i < data->l; ++i) {
-      Fruiz_data[i] = (Fruiz_data[i] > 1e-15) ? (1.0 / Fruiz_data[i]) : 1.0;
+      Fruiz_data[i] = (Fruiz_data[i] > 1e-8) ? (1.0 / Fruiz_data[i]) : 1.0;
     }
     for (QOCOInt i = data->l; i < data->m; ++i) {
       Fruiz_data[i] = 1.0;
