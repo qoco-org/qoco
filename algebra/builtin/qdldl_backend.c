@@ -257,9 +257,8 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
 
 #ifdef QOCO_LOGGING
   static QOCOInt solve_count = 0;
-  FILE* log_f = fopen("qoco_linsys_errors.txt", solve_count == 0 ? "w" : "a");
+  FILE* log_f = fopen("qoco_linsys_errors.txt", "a");
   if (log_f) {
-    fprintf(log_f, "Iteration: %d\n", solve_count);
     log_linsys_error(linsys_data, work, b, x, "initial solve", log_f);
   }
 #endif

@@ -372,6 +372,19 @@ void copy_solution(QOCOSolver* solver)
       get_elapsed_time_sec(&(solver->work->solve_timer));
 }
 
+void log_ipm_iter(QOCOInt iter)
+{
+#ifdef QOCO_LOGGING
+  FILE* log_f = fopen("qoco_linsys_errors.txt", iter == 0 ? "w" : "a");
+  if (log_f) {
+    fprintf(log_f, "Iteration: %d\n", iter);
+    fclose(log_f);
+  }
+#else
+  (void)iter;
+#endif
+}
+
 QOCOSettings* copy_settings(QOCOSettings* settings)
 {
   QOCOSettings* new_settings = malloc(sizeof(QOCOSettings));

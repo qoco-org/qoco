@@ -101,4 +101,12 @@ void copy_solution(QOCOSolver* solver);
  */
 QOCOSettings* copy_settings(QOCOSettings* settings);
 
+/**
+ * @brief Logs the current IPM iteration number to the linear system error file.
+ * Only active when QOCO_LOGGING is defined. Opens the file fresh on iteration 0.
+ *
+ * @param iter IPM iteration number (0 = initialization).
+ */
+void log_ipm_iter(QOCOInt iter);
+
 #endif /* #ifndef QOCO_UTILS_H */
