@@ -179,6 +179,86 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
   sync_vector_to_device(scaling->Finvruiz);
 }
 
+void row_normalization(QOCOProblemData* data, QOCOScaling* scaling)
+{
+  set_cpu_mode(1);
+
+  // Initialize all scaling to identity.
+  for (QOCOInt i = 0; i < data->n; ++i) {
+    set_element_vectorf(scaling->Druiz, i, 1.0);
+    set_element_vectorf(scaling->Dinvruiz, i, 1.0);
+  }
+  for (QOCOInt i = 0; i < data->p; ++i) {
+    set_element_vectorf(scaling->Eruiz, i, 1.0);
+    set_element_vectorf(scaling->Einvruiz, i, 1.0);
+  }
+  for (QOCOInt i = 0; i < data->m; ++i) {
+    set_element_vectorf(scaling->Fruiz, i, 1.0);
+    set_element_vectorf(scaling->Finvruiz, i, 1.0);
+  }
+  scaling->k = 1.0;
+  scaling->kinv = 1.0;
+
+  QOCOFloat* Eruiz_data = get_data_vectorf(scaling->Eruiz);
+  QOCOFloat* Fruiz_data = get_data_vectorf(scaling->Fruiz);
+  QOCOFloat* bdata = get_data_vectorf(data->b);
+  QOCOFloat* hdata = get_data_vectorf(data->h);
+
+  QOCOFloat* ones_n = (QOCOFloat*)qoco_malloc(sizeof(QOCOFloat) * data->n);
+  for (QOCOInt j = 0; j < data->n; ++j) {
+    ones_n[j] = 1.0;
+  }
+
+  // Set E[i] = 1/||row_i(A)||_inf and scale rows of A by E[i].
+  if (get_nnz(data->A) > 0) {
+    row_inf_norm_matrix(data->A, Eruiz_data);
+    for (QOCOInt i = 0; i < data->p; ++i) {
+      Eruiz_data[i] = (Eruiz_data[i] > 1e-15) ? (1.0 / Eruiz_data[i]) : 1.0;
+    }
+    row_col_scale_matrix(data->A, Eruiz_data, ones_n);
+    row_col_scale_matrix(data->At, ones_n, Eruiz_data);
+  }
+
+  // Set F[i] = 1/||row_i(G)||_inf for inequality rows and scale those rows of G.
+  if (get_nnz(data->G) > 0 && data->l > 0) {
+    row_inf_norm_matrix(data->G, Fruiz_data);
+    for (QOCOInt i = 0; i < data->l; ++i) {
+      Fruiz_data[i] = (Fruiz_data[i] > 1e-15) ? (1.0 / Fruiz_data[i]) : 1.0;
+    }
+    for (QOCOInt i = data->l; i < data->m; ++i) {
+      Fruiz_data[i] = 1.0;
+    }
+    row_col_scale_matrix(data->G, Fruiz_data, ones_n);
+    row_col_scale_matrix(data->Gt, ones_n, Fruiz_data);
+  }
+
+  qoco_free(ones_n);
+
+  // Scale b and h.
+  ew_product(bdata, Eruiz_data, bdata, data->p);
+  ew_product(hdata, Fruiz_data, hdata, data->m);
+
+  // Compute inverses.
+  reciprocal_vectorf(scaling->Eruiz, scaling->Einvruiz);
+  reciprocal_vectorf(scaling->Fruiz, scaling->Finvruiz);
+
+  set_cpu_mode(0);
+
+  // Sync updated scaling vectors and scaled data to device (CUDA backend).
+  if (data->p > 0) {
+    sync_matrix_to_device(data->A);
+    sync_matrix_to_device(data->At);
+  }
+  if (data->m > 0) {
+    sync_matrix_to_device(data->G);
+    sync_matrix_to_device(data->Gt);
+  }
+  sync_vector_to_device(scaling->Eruiz);
+  sync_vector_to_device(scaling->Fruiz);
+  sync_vector_to_device(scaling->Einvruiz);
+  sync_vector_to_device(scaling->Finvruiz);
+}
+
 void unscale_variables(QOCOWorkspace* work)
 {
   ew_product(get_data_vectorf(work->x), get_data_vectorf(work->scaling->Druiz),

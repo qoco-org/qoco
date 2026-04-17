@@ -42,6 +42,16 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
                         QOCOInt ruiz_iters);
 
 /**
+ * @brief Applies row normalization to scale data matrices. Sets E and F so
+ * that each row of A and each inequality row of G has unit infinity norm.
+ * Does not modify D or the cost scaling factor k.
+ *
+ * @param data Pointer to problem data.
+ * @param scaling Pointer to scaling struct.
+ */
+void row_normalization(QOCOProblemData* data, QOCOScaling* scaling);
+
+/**
  * @brief Undo variable transformation induced by ruiz equilibration.
  *
  * @param work Pointer to workspace.
