@@ -209,11 +209,13 @@ void row_normalization(QOCOProblemData* data, QOCOScaling* scaling)
     ones_n[j] = 1.0;
   }
 
+  QOCOFloat tol = 1e-6;
+
   // Set E[i] = 1/||row_i(A)||_inf and scale rows of A by E[i].
   if (get_nnz(data->A) > 0) {
     row_inf_norm_matrix(data->A, Eruiz_data);
     for (QOCOInt i = 0; i < data->p; ++i) {
-      Eruiz_data[i] = (Eruiz_data[i] > 1e-8) ? (1.0 / Eruiz_data[i]) : 1.0;
+      Eruiz_data[i] = (Eruiz_data[i] > tol) ? (1.0 / Eruiz_data[i]) : 1.0 / tol;
     }
     row_col_scale_matrix(data->A, Eruiz_data, ones_n);
     row_col_scale_matrix(data->At, ones_n, Eruiz_data);
@@ -224,7 +226,7 @@ void row_normalization(QOCOProblemData* data, QOCOScaling* scaling)
   if (get_nnz(data->G) > 0 && data->l > 0) {
     row_inf_norm_matrix(data->G, Fruiz_data);
     for (QOCOInt i = 0; i < data->l; ++i) {
-      Fruiz_data[i] = (Fruiz_data[i] > 1e-8) ? (1.0 / Fruiz_data[i]) : 1.0;
+      Fruiz_data[i] = (Fruiz_data[i] > tol) ? (1.0 / Fruiz_data[i]) : 1.0 / tol;
     }
     for (QOCOInt i = data->l; i < data->m; ++i) {
       Fruiz_data[i] = 1.0;
