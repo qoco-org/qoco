@@ -213,13 +213,14 @@ void row_normalization(QOCOProblemData* data, QOCOScaling* scaling)
   if (get_nnz(data->A) > 0) {
     row_inf_norm_matrix(data->A, Eruiz_data);
     for (QOCOInt i = 0; i < data->p; ++i) {
-      Eruiz_data[i] = (Eruiz_data[i] > 1e-15) ? (1.0 / Eruiz_data[i]) : 1.0;
+      Eruiz_data[i] = (Eruiz_data[i] > 1e-8) ? (1.0 / Eruiz_data[i]) : 1.0;
     }
     row_col_scale_matrix(data->A, Eruiz_data, ones_n);
     row_col_scale_matrix(data->At, ones_n, Eruiz_data);
   }
 
-  // Set F[i] = 1/||row_i(G)||_inf for inequality rows and scale those rows of G.
+  // Set F[i] = 1/||row_i(G)||_inf for inequality rows and scale those rows of
+  // G.
   if (get_nnz(data->G) > 0 && data->l > 0) {
     row_inf_norm_matrix(data->G, Fruiz_data);
     for (QOCOInt i = 0; i < data->l; ++i) {
