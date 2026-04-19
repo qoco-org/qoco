@@ -19,8 +19,11 @@ static void apply_setting(QOCOSettings* settings, const char* arg)
   else if (strcmp(key, "ruiz_iters") == 0) {
     settings->ruiz_iters = atoi(val);
   }
-  else if (strcmp(key, "iter_ref_iters") == 0) {
-    settings->iter_ref_iters = atoi(val);
+  else if (strcmp(key, "max_ir_iters") == 0) {
+    settings->max_ir_iters = atoi(val);
+  }
+  else if (strcmp(key, "ir_tol") == 0) {
+    settings->ir_tol = atof(val);
   }
   else if (strcmp(key, "kkt_static_reg") == 0) {
     settings->kkt_static_reg = atof(val);

@@ -186,17 +186,14 @@ static void qdldl_factor(LinSysData* linsys_data, QOCOInt n,
                kkt_dynamic_reg);
 }
 
-#ifdef QOCO_LOGGING
 /**
- * @brief Logs the linear system solve error norm(K*x - b, inf) to f.
- * Only compiled when QOCO_LOGGING is defined.
- *
- * Uses x_scratch (size n+p+m) as a temporary buffer. xyzbuff1 (the current
- * solution in permuted space) and b (the permuted RHS) are not modified.
+ * @brief Computes norm(K*x - b, inf) using the current solution in
+ * linsys_data->xyzbuff1 (permuted space). Stores the residual vector in
+ * x_scratch (size N = n+p+m) and returns the inf-norm.
  */
-static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
-                             QOCOFloat* b, QOCOFloat* x_scratch,
-                             const char* label, FILE* f)
+static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
+                                         QOCOWorkspace* work, QOCOFloat* b,
+                                         QOCOFloat* x_scratch)
 {
   QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
   QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
@@ -212,12 +209,11 @@ static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
     x_scratch[linsys_data->p[k]] = linsys_data->xyzbuff1[k];
   }
 
-  // Compute K * x_scratch -> xyzbuff2 (CPU code does not use Wsoc_idx/soc_idx).
+  // Compute K * x_scratch -> xyzbuff2.
   kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, Wfull, NULL, NULL,
                xbuff, ubuff1, ubuff2);
 
-  // Add -eps*I terms on equality and NT block diagonals omitted by
-  // kkt_multiply.
+  // Add -eps*I terms on equality and NT block diagonals omitted by kkt_multiply.
   QOCOFloat reg = linsys_data->kkt_static_reg;
   for (QOCOInt k = n; k < n + p; ++k) {
     linsys_data->xyzbuff2[k] -= reg * x_scratch[k];
@@ -232,13 +228,22 @@ static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
     x_scratch[k] = b[k] - linsys_data->xyzbuff2[linsys_data->p[k]];
   }
 
-  fprintf(f, "  (%s): %.4e\n", label, inf_norm(x_scratch, N));
+  return inf_norm(x_scratch, N);
+}
+
+#ifdef QOCO_LOGGING
+static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
+                             QOCOFloat* b, QOCOFloat* x_scratch,
+                             const char* label, FILE* f)
+{
+  QOCOFloat res = compute_linsys_residual(linsys_data, work, b, x_scratch);
+  fprintf(f, "  (%s): %.4e\n", label, res);
 }
 #endif
 
 static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         QOCOVectorf* b_vec, QOCOVectorf* x_vec,
-                        QOCOInt iter_ref_iters)
+                        QOCOFloat ir_tol, QOCOInt max_ir_iters)
 {
   QOCOFloat* b = get_data_vectorf(b_vec);
   QOCOFloat* x = get_data_vectorf(x_vec);
@@ -256,58 +261,68 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
               linsys_data->Lx, linsys_data->Dinv, linsys_data->xyzbuff1);
 
 #ifdef QOCO_LOGGING
-  static QOCOInt solve_count = 0;
   FILE* log_f = fopen("qoco_linsys_errors.txt", "a");
   if (log_f) {
     log_linsys_error(linsys_data, work, b, x, "initial solve", log_f);
   }
 #endif
 
-  // Iterative refinement.
-  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
-  QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
-  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
-  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
+  // Adaptive iterative refinement with best-solution tracking.
+  // x is used as scratch for residual computation (size K->n).
+  // best_sol (work->xyzbuff1) saves the permuted solution with the lowest
+  // residual seen so far; if a step worsens the residual we restore it.
+  QOCOFloat* best_sol = get_data_vectorf(work->xyzbuff1);
+  QOCOFloat best_res = compute_linsys_residual(linsys_data, work, b, x);
+  copy_arrayf(linsys_data->xyzbuff1, best_sol, linsys_data->K->n);
 
-  for (QOCOInt i = 0; i < iter_ref_iters; ++i) {
-    // r = b - K * x
+  QOCOInt ir_count = 0;
+  QOCOFloat res = best_res;
 
-    for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
-      x[linsys_data->p[k]] = linsys_data->xyzbuff1[k];
+  for (QOCOInt i = 0; i < max_ir_iters; ++i) {
+    if (res < ir_tol) {
+      break;
     }
 
-    // CPU code does not use Wsoc_idx and soc_idx.
-    kkt_multiply(x, linsys_data->xyzbuff2, work->data, Wfull, NULL, NULL, xbuff,
-                 ubuff1, ubuff2);
-
+    // r = b - K*x is already in x from compute_linsys_residual.
+    // Permute r into xyzbuff2.
     for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
-      x[k] = linsys_data->xyzbuff2[linsys_data->p[k]];
-    }
-
-    for (QOCOInt j = 0; j < linsys_data->K->n; ++j) {
-      x[j] = b[j] - x[j];
+      linsys_data->xyzbuff2[k] = x[linsys_data->p[k]];
     }
 
     // dx = K \ r
     QDLDL_solve(linsys_data->K->n, linsys_data->Lp, linsys_data->Li,
-                linsys_data->Lx, linsys_data->Dinv, x);
+                linsys_data->Lx, linsys_data->Dinv, linsys_data->xyzbuff2);
 
-    // x = x + dx.
-    qoco_axpy(linsys_data->xyzbuff1, x, linsys_data->xyzbuff1, 1.0,
-              linsys_data->K->n);
+    // x_new = x_old + dx (permuted space).
+    qoco_axpy(linsys_data->xyzbuff1, linsys_data->xyzbuff2,
+              linsys_data->xyzbuff1, 1.0, linsys_data->K->n);
+
+    ir_count++;
+
+    QOCOFloat new_res = compute_linsys_residual(linsys_data, work, b, x);
 
 #ifdef QOCO_LOGGING
-    // x holds dx which is no longer needed; safe to use as scratch here.
     if (log_f) {
       log_linsys_error(linsys_data, work, b, x, "refinement", log_f);
     }
 #endif
+
+    if (new_res >= best_res) {
+      // Residual worsened; restore best solution and stop.
+      copy_arrayf(best_sol, linsys_data->xyzbuff1, linsys_data->K->n);
+      break;
+    }
+
+    best_res = new_res;
+    copy_arrayf(linsys_data->xyzbuff1, best_sol, linsys_data->K->n);
+    res = new_res;
   }
+
+  work->ir_iters += ir_count;
 
 #ifdef QOCO_LOGGING
   if (log_f)
     fclose(log_f);
-  solve_count++;
 #endif
 
   for (QOCOInt i = 0; i < linsys_data->K->n; ++i) {

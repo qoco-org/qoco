@@ -179,21 +179,22 @@ void print_header(QOCOSolver* solver)
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
   printf("|     kkt_static_reg: %3.2e ruiz_iters: %-2d           |\n", settings->kkt_static_reg, settings->ruiz_iters);
-  printf("|     kkt_dynamic_reg: %3.2e iter_ref_iters: %-2d      |\n", settings->kkt_dynamic_reg, settings->iter_ref_iters);
+  printf("|     kkt_dynamic_reg: %3.2e ir_tol: %3.2e            |\n", settings->kkt_dynamic_reg, settings->ir_tol);
+  printf("|     max_ir_iters: %-2d                                  |\n", settings->max_ir_iters);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
-  printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
-  printf("|  Iter  |   Pcost   |    Pres    |    Dres    |     Gap    |     Mu    |    Step   |\n");
-  printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
+  printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
+  printf("|  Iter  |   Pcost   |    Pres    |    Dres    |     Gap    |     Mu    |  IR  |    Step   |\n");
+  printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
   // clang-format on
 }
 
 void log_iter(QOCOSolver* solver)
 {
   // clang-format off
-  printf("|   %2d   | %+.2e | %+.3e | %+.3e | %+.3e | %+.2e |   %.3f   |\n",
-         solver->sol->iters, solver->sol->obj, solver->sol->pres, solver->sol->dres, solver->sol->gap, solver->work->mu, solver->work->a);
-  printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
+  printf("|   %2d   | %+.2e | %+.3e | %+.3e | %+.3e | %+.2e | %4d |   %.3f   |\n",
+         solver->sol->iters, solver->sol->obj, solver->sol->pres, solver->sol->dres, solver->sol->gap, solver->work->mu, solver->work->ir_iters, solver->work->a);
+  printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
   // clang-format on
 }
 
@@ -389,7 +390,8 @@ QOCOSettings* copy_settings(QOCOSettings* settings)
   QOCOSettings* new_settings = malloc(sizeof(QOCOSettings));
   new_settings->abstol = settings->abstol;
   new_settings->abstol_inacc = settings->abstol_inacc;
-  new_settings->iter_ref_iters = settings->iter_ref_iters;
+  new_settings->max_ir_iters = settings->max_ir_iters;
+  new_settings->ir_tol = settings->ir_tol;
   new_settings->max_iters = settings->max_iters;
   new_settings->kkt_static_reg = settings->kkt_static_reg;
   new_settings->kkt_dynamic_reg = settings->kkt_dynamic_reg;

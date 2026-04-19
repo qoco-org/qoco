@@ -111,8 +111,11 @@ typedef struct {
   /** Number of Ruiz equilibration iterations. */
   QOCOInt ruiz_iters;
 
-  /** Number of iterative refinement iterations performed. */
-  QOCOInt iter_ref_iters;
+  /** Maximum number of iterative refinement iterations. */
+  QOCOInt max_ir_iters;
+
+  /** Iterative refinement stopping tolerance: stop when norm(K*x-b) < ir_tol. */
+  QOCOFloat ir_tol;
 
   /** Static regularization parameter for KKT system. */
   QOCOFloat kkt_static_reg;
@@ -274,6 +277,9 @@ typedef struct {
   /** Residual of KKT condition. */
   QOCOVectorf* kktres;
 
+  /** Total iterative refinement iterations used in the current IPM step. */
+  QOCOInt ir_iters;
+
 } QOCOWorkspace;
 
 typedef struct {
@@ -330,7 +336,7 @@ typedef struct {
                         QOCOFloat kkt_dynamic_reg);
   void (*linsys_solve)(LinSysData* linsys_data, QOCOWorkspace* work,
                        QOCOVectorf* b_vec, QOCOVectorf* x_vec,
-                       QOCOInt iter_ref_iters);
+                       QOCOFloat ir_tol, QOCOInt max_ir_iters);
   void (*linsys_cleanup)(LinSysData* linsys_data);
 } LinSysBackend;
 

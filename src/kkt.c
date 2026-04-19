@@ -199,7 +199,7 @@ void initialize_ipm(QOCOSolver* solver)
 
   // Solve KKT system.
   solver->linsys->linsys_solve(solver->linsys_data, work, work->rhs, work->xyz,
-                               solver->settings->iter_ref_iters);
+                               solver->settings->ir_tol, solver->settings->max_ir_iters);
 
   // Copy x part of solution to x.
   copy_arrayf(xyz, get_data_vectorf(work->x), work->data->n);
@@ -398,7 +398,7 @@ void predictor_corrector(QOCOSolver* solver)
 
   // Solve to get affine scaling direction.
   solver->linsys->linsys_solve(solver->linsys_data, work, work->rhs, work->xyz,
-                               solver->settings->iter_ref_iters);
+                               solver->settings->ir_tol, solver->settings->max_ir_iters);
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
@@ -418,7 +418,7 @@ void predictor_corrector(QOCOSolver* solver)
 
   // Solve to get combined direction.
   solver->linsys->linsys_solve(solver->linsys_data, work, work->rhs, work->xyz,
-                               solver->settings->iter_ref_iters);
+                               solver->settings->ir_tol, solver->settings->max_ir_iters);
 
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.

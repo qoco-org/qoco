@@ -700,9 +700,10 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
 
 static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         QOCOVectorf* b_vec, QOCOVectorf* x_vec,
-                        QOCOInt iter_ref_iters)
+                        QOCOFloat ir_tol, QOCOInt max_ir_iters)
 {
-  (void)iter_ref_iters; // No iterative refinement for CUDA backend
+  (void)ir_tol;       // No iterative refinement for CUDA backend
+  (void)max_ir_iters; // No iterative refinement for CUDA backend
 
   QOCOFloat* x = get_data_vectorf(x_vec);
   QOCOFloat* b = get_data_vectorf(b_vec);

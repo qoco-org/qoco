@@ -537,6 +537,11 @@ QOCOFloat linesearch(QOCOFloat* u, QOCOFloat* Du, QOCOFloat f,
 
   QOCOFloat alpha = cone_step_length(u, Du, work->data);
 
+  // Safeguard against step-sizes which are too small.
+  if (alpha < 1e-12) {
+    return 0;
+  }
+
   return f * alpha;
 }
 

@@ -161,6 +161,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   work->y = new_qoco_vectorf(NULL, p);
   work->z = new_qoco_vectorf(NULL, m);
   work->mu = 0.0;
+  work->ir_iters = 0;
 
   // Allocate Nesterov-Todd scalings and scaled variables.
   QOCOInt Wnnzfull = data->l;
@@ -227,9 +228,10 @@ void set_default_settings(QOCOSettings* settings)
 {
   settings->max_iters = 200;
   settings->ruiz_iters = 0;
-  settings->iter_ref_iters = 1;
+  settings->max_ir_iters = 5;
+  settings->ir_tol = 1e-7;
   settings->kkt_static_reg = 1e-8;
-  settings->kkt_dynamic_reg = 1e-8;
+  settings->kkt_dynamic_reg = 1e-11;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
   settings->abstol_inacc = 1e-5;
@@ -246,7 +248,8 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
 
   solver->settings->max_iters = new_settings->max_iters;
   solver->settings->ruiz_iters = new_settings->ruiz_iters;
-  solver->settings->iter_ref_iters = new_settings->iter_ref_iters;
+  solver->settings->max_ir_iters = new_settings->max_ir_iters;
+  solver->settings->ir_tol = new_settings->ir_tol;
   solver->settings->kkt_static_reg = new_settings->kkt_static_reg;
   solver->settings->kkt_dynamic_reg = new_settings->kkt_dynamic_reg;
   solver->settings->abstol = new_settings->abstol;
@@ -464,6 +467,9 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     // Update Nestrov-Todd block of KKT matrix.
     solver->linsys->linsys_update_nt(solver->linsys_data, work->WtW,
                                      solver->settings->kkt_static_reg, data->m);
+
+    // Reset IR iteration counter for this IPM step.
+    work->ir_iters = 0;
 
     // Perform predictor-corrector.
     predictor_corrector(solver);
