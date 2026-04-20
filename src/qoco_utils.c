@@ -179,7 +179,7 @@ void print_header(QOCOSolver* solver)
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
   printf("|     kkt_static_reg: %3.2e ruiz_iters: %-2d           |\n", settings->kkt_static_reg, settings->ruiz_iters);
-  printf("|     kkt_dynamic_reg: %3.2e ir_tol: %3.2e            |\n", settings->kkt_dynamic_reg, settings->ir_tol);
+  printf("|     kkt_dynamic_reg: %3.2e ir_tol: %3.2e        |\n", settings->kkt_dynamic_reg, settings->ir_tol);
   printf("|     max_ir_iters: %-2d                                  |\n", settings->max_ir_iters);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
@@ -192,7 +192,7 @@ void print_header(QOCOSolver* solver)
 void log_iter(QOCOSolver* solver)
 {
   // clang-format off
-  printf("|   %2d   | %+.2e | %+.3e | %+.3e | %+.3e | %+.2e | %4d |   %.3f   |\n",
+  printf("|  %3d   | %+.2e | %+.3e | %+.3e | %+.3e | %+.2e |  %2d  |   %.3f   |\n",
          solver->sol->iters, solver->sol->obj, solver->sol->pres, solver->sol->dres, solver->sol->gap, solver->work->mu, solver->work->ir_iters, solver->work->a);
   printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
   // clang-format on
@@ -324,19 +324,22 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat gap_rel = qoco_max(1, pobj);
   gap_rel = qoco_max(gap_rel, dobj);
 
-  // If the solver stalled (stepsize = 0) check if low tolerance stopping
-  // criteria is met.
+  // If the solver stalled (stepsize = 0), increase dynamic regularization by
+  // one order of magnitude and retry. If kkt_dynamic_reg would exceed
+  // kkt_reg_max=1e-6, stop with an error.
   if (solver->work->a < 1e-8) {
-    if (pres < eabsinacc + erelinacc * pres_rel &&
-        dres < eabsinacc + erelinacc * dres_rel &&
-        solver->sol->gap < eabsinacc + erelinacc * gap_rel) {
-      solver->sol->status = QOCO_SOLVED_INACCURATE;
-      return 1;
-    }
-    else {
+    solver->settings->kkt_dynamic_reg *= 10.0;
+    if (solver->settings->kkt_dynamic_reg > 1e-6) {
+      if (pres < eabsinacc + erelinacc * pres_rel &&
+          dres < eabsinacc + erelinacc * dres_rel &&
+          solver->sol->gap < eabsinacc + erelinacc * gap_rel) {
+        solver->sol->status = QOCO_SOLVED_INACCURATE;
+        return 1;
+      }
       solver->sol->status = QOCO_NUMERICAL_ERROR;
       return 1;
     }
+    return 0;
   }
 
   if (pres < eabs + erel * pres_rel && dres < eabs + erel * dres_rel &&
