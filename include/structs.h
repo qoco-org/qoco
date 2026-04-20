@@ -114,7 +114,8 @@ typedef struct {
   /** Maximum number of iterative refinement iterations. */
   QOCOInt max_ir_iters;
 
-  /** Iterative refinement stopping tolerance: stop when norm(K*x-b) < ir_tol. */
+  /** Iterative refinement stopping tolerance: stop when norm(K*x-b) < ir_tol.
+   */
   QOCOFloat ir_tol;
 
   /** Static regularization parameter for KKT system. */
@@ -335,8 +336,8 @@ typedef struct {
   void (*linsys_factor)(LinSysData* linsys_data, QOCOInt n,
                         QOCOFloat kkt_dynamic_reg);
   void (*linsys_solve)(LinSysData* linsys_data, QOCOWorkspace* work,
-                       QOCOVectorf* b_vec, QOCOVectorf* x_vec,
-                       QOCOFloat ir_tol, QOCOInt max_ir_iters);
+                       QOCOVectorf* b_vec, QOCOVectorf* x_vec, QOCOFloat ir_tol,
+                       QOCOInt max_ir_iters);
   void (*linsys_cleanup)(LinSysData* linsys_data);
 } LinSysBackend;
 

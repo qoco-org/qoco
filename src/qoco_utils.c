@@ -329,6 +329,16 @@ unsigned char check_stopping(QOCOSolver* solver)
   // kkt_reg_max=1e-6, stop with an error.
   if (solver->work->a < 1e-8) {
     solver->settings->kkt_dynamic_reg *= 10.0;
+#ifdef QOCO_LOGGING
+    {
+      FILE* log_f = fopen("qoco_log.txt", "a");
+      if (log_f) {
+        fprintf(log_f, "kkt_dynamic_reg changed to %e\n",
+                solver->settings->kkt_dynamic_reg);
+        fclose(log_f);
+      }
+    }
+#endif
     if (solver->settings->kkt_dynamic_reg > 1e-6) {
       if (pres < eabsinacc + erelinacc * pres_rel &&
           dres < eabsinacc + erelinacc * dres_rel &&
@@ -378,7 +388,7 @@ void copy_solution(QOCOSolver* solver)
 void log_ipm_iter(QOCOInt iter)
 {
 #ifdef QOCO_LOGGING
-  FILE* log_f = fopen("qoco_linsys_errors.txt", iter == 0 ? "w" : "a");
+  FILE* log_f = fopen("qoco_log.txt", iter == 0 ? "w" : "a");
   if (log_f) {
     fprintf(log_f, "Iteration: %d\n", iter);
     fclose(log_f);

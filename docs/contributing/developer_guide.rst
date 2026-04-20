@@ -62,7 +62,8 @@ Backend Interface
      void (*linsys_update_data)(LinSysData*, QOCOProblemData*);
      void (*linsys_factor)(LinSysData*, QOCOInt n, QOCOFloat kkt_dynamic_reg);
      void (*linsys_solve)(LinSysData*, QOCOWorkspace*, QOCOVectorf* b,
-                          QOCOVectorf* x, QOCOInt iter_ref_iters);
+                          QOCOVectorf* x, QOCOFloat ir_tol,
+                          QOCOInt max_ir_iters);
      void (*linsys_cleanup)(LinSysData*);
    } LinSysBackend;
 
@@ -114,8 +115,41 @@ into the correct entries of ``PKPt`` without rebuilding it from scratch.
 
 ``linsys_factor`` calls ``QDLDL_factor`` on the permuted KKT matrix.
 
-``linsys_solve`` calls ``QDLDL_solve`` then runs up to ``iter_ref_iters`` steps of
-iterative refinement to improve accuracy.
+``linsys_solve`` calls ``QDLDL_solve`` then runs adaptive iterative refinement:
+it repeats up to ``max_ir_iters`` times, stopping early when the KKT residual
+:math:`\|Kx - b\|_\infty` falls below ``ir_tol``. A best-solution checkpoint
+is maintained in permuted space; if a refinement step worsens the residual the
+best solution is restored and refinement stops immediately. The number of
+refinement iterations taken is accumulated in ``work->ir_iters`` and printed in
+the IR column of the iteration log.
+
+Iterative Refinement Stopping Criteria
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each call to ``linsys_solve`` runs the following loop after the initial
+triangular solve:
+
+1. Compute the residual :math:`r_0 = \|Kx_0 - b\|_\infty` and save
+   :math:`x_0` as the best solution seen so far.
+2. For :math:`i = 0, 1, \ldots, \texttt{max\_ir\_iters} - 1`:
+
+   a. **Tolerance check** — if :math:`\|Kx_i - b\|_\infty < \texttt{ir\_tol}`,
+      stop.
+   b. **Correction step** — solve :math:`K \, dx = r_i` using the cached
+      factorization, then update :math:`x_{i+1} = x_i + dx`.
+   c. **Monotonicity check** — compute :math:`\|Kx_{i+1} - b\|_\infty`.
+      If the residual did not improve (:math:`\ge` best seen so far), restore
+      the best solution and stop. Otherwise update the best solution and
+      continue.
+
+The loop therefore stops as soon as **any** of the following holds:
+
+- :math:`\|Kx - b\|_\infty < \texttt{ir\_tol}` (converged)
+- a refinement step fails to reduce the residual (stagnation / divergence)
+- ``max_ir_iters`` steps have been taken
+
+The best-solution checkpoint ensures that a diverging step can never make
+the returned solution worse than the initial solve.
 
 **Dependencies:** QDLDL (``lib/qdldl/``), AMD (``lib/amd/``), both built as part of
 the CMake project.
@@ -254,6 +288,17 @@ two numbers of the same sign, avoiding the large relative error that arises when
 subtracting nearly equal quantities. Negative roots are discarded (replaced by
 :math:`+\infty`), and the smaller of :math:`r_1`, :math:`r_2` is taken as the
 step-length restriction for this cone.
+
+Adaptive Dynamic Regularization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the IPM step length drops below :math:`10^{-8}` (a stall), the solver
+does not immediately declare failure. Instead it multiplies ``kkt_dynamic_reg``
+by 10 and retries the current iteration. If ``kkt_dynamic_reg`` exceeds
+:math:`10^{-6}` the solver falls back to the usual inaccurate / numerical-error
+exit. This lets the solver recover from near-singular KKT systems on
+ill-conditioned problems without requiring the user to tune
+``kkt_dynamic_reg`` manually.
 
 Building
 --------

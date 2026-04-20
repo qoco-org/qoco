@@ -10,18 +10,21 @@ The settings are defined in the :code:`include/structs.h` file.
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | Name                           | Type                  |Description                                                 | Allowed values      | Default value |
 +================================+=======================+============================================================+=====================+===============+
-| :code:`max_iters`              |  :code:`QOCOInt`      | Maximum number of iterations                               | :math:`(0, \infty)` | 200           |
+| :code:`max_iters`              |  :code:`QOCOInt`      | Maximum number of iterations                               | :math:`(0, \infty)` | 500           |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`ruiz_iters`             |  :code:`QOCOInt`      | Number of Ruiz equilibration iterations performed          | :math:`(0, \infty)` | 0             |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`iter_ref_iters`         |  :code:`QOCOInt`      | Number of iterative refinement iterations to perform       | :math:`(0, \infty)` | 1             |
+| :code:`max_ir_iters`           |  :code:`QOCOInt`      | Maximum number of iterative refinement iterations          | :math:`(0, \infty)` | 5             |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`kkt_static_reg`         |  :code:`QOCOFloat`    | Positive constant added to the diagonal of the KKT system  | :math:`(0, \infty)` | 1e-8          |
+| :code:`ir_tol`                 |  :code:`QOCOFloat`    | Iterative refinement stopping tolerance: stop when         | :math:`(0, \infty)` | 1e-7          |
+|                                |                       | :math:`\|Kx - b\| <` :code:`ir_tol`                       |                     |               |
++--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
+| :code:`kkt_static_reg`         |  :code:`QOCOFloat`    | Positive constant added to the diagonal of the KKT system  | :math:`(0, \infty)` | 1e-12         |
 |                                |                       | before every solve to ensure it remains nonsingular.       |                     |               |
 |                                |                       | Increase if the solver reports numerical errors on         |                     |               |
 |                                |                       | ill-conditioned problems.                                  |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`kkt_dynamic_reg`        |  :code:`QOCOFloat`    | Additional regularization applied dynamically during KKT   | :math:`(0, \infty)` | 1e-8          |
+| :code:`kkt_dynamic_reg`        |  :code:`QOCOFloat`    | Additional regularization applied dynamically during KKT   | :math:`(0, \infty)` | 1e-11         |
 |                                |                       | factorization to any diagonal entry whose absolute value   |                     |               |
 |                                |                       | is below this threshold. Improves robustness on            |                     |               |
 |                                |                       | near-degenerate problems.                                  |                     |               |

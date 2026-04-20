@@ -262,7 +262,7 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
               linsys_data->Lx, linsys_data->Dinv, linsys_data->xyzbuff1);
 
 #ifdef QOCO_LOGGING
-  FILE* log_f = fopen("qoco_linsys_errors.txt", "a");
+  FILE* log_f = fopen("qoco_log.txt", "a");
   if (log_f) {
     log_linsys_error(linsys_data, work, b, x, "initial solve", log_f);
   }
@@ -284,7 +284,8 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
       break;
     }
 
-    // r = b - K*x is already in permuted space in x from compute_linsys_residual.
+    // r = b - K*x is already in permuted space in x from
+    // compute_linsys_residual.
     copy_arrayf(x, linsys_data->xyzbuff2, linsys_data->K->n);
 
     // dx = K \ r

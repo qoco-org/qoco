@@ -730,7 +730,7 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         cudaMemcpyDeviceToDevice));
 
 #ifdef QOCO_LOGGING
-  FILE* log_f = fopen("qoco_linsys_errors.txt", "a");
+  FILE* log_f = fopen("qoco_log.txt", "a");
   if (log_f) {
     log_linsys_error(linsys_data, work, b_vec, x_vec, "initial solve", log_f);
     fclose(log_f);
