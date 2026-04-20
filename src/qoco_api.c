@@ -227,9 +227,9 @@ void qoco_set_csc(QOCOCscMatrix* A, QOCOInt m, QOCOInt n, QOCOInt Annz,
 void set_default_settings(QOCOSettings* settings)
 {
   settings->max_iters = 500;
-  settings->ruiz_iters = 1;
+  settings->ruiz_iters = 0;
   settings->max_ir_iters = 5;
-  settings->ir_tol = 1e-7;
+  settings->ir_tol = 1e-6;
   settings->kkt_static_reg = 1e-12;
   settings->kkt_dynamic_reg = 1e-11;
   settings->abstol = 1e-7;
