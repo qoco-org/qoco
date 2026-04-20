@@ -93,7 +93,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   // Compute scaling statistics before equilibration and regularization.
   compute_scaling_statistics(data);
 
-  ruiz_equilibration(data, work->scaling, solver->settings->ruiz_iters);
+  row_normalization(data, work->scaling);
 
   // Regularize P.
   set_cpu_mode(1);
@@ -398,7 +398,7 @@ void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew,
   compute_scaling_statistics(data);
 
   // Equilibrate new matrix data.
-  ruiz_equilibration(data, scaling, solver->settings->ruiz_iters);
+  row_normalization(data, scaling);
 
   // Regularize P.
   unregularize(Pcsc, -solver->settings->kkt_static_reg);
