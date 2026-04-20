@@ -296,8 +296,6 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
     qoco_axpy(linsys_data->xyzbuff1, linsys_data->xyzbuff2,
               linsys_data->xyzbuff1, 1.0, linsys_data->K->n);
 
-    ir_count++;
-
     QOCOFloat new_res = compute_linsys_residual(linsys_data, work, b, x);
 
 #ifdef QOCO_LOGGING
@@ -312,6 +310,7 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
       break;
     }
 
+    ir_count++;
     best_res = new_res;
     copy_arrayf(linsys_data->xyzbuff1, best_sol, linsys_data->K->n);
     res = new_res;

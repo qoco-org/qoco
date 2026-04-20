@@ -1,7 +1,7 @@
 # Benchmark configuration for QOCO dev branch
 
 qoco:
-  branch: "gc/qoco-robustness"
+  branch: "comparison-branch-name"
   backend: "builtin"
 # Add solver settings here. If not provided, default qoco settings are used.
 solver_settings:
