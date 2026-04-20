@@ -213,7 +213,8 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
   kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, Wfull, NULL, NULL,
                xbuff, ubuff1, ubuff2);
 
-  // Add -eps*I terms on equality and NT block diagonals omitted by kkt_multiply.
+  // Add -eps*I terms on equality and NT block diagonals omitted by
+  // kkt_multiply.
   QOCOFloat reg = linsys_data->kkt_static_reg;
   for (QOCOInt k = n; k < n + p; ++k) {
     linsys_data->xyzbuff2[k] -= reg * x_scratch[k];
@@ -283,11 +284,8 @@ static void qdldl_solve(LinSysData* linsys_data, QOCOWorkspace* work,
       break;
     }
 
-    // r = b - K*x is already in x from compute_linsys_residual.
-    // Permute r into xyzbuff2.
-    for (QOCOInt k = 0; k < linsys_data->K->n; ++k) {
-      linsys_data->xyzbuff2[k] = x[linsys_data->p[k]];
-    }
+    // r = b - K*x is already in permuted space in x from compute_linsys_residual.
+    copy_arrayf(x, linsys_data->xyzbuff2, linsys_data->K->n);
 
     // dx = K \ r
     QDLDL_solve(linsys_data->K->n, linsys_data->Lp, linsys_data->Li,
