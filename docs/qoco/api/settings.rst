@@ -17,17 +17,17 @@ The settings are defined in the :code:`include/structs.h` file.
 | :code:`max_ir_iters`           |  :code:`QOCOInt`      | Maximum number of iterative refinement iterations          | :math:`(0, \infty)` | 5             |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`ir_tol`                 |  :code:`QOCOFloat`    | Iterative refinement stopping tolerance: stop when         | :math:`(0, \infty)` | 1e-7          |
-|                                |                       | :math:`\|Kx - b\| <` :code:`ir_tol`                       |                     |               |
+|                                |                       | :math:`\lVert Kx - b\rVert <` :code:`ir_tol`               |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`kkt_static_reg_P`               |  :code:`QOCOFloat`    | Static regularization for the (1,1) P block of the KKT    | :math:`(0, \infty)` | 1e-12         |
+| :code:`kkt_static_reg_P`       |  :code:`QOCOFloat`    | Static regularization for the (1,1) P block of the KKT     | :math:`(0, \infty)` | 1e-12         |
 |                                |                       | system. Added to the diagonal of P before factorization    |                     |               |
 |                                |                       | to ensure the block remains positive definite.             |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`kkt_static_reg_A`               |  :code:`QOCOFloat`    | Static regularization for the (2,2) A block of the KKT    | :math:`(0, \infty)` | 1e-8          |
+| :code:`kkt_static_reg_A`       |  :code:`QOCOFloat`    | Static regularization for the (2,2) A block of the KKT     | :math:`(0, \infty)` | 1e-8          |
 |                                |                       | system. Subtracted from the diagonal of the equality       |                     |               |
 |                                |                       | constraint block to give it a definite sign.               |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`kkt_static_reg_G`               |  :code:`QOCOFloat`    | Static regularization for the (3,3) G block of the KKT    | :math:`(0, \infty)` | 1e-12         |
+| :code:`kkt_static_reg_G`       |  :code:`QOCOFloat`    | Static regularization for the (3,3) G block of the KKT     | :math:`(0, \infty)` | 1e-12         |
 |                                |                       | system. Subtracted from the diagonal of the NT scaling     |                     |               |
 |                                |                       | block to give it a definite sign.                          |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+

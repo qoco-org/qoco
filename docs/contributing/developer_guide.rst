@@ -216,8 +216,11 @@ The file is selected at build time — only one is ever compiled. The CUDA versi
 implements the same logic as CUDA kernels dispatched via the same function
 signatures.
 
+Implementation Details
+----------------------
+
 Closed-Form SOC Step Length
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The linesearch for the second-order cone (``soc_step_length`` in ``src/cone.c``)
 computes the maximum step length :math:`\alpha \ge 0` such that
@@ -306,30 +309,38 @@ of the form
    = \begin{bmatrix} r_x \\ r_y \\ r_z \end{bmatrix}
 
 To keep the system nonsingular and to give each diagonal block a well-defined sign
-for the factorization, a small positive constant is added or subtracted on each
-block's diagonal before every factorization. The three parameters are kept separate
-because the blocks have different signs and may require different magnitudes:
+for the factorization, a diagonal perturbation is added before every factorization,
+yielding the regularized system
+
+.. math::
+
+   \begin{bmatrix}
+     P + \varepsilon_P I & A^\top            & G^\top                        \\
+     A                   & -\varepsilon_A I  &   0                           \\
+     G                   &   0               & -W^\top W - \varepsilon_G I
+   \end{bmatrix}
+   \begin{bmatrix} \Delta x \\ \Delta y \\ \Delta z \end{bmatrix}
+   = \begin{bmatrix} r_x \\ r_y \\ r_z \end{bmatrix}
+
+The three parameters are kept separate because the blocks have different signs and
+may require different magnitudes:
 
 .. list-table::
    :header-rows: 1
 
    * - Setting
      - Block
-     - Applied as
      - Rationale
-   * - ``kkt_static_reg_P``
+   * - ``kkt_static_reg_P`` (:math:`\varepsilon_P`)
      - (1,1) — :math:`P`
-     - :math:`P \leftarrow P + \varepsilon_P I`
      - Ensures the (1,1) block is positive definite even when :math:`P` is
        only positive semidefinite.
-   * - ``kkt_static_reg_A``
+   * - ``kkt_static_reg_A`` (:math:`\varepsilon_A`)
      - (2,2) — equality constraints
-     - diagonal :math:`\leftarrow -\varepsilon_A`
      - Gives the zero (2,2) block a definite (negative) sign, preventing
        near-zero pivots on problems with redundant equality constraints.
-   * - ``kkt_static_reg_G``
+   * - ``kkt_static_reg_G`` (:math:`\varepsilon_G`)
      - (3,3) — NT scaling :math:`W^\top W`
-     - diagonal :math:`\leftarrow -\varepsilon_G` added to :math:`-W^\top W`
      - Guards against near-zero pivots when the NT scaling matrix is
        ill-conditioned near the cone boundary.
 
