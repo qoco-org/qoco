@@ -67,7 +67,7 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
     }
 
     // Add -e * Id regularization.
-    KKT->x[nz] = -static_reg;
+    KKT->x[nz] = -1e4 * static_reg;
     KKT->i[nz] = n + Atcol;
     nz += 1;
     nzadded += 1;
