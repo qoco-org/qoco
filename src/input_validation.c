@@ -48,9 +48,16 @@ QOCOInt qoco_validate_settings(const QOCOSettings* settings)
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 
-  // static_reg must be less than 1.
-  if (settings->kkt_static_reg <= 0) {
-    printf("kkt_static_reg must be positive.\n");
+  if (settings->kkt_static_reg_P <= 0) {
+    printf("kkt_static_reg_P must be positive.\n");
+    return QOCO_SETTINGS_VALIDATION_ERROR;
+  }
+  if (settings->kkt_static_reg_A <= 0) {
+    printf("kkt_static_reg_A must be positive.\n");
+    return QOCO_SETTINGS_VALIDATION_ERROR;
+  }
+  if (settings->kkt_static_reg_G <= 0) {
+    printf("kkt_static_reg_G must be positive.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 

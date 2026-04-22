@@ -178,9 +178,10 @@ void print_header(QOCOSolver* solver)
   printf("|     algebra: %-27s              |\n", solver->linsys->linsys_name());
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
-  printf("|     kkt_static_reg: %3.2e ruiz_iters: %-2d           |\n", settings->kkt_static_reg, settings->ruiz_iters);
-  printf("|     kkt_dynamic_reg: %3.2e ir_tol: %3.2e        |\n", settings->kkt_dynamic_reg, settings->ir_tol);
-  printf("|     max_ir_iters: %-2d                                  |\n", settings->max_ir_iters);
+  printf("|     kkt_static_reg_P: %3.2e ruiz_iters: %-2d         |\n", settings->kkt_static_reg_P, settings->ruiz_iters);
+  printf("|     kkt_static_reg_A: %3.2e max_ir_iters: %-2d       |\n", settings->kkt_static_reg_A, settings->max_ir_iters);
+  printf("|     kkt_static_reg_G: %3.2e ir_tol: %3.2e       |\n", settings->kkt_static_reg_G, settings->ir_tol);
+  printf("|     kkt_dynamic_reg: %3.2e                         |\n", settings->kkt_dynamic_reg);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
   printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
@@ -260,7 +261,7 @@ unsigned char check_stopping(QOCOSolver* solver)
 
   // Compute ||P * x||_\infty
   USpMv(data->P, xdata, xbuff);
-  qoco_axpy(xdata, xbuff, xbuff, -solver->settings->kkt_static_reg, data->n);
+  qoco_axpy(xdata, xbuff, xbuff, -solver->settings->kkt_static_reg_P, data->n);
   ew_product(xbuff, Dinvruiz_data, xbuff, data->n);
   QOCOFloat Pxinf = inf_norm(xbuff, data->n);
   QOCOFloat xPx = qoco_dot(xdata, xbuff, work->data->n);
@@ -406,7 +407,9 @@ QOCOSettings* copy_settings(QOCOSettings* settings)
   new_settings->max_ir_iters = settings->max_ir_iters;
   new_settings->ir_tol = settings->ir_tol;
   new_settings->max_iters = settings->max_iters;
-  new_settings->kkt_static_reg = settings->kkt_static_reg;
+  new_settings->kkt_static_reg_P = settings->kkt_static_reg_P;
+  new_settings->kkt_static_reg_A = settings->kkt_static_reg_A;
+  new_settings->kkt_static_reg_G = settings->kkt_static_reg_G;
   new_settings->kkt_dynamic_reg = settings->kkt_dynamic_reg;
   new_settings->reltol = settings->reltol;
   new_settings->reltol_inacc = settings->reltol_inacc;

@@ -67,8 +67,11 @@ struct LinSysData {
 
   QOCOInt Wnnz;
 
-  /** Static regularization parameter. */
-  QOCOFloat kkt_static_reg;
+  /** Static regularization for the (2,2) A block. */
+  QOCOFloat kkt_static_reg_A;
+
+  /** Static regularization for the (3,3) G block. */
+  QOCOFloat kkt_static_reg_G;
 };
 
 static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
@@ -83,7 +86,8 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   linsys_data->xyzbuff1 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->xyzbuff2 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->Wnnz = Wnnz;
-  linsys_data->kkt_static_reg = settings->kkt_static_reg;
+  linsys_data->kkt_static_reg_A = settings->kkt_static_reg_A;
+  linsys_data->kkt_static_reg_G = settings->kkt_static_reg_G;
 
   // Allocate memory for QDLDL.
   linsys_data->etree = qoco_malloc(sizeof(QOCOInt) * Kn);
@@ -112,7 +116,7 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   linsys_data->K = construct_kkt(
       data->P ? get_csc_matrix(data->P) : NULL, get_csc_matrix(data->A),
       get_csc_matrix(data->G), get_csc_matrix(data->At),
-      get_csc_matrix(data->Gt), settings->kkt_static_reg, data->n, data->m,
+      get_csc_matrix(data->Gt), settings->kkt_static_reg_A, data->n, data->m,
       data->p, data->l, data->nsoc, get_data_vectori(data->q), PregtoKKT_temp,
       AttoKKT_temp, GttoKKT_temp, nt2kkt_temp, ntdiag2kkt_temp, Wnnz);
 
@@ -215,12 +219,11 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
 
   // Add -eps*I terms on equality and NT block diagonals omitted by
   // kkt_multiply.
-  QOCOFloat reg = linsys_data->kkt_static_reg;
   for (QOCOInt k = n; k < n + p; ++k) {
-    linsys_data->xyzbuff2[k] -= reg * x_scratch[k];
+    linsys_data->xyzbuff2[k] -= linsys_data->kkt_static_reg_A * x_scratch[k];
   }
   for (QOCOInt k = n + p; k < n + p + m; ++k) {
-    linsys_data->xyzbuff2[k] -= reg * x_scratch[k];
+    linsys_data->xyzbuff2[k] -= linsys_data->kkt_static_reg_G * x_scratch[k];
   }
 
   // Compute r = b_perm - P*(K*x). Since P is a permutation, norm(P*v, inf) =
@@ -340,7 +343,7 @@ static void qdldl_set_nt_identity(LinSysData* linsys_data, QOCOInt m)
 }
 
 static void qdldl_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
-                            QOCOFloat kkt_static_reg, QOCOInt m)
+                            QOCOFloat kkt_static_reg_G, QOCOInt m)
 {
   QOCOFloat* WtW = get_data_vectorf(WtW_vec);
   for (QOCOInt i = 0; i < linsys_data->Wnnz; ++i) {
@@ -349,7 +352,7 @@ static void qdldl_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
 
   // Regularize Nesterov-Todd block of KKT matrix.
   for (QOCOInt i = 0; i < m; ++i) {
-    linsys_data->K->x[linsys_data->ntdiag2kkt[i]] -= kkt_static_reg;
+    linsys_data->K->x[linsys_data->ntdiag2kkt[i]] -= kkt_static_reg_G;
   }
 }
 

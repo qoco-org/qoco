@@ -261,8 +261,11 @@ struct LinSysData {
   /** Number of constraints (m) - stored for use in factor */
   QOCOInt m;
 
-  /** Static regularization parameter. */
-  QOCOFloat kkt_static_reg;
+  /** Static regularization for the (2,2) A block. */
+  QOCOFloat kkt_static_reg_A;
+
+  /** Static regularization for the (3,3) G block. */
+  QOCOFloat kkt_static_reg_G;
 
   /** cuSPARSE handle. */
   cusparseHandle_t cusparse_handle;
@@ -420,7 +423,8 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   CUDA_CHECK(cudaMalloc(&linsys_data->d_xyz_matrix_data,
                         sizeof(QOCOFloat) * linsys_data->Kn));
   linsys_data->Wnnz = Wnnz;
-  linsys_data->kkt_static_reg = settings->kkt_static_reg;
+  linsys_data->kkt_static_reg_A = settings->kkt_static_reg_A;
+  linsys_data->kkt_static_reg_G = settings->kkt_static_reg_G;
 
   // Allocate memory for mappings to KKT matrix
   linsys_data->nt2kkt = (QOCOInt*)qoco_calloc(Wnnz, sizeof(QOCOInt));
@@ -439,7 +443,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   QOCOCscMatrix* Kcsc = construct_kkt(
       get_csc_matrix(data->P), get_csc_matrix(data->A), get_csc_matrix(data->G),
       get_csc_matrix(data->At), get_csc_matrix(data->Gt),
-      settings->kkt_static_reg, data->n, data->m, data->p, data->l, data->nsoc,
+      settings->kkt_static_reg_A, data->n, data->m, data->p, data->l, data->nsoc,
       get_data_vectori(data->q), linsys_data->PregtoKKT, linsys_data->AttoKKT,
       linsys_data->GttoKKT, linsys_data->nt2kkt, linsys_data->ntdiag2kkt, Wnnz);
   set_cpu_mode(0);
@@ -609,12 +613,12 @@ update_csr_nt_blocks_kernel(const QOCOFloat* WtW, // NT block values (on GPU)
 __global__ void
 update_csr_nt_diag_kernel(QOCOFloat* csr_val, // CSR values to update (on GPU)
                           const QOCOInt* ntdiag2kktcsr,
-                          QOCOFloat kkt_static_reg, QOCOInt m)
+                          QOCOFloat kkt_static_reg_G, QOCOInt m)
 {
   QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
   if (idx < m) {
     QOCOInt csr_idx = ntdiag2kktcsr[idx];
-    csr_val[csr_idx] -= kkt_static_reg;
+    csr_val[csr_idx] -= kkt_static_reg_G;
   }
 }
 
@@ -679,8 +683,9 @@ static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
 
   // Add -reg*I correction on equality and NT block diagonals omitted by
   // kkt_multiply.
-  qoco_axpy(&x[n], &scratch[n], &scratch[n], -linsys_data->kkt_static_reg,
-            p + m);
+  qoco_axpy(&x[n], &scratch[n], &scratch[n], -linsys_data->kkt_static_reg_A, p);
+  qoco_axpy(&x[n + p], &scratch[n + p], &scratch[n + p],
+            -linsys_data->kkt_static_reg_G, m);
 
   // scratch = b - K*x.
   qoco_axpy(scratch, b, scratch, -1.0, N);
@@ -759,7 +764,7 @@ void cudss_set_nt_identity(LinSysData* linsys_data, QOCOInt m)
 }
 
 static void cudss_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
-                            QOCOFloat kkt_static_reg, QOCOInt m)
+                            QOCOFloat kkt_static_reg_G, QOCOInt m)
 {
   QOCOFloat* WtW = get_data_vectorf(WtW_vec);
   // Update CSR matrix values on GPU directly for NT blocks
@@ -784,7 +789,7 @@ static void cudss_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
     QOCOInt threadsPerBlock = 256;
     QOCOInt numBlocks_diag = (m + threadsPerBlock - 1) / threadsPerBlock;
     update_csr_nt_diag_kernel<<<numBlocks_diag, threadsPerBlock>>>(
-        linsys_data->d_csr_val, linsys_data->d_ntdiag2kktcsr, kkt_static_reg,
+        linsys_data->d_csr_val, linsys_data->d_ntdiag2kktcsr, kkt_static_reg_G,
         m);
     CUDA_CHECK(cudaGetLastError());
   }

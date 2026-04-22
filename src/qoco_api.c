@@ -105,7 +105,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
     // Create a copy of the CSC matrix since regularize_P will free it
     QOCOCscMatrix* Pcsc_copy = new_qoco_csc_matrix(Pcsc);
     QOCOCscMatrix* Preg =
-        regularize_P(num_diagP, Pcsc_copy, solver->settings->kkt_static_reg,
+        regularize_P(num_diagP, Pcsc_copy, solver->settings->kkt_static_reg_P,
                      data->Pnzadded_idx);
     free_qoco_matrix(data->P);
     data->P = new_qoco_matrix(Preg);
@@ -113,7 +113,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   }
   else {
     QOCOCscMatrix* Pid =
-        construct_identity(n, solver->settings->kkt_static_reg);
+        construct_identity(n, solver->settings->kkt_static_reg_P);
     data->P = new_qoco_matrix(Pid);
     free_qoco_csc_matrix(Pid);
     data->Pnum_nzadded = n;
@@ -230,7 +230,9 @@ void set_default_settings(QOCOSettings* settings)
   settings->ruiz_iters = 0;
   settings->max_ir_iters = 5;
   settings->ir_tol = 1e-6;
-  settings->kkt_static_reg = 1e-12;
+  settings->kkt_static_reg_P = 1e-12;
+  settings->kkt_static_reg_A = 1e-8;
+  settings->kkt_static_reg_G = 1e-12;
   settings->kkt_dynamic_reg = 1e-11;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
@@ -250,7 +252,9 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
   solver->settings->ruiz_iters = new_settings->ruiz_iters;
   solver->settings->max_ir_iters = new_settings->max_ir_iters;
   solver->settings->ir_tol = new_settings->ir_tol;
-  solver->settings->kkt_static_reg = new_settings->kkt_static_reg;
+  solver->settings->kkt_static_reg_P = new_settings->kkt_static_reg_P;
+  solver->settings->kkt_static_reg_A = new_settings->kkt_static_reg_A;
+  solver->settings->kkt_static_reg_G = new_settings->kkt_static_reg_G;
   solver->settings->kkt_dynamic_reg = new_settings->kkt_dynamic_reg;
   solver->settings->abstol = new_settings->abstol;
   solver->settings->reltol = new_settings->reltol;
@@ -326,7 +330,7 @@ void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew,
   set_cpu_mode(1);
   // Undo regularization.
   QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
-  unregularize(Pcsc, solver->settings->kkt_static_reg);
+  unregularize(Pcsc, solver->settings->kkt_static_reg_P);
 
   // Unequilibrate P.
   QOCOFloat* Px = Pcsc->x;
@@ -404,7 +408,7 @@ void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew,
   ruiz_equilibration(data, scaling, solver->settings->ruiz_iters);
 
   // Regularize P.
-  unregularize(Pcsc, -solver->settings->kkt_static_reg);
+  unregularize(Pcsc, -solver->settings->kkt_static_reg_P);
   set_cpu_mode(0);
 
   // Sync the new data to the GPU.
@@ -438,13 +442,13 @@ QOCOInt qoco_solve(QOCOSolver* solver)
 
     // Compute kkt residual.
     compute_kkt_residual(data, work->x, work->y, work->s, work->z, work->kktres,
-                         solver->settings->kkt_static_reg, work->xyzbuff1,
+                         solver->settings->kkt_static_reg_P, work->xyzbuff1,
                          work->xbuff, work->ubuff1);
 
     // Compute objective function.
     solver->sol->obj =
         compute_objective(data, work->x, work->xbuff,
-                          solver->settings->kkt_static_reg, work->scaling->k);
+                          solver->settings->kkt_static_reg_P, work->scaling->k);
 
     // Compute mu = s'*z / m.
     work->mu = compute_mu(work->s, work->z, data->m);
@@ -466,7 +470,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
 
     // Update Nestrov-Todd block of KKT matrix.
     solver->linsys->linsys_update_nt(solver->linsys_data, work->WtW,
-                                     solver->settings->kkt_static_reg, data->m);
+                                     solver->settings->kkt_static_reg_G, data->m);
 
     // Reset IR iteration counter for this IPM step.
     work->ir_iters = 0;

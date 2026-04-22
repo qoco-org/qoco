@@ -118,8 +118,14 @@ typedef struct {
    */
   QOCOFloat ir_tol;
 
-  /** Static regularization parameter for KKT system. */
-  QOCOFloat kkt_static_reg;
+  /** Static regularization for the (1,1) P block of the KKT system. */
+  QOCOFloat kkt_static_reg_P;
+
+  /** Static regularization for the (2,2) A block of the KKT system. */
+  QOCOFloat kkt_static_reg_A;
+
+  /** Static regularization for the (3,3) G block of the KKT system. */
+  QOCOFloat kkt_static_reg_G;
 
   /** Dynamic regularization parameter for KKT system. */
   QOCOFloat kkt_dynamic_reg;
@@ -331,7 +337,7 @@ typedef struct {
                               QOCOInt Wnnz);
   void (*linsys_set_nt_identity)(LinSysData* linsys_data, QOCOInt m);
   void (*linsys_update_nt)(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
-                           QOCOFloat kkt_static_reg, QOCOInt m);
+                           QOCOFloat kkt_static_reg_G, QOCOInt m);
   void (*linsys_update_data)(LinSysData* linsys_data, QOCOProblemData* data);
   void (*linsys_factor)(LinSysData* linsys_data, QOCOInt n,
                         QOCOFloat kkt_dynamic_reg);

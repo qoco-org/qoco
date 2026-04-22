@@ -58,7 +58,7 @@ Backend Interface
      LinSysData* (*linsys_setup)(QOCOProblemData*, QOCOSettings*, QOCOInt Wnnz);
      void (*linsys_set_nt_identity)(LinSysData*, QOCOInt m);
      void (*linsys_update_nt)(LinSysData*, QOCOVectorf* WtW_vec,
-                              QOCOFloat kkt_static_reg, QOCOInt m);
+                              QOCOFloat kkt_static_reg_G, QOCOInt m);
      void (*linsys_update_data)(LinSysData*, QOCOProblemData*);
      void (*linsys_factor)(LinSysData*, QOCOInt n, QOCOFloat kkt_dynamic_reg);
      void (*linsys_solve)(LinSysData*, QOCOWorkspace*, QOCOVectorf* b,
@@ -288,6 +288,59 @@ two numbers of the same sign, avoiding the large relative error that arises when
 subtracting nearly equal quantities. Negative roots are discarded (replaced by
 :math:`+\infty`), and the smaller of :math:`r_1`, :math:`r_2` is taken as the
 step-length restriction for this cone.
+
+Static Regularization
+~~~~~~~~~~~~~~~~~~~~~
+
+The KKT system solved at each IPM iteration is a symmetric indefinite linear system
+of the form
+
+.. math::
+
+   \begin{bmatrix}
+     P & A^\top & G^\top \\
+     A &   0    &   0    \\
+     G &   0    & -W^\top W
+   \end{bmatrix}
+   \begin{bmatrix} \Delta x \\ \Delta y \\ \Delta z \end{bmatrix}
+   = \begin{bmatrix} r_x \\ r_y \\ r_z \end{bmatrix}
+
+To keep the system nonsingular and to give each diagonal block a well-defined sign
+for the factorization, a small positive constant is added or subtracted on each
+block's diagonal before every factorization. The three parameters are kept separate
+because the blocks have different signs and may require different magnitudes:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Setting
+     - Block
+     - Applied as
+     - Rationale
+   * - ``kkt_static_reg_P``
+     - (1,1) — :math:`P`
+     - :math:`P \leftarrow P + \varepsilon_P I`
+     - Ensures the (1,1) block is positive definite even when :math:`P` is
+       only positive semidefinite.
+   * - ``kkt_static_reg_A``
+     - (2,2) — equality constraints
+     - diagonal :math:`\leftarrow -\varepsilon_A`
+     - Gives the zero (2,2) block a definite (negative) sign, preventing
+       near-zero pivots on problems with redundant equality constraints.
+   * - ``kkt_static_reg_G``
+     - (3,3) — NT scaling :math:`W^\top W`
+     - diagonal :math:`\leftarrow -\varepsilon_G` added to :math:`-W^\top W`
+     - Guards against near-zero pivots when the NT scaling matrix is
+       ill-conditioned near the cone boundary.
+
+**Implementation.** ``kkt_static_reg_P`` is applied once during setup by ``regularize_P``
+(or ``construct_identity`` when :math:`P = 0`) in ``src/qoco_api.c``, and is
+corrected for in ``compute_objective`` and ``compute_kkt_residual`` so that
+reported objectives and residuals reflect the original unregularized problem.
+``kkt_static_reg_A`` is baked into the KKT matrix structure by ``construct_kkt``
+(``src/kkt.c``) at setup time and does not change across iterations.
+``kkt_static_reg_G`` is re-applied every iteration by ``linsys_update_nt`` after the
+NT scaling block is refreshed.
 
 Adaptive Dynamic Regularization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

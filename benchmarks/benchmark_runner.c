@@ -25,8 +25,14 @@ static void apply_setting(QOCOSettings* settings, const char* arg)
   else if (strcmp(key, "ir_tol") == 0) {
     settings->ir_tol = atof(val);
   }
-  else if (strcmp(key, "kkt_static_reg") == 0) {
-    settings->kkt_static_reg = atof(val);
+  else if (strcmp(key, "kkt_static_reg_P") == 0) {
+    settings->kkt_static_reg_P = atof(val);
+  }
+  else if (strcmp(key, "kkt_static_reg_A") == 0) {
+    settings->kkt_static_reg_A = atof(val);
+  }
+  else if (strcmp(key, "kkt_static_reg_G") == 0) {
+    settings->kkt_static_reg_G = atof(val);
   }
   else if (strcmp(key, "kkt_dynamic_reg") == 0) {
     settings->kkt_dynamic_reg = atof(val);

@@ -9,7 +9,9 @@ solver_settings:
 #   bisect_iters: 5
 #   ruiz_iters: 0
 #   iter_ref_iters: 1
-#   kkt_static_reg: 1e-8
+#   kkt_static_reg_P: 1e-12
+#   kkt_static_reg_A: 1e-8
+#   kkt_static_reg_G: 1e-12
 #   kkt_dynamic_reg: 1e-8
 #   abstol: 1e-7
 #   reltol: 1e-7
