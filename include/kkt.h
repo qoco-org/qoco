@@ -51,11 +51,12 @@
  */
 QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
                              QOCOCscMatrix* G, QOCOCscMatrix* At,
-                             QOCOCscMatrix* Gt, QOCOFloat kkt_static_reg_A, QOCOInt n,
-                             QOCOInt m, QOCOInt p, QOCOInt l, QOCOInt nsoc,
-                             QOCOInt* q, QOCOInt* PregtoKKT, QOCOInt* AttoKKT,
-                             QOCOInt* GttoKKT, QOCOInt* nt2kkt,
-                             QOCOInt* ntdiag2kkt, QOCOInt Wnnz);
+                             QOCOCscMatrix* Gt, QOCOFloat kkt_static_reg_A,
+                             QOCOInt n, QOCOInt m, QOCOInt p, QOCOInt l,
+                             QOCOInt nsoc, QOCOInt* q, QOCOInt* PregtoKKT,
+                             QOCOInt* AttoKKT, QOCOInt* GttoKKT,
+                             QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt,
+                             QOCOInt Wnnz);
 
 /**
  * @brief Gets initial values for primal and dual variables such that (s,z) \in

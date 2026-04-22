@@ -470,7 +470,8 @@ QOCOInt qoco_solve(QOCOSolver* solver)
 
     // Update Nestrov-Todd block of KKT matrix.
     solver->linsys->linsys_update_nt(solver->linsys_data, work->WtW,
-                                     solver->settings->kkt_static_reg_G, data->m);
+                                     solver->settings->kkt_static_reg_G,
+                                     data->m);
 
     // Reset IR iteration counter for this IPM step.
     work->ir_iters = 0;

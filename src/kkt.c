@@ -13,11 +13,11 @@
 
 QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
                              QOCOCscMatrix* G, QOCOCscMatrix* At,
-                             QOCOCscMatrix* Gt, QOCOFloat kkt_static_reg_A, QOCOInt n,
-                             QOCOInt m, QOCOInt p, QOCOInt l, QOCOInt nsoc,
-                             QOCOInt* q, QOCOInt* PregtoKKT, QOCOInt* AttoKKT,
-                             QOCOInt* GttoKKT, QOCOInt* nt2kkt,
-                             QOCOInt* ntdiag2kkt, QOCOInt Wnnz)
+                             QOCOCscMatrix* Gt, QOCOFloat kkt_static_reg_A,
+                             QOCOInt n, QOCOInt m, QOCOInt p, QOCOInt l,
+                             QOCOInt nsoc, QOCOInt* q, QOCOInt* PregtoKKT,
+                             QOCOInt* AttoKKT, QOCOInt* GttoKKT,
+                             QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt, QOCOInt Wnnz)
 {
   QOCOCscMatrix* KKT = qoco_malloc(sizeof(QOCOCscMatrix));
 
@@ -283,7 +283,8 @@ QOCOFloat compute_objective(QOCOProblemData* data, QOCOVectorf* x_vec,
   USpMv(data->P, x, nbuff);
 
   // Correct for regularization in P.
-  QOCOFloat regularization_correction = kkt_static_reg_P * qoco_dot(x, x, data->n);
+  QOCOFloat regularization_correction =
+      kkt_static_reg_P * qoco_dot(x, x, data->n);
   obj += 0.5 * (qoco_dot(nbuff, x, data->n) - regularization_correction);
   obj = safe_div(obj, k);
   return obj;
