@@ -8,7 +8,7 @@ solver_settings:
   # max_iters: 200
   # bisect_iters: 5
   # ruiz_iters: 0
-  # iter_ref_iters: 1
+  # max_ir_iters: 1
   # kkt_static_reg_P: 1e-12
   # kkt_static_reg_A: 1e-8
   # kkt_static_reg_G: 1e-12
