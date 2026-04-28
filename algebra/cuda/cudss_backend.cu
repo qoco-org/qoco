@@ -261,6 +261,9 @@ struct LinSysData {
   /** Number of constraints (m) - stored for use in factor */
   QOCOInt m;
 
+  /** Static regularization for the (1,1) P block. */
+  QOCOFloat kkt_static_reg_P;
+
   /** Static regularization for the (2,2) A block. */
   QOCOFloat kkt_static_reg_A;
 
@@ -423,6 +426,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   CUDA_CHECK(cudaMalloc(&linsys_data->d_xyz_matrix_data,
                         sizeof(QOCOFloat) * linsys_data->Kn));
   linsys_data->Wnnz = Wnnz;
+  linsys_data->kkt_static_reg_P = settings->kkt_static_reg_P;
   linsys_data->kkt_static_reg_A = settings->kkt_static_reg_A;
   linsys_data->kkt_static_reg_G = settings->kkt_static_reg_G;
 
@@ -677,15 +681,12 @@ static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
   QOCOInt m = work->data->m;
   QOCOInt N = n + m + p;
 
-  // Compute K * x -> scratch (without static regularization diagonal).
+  // Compute K_true * x -> scratch against the unregularized matrix.
+  // data->P stores the regularized P (P + eps_P * I), so subtract the P
+  // regularization contribution from the x block to recover the true product.
   kkt_multiply(x, scratch, work->data, Wfull, Wsoc_idx, soc_idx, xbuff,
                ubuff1, ubuff2);
-
-  // Add -reg*I correction on equality and NT block diagonals omitted by
-  // kkt_multiply.
-  qoco_axpy(&x[n], &scratch[n], &scratch[n], -linsys_data->kkt_static_reg_A, p);
-  qoco_axpy(&x[n + p], &scratch[n + p], &scratch[n + p],
-            -linsys_data->kkt_static_reg_G, m);
+  qoco_axpy(x, scratch, scratch, -linsys_data->kkt_static_reg_P, n);
 
   // scratch = b - K*x.
   qoco_axpy(scratch, b, scratch, -1.0, N);

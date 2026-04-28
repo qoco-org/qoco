@@ -67,6 +67,9 @@ struct LinSysData {
 
   QOCOInt Wnnz;
 
+  /** Static regularization for the (1,1) P block. */
+  QOCOFloat kkt_static_reg_P;
+
   /** Static regularization for the (2,2) A block. */
   QOCOFloat kkt_static_reg_A;
 
@@ -86,6 +89,7 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   linsys_data->xyzbuff1 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->xyzbuff2 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->Wnnz = Wnnz;
+  linsys_data->kkt_static_reg_P = settings->kkt_static_reg_P;
   linsys_data->kkt_static_reg_A = settings->kkt_static_reg_A;
   linsys_data->kkt_static_reg_G = settings->kkt_static_reg_G;
 
@@ -191,9 +195,10 @@ static void qdldl_factor(LinSysData* linsys_data, QOCOInt n,
 }
 
 /**
- * @brief Computes norm(K*x - b, inf) using the current solution in
- * linsys_data->xyzbuff1 (permuted space). Stores the residual vector in
- * x_scratch (size N = n+p+m) and returns the inf-norm.
+ * @brief Computes norm(K_true*x - b, inf) against the unregularized KKT
+ * matrix using the current solution in linsys_data->xyzbuff1 (permuted space).
+ * Stores the residual vector in x_scratch (size N = n+p+m) and returns the
+ * inf-norm.
  */
 static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
                                          QOCOWorkspace* work, QOCOFloat* b,
@@ -204,8 +209,6 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
   QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
   QOCOInt n = work->data->n;
-  QOCOInt p = work->data->p;
-  QOCOInt m = work->data->m;
   QOCOInt N = linsys_data->K->n;
 
   // Unscramble solution from permuted space into x_scratch.
@@ -213,21 +216,17 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
     x_scratch[linsys_data->p[k]] = linsys_data->xyzbuff1[k];
   }
 
-  // Compute K * x_scratch -> xyzbuff2.
+  // Compute K_true * x_scratch -> xyzbuff2 against the unregularized matrix.
+  // data->P stores the regularized P (P + eps_P * I), so subtract the P
+  // regularization contribution from the x block to recover the true product.
   kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, Wfull, NULL, NULL,
                xbuff, ubuff1, ubuff2);
-
-  // Add -eps*I terms on equality and NT block diagonals omitted by
-  // kkt_multiply.
-  for (QOCOInt k = n; k < n + p; ++k) {
-    linsys_data->xyzbuff2[k] -= linsys_data->kkt_static_reg_A * x_scratch[k];
-  }
-  for (QOCOInt k = n + p; k < n + p + m; ++k) {
-    linsys_data->xyzbuff2[k] -= linsys_data->kkt_static_reg_G * x_scratch[k];
+  for (QOCOInt k = 0; k < n; ++k) {
+    linsys_data->xyzbuff2[k] -= linsys_data->kkt_static_reg_P * x_scratch[k];
   }
 
-  // Compute r = b_perm - P*(K*x). Since P is a permutation, norm(P*v, inf) =
-  // norm(v, inf), so this equals norm(K*x - b, inf).
+  // Compute r = b_perm - P*(K_true*x). Since P is a permutation,
+  // norm(P*v, inf) = norm(v, inf), so this equals norm(K_true*x - b, inf).
   for (QOCOInt k = 0; k < N; ++k) {
     x_scratch[k] = b[k] - linsys_data->xyzbuff2[linsys_data->p[k]];
   }
