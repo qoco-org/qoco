@@ -139,10 +139,10 @@ QDLDL_int QDLDL_factor(const QDLDL_int n, const QDLDL_int* Ap,
 
   // Dynamic regularization
   if (perm[0] < pos_diags) {
-    D[0] = D[0] < 0 ? dyn_reg : D[0] + dyn_reg;
+    D[0] = D[0] < dyn_reg ? dyn_reg : D[0];
   }
   else {
-    D[0] = D[0] > 0 ? -dyn_reg : D[0] - dyn_reg;
+    D[0] = D[0] > -dyn_reg ? -dyn_reg : D[0];
   }
   if (D[0] > 0.0) {
     positiveValuesInD++;
