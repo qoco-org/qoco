@@ -356,13 +356,88 @@ NT scaling block is refreshed.
 Adaptive Dynamic Regularization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When the IPM step length drops below :math:`10^{-8}` (a stall), the solver
-does not immediately declare failure. Instead it multiplies ``kkt_dynamic_reg``
-by 10 and retries the current iteration. If ``kkt_dynamic_reg`` exceeds
-:math:`10^{-6}` the solver falls back to the usual inaccurate / numerical-error
-exit. This lets the solver recover from near-singular KKT systems on
-ill-conditioned problems without requiring the user to tune
-``kkt_dynamic_reg`` manually.
+QOCO uses two coupled mechanisms to handle near-singular KKT systems.
+
+Per-Pivot Dynamic Regularization (QDLDL)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Inside ``QDLDL_factor`` (``lib/qdldl/src/qdldl.c``), each diagonal pivot
+``D[k]`` must have the correct sign for the quasi-definite structure: positive
+for the :math:`P` block, negative for the equality constraint and
+:math:`-W^\top W` blocks. ``pos_diags`` is set to :math:`n` (the number of
+primal variables) and encodes the boundary between positive- and
+negative-expected pivots under the AMD permutation: a pivot whose original row
+index ``perm[k] < n`` is expected to be positive; one with ``perm[k] >= n``
+is expected to be negative.
+
+If a pivot has the wrong sign or is smaller in magnitude than ``1e-11``,
+it is replaced with ``±kkt_dynamic_reg``:
+
+.. code-block:: c
+
+   // Positive-expected pivot (perm[k] < pos_diags):
+   if (D[k] < 1e-11)   D[k] = dyn_reg;
+
+   // Negative-expected pivot:
+   if (D[k] > -1e-11)  D[k] = -dyn_reg;
+
+The threshold (``1e-11``) and the replacement value (``kkt_dynamic_reg``) are
+deliberately decoupled. The threshold is fixed: it answers "is this pivot
+numerically bad?" — a property of the problem, not of how many times the solver
+has stalled. The replacement value escalates with the adaptive outer loop,
+ensuring bad pivots are substituted with a value large enough to dominate
+downstream numerical error. Coupling the two (using ``kkt_dynamic_reg`` for
+both) would cause the threshold to grow alongside the replacement, perturbing
+pivots that are small but valid — making the factorization less accurate than
+necessary.
+
+Step-Stall and NaN Detection (Outer Loop)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+After each predictor-corrector step, ``check_stopping`` (``src/qoco_utils.c``)
+examines ``work->a``. Two situations both reduce ``work->a`` to zero and trigger
+this path:
+
+- The computed step size is genuinely tiny — the iterates have stalled.
+- The KKT solution contains NaN values, which signals a likely factorization
+  failure. ``predictor_corrector`` detects NaNs via ``check_nan``, sets
+  ``work->a = 0.0``, and returns early before updating the iterates.
+
+When ``work->a`` :math:`< 10^{-8}`, the solver multiplies ``kkt_dynamic_reg`` by 10 and
+returns 0 from ``check_stopping``. This is *not* a retry — the outer loop in
+``qoco_solve`` advances to the next IPM iteration, which will re-factorize with
+the larger ``kkt_dynamic_reg``. If ``kkt_dynamic_reg`` has grown past
+:math:`10^{-6}`, the solver instead applies the inaccurate tolerances
+(``abstol_inacc``, ``reltol_inacc``): it exits with ``QOCO_SOLVED_INACCURATE``
+if the looser check passes, or ``QOCO_NUMERICAL_ERROR`` otherwise.
+
+Stopping Criteria
+~~~~~~~~~~~~~~~~~
+
+At the start of each IPM iteration ``check_stopping`` (``src/qoco_utils.c``)
+tests three residuals in the **original (unscaled) problem space**:
+
+- **Primal residual** :math:`r_p = \max(\|Ax - b\|_\infty,\ \|Gx + s - h\|_\infty)`
+- **Dual residual** :math:`r_d = \|Px + c + A^\top y + G^\top z\|_\infty`
+- **Duality gap** :math:`\mu = s^\top z`
+
+The solver declares ``QOCO_SOLVED`` when all three satisfy an
+absolute-plus-relative threshold simultaneously:
+
+.. math::
+
+   r_p &< \varepsilon_{\text{abs}} + \varepsilon_{\text{rel}} \cdot
+          \max(\|Ax\|_\infty,\, \|b\|_\infty,\, \|Gx\|_\infty,\, \|h\|_\infty,\, \|s\|_\infty) \\
+   r_d &< \varepsilon_{\text{abs}} + \varepsilon_{\text{rel}} \cdot
+          \max(\|Px\|_\infty,\, \|A^\top y\|_\infty,\, \|G^\top z\|_\infty,\, \|c\|_\infty) \\
+   \mu  &< \varepsilon_{\text{abs}} + \varepsilon_{\text{rel}} \cdot
+          \max(1,\, |p_{\text{obj}}|,\, |d_{\text{obj}}|)
+
+where :math:`\varepsilon_{\text{abs}}` = ``abstol`` and
+:math:`\varepsilon_{\text{rel}}` = ``reltol``.
+Because QOCO equilibrates the problem internally, the Ruiz scaling factors are
+unwound before computing each norm so that the residuals reflect the original
+problem data.
 
 Building
 --------

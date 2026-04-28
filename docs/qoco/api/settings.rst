@@ -16,7 +16,7 @@ The settings are defined in the :code:`include/structs.h` file.
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`max_ir_iters`           |  :code:`QOCOInt`      | Maximum number of iterative refinement iterations          | :math:`(0, \infty)` | 5             |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`ir_tol`                 |  :code:`QOCOFloat`    | Iterative refinement stopping tolerance: stop when         | :math:`(0, \infty)` | 1e-7          |
+| :code:`ir_tol`                 |  :code:`QOCOFloat`    | Iterative refinement stopping tolerance: stop when         | :math:`(0, \infty)` | 1e-6          |
 |                                |                       | :math:`\lVert Kx - b\rVert <` :code:`ir_tol`               |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`kkt_static_reg_P`       |  :code:`QOCOFloat`    | Static regularization for the (1,1) P block of the KKT     | :math:`(0, \infty)` | 1e-12         |
