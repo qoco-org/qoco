@@ -328,7 +328,7 @@ unsigned char check_stopping(QOCOSolver* solver)
   // If the solver stalled (stepsize = 0), increase dynamic regularization by
   // one order of magnitude and retry. If kkt_dynamic_reg would exceed
   // kkt_reg_max=1e-6, stop with an error.
-  if (solver->work->a < 1e-8) {
+  if (solver->work->a < 1e-7) {
     solver->settings->kkt_dynamic_reg *= 10.0;
 #ifdef QOCO_LOGGING
     {
