@@ -261,8 +261,14 @@ struct LinSysData {
   /** Number of constraints (m) - stored for use in factor */
   QOCOInt m;
 
-  /** Static regularization parameter. */
-  QOCOFloat kkt_static_reg;
+  /** Static regularization for the (1,1) P block. */
+  QOCOFloat kkt_static_reg_P;
+
+  /** Static regularization for the (2,2) A block. */
+  QOCOFloat kkt_static_reg_A;
+
+  /** Static regularization for the (3,3) G block. */
+  QOCOFloat kkt_static_reg_G;
 
   /** cuSPARSE handle. */
   cusparseHandle_t cusparse_handle;
@@ -420,7 +426,9 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   CUDA_CHECK(cudaMalloc(&linsys_data->d_xyz_matrix_data,
                         sizeof(QOCOFloat) * linsys_data->Kn));
   linsys_data->Wnnz = Wnnz;
-  linsys_data->kkt_static_reg = settings->kkt_static_reg;
+  linsys_data->kkt_static_reg_P = settings->kkt_static_reg_P;
+  linsys_data->kkt_static_reg_A = settings->kkt_static_reg_A;
+  linsys_data->kkt_static_reg_G = settings->kkt_static_reg_G;
 
   // Allocate memory for mappings to KKT matrix
   linsys_data->nt2kkt = (QOCOInt*)qoco_calloc(Wnnz, sizeof(QOCOInt));
@@ -439,7 +447,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   QOCOCscMatrix* Kcsc = construct_kkt(
       get_csc_matrix(data->P), get_csc_matrix(data->A), get_csc_matrix(data->G),
       get_csc_matrix(data->At), get_csc_matrix(data->Gt),
-      settings->kkt_static_reg, data->n, data->m, data->p, data->l, data->nsoc,
+      settings->kkt_static_reg_A, data->n, data->m, data->p, data->l, data->nsoc,
       get_data_vectori(data->q), linsys_data->PregtoKKT, linsys_data->AttoKKT,
       linsys_data->GttoKKT, linsys_data->nt2kkt, linsys_data->ntdiag2kkt, Wnnz);
   set_cpu_mode(0);
@@ -609,12 +617,12 @@ update_csr_nt_blocks_kernel(const QOCOFloat* WtW, // NT block values (on GPU)
 __global__ void
 update_csr_nt_diag_kernel(QOCOFloat* csr_val, // CSR values to update (on GPU)
                           const QOCOInt* ntdiag2kktcsr,
-                          QOCOFloat kkt_static_reg, QOCOInt m)
+                          QOCOFloat kkt_static_reg_G, QOCOInt m)
 {
   QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
   if (idx < m) {
     QOCOInt csr_idx = ntdiag2kktcsr[idx];
-    csr_val[csr_idx] -= kkt_static_reg;
+    csr_val[csr_idx] -= kkt_static_reg_G;
   }
 }
 
@@ -673,14 +681,12 @@ static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
   QOCOInt m = work->data->m;
   QOCOInt N = n + m + p;
 
-  // Compute K * x -> scratch (without static regularization diagonal).
+  // Compute K_true * x -> scratch against the unregularized matrix.
+  // data->P stores the regularized P (P + eps_P * I), so subtract the P
+  // regularization contribution from the x block to recover the true product.
   kkt_multiply(x, scratch, work->data, Wfull, Wsoc_idx, soc_idx, xbuff,
                ubuff1, ubuff2);
-
-  // Add -reg*I correction on equality and NT block diagonals omitted by
-  // kkt_multiply.
-  qoco_axpy(&x[n], &scratch[n], &scratch[n], -linsys_data->kkt_static_reg,
-            p + m);
+  qoco_axpy(x, scratch, scratch, -linsys_data->kkt_static_reg_P, n);
 
   // scratch = b - K*x.
   qoco_axpy(scratch, b, scratch, -1.0, N);
@@ -700,9 +706,10 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
 
 static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         QOCOVectorf* b_vec, QOCOVectorf* x_vec,
-                        QOCOInt iter_ref_iters)
+                        QOCOFloat ir_tol, QOCOInt max_ir_iters)
 {
-  (void)iter_ref_iters; // No iterative refinement for CUDA backend
+  (void)ir_tol;       // No iterative refinement for CUDA backend
+  (void)max_ir_iters; // No iterative refinement for CUDA backend
 
   QOCOFloat* x = get_data_vectorf(x_vec);
   QOCOFloat* b = get_data_vectorf(b_vec);
@@ -729,7 +736,7 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         cudaMemcpyDeviceToDevice));
 
 #ifdef QOCO_LOGGING
-  FILE* log_f = fopen("qoco_linsys_errors.txt", "a");
+  FILE* log_f = fopen("qoco_log.txt", "a");
   if (log_f) {
     log_linsys_error(linsys_data, work, b_vec, x_vec, "initial solve", log_f);
     fclose(log_f);
@@ -758,7 +765,7 @@ void cudss_set_nt_identity(LinSysData* linsys_data, QOCOInt m)
 }
 
 static void cudss_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
-                            QOCOFloat kkt_static_reg, QOCOInt m)
+                            QOCOFloat kkt_static_reg_G, QOCOInt m)
 {
   QOCOFloat* WtW = get_data_vectorf(WtW_vec);
   // Update CSR matrix values on GPU directly for NT blocks
@@ -783,7 +790,7 @@ static void cudss_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
     QOCOInt threadsPerBlock = 256;
     QOCOInt numBlocks_diag = (m + threadsPerBlock - 1) / threadsPerBlock;
     update_csr_nt_diag_kernel<<<numBlocks_diag, threadsPerBlock>>>(
-        linsys_data->d_csr_val, linsys_data->d_ntdiag2kktcsr, kkt_static_reg,
+        linsys_data->d_csr_val, linsys_data->d_ntdiag2kktcsr, kkt_static_reg_G,
         m);
     CUDA_CHECK(cudaGetLastError());
   }
