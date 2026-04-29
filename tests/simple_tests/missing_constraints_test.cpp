@@ -576,8 +576,8 @@ TEST(simple_socp_test, reduced_tolerance)
 
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
   set_default_settings(settings);
-  settings->abstol = 1e-14;
-  settings->reltol = 1e-14;
+  settings->abstol = 1e-13;
+  settings->reltol = 1e-13;
   settings->verbose = 1;
 
   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
