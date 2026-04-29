@@ -576,8 +576,12 @@ TEST(simple_socp_test, reduced_tolerance)
 
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
   set_default_settings(settings);
-  settings->abstol = 1e-13;
-  settings->reltol = 1e-13;
+  settings->abstol = 1e-14;
+  settings->reltol = 1e-14;
+
+  // Needed or test will fail on MacOS.
+  settings->kkt_static_reg_P = 1e-12;
+  settings->kkt_static_reg_G = 1e-12;
   settings->verbose = 1;
 
   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
