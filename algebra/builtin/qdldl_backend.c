@@ -275,6 +275,31 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
                                          QOCOWorkspace* work, QOCOFloat* b,
                                          QOCOFloat* x_scratch)
 {
+  if (linsys_data->nsoc_sparse == 0) {
+    QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+    QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
+    QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+    QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
+    QOCOInt n = work->data->n;
+    QOCOInt N = linsys_data->K->n;
+
+    for (QOCOInt k = 0; k < N; ++k) {
+      x_scratch[linsys_data->p[k]] = linsys_data->xyzbuff1[k];
+    }
+
+    kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, Wfull, NULL,
+                 NULL, xbuff, ubuff1, ubuff2);
+    for (QOCOInt k = 0; k < n; ++k) {
+      linsys_data->xyzbuff2[k] -= linsys_data->kkt_static_reg_P * x_scratch[k];
+    }
+
+    for (QOCOInt k = 0; k < N; ++k) {
+      x_scratch[k] = b[k] - linsys_data->xyzbuff2[linsys_data->p[k]];
+    }
+
+    return inf_norm(x_scratch, N);
+  }
+
   QOCOInt N = linsys_data->K->n;
   (void)work;
 
