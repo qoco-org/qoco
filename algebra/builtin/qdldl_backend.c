@@ -66,7 +66,8 @@ struct LinSysData {
   /** Mapping from Gt to KKT. */
   QOCOInt* GttoKKT;
 
-  /** Number of entries in nt2kkt: l + dense SOC upper-tri + sparse SOC diagonal. */
+  /** Number of entries in nt2kkt: l + dense SOC upper-tri + sparse SOC
+   * diagonal. */
   QOCOInt Wnnz;
 
   /** Number of sparse SOC cones. */
@@ -131,14 +132,18 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   linsys_data->kkt_static_reg_A = settings->kkt_static_reg_A;
   linsys_data->kkt_static_reg_G = settings->kkt_static_reg_G;
 
-  linsys_data->soc_is_sparse = qoco_calloc(data->nsoc > 0 ? data->nsoc : 1, sizeof(QOCOInt));
+  linsys_data->soc_is_sparse =
+      qoco_calloc(data->nsoc > 0 ? data->nsoc : 1, sizeof(QOCOInt));
   if (soc_is_sparse) {
-    for (QOCOInt i = 0; i < data->nsoc; ++i) linsys_data->soc_is_sparse[i] = soc_is_sparse[i];
+    for (QOCOInt i = 0; i < data->nsoc; ++i)
+      linsys_data->soc_is_sparse[i] = soc_is_sparse[i];
   }
 
-  linsys_data->sparse_soc_nt_idx = qoco_calloc(nsoc_sparse > 0 ? nsoc_sparse : 1, sizeof(QOCOInt));
+  linsys_data->sparse_soc_nt_idx =
+      qoco_calloc(nsoc_sparse > 0 ? nsoc_sparse : 1, sizeof(QOCOInt));
   if (sparse_soc_nt_idx) {
-    for (QOCOInt i = 0; i < nsoc_sparse; ++i) linsys_data->sparse_soc_nt_idx[i] = sparse_soc_nt_idx[i];
+    for (QOCOInt i = 0; i < nsoc_sparse; ++i)
+      linsys_data->sparse_soc_nt_idx[i] = sparse_soc_nt_idx[i];
   }
 
   linsys_data->xyzbuff1 = qoco_malloc(sizeof(QOCOFloat) * N_exp);
@@ -157,7 +162,8 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
     linsys_data->positive_diag[i] = 1;
   }
   for (QOCOInt i = 0; i < nsoc_sparse; ++i) {
-    linsys_data->positive_diag[N + 2 * i] = 1;
+    QOCOInt aux_idx = N + 2 * i;
+    linsys_data->positive_diag[aux_idx] = 1;
   }
 
   linsys_data->nt2kkt = qoco_calloc(Wnnz_qdldl, sizeof(QOCOInt));
@@ -165,61 +171,83 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   linsys_data->PregtoKKT = qoco_calloc(get_nnz(data->P), sizeof(QOCOInt));
   linsys_data->AttoKKT = qoco_calloc(get_nnz(data->A), sizeof(QOCOInt));
   linsys_data->GttoKKT = qoco_calloc(get_nnz(data->G), sizeof(QOCOInt));
-  linsys_data->nt_u2kkt = qoco_calloc(nt_sparse_nnz > 0 ? nt_sparse_nnz : 1, sizeof(QOCOInt));
-  linsys_data->nt_v2kkt = qoco_calloc(nt_sparse_nnz > 0 ? nt_sparse_nnz : 1, sizeof(QOCOInt));
-  linsys_data->nt_uvdiag2kkt = qoco_calloc(nsoc_sparse > 0 ? 2 * nsoc_sparse : 1, sizeof(QOCOInt));
+  linsys_data->nt_u2kkt =
+      qoco_calloc(nt_sparse_nnz > 0 ? nt_sparse_nnz : 1, sizeof(QOCOInt));
+  linsys_data->nt_v2kkt =
+      qoco_calloc(nt_sparse_nnz > 0 ? nt_sparse_nnz : 1, sizeof(QOCOInt));
+  linsys_data->nt_uvdiag2kkt =
+      qoco_calloc(nsoc_sparse > 0 ? 2 * nsoc_sparse : 1, sizeof(QOCOInt));
 
   QOCOInt* nt2kkt_temp = qoco_calloc(Wnnz_qdldl, sizeof(QOCOInt));
   QOCOInt* ntdiag2kkt_temp = qoco_calloc(data->m, sizeof(QOCOInt));
-  QOCOInt* PregtoKKT_temp = data->P ? qoco_calloc(get_nnz(data->P), sizeof(QOCOInt)) : NULL;
+  QOCOInt* PregtoKKT_temp =
+      data->P ? qoco_calloc(get_nnz(data->P), sizeof(QOCOInt)) : NULL;
   QOCOInt* AttoKKT_temp = qoco_calloc(get_nnz(data->A), sizeof(QOCOInt));
   QOCOInt* GttoKKT_temp = qoco_calloc(get_nnz(data->G), sizeof(QOCOInt));
-  QOCOInt* nt_u2kkt_temp = qoco_calloc(nt_sparse_nnz > 0 ? nt_sparse_nnz : 1, sizeof(QOCOInt));
-  QOCOInt* nt_v2kkt_temp = qoco_calloc(nt_sparse_nnz > 0 ? nt_sparse_nnz : 1, sizeof(QOCOInt));
-  QOCOInt* nt_uvdiag2kkt_temp = qoco_calloc(nsoc_sparse > 0 ? 2 * nsoc_sparse : 1, sizeof(QOCOInt));
+  QOCOInt* nt_u2kkt_temp =
+      qoco_calloc(nt_sparse_nnz > 0 ? nt_sparse_nnz : 1, sizeof(QOCOInt));
+  QOCOInt* nt_v2kkt_temp =
+      qoco_calloc(nt_sparse_nnz > 0 ? nt_sparse_nnz : 1, sizeof(QOCOInt));
+  QOCOInt* nt_uvdiag2kkt_temp =
+      qoco_calloc(nsoc_sparse > 0 ? 2 * nsoc_sparse : 1, sizeof(QOCOInt));
 
   linsys_data->K = construct_kkt(
       data->P ? get_csc_matrix(data->P) : NULL, get_csc_matrix(data->A),
       get_csc_matrix(data->G), get_csc_matrix(data->At),
       get_csc_matrix(data->Gt), settings->kkt_static_reg_A, data->n, data->m,
       data->p, data->l, data->nsoc, q, PregtoKKT_temp, AttoKKT_temp,
-      GttoKKT_temp, nt2kkt_temp, ntdiag2kkt_temp, Wnnz_qdldl,
-      soc_is_sparse, nsoc_sparse, nt_sparse_nnz, sparse_soc_nt_idx,
-      nt_u2kkt_temp, nt_v2kkt_temp, nt_uvdiag2kkt_temp);
+      GttoKKT_temp, nt2kkt_temp, ntdiag2kkt_temp, Wnnz_qdldl, soc_is_sparse,
+      nsoc_sparse, nt_sparse_nnz, sparse_soc_nt_idx, nt_u2kkt_temp,
+      nt_v2kkt_temp, nt_uvdiag2kkt_temp);
 
   linsys_data->p = qoco_malloc(N_exp * sizeof(QOCOInt));
   linsys_data->pinv = qoco_malloc(N_exp * sizeof(QOCOInt));
   QOCOInt amd_status = amd_order(N_exp, linsys_data->K->p, linsys_data->K->i,
-                                  linsys_data->p, (double*)NULL, (double*)NULL);
-  if (amd_status < 0) return NULL;
+                                 linsys_data->p, (double*)NULL, (double*)NULL);
+  if (amd_status < 0)
+    return NULL;
   invert_permutation(linsys_data->p, linsys_data->pinv, N_exp);
 
   QOCOInt* KtoPKPt = qoco_malloc(linsys_data->K->nnz * sizeof(QOCOInt));
   QOCOCscMatrix* PKPt = csc_symperm(linsys_data->K, linsys_data->pinv, KtoPKPt);
 
-  for (QOCOInt i = 0; i < Wnnz_qdldl; ++i) linsys_data->nt2kkt[i] = KtoPKPt[nt2kkt_temp[i]];
-  for (QOCOInt i = 0; i < data->m; ++i) linsys_data->ntdiag2kkt[i] = KtoPKPt[ntdiag2kkt_temp[i]];
+  for (QOCOInt i = 0; i < Wnnz_qdldl; ++i)
+    linsys_data->nt2kkt[i] = KtoPKPt[nt2kkt_temp[i]];
+  for (QOCOInt i = 0; i < data->m; ++i)
+    linsys_data->ntdiag2kkt[i] = KtoPKPt[ntdiag2kkt_temp[i]];
   if (data->P && PregtoKKT_temp) {
-    for (QOCOInt i = 0; i < get_nnz(data->P); ++i) linsys_data->PregtoKKT[i] = KtoPKPt[PregtoKKT_temp[i]];
+    for (QOCOInt i = 0; i < get_nnz(data->P); ++i)
+      linsys_data->PregtoKKT[i] = KtoPKPt[PregtoKKT_temp[i]];
   }
-  for (QOCOInt i = 0; i < get_nnz(data->A); ++i) linsys_data->AttoKKT[i] = KtoPKPt[AttoKKT_temp[i]];
-  for (QOCOInt i = 0; i < get_nnz(data->G); ++i) linsys_data->GttoKKT[i] = KtoPKPt[GttoKKT_temp[i]];
+  for (QOCOInt i = 0; i < get_nnz(data->A); ++i)
+    linsys_data->AttoKKT[i] = KtoPKPt[AttoKKT_temp[i]];
+  for (QOCOInt i = 0; i < get_nnz(data->G); ++i)
+    linsys_data->GttoKKT[i] = KtoPKPt[GttoKKT_temp[i]];
   for (QOCOInt i = 0; i < nt_sparse_nnz; ++i) {
     linsys_data->nt_u2kkt[i] = KtoPKPt[nt_u2kkt_temp[i]];
     linsys_data->nt_v2kkt[i] = KtoPKPt[nt_v2kkt_temp[i]];
   }
-  for (QOCOInt i = 0; i < 2 * nsoc_sparse; ++i) linsys_data->nt_uvdiag2kkt[i] = KtoPKPt[nt_uvdiag2kkt_temp[i]];
+  QOCOInt n_uvdiag = 2 * nsoc_sparse;
+  for (QOCOInt i = 0; i < n_uvdiag; ++i)
+    linsys_data->nt_uvdiag2kkt[i] = KtoPKPt[nt_uvdiag2kkt_temp[i]];
 
   free_qoco_csc_matrix(linsys_data->K);
   qoco_free(KtoPKPt);
-  qoco_free(nt2kkt_temp); qoco_free(ntdiag2kkt_temp); qoco_free(PregtoKKT_temp);
-  qoco_free(AttoKKT_temp); qoco_free(GttoKKT_temp);
-  qoco_free(nt_u2kkt_temp); qoco_free(nt_v2kkt_temp); qoco_free(nt_uvdiag2kkt_temp);
+  qoco_free(nt2kkt_temp);
+  qoco_free(ntdiag2kkt_temp);
+  qoco_free(PregtoKKT_temp);
+  qoco_free(AttoKKT_temp);
+  qoco_free(GttoKKT_temp);
+  qoco_free(nt_u2kkt_temp);
+  qoco_free(nt_v2kkt_temp);
+  qoco_free(nt_uvdiag2kkt_temp);
   linsys_data->K = PKPt;
 
-  QOCOInt sumLnz = QDLDL_etree(N_exp, linsys_data->K->p, linsys_data->K->i,
-                                 linsys_data->iwork, linsys_data->Lnz, linsys_data->etree);
-  if (sumLnz < 0) return NULL;
+  QOCOInt sumLnz =
+      QDLDL_etree(N_exp, linsys_data->K->p, linsys_data->K->i,
+                  linsys_data->iwork, linsys_data->Lnz, linsys_data->etree);
+  if (sumLnz < 0)
+    return NULL;
 
   linsys_data->Li = qoco_malloc(sizeof(QOCOInt) * sumLnz);
   linsys_data->Lx = qoco_malloc(sizeof(QOCOFloat) * sumLnz);
@@ -389,8 +417,9 @@ static void qdldl_set_nt_identity(LinSysData* linsys_data, QOCOWorkspace* work)
     linsys_data->K->x[linsys_data->nt_v2kkt[i]] = 0.0;
   }
   for (QOCOInt i = 0; i < linsys_data->nsoc_sparse; ++i) {
-    linsys_data->K->x[linsys_data->nt_uvdiag2kkt[2 * i]] = 1.0;
-    linsys_data->K->x[linsys_data->nt_uvdiag2kkt[2 * i + 1]] = -1.0;
+    QOCOInt uvdiag_idx = 2 * i;
+    linsys_data->K->x[linsys_data->nt_uvdiag2kkt[uvdiag_idx]] = 1.0;
+    linsys_data->K->x[linsys_data->nt_uvdiag2kkt[uvdiag_idx + 1]] = -1.0;
   }
 }
 
@@ -430,9 +459,10 @@ static void qdldl_update_nt(LinSysData* linsys_data, QOCOWorkspace* work,
         linsys_data->K->x[linsys_data->nt_v2kkt[sidx + j]] =
             -eta2[sp_cone] * v[sidx + j];
       }
-      linsys_data->K->x[linsys_data->nt_uvdiag2kkt[2 * sp_cone]] =
+      QOCOInt uvdiag_idx = 2 * sp_cone;
+      linsys_data->K->x[linsys_data->nt_uvdiag2kkt[uvdiag_idx]] =
           eta2[sp_cone];
-      linsys_data->K->x[linsys_data->nt_uvdiag2kkt[2 * sp_cone + 1]] =
+      linsys_data->K->x[linsys_data->nt_uvdiag2kkt[uvdiag_idx + 1]] =
           -eta2[sp_cone];
       sp_cone++;
     }

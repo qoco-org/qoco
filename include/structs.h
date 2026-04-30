@@ -264,7 +264,8 @@ typedef struct {
   /** Index into nt_u/v_sparse for the k-th sparse SOC (length nsoc_sparse). */
   QOCOVectori* sparse_soc_nt_idx;
 
-  /** Total elements in nt_u_sparse / nt_v_sparse: sum of q[i] for sparse SOCs. */
+  /** Total elements in nt_u_sparse / nt_v_sparse: sum of q[i] for sparse SOCs.
+   */
   QOCOInt nt_sparse_nnz;
 
   /** Scaled variables. */

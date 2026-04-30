@@ -49,18 +49,15 @@
  * @param Wnnz Number of nonzeros in upper triangular portion of NT scaling.
  * @return QOCOCscMatrix*
  */
-QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
-                             QOCOCscMatrix* G, QOCOCscMatrix* At,
-                             QOCOCscMatrix* Gt, QOCOFloat kkt_static_reg_A,
-                             QOCOInt n, QOCOInt m, QOCOInt p, QOCOInt l,
-                             QOCOInt nsoc, QOCOInt* q, QOCOInt* PregtoKKT,
-                             QOCOInt* AttoKKT, QOCOInt* GttoKKT,
-                             QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt,
-                             QOCOInt Wnnz, QOCOInt* soc_is_sparse,
-                             QOCOInt nsoc_sparse, QOCOInt nt_sparse_nnz,
-                             QOCOInt* sparse_soc_nt_idx,
-                             QOCOInt* nt_u2kkt, QOCOInt* nt_v2kkt,
-                             QOCOInt* nt_uvdiag2kkt);
+QOCOCscMatrix*
+construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A, QOCOCscMatrix* G,
+              QOCOCscMatrix* At, QOCOCscMatrix* Gt, QOCOFloat kkt_static_reg_A,
+              QOCOInt n, QOCOInt m, QOCOInt p, QOCOInt l, QOCOInt nsoc,
+              QOCOInt* q, QOCOInt* PregtoKKT, QOCOInt* AttoKKT,
+              QOCOInt* GttoKKT, QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt,
+              QOCOInt Wnnz, QOCOInt* soc_is_sparse, QOCOInt nsoc_sparse,
+              QOCOInt nt_sparse_nnz, QOCOInt* sparse_soc_nt_idx,
+              QOCOInt* nt_u2kkt, QOCOInt* nt_v2kkt, QOCOInt* nt_uvdiag2kkt);
 
 /**
  * @brief Gets initial values for primal and dual variables such that (s,z) \in
