@@ -460,8 +460,7 @@ static void qdldl_update_nt(LinSysData* linsys_data, QOCOWorkspace* work,
             -eta2[sp_cone] * v[sidx + j];
       }
       QOCOInt uvdiag_idx = 2 * sp_cone;
-      linsys_data->K->x[linsys_data->nt_uvdiag2kkt[uvdiag_idx]] =
-          eta2[sp_cone];
+      linsys_data->K->x[linsys_data->nt_uvdiag2kkt[uvdiag_idx]] = eta2[sp_cone];
       linsys_data->K->x[linsys_data->nt_uvdiag2kkt[uvdiag_idx + 1]] =
           -eta2[sp_cone];
       sp_cone++;
