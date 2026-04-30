@@ -666,18 +666,54 @@ __global__ void update_csr_matrix_data_kernel(
   }
 }
 
-#ifdef QOCO_LOGGING
-/**
- * @brief Logs the linear system solve error norm(K*x - b, inf) to f.
- * Only compiled when QOCO_LOGGING is defined.
- */
-static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
-                             QOCOVectorf* b_vec, QOCOVectorf* x_vec,
-                             const char* label, FILE* f)
+static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
+                         QOCOFloat kkt_dynamic_reg)
 {
-  QOCOFloat* b = get_data_vectorf(b_vec);
-  QOCOFloat* x = get_data_vectorf(x_vec);
-  QOCOFloat* scratch = get_data_vectorf(work->xyzbuff1);
+  (void)n;
+  (void)kkt_dynamic_reg;
+
+  CUDSS_CHECK(g_cuda_funcs.cudssExecute(
+      linsys_data->handle, CUDSS_PHASE_FACTORIZATION, linsys_data->config,
+      linsys_data->data, linsys_data->K_csr, linsys_data->d_xyz_matrix,
+      linsys_data->d_rhs_matrix));
+}
+
+static void cudss_solve_system(LinSysData* linsys_data, const QOCOFloat* rhs,
+                               QOCOFloat* sol)
+{
+  CUDA_CHECK(cudaMemcpy(linsys_data->d_rhs_matrix_data, rhs,
+                        linsys_data->Kn * sizeof(QOCOFloat),
+                        cudaMemcpyDeviceToDevice));
+
+  CUDA_CHECK(cudaMemset(linsys_data->d_xyz_matrix_data, 0,
+                        linsys_data->Kn * sizeof(QOCOFloat)));
+
+  CUDSS_CHECK(g_cuda_funcs.cudssExecute(
+      linsys_data->handle, CUDSS_PHASE_SOLVE, linsys_data->config,
+      linsys_data->data, linsys_data->K_csr, linsys_data->d_xyz_matrix,
+      linsys_data->d_rhs_matrix));
+
+  if (sol != linsys_data->d_xyz_matrix_data) {
+    CUDA_CHECK(cudaMemcpy(sol, linsys_data->d_xyz_matrix_data,
+                          linsys_data->Kn * sizeof(QOCOFloat),
+                          cudaMemcpyDeviceToDevice));
+  }
+}
+
+/**
+ * @brief Computes norm(K_true*x - b, inf) on device.
+ *
+ * The factorization uses the statically regularized KKT matrix. The residual
+ * used for iterative refinement is computed against the unregularized KKT
+ * product, matching the builtin backend behavior. The residual b - K_true*x is
+ * written to residual_scratch.
+ */
+static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
+                                         QOCOWorkspace* work,
+                                         const QOCOFloat* b,
+                                         const QOCOFloat* x,
+                                         QOCOFloat* residual_scratch)
+{
   QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
   QOCOInt* Wsoc_idx = get_data_vectori(work->Wsoc_idx);
   QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
@@ -685,70 +721,100 @@ static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
   QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
   QOCOInt n = work->data->n;
-  QOCOInt p = work->data->p;
-  QOCOInt m = work->data->m;
-  QOCOInt N = n + m + p;
+  QOCOInt N = linsys_data->Kn;
 
-  // Compute K_true * x -> scratch against the unregularized matrix.
-  // data->P stores the regularized P (P + eps_P * I), so subtract the P
-  // regularization contribution from the x block to recover the true product.
-  kkt_multiply(x, scratch, work->data, Wfull, Wsoc_idx, soc_idx, xbuff,
-               ubuff1, ubuff2);
-  qoco_axpy(x, scratch, scratch, -linsys_data->kkt_static_reg_P, n);
+  // d_rhs_matrix_data is scratch here; cudss_solve_system overwrites it before
+  // every cuDSS solve.
+  kkt_multiply((QOCOFloat*)x, linsys_data->d_rhs_matrix_data, work->data, Wfull,
+               Wsoc_idx, soc_idx, xbuff, ubuff1, ubuff2);
 
-  // scratch = b - K*x.
-  qoco_axpy(scratch, b, scratch, -1.0, N);
+  // data->P stores P + eps_P * I, so remove the P regularization from the
+  // product before measuring the true KKT residual.
+  qoco_axpy(x, linsys_data->d_rhs_matrix_data, linsys_data->d_rhs_matrix_data,
+            -linsys_data->kkt_static_reg_P, n);
 
-  fprintf(f, "  (%s): %.4e\n", label, inf_norm(scratch, N));
+  // residual_scratch = b - K_true*x.
+  qoco_axpy(linsys_data->d_rhs_matrix_data, b, residual_scratch, -1.0, N);
+
+  return inf_norm(residual_scratch, N);
+}
+
+#ifdef QOCO_LOGGING
+static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
+                             const QOCOFloat* b, const QOCOFloat* x,
+                             QOCOFloat* residual_scratch, const char* label,
+                             FILE* f)
+{
+  QOCOFloat res =
+      compute_linsys_residual(linsys_data, work, b, x, residual_scratch);
+  fprintf(f, "  (%s): %.4e\n", label, res);
 }
 #endif
-
-static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
-                         QOCOFloat kkt_dynamic_reg)
-{
-  CUDSS_CHECK(g_cuda_funcs.cudssExecute(
-      linsys_data->handle, CUDSS_PHASE_FACTORIZATION, linsys_data->config,
-      linsys_data->data, linsys_data->K_csr, linsys_data->d_xyz_matrix,
-      linsys_data->d_rhs_matrix));
-}
 
 static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
                         QOCOVectorf* b_vec, QOCOVectorf* x_vec,
                         QOCOFloat ir_tol, QOCOInt max_ir_iters)
 {
-  (void)ir_tol;       // No iterative refinement for CUDA backend
-  (void)max_ir_iters; // No iterative refinement for CUDA backend
-
   QOCOFloat* x = get_data_vectorf(x_vec);
   QOCOFloat* b = get_data_vectorf(b_vec);
+  QOCOFloat* residual = linsys_data->d_xyz_matrix_data;
 
-  // Copy b from CPU to GPU.
-  CUDA_CHECK(cudaMemcpy(linsys_data->d_rhs_matrix_data, b,
-                        linsys_data->Kn * sizeof(QOCOFloat),
-                        cudaMemcpyDeviceToDevice));
-
-  // Clear solution buffer (d_xyz_matrix points to d_xyz_matrix_data)
-  CUDA_CHECK(cudaMemset(linsys_data->d_xyz_matrix_data, 0,
-                        linsys_data->Kn * sizeof(QOCOFloat)));
-
-  // d_rhs_matrix points to d_rhs_matrix_data, d_xyz_matrix points to
-  // d_xyz_matrix_data
-  CUDSS_CHECK(g_cuda_funcs.cudssExecute(
-      linsys_data->handle, CUDSS_PHASE_SOLVE, linsys_data->config,
-      linsys_data->data, linsys_data->K_csr, linsys_data->d_xyz_matrix,
-      linsys_data->d_rhs_matrix));
-
-  // Copy x from GPU to CPU.
-  CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyz_matrix_data,
-                        linsys_data->Kn * sizeof(QOCOFloat),
-                        cudaMemcpyDeviceToDevice));
+  // Initial solve. Store the current solution in x; d_xyz_matrix_data remains
+  // available as residual/correction scratch after this copy.
+  cudss_solve_system(linsys_data, b, x);
 
 #ifdef QOCO_LOGGING
   FILE* log_f = fopen("qoco_log.txt", "a");
   if (log_f) {
-    log_linsys_error(linsys_data, work, b_vec, x_vec, "initial solve", log_f);
-    fclose(log_f);
+    log_linsys_error(linsys_data, work, b, x, residual, "initial solve",
+                     log_f);
   }
+#endif
+
+  QOCOFloat* best_sol = get_data_vectorf(work->xyzbuff1);
+  QOCOFloat best_res = compute_linsys_residual(linsys_data, work, b, x,
+                                               residual);
+  copy_arrayf(x, best_sol, linsys_data->Kn);
+
+  QOCOInt ir_count = 0;
+  QOCOFloat res = best_res;
+
+  for (QOCOInt i = 0; i < max_ir_iters; ++i) {
+    if (res < ir_tol) {
+      break;
+    }
+
+    // residual currently holds b - K_true*x. Solve K_reg*dx = residual.
+    cudss_solve_system(linsys_data, residual, linsys_data->d_xyz_matrix_data);
+
+    // x_new = x_old + dx.
+    qoco_axpy(linsys_data->d_xyz_matrix_data, x, x, 1.0, linsys_data->Kn);
+
+    QOCOFloat new_res = compute_linsys_residual(linsys_data, work, b, x,
+                                                residual);
+
+#ifdef QOCO_LOGGING
+    if (log_f) {
+      fprintf(log_f, "  (refinement): %.4e\n", new_res);
+    }
+#endif
+
+    if (new_res >= best_res) {
+      copy_arrayf(best_sol, x, linsys_data->Kn);
+      break;
+    }
+
+    ir_count++;
+    best_res = new_res;
+    copy_arrayf(x, best_sol, linsys_data->Kn);
+    res = new_res;
+  }
+
+  work->ir_iters += ir_count;
+
+#ifdef QOCO_LOGGING
+  if (log_f)
+    fclose(log_f);
 #endif
 }
 
@@ -770,6 +836,15 @@ void cudss_set_nt_identity(LinSysData* linsys_data, QOCOWorkspace* work)
     set_nt_identity_kernel<<<gridSize, blockSize>>>(
         linsys_data->d_csr_val, linsys_data->d_nt2kktcsr,
         linsys_data->d_ntdiag2kktcsr, Wnnz, m);
+    CUDA_CHECK(cudaGetLastError());
+
+    update_csr_nt_diag_kernel<<<gridSize, blockSize>>>(
+        linsys_data->d_csr_val, linsys_data->d_ntdiag2kktcsr,
+        linsys_data->kkt_static_reg_G, m);
+    CUDA_CHECK(cudaGetLastError());
+    CUDSS_CHECK(g_cuda_funcs.cudssMatrixSetValues(linsys_data->K_csr,
+                                                  linsys_data->d_csr_val));
+    CUDA_CHECK(cudaDeviceSynchronize());
   }
 }
 
@@ -840,7 +915,7 @@ static void cudss_update_data(LinSysData* linsys_data, QOCOProblemData* data)
   }
 
   // Update G in CSR matrix
-  if (data->p > 0) {
+  if (data->m > 0) {
 
     QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
     QOCOInt Gnnz = get_nnz(data->G);
