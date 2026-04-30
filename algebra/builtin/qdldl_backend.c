@@ -275,52 +275,56 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
                                          QOCOWorkspace* work, QOCOFloat* b,
                                          QOCOFloat* x_scratch)
 {
-  if (linsys_data->nsoc_sparse == 0) {
-    QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
-    QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
-    QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
-    QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
-    QOCOInt n = work->data->n;
-    QOCOInt N = linsys_data->K->n;
+  QOCOInt N = linsys_data->K->n;
+  QOCOInt n = work->data->n;
+  QOCOInt N_base = work->data->n + work->data->p + work->data->m;
+  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOInt* Wsoc_idx = get_data_vectori(work->Wsoc_idx);
+  QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
+  QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
+  QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
 
-    for (QOCOInt k = 0; k < N; ++k) {
-      x_scratch[linsys_data->p[k]] = linsys_data->xyzbuff1[k];
-    }
+  for (QOCOInt i = 0; i < N; ++i) {
+    x_scratch[linsys_data->p[i]] = linsys_data->xyzbuff1[i];
+  }
 
-    kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, Wfull, NULL,
-                 NULL, xbuff, ubuff1, ubuff2);
-    for (QOCOInt k = 0; k < n; ++k) {
-      linsys_data->xyzbuff2[k] -= linsys_data->kkt_static_reg_P * x_scratch[k];
-    }
+  kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, Wfull, Wsoc_idx,
+               soc_idx, xbuff, ubuff1, ubuff2);
+  for (QOCOInt i = 0; i < n; ++i) {
+    linsys_data->xyzbuff2[i] -= linsys_data->kkt_static_reg_P * x_scratch[i];
+  }
 
+  if (N == N_base) {
     for (QOCOInt k = 0; k < N; ++k) {
       x_scratch[k] = b[k] - linsys_data->xyzbuff2[linsys_data->p[k]];
     }
-
     return inf_norm(x_scratch, N);
   }
 
-  QOCOInt N = linsys_data->K->n;
-  (void)work;
-
   for (QOCOInt i = 0; i < N; ++i) {
-    linsys_data->xyzbuff2[i] = 0.0;
+    x_scratch[i] = 0.0;
   }
-
   for (QOCOInt col = 0; col < N; ++col) {
     for (QOCOInt p = linsys_data->K->p[col]; p < linsys_data->K->p[col + 1];
          ++p) {
       QOCOInt row = linsys_data->K->i[p];
       QOCOFloat val = linsys_data->K->x[p];
-      linsys_data->xyzbuff2[row] += val * linsys_data->xyzbuff1[col];
+      x_scratch[row] += val * linsys_data->xyzbuff1[col];
       if (row != col) {
-        linsys_data->xyzbuff2[col] += val * linsys_data->xyzbuff1[row];
+        x_scratch[col] += val * linsys_data->xyzbuff1[row];
       }
     }
   }
 
   for (QOCOInt k = 0; k < N; ++k) {
-    x_scratch[k] = b[k] - linsys_data->xyzbuff2[k];
+    QOCOInt idx = linsys_data->p[k];
+    if (idx < N_base) {
+      x_scratch[k] = b[k] - linsys_data->xyzbuff2[idx];
+    }
+    else {
+      x_scratch[k] = b[k] - x_scratch[k];
+    }
   }
 
   return inf_norm(x_scratch, N);
