@@ -350,7 +350,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
     }
 
     // For sparse SOC cones, additionally compute u, v, d, eta² for the
-    // rank-2 KKT expansion. sbar is Clarabel's normalized SOC scaling point w.
+    // rank-2 KKT expansion. sbar is QOCO's normalized SOC NT scaling point w.
     if (is_sparse) {
       QOCOFloat* u_arr = get_data_vectorf(work->nt_u_sparse);
       QOCOFloat* v_arr = get_data_vectorf(work->nt_v_sparse);
