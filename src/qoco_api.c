@@ -120,14 +120,32 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   }
   set_cpu_mode(0);
 
-  // Compute number of nonzeros in upper triangular NT scaling matrix.
+  // Compute number of nonzeros in upper triangular NT scaling matrix and mark
+  // SOC blocks that should use the sparse rank-2 expansion in the KKT.
   QOCOInt Wsoc_nnz = 0;
+  QOCOInt nsoc_sparse = 0;
+  QOCOInt nt_sparse_nnz = 0;
+  QOCOInt* soc_is_sparse =
+      nsoc > 0 ? (QOCOInt*)qoco_calloc(nsoc, sizeof(QOCOInt)) : NULL;
+  QOCOInt* sparse_soc_nt_idx =
+      nsoc > 0 ? (QOCOInt*)qoco_calloc(nsoc, sizeof(QOCOInt)) : NULL;
   for (QOCOInt i = 0; i < nsoc; ++i) {
     Wsoc_nnz += q[i] * q[i] - q[i];
+    if (q[i] > SOC_SPARSE_THRESHOLD) {
+      soc_is_sparse[i] = 1;
+      sparse_soc_nt_idx[nsoc_sparse] = nt_sparse_nnz;
+      nt_sparse_nnz += q[i];
+      nsoc_sparse += 1;
+    }
   }
   Wsoc_nnz /= 2;
   QOCOInt Wnnz = m + Wsoc_nnz;
   work->Wnnz = Wnnz;
+  work->nsoc_sparse = nsoc_sparse;
+  work->nt_sparse_nnz = nt_sparse_nnz;
+  work->soc_is_sparse = soc_is_sparse;
+  work->sparse_soc_nt_idx = new_qoco_vectori(sparse_soc_nt_idx, nsoc_sparse);
+  qoco_free(sparse_soc_nt_idx);
 
   QOCOInt* Wsoc_idx = NULL;
   QOCOInt* soc_idx = NULL;
@@ -149,8 +167,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->linsys = &backend;
 
   // Set up linear system data.
-  solver->linsys_data =
-      solver->linsys->linsys_setup(data, solver->settings, Wnnz);
+  solver->linsys_data = solver->linsys->linsys_setup(
+      data, solver->settings, Wnnz, nsoc_sparse, soc_is_sparse, nt_sparse_nnz,
+      get_data_vectori(work->sparse_soc_nt_idx));
   if (!solver->linsys_data) {
     return QOCO_SETUP_ERROR;
   }
@@ -178,6 +197,10 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   work->Winv = new_qoco_vectorf(NULL, work->Wnnz);
   work->Winvfull = new_qoco_vectorf(NULL, Wnnzfull);
   work->WtW = new_qoco_vectorf(NULL, work->Wnnz);
+  work->nt_u_sparse = new_qoco_vectorf(NULL, nt_sparse_nnz);
+  work->nt_v_sparse = new_qoco_vectorf(NULL, nt_sparse_nnz);
+  work->nt_eta2_sparse = new_qoco_vectorf(NULL, nsoc_sparse);
+  work->nt_d_sparse = new_qoco_vectorf(NULL, nsoc_sparse);
   work->lambda = new_qoco_vectorf(NULL, m);
 
   // For serial implementations of compute_nt scaling, sbar/zbar only need to be
@@ -193,10 +216,11 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   work->ubuff2 = new_qoco_vectorf(NULL, m);
   work->ubuff3 = new_qoco_vectorf(NULL, m);
   work->Ds = new_qoco_vectorf(NULL, m);
-  work->rhs = new_qoco_vectorf(NULL, n + m + p);
-  work->kktres = new_qoco_vectorf(NULL, n + m + p);
-  work->xyz = new_qoco_vectorf(NULL, n + m + p);
-  work->xyzbuff1 = new_qoco_vectorf(NULL, n + m + p);
+  QOCOInt N_exp = n + m + p + 2 * nsoc_sparse;
+  work->rhs = new_qoco_vectorf(NULL, N_exp);
+  work->kktres = new_qoco_vectorf(NULL, N_exp);
+  work->xyz = new_qoco_vectorf(NULL, N_exp);
+  work->xyzbuff1 = new_qoco_vectorf(NULL, N_exp);
 
   // Allocate solution struct.
   solver->sol = qoco_malloc(sizeof(QOCOSolution));
@@ -469,9 +493,8 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     compute_nt_scaling(work);
 
     // Update Nestrov-Todd block of KKT matrix.
-    solver->linsys->linsys_update_nt(solver->linsys_data, work->WtW,
-                                     solver->settings->kkt_static_reg_G,
-                                     data->m);
+    solver->linsys->linsys_update_nt(solver->linsys_data, work,
+                                     solver->settings->kkt_static_reg_G);
 
     // Reset IR iteration counter for this IPM step.
     work->ir_iters = 0;
@@ -536,6 +559,12 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   free_qoco_vectorf(solver->work->Winv);
   free_qoco_vectorf(solver->work->Winvfull);
   free_qoco_vectorf(solver->work->WtW);
+  qoco_free(solver->work->soc_is_sparse);
+  free_qoco_vectorf(solver->work->nt_u_sparse);
+  free_qoco_vectorf(solver->work->nt_v_sparse);
+  free_qoco_vectorf(solver->work->nt_eta2_sparse);
+  free_qoco_vectorf(solver->work->nt_d_sparse);
+  free_qoco_vectori(solver->work->sparse_soc_nt_idx);
   free_qoco_vectori(solver->work->Wsoc_idx);
   free_qoco_vectori(solver->work->soc_idx);
   free_qoco_vectorf(solver->work->lambda);

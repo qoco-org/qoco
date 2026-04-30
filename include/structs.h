@@ -243,6 +243,30 @@ typedef struct {
    * block */
   QOCOVectori* soc_idx;
 
+  /** Number of SOCs using sparse NT expansion (dim > SOC_SPARSE_THRESHOLD). */
+  QOCOInt nsoc_sparse;
+
+  /** Per-SOC flag: 1 if cone i uses sparse NT expansion, 0 otherwise. */
+  QOCOInt* soc_is_sparse;
+
+  /** Packed u vectors for sparse NT expansion (length nt_sparse_nnz). */
+  QOCOVectorf* nt_u_sparse;
+
+  /** Packed v vectors for sparse NT expansion (length nt_sparse_nnz). */
+  QOCOVectorf* nt_v_sparse;
+
+  /** eta^2 values for sparse SOCs (length nsoc_sparse). */
+  QOCOVectorf* nt_eta2_sparse;
+
+  /** d scalars for sparse SOCs (length nsoc_sparse). */
+  QOCOVectorf* nt_d_sparse;
+
+  /** Index into nt_u/v_sparse for the k-th sparse SOC (length nsoc_sparse). */
+  QOCOVectori* sparse_soc_nt_idx;
+
+  /** Total elements in nt_u_sparse / nt_v_sparse: sum of q[i] for sparse SOCs. */
+  QOCOInt nt_sparse_nnz;
+
   /** Scaled variables. */
   QOCOVectorf* lambda;
 
@@ -334,10 +358,12 @@ typedef struct LinSysData LinSysData;
 typedef struct {
   const char* (*linsys_name)();
   LinSysData* (*linsys_setup)(QOCOProblemData* data, QOCOSettings* settings,
-                              QOCOInt Wnnz);
-  void (*linsys_set_nt_identity)(LinSysData* linsys_data, QOCOInt m);
-  void (*linsys_update_nt)(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
-                           QOCOFloat kkt_static_reg_G, QOCOInt m);
+                              QOCOInt Wnnz, QOCOInt nsoc_sparse,
+                              QOCOInt* soc_is_sparse, QOCOInt nt_sparse_nnz,
+                              QOCOInt* sparse_soc_nt_idx);
+  void (*linsys_set_nt_identity)(LinSysData* linsys_data, QOCOWorkspace* work);
+  void (*linsys_update_nt)(LinSysData* linsys_data, QOCOWorkspace* work,
+                           QOCOFloat kkt_static_reg_G);
   void (*linsys_update_data)(LinSysData* linsys_data, QOCOProblemData* data);
   void (*linsys_factor)(LinSysData* linsys_data, QOCOInt n,
                         QOCOFloat kkt_dynamic_reg);

@@ -17,14 +17,21 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
                              QOCOInt n, QOCOInt m, QOCOInt p, QOCOInt l,
                              QOCOInt nsoc, QOCOInt* q, QOCOInt* PregtoKKT,
                              QOCOInt* AttoKKT, QOCOInt* GttoKKT,
-                             QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt, QOCOInt Wnnz)
+                             QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt,
+                             QOCOInt Wnnz, QOCOInt* soc_is_sparse,
+                             QOCOInt nsoc_sparse, QOCOInt nt_sparse_nnz,
+                             QOCOInt* sparse_soc_nt_idx,
+                             QOCOInt* nt_u2kkt, QOCOInt* nt_v2kkt,
+                             QOCOInt* nt_uvdiag2kkt)
 {
   QOCOCscMatrix* KKT = qoco_malloc(sizeof(QOCOCscMatrix));
 
-  KKT->m = n + m + p;
-  KKT->n = n + m + p;
+  QOCOInt N = n + m + p;
+  KKT->m = N + 2 * nsoc_sparse;
+  KKT->n = N + 2 * nsoc_sparse;
   QOCOInt Pnnz = P ? P->nnz : 0;
-  KKT->nnz = Pnnz + A->nnz + G->nnz + Wnnz + p;
+  // Each sparse SOC of dim q adds 2*(q+1) extra nonzeros (u and v columns with q entries + diagonal each).
+  KKT->nnz = Pnnz + A->nnz + G->nnz + Wnnz + p + 2 * nt_sparse_nnz + 2 * nsoc_sparse;
 
   KKT->x = qoco_calloc(KKT->nnz, sizeof(QOCOFloat));
   KKT->i = qoco_calloc(KKT->nnz, sizeof(QOCOInt));
@@ -48,7 +55,6 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
     }
   }
   else {
-    // No quadratic term; KKT->p[0..n] already zero from calloc.
     col = n + 1;
   }
 
@@ -56,7 +62,6 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
   for (QOCOInt Atcol = 0; Atcol < At->n; ++Atcol) {
     QOCOInt nzadded = 0;
     for (QOCOInt k = At->p[Atcol]; k < At->p[Atcol + 1]; ++k) {
-      // If the nonzero is in row i of A then add
       if (AttoKKT) {
         AttoKKT[k] = nz;
       }
@@ -65,8 +70,6 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
       nz += 1;
       nzadded += 1;
     }
-
-    // Add -e * Id regularization.
     KKT->x[nz] = -kkt_static_reg_A;
     KKT->i[nz] = n + Atcol;
     nz += 1;
@@ -75,12 +78,10 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
     col += 1;
   }
 
-  // Add non-negative orthant part of G^T.
+  // Add LP cone part of G^T (diagonal NT block).
   QOCOInt nz_nt = 0;
   QOCOInt diag = 0;
   for (QOCOInt Gtcol = 0; Gtcol < l; ++Gtcol) {
-
-    // Counter for number of nonzeros from G added to this column of KKT matrix
     QOCOInt nzadded = 0;
     for (QOCOInt k = Gt->p[Gtcol]; k < Gt->p[Gtcol + 1]; ++k) {
       if (GttoKKT) {
@@ -91,75 +92,122 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
       nz += 1;
       nzadded += 1;
     }
-
-    // Add -Id to NT block.
     KKT->x[nz] = -1.0;
     KKT->i[nz] = n + p + Gtcol;
     KKT->p[col] = KKT->p[col - 1] + nzadded + 1;
-
-    // Mapping from NT matrix entries to KKT matrix entries.
-    if (nt2kkt) {
-      nt2kkt[nz_nt] = nz;
-    }
-    if (ntdiag2kkt) {
-      ntdiag2kkt[diag] = nz;
-    }
+    if (nt2kkt) nt2kkt[nz_nt] = nz;
+    if (ntdiag2kkt) ntdiag2kkt[diag] = nz;
     diag++;
     nz_nt += 1;
-
     nz += 1;
     col += 1;
   }
 
-  // Add second-order cone parts of G^T.
+  // Add SOC parts of G^T.
   QOCOInt idx = l;
+  QOCOInt sp_cone = 0; // sparse SOC counter
   for (QOCOInt c = 0; c < nsoc; ++c) {
+    QOCOInt is_sparse = soc_is_sparse ? soc_is_sparse[c] : 0;
     for (QOCOInt Gtcol = idx; Gtcol < idx + q[c]; ++Gtcol) {
-      // Loop over columns of G
-
-      // Counter for number of nonzeros from G added to this column of KKT
-      // matrix
       QOCOInt nzadded = 0;
       for (QOCOInt k = Gt->p[Gtcol]; k < Gt->p[Gtcol + 1]; ++k) {
-        if (GttoKKT) {
-          GttoKKT[k] = nz;
-        }
+        if (GttoKKT) GttoKKT[k] = nz;
         KKT->x[nz] = Gt->x[k];
         KKT->i[nz] = Gt->i[k];
         nz += 1;
         nzadded += 1;
       }
 
-      // Add NT block.
-      for (QOCOInt i = idx; i < idx + q[c]; i++) {
-        // Only add upper triangular part.
-        if (i + n + p <= col - 1) {
-          // Add -1 if element is on main diagonal and 0 otherwise.
-          if (i + n + p == col - 1) {
-            KKT->x[nz] = -1.0;
-            if (ntdiag2kkt) {
-              ntdiag2kkt[diag] = nz;
+      if (is_sparse) {
+        // Sparse SOC: only add diagonal entry for this column.
+        KKT->x[nz] = -1.0;
+        KKT->i[nz] = n + p + Gtcol;
+        if (nt2kkt) nt2kkt[nz_nt] = nz;
+        if (ntdiag2kkt) ntdiag2kkt[diag] = nz;
+        diag++;
+        nz_nt += 1;
+        nz += 1;
+        nzadded += 1;
+      }
+      else {
+        // Dense SOC: add full upper triangular NT block.
+        for (QOCOInt i = idx; i < idx + q[c]; i++) {
+          if (i + n + p <= col - 1) {
+            if (i + n + p == col - 1) {
+              KKT->x[nz] = -1.0;
+              if (ntdiag2kkt) ntdiag2kkt[diag] = nz;
+              diag++;
             }
-            diag++;
+            else {
+              KKT->x[nz] = 0.0;
+            }
+            KKT->i[nz] = n + p + i;
+            if (nt2kkt) nt2kkt[nz_nt] = nz;
+            nz_nt += 1;
+            nz += 1;
+            nzadded += 1;
           }
-          else {
-            KKT->x[nz] = 0.0;
-          }
-          KKT->i[nz] = n + p + i;
-          if (nt2kkt) {
-            nt2kkt[nz_nt] = nz;
-          }
-          nz_nt += 1;
-          nz += 1;
-          nzadded += 1;
         }
       }
       KKT->p[col] = KKT->p[col - 1] + nzadded;
-      // Mapping from NT matrix entries to KKT matrix entries.
       col += 1;
     }
+    if (is_sparse) sp_cone++;
     idx += q[c];
   }
+
+  // Add extra columns for sparse SOC u and v vectors (at positions N..N+2*nsoc_sparse-1).
+  // Reset to iterate over sparse cones in order.
+  sp_cone = 0;
+  QOCOInt cone_start = l; // z-block start index for current SOC
+  for (QOCOInt c = 0; c < nsoc; ++c) {
+    if (soc_is_sparse && soc_is_sparse[c]) {
+      QOCOInt qi = q[c];
+      QOCOInt soc_row_start = n + p + cone_start; // KKT row of first z-element
+
+      // u column: q off-diagonal entries + 1 diagonal.
+      QOCOInt nzadded = 0;
+      for (QOCOInt j = 0; j < qi; ++j) {
+        KKT->x[nz] = 0.0; // filled by update_nt: -eta2 * u[j]
+        KKT->i[nz] = soc_row_start + j;
+        if (nt_u2kkt) nt_u2kkt[sparse_soc_nt_idx ? sparse_soc_nt_idx[sp_cone] + j : 0] = nz;
+        nz += 1;
+        nzadded += 1;
+      }
+      // Diagonal entry for u column at row N+2k.
+      KKT->x[nz] = 1.0; // filled by update_nt: +eta2
+      KKT->i[nz] = col - 1; // current column index
+      if (nt_uvdiag2kkt) nt_uvdiag2kkt[2 * sp_cone] = nz;
+      nz += 1;
+      nzadded += 1;
+      KKT->p[col] = KKT->p[col - 1] + nzadded;
+      col += 1;
+
+      // v column: q off-diagonal entries + 1 diagonal.
+      nzadded = 0;
+      for (QOCOInt j = 0; j < qi; ++j) {
+        KKT->x[nz] = 0.0; // filled by update_nt: -eta2 * v[j]
+        KKT->i[nz] = soc_row_start + j;
+        if (nt_v2kkt) nt_v2kkt[sparse_soc_nt_idx ? sparse_soc_nt_idx[sp_cone] + j : 0] = nz;
+        nz += 1;
+        nzadded += 1;
+      }
+      // Diagonal entry for v column at row N+2k+1.
+      KKT->x[nz] = -1.0; // filled by update_nt: -eta2
+      KKT->i[nz] = col - 1; // current column index
+      if (nt_uvdiag2kkt) nt_uvdiag2kkt[2 * sp_cone + 1] = nz;
+      nz += 1;
+      nzadded += 1;
+      KKT->p[col] = KKT->p[col - 1] + nzadded;
+      col += 1;
+
+      sp_cone++;
+    }
+    cone_start += q[c];
+  }
+
+  KKT->p[KKT->n] = nz;
+
   return KKT;
 }
 
@@ -175,7 +223,7 @@ void initialize_ipm(QOCOSolver* solver)
   // Set Nesterov-Todd block in Wfull to -I (need for kkt_multiply in iterative
   // refinement).
   set_Wfull_identity(work->Wfull, work->Wnnzfull, work->Wsoc_idx, data);
-  solver->linsys->linsys_set_nt_identity(solver->linsys_data, data->m);
+  solver->linsys->linsys_set_nt_identity(solver->linsys_data, work);
 
   // Needs to be set to 1.0 not 0.0 due to low tolerance stopping criteria
   // checks which only occur when a = 0.0. If a is set to 0.0 then the low
