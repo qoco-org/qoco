@@ -28,9 +28,6 @@ void set_nt_scaling_identity(QOCOVectorf* nt_scaling, QOCOInt nt_scaling_nnz,
     QOCOInt qi = get_element_vectori(data->q, i);
     nt_scaling_data[idx] = 1.0;
     nt_scaling_data[idx + 1] = 1.0;
-    for (QOCOInt k = 2; k <= qi; ++k) {
-      nt_scaling_data[idx + k] = 0.0;
-    }
     idx += qi + 1;
   }
 }
@@ -225,7 +222,7 @@ static void nt_multiply_impl(QOCOFloat* W, QOCOInt* nt_scaling_soc_idx,
   (void)m;
   // Compute product for LP cone part of W.
   for (QOCOInt i = 0; i < l; ++i) {
-    z[i] = inverse ? safe_div(x[i], W[i]) : (W[i] * x[i]);
+    z[i] = inverse ? (safe_div(1.0, W[i]) * x[i]) : (W[i] * x[i]);
   }
 
   // Compute product for second-order cones using fast O(m) operations
