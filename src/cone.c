@@ -11,24 +11,27 @@
 #include "cone.h"
 #include "qoco_utils.h"
 
-void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
-                        QOCOVectori* Wsoc_idx, QOCOProblemData* data)
+void set_nt_scaling_identity(QOCOVectorf* nt_scaling, QOCOInt nt_scaling_nnz,
+                             QOCOVectori* nt_scaling_soc_idx,
+                             QOCOProblemData* data)
 {
-  (void)Wsoc_idx;
-  QOCOFloat* Wfull_data = get_data_vectorf(Wfull);
-  for (QOCOInt i = 0; i < Wnnzfull; ++i) {
-    Wfull_data[i] = 0.0;
+  (void)nt_scaling_soc_idx;
+  QOCOFloat* nt_scaling_data = get_data_vectorf(nt_scaling);
+  for (QOCOInt i = 0; i < nt_scaling_nnz; ++i) {
+    nt_scaling_data[i] = 0.0;
   }
   for (QOCOInt i = 0; i < data->l; ++i) {
-    Wfull_data[i] = 1.0;
+    nt_scaling_data[i] = 1.0;
   }
   QOCOInt idx = data->l;
   for (QOCOInt i = 0; i < data->nsoc; ++i) {
     QOCOInt qi = get_element_vectori(data->q, i);
-    for (QOCOInt k = 0; k < qi; ++k) {
-      Wfull_data[idx + k * qi + k] = 1.0;
+    nt_scaling_data[idx] = 1.0;
+    nt_scaling_data[idx + 1] = 1.0;
+    for (QOCOInt k = 2; k <= qi; ++k) {
+      nt_scaling_data[idx + k] = 0.0;
     }
-    idx += qi * qi;
+    idx += qi + 1;
   }
 }
 
@@ -212,15 +215,16 @@ void bring2cone(QOCOFloat* u, QOCOInt* soc_idx, QOCOProblemData* data)
   }
 }
 
-void nt_multiply(QOCOFloat* W, QOCOInt* Wsoc_idx, QOCOInt* soc_idx,
-                 QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m, QOCOInt nsoc,
-                 QOCOInt* q)
+static void nt_multiply_impl(QOCOFloat* W, QOCOInt* nt_scaling_soc_idx,
+                             QOCOInt* soc_idx, QOCOFloat* x, QOCOFloat* z,
+                             QOCOInt l, QOCOInt m, QOCOInt nsoc, QOCOInt* q,
+                             QOCOInt inverse)
 {
-  (void)Wsoc_idx;
+  (void)nt_scaling_soc_idx;
   (void)soc_idx;
   // Compute product for LP cone part of W.
   for (QOCOInt i = 0; i < l; ++i) {
-    z[i] = (W[i] * x[i]);
+    z[i] = inverse ? safe_div(x[i], W[i]) : (W[i] * x[i]);
   }
 
   // Compute product for second-order cones.
@@ -234,22 +238,52 @@ void nt_multiply(QOCOFloat* W, QOCOInt* Wsoc_idx, QOCOInt* soc_idx,
 
   // Loop over all second-order cones.
   for (QOCOInt i = 0; i < nsoc; ++i) {
-    // Loop over elements within a second-order cone.
-    for (QOCOInt j = 0; j < q[i]; ++j) {
-      z[idx + j] += qoco_dot(&W[nt_idx + j * q[i]], &x[idx], q[i]);
+    QOCOFloat scale = inverse ? safe_div(1.0, W[nt_idx]) : W[nt_idx];
+    QOCOFloat w0 = W[nt_idx + 1];
+    QOCOFloat* w1 = &W[nt_idx + 2];
+    QOCOFloat x0 = x[idx];
+    QOCOFloat zeta = qoco_dot(w1, &x[idx + 1], q[i] - 1);
+    QOCOFloat w0p1_inv = safe_div(1.0, 1.0 + w0);
+
+    if (inverse) {
+      z[idx] = scale * (w0 * x0 - zeta);
+      QOCOFloat coeff = -x0 + zeta * w0p1_inv;
+      for (QOCOInt j = 1; j < q[i]; ++j) {
+        z[idx + j] = scale * (x[idx + j] + coeff * w1[j - 1]);
+      }
+    }
+    else {
+      z[idx] = scale * (w0 * x0 + zeta);
+      QOCOFloat coeff = x0 + zeta * w0p1_inv;
+      for (QOCOInt j = 1; j < q[i]; ++j) {
+        z[idx + j] = scale * (x[idx + j] + coeff * w1[j - 1]);
+      }
     }
     idx += q[i];
-    nt_idx += q[i] * q[i];
+    nt_idx += q[i] + 1;
   }
+}
+
+void nt_multiply(QOCOFloat* W, QOCOInt* nt_scaling_soc_idx, QOCOInt* soc_idx,
+                 QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m, QOCOInt nsoc,
+                 QOCOInt* q)
+{
+  nt_multiply_impl(W, nt_scaling_soc_idx, soc_idx, x, z, l, m, nsoc, q, 0);
+}
+
+void nt_multiply_inv(QOCOFloat* W, QOCOInt* nt_scaling_soc_idx,
+                     QOCOInt* soc_idx, QOCOFloat* x, QOCOFloat* z, QOCOInt l,
+                     QOCOInt m, QOCOInt nsoc, QOCOInt* q)
+{
+  nt_multiply_impl(W, nt_scaling_soc_idx, soc_idx, x, z, l, m, nsoc, q, 1);
 }
 
 void compute_nt_scaling(QOCOWorkspace* work)
 {
   QOCOFloat* W = get_data_vectorf(work->W);
   QOCOFloat* WtW = get_data_vectorf(work->WtW);
-  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* nt_scaling = get_data_vectorf(work->nt_scaling);
   QOCOFloat* Winv = get_data_vectorf(work->Winv);
-  QOCOFloat* Winvfull = get_data_vectorf(work->Winvfull);
   QOCOFloat* sbar = get_data_vectorf(work->sbar);
   QOCOFloat* zbar = get_data_vectorf(work->zbar);
   QOCOFloat* lambda = get_data_vectorf(work->lambda);
@@ -260,9 +294,8 @@ void compute_nt_scaling(QOCOWorkspace* work)
     WtW[idx] = safe_div(get_element_vectorf(work->s, idx),
                         get_element_vectorf(work->z, idx));
     W[idx] = qoco_sqrt(WtW[idx]);
-    Wfull[idx] = W[idx];
+    nt_scaling[idx] = W[idx];
     Winv[idx] = safe_div(1.0, W[idx]);
-    Winvfull[idx] = Winv[idx];
   }
 
   // Compute Nesterov-Todd scaling for second-order cones.
@@ -297,55 +330,40 @@ void compute_nt_scaling(QOCOWorkspace* work)
     QOCOFloat w1sq = qoco_dot(&sbar[1], &sbar[1], qi - 1);
     sbar[0] = qoco_sqrt(1.0 + w1sq);
 
-    // Overwrite zbar with v (= Clarabel's normalized w vector).
-    f = safe_div(1.0, qoco_sqrt(2 * (sbar[0] + 1)));
-    zbar[0] = f * (sbar[0] + 1.0);
-    for (QOCOInt j = 1; j < qi; ++j) {
-      zbar[j] = f * sbar[j];
-    }
-
     // eta = sqrt(s_scal / z_scal)
     f = qoco_sqrt(safe_div(s_scal, z_scal));
-    QOCOFloat finv = safe_div(1.0, f);
 
-    // Compute W and Wfull for all SOC cones (needed for W*x operations).
-    QOCOInt shift = 0;
-    for (QOCOInt j = 0; j < qi; ++j) {
-      for (QOCOInt k = 0; k <= j; ++k) {
-        QOCOInt full_idx1 = nt_idx_full + j * qi + k;
-        QOCOInt full_idx2 = nt_idx_full + k * qi + j;
-        W[nt_idx + shift] = 2 * (zbar[k] * zbar[j]);
-        if (j != 0 && k == 0) {
-          Winv[nt_idx + shift] = -W[nt_idx + shift];
-        }
-        else {
-          Winv[nt_idx + shift] = W[nt_idx + shift];
-        }
-        if (j == k && j == 0) {
-          W[nt_idx + shift] -= 1;
-          Winv[nt_idx + shift] -= 1;
-        }
-        else if (j == k) {
-          W[nt_idx + shift] += 1;
-          Winv[nt_idx + shift] += 1;
-        }
-        W[nt_idx + shift] *= f;
-        Winv[nt_idx + shift] *= finv;
-        Wfull[full_idx1] = W[nt_idx + shift];
-        Wfull[full_idx2] = W[nt_idx + shift];
-        Winvfull[full_idx1] = Winv[nt_idx + shift];
-        Winvfull[full_idx2] = Winv[nt_idx + shift];
-        shift += 1;
-      }
+    // Store fast scaling parameters for O(qi) W*x and W^{-1}*x operations.
+    nt_scaling[nt_idx_full] = f;
+    nt_scaling[nt_idx_full + 1] = sbar[0];
+    for (QOCOInt j = 1; j < qi; ++j) {
+      nt_scaling[nt_idx_full + 1 + j] = sbar[j];
     }
 
-    // Compute WtW for this SOC cone.
-    shift = 0;
-    for (QOCOInt j = 0; j < qi; ++j) {
-      for (QOCOInt k = 0; k <= j; ++k) {
-        WtW[nt_idx + shift] = qoco_dot(&Wfull[nt_idx_full + j * qi],
-                                       &Wfull[nt_idx_full + k * qi], qi);
-        shift += 1;
+    // Compute WtW = eta^2 * (2*w*w' - J). Sparse SOCs only need the diagonal
+    // entries because off-diagonals are represented by the ECOS rank-2 lift.
+    QOCOFloat eta2_soc = f * f;
+    if (is_sparse) {
+      WtW[nt_idx] = eta2_soc * (2.0 * sbar[0] * sbar[0] - 1.0);
+      for (QOCOInt j = 1; j < qi; ++j) {
+        QOCOInt diag_idx = nt_idx + (j * (j + 1)) / 2 + j;
+        WtW[diag_idx] = eta2_soc * (2.0 * sbar[j] * sbar[j] + 1.0);
+      }
+    }
+    else {
+      QOCOInt shift = 0;
+      for (QOCOInt j = 0; j < qi; ++j) {
+        for (QOCOInt k = 0; k <= j; ++k) {
+          QOCOFloat val = eta2_soc * 2.0 * sbar[j] * sbar[k];
+          if (j == k && j == 0) {
+            val -= eta2_soc;
+          }
+          else if (j == k) {
+            val += eta2_soc;
+          }
+          WtW[nt_idx + shift] = val;
+          shift += 1;
+        }
       }
     }
 
@@ -380,11 +398,11 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
     idx += qi;
     nt_idx += (qi * qi + qi) / 2;
-    nt_idx_full += qi * qi;
+    nt_idx_full += qi + 1;
   }
 
   // Compute scaled variable lambda. lambda = W * z.
-  nt_multiply(Wfull, NULL, NULL, get_pointer_vectorf(work->z, 0), lambda,
+  nt_multiply(nt_scaling, NULL, NULL, get_pointer_vectorf(work->z, 0), lambda,
               work->data->l, work->data->m, work->data->nsoc,
               get_data_vectori(work->data->q));
 }

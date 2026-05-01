@@ -278,8 +278,8 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
   QOCOInt N = linsys_data->K->n;
   QOCOInt n = work->data->n;
   QOCOInt N_base = work->data->n + work->data->p + work->data->m;
-  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
-  QOCOInt* Wsoc_idx = get_data_vectori(work->Wsoc_idx);
+  QOCOFloat* nt_scaling = get_data_vectorf(work->nt_scaling);
+  QOCOInt* nt_scaling_soc_idx = get_data_vectori(work->nt_scaling_soc_idx);
   QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
   QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
@@ -289,8 +289,8 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
     x_scratch[linsys_data->p[i]] = linsys_data->xyzbuff1[i];
   }
 
-  kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, Wfull, Wsoc_idx,
-               soc_idx, xbuff, ubuff1, ubuff2);
+  kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, nt_scaling,
+               nt_scaling_soc_idx, soc_idx, xbuff, ubuff1, ubuff2);
   for (QOCOInt i = 0; i < n; ++i) {
     linsys_data->xyzbuff2[i] -= linsys_data->kkt_static_reg_P * x_scratch[i];
   }

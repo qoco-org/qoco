@@ -391,8 +391,7 @@ static void csc_to_csr_device(const QOCOCscMatrix* csc, QOCOInt** csr_row_ptr,
 
 static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
                                QOCOInt Wnnz, QOCOInt nsoc_sparse,
-                               QOCOInt* soc_is_sparse,
-                               QOCOInt nt_sparse_nnz,
+                               QOCOInt* soc_is_sparse, QOCOInt nt_sparse_nnz,
                                QOCOInt* sparse_soc_nt_idx)
 {
   (void)nsoc_sparse;
@@ -454,10 +453,10 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   QOCOCscMatrix* Kcsc = construct_kkt(
       get_csc_matrix(data->P), get_csc_matrix(data->A), get_csc_matrix(data->G),
       get_csc_matrix(data->At), get_csc_matrix(data->Gt),
-      settings->kkt_static_reg_A, data->n, data->m, data->p, data->l, data->nsoc,
-      get_data_vectori(data->q), linsys_data->PregtoKKT, linsys_data->AttoKKT,
-      linsys_data->GttoKKT, linsys_data->nt2kkt, linsys_data->ntdiag2kkt,
-      Wnnz, NULL, 0, 0, NULL, NULL, NULL, NULL);
+      settings->kkt_static_reg_A, data->n, data->m, data->p, data->l,
+      data->nsoc, get_data_vectori(data->q), linsys_data->PregtoKKT,
+      linsys_data->AttoKKT, linsys_data->GttoKKT, linsys_data->nt2kkt,
+      linsys_data->ntdiag2kkt, Wnnz, NULL, 0, 0, NULL, NULL, NULL, NULL);
   set_cpu_mode(0);
 
   // Convert KKT matrix from CSC (CPU) to CSR (GPU) for cuDSS
@@ -468,8 +467,8 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   QOCOInt* h_csr_col_ind;
   QOCOInt* csc2csr;
 
-  csc_to_csr_device(Kcsc, &csr_row_ptr, &csr_col_ind, &csr_val,
-                    &h_csr_row_ptr, &h_csr_col_ind, &csc2csr);
+  csc_to_csr_device(Kcsc, &csr_row_ptr, &csr_col_ind, &csr_val, &h_csr_row_ptr,
+                    &h_csr_col_ind, &csc2csr);
 
   // Build nt2kktcsr and ntdiag2kktcsr mappings (CSR indices instead of CSC)
   QOCOInt* nt2kktcsr = NULL;
@@ -609,8 +608,7 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
 __global__ void
 update_csr_nt_blocks_kernel(const QOCOFloat* WtW, // NT block values (on GPU)
                             QOCOFloat* csr_val, // CSR values to update (on GPU)
-                            const QOCOInt* nt2kktcsr,
-                            QOCOInt Wnnz)
+                            const QOCOInt* nt2kktcsr, QOCOInt Wnnz)
 {
   QOCOInt idx = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -710,12 +708,11 @@ static void cudss_solve_system(LinSysData* linsys_data, const QOCOFloat* rhs,
  */
 static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
                                          QOCOWorkspace* work,
-                                         const QOCOFloat* b,
-                                         const QOCOFloat* x,
+                                         const QOCOFloat* b, const QOCOFloat* x,
                                          QOCOFloat* residual_scratch)
 {
-  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
-  QOCOInt* Wsoc_idx = get_data_vectori(work->Wsoc_idx);
+  QOCOFloat* nt_scaling = get_data_vectorf(work->nt_scaling);
+  QOCOInt* nt_scaling_soc_idx = get_data_vectori(work->nt_scaling_soc_idx);
   QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
   QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
@@ -725,8 +722,8 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
 
   // d_rhs_matrix_data is scratch here; cudss_solve_system overwrites it before
   // every cuDSS solve.
-  kkt_multiply((QOCOFloat*)x, linsys_data->d_rhs_matrix_data, work->data, Wfull,
-               Wsoc_idx, soc_idx, xbuff, ubuff1, ubuff2);
+  kkt_multiply((QOCOFloat*)x, linsys_data->d_rhs_matrix_data, work->data,
+               nt_scaling, nt_scaling_soc_idx, soc_idx, xbuff, ubuff1, ubuff2);
 
   // data->P stores P + eps_P * I, so remove the P regularization from the
   // product before measuring the true KKT residual.
@@ -766,14 +763,13 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
 #ifdef QOCO_LOGGING
   FILE* log_f = fopen("qoco_log.txt", "a");
   if (log_f) {
-    log_linsys_error(linsys_data, work, b, x, residual, "initial solve",
-                     log_f);
+    log_linsys_error(linsys_data, work, b, x, residual, "initial solve", log_f);
   }
 #endif
 
   QOCOFloat* best_sol = get_data_vectorf(work->xyzbuff1);
-  QOCOFloat best_res = compute_linsys_residual(linsys_data, work, b, x,
-                                               residual);
+  QOCOFloat best_res =
+      compute_linsys_residual(linsys_data, work, b, x, residual);
   copy_arrayf(x, best_sol, linsys_data->Kn);
 
   QOCOInt ir_count = 0;
@@ -790,8 +786,8 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
     // x_new = x_old + dx.
     qoco_axpy(linsys_data->d_xyz_matrix_data, x, x, 1.0, linsys_data->Kn);
 
-    QOCOFloat new_res = compute_linsys_residual(linsys_data, work, b, x,
-                                                residual);
+    QOCOFloat new_res =
+        compute_linsys_residual(linsys_data, work, b, x, residual);
 
 #ifdef QOCO_LOGGING
     if (log_f) {
