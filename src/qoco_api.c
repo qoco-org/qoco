@@ -129,21 +129,25 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   QOCOInt Wnnz = m + Wsoc_nnz;
   work->Wnnz = Wnnz;
 
-  QOCOInt* Wsoc_idx = NULL;
+  QOCOInt* nt_scaling_soc_idx = NULL;
   QOCOInt* soc_idx = NULL;
   if (nsoc > 0) {
-    Wsoc_idx = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
+    nt_scaling_soc_idx = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
     soc_idx = (QOCOInt*)qoco_malloc(nsoc * sizeof(QOCOInt));
-    Wsoc_idx[0] = l;
+    nt_scaling_soc_idx[0] = l;
     soc_idx[0] = l;
     for (QOCOInt i = 1; i < nsoc; ++i) {
-      Wsoc_idx[i] = Wsoc_idx[i - 1] + q[i - 1] * q[i - 1];
+#ifdef QOCO_ALGEBRA_BACKEND_CUDA
+      nt_scaling_soc_idx[i] = nt_scaling_soc_idx[i - 1] + q[i - 1] * q[i - 1];
+#else
+      nt_scaling_soc_idx[i] = nt_scaling_soc_idx[i - 1] + q[i - 1] + 1;
+#endif
       soc_idx[i] = soc_idx[i - 1] + q[i - 1];
     }
   }
-  work->Wsoc_idx = new_qoco_vectori(Wsoc_idx, nsoc);
+  work->nt_scaling_soc_idx = new_qoco_vectori(nt_scaling_soc_idx, nsoc);
   work->soc_idx = new_qoco_vectori(soc_idx, nsoc);
-  qoco_free(Wsoc_idx);
+  qoco_free(nt_scaling_soc_idx);
   qoco_free(soc_idx);
 
   solver->linsys = &backend;
@@ -164,19 +168,22 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   work->ir_iters = 0;
 
   // Allocate Nesterov-Todd scalings and scaled variables.
-  QOCOInt Wnnzfull = data->l;
+  QOCOInt nt_scaling_nnz = data->l;
   set_cpu_mode(1);
   for (QOCOInt i = 0; i < data->nsoc; ++i) {
-    Wnnzfull +=
-        get_element_vectori(data->q, i) * get_element_vectori(data->q, i);
+#ifdef QOCO_ALGEBRA_BACKEND_CUDA
+    QOCOInt qi = get_element_vectori(data->q, i);
+    nt_scaling_nnz += qi * qi;
+#else
+    nt_scaling_nnz += get_element_vectori(data->q, i) + 1;
+#endif
   }
   set_cpu_mode(0);
 
   work->W = new_qoco_vectorf(NULL, work->Wnnz);
-  work->Wfull = new_qoco_vectorf(NULL, Wnnzfull);
-  work->Wnnzfull = Wnnzfull;
+  work->nt_scaling = new_qoco_vectorf(NULL, nt_scaling_nnz);
+  work->nt_scaling_nnz = nt_scaling_nnz;
   work->Winv = new_qoco_vectorf(NULL, work->Wnnz);
-  work->Winvfull = new_qoco_vectorf(NULL, Wnnzfull);
   work->WtW = new_qoco_vectorf(NULL, work->Wnnz);
   work->lambda = new_qoco_vectorf(NULL, m);
 
@@ -532,11 +539,10 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
 
   // Free Nesterov-Todd scalings and scaled variables.
   free_qoco_vectorf(solver->work->W);
-  free_qoco_vectorf(solver->work->Wfull);
+  free_qoco_vectorf(solver->work->nt_scaling);
   free_qoco_vectorf(solver->work->Winv);
-  free_qoco_vectorf(solver->work->Winvfull);
   free_qoco_vectorf(solver->work->WtW);
-  free_qoco_vectori(solver->work->Wsoc_idx);
+  free_qoco_vectori(solver->work->nt_scaling_soc_idx);
   free_qoco_vectori(solver->work->soc_idx);
   free_qoco_vectorf(solver->work->lambda);
   free_qoco_vectorf(solver->work->sbar);

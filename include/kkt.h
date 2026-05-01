@@ -152,14 +152,16 @@ void predictor_corrector(QOCOSolver* solver);
  * @param x Pointer to input vector.
  * @param y Pointer to output vector.
  * @param data Pointer to problem data.
- * @param Wfull Pointer to full NT scaling matrix W.
- * @param Wsoc_idx Vector pointing to the start of each SOC block in Wfull.
+ * @param nt_scaling Pointer to NT scaling data.
+ * @param nt_scaling_soc_idx Vector pointing to the start of each SOC block in
+ * nt_scaling.
  * @param soc_idx Array pointing to the start of each SOC block in x and y.
  * @param nbuff Temporary buffer of length n.
  * @param mbuff1 Temporary buffer of length m.
  * @param mbuff2 Temporary buffer of length m.
  */
 void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
-                  QOCOFloat* Wfull, QOCOInt* Wsoc_idx, QOCOInt* soc_idx,
-                  QOCOFloat* nbuff, QOCOFloat* mbuff1, QOCOFloat* mbuff2);
+                  QOCOFloat* nt_scaling, QOCOInt* nt_scaling_soc_idx,
+                  QOCOInt* soc_idx, QOCOFloat* nbuff, QOCOFloat* mbuff1,
+                  QOCOFloat* mbuff2);
 #endif /* #ifndef QOCO_KKT_H */
