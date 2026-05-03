@@ -3,6 +3,7 @@ import sys
 import subprocess
 from utils.run_benchmarks import run_benchmarks
 import os
+import shutil
 
 def checkout_branch(branch_name, is_diff=False):
     """
@@ -100,6 +101,13 @@ if __name__ == "__main__":
     diff_results = temp_results_dir+f"{diff_config_name}.csv"
     run_benchmarks(bin_dir=bin_dir, settings=diff_settings, output_csv=diff_results)
 
+    # Copy benchmark data before checking out baseline — the data directory
+    # layout may differ between branches (e.g. benchmarks/data/mm/ vs benchmarks/data/).
+    tmp_bin_dir = f"/tmp/qoco_bench_data_{os.path.basename(bin_dir)}"
+    if os.path.exists(tmp_bin_dir):
+        shutil.rmtree(tmp_bin_dir)
+    shutil.copytree(bin_dir, tmp_bin_dir)
+
     # Checkout and build the baseline branch
     checkout_branch(baseline_branch, is_diff=False)
     build_solver(baseline_backend)
@@ -107,7 +115,7 @@ if __name__ == "__main__":
     # Run baseline solver
     baseline_settings = format_settings(baseline_config)
     baseline_results = temp_results_dir+f"{baseline_config_name}.csv"
-    run_benchmarks(bin_dir=bin_dir, settings=baseline_settings, output_csv=baseline_results)
+    run_benchmarks(bin_dir=tmp_bin_dir, settings=baseline_settings, output_csv=baseline_results)
 
     # Generate performance profiles
     subprocess.run(["python", "benchmarks/utils/compute_performance_profiles.py", baseline_results, diff_results], check=True)
