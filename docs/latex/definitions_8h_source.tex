@@ -1,0 +1,66 @@
+\doxysection{definitions.\+h}
+\hypertarget{definitions_8h_source}{}\label{definitions_8h_source}\index{/home/govind/Desktop/git/qoco/include/definitions.h@{/home/govind/Desktop/git/qoco/include/definitions.h}}
+\mbox{\hyperlink{definitions_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ QOCO\_DEFINITIONS\_H}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ QOCO\_DEFINITIONS\_H}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{qoco__config_8h}{qoco\_config.h}}"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ Define\ QOCOInt\ and\ QOCOFloat.}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <limits.h>}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}};}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ QOCOInt\_MAX\ INT\_MAX}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#ifdef\ MATLAB}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ printf\ mexPrintf}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#ifdef\ QOCO\_SINGLE\_PRECISION}}
+\DoxyCodeLine{00030\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}};}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#ifdef\ IS\_WINDOWS}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ QOCOFloat\_MAX\ 3.4e38f}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ QOCOFloat\_MAX\ \_\_FLT\_MAX\_\_}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00037\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}};}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#ifdef\ IS\_WINDOWS}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ QOCOFloat\_MAX\ 1e308}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ QOCOFloat\_MAX\ \_\_DBL\_MAX\_\_}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ qoco\_max(a,\ b)\ (((a)\ >\ (b))\ ?\ (a)\ :\ (b))}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ qoco\_min(a,\ b)\ (((a)\ <\ (b))\ ?\ (a)\ :\ (b))}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ qoco\_abs(a)\ (((a)\ >\ 0)\ ?\ (a)\ :\ (-\/(a)))}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ safe\_div(a,\ b)\ ((qoco\_abs(b)\ >\ 1e-\/15)\ ?\ ((a)\ /\ (b))\ :\ QOCOFloat\_MAX)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ qoco\_sqrt(a)\ sqrt(a)}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#if\ defined(QOCO\_DEBUG)\ \&\&\ defined(IS\_LINUX)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#include\ <assert.h>}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ qoco\_assert(a)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ do\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\ \ \ \ if\ (!(a))\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ \ \ printf("{}Assertion\ Failed:\ \%s\(\backslash\)n"{},\ \#a);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ \ \ \_\_asm\_\_\ volatile("{}int\ \$0x03"{});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \}\ while\ (0)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ qoco\_assert(a)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\ \ do\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\ \ \}\ while\ (0)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{comment}{//\ Need\ for\ malloc,\ calloc,\ and\ free.}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ qoco\_malloc\ malloc}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ qoco\_calloc\ calloc}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ qoco\_free\ free}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ ifndef\ QOCO\_DEFINITIONS\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

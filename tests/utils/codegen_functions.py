@@ -131,7 +131,7 @@ def generate_test(problem_name, test_name, tol, **kwargs):
 
     # Manually specify ruiz iters. Needed to pass lcvx_badly scaled test.
     for key, value in kwargs.items():
-        if key == "ruiz_iters" or key == "iter_ref_iters":
+        if key == "ruiz_iters" or key == "max_ir_iters":
             f.write("    settings->%s = %d;\n" % (key, value))
     f.write("    QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));\n\n")
     f.write(

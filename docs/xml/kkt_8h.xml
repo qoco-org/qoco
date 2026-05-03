@@ -1,35 +1,20 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="kkt_8h" kind="file" language="C++">
     <compoundname>kkt.h</compoundname>
     <includes refid="cone_8h" local="yes">cone.h</includes>
-    <includes refid="linalg_8h" local="yes">linalg.h</includes>
     <includes local="yes">qdldl.h</includes>
+    <includes refid="qoco__linalg_8h" local="yes">qoco_linalg.h</includes>
     <includes refid="structs_8h" local="yes">structs.h</includes>
     <includedby refid="qoco__api_8h" local="yes">/home/govind/Desktop/git/qoco/include/qoco_api.h</includedby>
     <includedby refid="kkt_8c" local="yes">/home/govind/Desktop/git/qoco/src/kkt.c</includedby>
     <incdepgraph>
-      <node id="7">
-        <label>stdlib.h</label>
-      </node>
-      <node id="8">
-        <label>structs.h</label>
-        <link refid="structs_8h"/>
+      <node id="10">
+        <label>common_linalg.h</label>
+        <link refid="common__linalg_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="1">
-        <label>/home/govind/Desktop/git/qoco/include/kkt.h</label>
-        <link refid="kkt_8h"/>
-        <childnode refid="2" relation="include">
-        </childnode>
         <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -37,9 +22,10 @@
         <link refid="cone_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-      </node>
-      <node id="5">
-        <label>limits.h</label>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
       </node>
       <node id="4">
         <label>definitions.h</label>
@@ -50,33 +36,99 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-      </node>
-      <node id="3">
-        <label>linalg.h</label>
-        <link refid="linalg_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>math.h</label>
+      <node id="11">
+        <label>enums.h</label>
+        <link refid="enums_8h"/>
       </node>
-      <node id="10">
-        <label>qdldl.h</label>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/include/kkt.h</label>
+        <link refid="kkt_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>qoco_config.h</label>
+        <link refid="qoco__config_8h"/>
+      </node>
+      <node id="3">
+        <label>qoco_linalg.h</label>
+        <link refid="qoco__linalg_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>qoco_status.h</label>
+        <link refid="qoco__status_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
       </node>
       <node id="9">
+        <label>qoco_utils.h</label>
+        <link refid="qoco__utils_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>structs.h</label>
+        <link refid="structs_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
         <label>timer.h</label>
         <link refid="timer_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>limits.h</label>
+      </node>
+      <node id="7">
+        <label>math.h</label>
+      </node>
+      <node id="17">
+        <label>qdldl.h</label>
+      </node>
+      <node id="13">
+        <label>stdio.h</label>
+      </node>
+      <node id="8">
+        <label>stdlib.h</label>
+      </node>
+      <node id="16">
+        <label>time.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
-        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
-        <link refid="qoco_8h"/>
-      </node>
       <node id="1">
         <label>/home/govind/Desktop/git/qoco/include/kkt.h</label>
         <link refid="kkt_8h"/>
@@ -84,6 +136,10 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+      </node>
+      <node id="3">
+        <label>/home/govind/Desktop/git/qoco/include/qoco.h</label>
+        <link refid="qoco_8h"/>
       </node>
       <node id="2">
         <label>/home/govind/Desktop/git/qoco/include/qoco_api.h</label>
@@ -102,65 +158,242 @@
         <link refid="qoco__api_8c"/>
       </node>
     </invincdepgraph>
-      <sectiondef kind="func">
-      <memberdef kind="function" id="kkt_8h_1a32e6ba8ee8266d6576a302fd28485668" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void allocate_kkt</definition>
-        <argsstring>(QOCOWorkspace *work)</argsstring>
-        <name>allocate_kkt</name>
-        <param>
-          <type><ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref> *</type>
-          <declname>work</declname>
-        </param>
-        <briefdescription>
-<para>Allocate memory for KKT matrix. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>work</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Pointer to workspace. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="29" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="14" bodyend="34" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="29" declcolumn="6"/>
-      </memberdef>
-      <memberdef kind="function" id="kkt_8h_1a6a5c96c5e3bbcc45591011475c567faa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void construct_kkt</definition>
-        <argsstring>(QOCOSolver *solver)</argsstring>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="kkt_8h_1a57906d25cb2ba7142f0c932a47fc5830" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+        <definition>QOCOCscMatrix * construct_kkt</definition>
+        <argsstring>(QOCOCscMatrix *P, QOCOCscMatrix *A, QOCOCscMatrix *G, QOCOCscMatrix *At, QOCOCscMatrix *Gt, QOCOFloat static_reg, QOCOInt n, QOCOInt m, QOCOInt p, QOCOInt l, QOCOInt nsoc, QOCOInt *q, QOCOInt *PregtoKKT, QOCOInt *AttoKKT, QOCOInt *GttoKKT, QOCOInt *nt2kkt, QOCOInt *ntdiag2kkt, QOCOInt Wnnz)</argsstring>
         <name>construct_kkt</name>
         <param>
-          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
-          <declname>solver</declname>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>P</declname>
+        </param>
+        <param>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>G</declname>
+        </param>
+        <param>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>At</declname>
+        </param>
+        <param>
+          <type><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref> *</type>
+          <declname>Gt</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>static_reg</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>nsoc</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>PregtoKKT</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>AttoKKT</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>GttoKKT</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>nt2kkt</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>ntdiag2kkt</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>Wnnz</declname>
         </param>
         <briefdescription>
-<para>Constructs upper triangular part of KKT matrix with -I for Nestrov-Todd scaling matrix (the (3,3) block) </para>
+<para>Constructs and returns the upper triangular portion of the KKT matrix in CSC form. </para>
         </briefdescription>
         <detaileddescription>
-<para>clang-format off <verbatim>[ P   A^T   G^T ]
-</verbatim> K = | A 0 0 | [ G 0 -I ]</para>
-<para>clang-format on</para>
+<para><verbatim>  [ P + e*I      A^T       G^T    ]
+</verbatim> K = | A - e * I 0 | [ G 0 -I ]</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>solver</parametername>
+<parametername>P</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Pointer to solver </para>
+<para>P. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>G</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>G. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>At</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A^T. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Gt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>G^T. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>static_reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Static regularization parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rows of P. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rows of G. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rows of A. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of nonneg orthant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nsoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of socs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of socs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>PregtoKKT</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mapping from Preg scaling to KKT matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>AttoKKT</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mapping from At scaling to KKT matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>GttoKKT</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mapping from Gt scaling to KKT matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nt2kkt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mapping from NT scaling to KKT matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ntdiag2kkt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mapping from NT scaling diagonal to KKT matrix. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Wnnz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of nonzeros in upper triangular portion of NT scaling. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>QOCOCscMatrix* </para>
+</simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="45" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="36" bodyend="150" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="45" declcolumn="6"/>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="52" column="15" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="14" bodyend="164" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="52" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="kkt_8h_1af0e88edff1a77bc07b379c2e194d3bff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -188,74 +421,52 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="53" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="152" bodyend="225" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="53" declcolumn="6"/>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="66" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="166" bodyend="220" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="66" declcolumn="6"/>
       </memberdef>
-      <memberdef kind="function" id="kkt_8h_1a33ecaacd1b0105dea5269c4bbdded39c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void set_nt_block_zeros</definition>
-        <argsstring>(QOCOWorkspace *work)</argsstring>
-        <name>set_nt_block_zeros</name>
-        <param>
-          <type><ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref> *</type>
-          <declname>work</declname>
-        </param>
-        <briefdescription>
-<para>Set the Nesterov-Todd block to be zeros. Used prior to <ref refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kindref="member">compute_kkt_residual()</ref>. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>work</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Pointer to workspace. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="61" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="227" bodyend="232" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="61" declcolumn="6"/>
-      </memberdef>
-      <memberdef kind="function" id="kkt_8h_1a1e4a0eefd9fb08996fc1c34b5092d53a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void update_nt_block</definition>
-        <argsstring>(QOCOSolver *solver)</argsstring>
-        <name>update_nt_block</name>
-        <param>
-          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
-          <declname>solver</declname>
-        </param>
-        <briefdescription>
-<para>Updates and regularizes Nesterov-Todd scaling block of KKT matrix. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><verbatim>[ P   A^T       G^T      ]
-</verbatim> K = | A 0 0 | [ G 0 -W&apos;W - e * I ]</para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>solver</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Pointer to solver. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="72" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="234" bodyend="246" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="72" declcolumn="6"/>
-      </memberdef>
-      <memberdef kind="function" id="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="kkt_8h_1a8bf92964f4b5e69b05088927dd3c7f11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void compute_kkt_residual</definition>
-        <argsstring>(QOCOSolver *solver)</argsstring>
+        <argsstring>(QOCOProblemData *data, QOCOVectorf *x_vec, QOCOVectorf *y_vec, QOCOVectorf *s_vec, QOCOVectorf *z_vec, QOCOVectorf *kktres_vec, QOCOFloat static_reg, QOCOVectorf *xyzbuff_vec, QOCOVectorf *nbuff_vec, QOCOVectorf *mbuff_vec)</argsstring>
         <name>compute_kkt_residual</name>
         <param>
-          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
-          <declname>solver</declname>
+          <type><ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref> *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>x_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>y_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>s_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>z_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>kktres_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>static_reg</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>xyzbuff_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>nbuff_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>mbuff_vec</declname>
         </param>
         <briefdescription>
 <para>Computes residual of KKT conditions and stores in work-&gt;kkt-&gt;rhs. </para>
@@ -263,13 +474,84 @@
         <detaileddescription>
 <para>clang-format off <verbatim>  [ P   A^T   G^T ] [ x ]   [    c   ]
 </verbatim> res = | A 0 0 | | y ] + | -b | [ G 0 0 ] [ z ] [ -h + s ]</para>
-<para>clang-format on</para>
-<para><parameterlist kind="param"><parameteritem>
+<para>clang-format on <parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>solver</parametername>
+<parametername>data</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Pointer to solver. </para>
+<para>Pointer to problem data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primal iterate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dual iterate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Slack iterate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dual iterate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>kktres_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Computed residual is stored here. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>static_reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Static regularization parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xyzbuff_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer of length n+p+m. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nbuff_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer of length n. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mbuff_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer of length m. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -277,7 +559,139 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="87" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="248" bodyend="302" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="87" declcolumn="6"/>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="89" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="222" bodyend="262" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="89" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1a8cacc3f79ec19f15292380d48251c6d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat compute_mu</definition>
+        <argsstring>(QOCOVectorf *s_vec, QOCOVectorf *z_vec, QOCOInt m)</argsstring>
+        <name>compute_mu</name>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>s_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>z_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Computes mu = s&apos;*z / m. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>slack iterate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>dual iterate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of s and z. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>mu </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="103" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="264" bodyend="272" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="103" declcolumn="11"/>
+      </memberdef>
+      <memberdef kind="function" id="kkt_8h_1abce5e0f0685fe4409c7aee0f3fe8cf3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat compute_objective</definition>
+        <argsstring>(QOCOProblemData *data, QOCOVectorf *x_vec, QOCOVectorf *nbuff_vec, QOCOFloat static_reg, QOCOFloat k)</argsstring>
+        <name>compute_objective</name>
+        <param>
+          <type><ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref> *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>x_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+          <declname>nbuff_vec</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>static_reg</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Computes the objective obj = (1/2)*x&apos;*P*x + c&apos;*x. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to problem data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primal solution at current iterate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nbuff_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer of length n. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>static_reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Static regularization value; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Objective scaling from ruiz equilibration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Computed objective </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="116" column="11" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="274" bodyend="289" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="116" declcolumn="11"/>
       </memberdef>
       <memberdef kind="function" id="kkt_8h_1ac1d386c6e2cd69a234372d46ec72dfe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -289,7 +703,7 @@
           <declname>work</declname>
         </param>
         <briefdescription>
-<para>Constructs rhs for the affine scaling KKT system. Before calling this function, work-&gt;kkt-&gt;kktres must contain the residual of the KKT conditions as computed by <ref refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kindref="member">compute_kkt_residual()</ref>. </para>
+<para>Constructs rhs for the affine scaling KKT system. Before calling this function, work-&gt;kkt-&gt;kktres must contain the residual of the KKT conditions as computed by <ref refid="kkt_8h_1a8bf92964f4b5e69b05088927dd3c7f11" kindref="member">compute_kkt_residual()</ref>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -305,7 +719,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="96" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="304" bodyend="318" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="96" declcolumn="6"/>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="126" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="291" bodyend="313" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="126" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="kkt_8h_1af490c914ea3af23705d62cbde72d8755" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -317,7 +731,7 @@
           <declname>work</declname>
         </param>
         <briefdescription>
-<para>Constructs rhs for the combined direction KKT system. Before calling this function, work-&gt;kkt-&gt;kktres must contain the negative residual of the KKT conditions as computed by <ref refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kindref="member">compute_kkt_residual()</ref>. </para>
+<para>Constructs rhs for the combined direction KKT system. Before calling this function, work-&gt;kkt-&gt;kktres must contain the negative residual of the KKT conditions as computed by <ref refid="kkt_8h_1a8bf92964f4b5e69b05088927dd3c7f11" kindref="member">compute_kkt_residual()</ref>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -334,7 +748,7 @@
         <inbodydescription>
 <para>ds = -cone_product(lambda, lambda) - settings.mehrotra * cone_product((W&apos; \ Dsaff), (W * Dzaff), pdata) + sigma * mu * e.</para>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="106" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="320" bodyend="376" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="106" declcolumn="6"/>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="136" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="315" bodyend="376" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="136" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="kkt_8h_1a997c4579bd059099f397623479d0cd47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -362,69 +776,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="113" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="378" bodyend="460" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="113" declcolumn="6"/>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="143" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="378" bodyend="461" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="143" declcolumn="6"/>
       </memberdef>
-      <memberdef kind="function" id="kkt_8h_1a0fa673e36adc2fe84350627543fe58d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void kkt_solve</definition>
-        <argsstring>(QOCOSolver *solver, QOCOFloat *b, QOCOInt iters)</argsstring>
-        <name>kkt_solve</name>
-        <param>
-          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
-          <declname>solver</declname>
-        </param>
-        <param>
-          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
-          <declname>b</declname>
-        </param>
-        <param>
-          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
-          <declname>iters</declname>
-        </param>
-        <briefdescription>
-<para>Solves Kx = b once K has been factored. Solves via triangular solves and applies iterative refinement afterwards. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>solver</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Pointer to solver. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>b</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Pointer to rhs of kkt system. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>iters</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Number of iterations of iterative refinement performed. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="123" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="462" bodyend="507" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="123" declcolumn="6"/>
-      </memberdef>
-      <memberdef kind="function" id="kkt_8h_1a112a3955fd72740bb6e5dd032ad34e8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="kkt_8h_1a4b3e435db513b1ac6c8e4aa26dd67f65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void kkt_multiply</definition>
-        <argsstring>(QOCOSolver *solver, QOCOFloat *x, QOCOFloat *y)</argsstring>
+        <argsstring>(QOCOFloat *x, QOCOFloat *y, QOCOProblemData *data, QOCOFloat *Wfull, QOCOInt *Wsoc_idx, QOCOInt *soc_idx, QOCOFloat *nbuff, QOCOFloat *mbuff1, QOCOFloat *mbuff2)</argsstring>
         <name>kkt_multiply</name>
-        <param>
-          <type><ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref> *</type>
-          <declname>solver</declname>
-        </param>
         <param>
           <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
           <declname>x</declname>
@@ -433,19 +791,39 @@
           <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
           <declname>y</declname>
         </param>
+        <param>
+          <type><ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref> *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>Wfull</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>Wsoc_idx</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref> *</type>
+          <declname>soc_idx</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>nbuff</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>mbuff1</declname>
+        </param>
+        <param>
+          <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref> *</type>
+          <declname>mbuff2</declname>
+        </param>
         <briefdescription>
 <para>Computes y = Kx where [ P A^T G^T ] K = | A 0 0 | [ G 0 -W&apos;W - e * I ]. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>solver</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Pointer to solver. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
 <parameternamelist>
 <parametername>x</parametername>
 </parameternamelist>
@@ -461,62 +839,126 @@
 <para>Pointer to output vector. </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to problem data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Wfull</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to full NT scaling matrix W. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Wsoc_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector pointing to the start of each SOC block in Wfull. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>soc_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array pointing to the start of each SOC block in x and y. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nbuff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Temporary buffer of length n. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mbuff1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Temporary buffer of length m. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mbuff2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Temporary buffer of length m. </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="135" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="509" bodyend="535" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="135" declcolumn="6"/>
+        <location file="/home/govind/Desktop/git/qoco/include/kkt.h" line="161" column="6" bodyfile="/home/govind/Desktop/git/qoco/src/kkt.c" bodystart="463" bodyend="498" declfile="/home/govind/Desktop/git/qoco/include/kkt.h" declline="161" declcolumn="6"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><simplesect kind="author"><para>Govind M. Chari <ulink url="mailto:govindchari1@gmail.com">govindchari1@gmail.com</ulink></para>
 </simplesect>
 </para>
-<sect1 id="utils_8c_1LICENSE">
+<sect1 id="qoco__api_8c_1LICENSE">
 <title>LICENSE</title>
 <para>Copyright (c) 2024, Govind M. Chari This source code is licensed under the BSD 3-Clause License</para>
 </sect1>
-<sect1 id="utils_8h_1DESCRIPTION">
+<sect1 id="timer_8h_1DESCRIPTION">
 <title>DESCRIPTION</title>
 <para>Provides various functions for solving, constructing and updating KKT systems. </para>
 </sect1>
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>KKT_H</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>KKT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>QOCO_KKT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QOCO_KKT_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cone_8h" kindref="compound">cone.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="linalg_8h" kindref="compound">linalg.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;qdldl.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;qdldl.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="qoco__linalg_8h" kindref="compound">qoco_linalg.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="structs_8h" kindref="compound">structs.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a32e6ba8ee8266d6576a302fd28485668" kindref="member">allocate_kkt</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a6a5c96c5e3bbcc45591011475c567faa" kindref="member">construct_kkt</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1af0e88edff1a77bc07b379c2e194d3bff" kindref="member">initialize_ipm</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a33ecaacd1b0105dea5269c4bbdded39c" kindref="member">set_nt_block_zeros</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a1e4a0eefd9fb08996fc1c34b5092d53a" kindref="member">update_nt_block</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1ab2c91aac19366d8fe1da940f9ab51cde" kindref="member">compute_kkt_residual</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1ac1d386c6e2cd69a234372d46ec72dfe9" kindref="member">construct_kkt_aff_rhs</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1af490c914ea3af23705d62cbde72d8755" kindref="member">construct_kkt_comb_rhs</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a997c4579bd059099f397623479d0cd47" kindref="member">predictor_corrector</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a0fa673e36adc2fe84350627543fe58d4" kindref="member">kkt_solve</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>b,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>iters);</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"></highlight></codeline>
-<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a112a3955fd72740bb6e5dd032ad34e8c" kindref="member">kkt_multiply</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>y);</highlight></codeline>
-<codeline lineno="136"><highlight class="normal"></highlight></codeline>
-<codeline lineno="137"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>KKT_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/><ref refid="kkt_8h_1a57906d25cb2ba7142f0c932a47fc5830" kindref="member">construct_kkt</ref>(<ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>P,<sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>A,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>G,<sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>At,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structQOCOCscMatrix" kindref="compound">QOCOCscMatrix</ref>*<sp/>Gt,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>static_reg,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>n,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>m,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>p,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>l,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>nsoc,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>q,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>PregtoKKT,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>AttoKKT,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>GttoKKT,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>nt2kkt,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>ntdiag2kkt,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>Wnnz);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1af0e88edff1a77bc07b379c2e194d3bff" kindref="member">initialize_ipm</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a8bf92964f4b5e69b05088927dd3c7f11" kindref="member">compute_kkt_residual</ref>(<ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref>*<sp/>data,<sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>x_vec,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>y_vec,<sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>s_vec,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>z_vec,<sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>kktres_vec,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>static_reg,<sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>xyzbuff_vec,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>nbuff_vec,<sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>mbuff_vec);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="kkt_8h_1a8cacc3f79ec19f15292380d48251c6d9" kindref="member">compute_mu</ref>(<ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>s_vec,<sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>z_vec,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/>m);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/><ref refid="kkt_8h_1abce5e0f0685fe4409c7aee0f3fe8cf3c" kindref="member">compute_objective</ref>(<ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref>*<sp/>data,<sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>x_vec,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref>*<sp/>nbuff_vec,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>static_reg,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref><sp/>k);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1ac1d386c6e2cd69a234372d46ec72dfe9" kindref="member">construct_kkt_aff_rhs</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1af490c914ea3af23705d62cbde72d8755" kindref="member">construct_kkt_comb_rhs</ref>(<ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref>*<sp/>work);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a997c4579bd059099f397623479d0cd47" kindref="member">predictor_corrector</ref>(<ref refid="structQOCOSolver" kindref="compound">QOCOSolver</ref>*<sp/>solver);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="kkt_8h_1a4b3e435db513b1ac6c8e4aa26dd67f65" kindref="member">kkt_multiply</ref>(<ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>x,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>y,<sp/><ref refid="structQOCOProblemData" kindref="compound">QOCOProblemData</ref>*<sp/>data,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>Wfull,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>Wsoc_idx,<sp/><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>*<sp/>soc_idx,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>nbuff,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>mbuff1,<sp/><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref>*<sp/>mbuff2);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>#ifndef<sp/>QOCO_KKT_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
     </programlisting>
     <location file="/home/govind/Desktop/git/qoco/include/kkt.h"/>
   </compounddef>

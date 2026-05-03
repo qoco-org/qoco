@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="qoco__status_8c" kind="file" language="C++">
+    <compoundname>qoco_status.c</compoundname>
+    <includes refid="qoco__status_8h" local="yes">qoco_status.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>definitions.h</label>
+        <link refid="definitions_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>enums.h</label>
+        <link refid="enums_8h"/>
+      </node>
+      <node id="4">
+        <label>qoco_config.h</label>
+        <link refid="qoco__config_8h"/>
+      </node>
+      <node id="2">
+        <label>qoco_status.h</label>
+        <link refid="qoco__status_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/govind/Desktop/git/qoco/src/qoco_status.c</label>
+        <link refid="qoco__status_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>limits.h</label>
+      </node>
+      <node id="6">
+        <label>math.h</label>
+      </node>
+      <node id="9">
+        <label>stdio.h</label>
+      </node>
+      <node id="7">
+        <label>stdlib.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="qoco__status_8c_1a37259e919d1dac6865b8ee674e8b7568" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* QOCO_ERROR_MESSAGE[]</definition>
+        <argsstring>[]</argsstring>
+        <name>QOCO_ERROR_MESSAGE</name>
+        <initializer>= {
+  &quot;&quot;, 
+  &quot;data validation error&quot;,
+  &quot;settings validation error&quot;,
+  &quot;amd error&quot;,
+  &quot;memory allocation error&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/qoco_status.c" line="10" column="12" bodyfile="/home/govind/Desktop/git/qoco/src/qoco_status.c" bodystart="10" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="variable" id="qoco__status_8c_1aaba44f3a663e3fdffab51406a5f9f85f" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* QOCO_SOLVE_STATUS_MESSAGE[]</definition>
+        <argsstring>[]</argsstring>
+        <name>QOCO_SOLVE_STATUS_MESSAGE</name>
+        <initializer>= {
+  &quot;unsolved&quot;, 
+  &quot;solved&quot;,
+  &quot;solved inaccurately&quot;,
+  &quot;numerical error&quot;,
+  &quot;maximum iterations reached&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/qoco_status.c" line="18" column="12" bodyfile="/home/govind/Desktop/git/qoco/src/qoco_status.c" bodystart="18" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="qoco__status_8c_1ad7b3a55bfa4f5de621ac7fb6bccf1732" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref></type>
+        <definition>QOCOInt qoco_error</definition>
+        <argsstring>(enum qoco_error_code error_code)</argsstring>
+        <name>qoco_error</name>
+        <param>
+          <type>enum <ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5" kindref="member">qoco_error_code</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Function to print error messages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error code as an QOCOInt. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/src/qoco_status.c" line="3" column="9" bodyfile="/home/govind/Desktop/git/qoco/src/qoco_status.c" bodystart="3" bodyend="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="qoco__status_8h" kindref="compound">qoco_status.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref><sp/><ref refid="qoco__status_8c_1ad7b3a55bfa4f5de621ac7fb6bccf1732" kindref="member">qoco_error</ref>(</highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="enums_8h_1a39468918ae64e75b2f3b79b76fb752e5" kindref="member">qoco_error_code</ref><sp/>error_code)</highlight></codeline>
+<codeline lineno="4"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/>printf(</highlight><highlight class="stringliteral">&quot;ERROR:<sp/>%s\n&quot;</highlight><highlight class="normal">,<sp/><ref refid="qoco__status_8c_1a37259e919d1dac6865b8ee674e8b7568" kindref="member">QOCO_ERROR_MESSAGE</ref>[error_code]);</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="definitions_8h_1aedd8d3f09aca17e3ca87133e7b66c5b2" kindref="member">QOCOInt</ref>)error_code;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>clang-format<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<ref refid="qoco__status_8c_1a37259e919d1dac6865b8ee674e8b7568" kindref="member">QOCO_ERROR_MESSAGE</ref>[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">//<sp/>Error<sp/>codes<sp/>start<sp/>from<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;data<sp/>validation<sp/>error&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;settings<sp/>validation<sp/>error&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;amd<sp/>error&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;memory<sp/>allocation<sp/>error&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<ref refid="qoco__status_8c_1aaba44f3a663e3fdffab51406a5f9f85f" kindref="member">QOCO_SOLVE_STATUS_MESSAGE</ref>[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;unsolved&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">//<sp/>Solver<sp/>not<sp/>run.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;solved&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;solved<sp/>inaccurately&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;numerical<sp/>error&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;maximum<sp/>iterations<sp/>reached&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>clang-format<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/govind/Desktop/git/qoco/src/qoco_status.c"/>
+  </compounddef>
+</doxygen>

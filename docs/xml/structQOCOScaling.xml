@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structQOCOScaling" kind="struct" language="C++" prot="public">
+    <compoundname>QOCOScaling</compoundname>
+    <includes refid="structs_8h" local="no">structs.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structQOCOScaling_1a948128d3dbcf46bb7b809fe8ce2ad15b" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOScaling::delta</definition>
+        <argsstring></argsstring>
+        <name>delta</name>
+        <qualifiedname>QOCOScaling::delta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Diagonal of scaling matrix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="146" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOScaling_1a2f9cb034c28859f104ef58e961fd0eab" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOScaling::Druiz</definition>
+        <argsstring></argsstring>
+        <name>Druiz</name>
+        <qualifiedname>QOCOScaling::Druiz</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Diagonal of scaling matrix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="149" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOScaling_1ac86c408d8d53ac69ecb39f50e7c340d3" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOScaling::Eruiz</definition>
+        <argsstring></argsstring>
+        <name>Eruiz</name>
+        <qualifiedname>QOCOScaling::Eruiz</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Diagonal of scaling matrix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="152" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOScaling_1ad9bb63c95703f2f468f4afcd7fd4d181" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOScaling::Fruiz</definition>
+        <argsstring></argsstring>
+        <name>Fruiz</name>
+        <qualifiedname>QOCOScaling::Fruiz</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Diagonal of scaling matrix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="155" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOScaling_1a04082a4313376044d700d368a58c7fcb" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOScaling::Dinvruiz</definition>
+        <argsstring></argsstring>
+        <name>Dinvruiz</name>
+        <qualifiedname>QOCOScaling::Dinvruiz</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Inverse of Druiz. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="158" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOScaling_1af4dbdd03e56f45afe5b138e0c2705428" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOScaling::Einvruiz</definition>
+        <argsstring></argsstring>
+        <name>Einvruiz</name>
+        <qualifiedname>QOCOScaling::Einvruiz</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Inverse of Eruiz. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="161" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOScaling_1abf605c640207d4200dcea40aa2f5330c" prot="public" static="no" mutable="no">
+        <type><ref refid="qoco__linalg_8h_1a116611a3ec9e1cb131d9ead4cbe877d9" kindref="member">QOCOVectorf</ref> *</type>
+        <definition>QOCOVectorf* QOCOScaling::Finvruiz</definition>
+        <argsstring></argsstring>
+        <name>Finvruiz</name>
+        <qualifiedname>QOCOScaling::Finvruiz</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Inverse of Fruiz. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="164" column="15" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOScaling_1ad8983780b7fd5d4180a40f9c598247ef" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOScaling::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>QOCOScaling::k</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cost scaling factor. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="167" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOScaling_1a98fa232a9a67726dc9abfa198421dfe4" prot="public" static="no" mutable="no">
+        <type><ref refid="definitions_8h_1a4f04b37411a6fc01fed72b02f1364188" kindref="member">QOCOFloat</ref></type>
+        <definition>QOCOFloat QOCOScaling::kinv</definition>
+        <argsstring></argsstring>
+        <name>kinv</name>
+        <qualifiedname>QOCOScaling::kinv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Inverse of cost scaling factor. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="170" column="13" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Contains all data related to problem scaling and equilibration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="143" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="143" bodyend="172"/>
+    <listofallmembers>
+      <member refid="structQOCOScaling_1a948128d3dbcf46bb7b809fe8ce2ad15b" prot="public" virt="non-virtual"><scope>QOCOScaling</scope><name>delta</name></member>
+      <member refid="structQOCOScaling_1a04082a4313376044d700d368a58c7fcb" prot="public" virt="non-virtual"><scope>QOCOScaling</scope><name>Dinvruiz</name></member>
+      <member refid="structQOCOScaling_1a2f9cb034c28859f104ef58e961fd0eab" prot="public" virt="non-virtual"><scope>QOCOScaling</scope><name>Druiz</name></member>
+      <member refid="structQOCOScaling_1af4dbdd03e56f45afe5b138e0c2705428" prot="public" virt="non-virtual"><scope>QOCOScaling</scope><name>Einvruiz</name></member>
+      <member refid="structQOCOScaling_1ac86c408d8d53ac69ecb39f50e7c340d3" prot="public" virt="non-virtual"><scope>QOCOScaling</scope><name>Eruiz</name></member>
+      <member refid="structQOCOScaling_1abf605c640207d4200dcea40aa2f5330c" prot="public" virt="non-virtual"><scope>QOCOScaling</scope><name>Finvruiz</name></member>
+      <member refid="structQOCOScaling_1ad9bb63c95703f2f468f4afcd7fd4d181" prot="public" virt="non-virtual"><scope>QOCOScaling</scope><name>Fruiz</name></member>
+      <member refid="structQOCOScaling_1ad8983780b7fd5d4180a40f9c598247ef" prot="public" virt="non-virtual"><scope>QOCOScaling</scope><name>k</name></member>
+      <member refid="structQOCOScaling_1a98fa232a9a67726dc9abfa198421dfe4" prot="public" virt="non-virtual"><scope>QOCOScaling</scope><name>kinv</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

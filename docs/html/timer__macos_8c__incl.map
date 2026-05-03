@@ -1,8 +1,17 @@
 <map id="/home/govind/Desktop/git/qoco/src/timer_macos.c" name="/home/govind/Desktop/git/qoco/src/timer_macos.c">
-<area shape="rect" id="node1" title=" " alt="" coords="33,5,235,47"/>
-<area shape="rect" id="node2" href="$timer_8h.html" title=" " alt="" coords="100,95,168,121"/>
-<area shape="rect" id="node3" href="$definitions_8h.html" title=" " alt="" coords="83,169,185,196"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,244,76,271"/>
-<area shape="rect" id="node5" title=" " alt="" coords="100,244,168,271"/>
-<area shape="rect" id="node6" title=" " alt="" coords="192,244,263,271"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="175,5,376,45"/>
+<area shape="rect" id="Node000002" href="$timer_8h.html" title=" " alt="" coords="241,93,309,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="278,46,278,79,273,79,273,46"/>
+<area shape="rect" id="Node000003" href="$definitions_8h.html" title=" " alt="" coords="171,167,273,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="269,121,241,157,237,154,264,117"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="298,167,362,192"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="286,117,315,154,311,157,282,121"/>
+<area shape="rect" id="Node000004" href="$qoco__config_8h.html" title=" " alt="" coords="5,240,116,265"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="197,194,101,237,98,232,195,190"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="140,240,211,265"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="217,194,193,230,188,227,212,191"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="235,240,303,265"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="232,191,256,227,251,230,227,194"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="327,240,397,265"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="246,190,328,231,326,236,243,194"/>
 </map>

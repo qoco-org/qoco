@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="structQOCOSolver" kind="struct" language="C++" prot="public">
     <compoundname>QOCOSolver</compoundname>
     <includes refid="structs_8h" local="no">structs.h</includes>
-      <sectiondef kind="public-attrib">
+    <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="structQOCOSolver_1a74a794b01773f869a491cacdb6fc21b3" prot="public" static="no" mutable="no">
         <type><ref refid="structQOCOSettings" kindref="compound">QOCOSettings</ref> *</type>
         <definition>QOCOSettings* QOCOSolver::settings</definition>
         <argsstring></argsstring>
         <name>settings</name>
+        <qualifiedname>QOCOSolver::settings</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -16,13 +17,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="369" column="16" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="369" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="344" column="16" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="344" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" prot="public" static="no" mutable="no">
         <type><ref refid="structQOCOWorkspace" kindref="compound">QOCOWorkspace</ref> *</type>
         <definition>QOCOWorkspace* QOCOSolver::work</definition>
         <argsstring></argsstring>
         <name>work</name>
+        <qualifiedname>QOCOSolver::work</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -30,13 +32,44 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="372" column="17" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="372" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="347" column="17" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolver_1ab8980cadd953a996c3410b58c1379671" prot="public" static="no" mutable="no">
+        <type><ref refid="structLinSysBackend" kindref="compound">LinSysBackend</ref> *</type>
+        <definition>LinSysBackend* QOCOSolver::linsys</definition>
+        <argsstring></argsstring>
+        <name>linsys</name>
+        <qualifiedname>QOCOSolver::linsys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Linear system backend. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="350" column="17" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structQOCOSolver_1a164e05e65a6bce5352c8d5e1ef2f6617" prot="public" static="no" mutable="no">
+        <type><ref refid="structs_8h_1ad09ac676ab423517077c1b3394dd04ac" kindref="member">LinSysData</ref> *</type>
+        <definition>LinSysData* QOCOSolver::linsys_data</definition>
+        <argsstring></argsstring>
+        <name>linsys_data</name>
+        <qualifiedname>QOCOSolver::linsys_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Linear system backend. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="353" column="14" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="353" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" prot="public" static="no" mutable="no">
         <type><ref refid="structQOCOSolution" kindref="compound">QOCOSolution</ref> *</type>
         <definition>QOCOSolution* QOCOSolver::sol</definition>
         <argsstring></argsstring>
         <name>sol</name>
+        <qualifiedname>QOCOSolver::sol</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -44,71 +77,73 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="375" column="16" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="375" bodyend="-1"/>
+        <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="356" column="16" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="356" bodyend="-1"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
 <para>QOCO Solver struct. Contains all information about the state of the solver. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="5">
-        <label>QOCOKKT</label>
-        <link refid="structQOCOKKT"/>
-        <childnode refid="4" relation="usage">
-          <edgelabel>K</edgelabel>
-        </childnode>
+      <node id="7">
+        <label>LinSysBackend</label>
+        <link refid="structLinSysBackend"/>
       </node>
-      <node id="3">
+      <node id="4">
         <label>QOCOProblemData</label>
         <link refid="structQOCOProblemData"/>
-        <childnode refid="4" relation="usage">
-          <edgelabel>A</edgelabel>
-          <edgelabel>At</edgelabel>
-          <edgelabel>G</edgelabel>
-          <edgelabel>Gt</edgelabel>
-          <edgelabel>P</edgelabel>
-        </childnode>
       </node>
-      <node id="7">
+      <node id="6">
+        <label>QOCOScaling</label>
+        <link refid="structQOCOScaling"/>
+      </node>
+      <node id="2">
         <label>QOCOSettings</label>
         <link refid="structQOCOSettings"/>
       </node>
-      <node id="2">
-        <label>QOCOWorkspace</label>
-        <link refid="structQOCOWorkspace"/>
-        <childnode refid="3" relation="usage">
-          <edgelabel>data</edgelabel>
-        </childnode>
-        <childnode refid="5" relation="usage">
-          <edgelabel>kkt</edgelabel>
-        </childnode>
-      </node>
-      <node id="6">
+      <node id="8">
         <label>QOCOSolution</label>
         <link refid="structQOCOSolution"/>
-      </node>
-      <node id="4">
-        <label>QOCOCscMatrix</label>
-        <link refid="structQOCOCscMatrix"/>
       </node>
       <node id="1">
         <label>QOCOSolver</label>
         <link refid="structQOCOSolver"/>
         <childnode refid="2" relation="usage">
+          <edgelabel>settings</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
           <edgelabel>work</edgelabel>
         </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="7" relation="usage">
+          <edgelabel>linsys</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
           <edgelabel>sol</edgelabel>
         </childnode>
-        <childnode refid="7" relation="usage">
-          <edgelabel>settings</edgelabel>
+      </node>
+      <node id="5">
+        <label>QOCOTimer</label>
+        <link refid="structQOCOTimer"/>
+      </node>
+      <node id="3">
+        <label>QOCOWorkspace</label>
+        <link refid="structQOCOWorkspace"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>data</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>solve_timer</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>scaling</edgelabel>
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="367" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="367" bodyend="377"/>
+    <location file="/home/govind/Desktop/git/qoco/include/structs.h" line="342" column="1" bodyfile="/home/govind/Desktop/git/qoco/include/structs.h" bodystart="342" bodyend="358"/>
     <listofallmembers>
+      <member refid="structQOCOSolver_1ab8980cadd953a996c3410b58c1379671" prot="public" virt="non-virtual"><scope>QOCOSolver</scope><name>linsys</name></member>
+      <member refid="structQOCOSolver_1a164e05e65a6bce5352c8d5e1ef2f6617" prot="public" virt="non-virtual"><scope>QOCOSolver</scope><name>linsys_data</name></member>
       <member refid="structQOCOSolver_1a74a794b01773f869a491cacdb6fc21b3" prot="public" virt="non-virtual"><scope>QOCOSolver</scope><name>settings</name></member>
       <member refid="structQOCOSolver_1a8ce63094ab43c6ece3a393fa4e5b1702" prot="public" virt="non-virtual"><scope>QOCOSolver</scope><name>sol</name></member>
       <member refid="structQOCOSolver_1a1fff4710076ad15378db81e9fdc83fb3" prot="public" virt="non-virtual"><scope>QOCOSolver</scope><name>work</name></member>

@@ -1,5 +1,5 @@
-\hypertarget{structQOCOSolver}{}\doxysection{QOCOSolver Struct Reference}
-\label{structQOCOSolver}\index{QOCOSolver@{QOCOSolver}}
+\doxysection{QOCOSolver Struct Reference}
+\hypertarget{structQOCOSolver}{}\label{structQOCOSolver}\index{QOCOSolver@{QOCOSolver}}
 
 
 QOCO Solver struct. Contains all information about the state of the solver.  
@@ -18,14 +18,18 @@ Collaboration diagram for QOCOSolver\+:\nopagebreak
 \includegraphics[width=350pt]{structQOCOSolver__coll__graph}
 \end{center}
 \end{figure}
-\doxysubsection*{Public Attributes}
+\doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} $\ast$ \mbox{\hyperlink{structQOCOSolver_a74a794b01773f869a491cacdb6fc21b3}{settings}}
+\mbox{\hyperlink{structQOCOSettings}{QOCOSettings}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structQOCOSolver_a74a794b01773f869a491cacdb6fc21b3}{settings}}
 \item 
-\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} $\ast$ \mbox{\hyperlink{structQOCOSolver_a1fff4710076ad15378db81e9fdc83fb3}{work}}
+\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structQOCOSolver_a1fff4710076ad15378db81e9fdc83fb3}{work}}
 \item 
-\mbox{\hyperlink{structQOCOSolution}{QOCOSolution}} $\ast$ \mbox{\hyperlink{structQOCOSolver_a8ce63094ab43c6ece3a393fa4e5b1702}{sol}}
+\mbox{\hyperlink{structLinSysBackend}{Lin\+Sys\+Backend}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structQOCOSolver_ab8980cadd953a996c3410b58c1379671}{linsys}}
+\item 
+\mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structQOCOSolver_a164e05e65a6bce5352c8d5e1ef2f6617}{linsys\+\_\+data}}
+\item 
+\mbox{\hyperlink{structQOCOSolution}{QOCOSolution}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structQOCOSolver_a8ce63094ab43c6ece3a393fa4e5b1702}{sol}}
 \end{DoxyCompactItemize}
 
 
@@ -33,23 +37,35 @@ Collaboration diagram for QOCOSolver\+:\nopagebreak
 QOCO Solver struct. Contains all information about the state of the solver. 
 
 \doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{structQOCOSolver_a74a794b01773f869a491cacdb6fc21b3}\label{structQOCOSolver_a74a794b01773f869a491cacdb6fc21b3}} 
+\Hypertarget{structQOCOSolver_ab8980cadd953a996c3410b58c1379671}\label{structQOCOSolver_ab8980cadd953a996c3410b58c1379671} 
+\index{QOCOSolver@{QOCOSolver}!linsys@{linsys}}
+\index{linsys@{linsys}!QOCOSolver@{QOCOSolver}}
+\doxysubsubsection{\texorpdfstring{linsys}{linsys}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structLinSysBackend}{Lin\+Sys\+Backend}}\texorpdfstring{$\ast$}{*} QOCOSolver\+::linsys}
+
+Linear system backend. \Hypertarget{structQOCOSolver_a164e05e65a6bce5352c8d5e1ef2f6617}\label{structQOCOSolver_a164e05e65a6bce5352c8d5e1ef2f6617} 
+\index{QOCOSolver@{QOCOSolver}!linsys\_data@{linsys\_data}}
+\index{linsys\_data@{linsys\_data}!QOCOSolver@{QOCOSolver}}
+\doxysubsubsection{\texorpdfstring{linsys\_data}{linsys\_data}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structs_8h_ad09ac676ab423517077c1b3394dd04ac}{Lin\+Sys\+Data}}\texorpdfstring{$\ast$}{*} QOCOSolver\+::linsys\+\_\+data}
+
+Linear system backend. \Hypertarget{structQOCOSolver_a74a794b01773f869a491cacdb6fc21b3}\label{structQOCOSolver_a74a794b01773f869a491cacdb6fc21b3} 
 \index{QOCOSolver@{QOCOSolver}!settings@{settings}}
 \index{settings@{settings}!QOCOSolver@{QOCOSolver}}
 \doxysubsubsection{\texorpdfstring{settings}{settings}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}}$\ast$ QOCOSolver\+::settings}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOSettings}{QOCOSettings}}\texorpdfstring{$\ast$}{*} QOCOSolver\+::settings}
 
-Solver settings. \mbox{\Hypertarget{structQOCOSolver_a8ce63094ab43c6ece3a393fa4e5b1702}\label{structQOCOSolver_a8ce63094ab43c6ece3a393fa4e5b1702}} 
+Solver settings. \Hypertarget{structQOCOSolver_a8ce63094ab43c6ece3a393fa4e5b1702}\label{structQOCOSolver_a8ce63094ab43c6ece3a393fa4e5b1702} 
 \index{QOCOSolver@{QOCOSolver}!sol@{sol}}
 \index{sol@{sol}!QOCOSolver@{QOCOSolver}}
 \doxysubsubsection{\texorpdfstring{sol}{sol}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOSolution}{QOCOSolution}}$\ast$ QOCOSolver\+::sol}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOSolution}{QOCOSolution}}\texorpdfstring{$\ast$}{*} QOCOSolver\+::sol}
 
-Solution struct. \mbox{\Hypertarget{structQOCOSolver_a1fff4710076ad15378db81e9fdc83fb3}\label{structQOCOSolver_a1fff4710076ad15378db81e9fdc83fb3}} 
+Solution struct. \Hypertarget{structQOCOSolver_a1fff4710076ad15378db81e9fdc83fb3}\label{structQOCOSolver_a1fff4710076ad15378db81e9fdc83fb3} 
 \index{QOCOSolver@{QOCOSolver}!work@{work}}
 \index{work@{work}!QOCOSolver@{QOCOSolver}}
 \doxysubsubsection{\texorpdfstring{work}{work}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}}$\ast$ QOCOSolver\+::work}
+{\footnotesize\ttfamily \mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}}\texorpdfstring{$\ast$}{*} QOCOSolver\+::work}
 
 Solver workspace. 
 

@@ -1,7 +1,15 @@
 <map id="/home/govind/Desktop/git/qoco/include/timer.h" name="/home/govind/Desktop/git/qoco/include/timer.h">
-<area shape="rect" id="node1" title=" " alt="" coords="45,5,223,47"/>
-<area shape="rect" id="node2" href="$definitions_8h.html" title=" " alt="" coords="83,95,185,121"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,169,76,196"/>
-<area shape="rect" id="node4" title=" " alt="" coords="100,169,168,196"/>
-<area shape="rect" id="node5" title=" " alt="" coords="192,169,263,196"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="186,5,365,45"/>
+<area shape="rect" id="Node000002" href="$definitions_8h.html" title=" " alt="" coords="171,93,273,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="265,47,240,83,236,80,260,44"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="298,93,362,119"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="291,44,316,80,312,84,286,47"/>
+<area shape="rect" id="Node000003" href="$qoco__config_8h.html" title=" " alt="" coords="5,167,116,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="197,121,101,163,98,159,195,116"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="140,167,211,192"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="217,120,193,157,188,154,212,118"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="235,167,303,192"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="232,118,256,154,251,157,227,120"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="327,167,397,192"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="246,116,328,158,326,163,243,121"/>
 </map>

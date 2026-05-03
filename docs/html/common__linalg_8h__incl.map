@@ -1,0 +1,16 @@
+<map id="/home/govind/Desktop/git/qoco/include/common_linalg.h" name="/home/govind/Desktop/git/qoco/include/common_linalg.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="127,5,317,60"/>
+<area shape="rect" id="Node000002" href="$definitions_8h.html" title=" " alt="" coords="171,181,273,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,61,205,95,205,133,214,168,209,169,199,134,200,94,209,59"/>
+<area shape="rect" id="Node000007" href="$qoco__linalg_8h.html" title=" " alt="" coords="215,108,323,133"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="239,59,258,95,253,97,234,61"/>
+<area shape="rect" id="Node000003" href="$qoco__config_8h.html" title=" " alt="" coords="5,255,116,280"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="197,209,101,251,98,247,195,204"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="140,255,211,280"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="217,208,193,245,188,242,212,206"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="235,255,303,280"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="232,206,256,242,251,245,227,208"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="327,255,397,280"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="246,204,328,246,326,251,243,209"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="263,135,239,171,235,168,259,132"/>
+</map>

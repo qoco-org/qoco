@@ -1,0 +1,24 @@
+<map id="/home/govind/Desktop/git/qoco/include/qoco_utils.h" name="/home/govind/Desktop/git/qoco/include/qoco_utils.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="275,5,445,60"/>
+<area shape="rect" id="Node000002" href="$cone_8h.html" title=" " alt="" coords="176,108,352,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="325,72,285,110,282,106,321,68"/>
+<area shape="rect" id="Node000004" href="$qoco__api_8h.html" title=" " alt="" coords="161,284,364,324"/>
+<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="263,52,210,74,186,90,166,110,145,141,135,170,137,201,152,235,176,262,208,282,206,286,173,266,147,237,132,202,130,170,140,138,162,106,183,86,208,69,261,47"/>
+<area shape="rect" id="Node000005" href="$qoco_8h.html" title=" " alt="" coords="5,372,181,412"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="262,47,228,56,195,69,163,87,137,110,115,140,100,175,90,212,86,250,86,320,92,372,87,372,81,320,80,250,85,211,95,173,110,138,133,106,160,82,192,64,227,51,261,42"/>
+<area shape="rect" id="Node000007" href="$kkt_8c.html" title=" " alt="" coords="433,284,602,324"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="419,65,452,90,486,120,516,155,540,195,545,219,544,243,530,285,525,283,538,242,540,219,535,197,512,158,482,123,448,94,415,70"/>
+<area shape="rect" id="Node000008" href="$cone_8c.html" title=" " alt="" coords="355,196,525,236"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="380,72,434,194,429,197,375,74"/>
+<area shape="rect" id="Node000009" href="$qoco__utils_8c.html" title=" " alt="" coords="601,108,783,148"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="459,59,626,105,624,111,457,64"/>
+<area shape="rect" id="Node000003" href="$kkt_8h.html" title=" " alt="" coords="162,196,331,236"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="260,162,253,196,248,195,255,161"/>
+<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="203,157,175,175,151,198,126,242,109,291,101,337,97,372,92,372,95,336,104,290,121,240,147,194,172,171,200,152"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="316,152,403,194,400,198,314,156"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="255,249,262,283,257,284,250,250"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="320,238,459,281,457,287,318,243"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="215,333,132,374,129,370,212,328"/>
+<area shape="rect" id="Node000006" href="$qoco__api_8c.html" title=" " alt="" coords="206,372,381,412"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="277,336,289,371,284,373,272,338"/>
+</map>

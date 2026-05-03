@@ -1,14 +1,11 @@
 var searchData=
 [
-  ['k_74',['K',['../structQOCOKKT.html#a42dca8a44ef230ae857c0ed1902a1e6e',1,'QOCOKKT']]],
-  ['k_75',['k',['../structQOCOKKT.html#a0370a2e9d69025a4b53aeb27429f33dd',1,'QOCOKKT']]],
-  ['kinv_76',['kinv',['../structQOCOKKT.html#ac992970a5113c5ff3d60e0c64532aa0a',1,'QOCOKKT']]],
-  ['kkt_77',['kkt',['../structQOCOWorkspace.html#ac24765599d57154f6018a884b48844ce',1,'QOCOWorkspace']]],
-  ['kkt_2ec_78',['kkt.c',['../kkt_8c.html',1,'']]],
-  ['kkt_2eh_79',['kkt.h',['../kkt_8h.html',1,'']]],
-  ['kkt_5fdynamic_5freg_80',['kkt_dynamic_reg',['../structQOCOSettings.html#ad635ca462b97c3f0978b755ce2ce763c',1,'QOCOSettings']]],
-  ['kkt_5fmultiply_81',['kkt_multiply',['../kkt_8h.html#a112a3955fd72740bb6e5dd032ad34e8c',1,'kkt_multiply(QOCOSolver *solver, QOCOFloat *x, QOCOFloat *y):&#160;kkt.c'],['../kkt_8c.html#a112a3955fd72740bb6e5dd032ad34e8c',1,'kkt_multiply(QOCOSolver *solver, QOCOFloat *x, QOCOFloat *y):&#160;kkt.c']]],
-  ['kkt_5fsolve_82',['kkt_solve',['../kkt_8h.html#a0fa673e36adc2fe84350627543fe58d4',1,'kkt_solve(QOCOSolver *solver, QOCOFloat *b, QOCOInt iters):&#160;kkt.c'],['../kkt_8c.html#a0fa673e36adc2fe84350627543fe58d4',1,'kkt_solve(QOCOSolver *solver, QOCOFloat *b, QOCOInt iters):&#160;kkt.c']]],
-  ['kkt_5fstatic_5freg_83',['kkt_static_reg',['../structQOCOSettings.html#a11f48d67a5626431c077ad30c84433df',1,'QOCOSettings']]],
-  ['kktres_84',['kktres',['../structQOCOKKT.html#a09b19f406c70817daf7dc41ead83c975',1,'QOCOKKT']]]
+  ['k_0',['k',['../structQOCOScaling.html#ad8983780b7fd5d4180a40f9c598247ef',1,'QOCOScaling']]],
+  ['kinv_1',['kinv',['../structQOCOScaling.html#a98fa232a9a67726dc9abfa198421dfe4',1,'QOCOScaling']]],
+  ['kkt_2ec_2',['kkt.c',['../kkt_8c.html',1,'']]],
+  ['kkt_2eh_3',['kkt.h',['../kkt_8h.html',1,'']]],
+  ['kkt_5fdynamic_5freg_4',['kkt_dynamic_reg',['../structQOCOSettings.html#ad635ca462b97c3f0978b755ce2ce763c',1,'QOCOSettings']]],
+  ['kkt_5fmultiply_5',['kkt_multiply',['../kkt_8h.html#a4b3e435db513b1ac6c8e4aa26dd67f65',1,'kkt_multiply(QOCOFloat *x, QOCOFloat *y, QOCOProblemData *data, QOCOFloat *Wfull, QOCOInt *Wsoc_idx, QOCOInt *soc_idx, QOCOFloat *nbuff, QOCOFloat *mbuff1, QOCOFloat *mbuff2):&#160;kkt.c'],['../kkt_8c.html#a4b3e435db513b1ac6c8e4aa26dd67f65',1,'kkt_multiply(QOCOFloat *x, QOCOFloat *y, QOCOProblemData *data, QOCOFloat *Wfull, QOCOInt *Wsoc_idx, QOCOInt *soc_idx, QOCOFloat *nbuff, QOCOFloat *mbuff1, QOCOFloat *mbuff2):&#160;kkt.c']]],
+  ['kkt_5fstatic_5freg_6',['kkt_static_reg',['../structQOCOSettings.html#a11f48d67a5626431c077ad30c84433df',1,'QOCOSettings']]],
+  ['kktres_7',['kktres',['../structQOCOWorkspace.html#ad07be1b7e3b9e3f01330bad1496a6e1e',1,'QOCOWorkspace']]]
 ];

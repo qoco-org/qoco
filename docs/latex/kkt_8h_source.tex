@@ -1,0 +1,46 @@
+\doxysection{kkt.\+h}
+\hypertarget{kkt_8h_source}{}\label{kkt_8h_source}\index{/home/govind/Desktop/git/qoco/include/kkt.h@{/home/govind/Desktop/git/qoco/include/kkt.h}}
+\mbox{\hyperlink{kkt_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifndef\ QOCO\_KKT\_H}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ QOCO\_KKT\_H}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{cone_8h}{cone.h}}"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}qdldl.h"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{qoco__linalg_8h}{qoco\_linalg.h}}"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{structs_8h}{structs.h}}"{}}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00052\ \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCscMatrix}}*\ \mbox{\hyperlink{kkt_8h_a57906d25cb2ba7142f0c932a47fc5830}{construct\_kkt}}(\mbox{\hyperlink{structQOCOCscMatrix}{QOCOCscMatrix}}*\ P,\ \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCscMatrix}}*\ A,}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCscMatrix}}*\ G,\ \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCscMatrix}}*\ At,}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structQOCOCscMatrix}{QOCOCscMatrix}}*\ Gt,\ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ static\_reg,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ n,}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ m,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ p,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ l,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ nsoc,}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ q,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ PregtoKKT,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ AttoKKT,}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ GttoKKT,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ nt2kkt,}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ ntdiag2kkt,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ Wnnz);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00066\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{kkt_8h_af0e88edff1a77bc07b379c2e194d3bff}{initialize\_ipm}}(\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}}*\ solver);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00089\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{kkt_8h_a8bf92964f4b5e69b05088927dd3c7f11}{compute\_kkt\_residual}}(\mbox{\hyperlink{structQOCOProblemData}{QOCOProblemData}}*\ data,\ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ x\_vec,}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ y\_vec,\ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ s\_vec,}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ z\_vec,\ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ kktres\_vec,}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ static\_reg,\ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ xyzbuff\_vec,}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ nbuff\_vec,\ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ mbuff\_vec);}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00103\ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{kkt_8h_a8cacc3f79ec19f15292380d48251c6d9}{compute\_mu}}(\mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ s\_vec,\ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ z\_vec,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}\ m);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00116\ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ \mbox{\hyperlink{kkt_8h_abce5e0f0685fe4409c7aee0f3fe8cf3c}{compute\_objective}}(\mbox{\hyperlink{structQOCOProblemData}{QOCOProblemData}}*\ data,\ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ x\_vec,}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{qoco__linalg_8h_a116611a3ec9e1cb131d9ead4cbe877d9}{QOCOVectorf}}*\ nbuff\_vec,\ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ static\_reg,}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}\ k);}
+\DoxyCodeLine{00126\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{kkt_8h_ac1d386c6e2cd69a234372d46ec72dfe9}{construct\_kkt\_aff\_rhs}}(\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}}*\ work);}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00136\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{kkt_8h_af490c914ea3af23705d62cbde72d8755}{construct\_kkt\_comb\_rhs}}(\mbox{\hyperlink{structQOCOWorkspace}{QOCOWorkspace}}*\ work);}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00143\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{kkt_8h_a997c4579bd059099f397623479d0cd47}{predictor\_corrector}}(\mbox{\hyperlink{structQOCOSolver}{QOCOSolver}}*\ solver);}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00161\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{kkt_8h_a4b3e435db513b1ac6c8e4aa26dd67f65}{kkt\_multiply}}(\mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}*\ x,\ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}*\ y,\ \mbox{\hyperlink{structQOCOProblemData}{QOCOProblemData}}*\ data,}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}*\ Wfull,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ Wsoc\_idx,\ \mbox{\hyperlink{definitions_8h_aedd8d3f09aca17e3ca87133e7b66c5b2}{QOCOInt}}*\ soc\_idx,}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}*\ nbuff,\ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}*\ mbuff1,\ \mbox{\hyperlink{definitions_8h_a4f04b37411a6fc01fed72b02f1364188}{QOCOFloat}}*\ mbuff2);}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ \#ifndef\ QOCO\_KKT\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

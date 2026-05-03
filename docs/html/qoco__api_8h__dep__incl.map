@@ -1,5 +1,7 @@
 <map id="/home/govind/Desktop/git/qoco/include/qoco_api.h" name="/home/govind/Desktop/git/qoco/include/qoco_api.h">
-<area shape="rect" id="node1" title=" " alt="" coords="92,5,295,47"/>
-<area shape="rect" id="node2" href="$qoco_8h.html" title=" " alt="" coords="5,95,181,136"/>
-<area shape="rect" id="node3" href="$qoco__api_8c.html" title=" " alt="" coords="206,95,381,136"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="92,5,295,45"/>
+<area shape="rect" id="Node000002" href="$qoco_8h.html" title=" " alt="" coords="5,93,181,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,56,117,95,114,91,159,52"/>
+<area shape="rect" id="Node000003" href="$qoco__api_8c.html" title=" " alt="" coords="206,93,381,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,52,273,91,269,95,224,56"/>
 </map>

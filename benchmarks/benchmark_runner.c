@@ -16,17 +16,23 @@ static void apply_setting(QOCOSettings* settings, const char* arg)
   if (strcmp(key, "max_iters") == 0) {
     settings->max_iters = atoi(val);
   }
-  else if (strcmp(key, "bisect_iters") == 0) {
-    settings->bisect_iters = atoi(val);
-  }
   else if (strcmp(key, "ruiz_iters") == 0) {
     settings->ruiz_iters = atoi(val);
   }
-  else if (strcmp(key, "iter_ref_iters") == 0) {
-    settings->iter_ref_iters = atoi(val);
+  else if (strcmp(key, "max_ir_iters") == 0) {
+    settings->max_ir_iters = atoi(val);
   }
-  else if (strcmp(key, "kkt_static_reg") == 0) {
-    settings->kkt_static_reg = atof(val);
+  else if (strcmp(key, "ir_tol") == 0) {
+    settings->ir_tol = atof(val);
+  }
+  else if (strcmp(key, "kkt_static_reg_P") == 0) {
+    settings->kkt_static_reg_P = atof(val);
+  }
+  else if (strcmp(key, "kkt_static_reg_A") == 0) {
+    settings->kkt_static_reg_A = atof(val);
+  }
+  else if (strcmp(key, "kkt_static_reg_G") == 0) {
+    settings->kkt_static_reg_G = atof(val);
   }
   else if (strcmp(key, "kkt_dynamic_reg") == 0) {
     settings->kkt_dynamic_reg = atof(val);

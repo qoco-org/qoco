@@ -1,12 +1,32 @@
 <map id="/home/govind/Desktop/git/qoco/include/input_validation.h" name="/home/govind/Desktop/git/qoco/include/input_validation.h">
-<area shape="rect" id="node1" title=" " alt="" coords="87,5,256,61"/>
-<area shape="rect" id="node2" href="$enums_8h.html" title=" " alt="" coords="5,184,84,211"/>
-<area shape="rect" id="node3" href="$qoco__error_8h.html" title=" " alt="" coords="76,109,179,136"/>
-<area shape="rect" id="node8" title=" " alt="" coords="165,184,231,211"/>
-<area shape="rect" id="node9" href="$structs_8h.html" title=" " alt="" coords="255,109,333,136"/>
-<area shape="rect" id="node4" href="$definitions_8h.html" title=" " alt="" coords="217,259,320,285"/>
-<area shape="rect" id="node5" title=" " alt="" coords="140,333,211,360"/>
-<area shape="rect" id="node6" title=" " alt="" coords="235,333,303,360"/>
-<area shape="rect" id="node7" title=" " alt="" coords="327,333,397,360"/>
-<area shape="rect" id="node10" href="$timer_8h.html" title=" " alt="" coords="307,184,375,211"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="92,5,261,60"/>
+<area shape="rect" id="Node000002" href="$enums_8h.html" title=" " alt="" coords="5,181,84,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,62,89,83,64,109,52,138,47,168,42,167,47,137,60,107,85,79,116,58"/>
+<area shape="rect" id="Node000003" href="$qoco__status_8h.html" title=" " alt="" coords="74,108,186,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,61,145,97,140,95,160,59"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="163,181,230,207"/>
+<area shape="poly" id="edge17_Node000001_Node000009" title=" " alt="" coords="189,60,201,108,201,133,200,168,195,168,195,133,195,108,184,61"/>
+<area shape="rect" id="Node000010" href="$structs_8h.html" title=" " alt="" coords="288,108,367,133"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="224,58,296,99,294,103,221,62"/>
+<area shape="poly" id="edge8_Node000003_Node000002" title=" " alt="" coords="118,135,71,175,67,170,115,131"/>
+<area shape="rect" id="Node000004" href="$definitions_8h.html" title=" " alt="" coords="263,255,365,280"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="132,133,136,168,142,188,153,205,174,223,198,237,250,255,249,260,196,242,171,227,149,208,138,190,131,170,127,134"/>
+<area shape="poly" id="edge9_Node000003_Node000009" title=" " alt="" coords="143,132,178,169,175,173,139,135"/>
+<area shape="rect" id="Node000005" href="$qoco__config_8h.html" title=" " alt="" coords="97,328,208,353"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="289,282,193,325,190,320,287,278"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="232,328,303,353"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="309,282,285,318,280,315,304,279"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="327,328,395,353"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="324,279,348,315,343,318,319,282"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="419,328,489,353"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="338,278,420,319,418,324,335,282"/>
+<area shape="poly" id="edge11_Node000010_Node000004" title=" " alt="" coords="321,135,307,156,297,182,296,212,305,241,299,243,291,213,291,181,303,154,316,132"/>
+<area shape="rect" id="Node000011" href="$qoco__linalg_8h.html" title=" " alt="" coords="305,181,413,207"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="335,133,351,168,346,170,330,135"/>
+<area shape="rect" id="Node000012" href="$timer_8h.html" title=" " alt="" coords="437,181,505,207"/>
+<area shape="poly" id="edge14_Node000010_Node000012" title=" " alt="" coords="352,131,437,173,434,177,349,136"/>
+<area shape="poly" id="edge13_Node000011_Node000004" title=" " alt="" coords="354,208,331,245,326,242,350,206"/>
+<area shape="poly" id="edge15_Node000012_Node000004" title=" " alt="" coords="447,209,353,251,351,247,445,204"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="439,255,503,280"/>
+<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="474,207,474,241,469,241,469,207"/>
 </map>
