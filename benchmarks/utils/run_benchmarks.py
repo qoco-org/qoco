@@ -15,13 +15,14 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
                 output = subprocess.check_output([runner, str(bin_file), settings], text=True)
             else:
                 output = subprocess.check_output([runner, str(bin_file)], text=True)
-            # Example output: ./benchmarks/data/TAME.bin 1 1 0.000026 0.000021
+            # Example output: ./benchmarks/data/TAME.bin 1 1 0 0.000026 0.000021
             parts = output.strip().split()
             filename = parts[0]
             exit_code = int(parts[1])
             iters = int(parts[2])
-            setup_time = float(parts[3])
-            solve_time = float(parts[4])
+            ir_iters = int(parts[3])
+            setup_time = float(parts[4])
+            solve_time = float(parts[5])
 
             prob_name = filename.removesuffix(".bin")
 
@@ -29,6 +30,7 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
                 "name": Path(prob_name).name,
                 "exit_code": exit_code,
                 "iters": iters,
+                "ir_iters": ir_iters,
                 "setup_time": setup_time,
                 "solve_time": solve_time
             })
@@ -37,7 +39,8 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
             results.append({
                 "name": prob_name,
                 "exit_code": -1,
-                iters: -1,
+                "iters": -1,
+                "ir_iters": -1,
                 "setup_time": None,
                 "solve_time": None
             })
