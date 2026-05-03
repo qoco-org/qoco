@@ -178,22 +178,24 @@ void print_header(QOCOSolver* solver)
   printf("|     algebra: %-27s              |\n", solver->linsys->linsys_name());
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
-  printf("|     kkt_static_reg: %3.2e ruiz_iters: %-2d           |\n", settings->kkt_static_reg, settings->ruiz_iters);
-  printf("|     kkt_dynamic_reg: %3.2e iter_ref_iters: %-2d      |\n", settings->kkt_dynamic_reg, settings->iter_ref_iters);
+  printf("|     kkt_static_reg_P: %3.2e ruiz_iters: %-2d         |\n", settings->kkt_static_reg_P, settings->ruiz_iters);
+  printf("|     kkt_static_reg_A: %3.2e max_ir_iters: %-2d       |\n", settings->kkt_static_reg_A, settings->max_ir_iters);
+  printf("|     kkt_static_reg_G: %3.2e ir_tol: %3.2e       |\n", settings->kkt_static_reg_G, settings->ir_tol);
+  printf("|     kkt_dynamic_reg: %3.2e                         |\n", settings->kkt_dynamic_reg);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
-  printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
-  printf("|  Iter  |   Pcost   |    Pres    |    Dres    |     Gap    |     Mu    |    Step   |\n");
-  printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
+  printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
+  printf("|  Iter  |   Pcost   |    Pres    |    Dres    |     Gap    |     Mu    |  IR  |    Step   |\n");
+  printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
   // clang-format on
 }
 
 void log_iter(QOCOSolver* solver)
 {
   // clang-format off
-  printf("|   %2d   | %+.2e | %+.3e | %+.3e | %+.3e | %+.2e |   %.3f   |\n",
-         solver->sol->iters, solver->sol->obj, solver->sol->pres, solver->sol->dres, solver->sol->gap, solver->work->mu, solver->work->a);
-  printf("+--------+-----------+------------+------------+------------+-----------+-----------+\n");
+  printf("|  %3d   | %+.2e | %+.3e | %+.3e | %+.3e | %+.2e |  %2d  |   %.3f   |\n",
+         solver->sol->iters, solver->sol->obj, solver->sol->pres, solver->sol->dres, solver->sol->gap, solver->work->mu, solver->work->ir_iters, solver->work->a);
+  printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
   // clang-format on
 }
 
@@ -259,7 +261,7 @@ unsigned char check_stopping(QOCOSolver* solver)
 
   // Compute ||P * x||_\infty
   USpMv(data->P, xdata, xbuff);
-  qoco_axpy(xdata, xbuff, xbuff, -solver->settings->kkt_static_reg, data->n);
+  qoco_axpy(xdata, xbuff, xbuff, -solver->settings->kkt_static_reg_P, data->n);
   ew_product(xbuff, Dinvruiz_data, xbuff, data->n);
   QOCOFloat Pxinf = inf_norm(xbuff, data->n);
   QOCOFloat xPx = qoco_dot(xdata, xbuff, work->data->n);
@@ -323,19 +325,32 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat gap_rel = qoco_max(1, pobj);
   gap_rel = qoco_max(gap_rel, dobj);
 
-  // If the solver stalled (stepsize = 0) check if low tolerance stopping
-  // criteria is met.
+  // If the solver stalled (stepsize = 0), increase dynamic regularization by
+  // one order of magnitude and retry. If kkt_dynamic_reg would exceed
+  // kkt_reg_max=1e-6, stop with an error.
   if (solver->work->a < 1e-8) {
-    if (pres < eabsinacc + erelinacc * pres_rel &&
-        dres < eabsinacc + erelinacc * dres_rel &&
-        solver->sol->gap < eabsinacc + erelinacc * gap_rel) {
-      solver->sol->status = QOCO_SOLVED_INACCURATE;
-      return 1;
+    solver->settings->kkt_dynamic_reg *= 10.0;
+#ifdef QOCO_LOGGING
+    {
+      FILE* log_f = fopen("qoco_log.txt", "a");
+      if (log_f) {
+        fprintf(log_f, "kkt_dynamic_reg changed to %e\n",
+                solver->settings->kkt_dynamic_reg);
+        fclose(log_f);
+      }
     }
-    else {
+#endif
+    if (solver->settings->kkt_dynamic_reg > 1e-6) {
+      if (pres < eabsinacc + erelinacc * pres_rel &&
+          dres < eabsinacc + erelinacc * dres_rel &&
+          solver->sol->gap < eabsinacc + erelinacc * gap_rel) {
+        solver->sol->status = QOCO_SOLVED_INACCURATE;
+        return 1;
+      }
       solver->sol->status = QOCO_NUMERICAL_ERROR;
       return 1;
     }
+    return 0;
   }
 
   if (pres < eabs + erel * pres_rel && dres < eabs + erel * dres_rel &&
@@ -371,14 +386,30 @@ void copy_solution(QOCOSolver* solver)
       get_elapsed_time_sec(&(solver->work->solve_timer));
 }
 
+void log_ipm_iter(QOCOInt iter)
+{
+#ifdef QOCO_LOGGING
+  FILE* log_f = fopen("qoco_log.txt", iter == 0 ? "w" : "a");
+  if (log_f) {
+    fprintf(log_f, "Iteration: %d\n", iter);
+    fclose(log_f);
+  }
+#else
+  (void)iter;
+#endif
+}
+
 QOCOSettings* copy_settings(QOCOSettings* settings)
 {
   QOCOSettings* new_settings = malloc(sizeof(QOCOSettings));
   new_settings->abstol = settings->abstol;
   new_settings->abstol_inacc = settings->abstol_inacc;
-  new_settings->iter_ref_iters = settings->iter_ref_iters;
+  new_settings->max_ir_iters = settings->max_ir_iters;
+  new_settings->ir_tol = settings->ir_tol;
   new_settings->max_iters = settings->max_iters;
-  new_settings->kkt_static_reg = settings->kkt_static_reg;
+  new_settings->kkt_static_reg_P = settings->kkt_static_reg_P;
+  new_settings->kkt_static_reg_A = settings->kkt_static_reg_A;
+  new_settings->kkt_static_reg_G = settings->kkt_static_reg_G;
   new_settings->kkt_dynamic_reg = settings->kkt_dynamic_reg;
   new_settings->reltol = settings->reltol;
   new_settings->reltol_inacc = settings->reltol_inacc;

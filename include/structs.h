@@ -111,11 +111,21 @@ typedef struct {
   /** Number of Ruiz equilibration iterations. */
   QOCOInt ruiz_iters;
 
-  /** Number of iterative refinement iterations performed. */
-  QOCOInt iter_ref_iters;
+  /** Maximum number of iterative refinement iterations. */
+  QOCOInt max_ir_iters;
 
-  /** Static regularization parameter for KKT system. */
-  QOCOFloat kkt_static_reg;
+  /** Iterative refinement stopping tolerance: stop when norm(K*x-b) < ir_tol.
+   */
+  QOCOFloat ir_tol;
+
+  /** Static regularization for the (1,1) P block of the KKT system. */
+  QOCOFloat kkt_static_reg_P;
+
+  /** Static regularization for the (2,2) A block of the KKT system. */
+  QOCOFloat kkt_static_reg_A;
+
+  /** Static regularization for the (3,3) G block of the KKT system. */
+  QOCOFloat kkt_static_reg_G;
 
   /** Dynamic regularization parameter for KKT system. */
   QOCOFloat kkt_dynamic_reg;
@@ -274,6 +284,9 @@ typedef struct {
   /** Residual of KKT condition. */
   QOCOVectorf* kktres;
 
+  /** Total iterative refinement iterations used in the current IPM step. */
+  QOCOInt ir_iters;
+
 } QOCOWorkspace;
 
 typedef struct {
@@ -324,13 +337,13 @@ typedef struct {
                               QOCOInt Wnnz);
   void (*linsys_set_nt_identity)(LinSysData* linsys_data, QOCOInt m);
   void (*linsys_update_nt)(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
-                           QOCOFloat kkt_static_reg, QOCOInt m);
+                           QOCOFloat kkt_static_reg_G, QOCOInt m);
   void (*linsys_update_data)(LinSysData* linsys_data, QOCOProblemData* data);
   void (*linsys_factor)(LinSysData* linsys_data, QOCOInt n,
                         QOCOFloat kkt_dynamic_reg);
   void (*linsys_solve)(LinSysData* linsys_data, QOCOWorkspace* work,
-                       QOCOVectorf* b_vec, QOCOVectorf* x_vec,
-                       QOCOInt iter_ref_iters);
+                       QOCOVectorf* b_vec, QOCOVectorf* x_vec, QOCOFloat ir_tol,
+                       QOCOInt max_ir_iters);
   void (*linsys_cleanup)(LinSysData* linsys_data);
 } LinSysBackend;
 

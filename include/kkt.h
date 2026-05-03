@@ -51,11 +51,12 @@
  */
 QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
                              QOCOCscMatrix* G, QOCOCscMatrix* At,
-                             QOCOCscMatrix* Gt, QOCOFloat static_reg, QOCOInt n,
-                             QOCOInt m, QOCOInt p, QOCOInt l, QOCOInt nsoc,
-                             QOCOInt* q, QOCOInt* PregtoKKT, QOCOInt* AttoKKT,
-                             QOCOInt* GttoKKT, QOCOInt* nt2kkt,
-                             QOCOInt* ntdiag2kkt, QOCOInt Wnnz);
+                             QOCOCscMatrix* Gt, QOCOFloat kkt_static_reg_A,
+                             QOCOInt n, QOCOInt m, QOCOInt p, QOCOInt l,
+                             QOCOInt nsoc, QOCOInt* q, QOCOInt* PregtoKKT,
+                             QOCOInt* AttoKKT, QOCOInt* GttoKKT,
+                             QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt,
+                             QOCOInt Wnnz);
 
 /**
  * @brief Gets initial values for primal and dual variables such that (s,z) \in
@@ -89,7 +90,7 @@ void initialize_ipm(QOCOSolver* solver);
 void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,
                           QOCOVectorf* y_vec, QOCOVectorf* s_vec,
                           QOCOVectorf* z_vec, QOCOVectorf* kktres_vec,
-                          QOCOFloat static_reg, QOCOVectorf* xyzbuff_vec,
+                          QOCOFloat kkt_static_reg_P, QOCOVectorf* xyzbuff_vec,
                           QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec);
 
 /**
@@ -114,7 +115,7 @@ QOCOFloat compute_mu(QOCOVectorf* s_vec, QOCOVectorf* z_vec, QOCOInt m);
  * @return Computed objective
  */
 QOCOFloat compute_objective(QOCOProblemData* data, QOCOVectorf* x_vec,
-                            QOCOVectorf* nbuff_vec, QOCOFloat static_reg,
+                            QOCOVectorf* nbuff_vec, QOCOFloat kkt_static_reg_P,
                             QOCOFloat k);
 /**
  * @brief Constructs rhs for the affine scaling KKT system.

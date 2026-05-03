@@ -13,11 +13,11 @@
 
 QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
                              QOCOCscMatrix* G, QOCOCscMatrix* At,
-                             QOCOCscMatrix* Gt, QOCOFloat static_reg, QOCOInt n,
-                             QOCOInt m, QOCOInt p, QOCOInt l, QOCOInt nsoc,
-                             QOCOInt* q, QOCOInt* PregtoKKT, QOCOInt* AttoKKT,
-                             QOCOInt* GttoKKT, QOCOInt* nt2kkt,
-                             QOCOInt* ntdiag2kkt, QOCOInt Wnnz)
+                             QOCOCscMatrix* Gt, QOCOFloat kkt_static_reg_A,
+                             QOCOInt n, QOCOInt m, QOCOInt p, QOCOInt l,
+                             QOCOInt nsoc, QOCOInt* q, QOCOInt* PregtoKKT,
+                             QOCOInt* AttoKKT, QOCOInt* GttoKKT,
+                             QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt, QOCOInt Wnnz)
 {
   QOCOCscMatrix* KKT = qoco_malloc(sizeof(QOCOCscMatrix));
 
@@ -67,7 +67,7 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
     }
 
     // Add -e * Id regularization.
-    KKT->x[nz] = -static_reg;
+    KKT->x[nz] = -kkt_static_reg_A;
     KKT->i[nz] = n + Atcol;
     nz += 1;
     nzadded += 1;
@@ -199,7 +199,8 @@ void initialize_ipm(QOCOSolver* solver)
 
   // Solve KKT system.
   solver->linsys->linsys_solve(solver->linsys_data, work, work->rhs, work->xyz,
-                               solver->settings->iter_ref_iters);
+                               solver->settings->ir_tol,
+                               solver->settings->max_ir_iters);
 
   // Copy x part of solution to x.
   copy_arrayf(xyz, get_data_vectorf(work->x), work->data->n);
@@ -222,7 +223,7 @@ void initialize_ipm(QOCOSolver* solver)
 void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,
                           QOCOVectorf* y_vec, QOCOVectorf* s_vec,
                           QOCOVectorf* z_vec, QOCOVectorf* kktres_vec,
-                          QOCOFloat static_reg, QOCOVectorf* xyzbuff_vec,
+                          QOCOFloat kkt_static_reg_P, QOCOVectorf* xyzbuff_vec,
                           QOCOVectorf* nbuff_vec, QOCOVectorf* mbuff_vec)
 {
 
@@ -249,7 +250,7 @@ void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,
   QOCOFloat* bdata = get_data_vectorf(data->b);
   QOCOFloat* hdata = get_data_vectorf(data->h);
   qoco_axpy(cdata, kktres, kktres, 1.0, data->n);
-  qoco_axpy(x, kktres, kktres, -static_reg, data->n);
+  qoco_axpy(x, kktres, kktres, -kkt_static_reg_P, data->n);
 
   // Add -b.
   qoco_axpy(bdata, &kktres[data->n], &kktres[data->n], -1.0, data->p);
@@ -272,7 +273,7 @@ QOCOFloat compute_mu(QOCOVectorf* s_vec, QOCOVectorf* z_vec, QOCOInt m)
 }
 
 QOCOFloat compute_objective(QOCOProblemData* data, QOCOVectorf* x_vec,
-                            QOCOVectorf* nbuff_vec, QOCOFloat static_reg,
+                            QOCOVectorf* nbuff_vec, QOCOFloat kkt_static_reg_P,
                             QOCOFloat k)
 {
   QOCOFloat* x = get_data_vectorf(x_vec);
@@ -282,7 +283,8 @@ QOCOFloat compute_objective(QOCOProblemData* data, QOCOVectorf* x_vec,
   USpMv(data->P, x, nbuff);
 
   // Correct for regularization in P.
-  QOCOFloat regularization_correction = static_reg * qoco_dot(x, x, data->n);
+  QOCOFloat regularization_correction =
+      kkt_static_reg_P * qoco_dot(x, x, data->n);
   obj += 0.5 * (qoco_dot(nbuff, x, data->n) - regularization_correction);
   obj = safe_div(obj, k);
   return obj;
@@ -398,7 +400,8 @@ void predictor_corrector(QOCOSolver* solver)
 
   // Solve to get affine scaling direction.
   solver->linsys->linsys_solve(solver->linsys_data, work, work->rhs, work->xyz,
-                               solver->settings->iter_ref_iters);
+                               solver->settings->ir_tol,
+                               solver->settings->max_ir_iters);
 
   // Compute Dsaff. Dsaff = W' * (-lambda - W * Dzaff).
   QOCOFloat* xyz = get_data_vectorf(work->xyz);
@@ -418,7 +421,8 @@ void predictor_corrector(QOCOSolver* solver)
 
   // Solve to get combined direction.
   solver->linsys->linsys_solve(solver->linsys_data, work, work->rhs, work->xyz,
-                               solver->settings->iter_ref_iters);
+                               solver->settings->ir_tol,
+                               solver->settings->max_ir_iters);
 
   // Check if solution has NaNs. If NaNs are present, early exit and set a to
   // 0.0 to trigger reduced tolerance optimality checks.
