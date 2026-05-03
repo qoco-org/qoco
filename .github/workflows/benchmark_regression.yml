@@ -67,27 +67,19 @@ jobs:
       - name: Install python dependencies
         run: pip install pandas
 
-      - name: Download MM results
+      - name: Download all benchmark results
         uses: actions/download-artifact@v4
         with:
-          name: benchmark-mm
-          path: /tmp/results/mm/
-
-      - name: Download MPC results
-        uses: actions/download-artifact@v4
-        with:
-          name: benchmark-mpc
-          path: /tmp/results/mpc/
+          pattern: benchmark-*
+          path: /tmp/results/
 
       - name: Merge results
         run: |
           python - <<'EOF'
-          import pandas as pd, os
-          os.makedirs('/tmp/results', exist_ok=True)
-          pd.concat([pd.read_csv('/tmp/results/mm/main.csv'),
-                     pd.read_csv('/tmp/results/mpc/main.csv')]).to_csv('/tmp/results/main.csv', index=False)
-          pd.concat([pd.read_csv('/tmp/results/mm/branch.csv'),
-                     pd.read_csv('/tmp/results/mpc/branch.csv')]).to_csv('/tmp/results/branch.csv', index=False)
+          import pandas as pd, glob
+          dirs = sorted(glob.glob('/tmp/results/benchmark-*/'))
+          pd.concat([pd.read_csv(f'{d}main.csv') for d in dirs]).to_csv('/tmp/results/main.csv', index=False)
+          pd.concat([pd.read_csv(f'{d}branch.csv') for d in dirs]).to_csv('/tmp/results/branch.csv', index=False)
           EOF
 
       - name: Generate Regression Report
