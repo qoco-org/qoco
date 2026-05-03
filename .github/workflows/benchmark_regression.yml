@@ -76,10 +76,15 @@ jobs:
       - name: Merge results
         run: |
           python - <<'EOF'
-          import pandas as pd, glob
+          import pandas as pd, glob, os
           dirs = sorted(glob.glob('/tmp/results/benchmark-*/'))
-          pd.concat([pd.read_csv(f'{d}main.csv') for d in dirs]).to_csv('/tmp/results/main.csv', index=False)
-          pd.concat([pd.read_csv(f'{d}branch.csv') for d in dirs]).to_csv('/tmp/results/branch.csv', index=False)
+          mains, branches = [], []
+          for d in dirs:
+              dataset = os.path.basename(d.rstrip('/')).replace('benchmark-', '')
+              m = pd.read_csv(f'{d}main.csv'); m['dataset'] = dataset; mains.append(m)
+              b = pd.read_csv(f'{d}branch.csv'); b['dataset'] = dataset; branches.append(b)
+          pd.concat(mains).to_csv('/tmp/results/main.csv', index=False)
+          pd.concat(branches).to_csv('/tmp/results/branch.csv', index=False)
           EOF
 
       - name: Generate Regression Report
