@@ -305,6 +305,9 @@ typedef struct {
   /**Number of iterations. */
   QOCOInt iters;
 
+  /**Total iterative refinement iterations across all IPM steps. */
+  QOCOInt ir_iters;
+
   /**Setup time. */
   QOCOFloat setup_time_sec;
 
