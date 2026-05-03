@@ -303,7 +303,8 @@ unsigned char check_stopping(QOCOSolver* solver)
   dres_rel = qoco_max(dres_rel, cinf);
   dres_rel *= work->scaling->kinv;
 
-  // Compute gap as abs(pobj - dobj) and relative scale max{1, abs(pobj), abs(dobj)}.
+  // Compute gap as abs(pobj - dobj) and relative scale max{1, abs(pobj),
+  // abs(dobj)}.
   QOCOFloat* cdata = get_data_vectorf(work->data->c);
   QOCOFloat ctx = qoco_dot(cdata, xdata, work->data->n);
   QOCOFloat bty = qoco_dot(bdata, ydata, work->data->p);
