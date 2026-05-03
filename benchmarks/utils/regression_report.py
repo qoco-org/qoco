@@ -27,9 +27,17 @@ for ds in datasets:
     d_iters = d.loc[d["exit_code"] == 1, "iters"].sum()
     b_ir_iters = b.loc[b["exit_code"] == 1, "ir_iters"].sum()
     d_ir_iters = d.loc[d["exit_code"] == 1, "ir_iters"].sum()
+
+    bs = f"**{b_solved}**" if b_solved > d_solved else str(b_solved)
+    ds_ = f"**{d_solved}**" if d_solved > b_solved else str(d_solved)
+    bi = f"**{b_iters}**" if b_iters < d_iters else str(b_iters)
+    di = f"**{d_iters}**" if d_iters < b_iters else str(d_iters)
+    bir = f"**{b_ir_iters}**" if b_ir_iters < d_ir_iters else str(b_ir_iters)
+    dir_ = f"**{d_ir_iters}**" if d_ir_iters < b_ir_iters else str(d_ir_iters)
+
     msg_lines.append(
-        f"| {ds} | {b_solved} / {len(b)} | {d_solved} / {len(d)} "
-        f"| {b_iters} | {d_iters} | {b_ir_iters} | {d_ir_iters} |"
+        f"| {ds} | {bs} / {len(b)} | {ds_} / {len(d)} "
+        f"| {bi} | {di} | {bir} | {dir_} |"
     )
 msg_lines.append("")
 
