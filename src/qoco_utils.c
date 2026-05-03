@@ -221,7 +221,6 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
   QOCOFloat* ybuff = get_data_vectorf(work->ybuff);
   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
-  QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
   QOCOFloat* ubuff3 = get_data_vectorf(work->ubuff3);
   QOCOFloat* kktres = get_data_vectorf(work->kktres);
 
@@ -292,13 +291,6 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat dres = inf_norm(xbuff, data->n);
   solver->sol->dres = dres;
 
-  // Compute complementary slackness residual.
-  ew_product(sdata, Fruiz_data, ubuff1, data->m);
-  ew_product(zdata, Fruiz_data, ubuff2, data->m);
-  QOCOFloat gap = qoco_dot(ubuff1, ubuff2, data->m);
-  gap *= work->scaling->kinv;
-  solver->sol->gap = gap;
-
   // Compute max{Axinf, binf, Gxinf, hinf, sinf}.
   QOCOFloat pres_rel = qoco_max(Axinf, binf);
   pres_rel = qoco_max(pres_rel, Gxinf);
@@ -311,19 +303,23 @@ unsigned char check_stopping(QOCOSolver* solver)
   dres_rel = qoco_max(dres_rel, cinf);
   dres_rel *= work->scaling->kinv;
 
-  // Compute max{1, abs(pobj), abs(dobj)}.
+  // Compute gap as abs(pobj - dobj) and relative scale max{1, abs(pobj),
+  // abs(dobj)}.
   QOCOFloat* cdata = get_data_vectorf(work->data->c);
   QOCOFloat ctx = qoco_dot(cdata, xdata, work->data->n);
   QOCOFloat bty = qoco_dot(bdata, ydata, work->data->p);
   QOCOFloat htz = qoco_dot(hdata, zdata, work->data->m);
   QOCOFloat pobj = 0.5 * xPx + ctx;
   QOCOFloat dobj = -0.5 * xPx - bty - htz;
+  pobj = safe_div(pobj, work->scaling->k);
+  dobj = safe_div(dobj, work->scaling->k);
+  QOCOFloat pobj_abs = qoco_abs(pobj);
+  QOCOFloat dobj_abs = qoco_abs(dobj);
 
-  pobj = qoco_abs(pobj);
-  dobj = qoco_abs(dobj);
-
-  QOCOFloat gap_rel = qoco_max(1, pobj);
-  gap_rel = qoco_max(gap_rel, dobj);
+  QOCOFloat gap_abs = qoco_abs(pobj - dobj);
+  QOCOFloat gap_rel = qoco_max(1, pobj_abs);
+  gap_rel = qoco_max(gap_rel, dobj_abs);
+  solver->sol->gap = gap_abs;
 
   // If the solver stalled (stepsize = 0), increase dynamic regularization by
   // one order of magnitude and retry. If kkt_dynamic_reg would exceed
@@ -343,7 +339,7 @@ unsigned char check_stopping(QOCOSolver* solver)
     if (solver->settings->kkt_dynamic_reg > 1e-6) {
       if (pres < eabsinacc + erelinacc * pres_rel &&
           dres < eabsinacc + erelinacc * dres_rel &&
-          solver->sol->gap < eabsinacc + erelinacc * gap_rel) {
+          gap_abs < eabsinacc + erelinacc * gap_rel) {
         solver->sol->status = QOCO_SOLVED_INACCURATE;
         return 1;
       }
@@ -354,7 +350,7 @@ unsigned char check_stopping(QOCOSolver* solver)
   }
 
   if (pres < eabs + erel * pres_rel && dres < eabs + erel * dres_rel &&
-      solver->sol->gap < eabs + erel * gap_rel) {
+      gap_abs < eabs + erel * gap_rel) {
     solver->sol->status = QOCO_SOLVED;
     return 1;
   }
