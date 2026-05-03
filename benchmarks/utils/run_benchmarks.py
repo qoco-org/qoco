@@ -6,8 +6,8 @@ import sys
 def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="benchmark_results.csv", settings=None):
     bin_dir = Path(bin_dir)
     results = []
-    # Loop over all .bin files in the directory
-    for bin_file in sorted(bin_dir.glob("*.bin")):
+    # Loop over all .bin files in the directory tree
+    for bin_file in sorted(bin_dir.rglob("*.bin")):
         print(bin_file)
         # Call the benchmark_runner
         try:

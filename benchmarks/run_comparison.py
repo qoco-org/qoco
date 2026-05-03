@@ -69,6 +69,8 @@ if __name__ == "__main__":
     diff_config = load_yaml(sys.argv[2])
     diff_config_name = os.path.splitext(os.path.basename(sys.argv[2]))[0]
 
+    bin_dir = sys.argv[3] if len(sys.argv) > 3 else "./benchmarks/data"
+
     # Safely get the branch names and backends
     baseline_branch = baseline_config.get("qoco", {}).get("branch")
     if not baseline_branch:
@@ -96,7 +98,7 @@ if __name__ == "__main__":
     # Run diff solver
     diff_settings = format_settings(diff_config)
     diff_results = temp_results_dir+f"{diff_config_name}.csv"
-    run_benchmarks(bin_dir="./benchmarks/data", settings=diff_settings, output_csv=diff_results)
+    run_benchmarks(bin_dir=bin_dir, settings=diff_settings, output_csv=diff_results)
 
     # Checkout and build the baseline branch
     checkout_branch(baseline_branch, is_diff=False)
@@ -105,7 +107,7 @@ if __name__ == "__main__":
     # Run baseline solver
     baseline_settings = format_settings(baseline_config)
     baseline_results = temp_results_dir+f"{baseline_config_name}.csv"
-    run_benchmarks(bin_dir="./benchmarks/data", settings=baseline_settings, output_csv=baseline_results)
+    run_benchmarks(bin_dir=bin_dir, settings=baseline_settings, output_csv=baseline_results)
 
     # Generate performance profiles
     subprocess.run(["python", "benchmarks/utils/compute_performance_profiles.py", baseline_results, diff_results], check=True)
