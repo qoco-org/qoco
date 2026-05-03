@@ -493,8 +493,8 @@ void kkt_multiply(QOCOFloat* x, QOCOFloat* y, QOCOProblemData* data,
   }
 
   if (nt_scaling) {
-    nt_multiply(nt_scaling, nt_scaling_soc_idx, soc_idx,
-                &x[data->n + data->p], mbuff1, data->l, data->m, data->nsoc,
+    nt_multiply(nt_scaling, nt_scaling_soc_idx, soc_idx, &x[data->n + data->p],
+                mbuff1, data->l, data->m, data->nsoc,
                 get_data_vectori(data->q));
     nt_multiply(nt_scaling, nt_scaling_soc_idx, soc_idx, mbuff1, mbuff2,
                 data->l, data->m, data->nsoc, get_data_vectori(data->q));
