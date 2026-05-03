@@ -91,6 +91,7 @@ jobs:
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          ACTIONS_RUN_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
         run: |
           python benchmarks/utils/regression_report.py /tmp/results/main.csv /tmp/results/branch.csv && cat /tmp/regression-report.txt
 

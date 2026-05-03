@@ -4,11 +4,13 @@ import os
 
 baseline_csv = sys.argv[1]
 diff_csv = sys.argv[2]
+actions_run_url = os.environ.get("ACTIONS_RUN_URL")
 
 baseline_df = pd.read_csv(baseline_csv)
 diff_df = pd.read_csv(diff_csv)
 
 msg_lines = []
+msg_lines.append(f"### [Download Benchmark Artifacts]({actions_run_url})\n")
 msg_lines.append("### Benchmark Summary\n")
 
 # Per-dataset solved counts
