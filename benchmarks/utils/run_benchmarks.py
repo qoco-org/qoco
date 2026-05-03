@@ -15,14 +15,19 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
                 output = subprocess.check_output([runner, str(bin_file), settings], text=True)
             else:
                 output = subprocess.check_output([runner, str(bin_file)], text=True)
-            # Example output: ./benchmarks/data/TAME.bin 1 1 0 0.000026 0.000021
             parts = output.strip().split()
             filename = parts[0]
             exit_code = int(parts[1])
             iters = int(parts[2])
-            ir_iters = int(parts[3])
-            setup_time = float(parts[4])
-            solve_time = float(parts[5])
+            # Older benchmark_runner builds omit ir_iters (5 fields vs 6)
+            if len(parts) == 6:
+                ir_iters = int(parts[3])
+                setup_time = float(parts[4])
+                solve_time = float(parts[5])
+            else:
+                ir_iters = 0
+                setup_time = float(parts[3])
+                solve_time = float(parts[4])
 
             prob_name = filename.removesuffix(".bin")
 
