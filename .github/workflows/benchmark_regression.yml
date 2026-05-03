@@ -7,20 +7,52 @@ on:
 jobs:
   benchmark:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dataset: [mm, mpc]
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Set reusable strings
-        # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
         id: strings
         shell: bash
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: "3.28.x"
+
+      - name: Install python dependencies
+        run: >
+          pip install cvxpy pandas matplotlib seaborn pyyaml
+
+      - name: Run benchmark comparison on main and branch
+        run: >
+          python benchmarks/run_comparison.py benchmarks/configs/main.yml benchmarks/configs/branch.yml ./benchmarks/data/${{ matrix.dataset }}
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+
+      - name: Upload benchmark artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-${{ matrix.dataset }}
+          path: /tmp/results/
+
+  report:
+    needs: benchmark
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
       - name: Install GitHub CLI
         run: |
@@ -32,33 +64,34 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v2
+      - name: Install python dependencies
+        run: pip install pandas
+
+      - name: Download all benchmark results
+        uses: actions/download-artifact@v4
         with:
-          cmake-version: "3.28.x"
-
-      - name: Install python dependancies
-        run: >
-          pip install cvxpy pandas matplotlib seaborn pyyaml
-
-      - name: Run benchmark comparison on main and branch
-        run: >
-          python benchmarks/run_comparison.py benchmarks/configs/main.yml benchmarks/configs/branch.yml
-        env:
-          BRANCH_NAME: ${{ github.head_ref }}
-
-      - name: Upload benchmark artifacts
-        id: upload_benchmarks
-        uses: actions/upload-artifact@v4
-        with:
-          name: benchmark-artifacts
+          pattern: benchmark-*
           path: /tmp/results/
+
+      - name: Merge results
+        run: |
+          python - <<'EOF'
+          import pandas as pd, glob, os
+          dirs = sorted(glob.glob('/tmp/results/benchmark-*/'))
+          mains, branches = [], []
+          for d in dirs:
+              dataset = os.path.basename(d.rstrip('/')).replace('benchmark-', '')
+              m = pd.read_csv(f'{d}main.csv'); m['dataset'] = dataset; mains.append(m)
+              b = pd.read_csv(f'{d}branch.csv'); b['dataset'] = dataset; branches.append(b)
+          pd.concat(mains).to_csv('/tmp/results/main.csv', index=False)
+          pd.concat(branches).to_csv('/tmp/results/branch.csv', index=False)
+          EOF
 
       - name: Generate Regression Report
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          ARTIFACT_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.upload_benchmarks.outputs.artifact-id }}"
+          ACTIONS_RUN_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
         run: |
           python benchmarks/utils/regression_report.py /tmp/results/main.csv /tmp/results/branch.csv && cat /tmp/regression-report.txt
 

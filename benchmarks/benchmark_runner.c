@@ -164,9 +164,10 @@ int main(int argc, char** argv)
     exit = qoco_solve(solver);
   }
 
-  // Print summary: filename, exit_code, iters, setup time, solve time
-  printf("%s %d %d %f %f\n", filename, exit, solver->sol->iters,
-         solver->sol->setup_time_sec, solver->sol->solve_time_sec);
+  // Print summary: filename, exit_code, iters, ir_iters, setup time, solve time
+  printf("%s %d %d %d %f %f\n", filename, exit, solver->sol->iters,
+         solver->sol->ir_iters, solver->sol->setup_time_sec,
+         solver->sol->solve_time_sec);
 
   // Free memory
   free(c);

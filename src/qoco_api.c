@@ -205,6 +205,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->sol->y = qoco_malloc(p * sizeof(QOCOFloat));
   solver->sol->z = qoco_malloc(m * sizeof(QOCOFloat));
   solver->sol->iters = 0;
+  solver->sol->ir_iters = 0;
   solver->sol->status = QOCO_UNSOLVED;
 
   stop_timer(&setup_timer);
@@ -481,6 +482,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
 
     // Update iteration count.
     solver->sol->iters = i;
+    solver->sol->ir_iters += work->ir_iters;
 
     // Log solver progress to console if we are solving in verbose mode.
     if (solver->settings->verbose) {

@@ -75,6 +75,8 @@ The :code:`results` object contains the following
 +-----------------------+------------------------------------------------+
 | :code:`iters`         | Number of iterations                           |
 +-----------------------+------------------------------------------------+
+| :code:`ir_iters`      | Total iterative refinement iterations          |
++-----------------------+------------------------------------------------+
 | :code:`setup_time_sec`| Setup time in seconds                          |
 +-----------------------+------------------------------------------------+
 | :code:`solve_time_sec`| Solve time in seconds                          |

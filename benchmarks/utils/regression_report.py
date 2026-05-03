@@ -2,97 +2,106 @@ import pandas as pd
 import sys
 import os
 
-# ==== CONFIGURATION ====
-RUNTIME_THRESHOLD = 0.05  # 5% relative difference threshold
-# =======================
+baseline_csv = sys.argv[1]
+diff_csv = sys.argv[2]
+actions_run_url = os.environ.get("ACTIONS_RUN_URL")
 
-baseline_csv = sys.argv[1]  # e.g., /tmp/results/main_results.csv
-diff_csv = sys.argv[2]      # e.g., /tmp/results/branch_results.csv
-pr_number = os.environ.get("PR_NUMBER")
-artifact_url = os.environ.get("ARTIFACT_URL")
-
-baseline_df = pd.read_csv(baseline_csv).set_index("name")
-diff_df = pd.read_csv(diff_csv).set_index("name")
-
-# Count solved problems (exit_code == 1)
-baseline_solved = (baseline_df["exit_code"] == 1).sum()
-diff_solved = (diff_df["exit_code"] == 1).sum()
+baseline_df = pd.read_csv(baseline_csv)
+diff_df = pd.read_csv(diff_csv)
 
 msg_lines = []
-msg_lines.append(f"### [Download benchmark artifacts]({artifact_url})\n")
+msg_lines.append(f"### [Download Benchmark Artifacts]({actions_run_url})\n")
 msg_lines.append("### Benchmark Summary\n")
-msg_lines.append(f"- Baseline solved: **{baseline_solved}** problems")
-msg_lines.append(f"- Diff branch solved: **{diff_solved}** problems\n")
+
+# Per-dataset solved counts, total iters, total IR iters
+msg_lines.append("#### Problems Solved\n")
+msg_lines.append("| Dataset | Baseline Solved | Diff Solved | Baseline Iters | Diff Iters | Baseline IR Iters | Diff IR Iters |")
+msg_lines.append("|---------|-----------------|-------------|----------------|------------|-------------------|---------------|")
+datasets = sorted(baseline_df["dataset"].unique())
+for ds in datasets:
+    b = baseline_df[baseline_df["dataset"] == ds]
+    d = diff_df[diff_df["dataset"] == ds]
+    b_solved = (b["exit_code"] == 1).sum()
+    d_solved = (d["exit_code"] == 1).sum()
+    b_iters = b.loc[b["exit_code"] == 1, "iters"].sum()
+    d_iters = d.loc[d["exit_code"] == 1, "iters"].sum()
+    b_ir_iters = b.loc[b["exit_code"] == 1, "ir_iters"].sum()
+    d_ir_iters = d.loc[d["exit_code"] == 1, "ir_iters"].sum()
+
+    bs = f"**{b_solved}**" if b_solved > d_solved else str(b_solved)
+    ds_ = f"**{d_solved}**" if d_solved > b_solved else str(d_solved)
+    bi = f"**{b_iters}**" if b_iters < d_iters else str(b_iters)
+    di = f"**{d_iters}**" if d_iters < b_iters else str(d_iters)
+    bir = f"**{b_ir_iters}**" if b_ir_iters < d_ir_iters else str(b_ir_iters)
+    dir_ = f"**{d_ir_iters}**" if d_ir_iters < b_ir_iters else str(d_ir_iters)
+
+    msg_lines.append(
+        f"| {ds} | {bs} / {len(b)} | {ds_} / {len(d)} "
+        f"| {bi} | {di} | {bir} | {dir_} |"
+    )
+msg_lines.append("")
+
+baseline_df = baseline_df.set_index("name")
+diff_df = diff_df.set_index("name")
 
 # Find problems solved only by one branch
 diff_only = set(diff_df[diff_df["exit_code"] == 1].index) - set(baseline_df[baseline_df["exit_code"] == 1].index)
 baseline_only = set(baseline_df[baseline_df["exit_code"] == 1].index) - set(diff_df[diff_df["exit_code"] == 1].index)
 
 if diff_only or baseline_only:
-    msg_lines.append("#### Differences in solved problems")
+    msg_lines.append("#### Differences in Solved Problems")
     if diff_only:
-        msg_lines.append(f"- Diff branch solved additional problems: {', '.join(sorted(diff_only))}")
+        msg_lines.append(f"- Diff branch additionally solved: {', '.join(sorted(diff_only))}")
     if baseline_only:
-        msg_lines.append(f"- Baseline solved additional problems: {', '.join(sorted(baseline_only))}")
+        msg_lines.append(f"- Baseline additionally solved: {', '.join(sorted(baseline_only))}")
     msg_lines.append("")
 
-# Compare iterations where both solved
+# Per-problem iteration differences where both solved
 both_solved = (baseline_df["exit_code"] == 1) & (diff_df["exit_code"] == 1)
 
 iter_regressions = []
 iter_improvements = []
+ir_iter_regressions = []
+ir_iter_improvements = []
+
 for name in baseline_df[both_solved].index:
     b_iters = baseline_df.loc[name, "iters"]
     d_iters = diff_df.loc[name, "iters"]
     if d_iters > b_iters:
-        iter_regressions.append((name, d_iters, b_iters, d_iters - b_iters))
+        iter_regressions.append((name, d_iters, b_iters))
     elif d_iters < b_iters:
-        iter_improvements.append((name, d_iters, b_iters, d_iters - b_iters))
+        iter_improvements.append((name, d_iters, b_iters))
+
+    b_ir = baseline_df.loc[name, "ir_iters"]
+    d_ir = diff_df.loc[name, "ir_iters"]
+    if d_ir > b_ir:
+        ir_iter_regressions.append((name, d_ir, b_ir))
+    elif d_ir < b_ir:
+        ir_iter_improvements.append((name, d_ir, b_ir))
 
 if iter_regressions:
-    msg_lines.append("#### Iteration regressions (diff took more iterations)")
-    for name, d, b, diff in iter_regressions:
+    msg_lines.append("#### Iteration Regressions (diff took more iterations)")
+    for name, d, b in iter_regressions:
         msg_lines.append(f"- {name}: diff={d}, baseline={b}")
     msg_lines.append("")
 
 if iter_improvements:
-    msg_lines.append("#### Iteration improvements (diff took fewer iterations)")
-    for name, d, b, diff in iter_improvements:
+    msg_lines.append("#### Iteration Improvements (diff took fewer iterations)")
+    for name, d, b in iter_improvements:
         msg_lines.append(f"- {name}: diff={d}, baseline={b}")
     msg_lines.append("")
 
-# Runtime differences (parameterized threshold)
-runtime_regressions = []
-runtime_improvements = []
-for name in baseline_df[both_solved].index:
-    b_time = baseline_df.loc[name, "solve_time"]
-    d_time = diff_df.loc[name, "solve_time"]
-
-    if b_time > 0:
-        rel_diff = (d_time - b_time) / b_time
-        if rel_diff > RUNTIME_THRESHOLD:
-            runtime_regressions.append((name, d_time, b_time, rel_diff))
-        elif rel_diff < -RUNTIME_THRESHOLD:
-            runtime_improvements.append((name, d_time, b_time, rel_diff))
-
-if runtime_regressions:
-    msg_lines.append(f"#### Runtime regressions (> {RUNTIME_THRESHOLD*100:.1f}%)")
-    for name, d, b, rel in runtime_regressions:
-        pct = rel * 100
-        msg_lines.append(f"- {name}: diff={d:.4f}s, baseline={b:.4f}s, Δ={pct:+.1f}%")
+if ir_iter_regressions:
+    msg_lines.append("#### IR Iteration Regressions (diff used more IR iterations)")
+    for name, d, b in ir_iter_regressions:
+        msg_lines.append(f"- {name}: diff={d}, baseline={b}")
     msg_lines.append("")
 
-if runtime_improvements:
-    msg_lines.append(f"#### Runtime improvements (> {RUNTIME_THRESHOLD*100:.1f}%)")
-    for name, d, b, rel in runtime_improvements:
-        pct = rel * 100
-        msg_lines.append(f"- {name}: diff={d:.4f}s, baseline={b:.4f}s, Δ={pct:+.1f}%")
+if ir_iter_improvements:
+    msg_lines.append("#### IR Iteration Improvements (diff used fewer IR iterations)")
+    for name, d, b in ir_iter_improvements:
+        msg_lines.append(f"- {name}: diff={d}, baseline={b}")
     msg_lines.append("")
 
-# Final message
-msg = "\n".join(msg_lines)
-
-# Write to file
-comment_file = "/tmp/regression-report.txt"
-with open(comment_file, "w") as f:
-    f.write(msg)
+with open("/tmp/regression-report.txt", "w") as f:
+    f.write("\n".join(msg_lines))
