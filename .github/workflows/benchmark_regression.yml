@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dataset: [mm, mpc]
+        dataset: [mm, mpc, misc]
 
     steps:
       - uses: actions/checkout@v4
