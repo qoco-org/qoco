@@ -37,10 +37,11 @@ for ds in datasets:
     d = diff_df[diff_df["dataset"] == ds]
     b_solved = (b["exit_code"] == 1).sum()
     d_solved = (d["exit_code"] == 1).sum()
-    b_iters = b.loc[b["exit_code"] == 1, "iters"].sum()
-    d_iters = d.loc[d["exit_code"] == 1, "iters"].sum()
-    b_ir_iters = b.loc[b["exit_code"] == 1, "ir_iters"].sum()
-    d_ir_iters = d.loc[d["exit_code"] == 1, "ir_iters"].sum()
+    both = set(b.loc[b["exit_code"] == 1, "name"]) & set(d.loc[d["exit_code"] == 1, "name"])
+    b_iters = b.loc[b["name"].isin(both), "iters"].sum()
+    d_iters = d.loc[d["name"].isin(both), "iters"].sum()
+    b_ir_iters = b.loc[b["name"].isin(both), "ir_iters"].sum()
+    d_ir_iters = d.loc[d["name"].isin(both), "ir_iters"].sum()
 
     bs = f"**{b_solved}**" if b_solved > d_solved else str(b_solved)
     ds_ = f"**{d_solved}**" if d_solved > b_solved else str(d_solved)
