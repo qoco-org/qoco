@@ -58,6 +58,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#update-settings">Update Settings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#update-vector-data">Update Vector Data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#update-matrix-data">Update Matrix Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dumping-problem-data">Dumping Problem Data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#checking-available-backends">Checking Available Backends</a></li>
 </ul>
 </li>
@@ -168,19 +169,22 @@
 <tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">iters</span></code></p></td>
 <td><p>Number of iterations</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">setup_time_sec</span></code></p></td>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">ir_iters</span></code></p></td>
+<td><p>Total iterative refinement iterations</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">setup_time_sec</span></code></p></td>
 <td><p>Setup time in seconds</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">solve_time_sec</span></code></p></td>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">solve_time_sec</span></code></p></td>
 <td><p>Solve time in seconds</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">pres</span></code></p></td>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">pres</span></code></p></td>
 <td><p>Primal residual</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">dres</span></code></p></td>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">dres</span></code></p></td>
 <td><p>Dual residual</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">gap</span></code></p></td>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">gap</span></code></p></td>
 <td><p>Duality gap</p></td>
 </tr>
 </tbody>
@@ -214,6 +218,18 @@
 </pre></div>
 </div>
 <p>Any subset of <code class="code docutils literal notranslate"><span class="pre">P</span></code>, <code class="code docutils literal notranslate"><span class="pre">A</span></code>, <code class="code docutils literal notranslate"><span class="pre">G</span></code> can be passed. Arguments that are <code class="code docutils literal notranslate"><span class="pre">None</span></code> (the default) are left unchanged.</p>
+</section>
+<section id="dumping-problem-data">
+<h2>Dumping Problem Data<a class="headerlink" href="#dumping-problem-data" title="Link to this heading"></a></h2>
+<p>The <code class="code docutils literal notranslate"><span class="pre">dump_problem</span></code> setting serializes the problem data to a binary <code class="code docutils literal notranslate"><span class="pre">.bin</span></code> file at setup time. This is useful for reproducing solver behavior outside of Python, filing bug reports, or loading problems into the C interface directly.</p>
+<p>Pass a filename string to write to a specific path:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">solver</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">nsoc</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">dump_problem</span><span class="o">=</span><span class="s2">&quot;problem.bin&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Pass <code class="code docutils literal notranslate"><span class="pre">True</span></code> to write to <code class="code docutils literal notranslate"><span class="pre">&quot;problem.bin&quot;</span></code> in the current directory:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">solver</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">nsoc</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">dump_problem</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="checking-available-backends">
 <h2>Checking Available Backends<a class="headerlink" href="#checking-available-backends" title="Link to this heading"></a></h2>
