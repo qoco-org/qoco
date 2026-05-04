@@ -54,7 +54,7 @@ html_theme_options = {
 
 # -- Options for breathe ---------------------------------------
 
-# Generate doxygen documentation
-subprocess.call('doxygen Doxyfile', shell=True)
+# Generate doxygen documentation.
+subprocess.check_call(['doxygen', 'Doxyfile'])
 breathe_projects = {"qoco": "xml/"}
 breathe_default_project = "qoco"
