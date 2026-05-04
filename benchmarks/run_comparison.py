@@ -92,6 +92,14 @@ if __name__ == "__main__":
     temp_results_dir = "/tmp/results/"
     subprocess.run(["mkdir", "-p", temp_results_dir], check=True)
 
+    # Later branch checkouts can replace this file with the baseline branch's
+    # version. Preserve the starting checkout's report generator for CI runs.
+    regression_report_script = "/tmp/qoco_regression_report.py"
+    shutil.copy2(
+        os.path.join(os.path.dirname(__file__), "utils", "regression_report.py"),
+        regression_report_script,
+    )
+
     # Checkout and build the diff branch
     checkout_branch(diff_branch, is_diff=True)
     build_solver(diff_backend)
@@ -124,5 +132,5 @@ if __name__ == "__main__":
     subprocess.run(["cp", "-r", temp_results_dir, "."], check=True)
 
     # Generate regression report
-    subprocess.run(["python", "benchmarks/utils/regression_report.py", baseline_results, diff_results], check=True)
+    subprocess.run([sys.executable, regression_report_script, baseline_results, diff_results], check=True)
     subprocess.run(["cp", "/tmp/regression-report.txt", "./results"], check=True)
