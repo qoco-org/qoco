@@ -304,15 +304,33 @@
 </dd></dl>
 
 <dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings14iter_ref_itersE">
-<span id="_CPPv3N12QOCOSettings14iter_ref_itersE"></span><span id="_CPPv2N12QOCOSettings14iter_ref_itersE"></span><span id="QOCOSettings::iter_ref_iters__QOCOInt"></span><span class="target" id="structQOCOSettings_1afd5bc6a556931668265c2e47270e8278"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">iter_ref_iters</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings14iter_ref_itersE" title="Link to this definition"></a><br /></dt>
-<dd><p>Number of iterative refinement iterations performed. </p>
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings12max_ir_itersE">
+<span id="_CPPv3N12QOCOSettings12max_ir_itersE"></span><span id="_CPPv2N12QOCOSettings12max_ir_itersE"></span><span id="QOCOSettings::max_ir_iters__QOCOInt"></span><span class="target" id="structQOCOSettings_1a0531c10e844edcc897287ae3b208b06a"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_ir_iters</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings12max_ir_itersE" title="Link to this definition"></a><br /></dt>
+<dd><p>Maximum number of iterative refinement iterations. </p>
 </dd></dl>
 
 <dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings14kkt_static_regE">
-<span id="_CPPv3N12QOCOSettings14kkt_static_regE"></span><span id="_CPPv2N12QOCOSettings14kkt_static_regE"></span><span id="QOCOSettings::kkt_static_reg__QOCOFloat"></span><span class="target" id="structQOCOSettings_1a11f48d67a5626431c077ad30c84433df"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kkt_static_reg</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings14kkt_static_regE" title="Link to this definition"></a><br /></dt>
-<dd><p>Static regularization parameter for KKT system. </p>
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings6ir_tolE">
+<span id="_CPPv3N12QOCOSettings6ir_tolE"></span><span id="_CPPv2N12QOCOSettings6ir_tolE"></span><span id="QOCOSettings::ir_tol__QOCOFloat"></span><span class="target" id="structQOCOSettings_1a9ebab4438d3cbf6e96479d296350a429"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ir_tol</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings6ir_tolE" title="Link to this definition"></a><br /></dt>
+<dd><p>Iterative refinement stopping tolerance: stop when norm(K*x-b) &lt; ir_tol. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings16kkt_static_reg_PE">
+<span id="_CPPv3N12QOCOSettings16kkt_static_reg_PE"></span><span id="_CPPv2N12QOCOSettings16kkt_static_reg_PE"></span><span id="QOCOSettings::kkt_static_reg_P__QOCOFloat"></span><span class="target" id="structQOCOSettings_1a978a17b5def09a22fab8238c9726a8da"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kkt_static_reg_P</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings16kkt_static_reg_PE" title="Link to this definition"></a><br /></dt>
+<dd><p>Static regularization for the (1,1) P block of the KKT system. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings16kkt_static_reg_AE">
+<span id="_CPPv3N12QOCOSettings16kkt_static_reg_AE"></span><span id="_CPPv2N12QOCOSettings16kkt_static_reg_AE"></span><span id="QOCOSettings::kkt_static_reg_A__QOCOFloat"></span><span class="target" id="structQOCOSettings_1ae573a24dba87a5933204113f8f182de1"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kkt_static_reg_A</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings16kkt_static_reg_AE" title="Link to this definition"></a><br /></dt>
+<dd><p>Static regularization for the (2,2) A block of the KKT system. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSettings16kkt_static_reg_GE">
+<span id="_CPPv3N12QOCOSettings16kkt_static_reg_GE"></span><span id="_CPPv2N12QOCOSettings16kkt_static_reg_GE"></span><span id="QOCOSettings::kkt_static_reg_G__QOCOFloat"></span><span class="target" id="structQOCOSettings_1ad723844388e7d297847cf001060ace0e"></span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kkt_static_reg_G</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSettings16kkt_static_reg_GE" title="Link to this definition"></a><br /></dt>
+<dd><p>Static regularization for the (3,3) G block of the KKT system. </p>
 </dd></dl>
 
 <dl class="cpp var">
@@ -552,6 +570,12 @@
 <dd><p>Residual of KKT condition. </p>
 </dd></dl>
 
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace8ir_itersE">
+<span id="_CPPv3N13QOCOWorkspace8ir_itersE"></span><span id="_CPPv2N13QOCOWorkspace8ir_itersE"></span><span id="QOCOWorkspace::ir_iters__QOCOInt"></span><span class="target" id="structQOCOWorkspace_1aede21831cc34b2daf2e47b0cc294c1d6"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ir_iters</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace8ir_itersE" title="Link to this definition"></a><br /></dt>
+<dd><p>Total iterative refinement iterations used in the current IPM step. </p>
+</dd></dl>
+
 </div>
 </dd></dl>
 
@@ -633,6 +657,12 @@
 <dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution5itersE">
 <span id="_CPPv3N12QOCOSolution5itersE"></span><span id="_CPPv2N12QOCOSolution5itersE"></span><span id="QOCOSolution::iters__QOCOInt"></span><span class="target" id="structQOCOSolution_1af22ee3af705035ac8049c32ba6445975"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">iters</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution5itersE" title="Link to this definition"></a><br /></dt>
 <dd><p>Number of iterations. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N12QOCOSolution8ir_itersE">
+<span id="_CPPv3N12QOCOSolution8ir_itersE"></span><span id="_CPPv2N12QOCOSolution8ir_itersE"></span><span id="QOCOSolution::ir_iters__QOCOInt"></span><span class="target" id="structQOCOSolution_1acc0b30015af38296d45b91a6d09a2eb9"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ir_iters</span></span></span><a class="headerlink" href="#_CPPv4N12QOCOSolution8ir_itersE" title="Link to this definition"></a><br /></dt>
+<dd><p>Total iterative refinement iterations across all IPM steps. </p>
 </dd></dl>
 
 <dl class="cpp var">
