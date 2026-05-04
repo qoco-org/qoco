@@ -9,6 +9,20 @@ actions_run_url = os.environ.get("ACTIONS_RUN_URL")
 baseline_df = pd.read_csv(baseline_csv)
 diff_df = pd.read_csv(diff_csv)
 
+required_columns = {"name", "exit_code", "iters", "ir_iters"}
+for csv_path, df in ((baseline_csv, baseline_df), (diff_csv, diff_df)):
+    missing_columns = sorted(required_columns - set(df.columns))
+    if missing_columns:
+        raise ValueError(
+            f"{csv_path} is missing required columns: {', '.join(missing_columns)}"
+        )
+
+# The report job merges per-dataset artifacts and adds this column. The matrix
+# benchmark job also invokes this script on a single raw CSV pair before upload.
+for df in (baseline_df, diff_df):
+    if "dataset" not in df.columns:
+        df["dataset"] = "all"
+
 msg_lines = []
 msg_lines.append(f"### [Download Benchmark Artifacts]({actions_run_url})\n")
 msg_lines.append("### Benchmark Summary\n")
