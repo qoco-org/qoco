@@ -18,6 +18,7 @@
       <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -96,6 +97,117 @@
   <section id="settings">
 <span id="id1"></span><h1>Settings<a class="headerlink" href="#settings" title="Link to this heading"></a></h1>
 <p>The settings are defined in the <code class="code docutils literal notranslate"><span class="pre">include/structs.h</span></code> file.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Allowed values</p></th>
+<th class="head"><p>Default value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">max_iters</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOInt</span></code></p></td>
+<td><p>Maximum number of iterations</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>200</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">ruiz_iters</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOInt</span></code></p></td>
+<td><p>Number of Ruiz equilibration iterations performed</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">max_ir_iters</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOInt</span></code></p></td>
+<td><p>Maximum number of iterative refinement iterations</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">ir_tol</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
+<td><p>Iterative refinement stopping tolerance: stop when
+<span class="math notranslate nohighlight">\(\lVert Kx - b\rVert &lt;\)</span> <code class="code docutils literal notranslate"><span class="pre">ir_tol</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>1e-6</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">kkt_static_reg_P</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
+<td><p>Static regularization for the (1,1) P block of the KKT
+system. Added to the diagonal of P before factorization
+to ensure the block remains positive definite.</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>1e-13</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">kkt_static_reg_A</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
+<td><p>Static regularization for the (2,2) A block of the KKT
+system. Subtracted from the diagonal of the equality
+constraint block to give it a definite sign.</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>1e-8</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">kkt_static_reg_G</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
+<td><p>Static regularization for the (3,3) G block of the KKT
+system. Subtracted from the diagonal of the NT scaling
+block to give it a definite sign.</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>1e-13</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">kkt_dynamic_reg</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
+<td><p>Additional regularization applied dynamically during KKT
+factorization to any diagonal entry whose absolute value
+is below this threshold. Improves robustness on
+near-degenerate problems.</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>1e-11</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">abstol</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
+<td><p>absolute tolerance</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>1e-7</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">reltol</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
+<td><p>relative tolerance</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>1e-7</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">abstol_inacc</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
+<td><p>low accuracy absolute tolerance</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>1e-5</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">reltol_inacc</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">QOCOFloat</span></code></p></td>
+<td><p>low accuracy relative tolerance</p></td>
+<td><p><span class="math notranslate nohighlight">\((0, \infty)\)</span></p></td>
+<td><p>1e-5</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="code docutils literal notranslate"><span class="pre">verbose</span></code></p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">unsigned_char</span></code></p></td>
+<td><p>should the solver print progress</p></td>
+<td><p>0 or 1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="code docutils literal notranslate"><span class="pre">dump_problem</span></code>
+(Python only)</p></td>
+<td><p><code class="code docutils literal notranslate"><span class="pre">str</span></code> or
+<code class="code docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td><p>(Python only) Dump the problem data to a binary
+<code class="code docutils literal notranslate"><span class="pre">.bin</span></code> file. If a string, used as the filename.
+If <code class="code docutils literal notranslate"><span class="pre">True</span></code>, defaults to <code class="code docutils literal notranslate"><span class="pre">&quot;problem.bin&quot;</span></code>.</p></td>
+<td><p>any valid filepath
+or <code class="code docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>None</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
