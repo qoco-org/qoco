@@ -230,17 +230,22 @@ unsigned char check_stopping(QOCOSolver* solver)
   ew_product(Einvruiz_data, bdata, ybuff, data->p);
   QOCOFloat binf = data->p > 0 ? inf_norm(ybuff, data->p) : 0;
 
-  QOCOFloat* Fruiz_data = get_data_vectorf(work->scaling->Fruiz);
+  // work->s holds the scaled slack s_scal = F * s_orig, so s_orig = F^-1 *
+  // s_scal
+  QOCOFloat* Finvruiz_data = get_data_vectorf(work->scaling->Finvruiz);
   QOCOFloat* sdata = get_data_vectorf(work->s);
-  ew_product(Fruiz_data, sdata, ubuff1, data->m);
+  ew_product(Finvruiz_data, sdata, ubuff1, data->m);
   QOCOFloat sinf = data->m > 0 ? inf_norm(ubuff1, data->m) : 0;
 
+  // The dual relative normalization requires ||D⁻¹·q̃||∞ where q̃ = k·D·c_orig
+  // is the scaled cost vector stored in data->c. D⁻¹·q̃ = k·c_orig.
   QOCOFloat* Dinvruiz_data = get_data_vectorf(work->scaling->Dinvruiz);
   QOCOFloat* xdata = get_data_vectorf(work->x);
-  ew_product(Dinvruiz_data, xdata, xbuff, data->n);
+  QOCOFloat* cscaled = get_data_vectorf(work->data->c);
+  ew_product(Dinvruiz_data, cscaled, xbuff, data->n);
   QOCOFloat cinf = inf_norm(xbuff, data->n);
 
-  QOCOFloat* Finvruiz_data = get_data_vectorf(work->scaling->Finvruiz);
+  QOCOFloat* Fruiz_data = get_data_vectorf(work->scaling->Fruiz);
   QOCOFloat* hdata = get_data_vectorf(data->h);
   ew_product(Finvruiz_data, hdata, ubuff3, data->m);
   QOCOFloat hinf = data->m > 0 ? inf_norm(ubuff3, data->m) : 0;
@@ -293,7 +298,7 @@ unsigned char check_stopping(QOCOSolver* solver)
   solver->sol->dres = dres;
 
   // Compute complementary slackness residual.
-  ew_product(sdata, Fruiz_data, ubuff1, data->m);
+  ew_product(sdata, Finvruiz_data, ubuff1, data->m);
   ew_product(zdata, Fruiz_data, ubuff2, data->m);
   QOCOFloat gap = qoco_dot(ubuff1, ubuff2, data->m);
   gap *= work->scaling->kinv;

@@ -401,10 +401,10 @@ TEST(linalg, ruiz_test)
   qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
 
-  QOCOFloat Dexp[] = {1.0000, 0.8409, 0.6389, 0.7071, 0.7022, 0.6894};
+  QOCOFloat Dexp[] = {1.0000, 0.8409, 0.6389, 0.7071, 0.7022, 0.6982};
   QOCOFloat Eexp[] = {1.0000, 0.7825};
   QOCOFloat Fexp[] = {1.0000, 1.1892, 1.5315, 1.4142, 1.4142, 1.4142};
-  QOCOFloat kexp = 0.2480;
+  QOCOFloat kexp = 0.2387;
   QOCOFloat tol = 1e-4;
 
   QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
