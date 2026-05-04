@@ -232,7 +232,7 @@ void set_default_settings(QOCOSettings* settings)
   settings->max_ir_iters = 5;
   settings->ir_tol = 1e-6;
   settings->kkt_static_reg_P = 1e-13;
-  settings->kkt_static_reg_A = 1e-8;
+  settings->kkt_static_reg_A = 1e-13;
   settings->kkt_static_reg_G = 1e-13;
   settings->kkt_dynamic_reg = 1e-11;
   settings->abstol = 1e-7;
