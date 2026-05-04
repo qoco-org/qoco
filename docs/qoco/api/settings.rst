@@ -8,7 +8,7 @@ The settings are defined in the :code:`include/structs.h` file.
 .. tabularcolumns:: |p{4.5cm}|p{8.5cm}|p{1.5cm}|p{6.5cm}|L|
 
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| Name                           | Type                  |Description                                                 | Allowed values      | Default value |
+| Name                           | Type                  | Description                                                | Allowed values      | Default value |
 +================================+=======================+============================================================+=====================+===============+
 | :code:`max_iters`              |  :code:`QOCOInt`      | Maximum number of iterations                               | :math:`(0, \infty)` | 200           |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
@@ -46,7 +46,7 @@ The settings are defined in the :code:`include/structs.h` file.
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`verbose`                | :code:`unsigned_char` | should the solver print progress                           | 0 or 1              |  0            |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`dump_problem`           | :code:`str` or        | (Python only) Dump the problem data to a binary           | any valid filepath  | None          |
-| (Python only)                  | :code:`bool`          | :code:`.bin` file. If a string, used as the filename.     | or :code:`True`     |               |
-|                                |                       | If :code:`True`, defaults to :code:`"problem.bin"`.       |                     |               |
+| :code:`dump_problem`           | :code:`str` or        | (Python only) Dump the problem data to a binary            | any valid filepath  | None          |
+| (Python only)                  | :code:`bool`          | :code:`.bin` file. If a string, used as the filename.      | or :code:`True`     |               |
+|                                |                       | If :code:`True`, defaults to :code:`"problem.bin"`.        |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
