@@ -29,8 +29,8 @@ msg_lines.append("### Benchmark Summary\n")
 
 # Per-dataset solved counts, total iters, total IR iters
 msg_lines.append("#### Problems Solved\n")
-msg_lines.append("| Dataset | Baseline Solved | Diff Solved | Baseline Iters | Diff Iters | Baseline IR Iters | Diff IR Iters |")
-msg_lines.append("|---------|-----------------|-------------|----------------|------------|-------------------|---------------|")
+msg_lines.append("| Dataset | Main Solved | Diff Solved | Main Iters | Diff Iters | Main IR Iters | Diff IR Iters |")
+msg_lines.append("|---------|-------------|-------------|------------|------------|---------------|---------------|")
 datasets = sorted(baseline_df["dataset"].unique())
 for ds in datasets:
     b = baseline_df[baseline_df["dataset"] == ds]
@@ -50,10 +50,7 @@ for ds in datasets:
     bir = f"🟢 {b_ir_iters}" if b_ir_iters < d_ir_iters else str(b_ir_iters)
     dir_ = f"🟢 {d_ir_iters}" if d_ir_iters < b_ir_iters else str(d_ir_iters)
 
-    msg_lines.append(
-        f"| {ds} | {bs} / {len(b)} | {ds_} / {len(d)} "
-        f"| {bi} | {di} | {bir} | {dir_} |"
-    )
+    msg_lines.append(f"| {ds} | {bs} / {len(b)} | {ds_} / {len(d)} | {bi} | {di} | {bir} | {dir_} |")
 msg_lines.append("")
 
 baseline_df = baseline_df.set_index("name")
@@ -68,7 +65,7 @@ if diff_only or baseline_only:
     if diff_only:
         msg_lines.append(f"- Diff branch additionally solved: {', '.join(sorted(diff_only))}")
     if baseline_only:
-        msg_lines.append(f"- Baseline additionally solved: {', '.join(sorted(baseline_only))}")
+        msg_lines.append(f"- Main additionally solved: {', '.join(sorted(baseline_only))}")
     msg_lines.append("")
 
 # Per-problem iteration differences where both solved
@@ -97,25 +94,25 @@ for name in baseline_df[both_solved].index:
 if iter_regressions:
     msg_lines.append("#### Iteration Regressions (diff took more iterations)")
     for name, d, b in iter_regressions:
-        msg_lines.append(f"- {name}: diff={d}, baseline={b}")
+        msg_lines.append(f"- {name}: diff={d}, main={b}")
     msg_lines.append("")
 
 if iter_improvements:
     msg_lines.append("#### Iteration Improvements (diff took fewer iterations)")
     for name, d, b in iter_improvements:
-        msg_lines.append(f"- {name}: diff={d}, baseline={b}")
+        msg_lines.append(f"- {name}: diff={d}, main={b}")
     msg_lines.append("")
 
 if ir_iter_regressions:
     msg_lines.append("#### IR Iteration Regressions (diff used more IR iterations)")
     for name, d, b in ir_iter_regressions:
-        msg_lines.append(f"- {name}: diff={d}, baseline={b}")
+        msg_lines.append(f"- {name}: diff={d}, main={b}")
     msg_lines.append("")
 
 if ir_iter_improvements:
     msg_lines.append("#### IR Iteration Improvements (diff used fewer IR iterations)")
     for name, d, b in ir_iter_improvements:
-        msg_lines.append(f"- {name}: diff={d}, baseline={b}")
+        msg_lines.append(f"- {name}: diff={d}, main={b}")
     msg_lines.append("")
 
 with open("/tmp/regression-report.txt", "w") as f:
