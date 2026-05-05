@@ -18,6 +18,7 @@
 #include "qoco_config.h"
 
 // Define QOCOInt and QOCOFloat.
+#include <float.h>
 #include <limits.h>
 typedef int QOCOInt;
 #define QOCOInt_MAX INT_MAX
@@ -26,28 +27,35 @@ typedef int QOCOInt;
 #define printf mexPrintf
 #endif
 
+#include <math.h>
 #ifdef QOCO_SINGLE_PRECISION
 typedef float QOCOFloat;
-#ifdef IS_WINDOWS
-#define QOCOFloat_MAX 3.4e38f
-#else
-#define QOCOFloat_MAX __FLT_MAX__
+#define QOCOFloat_MAX FLT_MAX
+#define qoco_sqrt(a) sqrtf(a)
+#define QOCOFloat_PRINT_FORMAT ".9g"
+#define QOCOFloat_PRINT_ARG(a) ((double)(a))
+#elif defined(QOCO_LONG_DOUBLE_PRECISION)
+#if LDBL_MANT_DIG <= DBL_MANT_DIG
+#error "QOCO_LONG_DOUBLE_PRECISION requires long double to be wider than double"
 #endif
+typedef long double QOCOFloat;
+#define QOCOFloat_MAX LDBL_MAX
+#define qoco_sqrt(a) sqrtl(a)
+#define QOCOFloat_PRINT_FORMAT ".21Lg"
+#define QOCOFloat_PRINT_ARG(a) ((long double)(a))
 #else
 typedef double QOCOFloat;
-#ifdef IS_WINDOWS
-#define QOCOFloat_MAX 1e308
-#else
-#define QOCOFloat_MAX __DBL_MAX__
-#endif
+#define QOCOFloat_MAX DBL_MAX
+#define qoco_sqrt(a) sqrt(a)
+#define QOCOFloat_PRINT_FORMAT ".17g"
+#define QOCOFloat_PRINT_ARG(a) ((double)(a))
 #endif
 
 #define qoco_max(a, b) (((a) > (b)) ? (a) : (b))
 #define qoco_min(a, b) (((a) < (b)) ? (a) : (b))
 #define qoco_abs(a) (((a) > 0) ? (a) : (-(a)))
-#define safe_div(a, b) ((qoco_abs(b) > 1e-15) ? ((a) / (b)) : QOCOFloat_MAX)
-#include <math.h>
-#define qoco_sqrt(a) sqrt(a)
+#define safe_div(a, b)                                                        \
+  ((qoco_abs(b) > (QOCOFloat)1e-15) ? ((a) / (b)) : QOCOFloat_MAX)
 
 #if defined(QOCO_DEBUG) && defined(IS_LINUX)
 #include <assert.h>

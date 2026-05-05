@@ -37,8 +37,6 @@ else()
     set(CMAKE_C_FLAGS "-O3 -Wall")
 endif()
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configure/qoco_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_config.h @ONLY)
-
 message(STATUS "Build Type: " ${QOCO_BUILD_TYPE})
 message(STATUS "Build Flags: " ${CMAKE_C_FLAGS})
 
@@ -46,8 +44,28 @@ message(STATUS "Build Flags: " ${CMAKE_C_FLAGS})
 message(STATUS "Using 32 bit integers")
 set(QDLDL_LONG OFF)
 
-# Option for single precision floating point.
+# Floating point precision options.
 option(QOCO_SINGLE_PRECISION "Use single precision (float) instead of double precision" OFF)
+option(QOCO_LONG_DOUBLE_PRECISION "Use extended precision (long double) instead of double precision" OFF)
+
+if(QOCO_SINGLE_PRECISION AND QOCO_LONG_DOUBLE_PRECISION)
+    message(FATAL_ERROR "QOCO_SINGLE_PRECISION and QOCO_LONG_DOUBLE_PRECISION are mutually exclusive")
+endif()
+
+if(QOCO_LONG_DOUBLE_PRECISION)
+    include(CheckCSourceCompiles)
+    check_c_source_compiles("#include <float.h>
+#if LDBL_MANT_DIG <= DBL_MANT_DIG
+#error long double is not wider than double
+#endif
+int main(void) { return 0; }
+" QOCO_LONG_DOUBLE_IS_WIDER)
+    if(NOT QOCO_LONG_DOUBLE_IS_WIDER)
+        message(FATAL_ERROR "QOCO_LONG_DOUBLE_PRECISION requires long double to be wider than double on this platform")
+    endif()
+endif()
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configure/qoco_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_config.h @ONLY)
 
 # Option to enable linear system solve error logging.
 option(QOCO_LOGGING "Log linear system solve errors (norm(Kx-b, inf))" OFF)
@@ -56,13 +74,19 @@ if(QOCO_LOGGING)
     message(STATUS "QOCO logging: ON")
 endif()
 
-# Set floating points precision.
+# Set floating point precision.
 if(QOCO_SINGLE_PRECISION)
     message(STATUS "Using single precision floating point")
-    add_compile_definitions(QOCO_SINGLE_PRECISION)
     set(QDLDL_FLOAT ON CACHE BOOL "Use float numbers instead of doubles" FORCE)
+    set(QDLDL_LONG_DOUBLE OFF CACHE BOOL "Use long double numbers instead of doubles" FORCE)
+elseif(QOCO_LONG_DOUBLE_PRECISION)
+    message(STATUS "Using long double precision floating point")
+    set(QDLDL_FLOAT OFF CACHE BOOL "Use float numbers instead of doubles" FORCE)
+    set(QDLDL_LONG_DOUBLE ON CACHE BOOL "Use long double numbers instead of doubles" FORCE)
 else()
     message(STATUS "Using double precision floating point")
+    set(QDLDL_FLOAT OFF CACHE BOOL "Use float numbers instead of doubles" FORCE)
+    set(QDLDL_LONG_DOUBLE OFF CACHE BOOL "Use long double numbers instead of doubles" FORCE)
 endif()
 
 # Add -fPIC option explicity.
@@ -128,8 +152,11 @@ if(NOT DEFINED QOCO_ALGEBRA_BACKEND)
 endif()
 message(STATUS "Using ${QOCO_ALGEBRA_BACKEND} algebra")
 
-# Enable CUDA if using CUDA backend
+# Long double is CPU-only.
 if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    if(QOCO_LONG_DOUBLE_PRECISION)
+        message(FATAL_ERROR "QOCO_LONG_DOUBLE_PRECISION is not supported with QOCO_ALGEBRA_BACKEND=cuda")
+    endif()
     enable_language(CUDA)
 endif()
 

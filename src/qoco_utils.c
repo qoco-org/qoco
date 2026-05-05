@@ -18,7 +18,7 @@ void print_qoco_csc_matrix(QOCOCscMatrix* M)
   printf("nnz: %d\n", M->nnz);
   printf("Data: {");
   for (QOCOInt i = 0; i < M->nnz; ++i) {
-    printf("%.17g", M->x[i]);
+    printf("%" QOCOFloat_PRINT_FORMAT, QOCOFloat_PRINT_ARG(M->x[i]));
     if (i != M->nnz - 1) {
       printf(",");
     }
@@ -48,7 +48,7 @@ void print_arrayf(QOCOFloat* x, QOCOInt n)
 {
   printf("{");
   for (QOCOInt i = 0; i < n; ++i) {
-    printf("%.17g", x[i]);
+    printf("%" QOCOFloat_PRINT_FORMAT, QOCOFloat_PRINT_ARG(x[i]));
     if (i != n - 1) {
       printf(", ");
     }
@@ -171,17 +171,17 @@ void print_header(QOCOSolver* solver)
   printf("|     nnz(A):           %-9d                       |\n", get_nnz(data->A));
   printf("|     nnz(G):           %-9d                       |\n", get_nnz(data->G));
   printf("| Scaling Statistics:                                   |\n");
-  printf("|     Objective range      [%.0e, %.0e]               |\n", data->obj_range_min, data->obj_range_max);
-  printf("|     Constraint range     [%.0e, %.0e]               |\n", data->constraint_range_min, data->constraint_range_max);
-  printf("|     RHS range            [%.0e, %.0e]               |\n", data->rhs_range_min, data->rhs_range_max);
+  printf("|     Objective range      [%.0e, %.0e]               |\n", (double)data->obj_range_min, (double)data->obj_range_max);
+  printf("|     Constraint range     [%.0e, %.0e]               |\n", (double)data->constraint_range_min, (double)data->constraint_range_max);
+  printf("|     RHS range            [%.0e, %.0e]               |\n", (double)data->rhs_range_min, (double)data->rhs_range_max);
   printf("| Solver Settings:                                      |\n");
   printf("|     algebra: %-27s              |\n", solver->linsys->linsys_name());
-  printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
-  printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
-  printf("|     kkt_static_reg_P: %3.2e ruiz_iters: %-2d         |\n", settings->kkt_static_reg_P, settings->ruiz_iters);
-  printf("|     kkt_static_reg_A: %3.2e max_ir_iters: %-2d       |\n", settings->kkt_static_reg_A, settings->max_ir_iters);
-  printf("|     kkt_static_reg_G: %3.2e ir_tol: %3.2e       |\n", settings->kkt_static_reg_G, settings->ir_tol);
-  printf("|     kkt_dynamic_reg: %3.2e                         |\n", settings->kkt_dynamic_reg);
+  printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, (double)settings->abstol, (double)settings->reltol);
+  printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", (double)settings->abstol_inacc, (double)settings->reltol_inacc);
+  printf("|     kkt_static_reg_P: %3.2e ruiz_iters: %-2d         |\n", (double)settings->kkt_static_reg_P, settings->ruiz_iters);
+  printf("|     kkt_static_reg_A: %3.2e max_ir_iters: %-2d       |\n", (double)settings->kkt_static_reg_A, settings->max_ir_iters);
+  printf("|     kkt_static_reg_G: %3.2e ir_tol: %3.2e       |\n", (double)settings->kkt_static_reg_G, (double)settings->ir_tol);
+  printf("|     kkt_dynamic_reg: %3.2e                         |\n", (double)settings->kkt_dynamic_reg);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
   printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
@@ -194,7 +194,7 @@ void log_iter(QOCOSolver* solver)
 {
   // clang-format off
   printf("|  %3d   | %+.2e | %+.3e | %+.3e | %+.3e | %+.2e |  %2d  |   %.3f   |\n",
-         solver->sol->iters, solver->sol->obj, solver->sol->pres, solver->sol->dres, solver->sol->gap, solver->work->mu, solver->work->ir_iters, solver->work->a);
+         solver->sol->iters, (double)solver->sol->obj, (double)solver->sol->pres, (double)solver->sol->dres, (double)solver->sol->gap, (double)solver->work->mu, solver->work->ir_iters, (double)solver->work->a);
   printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
   // clang-format on
 }
@@ -204,9 +204,9 @@ void print_footer(QOCOSolution* solution, enum qoco_solve_status status)
   printf("\n");
   printf("status:                %s\n", QOCO_SOLVE_STATUS_MESSAGE[status]);
   printf("number of iterations:  %d\n", solution->iters);
-  printf("objective:             %+.3f\n", solution->obj);
-  printf("setup time:            %.2e sec\n", solution->setup_time_sec);
-  printf("solve time:            %.2e sec\n", solution->solve_time_sec);
+  printf("objective:             %+.3f\n", (double)solution->obj);
+  printf("setup time:            %.2e sec\n", (double)solution->setup_time_sec);
+  printf("solve time:            %.2e sec\n", (double)solution->solve_time_sec);
   printf("\n");
 }
 
@@ -335,7 +335,7 @@ unsigned char check_stopping(QOCOSolver* solver)
       FILE* log_f = fopen("qoco_log.txt", "a");
       if (log_f) {
         fprintf(log_f, "kkt_dynamic_reg changed to %e\n",
-                solver->settings->kkt_dynamic_reg);
+                (double)solver->settings->kkt_dynamic_reg);
         fclose(log_f);
       }
     }

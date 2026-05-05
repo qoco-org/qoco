@@ -12,4 +12,7 @@
 #cmakedefine IS_MACOS
 #cmakedefine IS_WINDOWS
 
+#cmakedefine QOCO_SINGLE_PRECISION
+#cmakedefine QOCO_LONG_DOUBLE_PRECISION
+
 #endif // #ifndef QOCO_CONFIG_H

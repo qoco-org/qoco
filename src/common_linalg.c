@@ -194,7 +194,7 @@ QOCOCscMatrix* create_transposed_matrix(const QOCOCscMatrix* A, QOCOInt* AtoAt)
   // Allocate memory for the transpose matrix.
   B->p = (QOCOInt*)qoco_malloc((A->m + 1) * sizeof(int));
   B->i = (QOCOInt*)qoco_malloc(A->nnz * sizeof(QOCOInt));
-  B->x = (double*)qoco_malloc(A->nnz * sizeof(QOCOFloat));
+  B->x = (QOCOFloat*)qoco_malloc(A->nnz * sizeof(QOCOFloat));
 
   // Count the number of non-zeros in each row.
   QOCOInt* row_counts = (QOCOInt*)calloc(A->m, sizeof(QOCOInt));
