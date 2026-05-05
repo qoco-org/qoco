@@ -23,6 +23,7 @@ Helper functions
 .. doxygenfunction:: set_default_settings
 .. doxygenfunction:: qoco_update_settings
 .. doxygenfunction:: qoco_update_vector_data
+.. doxygenfunction:: qoco_set_x0
 .. doxygenfunction:: qoco_update_matrix_data
 
 QOCO data types
