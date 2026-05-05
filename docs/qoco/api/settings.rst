@@ -14,6 +14,10 @@ The settings are defined in the :code:`include/structs.h` file.
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`ruiz_iters`             |  :code:`QOCOInt`      | Number of Ruiz equilibration iterations performed          | :math:`(0, \infty)` | 0             |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
+| :code:`ruiz_scaling_min`       |  :code:`QOCOFloat`    | Minimum cumulative Ruiz scaling                            | :math:`(0, \infty)` | 1e-4          |
++--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
+| :code:`ruiz_scaling_max`       |  :code:`QOCOFloat`    | Maximum cumulative Ruiz scaling                            | :math:`(0, \infty)` | 1e4           |
++--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`max_ir_iters`           |  :code:`QOCOInt`      | Maximum number of iterative refinement iterations          | :math:`(0, \infty)` | 5             |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`ir_tol`                 |  :code:`QOCOFloat`    | Iterative refinement stopping tolerance: stop when         | :math:`(0, \infty)` | 1e-6          |

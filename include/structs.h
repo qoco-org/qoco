@@ -111,6 +111,12 @@ typedef struct {
   /** Number of Ruiz equilibration iterations. */
   QOCOInt ruiz_iters;
 
+  /** Minimum cumulative Ruiz scaling. */
+  QOCOFloat ruiz_scaling_min;
+
+  /** Maximum cumulative Ruiz scaling. */
+  QOCOFloat ruiz_scaling_max;
+
   /** Maximum number of iterative refinement iterations. */
   QOCOInt max_ir_iters;
 

@@ -18,9 +18,21 @@ QOCOInt qoco_validate_settings(const QOCOSettings* settings)
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 
-  // ruiz_iters must be positive.
+  // ruiz_iters must be non-negative.
   if (settings->ruiz_iters < 0) {
-    printf("ruiz_iters must be positive.\n");
+    printf("ruiz_iters must be non-negative.\n");
+    return QOCO_SETTINGS_VALIDATION_ERROR;
+  }
+  if (settings->ruiz_scaling_min <= 0) {
+    printf("ruiz_scaling_min must be positive.\n");
+    return QOCO_SETTINGS_VALIDATION_ERROR;
+  }
+  if (settings->ruiz_scaling_max <= 0) {
+    printf("ruiz_scaling_max must be positive.\n");
+    return QOCO_SETTINGS_VALIDATION_ERROR;
+  }
+  if (settings->ruiz_scaling_min > settings->ruiz_scaling_max) {
+    printf("ruiz_scaling_min must be <= ruiz_scaling_max.\n");
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 

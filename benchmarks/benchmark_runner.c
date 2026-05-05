@@ -19,6 +19,12 @@ static void apply_setting(QOCOSettings* settings, const char* arg)
   else if (strcmp(key, "ruiz_iters") == 0) {
     settings->ruiz_iters = atoi(val);
   }
+  else if (strcmp(key, "ruiz_scaling_min") == 0) {
+    settings->ruiz_scaling_min = atof(val);
+  }
+  else if (strcmp(key, "ruiz_scaling_max") == 0) {
+    settings->ruiz_scaling_max = atof(val);
+  }
   else if (strcmp(key, "max_ir_iters") == 0) {
     settings->max_ir_iters = atoi(val);
   }

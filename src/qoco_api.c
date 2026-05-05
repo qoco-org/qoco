@@ -93,7 +93,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   // Compute scaling statistics before equilibration and regularization.
   compute_scaling_statistics(data);
 
-  ruiz_equilibration(data, work->scaling, solver->settings->ruiz_iters);
+  ruiz_equilibration(data, work->scaling, solver->settings->ruiz_iters,
+                     solver->settings->ruiz_scaling_min,
+                     solver->settings->ruiz_scaling_max);
 
   // Regularize P.
   set_cpu_mode(1);
@@ -228,7 +230,9 @@ void qoco_set_csc(QOCOCscMatrix* A, QOCOInt m, QOCOInt n, QOCOInt Annz,
 void set_default_settings(QOCOSettings* settings)
 {
   settings->max_iters = 200;
-  settings->ruiz_iters = 0;
+  settings->ruiz_iters = 1;
+  settings->ruiz_scaling_min = 1e-4;
+  settings->ruiz_scaling_max = 1e4;
   settings->max_ir_iters = 5;
   settings->ir_tol = 1e-6;
   settings->kkt_static_reg_P = 1e-13;
@@ -251,6 +255,8 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
 
   solver->settings->max_iters = new_settings->max_iters;
   solver->settings->ruiz_iters = new_settings->ruiz_iters;
+  solver->settings->ruiz_scaling_min = new_settings->ruiz_scaling_min;
+  solver->settings->ruiz_scaling_max = new_settings->ruiz_scaling_max;
   solver->settings->max_ir_iters = new_settings->max_ir_iters;
   solver->settings->ir_tol = new_settings->ir_tol;
   solver->settings->kkt_static_reg_P = new_settings->kkt_static_reg_P;
@@ -406,7 +412,9 @@ void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew,
   compute_scaling_statistics(data);
 
   // Equilibrate new matrix data.
-  ruiz_equilibration(data, scaling, solver->settings->ruiz_iters);
+  ruiz_equilibration(data, scaling, solver->settings->ruiz_iters,
+                     solver->settings->ruiz_scaling_min,
+                     solver->settings->ruiz_scaling_max);
 
   // Regularize P.
   unregularize(Pcsc, -solver->settings->kkt_static_reg_P);
