@@ -71,6 +71,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cpu-backend-default">CPU backend (default)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#gpu-backend">GPU backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#floating-point-precision">Floating point precision</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cmake-options">CMake options</a></li>
 </ul>
 </li>
@@ -156,34 +157,35 @@
 <li><p><a class="reference internal" href="#prerequisites" id="id13">Prerequisites</a></p></li>
 <li><p><a class="reference internal" href="#cpu-backend-default" id="id14">CPU backend (default)</a></p></li>
 <li><p><a class="reference internal" href="#gpu-backend" id="id15">GPU backend</a></p></li>
-<li><p><a class="reference internal" href="#cmake-options" id="id16">CMake options</a></p></li>
+<li><p><a class="reference internal" href="#floating-point-precision" id="id16">Floating point precision</a></p></li>
+<li><p><a class="reference internal" href="#cmake-options" id="id17">CMake options</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#unit-tests" id="id17">Unit Tests</a></p>
+<li><p><a class="reference internal" href="#unit-tests" id="id18">Unit Tests</a></p>
 <ul>
-<li><p><a class="reference internal" href="#test-categories" id="id18">Test categories</a></p></li>
-<li><p><a class="reference internal" href="#unit-test-details" id="id19">Unit test details</a></p></li>
-<li><p><a class="reference internal" href="#integration-tests" id="id20">Integration tests</a></p></li>
-<li><p><a class="reference internal" href="#running-tests-locally" id="id21">Running tests locally</a></p></li>
+<li><p><a class="reference internal" href="#test-categories" id="id19">Test categories</a></p></li>
+<li><p><a class="reference internal" href="#unit-test-details" id="id20">Unit test details</a></p></li>
+<li><p><a class="reference internal" href="#integration-tests" id="id21">Integration tests</a></p></li>
+<li><p><a class="reference internal" href="#running-tests-locally" id="id22">Running tests locally</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#ci-workflows" id="id22">CI Workflows</a></p>
+<li><p><a class="reference internal" href="#ci-workflows" id="id23">CI Workflows</a></p>
 <ul>
-<li><p><a class="reference internal" href="#unit-tests-yml-primary-test-suite" id="id23">unit_tests.yml — primary test suite</a></p></li>
-<li><p><a class="reference internal" href="#clang-tidy-yml-static-analysis" id="id24">clang_tidy.yml — static analysis</a></p></li>
-<li><p><a class="reference internal" href="#clang-format-yml-formatting-enforcement" id="id25">clang_format.yml — formatting enforcement</a></p></li>
-<li><p><a class="reference internal" href="#benchmark-regression-yml-performance-regression" id="id26">benchmark_regression.yml — performance regression</a></p></li>
-<li><p><a class="reference internal" href="#docs-yml-documentation-deployment" id="id27">docs.yml — documentation deployment</a></p></li>
+<li><p><a class="reference internal" href="#unit-tests-yml-primary-test-suite" id="id24">unit_tests.yml — primary test suite</a></p></li>
+<li><p><a class="reference internal" href="#clang-tidy-yml-static-analysis" id="id25">clang_tidy.yml — static analysis</a></p></li>
+<li><p><a class="reference internal" href="#clang-format-yml-formatting-enforcement" id="id26">clang_format.yml — formatting enforcement</a></p></li>
+<li><p><a class="reference internal" href="#benchmark-regression-yml-performance-regression" id="id27">benchmark_regression.yml — performance regression</a></p></li>
+<li><p><a class="reference internal" href="#docs-yml-documentation-deployment" id="id28">docs.yml — documentation deployment</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#developer-tools" id="id28">Developer Tools</a></p>
+<li><p><a class="reference internal" href="#developer-tools" id="id29">Developer Tools</a></p>
 <ul>
-<li><p><a class="reference internal" href="#run-tests-sh" id="id29">run_tests.sh</a></p></li>
-<li><p><a class="reference internal" href="#run-tests-gpu-sh" id="id30">run_tests_gpu.sh</a></p></li>
-<li><p><a class="reference internal" href="#run-clang-tidy-sh" id="id31">run_clang_tidy.sh</a></p></li>
-<li><p><a class="reference internal" href="#run-clang-format-sh" id="id32">run_clang_format.sh</a></p></li>
-<li><p><a class="reference internal" href="#profile-sh" id="id33">profile.sh</a></p></li>
-<li><p><a class="reference internal" href="#profile-gpu-sh" id="id34">profile_gpu.sh</a></p></li>
+<li><p><a class="reference internal" href="#run-tests-sh" id="id30">run_tests.sh</a></p></li>
+<li><p><a class="reference internal" href="#run-tests-gpu-sh" id="id31">run_tests_gpu.sh</a></p></li>
+<li><p><a class="reference internal" href="#run-clang-tidy-sh" id="id32">run_clang_tidy.sh</a></p></li>
+<li><p><a class="reference internal" href="#run-clang-format-sh" id="id33">run_clang_format.sh</a></p></li>
+<li><p><a class="reference internal" href="#profile-sh" id="id34">profile.sh</a></p></li>
+<li><p><a class="reference internal" href="#profile-gpu-sh" id="id35">profile_gpu.sh</a></p></li>
 </ul>
 </li>
 </ul>
@@ -610,8 +612,44 @@ cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"
 </pre></div>
 </div>
 </section>
+<section id="floating-point-precision">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Floating point precision</a><a class="headerlink" href="#floating-point-precision" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">QOCOFloat</span></code> is selected at configure time in the root <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> and
+defined in <code class="docutils literal notranslate"><span class="pre">include/definitions.h</span></code>. Double precision is the default. Developers
+can build the CPU solver in single precision or long double precision with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build-float<span class="w"> </span>-DQOCO_SINGLE_PRECISION<span class="o">=</span>ON
+cmake<span class="w"> </span>-B<span class="w"> </span>build-long-double<span class="w"> </span>-DQOCO_LONG_DOUBLE_PRECISION<span class="o">=</span>ON
+</pre></div>
+</div>
+<p>The precision options are mutually exclusive. CMake stops with a configuration
+error if both are enabled.</p>
+<p>The selected precision is propagated in two places:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">configure/qoco_config.h.in</span></code> defines <code class="docutils literal notranslate"><span class="pre">QOCO_SINGLE_PRECISION</span></code> or
+<code class="docutils literal notranslate"><span class="pre">QOCO_LONG_DOUBLE_PRECISION</span></code> for QOCO.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QDLDL_FLOAT</span></code> or <code class="docutils literal notranslate"><span class="pre">QDLDL_LONG_DOUBLE</span></code> is forced in the QDLDL subproject so
+<code class="docutils literal notranslate"><span class="pre">QDLDL_float</span></code> has the same size as <code class="docutils literal notranslate"><span class="pre">QOCOFloat</span></code>.</p></li>
+</ul>
+<p>Long double precision has two additional constraints. It is supported only by
+the builtin CPU backend because the CUDA backend and cuDSS path do not expose a
+matching long double solve path. It also requires a platform where
+<code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code> is wider than <code class="docutils literal notranslate"><span class="pre">double</span></code>; CMake checks <code class="docutils literal notranslate"><span class="pre">LDBL_MANT_DIG</span></code> against
+<code class="docutils literal notranslate"><span class="pre">DBL_MANT_DIG</span></code> and fails early when the types have equivalent precision.</p>
+<p>When adding precision-sensitive code, use the precision helpers from
+<code class="docutils literal notranslate"><span class="pre">include/definitions.h</span></code> instead of hard-coding double-specific functions or
+formats:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">qoco_sqrt</span></code> dispatches to <code class="docutils literal notranslate"><span class="pre">sqrtf</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt</span></code>, or <code class="docutils literal notranslate"><span class="pre">sqrtl</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QOCOFloat_MAX</span></code> comes from <code class="docutils literal notranslate"><span class="pre">FLT_MAX</span></code>, <code class="docutils literal notranslate"><span class="pre">DBL_MAX</span></code>, or <code class="docutils literal notranslate"><span class="pre">LDBL_MAX</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QOCOFloat_PRINT_FORMAT</span></code> and <code class="docutils literal notranslate"><span class="pre">QOCOFloat_PRINT_ARG</span></code> keep formatted output
+correct for <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>, and <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code>.</p></li>
+</ul>
+<p>Use <code class="docutils literal notranslate"><span class="pre">QOCOFloat</span></code> for all user problem data copies, workspace values, residuals,
+and backend numeric storage. Avoid temporary casts through <code class="docutils literal notranslate"><span class="pre">double</span></code> unless the
+loss of precision is intentional and documented.</p>
+</section>
 <section id="cmake-options">
-<h3><a class="toc-backref" href="#id16" role="doc-backlink">CMake options</a><a class="headerlink" href="#cmake-options" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">CMake options</a><a class="headerlink" href="#cmake-options" title="Link to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Option</p></th>
@@ -632,15 +670,19 @@ cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"
 <td><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p></td>
 <td><p>Use <code class="docutils literal notranslate"><span class="pre">float</span></code> instead of <code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ENABLE_TESTING</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">QOCO_LONG_DOUBLE_PRECISION</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p></td>
+<td><p>Use <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code> instead of <code class="docutils literal notranslate"><span class="pre">double</span></code> for the builtin CPU backend</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ENABLE_TESTING</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p></td>
 <td><p>Build and register test suite</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BUILD_QOCO_DEMO</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">BUILD_QOCO_DEMO</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p></td>
 <td><p>Build <code class="docutils literal notranslate"><span class="pre">examples/qoco_demo</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">BUILD_QOCO_BENCHMARK_RUNNER</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BUILD_QOCO_BENCHMARK_RUNNER</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p></td>
 <td><p>Build benchmark runner</p></td>
 </tr>
@@ -649,11 +691,11 @@ cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"
 </section>
 </section>
 <section id="unit-tests">
-<h2><a class="toc-backref" href="#id17" role="doc-backlink">Unit Tests</a><a class="headerlink" href="#unit-tests" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">Unit Tests</a><a class="headerlink" href="#unit-tests" title="Link to this heading"></a></h2>
 <p>Tests use Google Test and are run with <code class="docutils literal notranslate"><span class="pre">ctest</span></code>. All test executables link against
 <code class="docutils literal notranslate"><span class="pre">qocostatic</span></code>.</p>
 <section id="test-categories">
-<h3><a class="toc-backref" href="#id18" role="doc-backlink">Test categories</a><a class="headerlink" href="#test-categories" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Test categories</a><a class="headerlink" href="#test-categories" title="Link to this heading"></a></h3>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Directory</p></th>
@@ -663,7 +705,8 @@ cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tests/unit_tests/</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">linalg_test</span></code>, <code class="docutils literal notranslate"><span class="pre">cone_test</span></code>, <code class="docutils literal notranslate"><span class="pre">input_validation_test</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">linalg_test</span></code>, <code class="docutils literal notranslate"><span class="pre">cone_test</span></code>, <code class="docutils literal notranslate"><span class="pre">input_validation_test</span></code>,
+<code class="docutils literal notranslate"><span class="pre">precision_test</span></code></p></td>
 <td><p>Individual components</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tests/simple_tests/</span></code></p></td>
@@ -682,7 +725,7 @@ cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"
 </table>
 </section>
 <section id="unit-test-details">
-<h3><a class="toc-backref" href="#id19" role="doc-backlink">Unit test details</a><a class="headerlink" href="#unit-test-details" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Unit test details</a><a class="headerlink" href="#unit-test-details" title="Link to this heading"></a></h3>
 <p><strong>linalg_test</strong> — covers the linalg layer:</p>
 <ul class="simple">
 <li><p>CSC matrix creation and copying</p></li>
@@ -698,9 +741,16 @@ cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"
 <ul class="simple">
 <li><p>Rejects invalid settings (tolerances, iteration counts, etc.)</p></li>
 </ul>
+<p><strong>precision_test</strong> — covers configured scalar precision:</p>
+<ul class="simple">
+<li><p>Verifies <code class="docutils literal notranslate"><span class="pre">QOCOFloat</span></code> and <code class="docutils literal notranslate"><span class="pre">QDLDL_float</span></code> use the same storage size</p></li>
+<li><p>Checks that long double builds preserve input values that would be rounded by
+a cast through <code class="docutils literal notranslate"><span class="pre">double</span></code></p></li>
+<li><p>Confirms setup and solve do not mutate user-owned problem data</p></li>
+</ul>
 </section>
 <section id="integration-tests">
-<h3><a class="toc-backref" href="#id20" role="doc-backlink">Integration tests</a><a class="headerlink" href="#integration-tests" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Integration tests</a><a class="headerlink" href="#integration-tests" title="Link to this heading"></a></h3>
 <p>The OCP and portfolio tests load pre-generated problem data from header files
 (e.g. <code class="docutils literal notranslate"><span class="pre">lcvx_data.h</span></code>, <code class="docutils literal notranslate"><span class="pre">markowitz_data.h</span></code>) and call the full solve pipeline.
 They assert that the optimal objective matches a reference value within 0.01%
@@ -711,7 +761,7 @@ The generated <code class="docutils literal notranslate"><span class="pre">.h</s
 needed if you regenerate them.</p>
 </section>
 <section id="running-tests-locally">
-<h3><a class="toc-backref" href="#id21" role="doc-backlink">Running tests locally</a><a class="headerlink" href="#running-tests-locally" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Running tests locally</a><a class="headerlink" href="#running-tests-locally" title="Link to this heading"></a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run all tests</span>
 ctest<span class="w"> </span>--test-dir<span class="w"> </span>build<span class="w"> </span>--verbose
 
@@ -725,10 +775,10 @@ ctest<span class="w"> </span>--test-dir<span class="w"> </span>build<span class=
 </section>
 </section>
 <section id="ci-workflows">
-<h2><a class="toc-backref" href="#id22" role="doc-backlink">CI Workflows</a><a class="headerlink" href="#ci-workflows" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">CI Workflows</a><a class="headerlink" href="#ci-workflows" title="Link to this heading"></a></h2>
 <p>All workflows are in <code class="docutils literal notranslate"><span class="pre">.github/workflows/</span></code>.</p>
 <section id="unit-tests-yml-primary-test-suite">
-<h3><a class="toc-backref" href="#id23" role="doc-backlink">unit_tests.yml — primary test suite</a><a class="headerlink" href="#unit-tests-yml-primary-test-suite" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">unit_tests.yml — primary test suite</a><a class="headerlink" href="#unit-tests-yml-primary-test-suite" title="Link to this heading"></a></h3>
 <p>Triggers on every push and pull request.</p>
 <p>Runs the full test matrix in parallel (<code class="docutils literal notranslate"><span class="pre">fail-fast:</span> <span class="pre">false</span></code>):</p>
 <table class="docutils align-default">
@@ -764,7 +814,7 @@ ctest<span class="w"> </span>--test-dir<span class="w"> </span>build<span class=
 </div>
 </section>
 <section id="clang-tidy-yml-static-analysis">
-<h3><a class="toc-backref" href="#id24" role="doc-backlink">clang_tidy.yml — static analysis</a><a class="headerlink" href="#clang-tidy-yml-static-analysis" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">clang_tidy.yml — static analysis</a><a class="headerlink" href="#clang-tidy-yml-static-analysis" title="Link to this heading"></a></h3>
 <p>Triggers on every push and pull request.</p>
 <p>Builds with <code class="docutils literal notranslate"><span class="pre">CMAKE_EXPORT_COMPILE_COMMANDS=ON</span></code> then runs <code class="docutils literal notranslate"><span class="pre">clang-tidy</span></code> on all
 <code class="docutils literal notranslate"><span class="pre">src/*.c</span></code> files (excluding OS-specific timers). Config is in <code class="docutils literal notranslate"><span class="pre">.clang-tidy</span></code>.</p>
@@ -778,7 +828,7 @@ All warnings are treated as errors.</p>
 </div>
 </section>
 <section id="clang-format-yml-formatting-enforcement">
-<h3><a class="toc-backref" href="#id25" role="doc-backlink">clang_format.yml — formatting enforcement</a><a class="headerlink" href="#clang-format-yml-formatting-enforcement" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">clang_format.yml — formatting enforcement</a><a class="headerlink" href="#clang-format-yml-formatting-enforcement" title="Link to this heading"></a></h3>
 <p>Triggers on every push and pull request.</p>
 <p>Runs <code class="docutils literal notranslate"><span class="pre">clang-format</span> <span class="pre">--dry-run</span> <span class="pre">--Werror</span></code> on all <code class="docutils literal notranslate"><span class="pre">.c</span></code> and <code class="docutils literal notranslate"><span class="pre">.h</span></code> files under
 <code class="docutils literal notranslate"><span class="pre">src/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code>, and <code class="docutils literal notranslate"><span class="pre">algebra/builtin/</span></code>. Fails if any file is not
@@ -790,14 +840,14 @@ devtools/run_clang_format.sh<span class="w">           </span><span class="c1">#
 </div>
 </section>
 <section id="benchmark-regression-yml-performance-regression">
-<h3><a class="toc-backref" href="#id26" role="doc-backlink">benchmark_regression.yml — performance regression</a><a class="headerlink" href="#benchmark-regression-yml-performance-regression" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">benchmark_regression.yml — performance regression</a><a class="headerlink" href="#benchmark-regression-yml-performance-regression" title="Link to this heading"></a></h3>
 <p>Triggers only on pull requests targeting <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
 <p>Builds both <code class="docutils literal notranslate"><span class="pre">main</span></code> and the PR branch, runs the benchmark suite against both,
 and posts a comparison report as a PR comment. Uses configs in
 <code class="docutils literal notranslate"><span class="pre">benchmarks/configs/main.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">benchmarks/configs/branch.yml</span></code>.</p>
 </section>
 <section id="docs-yml-documentation-deployment">
-<h3><a class="toc-backref" href="#id27" role="doc-backlink">docs.yml — documentation deployment</a><a class="headerlink" href="#docs-yml-documentation-deployment" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">docs.yml — documentation deployment</a><a class="headerlink" href="#docs-yml-documentation-deployment" title="Link to this heading"></a></h3>
 <p>Triggers manually (<code class="docutils literal notranslate"><span class="pre">workflow_dispatch</span></code> only).</p>
 <p>Builds the Sphinx docs from <code class="docutils literal notranslate"><span class="pre">docs/</span></code> and deploys to the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch.
 Also deploys to the root of <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> if the version being built is the
@@ -805,10 +855,10 @@ latest released version.</p>
 </section>
 </section>
 <section id="developer-tools">
-<h2><a class="toc-backref" href="#id28" role="doc-backlink">Developer Tools</a><a class="headerlink" href="#developer-tools" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">Developer Tools</a><a class="headerlink" href="#developer-tools" title="Link to this heading"></a></h2>
 <p>All scripts in <code class="docutils literal notranslate"><span class="pre">devtools/</span></code> are intended to be run from the repository root.</p>
 <section id="run-tests-sh">
-<h3><a class="toc-backref" href="#id29" role="doc-backlink">run_tests.sh</a><a class="headerlink" href="#run-tests-sh" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id30" role="doc-backlink">run_tests.sh</a><a class="headerlink" href="#run-tests-sh" title="Link to this heading"></a></h3>
 <p>Builds in Release mode with testing, demo, and benchmark runner enabled, then
 runs the full test suite.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>devtools/run_tests.sh
@@ -816,14 +866,14 @@ runs the full test suite.</p>
 </div>
 </section>
 <section id="run-tests-gpu-sh">
-<h3><a class="toc-backref" href="#id30" role="doc-backlink">run_tests_gpu.sh</a><a class="headerlink" href="#run-tests-gpu-sh" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id31" role="doc-backlink">run_tests_gpu.sh</a><a class="headerlink" href="#run-tests-gpu-sh" title="Link to this heading"></a></h3>
 <p>Same as above but configures the CUDA backend with CUDA 13.0.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>devtools/run_tests_gpu.sh
 </pre></div>
 </div>
 </section>
 <section id="run-clang-tidy-sh">
-<h3><a class="toc-backref" href="#id31" role="doc-backlink">run_clang_tidy.sh</a><a class="headerlink" href="#run-clang-tidy-sh" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id32" role="doc-backlink">run_clang_tidy.sh</a><a class="headerlink" href="#run-clang-tidy-sh" title="Link to this heading"></a></h3>
 <p>Generates a temporary build directory with compile commands, runs <code class="docutils literal notranslate"><span class="pre">clang-tidy</span></code>
 on all <code class="docutils literal notranslate"><span class="pre">src/*.c</span></code> files, then removes the build directory.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>devtools/run_clang_tidy.sh
@@ -831,7 +881,7 @@ on all <code class="docutils literal notranslate"><span class="pre">src/*.c</spa
 </div>
 </section>
 <section id="run-clang-format-sh">
-<h3><a class="toc-backref" href="#id32" role="doc-backlink">run_clang_format.sh</a><a class="headerlink" href="#run-clang-format-sh" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id33" role="doc-backlink">run_clang_format.sh</a><a class="headerlink" href="#run-clang-format-sh" title="Link to this heading"></a></h3>
 <p>Checks or fixes formatting for <code class="docutils literal notranslate"><span class="pre">src/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code>, and <code class="docutils literal notranslate"><span class="pre">algebra/builtin/</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>devtools/run_clang_format.sh<span class="w">           </span><span class="c1"># fix in place</span>
 devtools/run_clang_format.sh<span class="w"> </span>--check<span class="w">   </span><span class="c1"># report violations and exit non-zero</span>
@@ -839,7 +889,7 @@ devtools/run_clang_format.sh<span class="w"> </span>--check<span class="w">   </
 </div>
 </section>
 <section id="profile-sh">
-<h3><a class="toc-backref" href="#id33" role="doc-backlink">profile.sh</a><a class="headerlink" href="#profile-sh" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id34" role="doc-backlink">profile.sh</a><a class="headerlink" href="#profile-sh" title="Link to this heading"></a></h3>
 <p>Profiles a benchmark run on CPU using Valgrind’s callgrind tool and opens the
 result in KCachegrind.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>devtools/profile.sh<span class="w"> </span>path/to/benchmark/data
@@ -847,7 +897,7 @@ result in KCachegrind.</p>
 </div>
 </section>
 <section id="profile-gpu-sh">
-<h3><a class="toc-backref" href="#id34" role="doc-backlink">profile_gpu.sh</a><a class="headerlink" href="#profile-gpu-sh" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id35" role="doc-backlink">profile_gpu.sh</a><a class="headerlink" href="#profile-gpu-sh" title="Link to this heading"></a></h3>
 <p>Profiles a benchmark run on GPU using NVIDIA Nsight Systems.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>devtools/profile_gpu.sh<span class="w"> </span>path/to/benchmark/data
 </pre></div>
