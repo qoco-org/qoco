@@ -390,8 +390,15 @@ static void csc_to_csr_device(const QOCOCscMatrix* csc, QOCOInt** csr_row_ptr,
 }
 
 static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
-                               QOCOInt Wnnz)
+                               QOCOInt Wnnz, QOCOInt nsoc_sparse,
+                               QOCOInt* soc_is_sparse,
+                               QOCOInt nt_sparse_nnz,
+                               QOCOInt* sparse_soc_nt_idx)
 {
+  (void)nsoc_sparse;
+  (void)soc_is_sparse;
+  (void)nt_sparse_nnz;
+  (void)sparse_soc_nt_idx;
   // Load CUDA libraries dynamically
   if (!load_cuda_libraries()) {
     fprintf(stderr, "Failed to load CUDA libraries\n");
@@ -449,7 +456,8 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       get_csc_matrix(data->At), get_csc_matrix(data->Gt),
       settings->kkt_static_reg_A, data->n, data->m, data->p, data->l, data->nsoc,
       get_data_vectori(data->q), linsys_data->PregtoKKT, linsys_data->AttoKKT,
-      linsys_data->GttoKKT, linsys_data->nt2kkt, linsys_data->ntdiag2kkt, Wnnz);
+      linsys_data->GttoKKT, linsys_data->nt2kkt, linsys_data->ntdiag2kkt,
+      Wnnz, NULL, 0, 0, NULL, NULL, NULL, NULL);
   set_cpu_mode(0);
 
   // Convert KKT matrix from CSC (CPU) to CSR (GPU) for cuDSS
@@ -810,8 +818,9 @@ static void cudss_solve(LinSysData* linsys_data, QOCOWorkspace* work,
 #endif
 }
 
-void cudss_set_nt_identity(LinSysData* linsys_data, QOCOInt m)
+void cudss_set_nt_identity(LinSysData* linsys_data, QOCOWorkspace* work)
 {
+  QOCOInt m = work->data->m;
   int Wnnz = linsys_data->Wnnz;
 
   int N = max(Wnnz, m);
@@ -839,9 +848,11 @@ void cudss_set_nt_identity(LinSysData* linsys_data, QOCOInt m)
   }
 }
 
-static void cudss_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
-                            QOCOFloat kkt_static_reg_G, QOCOInt m)
+static void cudss_update_nt(LinSysData* linsys_data, QOCOWorkspace* work,
+                            QOCOFloat kkt_static_reg_G)
 {
+  QOCOVectorf* WtW_vec = work->WtW;
+  QOCOInt m = work->data->m;
   QOCOFloat* WtW = get_data_vectorf(WtW_vec);
   // Update CSR matrix values on GPU directly for NT blocks
   if (linsys_data->Wnnz > 0 && linsys_data->d_nt2kktcsr) {

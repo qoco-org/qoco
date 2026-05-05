@@ -253,6 +253,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
   QOCOFloat* sbar = get_data_vectorf(work->sbar);
   QOCOFloat* zbar = get_data_vectorf(work->zbar);
   QOCOFloat* lambda = get_data_vectorf(work->lambda);
+
   // Compute Nesterov-Todd scaling for LP cone.
   QOCOInt idx;
   for (idx = 0; idx < work->data->l; ++idx) {
@@ -267,8 +268,12 @@ void compute_nt_scaling(QOCOWorkspace* work)
   // Compute Nesterov-Todd scaling for second-order cones.
   QOCOInt nt_idx = idx;
   QOCOInt nt_idx_full = idx;
+  QOCOInt sp_count = 0; // index into sparse SOC arrays
+
   for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
     QOCOInt qi = get_element_vectori(work->data->q, i);
+    QOCOInt is_sparse = work->soc_is_sparse ? work->soc_is_sparse[i] : 0;
+
     // Compute normalized vectors.
     QOCOFloat s_scal = soc_residual2(get_pointer_vectorf(work->s, idx), qi);
     s_scal = qoco_sqrt(s_scal);
@@ -289,18 +294,22 @@ void compute_nt_scaling(QOCOWorkspace* work)
     for (QOCOInt j = 1; j < qi; ++j) {
       sbar[j] = f * (sbar[j] - zbar[j]);
     }
+    QOCOFloat w1sq = qoco_dot(&sbar[1], &sbar[1], qi - 1);
+    sbar[0] = qoco_sqrt(1.0 + w1sq);
 
-    // Overwrite zbar with v.
+    // Overwrite zbar with v (= Clarabel's normalized w vector).
     f = safe_div(1.0, qoco_sqrt(2 * (sbar[0] + 1)));
     zbar[0] = f * (sbar[0] + 1.0);
     for (QOCOInt j = 1; j < qi; ++j) {
       zbar[j] = f * sbar[j];
     }
 
-    // Compute W for second-order cones.
-    QOCOInt shift = 0;
+    // eta = sqrt(s_scal / z_scal)
     f = qoco_sqrt(safe_div(s_scal, z_scal));
     QOCOFloat finv = safe_div(1.0, f);
+
+    // Compute W and Wfull for all SOC cones (needed for W*x operations).
+    QOCOInt shift = 0;
     for (QOCOInt j = 0; j < qi; ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
         QOCOInt full_idx1 = nt_idx_full + j * qi + k;
@@ -330,7 +339,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
       }
     }
 
-    // Compute WtW for second-order cones.
+    // Compute WtW for this SOC cone.
     shift = 0;
     for (QOCOInt j = 0; j < qi; ++j) {
       for (QOCOInt k = 0; k <= j; ++k) {
@@ -338,6 +347,35 @@ void compute_nt_scaling(QOCOWorkspace* work)
                                        &Wfull[nt_idx_full + k * qi], qi);
         shift += 1;
       }
+    }
+
+    // For sparse SOC cones, additionally compute u, v, d, eta² for the
+    // rank-2 KKT expansion. sbar is QOCO's normalized SOC NT scaling point w.
+    if (is_sparse) {
+      QOCOFloat* u_arr = get_data_vectorf(work->nt_u_sparse);
+      QOCOFloat* v_arr = get_data_vectorf(work->nt_v_sparse);
+      QOCOFloat* eta2_arr = get_data_vectorf(work->nt_eta2_sparse);
+      QOCOFloat* d_arr = get_data_vectorf(work->nt_d_sparse);
+      QOCOInt* sp_idx = get_data_vectori(work->sparse_soc_nt_idx);
+
+      QOCOFloat wsq = sbar[0] * sbar[0] + w1sq;
+      QOCOFloat wsqinv = safe_div(1.0, wsq);
+
+      d_arr[sp_count] = 0.5 * wsqinv;
+      eta2_arr[sp_count] = f * f;
+
+      QOCOFloat u0 = qoco_sqrt(wsq - d_arr[sp_count]);
+      QOCOFloat u1 = safe_div(2.0 * sbar[0], u0);
+      QOCOFloat v1 = qoco_sqrt(2.0 * (2.0 + wsqinv) / (2.0 * wsq - wsqinv));
+
+      QOCOInt sidx = sp_idx[sp_count];
+      u_arr[sidx] = u0;
+      v_arr[sidx] = 0.0;
+      for (QOCOInt k = 1; k < qi; ++k) {
+        u_arr[sidx + k] = u1 * sbar[k];
+        v_arr[sidx + k] = v1 * sbar[k];
+      }
+      sp_count++;
     }
 
     idx += qi;
