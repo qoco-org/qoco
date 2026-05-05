@@ -470,6 +470,47 @@ GPU backend
      -DENABLE_TESTING=True
    cmake --build build -j$(nproc)
 
+Floating point precision
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+``QOCOFloat`` is selected at configure time in the root ``CMakeLists.txt`` and
+defined in ``include/definitions.h``. Double precision is the default. Developers
+can build the CPU solver in single precision or long double precision with:
+
+.. code-block:: bash
+
+   cmake -B build-float -DQOCO_SINGLE_PRECISION=ON
+   cmake -B build-long-double -DQOCO_LONG_DOUBLE_PRECISION=ON
+
+The precision options are mutually exclusive. CMake stops with a configuration
+error if both are enabled.
+
+The selected precision is propagated in two places:
+
+- ``configure/qoco_config.h.in`` defines ``QOCO_SINGLE_PRECISION`` or
+  ``QOCO_LONG_DOUBLE_PRECISION`` for QOCO.
+- ``QDLDL_FLOAT`` or ``QDLDL_LONG_DOUBLE`` is forced in the QDLDL subproject so
+  ``QDLDL_float`` has the same size as ``QOCOFloat``.
+
+Long double precision has two additional constraints. It is supported only by
+the builtin CPU backend because the CUDA backend and cuDSS path do not expose a
+matching long double solve path. It also requires a platform where
+``long double`` is wider than ``double``; CMake checks ``LDBL_MANT_DIG`` against
+``DBL_MANT_DIG`` and fails early when the types have equivalent precision.
+
+When adding precision-sensitive code, use the precision helpers from
+``include/definitions.h`` instead of hard-coding double-specific functions or
+formats:
+
+- ``qoco_sqrt`` dispatches to ``sqrtf``, ``sqrt``, or ``sqrtl``.
+- ``QOCOFloat_MAX`` comes from ``FLT_MAX``, ``DBL_MAX``, or ``LDBL_MAX``.
+- ``QOCOFloat_PRINT_FORMAT`` and ``QOCOFloat_PRINT_ARG`` keep formatted output
+  correct for ``float``, ``double``, and ``long double``.
+
+Use ``QOCOFloat`` for all user problem data copies, workspace values, residuals,
+and backend numeric storage. Avoid temporary casts through ``double`` unless the
+loss of precision is intentional and documented.
+
 CMake options
 ~~~~~~~~~~~~~
 
@@ -488,6 +529,9 @@ CMake options
    * - ``QOCO_SINGLE_PRECISION``
      - ``OFF``
      - Use ``float`` instead of ``double``
+   * - ``QOCO_LONG_DOUBLE_PRECISION``
+     - ``OFF``
+     - Use ``long double`` instead of ``double`` for the builtin CPU backend
    * - ``ENABLE_TESTING``
      - ``OFF``
      - Build and register test suite
@@ -514,7 +558,8 @@ Test categories
      - Executable(s)
      - What it covers
    * - ``tests/unit_tests/``
-     - ``linalg_test``, ``cone_test``, ``input_validation_test``
+     - ``linalg_test``, ``cone_test``, ``input_validation_test``,
+       ``precision_test``
      - Individual components
    * - ``tests/simple_tests/``
      - ``missing_constraints_test``
@@ -543,6 +588,13 @@ Unit test details
 **input_validation_test** — covers ``src/input_validation.c``:
 
 - Rejects invalid settings (tolerances, iteration counts, etc.)
+
+**precision_test** — covers configured scalar precision:
+
+- Verifies ``QOCOFloat`` and ``QDLDL_float`` use the same storage size
+- Checks that long double builds preserve input values that would be rounded by
+  a cast through ``double``
+- Confirms setup and solve do not mutate user-owned problem data
 
 Integration tests
 ~~~~~~~~~~~~~~~~~
