@@ -18,9 +18,6 @@ def checkout_branch(branch_name, is_diff=False):
             subprocess.run(["git", "checkout", branch_name], check=True)
             print(f"Checked out branch {branch_name}")
         else:
-            # Deinit submodules so their working-tree files don't conflict when
-            # the baseline branch tracks those paths as regular files.
-            subprocess.run(["git", "submodule", "deinit", "--all", "-f"], check=False)
             # Fetch from upstream (your canonical repo)
             subprocess.run(["git", "fetch", "origin", branch_name], check=True)
             subprocess.run(["git", "checkout", "-B", branch_name, f"origin/{branch_name}"], check=True)
