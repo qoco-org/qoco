@@ -83,40 +83,40 @@ int main(int argc, char** argv)
   fread(&Gnnz, sizeof(int), 1, f);
 
   // Dense vectors
-  double* c = malloc(n * sizeof(double));
-  double* b = malloc(p * sizeof(double));
-  double* h = malloc(m * sizeof(double));
+  QOCOFloat* c = malloc(n * sizeof(QOCOFloat));
+  QOCOFloat* b = malloc(p * sizeof(QOCOFloat));
+  QOCOFloat* h = malloc(m * sizeof(QOCOFloat));
   int* q = malloc(nsoc * sizeof(int));
 
-  fread(c, sizeof(double), n, f);
-  fread(b, sizeof(double), p, f);
-  fread(h, sizeof(double), m, f);
+  fread(c, sizeof(QOCOFloat), n, f);
+  fread(b, sizeof(QOCOFloat), p, f);
+  fread(h, sizeof(QOCOFloat), m, f);
   fread(q, sizeof(int), nsoc, f);
 
   // P
-  double* Px = malloc(Pnnz * sizeof(double));
+  QOCOFloat* Px = malloc(Pnnz * sizeof(QOCOFloat));
   int* Pi = malloc(Pnnz * sizeof(int));
   int* Pp = malloc((n + 1) * sizeof(int));
 
-  fread(Px, sizeof(double), Pnnz, f);
+  fread(Px, sizeof(QOCOFloat), Pnnz, f);
   fread(Pi, sizeof(int), Pnnz, f);
   fread(Pp, sizeof(int), n + 1, f);
 
   // A
-  double* Ax = malloc(Annz * sizeof(double));
+  QOCOFloat* Ax = malloc(Annz * sizeof(QOCOFloat));
   int* Ai = malloc(Annz * sizeof(int));
   int* Ap = malloc((n + 1) * sizeof(int));
 
-  fread(Ax, sizeof(double), Annz, f);
+  fread(Ax, sizeof(QOCOFloat), Annz, f);
   fread(Ai, sizeof(int), Annz, f);
   fread(Ap, sizeof(int), n + 1, f);
 
   // G
-  double* Gx = malloc(Gnnz * sizeof(double));
+  QOCOFloat* Gx = malloc(Gnnz * sizeof(QOCOFloat));
   int* Gi = malloc(Gnnz * sizeof(int));
   int* Gp = malloc((n + 1) * sizeof(int));
 
-  fread(Gx, sizeof(double), Gnnz, f);
+  fread(Gx, sizeof(QOCOFloat), Gnnz, f);
   fread(Gi, sizeof(int), Gnnz, f);
   fread(Gp, sizeof(int), n + 1, f);
   fclose(f);
@@ -165,9 +165,10 @@ int main(int argc, char** argv)
   }
 
   // Print summary: filename, exit_code, iters, ir_iters, setup time, solve time
-  printf("%s %d %d %d %f %f\n", filename, exit, solver->sol->iters,
-         solver->sol->ir_iters, solver->sol->setup_time_sec,
-         solver->sol->solve_time_sec);
+  printf("%s %d %d %d %" QOCOFloat_PRINT_FORMAT " %" QOCOFloat_PRINT_FORMAT "\n",
+         filename, exit, solver->sol->iters, solver->sol->ir_iters,
+         QOCOFloat_PRINT_ARG(solver->sol->setup_time_sec),
+         QOCOFloat_PRINT_ARG(solver->sol->solve_time_sec));
 
   // Free memory
   free(c);

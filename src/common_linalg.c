@@ -133,6 +133,10 @@ void unregularize(QOCOCscMatrix* M, QOCOFloat lambda)
 void col_inf_norm_USymm(const QOCOCscMatrix* M, QOCOFloat* norm)
 {
   for (QOCOInt j = 0; j < M->n; j++) {
+    norm[j] = 0.0;
+  }
+
+  for (QOCOInt j = 0; j < M->n; j++) {
     for (QOCOInt idx = M->p[j]; idx < M->p[j + 1]; idx++) {
       QOCOInt row = M->i[idx];
       QOCOFloat val = qoco_abs(M->x[idx]);
