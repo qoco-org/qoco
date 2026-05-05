@@ -44,6 +44,8 @@
  * @param PregtoKKT Mapping from Preg scaling to KKT matrix.
  * @param AttoKKT Mapping from At scaling to KKT matrix.
  * @param GttoKKT Mapping from Gt scaling to KKT matrix.
+ * @param AdiagtoKKT Mapping from A block diagonal entries to KKT matrix (length
+ p).
  * @param nt2kkt Mapping from NT scaling to KKT matrix.
  * @param ntdiag2kkt Mapping from NT scaling diagonal to KKT matrix.
  * @param Wnnz Number of nonzeros in upper triangular portion of NT scaling.
@@ -55,8 +57,8 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
                              QOCOInt n, QOCOInt m, QOCOInt p, QOCOInt l,
                              QOCOInt nsoc, QOCOInt* q, QOCOInt* PregtoKKT,
                              QOCOInt* AttoKKT, QOCOInt* GttoKKT,
-                             QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt,
-                             QOCOInt Wnnz);
+                             QOCOInt* AdiagtoKKT, QOCOInt* nt2kkt,
+                             QOCOInt* ntdiag2kkt, QOCOInt Wnnz);
 
 /**
  * @brief Gets initial values for primal and dual variables such that (s,z) \in

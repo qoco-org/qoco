@@ -17,7 +17,8 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
                              QOCOInt n, QOCOInt m, QOCOInt p, QOCOInt l,
                              QOCOInt nsoc, QOCOInt* q, QOCOInt* PregtoKKT,
                              QOCOInt* AttoKKT, QOCOInt* GttoKKT,
-                             QOCOInt* nt2kkt, QOCOInt* ntdiag2kkt, QOCOInt Wnnz)
+                             QOCOInt* AdiagtoKKT, QOCOInt* nt2kkt,
+                             QOCOInt* ntdiag2kkt, QOCOInt Wnnz)
 {
   QOCOCscMatrix* KKT = qoco_malloc(sizeof(QOCOCscMatrix));
 
@@ -69,6 +70,9 @@ QOCOCscMatrix* construct_kkt(QOCOCscMatrix* P, QOCOCscMatrix* A,
     // Add -e * Id regularization.
     KKT->x[nz] = -kkt_static_reg_A;
     KKT->i[nz] = n + Atcol;
+    if (AdiagtoKKT) {
+      AdiagtoKKT[Atcol] = nz;
+    }
     nz += 1;
     nzadded += 1;
     KKT->p[col] = KKT->p[col - 1] + nzadded;

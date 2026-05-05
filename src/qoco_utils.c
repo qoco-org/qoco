@@ -179,6 +179,7 @@ void print_header(QOCOSolver* solver)
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
   printf("|     kkt_static_reg_P: %3.2e ruiz_iters: %-2d         |\n", settings->kkt_static_reg_P, settings->ruiz_iters);
+  printf("|     ruiz_scale_min: %3.2e max: %3.2e            |\n", settings->ruiz_scaling_min, settings->ruiz_scaling_max);
   printf("|     kkt_static_reg_A: %3.2e max_ir_iters: %-2d       |\n", settings->kkt_static_reg_A, settings->max_ir_iters);
   printf("|     kkt_static_reg_G: %3.2e ir_tol: %3.2e       |\n", settings->kkt_static_reg_G, settings->ir_tol);
   printf("|     kkt_dynamic_reg: %3.2e                         |\n", settings->kkt_dynamic_reg);
@@ -411,9 +412,13 @@ QOCOSettings* copy_settings(QOCOSettings* settings)
   new_settings->kkt_static_reg_A = settings->kkt_static_reg_A;
   new_settings->kkt_static_reg_G = settings->kkt_static_reg_G;
   new_settings->kkt_dynamic_reg = settings->kkt_dynamic_reg;
+  new_settings->kkt_static_reg_proportional =
+      settings->kkt_static_reg_proportional;
   new_settings->reltol = settings->reltol;
   new_settings->reltol_inacc = settings->reltol_inacc;
   new_settings->ruiz_iters = settings->ruiz_iters;
+  new_settings->ruiz_scaling_min = settings->ruiz_scaling_min;
+  new_settings->ruiz_scaling_max = settings->ruiz_scaling_max;
   new_settings->verbose = settings->verbose;
 
   return new_settings;

@@ -19,6 +19,12 @@ static void apply_setting(QOCOSettings* settings, const char* arg)
   else if (strcmp(key, "ruiz_iters") == 0) {
     settings->ruiz_iters = atoi(val);
   }
+  else if (strcmp(key, "ruiz_scaling_min") == 0) {
+    settings->ruiz_scaling_min = atof(val);
+  }
+  else if (strcmp(key, "ruiz_scaling_max") == 0) {
+    settings->ruiz_scaling_max = atof(val);
+  }
   else if (strcmp(key, "max_ir_iters") == 0) {
     settings->max_ir_iters = atoi(val);
   }
@@ -36,6 +42,9 @@ static void apply_setting(QOCOSettings* settings, const char* arg)
   }
   else if (strcmp(key, "kkt_dynamic_reg") == 0) {
     settings->kkt_dynamic_reg = atof(val);
+  }
+  else if (strcmp(key, "kkt_static_reg_proportional") == 0) {
+    settings->kkt_static_reg_proportional = atof(val);
   }
   else if (strcmp(key, "abstol") == 0) {
     settings->abstol = atof(val);
@@ -158,6 +167,7 @@ int main(int argc, char** argv)
   }
 
   QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
+  solver->sol = NULL;
   QOCOInt exit =
       qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   if (exit == QOCO_NO_ERROR) {
@@ -165,9 +175,14 @@ int main(int argc, char** argv)
   }
 
   // Print summary: filename, exit_code, iters, ir_iters, setup time, solve time
-  printf("%s %d %d %d %f %f\n", filename, exit, solver->sol->iters,
-         solver->sol->ir_iters, solver->sol->setup_time_sec,
-         solver->sol->solve_time_sec);
+  if (solver->sol) {
+    printf("%s %d %d %d %f %f\n", filename, exit, solver->sol->iters,
+           solver->sol->ir_iters, solver->sol->setup_time_sec,
+           solver->sol->solve_time_sec);
+  }
+  else {
+    printf("%s %d -1 -1 0.000000 0.000000\n", filename, exit);
+  }
 
   // Free memory
   free(c);
@@ -183,7 +198,12 @@ int main(int argc, char** argv)
   free(Gx);
   free(Gi);
   free(Gp);
-  qoco_cleanup(solver);
+  if (solver->sol) {
+    qoco_cleanup(solver);
+  }
+  else {
+    free(solver);
+  }
 
   return 0;
 }

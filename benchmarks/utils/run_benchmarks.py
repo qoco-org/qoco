@@ -1,16 +1,24 @@
 import subprocess
-import pandas as pd
+import csv
 from pathlib import Path
-import sys
+import shlex
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+FIELDNAMES = ["name", "exit_code", "iters", "ir_iters", "setup_time", "solve_time"]
+
 
 def _run_single(bin_file, runner, settings):
     cmd = [runner, str(bin_file)]
     if settings:
-        cmd.append(settings)
+        if isinstance(settings, str):
+            cmd.extend(shlex.split(settings))
+        else:
+            cmd.extend(settings)
     try:
         output = subprocess.check_output(cmd, text=True)
         parts = output.strip().split()
+        if len(parts) != 6:
+            raise ValueError(f"unexpected output: {output!r}")
         filename = parts[0]
         prob_name = filename.removesuffix(".bin")
         return {
@@ -21,7 +29,7 @@ def _run_single(bin_file, runner, settings):
             "setup_time": float(parts[4]),
             "solve_time": float(parts[5]),
         }
-    except subprocess.CalledProcessError as e:
+    except (subprocess.CalledProcessError, ValueError) as e:
         print(f"Error running {bin_file}: {e}")
         prob_name = str(bin_file).removesuffix(".bin")
         return {
@@ -45,5 +53,7 @@ def run_benchmarks(bin_dir, runner="./build/benchmark_runner", output_csv="bench
             results.append(future.result())
 
     results.sort(key=lambda r: r["name"])
-    df = pd.DataFrame(results)
-    df.to_csv(output_csv, index=False)
+    with open(output_csv, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+        writer.writeheader()
+        writer.writerows(results)
