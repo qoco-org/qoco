@@ -1,5 +1,5 @@
-#include "qoco.h"
 #include "qdldl.h"
+#include "qoco.h"
 #include "gtest/gtest.h"
 
 #include <float.h>
