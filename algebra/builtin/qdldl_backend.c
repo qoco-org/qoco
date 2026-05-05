@@ -65,7 +65,21 @@ struct LinSysData {
   /** Mapping from elements in Gt to elements in the KKT matrix. */
   QOCOInt* GttoKKT;
 
+  /** Mapping from diagonal entries of (2,2) A block to KKT matrix (length neq).
+   */
+  QOCOInt* Adiag2kkt;
+
+  /** Mapping from diagonal entries of P block to KKT matrix (length n_var).
+   * Entry is -1 when P has no stored value at that diagonal position. */
+  QOCOInt* Pdiag2kkt;
+
   QOCOInt Wnnz;
+
+  /** Number of equality constraints (rows of A). */
+  QOCOInt neq;
+
+  /** Number of primal variables (rows/cols of P block). */
+  QOCOInt n_var;
 
   /** Static regularization for the (1,1) P block. */
   QOCOFloat kkt_static_reg_P;
@@ -75,6 +89,10 @@ struct LinSysData {
 
   /** Static regularization for the (3,3) G block. */
   QOCOFloat kkt_static_reg_G;
+
+  /** Proportional regularization coefficient: eps += proportional * max|KKT
+   * diag|. */
+  QOCOFloat kkt_static_reg_proportional;
 };
 
 static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
@@ -89,9 +107,13 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   linsys_data->xyzbuff1 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->xyzbuff2 = qoco_malloc(sizeof(QOCOFloat) * Kn);
   linsys_data->Wnnz = Wnnz;
+  linsys_data->neq = data->p;
+  linsys_data->n_var = data->n;
   linsys_data->kkt_static_reg_P = settings->kkt_static_reg_P;
   linsys_data->kkt_static_reg_A = settings->kkt_static_reg_A;
   linsys_data->kkt_static_reg_G = settings->kkt_static_reg_G;
+  linsys_data->kkt_static_reg_proportional =
+      settings->kkt_static_reg_proportional;
 
   // Allocate memory for QDLDL.
   linsys_data->etree = qoco_malloc(sizeof(QOCOInt) * Kn);
@@ -109,6 +131,10 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   linsys_data->PregtoKKT = qoco_calloc(get_nnz(data->P), sizeof(QOCOInt));
   linsys_data->AttoKKT = qoco_calloc(get_nnz(data->A), sizeof(QOCOInt));
   linsys_data->GttoKKT = qoco_calloc(get_nnz(data->G), sizeof(QOCOInt));
+  linsys_data->Adiag2kkt =
+      data->p > 0 ? qoco_calloc(data->p, sizeof(QOCOInt)) : NULL;
+  linsys_data->Pdiag2kkt =
+      data->P ? qoco_malloc(data->n * sizeof(QOCOInt)) : NULL;
 
   QOCOInt* nt2kkt_temp = qoco_calloc(Wnnz, sizeof(QOCOInt));
   QOCOInt* ntdiag2kkt_temp = qoco_calloc(data->m, sizeof(QOCOInt));
@@ -116,13 +142,33 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
       data->P ? qoco_calloc(get_nnz(data->P), sizeof(QOCOInt)) : NULL;
   QOCOInt* AttoKKT_temp = qoco_calloc(get_nnz(data->A), sizeof(QOCOInt));
   QOCOInt* GttoKKT_temp = qoco_calloc(get_nnz(data->G), sizeof(QOCOInt));
+  QOCOInt* AdiagtoKKT_temp =
+      data->p > 0 ? qoco_calloc(data->p, sizeof(QOCOInt)) : NULL;
+  QOCOInt* PdiagtoKKT_temp =
+      data->P ? qoco_malloc(data->n * sizeof(QOCOInt)) : NULL;
 
   linsys_data->K = construct_kkt(
       data->P ? get_csc_matrix(data->P) : NULL, get_csc_matrix(data->A),
       get_csc_matrix(data->G), get_csc_matrix(data->At),
       get_csc_matrix(data->Gt), settings->kkt_static_reg_A, data->n, data->m,
       data->p, data->l, data->nsoc, get_data_vectori(data->q), PregtoKKT_temp,
-      AttoKKT_temp, GttoKKT_temp, nt2kkt_temp, ntdiag2kkt_temp, Wnnz);
+      AttoKKT_temp, GttoKKT_temp, AdiagtoKKT_temp, nt2kkt_temp, ntdiag2kkt_temp,
+      Wnnz);
+
+  // Build P diagonal mapping from PregtoKKT_temp.
+  // P is stored upper-triangular CSC; diagonal entry of column j has row j.
+  if (data->P && PdiagtoKKT_temp && PregtoKKT_temp) {
+    QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
+    for (QOCOInt j = 0; j < data->n; ++j) {
+      PdiagtoKKT_temp[j] = -1;
+      for (QOCOInt k = Pcsc->p[j]; k < Pcsc->p[j + 1]; ++k) {
+        if (Pcsc->i[k] == j) {
+          PdiagtoKKT_temp[j] = PregtoKKT_temp[k];
+          break;
+        }
+      }
+    }
+  }
 
   // Compute AMD ordering.
   linsys_data->p = qoco_malloc(linsys_data->K->n * sizeof(QOCOInt));
@@ -161,6 +207,23 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
     linsys_data->GttoKKT[i] = KtoPKPt[GttoKKT_temp[i]];
   }
 
+  if (AdiagtoKKT_temp) {
+    for (QOCOInt i = 0; i < data->p; ++i) {
+      linsys_data->Adiag2kkt[i] = KtoPKPt[AdiagtoKKT_temp[i]];
+    }
+  }
+
+  if (data->P && PdiagtoKKT_temp && linsys_data->Pdiag2kkt) {
+    for (QOCOInt j = 0; j < data->n; ++j) {
+      if (PdiagtoKKT_temp[j] >= 0) {
+        linsys_data->Pdiag2kkt[j] = KtoPKPt[PdiagtoKKT_temp[j]];
+      }
+      else {
+        linsys_data->Pdiag2kkt[j] = -1;
+      }
+    }
+  }
+
   free_qoco_csc_matrix(linsys_data->K);
   qoco_free(KtoPKPt);
   qoco_free(nt2kkt_temp);
@@ -168,6 +231,8 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   qoco_free(PregtoKKT_temp);
   qoco_free(AttoKKT_temp);
   qoco_free(GttoKKT_temp);
+  qoco_free(AdiagtoKKT_temp);
+  qoco_free(PdiagtoKKT_temp);
   linsys_data->K = PKPt;
 
   // Compute elimination tree.
@@ -349,9 +414,39 @@ static void qdldl_update_nt(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
     linsys_data->K->x[linsys_data->nt2kkt[i]] = -WtW[i];
   }
 
-  // Regularize Nesterov-Todd block of KKT matrix.
+  // Compute max |NT diagonal| then extend to full KKT diagonal for proportional
+  // regularization (mirrors Clarabel's static_regularization_proportional which
+  // uses max|diag(K)| over all blocks, not just the cone block).
+  QOCOFloat max_all_diag = 0.0;
   for (QOCOInt i = 0; i < m; ++i) {
-    linsys_data->K->x[linsys_data->ntdiag2kkt[i]] -= kkt_static_reg_G;
+    QOCOFloat v = qoco_abs(linsys_data->K->x[linsys_data->ntdiag2kkt[i]]);
+    if (v > max_all_diag)
+      max_all_diag = v;
+  }
+  if (linsys_data->Pdiag2kkt) {
+    for (QOCOInt i = 0; i < linsys_data->n_var; ++i) {
+      if (linsys_data->Pdiag2kkt[i] >= 0) {
+        QOCOFloat v = qoco_abs(linsys_data->K->x[linsys_data->Pdiag2kkt[i]]);
+        if (v > max_all_diag)
+          max_all_diag = v;
+      }
+    }
+  }
+  QOCOFloat prop_eps = linsys_data->kkt_static_reg_proportional * max_all_diag;
+
+  // Regularize Nesterov-Todd block: eps_G = base + proportional * max|KKT
+  // diag|.
+  QOCOFloat eps_G = kkt_static_reg_G + prop_eps;
+  for (QOCOInt i = 0; i < m; ++i) {
+    linsys_data->K->x[linsys_data->ntdiag2kkt[i]] -= eps_G;
+  }
+
+  // Refresh A block diagonal: eps_A = base + proportional * max|KKT diag|.
+  if (linsys_data->Adiag2kkt && linsys_data->neq > 0) {
+    QOCOFloat eps_A = linsys_data->kkt_static_reg_A + prop_eps;
+    for (QOCOInt i = 0; i < linsys_data->neq; ++i) {
+      linsys_data->K->x[linsys_data->Adiag2kkt[i]] = -eps_A;
+    }
   }
 }
 
@@ -400,6 +495,8 @@ static void qdldl_cleanup(LinSysData* linsys_data)
   qoco_free(linsys_data->PregtoKKT);
   qoco_free(linsys_data->AttoKKT);
   qoco_free(linsys_data->GttoKKT);
+  qoco_free(linsys_data->Adiag2kkt);
+  qoco_free(linsys_data->Pdiag2kkt);
   qoco_free(linsys_data);
 }
 

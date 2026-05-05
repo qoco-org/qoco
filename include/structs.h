@@ -111,6 +111,12 @@ typedef struct {
   /** Number of Ruiz equilibration iterations. */
   QOCOInt ruiz_iters;
 
+  /** Minimum cumulative Ruiz scaling. */
+  QOCOFloat ruiz_scaling_min;
+
+  /** Maximum cumulative Ruiz scaling. */
+  QOCOFloat ruiz_scaling_max;
+
   /** Maximum number of iterative refinement iterations. */
   QOCOInt max_ir_iters;
 
@@ -129,6 +135,12 @@ typedef struct {
 
   /** Dynamic regularization parameter for KKT system. */
   QOCOFloat kkt_dynamic_reg;
+
+  /** Proportional static regularization: added regularization = proportional *
+   * max(|diag(KKT)|), applied to both the (2,2) A block and (3,3) G block of
+   * the KKT system. Mirrors Clarabel's static_regularization_proportional.
+   */
+  QOCOFloat kkt_static_reg_proportional;
 
   /** Absolute tolerance. */
   QOCOFloat abstol;

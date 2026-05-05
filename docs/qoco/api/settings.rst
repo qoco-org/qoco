@@ -14,7 +14,11 @@ The settings are defined in the :code:`include/structs.h` file.
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`ruiz_iters`             |  :code:`QOCOInt`      | Number of Ruiz equilibration iterations performed          | :math:`(0, \infty)` | 0             |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`max_ir_iters`           |  :code:`QOCOInt`      | Maximum number of iterative refinement iterations          | :math:`(0, \infty)` | 5             |
+| :code:`ruiz_scaling_min`       |  :code:`QOCOFloat`    | Minimum cumulative Ruiz scaling                            | :math:`(0, \infty)` | 1e-4          |
++--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
+| :code:`ruiz_scaling_max`       |  :code:`QOCOFloat`    | Maximum cumulative Ruiz scaling                            | :math:`(0, \infty)` | 1e4           |
++--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
+| :code:`max_ir_iters`           |  :code:`QOCOInt`      | Maximum number of iterative refinement iterations          | :math:`(0, \infty)` | 10            |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`ir_tol`                 |  :code:`QOCOFloat`    | Iterative refinement stopping tolerance: stop when         | :math:`(0, \infty)` | 1e-6          |
 |                                |                       | :math:`\lVert Kx - b\rVert <` :code:`ir_tol`               |                     |               |
@@ -23,7 +27,7 @@ The settings are defined in the :code:`include/structs.h` file.
 |                                |                       | system. Added to the diagonal of P before factorization    |                     |               |
 |                                |                       | to ensure the block remains positive definite.             |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`kkt_static_reg_A`       |  :code:`QOCOFloat`    | Static regularization for the (2,2) A block of the KKT     | :math:`(0, \infty)` | 1e-8          |
+| :code:`kkt_static_reg_A`       |  :code:`QOCOFloat`    | Static regularization for the (2,2) A block of the KKT     | :math:`(0, \infty)` | 1e-13         |
 |                                |                       | system. Subtracted from the diagonal of the equality       |                     |               |
 |                                |                       | constraint block to give it a definite sign.               |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
@@ -31,10 +35,13 @@ The settings are defined in the :code:`include/structs.h` file.
 |                                |                       | system. Subtracted from the diagonal of the NT scaling     |                     |               |
 |                                |                       | block to give it a definite sign.                          |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
-| :code:`kkt_dynamic_reg`        |  :code:`QOCOFloat`    | Additional regularization applied dynamically during KKT   | :math:`(0, \infty)` | 1e-11         |
+| :code:`kkt_dynamic_reg`        |  :code:`QOCOFloat`    | Additional regularization applied dynamically during KKT   | :math:`(0, \infty)` | 1e-10         |
 |                                |                       | factorization to any diagonal entry whose absolute value   |                     |               |
 |                                |                       | is below this threshold. Improves robustness on            |                     |               |
 |                                |                       | near-degenerate problems.                                  |                     |               |
++--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
+| :code:`kkt_static_reg_`        |  :code:`QOCOFloat`    | Proportional static regularization added to the A and G    | :math:`[0, \infty)` | 2.22e-16      |
+| :code:`proportional`           |                       | KKT diagonal blocks based on max(abs(diag(K)))             |                     |               |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
 | :code:`abstol`                 |  :code:`QOCOFloat`    | absolute tolerance                                         | :math:`(0, \infty)` | 1e-7          |
 +--------------------------------+-----------------------+------------------------------------------------------------+---------------------+---------------+
