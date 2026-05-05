@@ -197,6 +197,12 @@ typedef struct {
   /** Iterate of primal variables. */
   QOCOVectorf* x;
 
+  /** Primal starting point in original problem scaling. */
+  QOCOVectorf* x0;
+
+  /** Whether to use x0 during initialization. */
+  unsigned char use_x0;
+
   /** Iterate of slack variables associated with conic constraint. */
   QOCOVectorf* s;
 

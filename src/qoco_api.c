@@ -157,6 +157,8 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
 
   // Allocate primal and dual variables.
   work->x = new_qoco_vectorf(NULL, n);
+  work->x0 = new_qoco_vectorf(NULL, n);
+  work->use_x0 = 0;
   work->s = new_qoco_vectorf(NULL, m);
   work->y = new_qoco_vectorf(NULL, p);
   work->z = new_qoco_vectorf(NULL, m);
@@ -319,6 +321,25 @@ void qoco_update_vector_data(QOCOSolver* solver, QOCOFloat* cnew,
   sync_vector_to_device(data->c);
   sync_vector_to_device(data->b);
   sync_vector_to_device(data->h);
+}
+
+void qoco_set_x0(QOCOSolver* solver, const QOCOFloat* x0)
+{
+  QOCOWorkspace* work = solver->work;
+
+  if (!x0) {
+    work->use_x0 = 0;
+    solver->sol->status = QOCO_UNSOLVED;
+    return;
+  }
+
+  set_cpu_mode(1);
+  copy_arrayf(x0, get_data_vectorf(work->x0), work->data->n);
+  set_cpu_mode(0);
+  sync_vector_to_device(work->x0);
+
+  work->use_x0 = 1;
+  solver->sol->status = QOCO_UNSOLVED;
 }
 
 void qoco_update_matrix_data(QOCOSolver* solver, QOCOFloat* Pxnew,
@@ -528,6 +549,7 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   free_qoco_vectorf(solver->work->xyz);
   free_qoco_vectorf(solver->work->xyzbuff1);
   free_qoco_vectorf(solver->work->x);
+  free_qoco_vectorf(solver->work->x0);
   free_qoco_vectorf(solver->work->s);
   free_qoco_vectorf(solver->work->y);
   free_qoco_vectorf(solver->work->z);
