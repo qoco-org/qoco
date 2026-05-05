@@ -23,16 +23,17 @@ extern "C" {
 #include "structs.h"
 
 /**
- * @brief Sets Wfull to I.
+ * @brief Sets NT scaling data to identity.
  *
- * @param Wfull Full NT scaling matrix.
- * @param Wnnzfull Number of elements in Wfull.
- * @param Wsoc_idx Vector pointing to the start of each SOC block in Wfull.
+ * @param nt_scaling NT scaling data.
+ * @param nt_scaling_nnz Number of elements in nt_scaling.
+ * @param nt_scaling_soc_idx Vector pointing to the start of each SOC block.
  *                 Only used in the GPU (cone.cu) implementation.
  * @param data Pointer to problem data.
  */
-void set_Wfull_identity(QOCOVectorf* Wfull, QOCOInt Wnnzfull,
-                        QOCOVectori* Wsoc_idx, QOCOProblemData* data);
+void set_nt_scaling_identity(QOCOVectorf* nt_scaling, QOCOInt nt_scaling_nnz,
+                             QOCOVectori* nt_scaling_soc_idx,
+                             QOCOProblemData* data);
 
 /**
  * @brief Computes cone product u * v = p with respect to C.
@@ -79,13 +80,13 @@ void cone_division(const QOCOFloat* lambda, const QOCOFloat* v, QOCOFloat* d,
 void bring2cone(QOCOFloat* u, QOCOInt* soc_idx, QOCOProblemData* data);
 
 /**
- * @brief Computes z = W * x where W is a full Nesterov-Todd scaling matrix.
- * The NT scaling array for the LP cones are stored first, then the NT
- * scalings for the second-order cones are stored in column major order.
+ * @brief Computes z = W * x using Nesterov-Todd scaling data.
+ * The LP cone scalings are stored first. Each SOC block stores the fast
+ * scaling parameters [eta, w0, w1...] in the builtin backend.
  *
- * @param W Nesterov Todd scaling matrix.
- * @param Wsoc_idx Vector pointing to the start of each SOC block in W.
- *                 Only used in the GPU (cone.cu) implementation.
+ * @param W Nesterov Todd scaling data.
+ * @param nt_scaling_soc_idx Vector pointing to the start of each SOC block in
+ * W. Only used in the GPU (cone.cu) implementation.
  * @param soc_idx Array pointing to the start of each SOC block in x and z.
  *                Only used in the GPU (cone.cu) implementation.
  * @param x Input vector.
@@ -95,9 +96,17 @@ void bring2cone(QOCOFloat* u, QOCOInt* soc_idx, QOCOProblemData* data);
  * @param nsoc Number of second-order cones in C.
  * @param q Array of second-order cone dimensions.
  */
-void nt_multiply(QOCOFloat* W, QOCOInt* Wsoc_idx, QOCOInt* soc_idx,
+void nt_multiply(QOCOFloat* W, QOCOInt* nt_scaling_soc_idx, QOCOInt* soc_idx,
                  QOCOFloat* x, QOCOFloat* z, QOCOInt l, QOCOInt m, QOCOInt nsoc,
                  QOCOInt* q);
+
+/**
+ * @brief Computes z = W^{-1} * x using the same NT scaling data as
+ * nt_multiply().
+ */
+void nt_multiply_inv(QOCOFloat* W, QOCOInt* nt_scaling_soc_idx,
+                     QOCOInt* soc_idx, QOCOFloat* x, QOCOFloat* z, QOCOInt l,
+                     QOCOInt m, QOCOInt nsoc, QOCOInt* q);
 
 /**
  * @brief Compute Nesterov-Todd scalings and scaled variables.

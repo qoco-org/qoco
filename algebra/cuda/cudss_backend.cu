@@ -706,8 +706,8 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
                                          const QOCOFloat* x,
                                          QOCOFloat* residual_scratch)
 {
-  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
-  QOCOInt* Wsoc_idx = get_data_vectori(work->Wsoc_idx);
+  QOCOFloat* nt_scaling = get_data_vectorf(work->nt_scaling);
+  QOCOInt* nt_scaling_soc_idx = get_data_vectori(work->nt_scaling_soc_idx);
   QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
   QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
@@ -717,8 +717,8 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
 
   // d_rhs_matrix_data is scratch here; cudss_solve_system overwrites it before
   // every cuDSS solve.
-  kkt_multiply((QOCOFloat*)x, linsys_data->d_rhs_matrix_data, work->data, Wfull,
-               Wsoc_idx, soc_idx, xbuff, ubuff1, ubuff2);
+  kkt_multiply((QOCOFloat*)x, linsys_data->d_rhs_matrix_data, work->data,
+               nt_scaling, nt_scaling_soc_idx, soc_idx, xbuff, ubuff1, ubuff2);
 
   // data->P stores P + eps_P * I, so remove the P regularization from the
   // product before measuring the true KKT residual.

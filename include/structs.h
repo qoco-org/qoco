@@ -218,26 +218,30 @@ typedef struct {
   /** Number of nonzeros in upper triangular part of Nesterov-Todd Scaling. */
   QOCOInt Wnnz;
 
-  /** Number of nonzeros in full Nesterov-Todd Scaling. */
-  QOCOInt Wnnzfull;
+  /** Number of entries in nt_scaling. */
+  QOCOInt nt_scaling_nnz;
 
   /** Upper triangular part of Nesterov-Todd Scaling */
   QOCOVectorf* W;
 
-  /** Full Nesterov-Todd Scaling */
-  QOCOVectorf* Wfull;
+  /** NT scaling data used by nt_multiply().
+   *
+   * Builtin backend layout:
+   *   LP entries: scalar scales sqrt(s_i / z_i), length l.
+   *   SOC i block: [eta, w0, w1[0], ..., w1[q_i - 2]], length q_i + 1.
+   *
+   * CUDA backend currently keeps the historical dense q_i-by-q_i SOC blocks.
+   */
+  QOCOVectorf* nt_scaling;
 
   /** Upper triangular part of inverse of Nesterov-Todd Scaling */
   QOCOVectorf* Winv;
 
-  /** Full inverse of Nesterov-Todd Scaling */
-  QOCOVectorf* Winvfull;
-
   /** Nesterov-Todd Scaling squared */
   QOCOVectorf* WtW;
 
-  /** Vector which points to the start of the ith soc block in Wfull */
-  QOCOVectori* Wsoc_idx;
+  /** Vector which points to the start of the ith SOC block in nt_scaling. */
+  QOCOVectori* nt_scaling_soc_idx;
 
   /** Vector which points to the start of the start of the ith soc variable
    * block */

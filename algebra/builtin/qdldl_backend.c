@@ -204,7 +204,9 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
                                          QOCOWorkspace* work, QOCOFloat* b,
                                          QOCOFloat* x_scratch)
 {
-  QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+  QOCOFloat* nt_scaling = get_data_vectorf(work->nt_scaling);
+  QOCOInt* nt_scaling_soc_idx = get_data_vectori(work->nt_scaling_soc_idx);
+  QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
   QOCOFloat* xbuff = get_data_vectorf(work->xbuff);
   QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
   QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
@@ -219,8 +221,8 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
   // Compute K_true * x_scratch -> xyzbuff2 against the unregularized matrix.
   // data->P stores the regularized P (P + eps_P * I), so subtract the P
   // regularization contribution from the x block to recover the true product.
-  kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, Wfull, NULL, NULL,
-               xbuff, ubuff1, ubuff2);
+  kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, nt_scaling,
+               nt_scaling_soc_idx, soc_idx, xbuff, ubuff1, ubuff2);
   for (QOCOInt k = 0; k < n; ++k) {
     linsys_data->xyzbuff2[k] -= linsys_data->kkt_static_reg_P * x_scratch[k];
   }
