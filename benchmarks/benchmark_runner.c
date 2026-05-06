@@ -124,10 +124,10 @@ int main(int argc, char** argv)
   fread(&Gnnz, sizeof(int), 1, f);
 
   // Dense vectors
-  int* q = read_int_vector(f, (size_t)nsoc);
   QOCOFloat* c = read_double_vector(f, (size_t)n);
   QOCOFloat* b = read_double_vector(f, (size_t)p);
   QOCOFloat* h = read_double_vector(f, (size_t)m);
+  int* q = read_int_vector(f, (size_t)nsoc);
 
   // P
   QOCOFloat* Px = read_double_vector(f, (size_t)Pnnz);
@@ -205,6 +205,28 @@ int main(int argc, char** argv)
       qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
   if (exit == QOCO_NO_ERROR) {
     exit = qoco_solve(solver);
+  }
+  else {
+    printf("%s %d 0 0 0 0\n", filename, exit);
+    free(c);
+    free(b);
+    free(h);
+    free(q);
+    free(Px);
+    free(Pi);
+    free(Pp);
+    free(Ax);
+    free(Ai);
+    free(Ap);
+    free(Gx);
+    free(Gi);
+    free(Gp);
+    free(P);
+    free(A);
+    free(G);
+    free(settings);
+    free(solver);
+    return 0;
   }
 
   // Print summary: filename, exit_code, iters, ir_iters, setup time, solve time
