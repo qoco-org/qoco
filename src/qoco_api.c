@@ -471,7 +471,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     if (check_stopping(solver)) {
       stop_timer(&(work->solve_timer));
       // On numerical error, restore the best iterate seen so far. The helper
-      // can downgrade the status to QOCO_SOLVED_INACCURATE if the saved
+      // can upgrade the status to QOCO_SOLVED_INACCURATE if the saved
       // iterate satisfies the inaccurate tolerance.
       if (solver->sol->status == QOCO_NUMERICAL_ERROR) {
         restore_best_iterate(solver);
@@ -512,7 +512,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   stop_timer(&(work->solve_timer));
   solver->sol->status = QOCO_MAX_ITER;
   // Restore the best iterate; if it satisfies the inaccurate tolerance, the
-  // status is downgraded to QOCO_SOLVED_INACCURATE inside the helper.
+  // status is upgraded to QOCO_SOLVED_INACCURATE inside the helper.
   restore_best_iterate(solver);
   unscale_variables(work);
   copy_solution(solver);

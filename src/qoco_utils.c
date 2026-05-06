@@ -332,7 +332,8 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat pres_inacc_thresh = eabsinacc + erelinacc * pres_rel;
   QOCOFloat dres_inacc_thresh = eabsinacc + erelinacc * dres_rel;
   QOCOFloat gap_inacc_thresh = eabsinacc + erelinacc * gap_rel;
-  QOCOFloat metric = qoco_max(pres / pres_inacc_thresh, dres / dres_inacc_thresh);
+  QOCOFloat metric =
+      qoco_max(pres / pres_inacc_thresh, dres / dres_inacc_thresh);
   metric = qoco_max(metric, solver->sol->gap / gap_inacc_thresh);
   if (isfinite(metric) && (!work->best_valid || metric < work->best_metric)) {
     copy_arrayf(get_data_vectorf(work->x), get_data_vectorf(work->best_x),
@@ -411,7 +412,7 @@ void restore_best_iterate(QOCOSolver* solver)
   solver->sol->gap = work->best_gap;
   solver->sol->obj = work->best_obj;
 
-  // If the best iterate meets the inaccurate tolerance, downgrade the status.
+  // If the best iterate meets the inaccurate tolerance, upgrade the status.
   if (work->best_metric <= 1.0 &&
       (solver->sol->status == QOCO_NUMERICAL_ERROR ||
        solver->sol->status == QOCO_MAX_ITER)) {

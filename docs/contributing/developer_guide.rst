@@ -419,7 +419,9 @@ tests three residuals in the **original (unscaled) problem space**:
 
 - **Primal residual** :math:`r_p = \max(\|Ax - b\|_\infty,\ \|Gx + s - h\|_\infty)`
 - **Dual residual** :math:`r_d = \|Px + c + A^\top y + G^\top z\|_\infty`
-- **Duality gap** :math:`\mu = s^\top z`
+- **Duality gap** :math:`g = s^\top z` (note: distinct from
+  :math:`\mu = s^\top z / m`, the per-component complementarity used by
+  the predictor-corrector)
 
 The solver declares ``QOCO_SOLVED`` when all three satisfy an
 absolute-plus-relative threshold simultaneously:
@@ -430,7 +432,7 @@ absolute-plus-relative threshold simultaneously:
           \max(\|Ax\|_\infty,\, \|b\|_\infty,\, \|Gx\|_\infty,\, \|h\|_\infty,\, \|s\|_\infty) \\
    r_d &< \varepsilon_{\text{abs}} + \varepsilon_{\text{rel}} \cdot
           \max(\|Px\|_\infty,\, \|A^\top y\|_\infty,\, \|G^\top z\|_\infty,\, \|c\|_\infty) \\
-   \mu  &< \varepsilon_{\text{abs}} + \varepsilon_{\text{rel}} \cdot
+   g   &< \varepsilon_{\text{abs}} + \varepsilon_{\text{rel}} \cdot
           \max(1,\, |p_{\text{obj}}|,\, |d_{\text{obj}}|)
 
 where :math:`\varepsilon_{\text{abs}}` = ``abstol`` and
@@ -438,6 +440,61 @@ where :math:`\varepsilon_{\text{abs}}` = ``abstol`` and
 Because QOCO equilibrates the problem internally, the Ruiz scaling factors are
 unwound before computing each norm so that the residuals reflect the original
 problem data.
+
+Best-Iterate Restoration
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The interior-point sequence is not monotone in :math:`(r_p, r_d, g)` — a late
+iteration can degrade after the iterates have already passed close to the
+solution, and a NaN-producing factorization can blow up an otherwise good
+iterate. To avoid returning a worse point than the solver actually found, QOCO
+maintains a checkpoint of the best iterate seen so far and falls back to it on
+non-success exits.
+
+The "best" iterate is defined by a composite progress metric, computed in
+``check_stopping`` (``src/qoco_utils.c``) on the same unscaled residuals used by
+the regular stopping check:
+
+.. math::
+
+   M = \max\!\left(
+     \frac{r_p}{\varepsilon^{\text{inacc}}_{\text{abs}} + \varepsilon^{\text{inacc}}_{\text{rel}} \cdot s_p},\
+     \frac{r_d}{\varepsilon^{\text{inacc}}_{\text{abs}} + \varepsilon^{\text{inacc}}_{\text{rel}} \cdot s_d},\
+     \frac{g  }{\varepsilon^{\text{inacc}}_{\text{abs}} + \varepsilon^{\text{inacc}}_{\text{rel}} \cdot s_g}
+   \right)
+
+where :math:`s_p, s_d, s_g` are the same scale factors used for the absolute /
+relative stopping check and :math:`\varepsilon^{\text{inacc}}_{\text{abs}}` =
+``abstol_inacc``, :math:`\varepsilon^{\text{inacc}}_{\text{rel}}` =
+``reltol_inacc``. :math:`M` is in *inaccurate-tolerance units*: :math:`M \le 1`
+exactly when the current iterate already satisfies the inaccurate stopping
+criterion on all three residuals simultaneously, and smaller is always better.
+Combining all three residuals into one scalar avoids the ambiguity of
+multi-objective comparisons (e.g. lower :math:`r_p` but higher :math:`g`).
+
+Each iteration with a finite :math:`M` strictly smaller than the previous best
+overwrites the saved checkpoint. The checkpoint stores ``x``, ``s``, ``y``,
+``z`` in scaled space along with :math:`r_p`, :math:`r_d`, :math:`g`,
+:math:`p_{\text{obj}}`, the metric value, and the iteration index, in the
+``best_*`` fields of ``QOCOWorkspace``.
+
+``restore_best_iterate`` (``src/qoco_utils.c``) is invoked from ``qoco_solve``
+on two exit paths:
+
+- **Numerical error** — when ``check_stopping`` returns ``QOCO_NUMERICAL_ERROR``
+  (dynamic regularization has saturated and the inaccurate check on the
+  *current* iterate failed).
+- **Max-iter** — when the IPM loop exits without converging.
+
+If the restored iterate satisfies :math:`M \le 1`, the status is upgraded
+from ``QOCO_NUMERICAL_ERROR`` / ``QOCO_MAX_ITER`` to ``QOCO_SOLVED_INACCURATE``.
+Restoration runs *before* ``unscale_variables`` and ``copy_solution``, so the
+returned ``QOCOSolution`` always corresponds to the best iterate the solver
+visited, not the diverged final state.
+
+Restoration is a no-op when no best iterate has been recorded (``best_valid``
+is zero), which protects the case where the very first ``check_stopping`` call
+produces a non-finite metric.
 
 Building
 --------
