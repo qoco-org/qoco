@@ -218,6 +218,21 @@ void initialize_ipm(QOCOSolver* solver)
   // Bring s and z to cone C.
   bring2cone(get_data_vectorf(work->s), get_data_vectori(work->soc_idx), data);
   bring2cone(get_data_vectorf(work->z), get_data_vectori(work->soc_idx), data);
+
+  if (work->use_x0) {
+    QOCOFloat* x0 = get_data_vectorf(work->x0);
+    QOCOFloat* x = get_data_vectorf(work->x);
+    QOCOFloat* Dinvruiz = get_data_vectorf(work->scaling->Dinvruiz);
+    ew_product(x0, Dinvruiz, x, data->n);
+
+    if (data->m > 0) {
+      QOCOFloat* s = get_data_vectorf(work->s);
+      QOCOFloat* h = get_data_vectorf(data->h);
+      SpMv(data->G, x, s);
+      qoco_axpy(s, h, s, -1.0, data->m);
+      bring2cone(s, get_data_vectori(work->soc_idx), data);
+    }
+  }
 }
 
 void compute_kkt_residual(QOCOProblemData* data, QOCOVectorf* x_vec,
