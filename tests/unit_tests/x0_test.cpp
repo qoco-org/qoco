@@ -1,4 +1,5 @@
 #include "qoco.h"
+#include "test_utils.h"
 #include "gtest/gtest.h"
 
 #include <cstdlib>
@@ -46,14 +47,6 @@ QOCOSolver* setup_unconstrained_qp(QOCOFloat c0, QOCOFloat c1,
   return solver;
 }
 
-void expect_near_array(const QOCOFloat* actual, const QOCOFloat* expected,
-                       QOCOInt n, QOCOFloat tol)
-{
-  for (QOCOInt i = 0; i < n; ++i) {
-    EXPECT_NEAR(actual[i], expected[i], tol);
-  }
-}
-
 } // namespace
 
 TEST(x0, custom_primal_start_uses_original_scaling)
@@ -66,7 +59,7 @@ TEST(x0, custom_primal_start_uses_original_scaling)
   QOCOInt exit = qoco_solve(solver);
 
   ASSERT_EQ(exit, QOCO_SOLVED);
-  expect_near_array(solver->sol->x, x0, 2, 1e-6);
+  expect_eq_vectorf(solver->sol->x, x0, 2, 1e-6);
 
   qoco_cleanup(solver);
 }
@@ -85,7 +78,7 @@ TEST(x0, custom_primal_start_is_copied)
   QOCOInt exit = qoco_solve(solver);
 
   ASSERT_EQ(exit, QOCO_SOLVED);
-  expect_near_array(solver->sol->x, x0_expected, 2, 1e-6);
+  expect_eq_vectorf(solver->sol->x, x0_expected, 2, 1e-6);
 
   qoco_cleanup(solver);
 }
@@ -103,7 +96,7 @@ TEST(x0, custom_primal_start_can_be_cleared)
 
   QOCOFloat default_start[] = {-1.0, -2.0};
   ASSERT_EQ(exit, QOCO_SOLVED);
-  expect_near_array(solver->sol->x, default_start, 2, 1e-6);
+  expect_eq_vectorf(solver->sol->x, default_start, 2, 1e-6);
 
   qoco_cleanup(solver);
 }
@@ -138,8 +131,8 @@ TEST(x0, custom_primal_start_sets_consistent_linear_cone_slack)
   exit = qoco_solve(solver);
 
   ASSERT_EQ(exit, QOCO_SOLVED);
-  expect_near_array(solver->sol->x, x0, n, 1e-6);
-  expect_near_array(solver->sol->s, s0_expected, m, 1e-6);
+  expect_eq_vectorf(solver->sol->x, x0, n, 1e-6);
+  expect_eq_vectorf(solver->sol->s, s0_expected, m, 1e-6);
 
   qoco_cleanup(solver);
 }
