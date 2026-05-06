@@ -228,6 +228,20 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv411qoco_set_x0P10QOCOSolverPK9QOCOFloat">
+<span id="_CPPv311qoco_set_x0P10QOCOSolverPK9QOCOFloat"></span><span id="_CPPv211qoco_set_x0P10QOCOSolverPK9QOCOFloat"></span><span id="qoco_set_x0__QOCOSolverP.QOCOFloatCP"></span><span class="target" id="qoco__api_8h_1a51228b98103924b653901a41f2ef34b5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qoco_set_x0</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410QOCOSolver" title="QOCOSolver"><span class="n"><span class="pre">QOCOSolver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">solver</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">x0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv411qoco_set_x0P10QOCOSolverPK9QOCOFloat" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets an optional primal starting point after qoco_setup. The x0 vector is copied and should be supplied in the original, unequilibrated problem scaling. Pass NULL to clear a previously set custom starting point. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solver</strong> – Pointer to solver. </p></li>
+<li><p><strong>x0</strong> – Primal starting point of length n, or NULL to use default initialization. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv423qoco_update_matrix_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat">
 <span id="_CPPv323qoco_update_matrix_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat"></span><span id="_CPPv223qoco_update_matrix_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat"></span><span id="qoco_update_matrix_data__QOCOSolverP.QOCOFloatP.QOCOFloatP.QOCOFloatP"></span><span class="target" id="qoco__api_8h_1a3ad5090a130a314458cd1105bc6585b2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qoco_update_matrix_data</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410QOCOSolver" title="QOCOSolver"><span class="n"><span class="pre">QOCOSolver</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">solver</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pxnew</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Axnew</span></span>, <span class="n"><span class="pre">QOCOFloat</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Gxnew</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423qoco_update_matrix_dataP10QOCOSolverP9QOCOFloatP9QOCOFloatP9QOCOFloat" title="Link to this definition"></a><br /></dt>
 <dd><p>Updates data matrices. NULL can be passed in for any matrix data pointers if that matrix will not be updated. It is assumed that the new matrix will have the same sparsity structure as the existing matrix. </p>
@@ -400,6 +414,18 @@
 <dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace1xE">
 <span id="_CPPv3N13QOCOWorkspace1xE"></span><span id="_CPPv2N13QOCOWorkspace1xE"></span><span id="QOCOWorkspace::x__QOCOVectorfP"></span><span class="target" id="structQOCOWorkspace_1a30928c4b06196be4fef0d922ddfcc7c3"></span><span class="n"><span class="pre">QOCOVectorf</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">x</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace1xE" title="Link to this definition"></a><br /></dt>
 <dd><p>Iterate of primal variables. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace2x0E">
+<span id="_CPPv3N13QOCOWorkspace2x0E"></span><span id="_CPPv2N13QOCOWorkspace2x0E"></span><span id="QOCOWorkspace::x0__QOCOVectorfP"></span><span class="target" id="structQOCOWorkspace_1a5561a1cb3ad51bc2455f09ed202db33e"></span><span class="n"><span class="pre">QOCOVectorf</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">x0</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace2x0E" title="Link to this definition"></a><br /></dt>
+<dd><p>Primal starting point in original problem scaling. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace6use_x0E">
+<span id="_CPPv3N13QOCOWorkspace6use_x0E"></span><span id="_CPPv2N13QOCOWorkspace6use_x0E"></span><span id="QOCOWorkspace::use_x0__unsigned-c"></span><span class="target" id="structQOCOWorkspace_1a751802e564d455d506749aa018d2ddbe"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">use_x0</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace6use_x0E" title="Link to this definition"></a><br /></dt>
+<dd><p>Whether to use x0 during initialization. </p>
 </dd></dl>
 
 <dl class="cpp var">
