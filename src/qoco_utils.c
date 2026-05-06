@@ -389,12 +389,12 @@ unsigned char check_stopping(QOCOSolver* solver)
   return 0;
 }
 
-void restore_best_iterate(QOCOSolver* solver)
+unsigned char restore_best_iterate(QOCOSolver* solver)
 {
   QOCOWorkspace* work = solver->work;
   QOCOProblemData* data = work->data;
   if (!work->best_valid) {
-    return;
+    return 0;
   }
 
   // Copy best iterate (still in scaled space) back into the live workspace
@@ -418,6 +418,7 @@ void restore_best_iterate(QOCOSolver* solver)
        solver->sol->status == QOCO_MAX_ITER)) {
     solver->sol->status = QOCO_SOLVED_INACCURATE;
   }
+  return 1;
 }
 
 void copy_solution(QOCOSolver* solver)

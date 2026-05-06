@@ -93,8 +93,9 @@ unsigned char check_stopping(QOCOSolver* solver);
  * effect if no best iterate has been recorded.
  *
  * @param solver Pointer to solver.
+ * @return 1 if a best iterate was restored, 0 otherwise.
  */
-void restore_best_iterate(QOCOSolver* solver);
+unsigned char restore_best_iterate(QOCOSolver* solver);
 
 /**
  * @brief Copies data to QOCOSolution struct when solver terminates.
