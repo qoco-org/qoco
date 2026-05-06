@@ -98,6 +98,78 @@ limiting attainable equality-residual accuracy.
 `prop=1e-7` solves more CUTEst (TOYSARAH joins) but breaks
 `mpc/quadcopter_5` (`NUMERICAL_ERROR`).
 
+## Best CUTEst-only result: `ruiz_iters=0 prop=5e-8`
+
+Disabling Ruiz entirely while keeping proportional reg at `5e-8` solves
+**44/44** in the small CUTEst subset — strictly better than the
+`ruiz_iters=1` row above (41 SOLVED + 3 INACCURATE). It is unusable as a
+default:
+
+| Set | `ruiz_iters=0 kkt_static_reg_proportional=5e-8 max_iters=400` |
+|---|---|
+| `mpc` (64) | 46 SOLVED, 1 INACC, 17 NUMERICAL_ERROR |
+| `mm` (138) | 108 SOLVED, 17 INACC, 8 NUMERICAL_ERROR, 3 TIMEOUT, 2 MAX_ITER |
+| `misc` (3) | 3 SOLVED |
+| `cutest` (44) | 44 SOLVED |
+
+Lower `prop` values do not open a sweet spot. Sweep at `ruiz_iters=0`:
+
+| `prop` | cutest SOLVED | mpc SOLVED | mm SOLVED |
+|---|---:|---:|---:|
+| 0     | (no help)  | 64 | 134 (+ 3 timeout, 1 NumErr) |
+| 1e-10 | 39         | 57 | 123 |
+| 1e-9  | 41         | 49 | 118 |
+| 1e-8  | 43         | 46 | (regressed similarly) |
+| 5e-8  | 44         | 46 | 108 |
+
+`ruiz_iters=0` alone (`prop=0`) is fine for mpc and nearly fine for mm
+— the breakage comes from `prop`, not from disabling Ruiz. Without
+Ruiz, the unscaled mpc/mm matrices have rows with mixed magnitudes, so
+`prop * max(|P|, |A|, |G|)` injects reg sized to the worst row, which
+over-perturbs the well-scaled rows. The cost and the gain scale together
+across the entire `prop` range, so this is only useful as an explicit
+per-problem override for the CUTEst family, not as a default.
+
+## Recovering `mm` solves with `prop=5e-8` enabled
+
+`ir_tol=1e-9` (down from default `1e-6`) paired with `prop=5e-8`
+recovers two of the lost `mm` strict-SOLVED slots without touching the
+CUTEst gain or the `mpc`/`misc` side:
+
+```
+kkt_static_reg_proportional = 5e-8
+ir_tol                      = 1e-9   # was 1e-6
+max_iters                   = 400
+```
+
+| Set | Solved | Inacc | NumErr | MaxIter |
+|---|---:|---:|---:|---:|
+| `mpc` (64) | 63 | 1 | 0 | 0 |
+| `misc` (3) | 3 | 0 | 0 | 0 |
+| `mm` (138) | **129** | **7** | 1 (DTOC3) | 1 (BOYD2) |
+| `cutest` (≤700 KB, 44) | 41 | 3 | 0 | 0 |
+
+vs. the prior `prop=5e-8` row, +2 `mm` SOLVED and -2 `mm` INACC. The
+mechanism: tighter IR converges through the more aggressive static
+regularization that `prop=5e-8` injects, letting the IPM hit
+`abstol=1e-7` on the borderline problems.
+
+Two failure cases remain on `mm`:
+
+- `DTOC3` (NumErr) — flips to SOLVED if `ruiz_scaling_max` is dropped
+  from `1e4` to `≤1e2`. The threshold is between `1e2` and `5e2`
+  (sweep is monotonic), and *only* DTOC3 flips. Treating this as a
+  doc-recommended default would be overfitting one global knob to one
+  problem; the right fix is a per-problem analysis of why Ruiz
+  produces a column scaling that, combined with `prop * scale` reg,
+  pushes its LDL factor toward singularity. Left open.
+- `BOYD2` (MaxIter) — slow problem; not rescued by `max_iters=1000`
+  (still times out past 90 s).
+
+Sweeps that did not help on top of `prop=5e-8`: `ruiz_iters=2` (breaks
+`mpc` to 47/64), `ruiz_iters=3` (`mpc` recovers but `mm` doesn't gain),
+`max_ir_iters=15`/`20`, `kkt_dynamic_reg=1e-12`/`1e-10`, `max_iters=800`.
+
 ## What worked
 
 - **Best-iterate restoration**: cheap, no regressions, fixes
