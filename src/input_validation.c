@@ -79,6 +79,11 @@ QOCOInt qoco_validate_settings(const QOCOSettings* settings)
     return QOCO_SETTINGS_VALIDATION_ERROR;
   }
 
+  if (settings->kkt_static_reg_proportional < 0) {
+    printf("kkt_static_reg_proportional must be non-negative.\n");
+    return QOCO_SETTINGS_VALIDATION_ERROR;
+  }
+
   return QOCO_NO_ERROR;
 }
 

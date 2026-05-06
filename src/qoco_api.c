@@ -62,6 +62,25 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
     data->P = NULL;
   }
 
+  // Drop near-zero structural entries from P, A, G. CUTEst problems such as
+  // CMPC* contain coefficients near 1e-47 alongside RHS values near 1e+10;
+  // these have no impact on the optimal solution but destabilize Ruiz scaling
+  // and the KKT factor. 1e-30 is conservative: well above subnormal range
+  // but small enough that legitimate-but-small coefficients (e.g.
+  // mpc/quadcopter_5's 7e-27) are not dropped.
+  set_cpu_mode(1);
+  const QOCOFloat drop_thresh = 1e-30;
+  if (data->P) {
+    drop_small_entries(get_csc_matrix(data->P), drop_thresh);
+  }
+  if (data->A && get_nnz(data->A) > 0) {
+    drop_small_entries(get_csc_matrix(data->A), drop_thresh);
+  }
+  if (data->G && get_nnz(data->G) > 0) {
+    drop_small_entries(get_csc_matrix(data->G), drop_thresh);
+  }
+  set_cpu_mode(0);
+
   // Equilibrate data.
   QOCOInt Annz = A ? get_nnz(data->A) : 0;
   QOCOInt Gnnz = G ? get_nnz(data->G) : 0;
@@ -96,6 +115,39 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   ruiz_equilibration(data, work->scaling, solver->settings->ruiz_iters,
                      solver->settings->ruiz_scaling_min,
                      solver->settings->ruiz_scaling_max);
+
+  // Apply Clarabel/piqp-style proportional regularization. After Ruiz, scan
+  // the post-scaled matrix entries for the largest absolute value. The
+  // additive bump is `kkt_static_reg_proportional * scale` and is applied to
+  // each static reg. For well-equilibrated problems (post-Ruiz max ~ O(1))
+  // this is a small bump; for problems whose post-Ruiz matrix entries remain
+  // large because the cumulative-Ruiz clamp could not fully equilibrate the
+  // input (e.g. CMPC/CLEUVEN with input range >> [1e-4, 1e+4]) it scales the
+  // regularization up automatically. Settings is a per-solver copy, so this
+  // does not leak back to the user.
+  if (solver->settings->kkt_static_reg_proportional > 0.0) {
+    set_cpu_mode(1);
+    QOCOFloat scale = 0.0;
+    if (data->P && get_nnz(data->P) > 0) {
+      QOCOCscMatrix* Pcsc = get_csc_matrix(data->P);
+      scale = qoco_max(scale, inf_norm(Pcsc->x, Pcsc->nnz));
+    }
+    if (data->A && get_nnz(data->A) > 0) {
+      QOCOCscMatrix* Acsc = get_csc_matrix(data->A);
+      scale = qoco_max(scale, inf_norm(Acsc->x, Acsc->nnz));
+    }
+    if (data->G && get_nnz(data->G) > 0) {
+      QOCOCscMatrix* Gcsc = get_csc_matrix(data->G);
+      scale = qoco_max(scale, inf_norm(Gcsc->x, Gcsc->nnz));
+    }
+    set_cpu_mode(0);
+    QOCOFloat bump = solver->settings->kkt_static_reg_proportional * scale;
+    if (isfinite(bump) && bump > 0.0) {
+      solver->settings->kkt_static_reg_P += bump;
+      solver->settings->kkt_static_reg_A += bump;
+      solver->settings->kkt_static_reg_G += bump;
+    }
+  }
 
   // Regularize P.
   set_cpu_mode(1);
@@ -164,6 +216,19 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   work->z = new_qoco_vectorf(NULL, m);
   work->mu = 0.0;
   work->ir_iters = 0;
+
+  // Best-iterate tracking buffers (scaled space).
+  work->best_x = new_qoco_vectorf(NULL, n);
+  work->best_s = new_qoco_vectorf(NULL, m);
+  work->best_y = new_qoco_vectorf(NULL, p);
+  work->best_z = new_qoco_vectorf(NULL, m);
+  work->best_pres = 0.0;
+  work->best_dres = 0.0;
+  work->best_gap = 0.0;
+  work->best_obj = 0.0;
+  work->best_metric = 0.0;
+  work->best_iter = -1;
+  work->best_valid = 0;
 
   // Allocate Nesterov-Todd scalings and scaled variables.
   QOCOInt Wnnzfull = data->l;
@@ -239,6 +304,7 @@ void set_default_settings(QOCOSettings* settings)
   settings->kkt_static_reg_A = 1e-13;
   settings->kkt_static_reg_G = 1e-13;
   settings->kkt_dynamic_reg = 1e-11;
+  settings->kkt_static_reg_proportional = 0.0;
   settings->abstol = 1e-7;
   settings->reltol = 1e-7;
   settings->abstol_inacc = 1e-5;
@@ -263,6 +329,8 @@ QOCOInt qoco_update_settings(QOCOSolver* solver,
   solver->settings->kkt_static_reg_A = new_settings->kkt_static_reg_A;
   solver->settings->kkt_static_reg_G = new_settings->kkt_static_reg_G;
   solver->settings->kkt_dynamic_reg = new_settings->kkt_dynamic_reg;
+  solver->settings->kkt_static_reg_proportional =
+      new_settings->kkt_static_reg_proportional;
   solver->settings->abstol = new_settings->abstol;
   solver->settings->reltol = new_settings->reltol;
   solver->settings->abstol_inacc = new_settings->abstol_inacc;
@@ -465,6 +533,12 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     // Check stopping criteria.
     if (check_stopping(solver)) {
       stop_timer(&(work->solve_timer));
+      // On numerical error, restore the best iterate seen so far. The check
+      // can downgrade the status to QOCO_SOLVED_INACCURATE if the saved
+      // iterate satisfies the inaccurate tolerance.
+      if (solver->sol->status == QOCO_NUMERICAL_ERROR) {
+        restore_best_iterate(solver);
+      }
       unscale_variables(work);
       copy_solution(solver);
       if (solver->settings->verbose) {
@@ -499,13 +573,16 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   }
 
   stop_timer(&(work->solve_timer));
+  solver->sol->status = QOCO_MAX_ITER;
+  // Restore the best iterate; if it satisfies the inaccurate tolerance, the
+  // status is downgraded to QOCO_SOLVED_INACCURATE inside the helper.
+  restore_best_iterate(solver);
   unscale_variables(work);
   copy_solution(solver);
-  solver->sol->status = QOCO_MAX_ITER;
   if (solver->settings->verbose) {
     print_footer(solver->sol, solver->sol->status);
   }
-  return QOCO_MAX_ITER;
+  return solver->sol->status;
 }
 
 QOCOInt qoco_cleanup(QOCOSolver* solver)
@@ -539,6 +616,10 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   free_qoco_vectorf(solver->work->s);
   free_qoco_vectorf(solver->work->y);
   free_qoco_vectorf(solver->work->z);
+  free_qoco_vectorf(solver->work->best_x);
+  free_qoco_vectorf(solver->work->best_s);
+  free_qoco_vectorf(solver->work->best_y);
+  free_qoco_vectorf(solver->work->best_z);
 
   // Free Nesterov-Todd scalings and scaled variables.
   free_qoco_vectorf(solver->work->W);

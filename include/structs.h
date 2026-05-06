@@ -136,6 +136,12 @@ typedef struct {
   /** Dynamic regularization parameter for KKT system. */
   QOCOFloat kkt_dynamic_reg;
 
+  /** Proportional static regularization for the KKT diagonal. Effective
+   * regularization is kkt_static_reg_* + kkt_static_reg_proportional *
+   * max(|diag(KKT)|), letting reg adapt to the magnitude of problem data.
+   * Set to 0 to disable. */
+  QOCOFloat kkt_static_reg_proportional;
+
   /** Absolute tolerance. */
   QOCOFloat abstol;
 
@@ -292,6 +298,22 @@ typedef struct {
 
   /** Total iterative refinement iterations used in the current IPM step. */
   QOCOInt ir_iters;
+
+  /** Best iterate found so far (scaled space), saved by composite residual
+   * metric. Restored on numerical-error / max-iter exits. */
+  QOCOVectorf* best_x;
+  QOCOVectorf* best_s;
+  QOCOVectorf* best_y;
+  QOCOVectorf* best_z;
+
+  /** Residuals associated with the saved best iterate. */
+  QOCOFloat best_pres;
+  QOCOFloat best_dres;
+  QOCOFloat best_gap;
+  QOCOFloat best_obj;
+  QOCOFloat best_metric;
+  QOCOInt best_iter;
+  unsigned char best_valid;
 
 } QOCOWorkspace;
 

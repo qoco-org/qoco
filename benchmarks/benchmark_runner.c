@@ -84,6 +84,9 @@ static void apply_setting(QOCOSettings* settings, const char* arg)
   else if (strcmp(key, "kkt_dynamic_reg") == 0) {
     settings->kkt_dynamic_reg = atof(val);
   }
+  else if (strcmp(key, "kkt_static_reg_proportional") == 0) {
+    settings->kkt_static_reg_proportional = atof(val);
+  }
   else if (strcmp(key, "abstol") == 0) {
     settings->abstol = atof(val);
   }
