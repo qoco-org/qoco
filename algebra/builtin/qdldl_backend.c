@@ -10,6 +10,20 @@
 
 #include "qdldl_backend.h"
 
+#if defined(QOCO_SINGLE_PRECISION) && !defined(QDLDL_FLOAT)
+#error "QOCOFloat and QDLDL_float precision mismatch"
+#endif
+#if defined(QOCO_LONG_DOUBLE_PRECISION) && !defined(QDLDL_LONG_DOUBLE)
+#error "QOCOFloat and QDLDL_float precision mismatch"
+#endif
+#if !defined(QOCO_SINGLE_PRECISION) && !defined(QOCO_LONG_DOUBLE_PRECISION) && \
+    (defined(QDLDL_FLOAT) || defined(QDLDL_LONG_DOUBLE))
+#error "QOCOFloat and QDLDL_float precision mismatch"
+#endif
+
+typedef char qoco_qdldl_float_size_must_match
+    [(sizeof(QOCOFloat) == sizeof(QDLDL_float)) ? 1 : -1];
+
 // Contains data for linear system.
 struct LinSysData {
   /** KKT matrix in CSC form. */
@@ -240,7 +254,7 @@ static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
                              const char* label, FILE* f)
 {
   QOCOFloat res = compute_linsys_residual(linsys_data, work, b, x_scratch);
-  fprintf(f, "  (%s): %.4e\n", label, res);
+  fprintf(f, "  (%s): %.4e\n", label, (double)res);
 }
 #endif
 

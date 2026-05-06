@@ -36,10 +36,18 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Options
 # ----------------------------------------------
-# Use floats instead of doubles
+# Use floats or long doubles instead of doubles
 option( QDLDL_FLOAT "Use float numbers instead of doubles" OFF )
-if( ${QDLDL_FLOAT} )
+option( QDLDL_LONG_DOUBLE "Use long double numbers instead of doubles" OFF )
+
+if( QDLDL_FLOAT AND QDLDL_LONG_DOUBLE )
+    message( FATAL_ERROR "QDLDL_FLOAT and QDLDL_LONG_DOUBLE are mutually exclusive" )
+endif()
+
+if( QDLDL_FLOAT )
     message( STATUS "Using single precision floats" )
+elseif( QDLDL_LONG_DOUBLE )
+    message( STATUS "Using long double precision floats" )
 else()
     message( STATUS "Using double precision floats" )
 endif()
@@ -81,6 +89,9 @@ endif (NOT MSVC)
 if(QDLDL_FLOAT)
   set(QDLDL_FLOAT_TYPE "float")
   set(QDLDL_FLOAT 1)
+elseif(QDLDL_LONG_DOUBLE)
+  set(QDLDL_FLOAT_TYPE "long double")
+  set(QDLDL_LONG_DOUBLE 1)
 else()
 	set(QDLDL_FLOAT_TYPE "double")
 endif()

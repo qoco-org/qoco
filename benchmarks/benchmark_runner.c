@@ -4,6 +4,47 @@
 #include <stdlib.h>
 #include <string.h>
 
+static QOCOFloat* read_double_vector(FILE* f, size_t n)
+{
+  double* tmp = (double*)malloc(n * sizeof(double));
+  QOCOFloat* out = (QOCOFloat*)malloc(n * sizeof(QOCOFloat));
+
+  if (!tmp || !out) {
+    free(tmp);
+    free(out);
+    return NULL;
+  }
+
+  if (fread(tmp, sizeof(double), n, f) != n) {
+    free(tmp);
+    free(out);
+    return NULL;
+  }
+
+  for (size_t i = 0; i < n; ++i) {
+    out[i] = (QOCOFloat)tmp[i];
+  }
+
+  free(tmp);
+  return out;
+}
+
+static int* read_int_vector(FILE* f, size_t n)
+{
+  int* out = (int*)malloc(n * sizeof(int));
+
+  if (!out) {
+    return NULL;
+  }
+
+  if (fread(out, sizeof(int), n, f) != n) {
+    free(out);
+    return NULL;
+  }
+
+  return out;
+}
+
 static void apply_setting(QOCOSettings* settings, const char* arg)
 {
   char key[64];
@@ -89,43 +130,45 @@ int main(int argc, char** argv)
   fread(&Gnnz, sizeof(int), 1, f);
 
   // Dense vectors
-  double* c = malloc(n * sizeof(double));
-  double* b = malloc(p * sizeof(double));
-  double* h = malloc(m * sizeof(double));
-  int* q = malloc(nsoc * sizeof(int));
-
-  fread(c, sizeof(double), n, f);
-  fread(b, sizeof(double), p, f);
-  fread(h, sizeof(double), m, f);
-  fread(q, sizeof(int), nsoc, f);
+  int* q = read_int_vector(f, (size_t)nsoc);
+  QOCOFloat* c = read_double_vector(f, (size_t)n);
+  QOCOFloat* b = read_double_vector(f, (size_t)p);
+  QOCOFloat* h = read_double_vector(f, (size_t)m);
 
   // P
-  double* Px = malloc(Pnnz * sizeof(double));
-  int* Pi = malloc(Pnnz * sizeof(int));
-  int* Pp = malloc((n + 1) * sizeof(int));
-
-  fread(Px, sizeof(double), Pnnz, f);
-  fread(Pi, sizeof(int), Pnnz, f);
-  fread(Pp, sizeof(int), n + 1, f);
+  QOCOFloat* Px = read_double_vector(f, (size_t)Pnnz);
+  int* Pi = read_int_vector(f, (size_t)Pnnz);
+  int* Pp = read_int_vector(f, (size_t)(n + 1));
 
   // A
-  double* Ax = malloc(Annz * sizeof(double));
-  int* Ai = malloc(Annz * sizeof(int));
-  int* Ap = malloc((n + 1) * sizeof(int));
-
-  fread(Ax, sizeof(double), Annz, f);
-  fread(Ai, sizeof(int), Annz, f);
-  fread(Ap, sizeof(int), n + 1, f);
+  QOCOFloat* Ax = read_double_vector(f, (size_t)Annz);
+  int* Ai = read_int_vector(f, (size_t)Annz);
+  int* Ap = read_int_vector(f, (size_t)(n + 1));
 
   // G
-  double* Gx = malloc(Gnnz * sizeof(double));
-  int* Gi = malloc(Gnnz * sizeof(int));
-  int* Gp = malloc((n + 1) * sizeof(int));
-
-  fread(Gx, sizeof(double), Gnnz, f);
-  fread(Gi, sizeof(int), Gnnz, f);
-  fread(Gp, sizeof(int), n + 1, f);
+  QOCOFloat* Gx = read_double_vector(f, (size_t)Gnnz);
+  int* Gi = read_int_vector(f, (size_t)Gnnz);
+  int* Gp = read_int_vector(f, (size_t)(n + 1));
   fclose(f);
+
+  if (!c || !b || !h || !Px || !Ax || !Gx || !q || !Pi || !Pp || !Ai || !Ap ||
+      !Gi || !Gp) {
+    fprintf(stderr, "out of memory or truncated benchmark file\n");
+    free(c);
+    free(b);
+    free(h);
+    free(q);
+    free(Px);
+    free(Pi);
+    free(Pp);
+    free(Ax);
+    free(Ai);
+    free(Ap);
+    free(Gx);
+    free(Gi);
+    free(Gp);
+    return 1;
+  }
 
   QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
@@ -171,9 +214,10 @@ int main(int argc, char** argv)
   }
 
   // Print summary: filename, exit_code, iters, ir_iters, setup time, solve time
-  printf("%s %d %d %d %f %f\n", filename, exit, solver->sol->iters,
-         solver->sol->ir_iters, solver->sol->setup_time_sec,
-         solver->sol->solve_time_sec);
+  printf("%s %d %d %d %" QOCOFloat_PRINT_FORMAT " %" QOCOFloat_PRINT_FORMAT "\n",
+         filename, exit, solver->sol->iters, solver->sol->ir_iters,
+         QOCOFloat_PRINT_ARG(solver->sol->setup_time_sec),
+         QOCOFloat_PRINT_ARG(solver->sol->solve_time_sec));
 
   // Free memory
   free(c);
