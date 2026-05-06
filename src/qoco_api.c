@@ -163,6 +163,19 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   work->mu = 0.0;
   work->ir_iters = 0;
 
+  // Best-iterate tracking buffers (scaled space).
+  work->best_x = new_qoco_vectorf(NULL, n);
+  work->best_s = new_qoco_vectorf(NULL, m);
+  work->best_y = new_qoco_vectorf(NULL, p);
+  work->best_z = new_qoco_vectorf(NULL, m);
+  work->best_pres = 0.0;
+  work->best_dres = 0.0;
+  work->best_gap = 0.0;
+  work->best_obj = 0.0;
+  work->best_metric = 0.0;
+  work->best_iter = -1;
+  work->best_valid = 0;
+
   // Allocate Nesterov-Todd scalings and scaled variables.
   QOCOInt Wnnzfull = data->l;
   set_cpu_mode(1);
@@ -457,6 +470,12 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     // Check stopping criteria.
     if (check_stopping(solver)) {
       stop_timer(&(work->solve_timer));
+      // On numerical error, restore the best iterate seen so far. The helper
+      // can downgrade the status to QOCO_SOLVED_INACCURATE if the saved
+      // iterate satisfies the inaccurate tolerance.
+      if (solver->sol->status == QOCO_NUMERICAL_ERROR) {
+        restore_best_iterate(solver);
+      }
       unscale_variables(work);
       copy_solution(solver);
       if (solver->settings->verbose) {
@@ -491,13 +510,16 @@ QOCOInt qoco_solve(QOCOSolver* solver)
   }
 
   stop_timer(&(work->solve_timer));
+  solver->sol->status = QOCO_MAX_ITER;
+  // Restore the best iterate; if it satisfies the inaccurate tolerance, the
+  // status is downgraded to QOCO_SOLVED_INACCURATE inside the helper.
+  restore_best_iterate(solver);
   unscale_variables(work);
   copy_solution(solver);
-  solver->sol->status = QOCO_MAX_ITER;
   if (solver->settings->verbose) {
     print_footer(solver->sol, solver->sol->status);
   }
-  return QOCO_MAX_ITER;
+  return solver->sol->status;
 }
 
 QOCOInt qoco_cleanup(QOCOSolver* solver)
@@ -531,6 +553,10 @@ QOCOInt qoco_cleanup(QOCOSolver* solver)
   free_qoco_vectorf(solver->work->s);
   free_qoco_vectorf(solver->work->y);
   free_qoco_vectorf(solver->work->z);
+  free_qoco_vectorf(solver->work->best_x);
+  free_qoco_vectorf(solver->work->best_s);
+  free_qoco_vectorf(solver->work->best_y);
+  free_qoco_vectorf(solver->work->best_z);
 
   // Free Nesterov-Todd scalings and scaled variables.
   free_qoco_vectorf(solver->work->W);

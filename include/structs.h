@@ -287,6 +287,22 @@ typedef struct {
   /** Total iterative refinement iterations used in the current IPM step. */
   QOCOInt ir_iters;
 
+  /** Best iterate found so far (scaled space), saved by composite residual
+   * metric. Restored on numerical-error / max-iter exits. */
+  QOCOVectorf* best_x;
+  QOCOVectorf* best_s;
+  QOCOVectorf* best_y;
+  QOCOVectorf* best_z;
+
+  /** Residuals associated with the saved best iterate. */
+  QOCOFloat best_pres;
+  QOCOFloat best_dres;
+  QOCOFloat best_gap;
+  QOCOFloat best_obj;
+  QOCOFloat best_metric;
+  QOCOInt best_iter;
+  unsigned char best_valid;
+
 } QOCOWorkspace;
 
 typedef struct {
