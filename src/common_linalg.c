@@ -264,6 +264,32 @@ QOCOInt cumsum(QOCOInt* p, QOCOInt* c, QOCOInt n)
   return nz;
 }
 
+QOCOInt drop_small_entries(QOCOCscMatrix* M, QOCOFloat thresh)
+{
+  if (!M || M->nnz == 0 || thresh <= 0.0) {
+    return 0;
+  }
+  QOCOInt write = 0;
+  QOCOInt dropped = 0;
+  for (QOCOInt col = 0; col < M->n; ++col) {
+    QOCOInt start = M->p[col];
+    QOCOInt end = M->p[col + 1];
+    M->p[col] = write;
+    for (QOCOInt k = start; k < end; ++k) {
+      if (qoco_abs(M->x[k]) < thresh) {
+        ++dropped;
+        continue;
+      }
+      M->x[write] = M->x[k];
+      M->i[write] = M->i[k];
+      ++write;
+    }
+  }
+  M->p[M->n] = write;
+  M->nnz = write;
+  return dropped;
+}
+
 QOCOCscMatrix* csc_symperm(const QOCOCscMatrix* A, const QOCOInt* pinv,
                            QOCOInt* AtoC)
 {

@@ -130,4 +130,18 @@ QOCOInt cumsum(QOCOInt* p, QOCOInt* c, QOCOInt n);
 QOCOCscMatrix* csc_symperm(const QOCOCscMatrix* A, const QOCOInt* pinv,
                            QOCOInt* AtoC);
 
+/**
+ * @brief Drops structural entries from a CSC matrix whose absolute value is
+ * strictly below the given threshold. Updates the column pointers, row indices
+ * and value array in place. Returns the number of entries removed.
+ *
+ * Used at setup time to remove near-zero coefficients (e.g. denormal-scale
+ * structural nonzeros) which destabilize Ruiz scaling and the KKT factor.
+ *
+ * @param M Matrix to prune in place. May be NULL (returns 0).
+ * @param thresh Drop threshold (entries with |x| < thresh are removed).
+ * @return Number of entries dropped.
+ */
+QOCOInt drop_small_entries(QOCOCscMatrix* M, QOCOFloat thresh);
+
 #endif /* #ifndef COMMON_LINALG_H */

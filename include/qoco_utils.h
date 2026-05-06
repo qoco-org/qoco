@@ -87,6 +87,16 @@ void print_footer(QOCOSolution* solution, enum qoco_solve_status status);
 unsigned char check_stopping(QOCOSolver* solver);
 
 /**
+ * @brief Restore the best iterate (saved during solve) into work->{x,s,y,z}
+ * and copy its residuals/objective into solver->sol. Updates the solver
+ * status if the saved iterate satisfies the inaccurate tolerance. Has no
+ * effect if no best iterate has been recorded.
+ *
+ * @param solver Pointer to solver.
+ */
+void restore_best_iterate(QOCOSolver* solver);
+
+/**
  * @brief Copies data to QOCOSolution struct when solver terminates.
  *
  * @param solver Pointer to solver.

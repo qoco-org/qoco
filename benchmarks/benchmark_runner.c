@@ -60,6 +60,12 @@ static void apply_setting(QOCOSettings* settings, const char* arg)
   else if (strcmp(key, "ruiz_iters") == 0) {
     settings->ruiz_iters = atoi(val);
   }
+  else if (strcmp(key, "ruiz_scaling_min") == 0) {
+    settings->ruiz_scaling_min = atof(val);
+  }
+  else if (strcmp(key, "ruiz_scaling_max") == 0) {
+    settings->ruiz_scaling_max = atof(val);
+  }
   else if (strcmp(key, "max_ir_iters") == 0) {
     settings->max_ir_iters = atoi(val);
   }
@@ -77,6 +83,9 @@ static void apply_setting(QOCOSettings* settings, const char* arg)
   }
   else if (strcmp(key, "kkt_dynamic_reg") == 0) {
     settings->kkt_dynamic_reg = atof(val);
+  }
+  else if (strcmp(key, "kkt_static_reg_proportional") == 0) {
+    settings->kkt_static_reg_proportional = atof(val);
   }
   else if (strcmp(key, "abstol") == 0) {
     settings->abstol = atof(val);

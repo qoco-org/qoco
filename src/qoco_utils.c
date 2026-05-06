@@ -179,6 +179,7 @@ void print_header(QOCOSolver* solver)
   printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, (double)settings->abstol, (double)settings->reltol);
   printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", (double)settings->abstol_inacc, (double)settings->reltol_inacc);
   printf("|     kkt_static_reg_P: %3.2e ruiz_iters: %-2d         |\n", (double)settings->kkt_static_reg_P, settings->ruiz_iters);
+  printf("|     ruiz_scale_min: %3.2e max: %3.2e            |\n", settings->ruiz_scaling_min, settings->ruiz_scaling_max);
   printf("|     kkt_static_reg_A: %3.2e max_ir_iters: %-2d       |\n", (double)settings->kkt_static_reg_A, settings->max_ir_iters);
   printf("|     kkt_static_reg_G: %3.2e ir_tol: %3.2e       |\n", (double)settings->kkt_static_reg_G, (double)settings->ir_tol);
   printf("|     kkt_dynamic_reg: %3.2e                         |\n", (double)settings->kkt_dynamic_reg);
@@ -325,6 +326,33 @@ unsigned char check_stopping(QOCOSolver* solver)
   QOCOFloat gap_rel = qoco_max(1, pobj);
   gap_rel = qoco_max(gap_rel, dobj);
 
+  // Composite progress metric in inaccurate-tolerance units. metric <= 1.0
+  // means the current iterate satisfies the inaccurate stopping criterion.
+  // We track the best iterate seen so far so we can restore it on numerical
+  // error / max-iter exits.
+  QOCOFloat pres_inacc_thresh = eabsinacc + erelinacc * pres_rel;
+  QOCOFloat dres_inacc_thresh = eabsinacc + erelinacc * dres_rel;
+  QOCOFloat gap_inacc_thresh = eabsinacc + erelinacc * gap_rel;
+  QOCOFloat metric = qoco_max(pres / pres_inacc_thresh, dres / dres_inacc_thresh);
+  metric = qoco_max(metric, solver->sol->gap / gap_inacc_thresh);
+  if (isfinite(metric) && (!work->best_valid || metric < work->best_metric)) {
+    copy_arrayf(get_data_vectorf(work->x), get_data_vectorf(work->best_x),
+                data->n);
+    copy_arrayf(get_data_vectorf(work->s), get_data_vectorf(work->best_s),
+                data->m);
+    copy_arrayf(get_data_vectorf(work->y), get_data_vectorf(work->best_y),
+                data->p);
+    copy_arrayf(get_data_vectorf(work->z), get_data_vectorf(work->best_z),
+                data->m);
+    work->best_pres = pres;
+    work->best_dres = dres;
+    work->best_gap = solver->sol->gap;
+    work->best_obj = solver->sol->obj;
+    work->best_metric = metric;
+    work->best_iter = solver->sol->iters;
+    work->best_valid = 1;
+  }
+
   // If the solver stalled (stepsize = 0), increase dynamic regularization by
   // one order of magnitude and retry. If kkt_dynamic_reg would exceed
   // kkt_reg_max=1e-6, stop with an error.
@@ -359,6 +387,37 @@ unsigned char check_stopping(QOCOSolver* solver)
     return 1;
   }
   return 0;
+}
+
+void restore_best_iterate(QOCOSolver* solver)
+{
+  QOCOWorkspace* work = solver->work;
+  QOCOProblemData* data = work->data;
+  if (!work->best_valid) {
+    return;
+  }
+
+  // Copy best iterate (still in scaled space) back into the live workspace
+  // variables so that unscale_variables / copy_solution operate on it.
+  copy_arrayf(get_data_vectorf(work->best_x), get_data_vectorf(work->x),
+              data->n);
+  copy_arrayf(get_data_vectorf(work->best_s), get_data_vectorf(work->s),
+              data->m);
+  copy_arrayf(get_data_vectorf(work->best_y), get_data_vectorf(work->y),
+              data->p);
+  copy_arrayf(get_data_vectorf(work->best_z), get_data_vectorf(work->z),
+              data->m);
+  solver->sol->pres = work->best_pres;
+  solver->sol->dres = work->best_dres;
+  solver->sol->gap = work->best_gap;
+  solver->sol->obj = work->best_obj;
+
+  // If the best iterate meets the inaccurate tolerance, downgrade the status.
+  if (work->best_metric <= 1.0 &&
+      (solver->sol->status == QOCO_NUMERICAL_ERROR ||
+       solver->sol->status == QOCO_MAX_ITER)) {
+    solver->sol->status = QOCO_SOLVED_INACCURATE;
+  }
 }
 
 void copy_solution(QOCOSolver* solver)
@@ -411,9 +470,13 @@ QOCOSettings* copy_settings(QOCOSettings* settings)
   new_settings->kkt_static_reg_A = settings->kkt_static_reg_A;
   new_settings->kkt_static_reg_G = settings->kkt_static_reg_G;
   new_settings->kkt_dynamic_reg = settings->kkt_dynamic_reg;
+  new_settings->kkt_static_reg_proportional =
+      settings->kkt_static_reg_proportional;
   new_settings->reltol = settings->reltol;
   new_settings->reltol_inacc = settings->reltol_inacc;
   new_settings->ruiz_iters = settings->ruiz_iters;
+  new_settings->ruiz_scaling_min = settings->ruiz_scaling_min;
+  new_settings->ruiz_scaling_max = settings->ruiz_scaling_max;
   new_settings->verbose = settings->verbose;
 
   return new_settings;
