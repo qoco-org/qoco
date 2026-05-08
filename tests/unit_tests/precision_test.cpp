@@ -45,12 +45,14 @@ TEST(precision, vector_and_matrix_copies_preserve_input_precision)
   QOCOVectorf* v = new_qoco_vectorf(x, 1);
   QOCOCscMatrix* M = new_qoco_csc_matrix(&A);
 
+  set_cpu_mode(1);
   EXPECT_EQ(get_element_vectorf(v, 0), x[0]);
   EXPECT_EQ(M->x[0], Ax[0]);
 #ifdef QOCO_LONG_DOUBLE_PRECISION
   EXPECT_NE(get_element_vectorf(v, 0), (QOCOFloat)(double)x[0]);
   EXPECT_NE(M->x[0], (QOCOFloat)(double)Ax[0]);
 #endif
+  set_cpu_mode(0);
 
   free_qoco_vectorf(v);
   free_qoco_csc_matrix(M);
