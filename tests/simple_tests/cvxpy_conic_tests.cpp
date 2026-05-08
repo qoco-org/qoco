@@ -1,16 +1,17 @@
 // Replicates the TestQOCO class in cvxpy/cvxpy/tests/test_conic_solvers.py.
 // Each test embeds the QOCO-canonicalized problem (n, m, p, l, nsoc, q, c, b,
 // h, P, A, G) extracted from the corresponding SolverTestHelper in
-// cvxpy/cvxpy/tests/solver_test_helpers.py. Expected objectives match the
-// values asserted by those helpers (places=4, except socp_3 which uses
-// places=3).
+// cvxpy/cvxpy/tests/solver_test_helpers.py, plus the canonical primal x and
+// dual y, z, s vectors obtained by solving the canonical problem with QOCO at
+// abstol=reltol=1e-12. Expected objective and tolerances mirror the cvxpy
+// helpers (places=4, except socp_3 which uses places=3).
 
 #include "test_utils.h"
 #include "gtest/gtest.h"
 
 #include "qoco.h"
 
-// test_qoco_lp_0: min |x|_1 + 1 s.t. x == 0.
+// test_qoco_lp_0: min |x|_1 + 1 s.t. x == 0. (cvxpy folds the +1 constant.)
 TEST(cvxpy_qoco, lp_0)
 {
   QOCOInt n = 4;
@@ -33,6 +34,12 @@ TEST(cvxpy_qoco, lp_0)
   QOCOInt Gi[] = {0, 2, 1, 3, 0, 2, 1, 3};
   QOCOInt Gp[] = {0, 2, 4, 6, 8};
 
+  QOCOFloat xexp[] = {0.0, 0.0, 0.0, 0.0};
+  QOCOFloat yexp[] = {0.0, 0.0};
+  QOCOFloat zexp[] = {0.5, 0.5, 0.5, 0.5};
+  QOCOFloat sexp[] = {0.0, 0.0, 0.0, 0.0};
+  QOCOFloat tol = 1e-4;
+
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
@@ -49,10 +56,12 @@ TEST(cvxpy_qoco, lp_0)
     exit = qoco_solve(solver);
   }
 
-  // QOCO canonicalization adds the constant via offset; assert obj relative to
-  // the canonical objective value (the +1 constant is folded by cvxpy).
   ASSERT_EQ(exit, QOCO_SOLVED);
-  ASSERT_NEAR(solver->sol->obj, 0.0, 1e-4);
+  ASSERT_NEAR(solver->sol->obj, 0.0, tol);
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->y, yexp, p, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
 
   qoco_cleanup(solver);
   free(settings);
@@ -77,6 +86,11 @@ TEST(cvxpy_qoco, lp_1)
   QOCOInt Gi[] = {0, 1, 2, 0, 1, 3};
   QOCOInt Gp[] = {0, 3, 6};
 
+  QOCOFloat xexp[] = {1.0, 1.0};
+  QOCOFloat zexp[] = {1.0, 2.0, 0.0, 0.0};
+  QOCOFloat sexp[] = {0.0, 0.0, 1.0, 1.0};
+  QOCOFloat tol = 1e-4;
+
   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
 
@@ -92,7 +106,10 @@ TEST(cvxpy_qoco, lp_1)
   }
 
   ASSERT_EQ(exit, QOCO_SOLVED);
-  ASSERT_NEAR(solver->sol->obj, -9.0, 1e-4);
+  ASSERT_NEAR(solver->sol->obj, -9.0, tol);
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
 
   qoco_cleanup(solver);
   free(settings);
@@ -122,6 +139,12 @@ TEST(cvxpy_qoco, lp_2)
   QOCOInt Gi[] = {0, 1};
   QOCOInt Gp[] = {0, 2, 2};
 
+  QOCOFloat xexp[] = {-100.0, 1.0};
+  QOCOFloat yexp[] = {-0.5};
+  QOCOFloat zexp[] = {1.0, 0.0};
+  QOCOFloat sexp[] = {0.0, 90.0};
+  QOCOFloat tol = 1e-4;
+
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
@@ -139,7 +162,11 @@ TEST(cvxpy_qoco, lp_2)
   }
 
   ASSERT_EQ(exit, QOCO_SOLVED);
-  ASSERT_NEAR(solver->sol->obj, -99.5, 1e-4);
+  ASSERT_NEAR(solver->sol->obj, -99.5, tol);
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->y, yexp, p, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
 
   qoco_cleanup(solver);
   free(settings);
@@ -148,7 +175,9 @@ TEST(cvxpy_qoco, lp_2)
 }
 
 // test_qoco_lp_5: LP with redundant equality constraints.
-// Optimal obj is exactly c.dot(x0) where x0 = [0,1,0,2,0,4,0,5,6,7].
+// Optimal obj is exactly c.dot(x0) where x0 = [0,1,0,2,0,4,0,5,6,7], but the
+// primal/dual optimum is non-unique (two equality rows are redundant), so we
+// only assert objective. cvxpy itself skips verify_primal_values here.
 // On precision-edge platforms (Apple Silicon Release with FMA) the IPM may
 // terminate with QOCO_SOLVED_INACCURATE — accept either.
 TEST(cvxpy_qoco, lp_5)
@@ -247,6 +276,11 @@ TEST(cvxpy_qoco, qp_0)
   QOCOInt Gi[] = {0};
   QOCOInt Gp[] = {0, 1};
 
+  QOCOFloat xexp[] = {1.0};
+  QOCOFloat zexp[] = {2.0};
+  QOCOFloat sexp[] = {0.0};
+  QOCOFloat tol = 1e-4;
+
   QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(P, n, n, Pnnz, Px, Pp, Pi);
@@ -264,7 +298,10 @@ TEST(cvxpy_qoco, qp_0)
   }
 
   ASSERT_EQ(exit, QOCO_SOLVED);
-  ASSERT_NEAR(solver->sol->obj, 1.0, 1e-4);
+  ASSERT_NEAR(solver->sol->obj, 1.0, tol);
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
 
   qoco_cleanup(solver);
   free(settings);
@@ -272,7 +309,7 @@ TEST(cvxpy_qoco, qp_0)
   free(G);
 }
 
-// test_qoco_socp_0: min |x|_2 + 1 s.t. x == 0.
+// test_qoco_socp_0: min |x|_2 + 1 s.t. x == 0. (cvxpy folds the +1 constant.)
 TEST(cvxpy_qoco, socp_0)
 {
   QOCOInt n = 3;
@@ -296,6 +333,12 @@ TEST(cvxpy_qoco, socp_0)
   QOCOInt Gi[] = {0, 1, 2};
   QOCOInt Gp[] = {0, 1, 2, 3};
 
+  QOCOFloat xexp[] = {0.0, 0.0, 0.0};
+  QOCOFloat yexp[] = {0.0, 0.0};
+  QOCOFloat zexp[] = {1.0, 0.0, 0.0};
+  QOCOFloat sexp[] = {0.0, 0.0, 0.0};
+  QOCOFloat tol = 1e-4;
+
   QOCOCscMatrix* A = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(A, p, n, Annz, Ax, Ap, Ai);
@@ -312,10 +355,12 @@ TEST(cvxpy_qoco, socp_0)
     exit = qoco_solve(solver);
   }
 
-  // Canonical objective is the variable epigraphing |x|_2; cvxpy folds the +1
-  // as a constant offset so the canonical solver obj is 0.
   ASSERT_EQ(exit, QOCO_SOLVED);
-  ASSERT_NEAR(solver->sol->obj, 0.0, 1e-4);
+  ASSERT_NEAR(solver->sol->obj, 0.0, tol);
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->y, yexp, p, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
 
   qoco_cleanup(solver);
   free(settings);
@@ -341,6 +386,13 @@ TEST(cvxpy_qoco, socp_1)
   QOCOInt Gi[] = {0, 3, 0, 4, 0, 5, 1, 2};
   QOCOInt Gp[] = {0, 2, 4, 6, 8};
 
+  QOCOFloat xexp[] = {-3.874621917528, -2.129788274116, 2.334803397215, 5.0};
+  QOCOFloat zexp[] = {0.7793745946573,  2.8656026996520, 2.8656026996520,
+                      2.2206254053428,  1.2206254053428, -1.3381237839717};
+  QOCOFloat sexp[] = {0.0,             0.0,             5.0,
+                      -3.874621917528, -2.129788274116, 2.334803397215};
+  QOCOFloat tol = 1e-4;
+
   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
 
@@ -358,7 +410,10 @@ TEST(cvxpy_qoco, socp_1)
   }
 
   ASSERT_EQ(exit, QOCO_SOLVED);
-  ASSERT_NEAR(solver->sol->obj, -13.548638904065102, 1e-4);
+  ASSERT_NEAR(solver->sol->obj, -13.548638904065102, tol);
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
 
   qoco_cleanup(solver);
   free(settings);
@@ -383,6 +438,11 @@ TEST(cvxpy_qoco, socp_2)
   QOCOInt Gi[] = {0, 1, 4, 0, 2, 4};
   QOCOInt Gp[] = {0, 3, 6};
 
+  QOCOFloat xexp[] = {1.0, 1.0};
+  QOCOFloat zexp[] = {1.0, 0.0, 0.0, 2.0, -2.0};
+  QOCOFloat sexp[] = {0.0, 1.0, 1.0, 3.0, 3.0};
+  QOCOFloat tol = 1e-4;
+
   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
 
@@ -398,7 +458,10 @@ TEST(cvxpy_qoco, socp_2)
   }
 
   ASSERT_EQ(exit, QOCO_SOLVED);
-  ASSERT_NEAR(solver->sol->obj, -9.0, 1e-4);
+  ASSERT_NEAR(solver->sol->obj, -9.0, tol);
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
 
   qoco_cleanup(solver);
   free(settings);
@@ -430,6 +493,15 @@ TEST(cvxpy_qoco, socp_3ax0)
   QOCOInt Gi[] = {1, 2, 4, 7, 1, 2, 5, 8};
   QOCOInt Gp[] = {0, 4, 8};
 
+  QOCOFloat xexp[] = {0.836660027, -0.547722557};
+  QOCOFloat zexp[] = {0.0,           0.0,         0.0,         1.164525418,
+                      -0.974311868,  0.637836839, 0.767579723, -0.128440660,
+                      0.756757312};
+  QOCOFloat sexp[] = {1.0,         0.288937469,  -0.692191292, 1.0,
+                      0.836660027, -0.547722557, 1.0,          0.167332006,
+                      -0.985900603};
+  QOCOFloat tol = 1e-3;
+
   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
 
@@ -445,7 +517,10 @@ TEST(cvxpy_qoco, socp_3ax0)
   }
 
   ASSERT_EQ(exit, QOCO_SOLVED);
-  ASSERT_NEAR(solver->sol->obj, -1.932105, 1e-3);
+  ASSERT_NEAR(solver->sol->obj, -1.932105, tol);
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
 
   qoco_cleanup(solver);
   free(settings);
@@ -477,6 +552,15 @@ TEST(cvxpy_qoco, socp_3ax1)
   QOCOInt Gi[] = {1, 2, 4, 7, 1, 2, 5, 8};
   QOCOInt Gp[] = {0, 4, 8};
 
+  QOCOFloat xexp[] = {0.836660027, -0.547722557};
+  QOCOFloat zexp[] = {0.0,           0.0,         0.0,         1.164525418,
+                      -0.974311868,  0.637836839, 0.767579723, -0.128440660,
+                      0.756757312};
+  QOCOFloat sexp[] = {1.0,         0.288937469,  -0.692191292, 1.0,
+                      0.836660027, -0.547722557, 1.0,          0.167332006,
+                      -0.985900603};
+  QOCOFloat tol = 1e-3;
+
   QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
   qoco_set_csc(G, m, n, Gnnz, Gx, Gp, Gi);
 
@@ -492,7 +576,10 @@ TEST(cvxpy_qoco, socp_3ax1)
   }
 
   ASSERT_EQ(exit, QOCO_SOLVED);
-  ASSERT_NEAR(solver->sol->obj, -1.932105, 1e-3);
+  ASSERT_NEAR(solver->sol->obj, -1.932105, tol);
+  expect_eq_vectorf(solver->sol->x, xexp, n, tol);
+  expect_eq_vectorf(solver->sol->z, zexp, m, tol);
+  expect_eq_vectorf(solver->sol->s, sexp, m, tol);
 
   qoco_cleanup(solver);
   free(settings);
