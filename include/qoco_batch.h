@@ -43,11 +43,11 @@ extern "C" {
  * @param settings Settings struct.
  * @return 0 if no error or flag containing error code.
  */
-QOCOInt qoco_batch_setup(QOCOBatchSolver* batch, QOCOInt batch_count,
-                         QOCOInt n, QOCOInt m, QOCOInt p, QOCOCscMatrix* P,
-                         QOCOFloat* c, QOCOCscMatrix* A, QOCOFloat* b,
-                         QOCOCscMatrix* G, QOCOFloat* h, QOCOInt l,
-                         QOCOInt nsoc, QOCOInt* q, QOCOSettings* settings);
+QOCOInt qoco_batch_setup(QOCOBatchSolver* batch, QOCOInt batch_count, QOCOInt n,
+                         QOCOInt m, QOCOInt p, QOCOCscMatrix* P, QOCOFloat* c,
+                         QOCOCscMatrix* A, QOCOFloat* b, QOCOCscMatrix* G,
+                         QOCOFloat* h, QOCOInt l, QOCOInt nsoc, QOCOInt* q,
+                         QOCOSettings* settings);
 
 /**
  * @brief Updates vector data for one item in a batch.

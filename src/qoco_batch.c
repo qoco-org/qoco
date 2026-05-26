@@ -36,11 +36,11 @@ static void qoco_batch_zero(QOCOBatchSolver* batch)
   batch->batch_linsys_stale = 0;
 }
 
-QOCOInt qoco_batch_setup(QOCOBatchSolver* batch, QOCOInt batch_count,
-                         QOCOInt n, QOCOInt m, QOCOInt p, QOCOCscMatrix* P,
-                         QOCOFloat* c, QOCOCscMatrix* A, QOCOFloat* b,
-                         QOCOCscMatrix* G, QOCOFloat* h, QOCOInt l,
-                         QOCOInt nsoc, QOCOInt* q, QOCOSettings* settings)
+QOCOInt qoco_batch_setup(QOCOBatchSolver* batch, QOCOInt batch_count, QOCOInt n,
+                         QOCOInt m, QOCOInt p, QOCOCscMatrix* P, QOCOFloat* c,
+                         QOCOCscMatrix* A, QOCOFloat* b, QOCOCscMatrix* G,
+                         QOCOFloat* h, QOCOInt l, QOCOInt nsoc, QOCOInt* q,
+                         QOCOSettings* settings)
 {
   if (!batch || batch_count <= 0) {
     return qoco_error(QOCO_DATA_VALIDATION_ERROR);
@@ -48,8 +48,7 @@ QOCOInt qoco_batch_setup(QOCOBatchSolver* batch, QOCOInt batch_count,
 
   qoco_batch_zero(batch);
   batch->batch_count = batch_count;
-  batch->solvers =
-      (QOCOSolver**)qoco_calloc(batch_count, sizeof(QOCOSolver*));
+  batch->solvers = (QOCOSolver**)qoco_calloc(batch_count, sizeof(QOCOSolver*));
   batch->statuses = (QOCOInt*)qoco_calloc(batch_count, sizeof(QOCOInt));
   if (!batch->solvers || !batch->statuses) {
     qoco_batch_cleanup(batch);
@@ -63,9 +62,8 @@ QOCOInt qoco_batch_setup(QOCOBatchSolver* batch, QOCOInt batch_count,
       return qoco_error(QOCO_MALLOC_ERROR);
     }
 
-    QOCOInt exit =
-        qoco_setup(batch->solvers[item], n, m, p, P, c, A, b, G, h, l, nsoc,
-                   q, settings);
+    QOCOInt exit = qoco_setup(batch->solvers[item], n, m, p, P, c, A, b, G, h,
+                              l, nsoc, q, settings);
     if (exit != QOCO_NO_ERROR) {
       qoco_free(batch->solvers[item]);
       batch->solvers[item] = NULL;
