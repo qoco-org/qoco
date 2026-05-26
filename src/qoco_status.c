@@ -11,8 +11,10 @@ const char *QOCO_ERROR_MESSAGE[] = {
   "", // Error codes start from 1.
   "data validation error",
   "settings validation error",
+  "setup error",
   "amd error",
-  "memory allocation error"
+  "memory allocation error",
+  "unsupported feature"
 };
 
 const char *QOCO_SOLVE_STATUS_MESSAGE[] = {

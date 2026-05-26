@@ -419,6 +419,16 @@ static void qdldl_cleanup(LinSysData* linsys_data)
 
 static const char* qdldl_name() { return "builtin/qdldl"; }
 
+static void qdldl_set_active_stream(LinSysData* linsys_data)
+{
+  (void)linsys_data;
+}
+
+static void qdldl_clear_active_stream(LinSysData* linsys_data)
+{
+  (void)linsys_data;
+}
+
 // Export the backend struct
 LinSysBackend backend = {.linsys_name = qdldl_name,
                          .linsys_setup = qdldl_setup,
@@ -427,4 +437,7 @@ LinSysBackend backend = {.linsys_name = qdldl_name,
                          .linsys_update_data = qdldl_update_data,
                          .linsys_factor = qdldl_factor,
                          .linsys_solve = qdldl_solve,
+                         .linsys_set_active_stream = qdldl_set_active_stream,
+                         .linsys_clear_active_stream =
+                             qdldl_clear_active_stream,
                          .linsys_cleanup = qdldl_cleanup};

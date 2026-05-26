@@ -55,6 +55,30 @@ typedef struct {
 void set_cpu_mode(int active);
 
 /**
+ * @brief Sets the active CUDA stream for the current host thread.
+ *
+ * This is a no-op for non-CUDA backends. Passing NULL restores the default
+ * stream for the current thread.
+ *
+ * @param stream CUDA stream pointer, or NULL for the default stream.
+ */
+void qoco_set_current_stream(void* stream);
+
+/**
+ * @brief Returns the active CUDA stream for the current host thread.
+ *
+ * @return CUDA stream pointer, or NULL for the default stream.
+ */
+void* qoco_get_current_stream(void);
+
+/**
+ * @brief Synchronizes the active CUDA stream for the current host thread.
+ *
+ * This is a no-op for non-CUDA backends.
+ */
+void qoco_synchronize_current_stream(void);
+
+/**
  * @brief Allocates a new csc matrix and copies A to it.
  *
  * @param A Matrix to copy.

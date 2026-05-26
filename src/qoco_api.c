@@ -506,6 +506,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
         }
         print_footer(solver->sol, solver->sol->status);
       }
+      qoco_synchronize_current_stream();
       return solver->sol->status;
     }
     log_ipm_iter(i);
@@ -547,6 +548,7 @@ QOCOInt qoco_solve(QOCOSolver* solver)
     }
     print_footer(solver->sol, solver->sol->status);
   }
+  qoco_synchronize_current_stream();
   return solver->sol->status;
 }
 

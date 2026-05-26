@@ -369,6 +369,8 @@ typedef struct {
   void (*linsys_solve)(LinSysData* linsys_data, QOCOWorkspace* work,
                        QOCOVectorf* b_vec, QOCOVectorf* x_vec, QOCOFloat ir_tol,
                        QOCOInt max_ir_iters);
+  void (*linsys_set_active_stream)(LinSysData* linsys_data);
+  void (*linsys_clear_active_stream)(LinSysData* linsys_data);
   void (*linsys_cleanup)(LinSysData* linsys_data);
 } LinSysBackend;
 
@@ -394,5 +396,27 @@ typedef struct {
   QOCOSolution* sol;
 
 } QOCOSolver;
+
+/**
+ * @brief Batch solver for problems with identical dimensions and sparsity.
+ *
+ */
+typedef struct {
+  /** Number of problem instances in the batch. */
+  QOCOInt batch_size;
+
+  /** Per-item solver instances. */
+  QOCOSolver** solvers;
+
+  /** Per-item status returned by qoco_solve. */
+  QOCOInt* statuses;
+
+  /** Total setup time for all batch items. */
+  QOCOFloat setup_time_sec;
+
+  /** Wall-clock solve time for the most recent batch solve. */
+  QOCOFloat solve_time_sec;
+
+} QOCOBatchSolver;
 
 #endif /* #ifndef QOCO_STRUCTS_H */

@@ -108,6 +108,7 @@ if(${MATLAB})
 endif()
 
 set_property(GLOBAL APPEND PROPERTY QOCO_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_api.c"
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_batch.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/input_validation.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/common_linalg.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/kkt.c
@@ -170,6 +171,8 @@ get_property(qoco_include GLOBAL PROPERTY QOCO_INCLUDE)
 # Get CUDA libraries if using CUDA backend.
 get_property(qoco_cuda_libs GLOBAL PROPERTY QOCO_CUDA_LIBS)
 
+find_package(Threads REQUIRED)
+
 # Select cone implementation based on backend
 if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
     list(APPEND qoco_sources ${CMAKE_CURRENT_SOURCE_DIR}/src/cone.cu)
@@ -180,6 +183,7 @@ endif()
 # Build qoco shared library.
 add_library(qoco SHARED)
 target_link_libraries(qoco qdldlobject amd)
+target_link_libraries(qoco Threads::Threads)
 # CUDA libraries are loaded dynamically via dlopen() in cudss_setup()
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qoco dl)
@@ -195,6 +199,7 @@ target_sources(qoco PRIVATE ${qoco_sources})
 # Build qoco static library.
 add_library(qocostatic STATIC)
 target_link_libraries(qocostatic qdldlobject amd)
+target_link_libraries(qocostatic Threads::Threads)
 # CUDA libraries are loaded dynamically via dlopen() in cudss_setup()
 if(IS_LINUX OR IS_MACOS)
     target_link_libraries(qocostatic dl)

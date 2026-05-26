@@ -57,6 +57,7 @@ typedef struct {
   cudssStatus_t (*cudssConfigSet)(cudssConfig_t config,
                                   cudssConfigParam_t param, void* value,
                                   size_t sizeInBytes);
+  cudssStatus_t (*cudssSetStream)(cudssHandle_t handle, cudaStream_t stream);
 
   // cuSPARSE function pointers
   cusparseStatus_t (*cusparseCreate)(cusparseHandle_t* handle);
@@ -74,6 +75,8 @@ typedef struct {
                                int incx, const double* y, int incy,
                                double* result);
   cublasStatus_t (*cublasDestroy)(cublasHandle_t handle);
+  cublasStatus_t (*cublasSetStream)(cublasHandle_t handle,
+                                    cudaStream_t stream);
   cublasStatus_t (*cublasIdamin)(cublasHandle_t handle, int n, const double* x,
                                  int incx, int* result);
   cublasStatus_t (*cublasIdamax)(cublasHandle_t handle, int n, const double* x,

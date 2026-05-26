@@ -148,6 +148,12 @@ void sync_matrix_to_device(QOCOMatrix* M) {}
 
 void set_cpu_mode(int active) {}
 
+void qoco_set_current_stream(void* stream) { (void)stream; }
+
+void* qoco_get_current_stream(void) { return NULL; }
+
+void qoco_synchronize_current_stream(void) {}
+
 QOCOCscMatrix* get_csc_matrix(const QOCOMatrix* M) { return M->csc; }
 
 void col_inf_norm_USymm_matrix(const QOCOMatrix* M, QOCOFloat* norm)

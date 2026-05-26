@@ -415,12 +415,17 @@ TEST(linalg, ruiz_test)
 
   qoco_setup(solver, n, m, p, P, c, A, b, G, h, l, nsoc, q, settings);
 
+  sync_vector_to_host(solver->work->scaling->Druiz);
+  sync_vector_to_host(solver->work->scaling->Eruiz);
+  sync_vector_to_host(solver->work->scaling->Fruiz);
+  set_cpu_mode(1);
   expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Druiz), Dexp, n,
                     tol);
   expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Eruiz), Eexp, p,
                     tol);
   expect_eq_vectorf(get_data_vectorf(solver->work->scaling->Fruiz), Fexp, m,
                     tol);
+  set_cpu_mode(0);
   EXPECT_NEAR(solver->work->scaling->k, kexp, tol);
 
   qoco_cleanup(solver);
