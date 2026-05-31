@@ -104,6 +104,17 @@ void qoco_update_vector_data(QOCOSolver* solver, QOCOFloat* cnew,
                              QOCOFloat* bnew, QOCOFloat* hnew);
 
 /**
+ * @brief Sets an optional primal starting point after qoco_setup. The x0 vector
+ * is copied and should be supplied in the original, unequilibrated problem
+ * scaling. Pass NULL to clear a previously set custom starting point.
+ *
+ * @param solver Pointer to solver.
+ * @param x0 Primal starting point of length n, or NULL to use default
+ * initialization.
+ */
+void qoco_set_x0(QOCOSolver* solver, const QOCOFloat* x0);
+
+/**
  * @brief Updates data matrices. NULL can be passed in for any matrix data
  * pointers if that matrix will not be updated. It is assumed that the new
  * matrix will have the same sparsity structure as the existing matrix.

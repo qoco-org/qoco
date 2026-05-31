@@ -75,6 +75,8 @@ The :code:`results` object contains the following
 +-----------------------+------------------------------------------------+
 | :code:`iters`         | Number of iterations                           |
 +-----------------------+------------------------------------------------+
+| :code:`ir_iters`      | Total iterative refinement iterations          |
++-----------------------+------------------------------------------------+
 | :code:`setup_time_sec`| Setup time in seconds                          |
 +-----------------------+------------------------------------------------+
 | :code:`solve_time_sec`| Solve time in seconds                          |
@@ -124,6 +126,23 @@ Each argument should be a 1-D numpy array of the nonzero values in CSC order, wi
     solver.update_matrix_data(P=P_new_vals, A=A_new_vals, G=G_new_vals)
 
 Any subset of :code:`P`, :code:`A`, :code:`G` can be passed. Arguments that are :code:`None` (the default) are left unchanged.
+
+Dumping Problem Data
+--------------------
+
+The :code:`dump_problem` setting serializes the problem data to a binary :code:`.bin` file at setup time. This is useful for reproducing solver behavior outside of Python, filing bug reports, or loading problems into the C interface directly.
+
+Pass a filename string to write to a specific path:
+
+.. code:: python
+
+    solver.setup(n, m, p, P, c, A, b, G, h, l, nsoc, q, dump_problem="problem.bin")
+
+Pass :code:`True` to write to :code:`"problem.bin"` in the current directory:
+
+.. code:: python
+
+    solver.setup(n, m, p, P, c, A, b, G, h, l, nsoc, q, dump_problem=True)
 
 Checking Available Backends
 ---------------------------
