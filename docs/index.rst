@@ -90,7 +90,7 @@ If you find the GPU backend useful please cite the `QOCO GPU paper <https://arxi
 .. code:: latex
 
   @article{chari2026gpu,
-    title={{QOCO}-{GPU}: A Quadratic Objective Conic Optimizer with GPU Acceleration},
+    title={{QOCO}-{GPU}: A Quadratic Objective Conic Optimizer with {GPU} Acceleration},
     author={Chari, Govind M and A{\c{c}}{\i}kme{\c{s}}e, Beh{\c{c}}et},
     journal={arXiv preprint arXiv:2603.29197},
     year={2026}
