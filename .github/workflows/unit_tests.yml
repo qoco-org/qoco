@@ -35,6 +35,13 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         build_type: [Debug, Release]
+        precision: [double, long_double]
+        exclude:
+          # long double == double on Apple Silicon and MSVC
+          - os: macos-latest
+            precision: long_double
+          - os: windows-latest
+            precision: long_double
         include:
           - os: ubuntu-latest
             c_compiler: clang
@@ -45,6 +52,10 @@ jobs:
           - os: windows-latest
             c_compiler: MSVC
             cpp_compiler: MSVC
+          - precision: long_double
+            long_double_flag: -DQOCO_LONG_DOUBLE_PRECISION:BOOL=True
+          - precision: double
+            long_double_flag: ""
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -82,6 +93,7 @@ jobs:
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
           -DQOCO_BUILD_TYPE:STR=${{ matrix.build_type }}
+          ${{ matrix.long_double_flag }}
           -S ${{ github.workspace }} -DENABLE_TESTING:BOOL=True
 
       - name: Check Config

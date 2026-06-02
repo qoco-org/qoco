@@ -18,7 +18,7 @@ void print_qoco_csc_matrix(QOCOCscMatrix* M)
   printf("nnz: %d\n", M->nnz);
   printf("Data: {");
   for (QOCOInt i = 0; i < M->nnz; ++i) {
-    printf("%.17g", M->x[i]);
+    printf("%" QOCOFloat_PRINT_FORMAT, QOCOFloat_PRINT_ARG(M->x[i]));
     if (i != M->nnz - 1) {
       printf(",");
     }
@@ -48,7 +48,7 @@ void print_arrayf(QOCOFloat* x, QOCOInt n)
 {
   printf("{");
   for (QOCOInt i = 0; i < n; ++i) {
-    printf("%.17g", x[i]);
+    printf("%" QOCOFloat_PRINT_FORMAT, QOCOFloat_PRINT_ARG(x[i]));
     if (i != n - 1) {
       printf(", ");
     }
@@ -171,17 +171,17 @@ void print_header(QOCOSolver* solver)
   printf("|     nnz(A):           %-9d                       |\n", get_nnz(data->A));
   printf("|     nnz(G):           %-9d                       |\n", get_nnz(data->G));
   printf("| Scaling Statistics:                                   |\n");
-  printf("|     Objective range      [%.0e, %.0e]               |\n", data->obj_range_min, data->obj_range_max);
-  printf("|     Constraint range     [%.0e, %.0e]               |\n", data->constraint_range_min, data->constraint_range_max);
-  printf("|     RHS range            [%.0e, %.0e]               |\n", data->rhs_range_min, data->rhs_range_max);
+  printf("|     Objective range      [%.0e, %.0e]               |\n", (double)data->obj_range_min, (double)data->obj_range_max);
+  printf("|     Constraint range     [%.0e, %.0e]               |\n", (double)data->constraint_range_min, (double)data->constraint_range_max);
+  printf("|     RHS range            [%.0e, %.0e]               |\n", (double)data->rhs_range_min, (double)data->rhs_range_max);
   printf("| Solver Settings:                                      |\n");
   printf("|     algebra: %-27s              |\n", solver->linsys->linsys_name());
-  printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, settings->abstol, settings->reltol);
-  printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", settings->abstol_inacc, settings->reltol_inacc);
-  printf("|     kkt_static_reg_P: %3.2e ruiz_iters: %-2d         |\n", settings->kkt_static_reg_P, settings->ruiz_iters);
-  printf("|     kkt_static_reg_A: %3.2e max_ir_iters: %-2d       |\n", settings->kkt_static_reg_A, settings->max_ir_iters);
-  printf("|     kkt_static_reg_G: %3.2e ir_tol: %3.2e       |\n", settings->kkt_static_reg_G, settings->ir_tol);
-  printf("|     kkt_dynamic_reg: %3.2e                         |\n", settings->kkt_dynamic_reg);
+  printf("|     max_iters: %-3d abstol: %3.2e reltol: %3.2e  |\n", settings->max_iters, (double)settings->abstol, (double)settings->reltol);
+  printf("|     abstol_inacc: %3.2e reltol_inacc: %3.2e     |\n", (double)settings->abstol_inacc, (double)settings->reltol_inacc);
+  printf("|     kkt_static_reg_P: %3.2e ruiz_iters: %-2d         |\n", (double)settings->kkt_static_reg_P, settings->ruiz_iters);
+  printf("|     kkt_static_reg_A: %3.2e max_ir_iters: %-2d       |\n", (double)settings->kkt_static_reg_A, settings->max_ir_iters);
+  printf("|     kkt_static_reg_G: %3.2e ir_tol: %3.2e       |\n", (double)settings->kkt_static_reg_G, (double)settings->ir_tol);
+  printf("|     kkt_dynamic_reg: %3.2e                         |\n", (double)settings->kkt_dynamic_reg);
   printf("+-------------------------------------------------------+\n");
   printf("\n");
   printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
@@ -194,7 +194,7 @@ void log_iter(QOCOSolver* solver)
 {
   // clang-format off
   printf("|  %3d   | %+.2e | %+.3e | %+.3e | %+.3e | %+.2e |  %2d  |   %.3f   |\n",
-         solver->sol->iters, solver->sol->obj, solver->sol->pres, solver->sol->dres, solver->sol->gap, solver->work->mu, solver->work->ir_iters, solver->work->a);
+         solver->sol->iters, (double)solver->sol->obj, (double)solver->sol->pres, (double)solver->sol->dres, (double)solver->sol->gap, (double)solver->work->mu, solver->work->ir_iters, (double)solver->work->a);
   printf("+--------+-----------+------------+------------+------------+-----------+------+-----------+\n");
   // clang-format on
 }
@@ -204,9 +204,9 @@ void print_footer(QOCOSolution* solution, enum qoco_solve_status status)
   printf("\n");
   printf("status:                %s\n", QOCO_SOLVE_STATUS_MESSAGE[status]);
   printf("number of iterations:  %d\n", solution->iters);
-  printf("objective:             %+.3f\n", solution->obj);
-  printf("setup time:            %.2e sec\n", solution->setup_time_sec);
-  printf("solve time:            %.2e sec\n", solution->solve_time_sec);
+  printf("objective:             %+.3f\n", (double)solution->obj);
+  printf("setup time:            %.2e sec\n", (double)solution->setup_time_sec);
+  printf("solve time:            %.2e sec\n", (double)solution->solve_time_sec);
   printf("\n");
 }
 
@@ -321,6 +321,34 @@ unsigned char check_stopping(QOCOSolver* solver)
   gap_rel = qoco_max(gap_rel, dobj_abs);
   solver->sol->gap = gap_abs;
 
+  // Composite progress metric in inaccurate-tolerance units. metric <= 1.0
+  // means the current iterate satisfies the inaccurate stopping criterion.
+  // We track the best iterate seen so far so we can restore it on numerical
+  // error / max-iter exits.
+  QOCOFloat pres_inacc_thresh = eabsinacc + erelinacc * pres_rel;
+  QOCOFloat dres_inacc_thresh = eabsinacc + erelinacc * dres_rel;
+  QOCOFloat gap_inacc_thresh = eabsinacc + erelinacc * gap_rel;
+  QOCOFloat metric =
+      qoco_max(pres / pres_inacc_thresh, dres / dres_inacc_thresh);
+  metric = qoco_max(metric, solver->sol->gap / gap_inacc_thresh);
+  if (isfinite(metric) && (!work->best_valid || metric < work->best_metric)) {
+    copy_arrayf(get_data_vectorf(work->x), get_data_vectorf(work->best_x),
+                work->data->n);
+    copy_arrayf(get_data_vectorf(work->s), get_data_vectorf(work->best_s),
+                work->data->m);
+    copy_arrayf(get_data_vectorf(work->y), get_data_vectorf(work->best_y),
+                work->data->p);
+    copy_arrayf(get_data_vectorf(work->z), get_data_vectorf(work->best_z),
+                work->data->m);
+    work->best_pres = pres;
+    work->best_dres = dres;
+    work->best_gap = solver->sol->gap;
+    work->best_obj = solver->sol->obj;
+    work->best_metric = metric;
+    work->best_iter = solver->sol->iters;
+    work->best_valid = 1;
+  }
+
   // If the solver stalled (stepsize = 0), increase dynamic regularization by
   // one order of magnitude and retry. If kkt_dynamic_reg would exceed
   // kkt_reg_max=1e-6, stop with an error.
@@ -331,7 +359,7 @@ unsigned char check_stopping(QOCOSolver* solver)
       FILE* log_f = fopen("qoco_log.txt", "a");
       if (log_f) {
         fprintf(log_f, "kkt_dynamic_reg changed to %e\n",
-                solver->settings->kkt_dynamic_reg);
+                (double)solver->settings->kkt_dynamic_reg);
         fclose(log_f);
       }
     }
@@ -355,6 +383,38 @@ unsigned char check_stopping(QOCOSolver* solver)
     return 1;
   }
   return 0;
+}
+
+unsigned char restore_best_iterate(QOCOSolver* solver)
+{
+  QOCOWorkspace* work = solver->work;
+  QOCOProblemData* data = work->data;
+  if (!work->best_valid) {
+    return 0;
+  }
+
+  // Copy best iterate (still in scaled space) back into the live workspace
+  // variables so that unscale_variables / copy_solution operate on it.
+  copy_arrayf(get_data_vectorf(work->best_x), get_data_vectorf(work->x),
+              data->n);
+  copy_arrayf(get_data_vectorf(work->best_s), get_data_vectorf(work->s),
+              data->m);
+  copy_arrayf(get_data_vectorf(work->best_y), get_data_vectorf(work->y),
+              data->p);
+  copy_arrayf(get_data_vectorf(work->best_z), get_data_vectorf(work->z),
+              data->m);
+  solver->sol->pres = work->best_pres;
+  solver->sol->dres = work->best_dres;
+  solver->sol->gap = work->best_gap;
+  solver->sol->obj = work->best_obj;
+
+  // If the best iterate meets the inaccurate tolerance, upgrade the status.
+  if (work->best_metric <= 1.0 &&
+      (solver->sol->status == QOCO_NUMERICAL_ERROR ||
+       solver->sol->status == QOCO_MAX_ITER)) {
+    solver->sol->status = QOCO_SOLVED_INACCURATE;
+  }
+  return 1;
 }
 
 void copy_solution(QOCOSolver* solver)
