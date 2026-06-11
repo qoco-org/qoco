@@ -336,6 +336,11 @@ typedef struct {
   /**Solve time. */
   QOCOFloat solve_time_sec;
 
+  /**Time taken by the linear system backend's symbolic analysis phase
+   * (QDLDL_etree for the builtin backend, cuDSS analysis phase for the CUDA
+   * backend). */
+  QOCOFloat analysis_time_sec;
+
   /**Optimal objective value. */
   QOCOFloat obj;
 
@@ -359,7 +364,7 @@ typedef struct LinSysData LinSysData;
 typedef struct {
   const char* (*linsys_name)();
   LinSysData* (*linsys_setup)(QOCOProblemData* data, QOCOSettings* settings,
-                              QOCOInt Wnnz);
+                              QOCOInt Wnnz, QOCOFloat* analysis_time_sec);
   void (*linsys_set_nt_identity)(LinSysData* linsys_data, QOCOInt m);
   void (*linsys_update_nt)(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
                            QOCOFloat kkt_static_reg_G, QOCOInt m);

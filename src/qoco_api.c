@@ -149,8 +149,9 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->linsys = &backend;
 
   // Set up linear system data.
-  solver->linsys_data =
-      solver->linsys->linsys_setup(data, solver->settings, Wnnz);
+  QOCOFloat analysis_time_sec = 0.0;
+  solver->linsys_data = solver->linsys->linsys_setup(data, solver->settings,
+                                                     Wnnz, &analysis_time_sec);
   if (!solver->linsys_data) {
     return QOCO_SETUP_ERROR;
   }
@@ -222,6 +223,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   solver->sol->iters = 0;
   solver->sol->ir_iters = 0;
   solver->sol->status = QOCO_UNSOLVED;
+  solver->sol->analysis_time_sec = analysis_time_sec;
 
   stop_timer(&setup_timer);
   solver->sol->setup_time_sec = get_elapsed_time_sec(&setup_timer);
