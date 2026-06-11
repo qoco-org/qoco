@@ -92,7 +92,7 @@ struct LinSysData {
 };
 
 static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
-                               QOCOInt Wnnz)
+                               QOCOInt Wnnz, QOCOFloat* analysis_time_sec)
 {
   // Number of columns of KKT matrix.
   QOCOInt Kn = data->n + data->m + data->p;
@@ -185,9 +185,15 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   linsys_data->K = PKPt;
 
   // Compute elimination tree.
+  QOCOTimer analysis_timer;
+  start_timer(&analysis_timer);
   QOCOInt sumLnz =
       QDLDL_etree(Kn, linsys_data->K->p, linsys_data->K->i, linsys_data->iwork,
                   linsys_data->Lnz, linsys_data->etree);
+  stop_timer(&analysis_timer);
+  if (analysis_time_sec) {
+    *analysis_time_sec = get_elapsed_time_sec(&analysis_timer);
+  }
   if (sumLnz < 0) {
     return NULL;
   }
