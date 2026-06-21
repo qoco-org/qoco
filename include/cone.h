@@ -18,6 +18,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/** SOC cones with dim > this threshold use the sparse NT expansion. */
+#define SOC_SPARSE_THRESHOLD 4
 #include "qoco_linalg.h"
 #include "qoco_utils.h"
 #include "structs.h"

@@ -338,6 +338,52 @@ TEST(simple_socp_test, p1)
   free(G);
 }
 
+TEST(simple_socp_test, sparse_nt_soc)
+{
+  QOCOInt p = 0;
+  QOCOInt m = 6;
+  QOCOInt n = 6;
+  QOCOInt l = 1;
+  QOCOInt nsoc = 1;
+  QOCOInt q[] = {5};
+
+  QOCOFloat Px[] = {1, 2, 3, 4, 5, 6};
+  QOCOInt Pp[] = {0, 1, 2, 3, 4, 5, 6};
+  QOCOInt Pi[] = {0, 1, 2, 3, 4, 5};
+
+  QOCOFloat Gx[] = {-1, -1, -1, -1, -1, -1};
+  QOCOInt Gp[] = {0, 1, 2, 3, 4, 5, 6};
+  QOCOInt Gi[] = {0, 1, 2, 3, 4, 5};
+
+  QOCOFloat c[] = {-1, -1, 0, 0, 0, 0};
+  QOCOFloat h[] = {1, 2, 0, 0, 0, 0};
+
+  QOCOCscMatrix* P = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+  QOCOCscMatrix* G = (QOCOCscMatrix*)malloc(sizeof(QOCOCscMatrix));
+
+  qoco_set_csc(P, n, n, 6, Px, Pp, Pi);
+  qoco_set_csc(G, m, n, 6, Gx, Gp, Gi);
+
+  QOCOSettings* settings = (QOCOSettings*)malloc(sizeof(QOCOSettings));
+  set_default_settings(settings);
+  settings->verbose = 0;
+
+  QOCOSolver* solver = (QOCOSolver*)malloc(sizeof(QOCOSolver));
+  QOCOInt exit =
+      qoco_setup(solver, n, m, p, P, c, nullptr, nullptr, G, h, l, nsoc, q,
+                 settings);
+  ASSERT_EQ(exit, QOCO_NO_ERROR);
+  ASSERT_EQ(solver->work->nsoc_sparse, 1);
+
+  exit = qoco_solve(solver);
+  ASSERT_EQ(exit, QOCO_SOLVED);
+
+  qoco_cleanup(solver);
+  free(settings);
+  free(P);
+  free(G);
+}
+
 TEST(simple_socp_test, p2)
 {
   QOCOInt p = 2;

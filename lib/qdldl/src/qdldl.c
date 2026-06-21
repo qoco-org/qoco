@@ -98,7 +98,8 @@ QDLDL_int QDLDL_factor(const QDLDL_int n, const QDLDL_int* Ap,
                        QDLDL_float* D, QDLDL_float* Dinv, const QDLDL_int* Lnz,
                        const QDLDL_int* etree, QDLDL_bool* bwork,
                        QDLDL_int* iwork, QDLDL_float* fwork, QDLDL_int* perm,
-                       QDLDL_int pos_diags, QDLDL_float dyn_reg)
+                       QDLDL_int pos_diags, QDLDL_float dyn_reg,
+                       const QDLDL_bool* positive_diag)
 {
 
   QDLDL_int i, j, k, nnzY, bidx, cidx, nextIdx, nnzE, tmpIdx;
@@ -138,7 +139,7 @@ QDLDL_int QDLDL_factor(const QDLDL_int n, const QDLDL_int* Ap,
   }
 
   // Dynamic regularization
-  if (perm[0] < pos_diags) {
+  if (positive_diag ? positive_diag[perm[0]] : perm[0] < pos_diags) {
     D[0] = D[0] < 1e-11 ? dyn_reg : D[0];
   }
   else {
@@ -248,7 +249,7 @@ QDLDL_int QDLDL_factor(const QDLDL_int n, const QDLDL_int* Ap,
     } // end for i
 
     // Dynamic regularization
-    if (perm[k] < pos_diags) {
+    if (positive_diag ? positive_diag[perm[k]] : perm[k] < pos_diags) {
       D[k] = D[k] < 1e-11 ? dyn_reg : D[k];
     }
     else {

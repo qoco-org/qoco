@@ -140,7 +140,8 @@ QDLDL_API QDLDL_int QDLDL_factor(const QDLDL_int n, const QDLDL_int* Ap,
                                  const QDLDL_int* Lnz, const QDLDL_int* etree,
                                  QDLDL_bool* bwork, QDLDL_int* iwork,
                                  QDLDL_float* fwork, QDLDL_int* perm,
-                                 QDLDL_int pos_diags, QDLDL_float dyn_reg);
+                                 QDLDL_int pos_diags, QDLDL_float dyn_reg,
+                                 const QDLDL_bool* positive_diag);
 
 /**
  * Solves LDL'x = b
