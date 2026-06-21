@@ -292,7 +292,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
   // Compute Nesterov-Todd scaling for second-order cones.
   QOCOInt nt_idx = idx;
-  QOCOInt nt_idx_full = idx;
+  QOCOInt nt_idx_fast = idx;
   for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
     QOCOInt qi = get_element_vectori(work->data->q, i);
     // Compute normalized vectors.
@@ -320,10 +320,10 @@ void compute_nt_scaling(QOCOWorkspace* work)
     f = qoco_sqrt(safe_div(s_scal, z_scal));
 
     // Store fast scaling parameters: [eta, w0, w1[0], ..., w1[qi-2]]
-    nt_scaling[nt_idx_full] = f;
-    nt_scaling[nt_idx_full + 1] = sbar[0];
+    nt_scaling[nt_idx_fast] = f;
+    nt_scaling[nt_idx_fast + 1] = sbar[0];
     for (QOCOInt j = 1; j < qi; ++j) {
-      nt_scaling[nt_idx_full + 1 + j] = sbar[j];
+      nt_scaling[nt_idx_fast + 1 + j] = sbar[j];
     }
 
     // Compute W (upper triangular) and Winv for the sparse KKT update.
@@ -373,7 +373,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
     idx += qi;
     nt_idx += (qi * qi + qi) / 2;
-    nt_idx_full += qi + 1;
+    nt_idx_fast += qi + 1;
   }
 
   // Compute scaled variable lambda. lambda = W * z.

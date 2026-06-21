@@ -251,12 +251,12 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
   /* ---- compute SOC offsets ---- */
   QOCOInt idx = l;
   QOCOInt nt_idx = l;
-  QOCOInt nt_idx_full = l;
+  QOCOInt nt_idx_fast = l;
 
   for (QOCOInt k = 0; k < soc_id; ++k) {
     idx += q[k];
     nt_idx += (q[k] * q[k] + q[k]) / 2;
-    nt_idx_full += q[k] + 1;
+    nt_idx_fast += q[k] + 1;
   }
 
   QOCOInt qi = q[soc_id];
@@ -293,10 +293,10 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
 
   /* Store compact fast scaling parameters [eta, w0, w1[0], ..., w1[qi-2]].
    * sbar currently holds the wbar vector. */
-  Wfull[nt_idx_full] = eta;
-  Wfull[nt_idx_full + 1] = sbar[idx + 0];
+  Wfull[nt_idx_fast] = eta;
+  Wfull[nt_idx_fast + 1] = sbar[idx + 0];
   for (QOCOInt j = 1; j < qi; ++j)
-    Wfull[nt_idx_full + 1 + j] = sbar[idx + j];
+    Wfull[nt_idx_fast + 1 + j] = sbar[idx + j];
 
   /* overwrite zbar with v (needed for the sparse W / Winv blocks) */
   f = safe_div((QOCOFloat)1.0,
