@@ -85,11 +85,12 @@ __device__ void soc_division(const QOCOFloat* lam, const QOCOFloat* v,
   }
 }
 
-__global__ void set_Wfull_linear(QOCOFloat* W, QOCOInt Wnnzfull, QOCOInt l)
+__global__ void set_nt_scaling_linear(QOCOFloat* W, QOCOInt nt_scaling_nnz,
+                                      QOCOInt l)
 {
   QOCOInt i = blockIdx.x * blockDim.x + threadIdx.x;
 
-  if (i < Wnnzfull) {
+  if (i < nt_scaling_nnz) {
     W[i] = 0.0;
   }
   if (i < l) {
@@ -97,9 +98,9 @@ __global__ void set_Wfull_linear(QOCOFloat* W, QOCOInt Wnnzfull, QOCOInt l)
   }
 }
 
-__global__ void set_Wfull_soc(QOCOFloat* W, QOCOInt* q,
-                              QOCOInt* nt_scaling_soc_idx, QOCOInt nsoc,
-                              QOCOInt l)
+__global__ void set_nt_scaling_soc(QOCOFloat* W, QOCOInt* q,
+                                   QOCOInt* nt_scaling_soc_idx, QOCOInt nsoc,
+                                   QOCOInt l)
 {
   (void)q;
   (void)l;
@@ -221,11 +222,11 @@ __global__ void bring2cone_kernel(QOCOFloat* u, QOCOInt* q, QOCOInt l,
 }
 
 __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
-                                          QOCOFloat* Wfull, QOCOFloat* Winv,
-                                          QOCOFloat* s, QOCOFloat* z,
-                                          QOCOFloat* sbar, QOCOFloat* zbar,
-                                          QOCOInt l, QOCOInt nsoc,
-                                          const QOCOInt* q)
+                                          QOCOFloat* nt_scaling,
+                                          QOCOFloat* Winv, QOCOFloat* s,
+                                          QOCOFloat* z, QOCOFloat* sbar,
+                                          QOCOFloat* zbar, QOCOInt l,
+                                          QOCOInt nsoc, const QOCOInt* q)
 {
   QOCOInt tid = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -236,7 +237,7 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
     QOCOFloat w = qoco_sqrt(val);
 
     W[tid] = w;
-    Wfull[tid] = w;
+    nt_scaling[tid] = w;
 
     QOCOFloat winv = safe_div((QOCOFloat)1.0, w);
     Winv[tid] = winv;
@@ -293,10 +294,10 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
 
   /* Store compact fast scaling parameters [eta, w0, w1[0], ..., w1[qi-2]].
    * sbar currently holds the wbar vector. */
-  Wfull[nt_idx_fast] = eta;
-  Wfull[nt_idx_fast + 1] = sbar[idx + 0];
+  nt_scaling[nt_idx_fast] = eta;
+  nt_scaling[nt_idx_fast + 1] = sbar[idx + 0];
   for (QOCOInt j = 1; j < qi; ++j)
-    Wfull[nt_idx_fast + 1 + j] = sbar[idx + j];
+    nt_scaling[nt_idx_fast + 1 + j] = sbar[idx + j];
 
   /* overwrite zbar with v (needed for the sparse W / Winv blocks) */
   f = safe_div((QOCOFloat)1.0,
@@ -306,7 +307,8 @@ __global__ void compute_nt_scaling_kernel(QOCOFloat* W, QOCOFloat* WtW,
   for (QOCOInt j = 1; j < qi; ++j)
     zbar[idx + j] = f * sbar[idx + j];
 
-  /* --- build W, Winv (sparse upper triangular) and WtW = eta^2 (2 w w' - J) --- */
+  /* --- build W, Winv (sparse upper triangular) and WtW = eta^2 (2 w w' - J)
+   * --- */
   QOCOInt shift = 0;
   for (QOCOInt j = 0; j < qi; ++j) {
     for (QOCOInt k = 0; k <= j; ++k) {
@@ -370,8 +372,7 @@ __global__ void nt_multiply_kernel(const QOCOFloat* W,
   QOCOInt nt_idx = nt_scaling_soc_idx[soc];
   QOCOInt xi = soc_idx[soc];
 
-  QOCOFloat scale =
-      inverse ? safe_div((QOCOFloat)1.0, W[nt_idx]) : W[nt_idx];
+  QOCOFloat scale = inverse ? safe_div((QOCOFloat)1.0, W[nt_idx]) : W[nt_idx];
   QOCOFloat w0 = W[nt_idx + 1];
   const QOCOFloat* w1 = &W[nt_idx + 2];
   QOCOFloat x0 = x[xi];
@@ -475,16 +476,16 @@ void set_nt_scaling_identity(QOCOVectorf* nt_scaling, QOCOInt nt_scaling_nnz,
 
   // kernel 1: zero + linear cone
   if (data->l > 0) {
-    set_Wfull_linear<<<blocks, threads>>>(W, nt_scaling_nnz, data->l);
+    set_nt_scaling_linear<<<blocks, threads>>>(W, nt_scaling_nnz, data->l);
     CUDA_CHECK(cudaGetLastError());
   }
 
   // kernel 2: SOC blocks
   const int blocks2 = data->nsoc;
   if (data->nsoc > 0) {
-    set_Wfull_soc<<<blocks2, 256>>>(W, get_data_vectori(data->q),
-                                    get_data_vectori(nt_scaling_soc_idx),
-                                    data->nsoc, data->l);
+    set_nt_scaling_soc<<<blocks2, 256>>>(W, get_data_vectori(data->q),
+                                         get_data_vectori(nt_scaling_soc_idx),
+                                         data->nsoc, data->l);
     CUDA_CHECK(cudaGetLastError());
   }
 }
@@ -600,9 +601,9 @@ void compute_nt_scaling(QOCOWorkspace* work)
 {
   QOCOFloat* W = get_data_vectorf(work->W);
   QOCOFloat* WtW = get_data_vectorf(work->WtW);
-  QOCOFloat* Wfull = get_data_vectorf(work->nt_scaling);
+  QOCOFloat* nt_scaling = get_data_vectorf(work->nt_scaling);
   QOCOFloat* Winv = get_data_vectorf(work->Winv);
-  QOCOInt* Wsoc_idx = get_data_vectori(work->nt_scaling_soc_idx);
+  QOCOInt* nt_scaling_soc_idx = get_data_vectori(work->nt_scaling_soc_idx);
   QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
   QOCOFloat* s = get_data_vectorf(work->s);
   QOCOFloat* z = get_data_vectorf(work->z);
@@ -618,14 +619,14 @@ void compute_nt_scaling(QOCOWorkspace* work)
   QOCOInt grid = (total_threads + block - 1) / block;
 
   if (work->data->m > 0) {
-    compute_nt_scaling_kernel<<<grid, block>>>(W, WtW, Wfull, Winv, s, z, sbar,
-                                               zbar, l, nsoc, q);
+    compute_nt_scaling_kernel<<<grid, block>>>(W, WtW, nt_scaling, Winv, s, z,
+                                               sbar, zbar, l, nsoc, q);
   }
   CUDA_CHECK(cudaGetLastError());
 
   /* ================= lambda = W * z ================= */
-  nt_multiply(Wfull, Wsoc_idx, soc_idx, z, lambda, work->data->l, work->data->m,
-              work->data->nsoc, q);
+  nt_multiply(nt_scaling, nt_scaling_soc_idx, soc_idx, z, lambda, work->data->l,
+              work->data->m, work->data->nsoc, q);
 }
 
 void compute_centering(QOCOSolver* solver)
