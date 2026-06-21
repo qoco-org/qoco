@@ -137,11 +137,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
     nt_scaling_soc_idx[0] = l;
     soc_idx[0] = l;
     for (QOCOInt i = 1; i < nsoc; ++i) {
-#ifdef QOCO_ALGEBRA_BACKEND_CUDA
-      nt_scaling_soc_idx[i] = nt_scaling_soc_idx[i - 1] + q[i - 1] * q[i - 1];
-#else
       nt_scaling_soc_idx[i] = nt_scaling_soc_idx[i - 1] + q[i - 1] + 1;
-#endif
       soc_idx[i] = soc_idx[i - 1] + q[i - 1];
     }
   }
@@ -187,12 +183,7 @@ QOCOInt qoco_setup(QOCOSolver* solver, QOCOInt n, QOCOInt m, QOCOInt p,
   QOCOInt nt_scaling_nnz = data->l;
   set_cpu_mode(1);
   for (QOCOInt i = 0; i < data->nsoc; ++i) {
-#ifdef QOCO_ALGEBRA_BACKEND_CUDA
-    QOCOInt qi = get_element_vectori(data->q, i);
-    nt_scaling_nnz += qi * qi;
-#else
     nt_scaling_nnz += get_element_vectori(data->q, i) + 1;
-#endif
   }
   set_cpu_mode(0);
 

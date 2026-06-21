@@ -230,13 +230,9 @@ typedef struct {
   /** Upper triangular part of Nesterov-Todd Scaling */
   QOCOVectorf* W;
 
-  /** NT scaling data used by nt_multiply().
-   *
-   * Builtin backend layout:
+  /** NT scaling data used by nt_multiply(). Shared layout across backends:
    *   LP entries: scalar scales sqrt(s_i / z_i), length l.
    *   SOC i block: [eta, w0, w1[0], ..., w1[q_i - 2]], length q_i + 1.
-   *
-   * CUDA backend currently keeps the historical dense q_i-by-q_i SOC blocks.
    */
   QOCOVectorf* nt_scaling;
 
