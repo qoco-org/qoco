@@ -392,7 +392,8 @@ static void csc_to_csr_device(const QOCOCscMatrix* csc, QOCOInt** csr_row_ptr,
 static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
                                QOCOInt Wnnz, QOCOInt nsoc_sparse,
                                QOCOInt* soc_is_sparse, QOCOInt nt_sparse_nnz,
-                               QOCOInt* sparse_soc_nt_idx)
+                               QOCOInt* sparse_soc_nt_idx,
+                               QOCOFloat* analysis_time_sec)
 {
   (void)nsoc_sparse;
   (void)soc_is_sparse;
@@ -527,10 +528,19 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       CUDSS_BASE_ZERO));
 
   // Run analysis phase.
+  QOCOTimer analysis_timer;
+  start_timer(&analysis_timer);
   CUDSS_CHECK(g_cuda_funcs.cudssExecute(
       linsys_data->handle, CUDSS_PHASE_ANALYSIS, linsys_data->config,
       linsys_data->data, linsys_data->K_csr, linsys_data->d_xyz_matrix,
       linsys_data->d_rhs_matrix));
+  // cudssExecute is asynchronous; synchronize before stopping the timer so the
+  // measured time reflects the completed analysis phase.
+  cudaDeviceSynchronize();
+  stop_timer(&analysis_timer);
+  if (analysis_time_sec) {
+    *analysis_time_sec = get_elapsed_time_sec(&analysis_timer);
+  }
 
   // Free CSR structure arrays - cuDSS uses them during analysis
   cudaFree(csr_row_ptr);

@@ -10,6 +10,20 @@
 
 #include "qdldl_backend.h"
 
+#if defined(QOCO_SINGLE_PRECISION) && !defined(QDLDL_FLOAT)
+#error "QOCOFloat and QDLDL_float precision mismatch"
+#endif
+#if defined(QOCO_LONG_DOUBLE_PRECISION) && !defined(QDLDL_LONG_DOUBLE)
+#error "QOCOFloat and QDLDL_float precision mismatch"
+#endif
+#if !defined(QOCO_SINGLE_PRECISION) && !defined(QOCO_LONG_DOUBLE_PRECISION) && \
+    (defined(QDLDL_FLOAT) || defined(QDLDL_LONG_DOUBLE))
+#error "QOCOFloat and QDLDL_float precision mismatch"
+#endif
+
+typedef char qoco_qdldl_float_size_must_match
+    [(sizeof(QOCOFloat) == sizeof(QDLDL_float)) ? 1 : -1];
+
 // Contains data for linear system.
 struct LinSysData {
   /** KKT matrix in CSC form (size N_exp x N_exp). */
@@ -107,7 +121,8 @@ struct LinSysData {
 static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
                                QOCOInt Wnnz, QOCOInt nsoc_sparse,
                                QOCOInt* soc_is_sparse, QOCOInt nt_sparse_nnz,
-                               QOCOInt* sparse_soc_nt_idx)
+                               QOCOInt* sparse_soc_nt_idx,
+                               QOCOFloat* analysis_time_sec)
 {
   QOCOInt N = data->n + data->m + data->p;
   QOCOInt N_exp = N + 2 * nsoc_sparse;
@@ -243,9 +258,16 @@ static LinSysData* qdldl_setup(QOCOProblemData* data, QOCOSettings* settings,
   qoco_free(nt_uvdiag2kkt_temp);
   linsys_data->K = PKPt;
 
+  // Compute elimination tree.
+  QOCOTimer analysis_timer;
+  start_timer(&analysis_timer);
   QOCOInt sumLnz =
       QDLDL_etree(N_exp, linsys_data->K->p, linsys_data->K->i,
                   linsys_data->iwork, linsys_data->Lnz, linsys_data->etree);
+  stop_timer(&analysis_timer);
+  if (analysis_time_sec) {
+    *analysis_time_sec = get_elapsed_time_sec(&analysis_timer);
+  }
   if (sumLnz < 0)
     return NULL;
 
@@ -289,6 +311,9 @@ static QOCOFloat compute_linsys_residual(LinSysData* linsys_data,
     x_scratch[linsys_data->p[i]] = linsys_data->xyzbuff1[i];
   }
 
+  // Compute K_true * x_scratch -> xyzbuff2 against the unregularized matrix.
+  // data->P stores the regularized P (P + eps_P * I), so subtract the P
+  // regularization contribution from the x block to recover the true product.
   kkt_multiply(x_scratch, linsys_data->xyzbuff2, work->data, nt_scaling,
                nt_scaling_soc_idx, soc_idx, xbuff, ubuff1, ubuff2);
   for (QOCOInt i = 0; i < n; ++i) {
@@ -336,7 +361,7 @@ static void log_linsys_error(LinSysData* linsys_data, QOCOWorkspace* work,
                              const char* label, FILE* f)
 {
   QOCOFloat res = compute_linsys_residual(linsys_data, work, b, x_scratch);
-  fprintf(f, "  (%s): %.4e\n", label, res);
+  fprintf(f, "  (%s): %.4e\n", label, (double)res);
 }
 #endif
 

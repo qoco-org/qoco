@@ -28,9 +28,6 @@ void set_nt_scaling_identity(QOCOVectorf* nt_scaling, QOCOInt nt_scaling_nnz,
     QOCOInt qi = get_element_vectori(data->q, i);
     nt_scaling_data[idx] = 1.0;
     nt_scaling_data[idx + 1] = 1.0;
-    for (QOCOInt k = 2; k <= qi; ++k) {
-      nt_scaling_data[idx + k] = 0.0;
-    }
     idx += qi + 1;
   }
 }
@@ -222,21 +219,17 @@ static void nt_multiply_impl(QOCOFloat* W, QOCOInt* nt_scaling_soc_idx,
 {
   (void)nt_scaling_soc_idx;
   (void)soc_idx;
+  (void)m;
   // Compute product for LP cone part of W.
   for (QOCOInt i = 0; i < l; ++i) {
     z[i] = inverse ? safe_div(x[i], W[i]) : (W[i] * x[i]);
   }
 
-  // Compute product for second-order cones.
+  // Compute product for second-order cones using fast O(m) operations
+  // from equations (14) and (15) in the ECOS paper.
   QOCOInt nt_idx = l;
   QOCOInt idx = l;
 
-  // Zero out second-order cone block of result z.
-  for (QOCOInt i = l; i < m; ++i) {
-    z[i] = 0;
-  }
-
-  // Loop over all second-order cones.
   for (QOCOInt i = 0; i < nsoc; ++i) {
     QOCOFloat scale = inverse ? safe_div(1.0, W[nt_idx]) : W[nt_idx];
     QOCOFloat w0 = W[nt_idx + 1];
@@ -307,7 +300,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
     QOCOInt qi = get_element_vectori(work->data->q, i);
     QOCOInt is_sparse = work->soc_is_sparse ? work->soc_is_sparse[i] : 0;
 
-    // Compute normalized vectors.
+    // Compute normalized vectors. Bottom of page 8 in coneprog.
     QOCOFloat s_scal = soc_residual2(get_pointer_vectorf(work->s, idx), qi);
     s_scal = qoco_sqrt(s_scal);
     QOCOFloat f = safe_div(1.0, s_scal);
@@ -322,7 +315,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
     f = safe_div(1.0, (2 * gamma));
 
-    // Overwrite sbar with wbar.
+    // Overwrite sbar with wbar. Eq (15) in coneprog.
     sbar[0] = f * (sbar[0] + zbar[0]);
     for (QOCOInt j = 1; j < qi; ++j) {
       sbar[j] = f * (sbar[j] - zbar[j]);
@@ -330,7 +323,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
     QOCOFloat w1sq = qoco_dot(&sbar[1], &sbar[1], qi - 1);
     sbar[0] = qoco_sqrt(1.0 + w1sq);
 
-    // eta = sqrt(s_scal / z_scal)
+    // eta = sqrt(s_scal / z_scal). Eq (7) in ecos.
     f = qoco_sqrt(safe_div(s_scal, z_scal));
 
     // Store fast scaling parameters for O(qi) W*x and W^{-1}*x operations.

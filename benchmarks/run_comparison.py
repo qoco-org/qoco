@@ -3,6 +3,7 @@ import sys
 import subprocess
 from utils.run_benchmarks import run_benchmarks
 import os
+import shutil
 
 def checkout_branch(branch_name, is_diff=False):
     """
@@ -69,6 +70,8 @@ if __name__ == "__main__":
     diff_config = load_yaml(sys.argv[2])
     diff_config_name = os.path.splitext(os.path.basename(sys.argv[2]))[0]
 
+    bin_dir = sys.argv[3] if len(sys.argv) > 3 else "./benchmarks/data"
+
     # Safely get the branch names and backends
     baseline_branch = baseline_config.get("qoco", {}).get("branch")
     if not baseline_branch:
@@ -89,6 +92,14 @@ if __name__ == "__main__":
     temp_results_dir = "/tmp/results/"
     subprocess.run(["mkdir", "-p", temp_results_dir], check=True)
 
+    # Later branch checkouts can replace this file with the baseline branch's
+    # version. Preserve the starting checkout's report generator for CI runs.
+    regression_report_script = "/tmp/qoco_regression_report.py"
+    shutil.copy2(
+        os.path.join(os.path.dirname(__file__), "utils", "regression_report.py"),
+        regression_report_script,
+    )
+
     # Checkout and build the diff branch
     checkout_branch(diff_branch, is_diff=True)
     build_solver(diff_backend)
@@ -96,7 +107,14 @@ if __name__ == "__main__":
     # Run diff solver
     diff_settings = format_settings(diff_config)
     diff_results = temp_results_dir+f"{diff_config_name}.csv"
-    run_benchmarks(bin_dir="./benchmarks/data", settings=diff_settings, output_csv=diff_results)
+    run_benchmarks(bin_dir=bin_dir, settings=diff_settings, output_csv=diff_results)
+
+    # Copy benchmark data before checking out baseline — the data directory
+    # layout may differ between branches (e.g. benchmarks/data/mm/ vs benchmarks/data/).
+    tmp_bin_dir = f"/tmp/qoco_bench_data_{os.path.basename(bin_dir)}"
+    if os.path.exists(tmp_bin_dir):
+        shutil.rmtree(tmp_bin_dir)
+    shutil.copytree(bin_dir, tmp_bin_dir)
 
     # Checkout and build the baseline branch
     checkout_branch(baseline_branch, is_diff=False)
@@ -105,7 +123,7 @@ if __name__ == "__main__":
     # Run baseline solver
     baseline_settings = format_settings(baseline_config)
     baseline_results = temp_results_dir+f"{baseline_config_name}.csv"
-    run_benchmarks(bin_dir="./benchmarks/data", settings=baseline_settings, output_csv=baseline_results)
+    run_benchmarks(bin_dir=tmp_bin_dir, settings=baseline_settings, output_csv=baseline_results)
 
     # Generate performance profiles
     subprocess.run(["python", "benchmarks/utils/compute_performance_profiles.py", baseline_results, diff_results], check=True)
@@ -114,5 +132,5 @@ if __name__ == "__main__":
     subprocess.run(["cp", "-r", temp_results_dir, "."], check=True)
 
     # Generate regression report
-    subprocess.run(["python", "benchmarks/utils/regression_report.py", baseline_results, diff_results], check=True)
+    subprocess.run([sys.executable, regression_report_script, baseline_results, diff_results], check=True)
     subprocess.run(["cp", "/tmp/regression-report.txt", "./results"], check=True)

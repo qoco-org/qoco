@@ -197,6 +197,12 @@ typedef struct {
   /** Iterate of primal variables. */
   QOCOVectorf* x;
 
+  /** Primal starting point in original problem scaling. */
+  QOCOVectorf* x0;
+
+  /** Whether to use x0 during initialization. */
+  unsigned char use_x0;
+
   /** Iterate of slack variables associated with conic constraint. */
   QOCOVectorf* s;
 
@@ -316,6 +322,22 @@ typedef struct {
   /** Total iterative refinement iterations used in the current IPM step. */
   QOCOInt ir_iters;
 
+  /** Best iterate found so far (scaled space), saved by composite residual
+   * metric. Restored on numerical-error / max-iter exits. */
+  QOCOVectorf* best_x;
+  QOCOVectorf* best_s;
+  QOCOVectorf* best_y;
+  QOCOVectorf* best_z;
+
+  /** Residuals associated with the saved best iterate. */
+  QOCOFloat best_pres;
+  QOCOFloat best_dres;
+  QOCOFloat best_gap;
+  QOCOFloat best_obj;
+  QOCOFloat best_metric;
+  QOCOInt best_iter;
+  unsigned char best_valid;
+
 } QOCOWorkspace;
 
 typedef struct {
@@ -334,11 +356,19 @@ typedef struct {
   /**Number of iterations. */
   QOCOInt iters;
 
+  /**Total iterative refinement iterations across all IPM steps. */
+  QOCOInt ir_iters;
+
   /**Setup time. */
   QOCOFloat setup_time_sec;
 
   /**Solve time. */
   QOCOFloat solve_time_sec;
+
+  /**Time taken by the linear system backend's symbolic analysis phase
+   * (QDLDL_etree for the builtin backend, cuDSS analysis phase for the CUDA
+   * backend). */
+  QOCOFloat analysis_time_sec;
 
   /**Optimal objective value. */
   QOCOFloat obj;
@@ -365,7 +395,8 @@ typedef struct {
   LinSysData* (*linsys_setup)(QOCOProblemData* data, QOCOSettings* settings,
                               QOCOInt Wnnz, QOCOInt nsoc_sparse,
                               QOCOInt* soc_is_sparse, QOCOInt nt_sparse_nnz,
-                              QOCOInt* sparse_soc_nt_idx);
+                              QOCOInt* sparse_soc_nt_idx,
+                              QOCOFloat* analysis_time_sec);
   void (*linsys_set_nt_identity)(LinSysData* linsys_data, QOCOWorkspace* work);
   void (*linsys_update_nt)(LinSysData* linsys_data, QOCOWorkspace* work,
                            QOCOFloat kkt_static_reg_G);
