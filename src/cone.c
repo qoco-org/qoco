@@ -295,7 +295,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
   QOCOInt nt_idx_fast = idx;
   for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
     QOCOInt qi = get_element_vectori(work->data->q, i);
-    // Compute normalized vectors.
+    // Compute normalized vectors. Bottom of page 8 in coneprog.
     QOCOFloat s_scal = soc_residual2(get_pointer_vectorf(work->s, idx), qi);
     s_scal = qoco_sqrt(s_scal);
     QOCOFloat f = safe_div(1.0, s_scal);
@@ -310,13 +310,13 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
     f = safe_div(1.0, (2 * gamma));
 
-    // Overwrite sbar with wbar.
+    // Overwrite sbar with wbar. Eq (15) in coneprog.
     sbar[0] = f * (sbar[0] + zbar[0]);
     for (QOCOInt j = 1; j < qi; ++j) {
       sbar[j] = f * (sbar[j] - zbar[j]);
     }
 
-    // eta = sqrt(s_scal / z_scal)
+    // eta = sqrt(s_scal / z_scal). Eq (7) in ecos.
     f = qoco_sqrt(safe_div(s_scal, z_scal));
 
     // Store fast scaling parameters: [eta, w0, w1[0], ..., w1[qi-2]]
@@ -331,7 +331,17 @@ void compute_nt_scaling(QOCOWorkspace* work)
     QOCOFloat finv = safe_div(1.0, f);
     QOCOFloat eta2 = f * f;
 
-    // Overwrite zbar with v (= Clarabel's normalized w vector), needed for W.
+    // W is given by Eq (7) in ecos, but in terms of wbar that has a block
+    // structure (scalar, first row/column, and bottom block) with differing
+    // coefficients, so it cannot be built with a single uniform outer product.
+    // We instead introduce v so that W = eta * (2 * v * v' - J), which has the
+    // same rank-1-minus-J form as WtW = eta^2 * (2 * wbar * wbar' - J). This
+    // lets W, Winv, and WtW share one outer-product loop, and makes Winv just a
+    // sign flip of the cross terms of W. v is defined as
+    //   v0 = (wbar0 + 1) / sqrt(2 * (wbar0 + 1)),
+    //   vj = wbar_j   / sqrt(2 * (wbar0 + 1)) for j >= 1,
+    // i.e. wbar with its leading entry shifted by 1 and the whole vector scaled
+    // by 1 / sqrt(2 * (wbar0 + 1))..
     QOCOFloat fv = safe_div(1.0, qoco_sqrt(2 * (sbar[0] + 1)));
     zbar[0] = fv * (sbar[0] + 1.0);
     for (QOCOInt j = 1; j < qi; ++j) {
