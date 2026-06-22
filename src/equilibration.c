@@ -1,7 +1,37 @@
 #include "equilibration.h"
 
+static QOCOFloat clip_ruiz_scale(QOCOFloat scale, QOCOFloat cumulative,
+                                 QOCOFloat scaling_min, QOCOFloat scaling_max)
+{
+  if (!isfinite(scale) || scale <= 0.0) {
+    scale = 1.0;
+  }
+  if (!isfinite(cumulative) || cumulative <= 0.0) {
+    cumulative = 1.0;
+  }
+
+  QOCOFloat lower = scaling_min / cumulative;
+  QOCOFloat upper = scaling_max / cumulative;
+  if (scale < lower) {
+    return lower;
+  }
+  if (scale > upper) {
+    return upper;
+  }
+  return scale;
+}
+
+static QOCOFloat norm_to_ruiz_scale(QOCOFloat norm)
+{
+  if (!isfinite(norm) || norm <= 0.0) {
+    return 1.0;
+  }
+  return 1.0 / qoco_sqrt(norm);
+}
+
 void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
-                        QOCOInt ruiz_iters)
+                        QOCOInt ruiz_iters, QOCOFloat ruiz_scaling_min,
+                        QOCOFloat ruiz_scaling_max)
 {
   // This function runs on the CPU.
   set_cpu_mode(1);
@@ -48,7 +78,8 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
 
     // g = 1 / max(mean(Pinf), norm(c, "inf"));
     g = qoco_max(Pinf_mean, g);
-    g = safe_div(1.0, g);
+    g = (isfinite(g) && g > 0.0) ? 1.0 / g : 1.0;
+    g = clip_ruiz_scale(g, scaling->k, ruiz_scaling_min, ruiz_scaling_max);
     scaling->k *= g;
 
     // Compute column infinity norms of A and G
@@ -76,8 +107,10 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
 
     // d(i) = 1 / sqrt(max([Pinf(i), Atinf(i), Gtinf(i)]));
     for (QOCOInt j = 0; j < data->n; ++j) {
-      QOCOFloat temp = qoco_sqrt(get_element_vectorf(scaling->delta, j));
-      temp = safe_div(1.0, temp);
+      QOCOFloat temp =
+          norm_to_ruiz_scale(get_element_vectorf(scaling->delta, j));
+      temp = clip_ruiz_scale(temp, Druiz_data[j], ruiz_scaling_min,
+                             ruiz_scaling_max);
       set_element_vectorf(scaling->delta, j, temp);
     }
 
@@ -88,9 +121,10 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
       col_inf_norm_matrix(data->At, &delta_data[data->n]);
       // d(i) = 1 / sqrt(Ainf(i));
       for (QOCOInt k = 0; k < data->p; ++k) {
-        QOCOFloat temp =
-            qoco_sqrt(get_element_vectorf(scaling->delta, data->n + k));
-        temp = safe_div(1.0, temp);
+        QOCOFloat temp = norm_to_ruiz_scale(
+            get_element_vectorf(scaling->delta, data->n + k));
+        temp = clip_ruiz_scale(temp, Eruiz_data[k], ruiz_scaling_min,
+                               ruiz_scaling_max);
         set_element_vectorf(scaling->delta, data->n + k, temp);
       }
     }
@@ -102,9 +136,10 @@ void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
       col_inf_norm_matrix(data->Gt, &delta_data[data->n + data->p]);
       // d(i) = 1 / sqrt(Ginf(i));
       for (QOCOInt k = 0; k < data->m; ++k) {
-        QOCOFloat temp = qoco_sqrt(
+        QOCOFloat temp = norm_to_ruiz_scale(
             get_element_vectorf(scaling->delta, data->n + data->p + k));
-        temp = safe_div(1.0, temp);
+        temp = clip_ruiz_scale(temp, Fruiz_data[k], ruiz_scaling_min,
+                               ruiz_scaling_max);
         set_element_vectorf(scaling->delta, data->n + data->p + k, temp);
       }
     }
