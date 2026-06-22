@@ -9,8 +9,19 @@
  */
 
 #include "cudss_backend.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "equilibration.h"
+#include "input_validation.h"
+#include "qoco_utils.h"
+#ifdef __cplusplus
+}
+#endif
 #include <dlfcn.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 #define CUDA_CHECK(call)                                                       \
   do {                                                                         \
@@ -46,6 +57,86 @@ static void* g_cudss_handle = NULL;
 static void* g_cusparse_handle = NULL;
 static void* g_cublas_handle = NULL;
 static int g_libs_loaded = 0;
+
+typedef struct {
+  double serial_factor_sec;
+  double serial_solve_sec;
+  long long serial_factor_calls;
+  long long serial_solve_calls;
+  double batch_factor_sec;
+  double batch_solve_sec;
+  long long batch_factor_calls;
+  long long batch_solve_calls;
+} QOCOCudaLinsysTiming;
+
+static QOCOCudaLinsysTiming g_linsys_timing = {0};
+static int g_linsys_timing_enabled = 0;
+
+static double qoco_cuda_now_sec(void)
+{
+  struct timespec ts;
+  clock_gettime(CLOCK_MONOTONIC, &ts);
+  return (double)ts.tv_sec + (double)ts.tv_nsec / 1e9;
+}
+
+extern "C" void qoco_cuda_linsys_timing_reset(void)
+{
+  memset(&g_linsys_timing, 0, sizeof(g_linsys_timing));
+  g_linsys_timing_enabled = 1;
+}
+
+extern "C" void qoco_cuda_linsys_timing_set_enabled(int enabled)
+{
+  g_linsys_timing_enabled = enabled != 0;
+}
+
+extern "C" void qoco_cuda_linsys_timing_get(QOCOCudaLinsysTiming* timing)
+{
+  if (timing) {
+    *timing = g_linsys_timing;
+  }
+}
+
+static void qoco_cuda_timed_cudss_execute(
+    cudssHandle_t handle, cudssPhase_t phase, cudssConfig_t config,
+    cudssData_t data, cudssMatrix_t matA, cudssMatrix_t matB,
+    cudssMatrix_t matC, unsigned char is_batch)
+{
+  if (!g_linsys_timing_enabled ||
+      (phase != CUDSS_PHASE_FACTORIZATION && phase != CUDSS_PHASE_SOLVE)) {
+    CUDSS_CHECK(g_cuda_funcs.cudssExecute(handle, phase, config, data, matA,
+                                          matB, matC));
+    return;
+  }
+
+  CUDA_CHECK(cudaDeviceSynchronize());
+  const double start_sec = qoco_cuda_now_sec();
+  CUDSS_CHECK(g_cuda_funcs.cudssExecute(handle, phase, config, data, matA, matB,
+                                        matC));
+  CUDA_CHECK(cudaDeviceSynchronize());
+  const double elapsed_sec = qoco_cuda_now_sec() - start_sec;
+
+  if (is_batch) {
+    if (phase == CUDSS_PHASE_FACTORIZATION) {
+      g_linsys_timing.batch_factor_sec += elapsed_sec;
+      g_linsys_timing.batch_factor_calls++;
+    }
+    else {
+      g_linsys_timing.batch_solve_sec += elapsed_sec;
+      g_linsys_timing.batch_solve_calls++;
+    }
+  }
+  else {
+    if (phase == CUDSS_PHASE_FACTORIZATION) {
+      g_linsys_timing.serial_factor_sec += elapsed_sec;
+      g_linsys_timing.serial_factor_calls++;
+    }
+    else {
+      g_linsys_timing.serial_solve_sec += elapsed_sec;
+      g_linsys_timing.serial_solve_calls++;
+    }
+  }
+}
 
 // Global accessor for function pointers (for use in cuda_linalg.cu)
 CudaLibFuncs* get_cuda_funcs(void) { return &g_cuda_funcs; }
@@ -109,14 +200,26 @@ int load_cuda_libraries(void)
   g_cuda_funcs.cudssMatrixCreateCsr =
       (typeof(g_cuda_funcs.cudssMatrixCreateCsr))dlsym(g_cudss_handle,
                                                        "cudssMatrixCreateCsr");
+  g_cuda_funcs.cudssMatrixCreateBatchCsr =
+      (typeof(g_cuda_funcs.cudssMatrixCreateBatchCsr))dlsym(
+          g_cudss_handle, "cudssMatrixCreateBatchCsr");
   g_cuda_funcs.cudssExecute =
       (typeof(g_cuda_funcs.cudssExecute))dlsym(g_cudss_handle, "cudssExecute");
   g_cuda_funcs.cudssMatrixCreateDn =
       (typeof(g_cuda_funcs.cudssMatrixCreateDn))dlsym(g_cudss_handle,
                                                       "cudssMatrixCreateDn");
+  g_cuda_funcs.cudssMatrixCreateBatchDn =
+      (typeof(g_cuda_funcs.cudssMatrixCreateBatchDn))dlsym(
+          g_cudss_handle, "cudssMatrixCreateBatchDn");
   g_cuda_funcs.cudssMatrixSetValues =
       (typeof(g_cuda_funcs.cudssMatrixSetValues))dlsym(g_cudss_handle,
                                                        "cudssMatrixSetValues");
+  g_cuda_funcs.cudssMatrixSetBatchValues =
+      (typeof(g_cuda_funcs.cudssMatrixSetBatchValues))dlsym(
+          g_cudss_handle, "cudssMatrixSetBatchValues");
+  g_cuda_funcs.cudssMatrixSetBatchCsrPointers =
+      (typeof(g_cuda_funcs.cudssMatrixSetBatchCsrPointers))dlsym(
+          g_cudss_handle, "cudssMatrixSetBatchCsrPointers");
   g_cuda_funcs.cudssMatrixDestroy =
       (typeof(g_cuda_funcs.cudssMatrixDestroy))dlsym(g_cudss_handle,
                                                      "cudssMatrixDestroy");
@@ -296,6 +399,43 @@ struct LinSysData {
   QOCOInt* d_AttoKKTcsr;
   QOCOInt* d_GttoKKTcsr;
 };
+
+struct CudaBatchLinSysData {
+  QOCOInt batch_count;
+  QOCOInt Kn;
+  QOCOInt nnz;
+
+  cudssHandle_t handle;
+  cudssConfig_t config;
+  cudssData_t data;
+
+  cudssMatrix_t K_batch;
+  cudssMatrix_t rhs_batch;
+  cudssMatrix_t xyz_batch;
+
+  QOCOInt* d_csr_row_ptr;
+  QOCOInt* d_csr_col_ind;
+
+  void** h_csr_row_ptrs;
+  void** h_csr_col_inds;
+  void** h_csr_values;
+  void** h_rhs_values;
+  void** h_xyz_values;
+
+  void** d_csr_row_ptrs;
+  void** d_csr_col_inds;
+  void** d_csr_values;
+  void** d_rhs_values;
+  void** d_xyz_values;
+
+  QOCOInt* h_nrows;
+  QOCOInt* h_ncols;
+  QOCOInt* h_nnz;
+  QOCOInt* h_nrhs;
+  QOCOInt* h_ld;
+};
+
+extern "C" void qoco_cuda_batch_cleanup(QOCOBatchSolver* batch);
 
 // Convert CSC to CSR on CPU and copy to GPU
 static void csc_to_csr_device(const QOCOCscMatrix* csc, QOCOInt** csr_row_ptr,
@@ -519,6 +659,16 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
       valueType_setup, CUDSS_MTYPE_SYMMETRIC, CUDSS_MVIEW_UPPER,
       CUDSS_BASE_ZERO));
 
+  // Create dense matrix wrappers for solution and RHS vectors (column vectors).
+  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateDn(
+      &linsys_data->d_rhs_matrix, (int64_t)linsys_data->Kn, 1,
+      (int64_t)linsys_data->Kn, linsys_data->d_rhs_matrix_data, valueType_setup,
+      CUDSS_LAYOUT_COL_MAJOR));
+  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateDn(
+      &linsys_data->d_xyz_matrix, (int64_t)linsys_data->Kn, 1,
+      (int64_t)linsys_data->Kn, linsys_data->d_xyz_matrix_data, valueType_setup,
+      CUDSS_LAYOUT_COL_MAJOR));
+
   // Run analysis phase.
   QOCOTimer analysis_timer;
   start_timer(&analysis_timer);
@@ -591,18 +741,6 @@ static LinSysData* cudss_setup(QOCOProblemData* data, QOCOSettings* settings,
   qoco_free(h_csr_col_ind);
   qoco_free(csc2csr);
 
-  // Create dense matrix wrappers for solution and RHS vectors (column vectors)
-  // Note: d_rhs_matrix wraps d_rhs_matrix_data, d_xyz_matrix wraps
-  // d_xyz_matrix_data
-  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateDn(
-      &linsys_data->d_rhs_matrix, (int64_t)linsys_data->Kn, 1,
-      (int64_t)linsys_data->Kn, linsys_data->d_rhs_matrix_data, valueType_setup,
-      CUDSS_LAYOUT_COL_MAJOR));
-  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateDn(
-      &linsys_data->d_xyz_matrix, (int64_t)linsys_data->Kn, 1,
-      (int64_t)linsys_data->Kn, linsys_data->d_xyz_matrix_data, valueType_setup,
-      CUDSS_LAYOUT_COL_MAJOR));
-
   return linsys_data;
 }
 
@@ -673,10 +811,10 @@ static void cudss_factor(LinSysData* linsys_data, QOCOInt n,
   (void)n;
   (void)kkt_dynamic_reg;
 
-  CUDSS_CHECK(g_cuda_funcs.cudssExecute(
+  qoco_cuda_timed_cudss_execute(
       linsys_data->handle, CUDSS_PHASE_FACTORIZATION, linsys_data->config,
       linsys_data->data, linsys_data->K_csr, linsys_data->d_xyz_matrix,
-      linsys_data->d_rhs_matrix));
+      linsys_data->d_rhs_matrix, 0);
 }
 
 static void cudss_solve_system(LinSysData* linsys_data, const QOCOFloat* rhs,
@@ -689,10 +827,10 @@ static void cudss_solve_system(LinSysData* linsys_data, const QOCOFloat* rhs,
   CUDA_CHECK(cudaMemset(linsys_data->d_xyz_matrix_data, 0,
                         linsys_data->Kn * sizeof(QOCOFloat)));
 
-  CUDSS_CHECK(g_cuda_funcs.cudssExecute(
+  qoco_cuda_timed_cudss_execute(
       linsys_data->handle, CUDSS_PHASE_SOLVE, linsys_data->config,
       linsys_data->data, linsys_data->K_csr, linsys_data->d_xyz_matrix,
-      linsys_data->d_rhs_matrix));
+      linsys_data->d_rhs_matrix, 0);
 
   if (sol != linsys_data->d_xyz_matrix_data) {
     CUDA_CHECK(cudaMemcpy(sol, linsys_data->d_xyz_matrix_data,
@@ -954,6 +1092,769 @@ static void cudss_cleanup(LinSysData* linsys_data)
   cudaFree(linsys_data->d_AttoKKTcsr);
   cudaFree(linsys_data->d_GttoKKTcsr);
   qoco_free(linsys_data);
+}
+
+static unsigned char cuda_batch_symbols_available(void)
+{
+  return g_cuda_funcs.cudssMatrixCreateBatchCsr &&
+         g_cuda_funcs.cudssMatrixCreateBatchDn;
+}
+
+static void cuda_batch_refresh_value_pointers(QOCOBatchSolver* batch,
+                                              CudaBatchLinSysData* batch_data)
+{
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    LinSysData* linsys_data = (LinSysData*)batch->solvers[item]->linsys_data;
+    batch_data->h_csr_values[item] = (void*)linsys_data->d_csr_val;
+    batch_data->h_rhs_values[item] = (void*)linsys_data->d_rhs_matrix_data;
+    batch_data->h_xyz_values[item] = (void*)linsys_data->d_xyz_matrix_data;
+  }
+
+  CUDA_CHECK(cudaMemcpy(batch_data->d_csr_values, batch_data->h_csr_values,
+                        batch_data->batch_count * sizeof(void*),
+                        cudaMemcpyHostToDevice));
+  CUDA_CHECK(cudaMemcpy(batch_data->d_rhs_values, batch_data->h_rhs_values,
+                        batch_data->batch_count * sizeof(void*),
+                        cudaMemcpyHostToDevice));
+  CUDA_CHECK(cudaMemcpy(batch_data->d_xyz_values, batch_data->h_xyz_values,
+                        batch_data->batch_count * sizeof(void*),
+                        cudaMemcpyHostToDevice));
+}
+
+static QOCOInt cuda_batch_validate_solvers(QOCOBatchSolver* batch)
+{
+  QOCOSolver* first = batch->solvers[0];
+  QOCOProblemData* first_data = first->work->data;
+  QOCOInt first_Pnnz = get_nnz(first_data->P);
+  QOCOInt first_Annz = get_nnz(first_data->A);
+  QOCOInt first_Gnnz = get_nnz(first_data->G);
+
+  for (QOCOInt item = 0; item < batch->batch_count; ++item) {
+    QOCOSolver* solver = batch->solvers[item];
+    if (!solver || !solver->work || !solver->work->data ||
+        !solver->linsys_data) {
+      return QOCO_DATA_VALIDATION_ERROR;
+    }
+
+    QOCOProblemData* data = solver->work->data;
+    if (data->n != first_data->n || data->m != first_data->m ||
+        data->p != first_data->p || data->l != first_data->l ||
+        data->nsoc != first_data->nsoc ||
+        solver->work->Wnnz != first->work->Wnnz ||
+        get_nnz(data->P) != first_Pnnz || get_nnz(data->A) != first_Annz ||
+        get_nnz(data->G) != first_Gnnz) {
+      return QOCO_DATA_VALIDATION_ERROR;
+    }
+  }
+  return QOCO_NO_ERROR;
+}
+
+static QOCOCscMatrix* cuda_batch_construct_reference_kkt(QOCOSolver* solver)
+{
+  QOCOProblemData* data = solver->work->data;
+  QOCOSettings* settings = solver->settings;
+  QOCOCscMatrix* Kcsc = NULL;
+
+  set_cpu_mode(1);
+  Kcsc = construct_kkt(
+      get_csc_matrix(data->P), get_csc_matrix(data->A), get_csc_matrix(data->G),
+      get_csc_matrix(data->At), get_csc_matrix(data->Gt),
+      settings->kkt_static_reg_A, data->n, data->m, data->p, data->l,
+      data->nsoc, get_data_vectori(data->q), NULL, NULL, NULL, NULL, NULL,
+      solver->work->Wnnz);
+  set_cpu_mode(0);
+  return Kcsc;
+}
+
+extern "C" QOCOInt qoco_cuda_batch_setup(QOCOBatchSolver* batch)
+{
+  if (!batch || !batch->solvers || batch->batch_count <= 0) {
+    return qoco_error(QOCO_DATA_VALIDATION_ERROR);
+  }
+
+  if (!load_cuda_libraries()) {
+    fprintf(stderr, "Failed to load CUDA libraries\n");
+    return QOCO_SETUP_ERROR;
+  }
+
+  if (!cuda_batch_symbols_available()) {
+    fprintf(stderr,
+            "Loaded cuDSS does not provide cudssMatrixCreateBatchCsr and "
+            "cudssMatrixCreateBatchDn\n");
+    return QOCO_SETUP_ERROR;
+  }
+
+  QOCOInt validation = cuda_batch_validate_solvers(batch);
+  if (validation != QOCO_NO_ERROR) {
+    return qoco_error((enum qoco_error_code)validation);
+  }
+
+  qoco_cuda_batch_cleanup(batch);
+
+  CudaBatchLinSysData* batch_data =
+      (CudaBatchLinSysData*)qoco_calloc(1, sizeof(CudaBatchLinSysData));
+  if (!batch_data) {
+    return qoco_error(QOCO_MALLOC_ERROR);
+  }
+
+  QOCOSolver* first = batch->solvers[0];
+  QOCOProblemData* first_problem = first->work->data;
+  batch_data->batch_count = batch->batch_count;
+  batch_data->Kn = first_problem->n + first_problem->m + first_problem->p;
+
+  QOCOCscMatrix* Kcsc = cuda_batch_construct_reference_kkt(first);
+  if (!Kcsc) {
+    qoco_free(batch_data);
+    return QOCO_SETUP_ERROR;
+  }
+  batch_data->nnz = Kcsc->nnz;
+
+  QOCOFloat* unused_csr_val = NULL;
+  csc_to_csr_device(Kcsc, &batch_data->d_csr_row_ptr,
+                    &batch_data->d_csr_col_ind, &unused_csr_val, NULL, NULL,
+                    NULL);
+  cudaFree(unused_csr_val);
+  free_qoco_csc_matrix(Kcsc);
+
+  batch_data->h_csr_row_ptrs =
+      (void**)qoco_malloc(batch_data->batch_count * sizeof(void*));
+  batch_data->h_csr_col_inds =
+      (void**)qoco_malloc(batch_data->batch_count * sizeof(void*));
+  batch_data->h_csr_values =
+      (void**)qoco_malloc(batch_data->batch_count * sizeof(void*));
+  batch_data->h_rhs_values =
+      (void**)qoco_malloc(batch_data->batch_count * sizeof(void*));
+  batch_data->h_xyz_values =
+      (void**)qoco_malloc(batch_data->batch_count * sizeof(void*));
+  batch_data->h_nrows =
+      (QOCOInt*)qoco_malloc(batch_data->batch_count * sizeof(QOCOInt));
+  batch_data->h_ncols =
+      (QOCOInt*)qoco_malloc(batch_data->batch_count * sizeof(QOCOInt));
+  batch_data->h_nnz =
+      (QOCOInt*)qoco_malloc(batch_data->batch_count * sizeof(QOCOInt));
+  batch_data->h_nrhs =
+      (QOCOInt*)qoco_malloc(batch_data->batch_count * sizeof(QOCOInt));
+  batch_data->h_ld =
+      (QOCOInt*)qoco_malloc(batch_data->batch_count * sizeof(QOCOInt));
+
+  if (!batch_data->h_csr_row_ptrs || !batch_data->h_csr_col_inds ||
+      !batch_data->h_csr_values || !batch_data->h_rhs_values ||
+      !batch_data->h_xyz_values || !batch_data->h_nrows ||
+      !batch_data->h_ncols || !batch_data->h_nnz || !batch_data->h_nrhs ||
+      !batch_data->h_ld) {
+    batch->batch_linsys_data = batch_data;
+    qoco_cuda_batch_cleanup(batch);
+    return qoco_error(QOCO_MALLOC_ERROR);
+  }
+
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    batch_data->h_csr_row_ptrs[item] = (void*)batch_data->d_csr_row_ptr;
+    batch_data->h_csr_col_inds[item] = (void*)batch_data->d_csr_col_ind;
+    batch_data->h_nrows[item] = batch_data->Kn;
+    batch_data->h_ncols[item] = batch_data->Kn;
+    batch_data->h_nnz[item] = batch_data->nnz;
+    batch_data->h_nrhs[item] = 1;
+    batch_data->h_ld[item] = batch_data->Kn;
+  }
+
+  CUDA_CHECK(cudaMalloc(&batch_data->d_csr_row_ptrs,
+                        batch_data->batch_count * sizeof(void*)));
+  CUDA_CHECK(cudaMalloc(&batch_data->d_csr_col_inds,
+                        batch_data->batch_count * sizeof(void*)));
+  CUDA_CHECK(cudaMalloc(&batch_data->d_csr_values,
+                        batch_data->batch_count * sizeof(void*)));
+  CUDA_CHECK(cudaMalloc(&batch_data->d_rhs_values,
+                        batch_data->batch_count * sizeof(void*)));
+  CUDA_CHECK(cudaMalloc(&batch_data->d_xyz_values,
+                        batch_data->batch_count * sizeof(void*)));
+
+  CUDA_CHECK(cudaMemcpy(batch_data->d_csr_row_ptrs,
+                        batch_data->h_csr_row_ptrs,
+                        batch_data->batch_count * sizeof(void*),
+                        cudaMemcpyHostToDevice));
+  CUDA_CHECK(cudaMemcpy(batch_data->d_csr_col_inds,
+                        batch_data->h_csr_col_inds,
+                        batch_data->batch_count * sizeof(void*),
+                        cudaMemcpyHostToDevice));
+
+  cuda_batch_refresh_value_pointers(batch, batch_data);
+
+  CUDSS_CHECK(g_cuda_funcs.cudssCreate(&batch_data->handle));
+  CUDSS_CHECK(g_cuda_funcs.cudssConfigCreate(&batch_data->config));
+  CUDSS_CHECK(
+      g_cuda_funcs.cudssDataCreate(batch_data->handle, &batch_data->data));
+  int value = 0;
+  CUDSS_CHECK(g_cuda_funcs.cudssConfigSet(batch_data->config,
+                                          CUDSS_CONFIG_USE_SUPERPANELS,
+                                          (void*)&value, sizeof(int)));
+
+  cudaDataType_t value_type =
+      (sizeof(QOCOFloat) == 8) ? CUDA_R_64F : CUDA_R_32F;
+
+  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateBatchDn(
+      &batch_data->rhs_batch, (int64_t)batch_data->batch_count,
+      batch_data->h_nrows, batch_data->h_nrhs, batch_data->h_ld,
+      batch_data->d_rhs_values, CUDA_R_32I, value_type,
+      CUDSS_LAYOUT_COL_MAJOR));
+  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateBatchDn(
+      &batch_data->xyz_batch, (int64_t)batch_data->batch_count,
+      batch_data->h_nrows, batch_data->h_nrhs, batch_data->h_ld,
+      batch_data->d_xyz_values, CUDA_R_32I, value_type,
+      CUDSS_LAYOUT_COL_MAJOR));
+  CUDSS_CHECK(g_cuda_funcs.cudssMatrixCreateBatchCsr(
+      &batch_data->K_batch, (int64_t)batch_data->batch_count,
+      batch_data->h_nrows, batch_data->h_ncols, batch_data->h_nnz,
+      batch_data->d_csr_row_ptrs, NULL, batch_data->d_csr_col_inds,
+      batch_data->d_csr_values, CUDA_R_32I, value_type,
+      CUDSS_MTYPE_SYMMETRIC, CUDSS_MVIEW_UPPER, CUDSS_BASE_ZERO));
+
+  CUDSS_CHECK(g_cuda_funcs.cudssExecute(
+      batch_data->handle, CUDSS_PHASE_ANALYSIS, batch_data->config,
+      batch_data->data, batch_data->K_batch, batch_data->xyz_batch,
+      batch_data->rhs_batch));
+
+  batch->batch_linsys_data = batch_data;
+  batch->batch_linsys_stale = 0;
+  return QOCO_NO_ERROR;
+}
+
+extern "C" void qoco_cuda_batch_cleanup(QOCOBatchSolver* batch)
+{
+  if (!batch || !batch->batch_linsys_data) {
+    return;
+  }
+
+  CudaBatchLinSysData* batch_data =
+      (CudaBatchLinSysData*)batch->batch_linsys_data;
+
+  if (g_libs_loaded) {
+    if (batch_data->K_batch) {
+      g_cuda_funcs.cudssMatrixDestroy(batch_data->K_batch);
+    }
+    if (batch_data->rhs_batch) {
+      g_cuda_funcs.cudssMatrixDestroy(batch_data->rhs_batch);
+    }
+    if (batch_data->xyz_batch) {
+      g_cuda_funcs.cudssMatrixDestroy(batch_data->xyz_batch);
+    }
+    if (batch_data->data) {
+      g_cuda_funcs.cudssDataDestroy(batch_data->handle, batch_data->data);
+    }
+    if (batch_data->config) {
+      g_cuda_funcs.cudssConfigDestroy(batch_data->config);
+    }
+    if (batch_data->handle) {
+      g_cuda_funcs.cudssDestroy(batch_data->handle);
+    }
+  }
+
+  cudaFree(batch_data->d_csr_row_ptr);
+  cudaFree(batch_data->d_csr_col_ind);
+  cudaFree(batch_data->d_csr_row_ptrs);
+  cudaFree(batch_data->d_csr_col_inds);
+  cudaFree(batch_data->d_csr_values);
+  cudaFree(batch_data->d_rhs_values);
+  cudaFree(batch_data->d_xyz_values);
+
+  qoco_free(batch_data->h_csr_row_ptrs);
+  qoco_free(batch_data->h_csr_col_inds);
+  qoco_free(batch_data->h_csr_values);
+  qoco_free(batch_data->h_rhs_values);
+  qoco_free(batch_data->h_xyz_values);
+  qoco_free(batch_data->h_nrows);
+  qoco_free(batch_data->h_ncols);
+  qoco_free(batch_data->h_nnz);
+  qoco_free(batch_data->h_nrhs);
+  qoco_free(batch_data->h_ld);
+  qoco_free(batch_data);
+
+  batch->batch_linsys_data = NULL;
+  batch->batch_linsys_stale = 1;
+}
+
+static void cuda_batch_set_matrix_values(CudaBatchLinSysData* batch_data)
+{
+  if (g_cuda_funcs.cudssMatrixSetBatchValues) {
+    CUDSS_CHECK(g_cuda_funcs.cudssMatrixSetBatchValues(
+        batch_data->K_batch, batch_data->d_csr_values));
+  }
+}
+
+static void cuda_batch_set_nt_identity(QOCOBatchSolver* batch,
+                                       CudaBatchLinSysData* batch_data,
+                                       const unsigned char* active)
+{
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    if (active && !active[item]) {
+      continue;
+    }
+    QOCOSolver* solver = batch->solvers[item];
+    cudss_set_nt_identity((LinSysData*)solver->linsys_data,
+                          solver->work->data->m);
+  }
+  cuda_batch_set_matrix_values(batch_data);
+}
+
+static void cuda_batch_update_nt(QOCOBatchSolver* batch,
+                                 CudaBatchLinSysData* batch_data,
+                                 const unsigned char* active)
+{
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    if (active && !active[item]) {
+      continue;
+    }
+    QOCOSolver* solver = batch->solvers[item];
+    cudss_update_nt((LinSysData*)solver->linsys_data, solver->work->WtW,
+                    solver->settings->kkt_static_reg_G,
+                    solver->work->data->m);
+  }
+  cuda_batch_set_matrix_values(batch_data);
+}
+
+static void cuda_batch_factor(CudaBatchLinSysData* batch_data)
+{
+  qoco_cuda_timed_cudss_execute(
+      batch_data->handle, CUDSS_PHASE_FACTORIZATION, batch_data->config,
+      batch_data->data, batch_data->K_batch, batch_data->xyz_batch,
+      batch_data->rhs_batch, 1);
+}
+
+static void cuda_batch_execute_solve(CudaBatchLinSysData* batch_data)
+{
+  qoco_cuda_timed_cudss_execute(
+      batch_data->handle, CUDSS_PHASE_SOLVE, batch_data->config,
+      batch_data->data, batch_data->K_batch, batch_data->xyz_batch,
+      batch_data->rhs_batch, 1);
+}
+
+static void cuda_batch_pack_rhs(QOCOBatchSolver* batch,
+                                CudaBatchLinSysData* batch_data,
+                                const unsigned char* active,
+                                unsigned char use_residual)
+{
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    LinSysData* linsys_data = (LinSysData*)batch->solvers[item]->linsys_data;
+    if (active && !active[item]) {
+      CUDA_CHECK(cudaMemset(linsys_data->d_rhs_matrix_data, 0,
+                            batch_data->Kn * sizeof(QOCOFloat)));
+    }
+    else {
+      QOCOFloat* rhs =
+          use_residual ? linsys_data->d_xyz_matrix_data
+                       : get_data_vectorf(batch->solvers[item]->work->rhs);
+      CUDA_CHECK(cudaMemcpy(linsys_data->d_rhs_matrix_data, rhs,
+                            batch_data->Kn * sizeof(QOCOFloat),
+                            cudaMemcpyDeviceToDevice));
+    }
+    CUDA_CHECK(cudaMemset(linsys_data->d_xyz_matrix_data, 0,
+                          batch_data->Kn * sizeof(QOCOFloat)));
+  }
+}
+
+static void cuda_batch_copy_solve_output(QOCOBatchSolver* batch,
+                                         CudaBatchLinSysData* batch_data,
+                                         const unsigned char* active)
+{
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    if (active && !active[item]) {
+      continue;
+    }
+    LinSysData* linsys_data = (LinSysData*)batch->solvers[item]->linsys_data;
+    QOCOFloat* x = get_data_vectorf(batch->solvers[item]->work->xyz);
+    CUDA_CHECK(cudaMemcpy(x, linsys_data->d_xyz_matrix_data,
+                          batch_data->Kn * sizeof(QOCOFloat),
+                          cudaMemcpyDeviceToDevice));
+  }
+}
+
+static unsigned char cuda_batch_any_active(const unsigned char* active,
+                                           QOCOInt n)
+{
+  for (QOCOInt i = 0; i < n; ++i) {
+    if (active[i]) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+static void cuda_batch_solve_refined(QOCOBatchSolver* batch,
+                                     CudaBatchLinSysData* batch_data,
+                                     const unsigned char* active)
+{
+  cuda_batch_pack_rhs(batch, batch_data, active, 0);
+  cuda_batch_execute_solve(batch_data);
+  cuda_batch_copy_solve_output(batch, batch_data, active);
+
+  unsigned char* refine_active =
+      (unsigned char*)qoco_calloc(batch_data->batch_count, sizeof(unsigned char));
+  QOCOInt* ir_used =
+      (QOCOInt*)qoco_calloc(batch_data->batch_count, sizeof(QOCOInt));
+  QOCOFloat* best_res =
+      (QOCOFloat*)qoco_calloc(batch_data->batch_count, sizeof(QOCOFloat));
+  if (!refine_active || !ir_used || !best_res) {
+    qoco_free(refine_active);
+    qoco_free(ir_used);
+    qoco_free(best_res);
+    return;
+  }
+
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    if (active && !active[item]) {
+      continue;
+    }
+
+    QOCOSolver* solver = batch->solvers[item];
+    LinSysData* linsys_data = (LinSysData*)solver->linsys_data;
+    QOCOWorkspace* work = solver->work;
+    QOCOFloat* x = get_data_vectorf(work->xyz);
+    QOCOFloat* b = get_data_vectorf(work->rhs);
+    QOCOFloat* best_sol = get_data_vectorf(work->xyzbuff1);
+
+    best_res[item] =
+        compute_linsys_residual(linsys_data, work, b, x,
+                                linsys_data->d_xyz_matrix_data);
+    copy_arrayf(x, best_sol, batch_data->Kn);
+    refine_active[item] =
+        (best_res[item] >= solver->settings->ir_tol &&
+         solver->settings->max_ir_iters > 0);
+  }
+
+  while (cuda_batch_any_active(refine_active, batch_data->batch_count)) {
+    cuda_batch_pack_rhs(batch, batch_data, refine_active, 1);
+    cuda_batch_execute_solve(batch_data);
+
+    for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+      if (!refine_active[item]) {
+        continue;
+      }
+
+      QOCOSolver* solver = batch->solvers[item];
+      LinSysData* linsys_data = (LinSysData*)solver->linsys_data;
+      QOCOWorkspace* work = solver->work;
+      QOCOFloat* x = get_data_vectorf(work->xyz);
+      QOCOFloat* b = get_data_vectorf(work->rhs);
+      QOCOFloat* best_sol = get_data_vectorf(work->xyzbuff1);
+
+      qoco_axpy(linsys_data->d_xyz_matrix_data, x, x, 1.0, batch_data->Kn);
+      QOCOFloat new_res =
+          compute_linsys_residual(linsys_data, work, b, x,
+                                  linsys_data->d_xyz_matrix_data);
+
+      if (new_res >= best_res[item]) {
+        copy_arrayf(best_sol, x, batch_data->Kn);
+        refine_active[item] = 0;
+        continue;
+      }
+
+      ir_used[item]++;
+      best_res[item] = new_res;
+      copy_arrayf(x, best_sol, batch_data->Kn);
+      refine_active[item] =
+          (new_res >= solver->settings->ir_tol &&
+           ir_used[item] < solver->settings->max_ir_iters);
+    }
+  }
+
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    if (!active || active[item]) {
+      batch->solvers[item]->work->ir_iters += ir_used[item];
+    }
+  }
+
+  qoco_free(refine_active);
+  qoco_free(ir_used);
+  qoco_free(best_res);
+}
+
+static void cuda_batch_finish_item(QOCOSolver* solver)
+{
+  QOCOWorkspace* work = solver->work;
+  stop_timer(&(work->solve_timer));
+
+  unsigned char restored = 0;
+  if (solver->sol->status == QOCO_NUMERICAL_ERROR) {
+    restored = restore_best_iterate(solver);
+  }
+  unscale_variables(work);
+  copy_solution(solver);
+  if (solver->settings->verbose) {
+    if (restored) {
+      printf("Best iterate (%d) restored\n", work->best_iter);
+    }
+    print_footer(solver->sol,
+                 (enum qoco_solve_status)solver->sol->status);
+  }
+}
+
+static void cuda_batch_initialize_ipm(QOCOBatchSolver* batch,
+                                      CudaBatchLinSysData* batch_data,
+                                      unsigned char* active)
+{
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    QOCOSolver* solver = batch->solvers[item];
+    QOCOWorkspace* work = solver->work;
+    QOCOProblemData* data = work->data;
+
+    set_Wfull_identity(work->Wfull, work->Wnnzfull, work->Wsoc_idx, data);
+    work->a = 1.0;
+
+    QOCOFloat* rhs = get_data_vectorf(work->rhs);
+    copy_and_negate_arrayf(get_data_vectorf(data->c), rhs, data->n);
+    copy_arrayf(get_data_vectorf(data->b), &rhs[data->n], data->p);
+    copy_arrayf(get_data_vectorf(data->h), &rhs[data->n + data->p], data->m);
+  }
+
+  cuda_batch_set_nt_identity(batch, batch_data, active);
+  cuda_batch_factor(batch_data);
+  cuda_batch_solve_refined(batch, batch_data, active);
+
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    QOCOSolver* solver = batch->solvers[item];
+    QOCOWorkspace* work = solver->work;
+    QOCOProblemData* data = work->data;
+    QOCOFloat* xyz = get_data_vectorf(work->xyz);
+
+    copy_arrayf(xyz, get_data_vectorf(work->x), data->n);
+    copy_arrayf(&xyz[data->n], get_data_vectorf(work->y), data->p);
+    copy_arrayf(&xyz[data->n + data->p], get_data_vectorf(work->z), data->m);
+    copy_and_negate_arrayf(&xyz[data->n + data->p], get_data_vectorf(work->s),
+                           data->m);
+
+    bring2cone(get_data_vectorf(work->s), get_data_vectori(work->soc_idx),
+               data);
+    bring2cone(get_data_vectorf(work->z), get_data_vectori(work->soc_idx),
+               data);
+
+    if (work->use_x0) {
+      QOCOFloat* x0 = get_data_vectorf(work->x0);
+      QOCOFloat* x = get_data_vectorf(work->x);
+      QOCOFloat* Dinvruiz = get_data_vectorf(work->scaling->Dinvruiz);
+      ew_product(x0, Dinvruiz, x, data->n);
+
+      if (data->m > 0) {
+        QOCOFloat* s = get_data_vectorf(work->s);
+        QOCOFloat* h = get_data_vectorf(data->h);
+        SpMv(data->G, x, s);
+        qoco_axpy(s, h, s, -1.0, data->m);
+        bring2cone(s, get_data_vectori(work->soc_idx), data);
+      }
+    }
+  }
+}
+
+static void cuda_batch_after_affine_solve(QOCOBatchSolver* batch,
+                                          CudaBatchLinSysData* batch_data,
+                                          const unsigned char* active)
+{
+  (void)batch_data;
+  for (QOCOInt item = 0; item < batch->batch_count; ++item) {
+    if (active && !active[item]) {
+      continue;
+    }
+    QOCOSolver* solver = batch->solvers[item];
+    QOCOWorkspace* work = solver->work;
+    QOCOProblemData* data = work->data;
+
+    QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+    QOCOInt* Wsoc_idx = get_data_vectori(work->Wsoc_idx);
+    QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
+    QOCOFloat* lambda = get_data_vectorf(work->lambda);
+    QOCOFloat* Ds = get_data_vectorf(work->Ds);
+    QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+    QOCOInt* q = get_data_vectori(data->q);
+    QOCOFloat* xyz = get_data_vectorf(work->xyz);
+    QOCOFloat* Dzaff = &xyz[data->n + data->p];
+
+    nt_multiply(Wfull, Wsoc_idx, soc_idx, Dzaff, ubuff1, data->l, data->m,
+                data->nsoc, q);
+    copy_and_negate_arrayf(ubuff1, ubuff1, data->m);
+    qoco_axpy(lambda, ubuff1, ubuff1, -1.0, data->m);
+    nt_multiply(Wfull, Wsoc_idx, soc_idx, ubuff1, Ds, data->l, data->m,
+                data->nsoc, q);
+
+    compute_centering(solver);
+    construct_kkt_comb_rhs(work);
+  }
+}
+
+static void cuda_batch_after_combined_solve(QOCOBatchSolver* batch,
+                                            CudaBatchLinSysData* batch_data,
+                                            const unsigned char* active,
+                                            QOCOInt iter)
+{
+  (void)batch_data;
+  for (QOCOInt item = 0; item < batch->batch_count; ++item) {
+    if (active && !active[item]) {
+      continue;
+    }
+
+    QOCOSolver* solver = batch->solvers[item];
+    QOCOWorkspace* work = solver->work;
+    QOCOProblemData* data = work->data;
+
+    if (check_nan(work->xyz)) {
+      work->a = 0.0;
+      solver->sol->iters = iter;
+      solver->sol->ir_iters += work->ir_iters;
+      continue;
+    }
+
+    QOCOFloat* Wfull = get_data_vectorf(work->Wfull);
+    QOCOInt* Wsoc_idx = get_data_vectori(work->Wsoc_idx);
+    QOCOInt* soc_idx = get_data_vectori(work->soc_idx);
+    QOCOFloat* lambda = get_data_vectorf(work->lambda);
+    QOCOFloat* Ds = get_data_vectorf(work->Ds);
+    QOCOFloat* ubuff1 = get_data_vectorf(work->ubuff1);
+    QOCOFloat* ubuff2 = get_data_vectorf(work->ubuff2);
+    QOCOFloat* ubuff3 = get_data_vectorf(work->ubuff3);
+    QOCOInt* q = get_data_vectori(data->q);
+    QOCOFloat* xyz = get_data_vectorf(work->xyz);
+    QOCOFloat* Dz = &xyz[data->n + data->p];
+
+    cone_division(lambda, Ds, ubuff1, data->l, data->nsoc, q, soc_idx);
+    nt_multiply(Wfull, Wsoc_idx, soc_idx, Dz, ubuff2, data->l, data->m,
+                data->nsoc, q);
+    qoco_axpy(ubuff2, ubuff1, ubuff3, -1.0, data->m);
+    nt_multiply(Wfull, Wsoc_idx, soc_idx, ubuff3, Ds, data->l, data->m,
+                data->nsoc, q);
+
+    QOCOFloat a =
+        qoco_min(linesearch(get_data_vectorf(work->s), Ds, 0.99, solver),
+                 linesearch(get_data_vectorf(work->z), Dz, 0.99, solver));
+    work->a = a;
+
+    QOCOFloat* Dx = xyz;
+    QOCOFloat* Dy = &xyz[data->n];
+    qoco_axpy(Dx, get_data_vectorf(work->x), get_data_vectorf(work->x), a,
+              data->n);
+    qoco_axpy(Ds, get_data_vectorf(work->s), get_data_vectorf(work->s), a,
+              data->m);
+    qoco_axpy(Dy, get_data_vectorf(work->y), get_data_vectorf(work->y), a,
+              data->p);
+    qoco_axpy(Dz, get_data_vectorf(work->z), get_data_vectorf(work->z), a,
+              data->m);
+
+    solver->sol->iters = iter;
+    solver->sol->ir_iters += work->ir_iters;
+    if (solver->settings->verbose) {
+      log_iter(solver);
+    }
+  }
+}
+
+extern "C" QOCOInt qoco_cuda_batch_solve(QOCOBatchSolver* batch)
+{
+  if (!batch || !batch->solvers || !batch->statuses) {
+    return qoco_error(QOCO_DATA_VALIDATION_ERROR);
+  }
+
+  if (!batch->batch_linsys_data || batch->batch_linsys_stale) {
+    QOCOInt exit = qoco_cuda_batch_setup(batch);
+    if (exit != QOCO_NO_ERROR) {
+      return exit;
+    }
+  }
+
+  CudaBatchLinSysData* batch_data =
+      (CudaBatchLinSysData*)batch->batch_linsys_data;
+  cuda_batch_refresh_value_pointers(batch, batch_data);
+
+  unsigned char* active =
+      (unsigned char*)qoco_calloc(batch_data->batch_count, sizeof(unsigned char));
+  if (!active) {
+    return qoco_error(QOCO_MALLOC_ERROR);
+  }
+
+  QOCOInt max_iters = 0;
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    QOCOSolver* solver = batch->solvers[item];
+    if (qoco_validate_settings(solver->settings)) {
+      qoco_free(active);
+      return qoco_error(QOCO_SETTINGS_VALIDATION_ERROR);
+    }
+    active[item] = 1;
+    batch->statuses[item] = QOCO_UNSOLVED;
+    solver->sol->status = QOCO_UNSOLVED;
+    max_iters = qoco_max(max_iters, solver->settings->max_iters);
+    start_timer(&(solver->work->solve_timer));
+    if (solver->settings->verbose) {
+      print_header(solver);
+    }
+  }
+
+  log_ipm_iter(0);
+  cuda_batch_initialize_ipm(batch, batch_data, active);
+
+  for (QOCOInt iter = 1; iter <= max_iters; ++iter) {
+    for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+      if (!active[item]) {
+        continue;
+      }
+
+      QOCOSolver* solver = batch->solvers[item];
+      QOCOWorkspace* work = solver->work;
+      QOCOProblemData* data = work->data;
+
+      compute_kkt_residual(data, work->x, work->y, work->s, work->z,
+                           work->kktres, solver->settings->kkt_static_reg_P,
+                           work->xyzbuff1, work->xbuff, work->ubuff1);
+      solver->sol->obj = compute_objective(
+          data, work->x, work->xbuff, solver->settings->kkt_static_reg_P,
+          work->scaling->k);
+      work->mu = compute_mu(work->s, work->z, data->m);
+
+      if (check_stopping(solver)) {
+        cuda_batch_finish_item(solver);
+        batch->statuses[item] = solver->sol->status;
+        active[item] = 0;
+      }
+    }
+
+    if (!cuda_batch_any_active(active, batch_data->batch_count)) {
+      qoco_free(active);
+      return QOCO_NO_ERROR;
+    }
+
+    log_ipm_iter(iter);
+
+    for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+      if (!active[item]) {
+        continue;
+      }
+      QOCOSolver* solver = batch->solvers[item];
+      compute_nt_scaling(solver->work);
+      solver->work->ir_iters = 0;
+    }
+
+    cuda_batch_update_nt(batch, batch_data, active);
+    cuda_batch_factor(batch_data);
+
+    for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+      if (active[item]) {
+        construct_kkt_aff_rhs(batch->solvers[item]->work);
+      }
+    }
+    cuda_batch_solve_refined(batch, batch_data, active);
+
+    cuda_batch_after_affine_solve(batch, batch_data, active);
+    cuda_batch_solve_refined(batch, batch_data, active);
+    cuda_batch_after_combined_solve(batch, batch_data, active, iter);
+  }
+
+  for (QOCOInt item = 0; item < batch_data->batch_count; ++item) {
+    if (!active[item]) {
+      continue;
+    }
+    QOCOSolver* solver = batch->solvers[item];
+    solver->sol->status = QOCO_MAX_ITER;
+    restore_best_iterate(solver);
+    cuda_batch_finish_item(solver);
+    batch->statuses[item] = solver->sol->status;
+  }
+
+  qoco_free(active);
+  return QOCO_NO_ERROR;
 }
 
 static const char* cudss_name() { return "cuda/cuDSS"; }
