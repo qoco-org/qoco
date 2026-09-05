@@ -471,9 +471,9 @@
 </dd></dl>
 
 <dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace8WnnzfullE">
-<span id="_CPPv3N13QOCOWorkspace8WnnzfullE"></span><span id="_CPPv2N13QOCOWorkspace8WnnzfullE"></span><span id="QOCOWorkspace::Wnnzfull__QOCOInt"></span><span class="target" id="structQOCOWorkspace_1a266fcd28cf2cfd16369a1f3e7f55bc38"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Wnnzfull</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace8WnnzfullE" title="Link to this definition"></a><br /></dt>
-<dd><p>Number of nonzeros in full Nesterov-Todd Scaling. </p>
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace14nt_scaling_nnzE">
+<span id="_CPPv3N13QOCOWorkspace14nt_scaling_nnzE"></span><span id="_CPPv2N13QOCOWorkspace14nt_scaling_nnzE"></span><span id="QOCOWorkspace::nt_scaling_nnz__QOCOInt"></span><span class="target" id="structQOCOWorkspace_1afd1bb52e670c89479dd708f72d76fd75"></span><span class="n"><span class="pre">QOCOInt</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nt_scaling_nnz</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace14nt_scaling_nnzE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of entries in nt_scaling. </p>
 </dd></dl>
 
 <dl class="cpp var">
@@ -483,9 +483,9 @@
 </dd></dl>
 
 <dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace5WfullE">
-<span id="_CPPv3N13QOCOWorkspace5WfullE"></span><span id="_CPPv2N13QOCOWorkspace5WfullE"></span><span id="QOCOWorkspace::Wfull__QOCOVectorfP"></span><span class="target" id="structQOCOWorkspace_1a2783299c20c4a9b9e9cfd7826fe12663"></span><span class="n"><span class="pre">QOCOVectorf</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Wfull</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace5WfullE" title="Link to this definition"></a><br /></dt>
-<dd><p>Full Nesterov-Todd Scaling </p>
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace10nt_scalingE">
+<span id="_CPPv3N13QOCOWorkspace10nt_scalingE"></span><span id="_CPPv2N13QOCOWorkspace10nt_scalingE"></span><span id="QOCOWorkspace::nt_scaling__QOCOVectorfP"></span><span class="target" id="structQOCOWorkspace_1a928683d5045f29cbfcad84dcf29fb012"></span><span class="n"><span class="pre">QOCOVectorf</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">nt_scaling</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace10nt_scalingE" title="Link to this definition"></a><br /></dt>
+<dd><p>NT scaling data used by nt_multiply(). Shared layout across backends: LP entries: scalar scales sqrt(s_i / z_i), length l. SOC i block: [eta, w0, w1[0], …, w1[q_i - 2]], length q_i + 1. </p>
 </dd></dl>
 
 <dl class="cpp var">
@@ -495,21 +495,15 @@
 </dd></dl>
 
 <dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace8WinvfullE">
-<span id="_CPPv3N13QOCOWorkspace8WinvfullE"></span><span id="_CPPv2N13QOCOWorkspace8WinvfullE"></span><span id="QOCOWorkspace::Winvfull__QOCOVectorfP"></span><span class="target" id="structQOCOWorkspace_1a1fb66a45700355299f1bb7ab982d34bc"></span><span class="n"><span class="pre">QOCOVectorf</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Winvfull</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace8WinvfullE" title="Link to this definition"></a><br /></dt>
-<dd><p>Full inverse of Nesterov-Todd Scaling </p>
-</dd></dl>
-
-<dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace3WtWE">
 <span id="_CPPv3N13QOCOWorkspace3WtWE"></span><span id="_CPPv2N13QOCOWorkspace3WtWE"></span><span id="QOCOWorkspace::WtW__QOCOVectorfP"></span><span class="target" id="structQOCOWorkspace_1a3861100e66e84d8ef41a4f9aaed0ad42"></span><span class="n"><span class="pre">QOCOVectorf</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">WtW</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace3WtWE" title="Link to this definition"></a><br /></dt>
 <dd><p>Nesterov-Todd Scaling squared </p>
 </dd></dl>
 
 <dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace8Wsoc_idxE">
-<span id="_CPPv3N13QOCOWorkspace8Wsoc_idxE"></span><span id="_CPPv2N13QOCOWorkspace8Wsoc_idxE"></span><span id="QOCOWorkspace::Wsoc_idx__QOCOVectoriP"></span><span class="target" id="structQOCOWorkspace_1a4f5f84c9ecd0b710f5faff71f855117c"></span><span class="n"><span class="pre">QOCOVectori</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">Wsoc_idx</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace8Wsoc_idxE" title="Link to this definition"></a><br /></dt>
-<dd><p>Vector which points to the start of the ith soc block in Wfull </p>
+<dt class="sig sig-object cpp" id="_CPPv4N13QOCOWorkspace18nt_scaling_soc_idxE">
+<span id="_CPPv3N13QOCOWorkspace18nt_scaling_soc_idxE"></span><span id="_CPPv2N13QOCOWorkspace18nt_scaling_soc_idxE"></span><span id="QOCOWorkspace::nt_scaling_soc_idx__QOCOVectoriP"></span><span class="target" id="structQOCOWorkspace_1aa07279731cb1d7a4f3366c1e850c619e"></span><span class="n"><span class="pre">QOCOVectori</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">nt_scaling_soc_idx</span></span></span><a class="headerlink" href="#_CPPv4N13QOCOWorkspace18nt_scaling_soc_idxE" title="Link to this definition"></a><br /></dt>
+<dd><p>Vector which points to the start of the ith SOC block in nt_scaling. </p>
 </dd></dl>
 
 <dl class="cpp var">

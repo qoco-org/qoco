@@ -93,13 +93,13 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cvxpygen</span><span class="w"> </span><span class="kn">import</span> <span class="n">cpg</span>
 
 <span class="c1"># problem is a CVXPY problem</span>
-<span class="n">cpg</span><span class="o">.</span><span class="n">generate_code</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">code_dir</span><span class="o">=</span><span class="s1">&#39;solver_directory&#39;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;QOCOGEN&#39;</span><span class="p">)</span>
+<span class="n">cpg</span><span class="o">.</span><span class="n">generate_code</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">code_dir</span><span class="o">=</span><span class="s1">'solver_directory'</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">'QOCOGEN'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To call the custom solver through CVXPYgen, run</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">solver_directory.cpg_solver</span><span class="w"> </span><span class="kn">import</span> <span class="n">cpg_solve</span>
-<span class="n">problem</span><span class="o">.</span><span class="n">register_solve</span><span class="p">(</span><span class="s1">&#39;CPG&#39;</span><span class="p">,</span> <span class="n">cpg_solve</span><span class="p">)</span>
-<span class="n">problem</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;CPG&#39;</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">problem</span><span class="o">.</span><span class="n">register_solve</span><span class="p">(</span><span class="s1">'CPG'</span><span class="p">,</span> <span class="n">cpg_solve</span><span class="p">)</span>
+<span class="n">problem</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'CPG'</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where we set the <code class="code docutils literal notranslate"><span class="pre">max_iters</span></code> option to <code class="code docutils literal notranslate"><span class="pre">100</span></code>. For a full list of settings that can be changed, refer to <a class="reference internal" href="../qoco/api/settings.html#settings"><span class="std std-ref">settings</span></a>.</p>

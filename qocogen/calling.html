@@ -90,7 +90,7 @@
 <span id="calling"></span><h1>Calling Custom Solver<a class="headerlink" href="#calling-custom-solver" title="Link to this heading"></a></h1>
 <p>Currently the only way to call the custom solver is using C. Remember that the <code class="code docutils literal notranslate"><span class="pre">qoco_custom</span></code> can only solve problems within the problem family that was specified when the solver was generated. Here we will assume that the solver was generated using the code that we generated in section <a class="reference internal" href="generate.html#generate"><span class="std std-ref">generate</span></a>.</p>
 <p>Below is sample code to call <code class="code docutils literal notranslate"><span class="pre">qoco_custom</span></code> in a file called <code class="code docutils literal notranslate"><span class="pre">run.c</span></code>.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;qoco_custom.h&quot;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"qoco_custom.h"</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
@@ -108,7 +108,7 @@
 <span class="w">  </span><span class="n">qoco_custom_solve</span><span class="p">(</span><span class="o">&amp;</span><span class="n">work</span><span class="p">);</span>
 
 <span class="w">  </span><span class="c1">// Print optimal objective.</span>
-<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">obj: %f&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">.</span><span class="n">sol</span><span class="p">.</span><span class="n">obj</span><span class="p">);</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">obj: %f"</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">.</span><span class="n">sol</span><span class="p">.</span><span class="n">obj</span><span class="p">);</span>
 
 <span class="w">  </span><span class="c1">// Update A to [2 2 0 0;0 2 2 0].</span>
 <span class="w">  </span><span class="n">work</span><span class="p">.</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
@@ -120,7 +120,7 @@
 <span class="w">  </span><span class="n">qoco_custom_solve</span><span class="p">(</span><span class="o">&amp;</span><span class="n">work</span><span class="p">);</span>
 
 <span class="w">  </span><span class="c1">// Print optimal objective.</span>
-<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">obj: %f&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">.</span><span class="n">sol</span><span class="p">.</span><span class="n">obj</span><span class="p">);</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">obj: %f"</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">.</span><span class="n">sol</span><span class="p">.</span><span class="n">obj</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
