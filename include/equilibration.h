@@ -39,7 +39,8 @@
 
  */
 void ruiz_equilibration(QOCOProblemData* data, QOCOScaling* scaling,
-                        QOCOInt ruiz_iters);
+                        QOCOInt ruiz_iters, QOCOFloat ruiz_scaling_min,
+                        QOCOFloat ruiz_scaling_max);
 
 /**
  * @brief Undo variable transformation induced by ruiz equilibration.
