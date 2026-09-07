@@ -400,4 +400,25 @@ typedef struct {
 
 } QOCOSolver;
 
+/**
+ * @brief Batch solver struct. Owns a set of QOCO solver instances with common
+ * dimensions and sparsity structure.
+ */
+typedef struct {
+  /** Number of solver instances in the batch. */
+  QOCOInt batch_count;
+
+  /** Solver instances owned by the batch solver. */
+  QOCOSolver** solvers;
+
+  /** Solve status for each batch item. */
+  QOCOInt* statuses;
+
+  /** Backend-specific batch linear-system data. */
+  void* batch_linsys_data;
+
+  /** Whether backend-specific batch data needs to be rebuilt. */
+  unsigned char batch_linsys_stale;
+} QOCOBatchSolver;
+
 #endif /* #ifndef QOCO_STRUCTS_H */

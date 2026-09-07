@@ -41,15 +41,31 @@ typedef struct {
       cudssMatrix_t* mat, int64_t rows, int64_t cols, int64_t nnz,
       void* csrRowPtr, void* csrRowPtr_type, void* csrColInd, void* csrVal,
       cudaDataType_t idxType, cudaDataType_t valType, cudssMatrixType_t type,
-      int view, cudssIndexBase_t base);
+      cudssMatrixViewType_t view, cudssIndexBase_t base);
+  cudssStatus_t (*cudssMatrixCreateBatchCsr)(
+      cudssMatrix_t* mat, int64_t batchCount, void* nrows, void* ncols,
+      void* nnz, void** rowStart, void** rowEnd, void** colIndices,
+      void** values, cudaDataType_t indexType, cudaDataType_t valueType,
+      cudssMatrixType_t mtype, cudssMatrixViewType_t mview,
+      cudssIndexBase_t indexBase);
   cudssStatus_t (*cudssExecute)(cudssHandle_t handle, cudssPhase_t phase,
                                 cudssConfig_t config, cudssData_t data,
                                 cudssMatrix_t matA, cudssMatrix_t matB,
                                 cudssMatrix_t matC);
   cudssStatus_t (*cudssMatrixCreateDn)(cudssMatrix_t* mat, int64_t rows,
                                        int64_t cols, int64_t ld, void* data,
-                                       cudaDataType_t type, int layout);
+                                       cudaDataType_t type,
+                                       cudssLayout_t layout);
+  cudssStatus_t (*cudssMatrixCreateBatchDn)(
+      cudssMatrix_t* mat, int64_t batchCount, void* nrows, void* ncols,
+      void* ld, void** values, cudaDataType_t indexType,
+      cudaDataType_t valueType, cudssLayout_t layout);
   cudssStatus_t (*cudssMatrixSetValues)(cudssMatrix_t mat, void* data);
+  cudssStatus_t (*cudssMatrixSetBatchValues)(cudssMatrix_t mat,
+                                             void** values);
+  cudssStatus_t (*cudssMatrixSetBatchCsrPointers)(
+      cudssMatrix_t mat, void** rowOffsets, void** rowEnd, void** colIndices,
+      void** values);
   cudssStatus_t (*cudssMatrixDestroy)(cudssMatrix_t mat);
   cudssStatus_t (*cudssDataDestroy)(cudssHandle_t handle, cudssData_t data);
   cudssStatus_t (*cudssConfigDestroy)(cudssConfig_t config);

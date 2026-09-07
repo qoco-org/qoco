@@ -108,6 +108,7 @@ if(${MATLAB})
 endif()
 
 set_property(GLOBAL APPEND PROPERTY QOCO_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_api.c"
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/qoco_batch.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/input_validation.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/common_linalg.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/kkt.c
@@ -118,6 +119,7 @@ set_property(GLOBAL APPEND PROPERTY QOCO_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/sr
 
 set_property(GLOBAL APPEND PROPERTY QOCO_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/qoco.h"
     ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_api.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_batch.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/input_validation.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/qoco_linalg.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/kkt.h
@@ -190,6 +192,11 @@ if(IS_LINUX OR IS_MACOS)
 endif()
 
 target_include_directories(qoco PUBLIC ${qoco_include})
+if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    target_compile_definitions(qoco PUBLIC QOCO_ALGEBRA_BACKEND_CUDA)
+else()
+    target_compile_definitions(qoco PUBLIC QOCO_ALGEBRA_BACKEND_BUILTIN)
+endif()
 target_sources(qoco PRIVATE ${qoco_sources})
 
 # Build qoco static library.
@@ -205,6 +212,11 @@ if(IS_LINUX OR IS_MACOS)
 endif()
 
 target_include_directories(qocostatic PUBLIC ${qoco_include})
+if(${QOCO_ALGEBRA_BACKEND} STREQUAL "cuda")
+    target_compile_definitions(qocostatic PUBLIC QOCO_ALGEBRA_BACKEND_CUDA)
+else()
+    target_compile_definitions(qocostatic PUBLIC QOCO_ALGEBRA_BACKEND_BUILTIN)
+endif()
 target_sources(qocostatic PRIVATE ${qoco_sources})
 
 # Build qoco demo.

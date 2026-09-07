@@ -352,15 +352,19 @@ void sync_vector_to_device(QOCOVectorf* v)
 void sync_matrix_to_device(QOCOMatrix* M)
 {
   if (M->csc && M->d_csc) {
-    CUDA_CHECK(cudaMemcpy(M->d_csc_host->x, M->csc->x,
-                          M->csc->nnz * sizeof(QOCOFloat),
-                          cudaMemcpyHostToDevice));
-    CUDA_CHECK(cudaMemcpy(M->d_csc_host->i, M->csc->i,
-                          M->csc->nnz * sizeof(QOCOInt),
-                          cudaMemcpyHostToDevice));
-    CUDA_CHECK(cudaMemcpy(M->d_csc_host->p, M->csc->p,
-                          (M->csc->n + 1) * sizeof(QOCOInt),
-                          cudaMemcpyHostToDevice));
+    if (M->csc->nnz > 0) {
+      CUDA_CHECK(cudaMemcpy(M->d_csc_host->x, M->csc->x,
+                            M->csc->nnz * sizeof(QOCOFloat),
+                            cudaMemcpyHostToDevice));
+      CUDA_CHECK(cudaMemcpy(M->d_csc_host->i, M->csc->i,
+                            M->csc->nnz * sizeof(QOCOInt),
+                            cudaMemcpyHostToDevice));
+    }
+    if (M->csc->p && M->d_csc_host->p) {
+      CUDA_CHECK(cudaMemcpy(M->d_csc_host->p, M->csc->p,
+                            (M->csc->n + 1) * sizeof(QOCOInt),
+                            cudaMemcpyHostToDevice));
+    }
   }
 }
 
