@@ -230,9 +230,13 @@ typedef struct {
   /** Upper triangular part of Nesterov-Todd Scaling */
   QOCOVectorf* W;
 
-  /** NT scaling data used by nt_multiply(). Shared layout across backends:
+  /** NT scaling data used by nt_multiply().
+   *
+   * Builtin backend layout:
    *   LP entries: scalar scales sqrt(s_i / z_i), length l.
    *   SOC i block: [eta, w0, w1[0], ..., w1[q_i - 2]], length q_i + 1.
+   *
+   * CUDA backend currently keeps the historical dense q_i-by-q_i SOC blocks.
    */
   QOCOVectorf* nt_scaling;
 
@@ -248,6 +252,31 @@ typedef struct {
   /** Vector which points to the start of the start of the ith soc variable
    * block */
   QOCOVectori* soc_idx;
+
+  /** Number of SOCs using sparse NT expansion (dim > SOC_SPARSE_THRESHOLD). */
+  QOCOInt nsoc_sparse;
+
+  /** Per-SOC flag: 1 if cone i uses sparse NT expansion, 0 otherwise. */
+  QOCOInt* soc_is_sparse;
+
+  /** Packed u vectors for sparse NT expansion (length nt_sparse_nnz). */
+  QOCOVectorf* nt_u_sparse;
+
+  /** Packed v vectors for sparse NT expansion (length nt_sparse_nnz). */
+  QOCOVectorf* nt_v_sparse;
+
+  /** eta^2 values for sparse SOCs (length nsoc_sparse). */
+  QOCOVectorf* nt_eta2_sparse;
+
+  /** d scalars for sparse SOCs (length nsoc_sparse). */
+  QOCOVectorf* nt_d_sparse;
+
+  /** Index into nt_u/v_sparse for the k-th sparse SOC (length nsoc_sparse). */
+  QOCOVectori* sparse_soc_nt_idx;
+
+  /** Total elements in nt_u_sparse / nt_v_sparse: sum of q[i] for sparse SOCs.
+   */
+  QOCOInt nt_sparse_nnz;
 
   /** Scaled variables. */
   QOCOVectorf* lambda;
@@ -364,10 +393,13 @@ typedef struct LinSysData LinSysData;
 typedef struct {
   const char* (*linsys_name)();
   LinSysData* (*linsys_setup)(QOCOProblemData* data, QOCOSettings* settings,
-                              QOCOInt Wnnz, QOCOFloat* analysis_time_sec);
-  void (*linsys_set_nt_identity)(LinSysData* linsys_data, QOCOInt m);
-  void (*linsys_update_nt)(LinSysData* linsys_data, QOCOVectorf* WtW_vec,
-                           QOCOFloat kkt_static_reg_G, QOCOInt m);
+                              QOCOInt Wnnz, QOCOInt nsoc_sparse,
+                              QOCOInt* soc_is_sparse, QOCOInt nt_sparse_nnz,
+                              QOCOInt* sparse_soc_nt_idx,
+                              QOCOFloat* analysis_time_sec);
+  void (*linsys_set_nt_identity)(LinSysData* linsys_data, QOCOWorkspace* work);
+  void (*linsys_update_nt)(LinSysData* linsys_data, QOCOWorkspace* work,
+                           QOCOFloat kkt_static_reg_G);
   void (*linsys_update_data)(LinSysData* linsys_data, QOCOProblemData* data);
   void (*linsys_factor)(LinSysData* linsys_data, QOCOInt n,
                         QOCOFloat kkt_dynamic_reg);

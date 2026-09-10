@@ -222,7 +222,7 @@ static void nt_multiply_impl(QOCOFloat* W, QOCOInt* nt_scaling_soc_idx,
   (void)m;
   // Compute product for LP cone part of W.
   for (QOCOInt i = 0; i < l; ++i) {
-    z[i] = inverse ? (safe_div(1.0, W[i]) * x[i]) : (W[i] * x[i]);
+    z[i] = inverse ? safe_div(x[i], W[i]) : (W[i] * x[i]);
   }
 
   // Compute product for second-order cones using fast O(m) operations
@@ -280,6 +280,7 @@ void compute_nt_scaling(QOCOWorkspace* work)
   QOCOFloat* sbar = get_data_vectorf(work->sbar);
   QOCOFloat* zbar = get_data_vectorf(work->zbar);
   QOCOFloat* lambda = get_data_vectorf(work->lambda);
+
   // Compute Nesterov-Todd scaling for LP cone.
   QOCOInt idx;
   for (idx = 0; idx < work->data->l; ++idx) {
@@ -292,9 +293,13 @@ void compute_nt_scaling(QOCOWorkspace* work)
 
   // Compute Nesterov-Todd scaling for second-order cones.
   QOCOInt nt_idx = idx;
-  QOCOInt nt_idx_fast = idx;
+  QOCOInt nt_idx_full = idx;
+  QOCOInt sp_count = 0; // index into sparse SOC arrays
+
   for (QOCOInt i = 0; i < work->data->nsoc; ++i) {
     QOCOInt qi = get_element_vectori(work->data->q, i);
+    QOCOInt is_sparse = work->soc_is_sparse ? work->soc_is_sparse[i] : 0;
+
     // Compute normalized vectors. Bottom of page 8 in coneprog.
     QOCOFloat s_scal = soc_residual2(get_pointer_vectorf(work->s, idx), qi);
     s_scal = qoco_sqrt(s_scal);
@@ -315,75 +320,78 @@ void compute_nt_scaling(QOCOWorkspace* work)
     for (QOCOInt j = 1; j < qi; ++j) {
       sbar[j] = f * (sbar[j] - zbar[j]);
     }
+    QOCOFloat w1sq = qoco_dot(&sbar[1], &sbar[1], qi - 1);
+    sbar[0] = qoco_sqrt(1.0 + w1sq);
 
     // eta = sqrt(s_scal / z_scal). Eq (7) in ecos.
     f = qoco_sqrt(safe_div(s_scal, z_scal));
 
-    // Store fast scaling parameters: [eta, w0, w1[0], ..., w1[qi-2]]
-    nt_scaling[nt_idx_fast] = f;
-    nt_scaling[nt_idx_fast + 1] = sbar[0];
+    // Store fast scaling parameters for O(qi) W*x and W^{-1}*x operations.
+    nt_scaling[nt_idx_full] = f;
+    nt_scaling[nt_idx_full + 1] = sbar[0];
     for (QOCOInt j = 1; j < qi; ++j) {
-      nt_scaling[nt_idx_fast + 1 + j] = sbar[j];
+      nt_scaling[nt_idx_full + 1 + j] = sbar[j];
     }
 
-    // Compute W (upper triangular) and Winv for the sparse KKT update.
-    // Also compute WtW = eta^2 * (2*w*w' - J) in upper triangular storage.
-    QOCOFloat finv = safe_div(1.0, f);
-    QOCOFloat eta2 = f * f;
-
-    // W is given by Eq (7) in ecos, but in terms of wbar that has a block
-    // structure (scalar, first row/column, and bottom block) with differing
-    // coefficients, so it cannot be built with a single uniform outer product.
-    // We instead introduce v so that W = eta * (2 * v * v' - J), which has the
-    // same rank-1-minus-J form as WtW = eta^2 * (2 * wbar * wbar' - J). This
-    // lets W, Winv, and WtW share one outer-product loop, and makes Winv just a
-    // sign flip of the cross terms of W. v is defined as
-    //   v0 = (wbar0 + 1) / sqrt(2 * (wbar0 + 1)),
-    //   vj = wbar_j   / sqrt(2 * (wbar0 + 1)) for j >= 1,
-    // i.e. wbar with its leading entry shifted by 1 and the whole vector scaled
-    // by 1 / sqrt(2 * (wbar0 + 1))..
-    QOCOFloat fv = safe_div(1.0, qoco_sqrt(2 * (sbar[0] + 1)));
-    zbar[0] = fv * (sbar[0] + 1.0);
-    for (QOCOInt j = 1; j < qi; ++j) {
-      zbar[j] = fv * sbar[j];
-    }
-
-    QOCOInt shift = 0;
-    for (QOCOInt j = 0; j < qi; ++j) {
-      for (QOCOInt k = 0; k <= j; ++k) {
-        W[nt_idx + shift] = 2 * (zbar[k] * zbar[j]);
-        if (j != 0 && k == 0) {
-          Winv[nt_idx + shift] = -W[nt_idx + shift];
-        }
-        else {
-          Winv[nt_idx + shift] = W[nt_idx + shift];
-        }
-        if (j == k && j == 0) {
-          W[nt_idx + shift] -= 1;
-          Winv[nt_idx + shift] -= 1;
-        }
-        else if (j == k) {
-          W[nt_idx + shift] += 1;
-          Winv[nt_idx + shift] += 1;
-        }
-        W[nt_idx + shift] *= f;
-        Winv[nt_idx + shift] *= finv;
-
-        QOCOFloat val = eta2 * 2.0 * sbar[j] * sbar[k];
-        if (j == k && j == 0) {
-          val -= eta2;
-        }
-        else if (j == k) {
-          val += eta2;
-        }
-        WtW[nt_idx + shift] = val;
-        shift += 1;
+    // Compute WtW = eta^2 * (2*w*w' - J). Sparse SOCs only need the diagonal
+    // entries because off-diagonals are represented by the ECOS rank-2 lift.
+    QOCOFloat eta2_soc = f * f;
+    if (is_sparse) {
+      WtW[nt_idx] = eta2_soc * (2.0 * sbar[0] * sbar[0] - 1.0);
+      for (QOCOInt j = 1; j < qi; ++j) {
+        QOCOInt diag_idx = nt_idx + (j * (j + 1)) / 2 + j;
+        WtW[diag_idx] = eta2_soc * (2.0 * sbar[j] * sbar[j] + 1.0);
       }
+    }
+    else {
+      QOCOInt shift = 0;
+      for (QOCOInt j = 0; j < qi; ++j) {
+        for (QOCOInt k = 0; k <= j; ++k) {
+          QOCOFloat val = eta2_soc * 2.0 * sbar[j] * sbar[k];
+          if (j == k && j == 0) {
+            val -= eta2_soc;
+          }
+          else if (j == k) {
+            val += eta2_soc;
+          }
+          WtW[nt_idx + shift] = val;
+          shift += 1;
+        }
+      }
+    }
+
+    // For sparse SOC cones, additionally compute u, v, d, eta² for the
+    // rank-2 KKT expansion. sbar is QOCO's normalized SOC NT scaling point w.
+    if (is_sparse) {
+      QOCOFloat* u_arr = get_data_vectorf(work->nt_u_sparse);
+      QOCOFloat* v_arr = get_data_vectorf(work->nt_v_sparse);
+      QOCOFloat* eta2_arr = get_data_vectorf(work->nt_eta2_sparse);
+      QOCOFloat* d_arr = get_data_vectorf(work->nt_d_sparse);
+      QOCOInt* sp_idx = get_data_vectori(work->sparse_soc_nt_idx);
+
+      QOCOFloat wsq = sbar[0] * sbar[0] + w1sq;
+      QOCOFloat wsqinv = safe_div(1.0, wsq);
+
+      d_arr[sp_count] = 0.5 * wsqinv;
+      eta2_arr[sp_count] = f * f;
+
+      QOCOFloat u0 = qoco_sqrt(wsq - d_arr[sp_count]);
+      QOCOFloat u1 = safe_div(2.0 * sbar[0], u0);
+      QOCOFloat v1 = qoco_sqrt(2.0 * (2.0 + wsqinv) / (2.0 * wsq - wsqinv));
+
+      QOCOInt sidx = sp_idx[sp_count];
+      u_arr[sidx] = u0;
+      v_arr[sidx] = 0.0;
+      for (QOCOInt k = 1; k < qi; ++k) {
+        u_arr[sidx + k] = u1 * sbar[k];
+        v_arr[sidx + k] = v1 * sbar[k];
+      }
+      sp_count++;
     }
 
     idx += qi;
     nt_idx += (qi * qi + qi) / 2;
-    nt_idx_fast += qi + 1;
+    nt_idx_full += qi + 1;
   }
 
   // Compute scaled variable lambda. lambda = W * z.
